@@ -1,0 +1,233 @@
+/* src/components/Button/button.css */
+@property --eevenkoto-button-gradient-start {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: black;
+}
+
+@property --eevenkoto-button-gradient-end {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: white;
+}
+
+@property --eevenkoto-button-gradient-middle {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: turquoise;
+}
+
+.eevenkoto-button {
+  --_eevenkoto-button-line-height: var(--eevenkoto-line-height-tight);
+  --_eevenkoto-button-gradient-start: var(--eevenkoto-button-gradient-start, color-mix(
+    in display-p3,
+    var(--eevenkoto-color-action),
+    var(--eevenkoto-color-action-hover) 30%
+  ));
+  --_eevenkoto-button-gradient-middle: var(--eevenkoto-button-gradient-middle, var(--eevenkoto-color-action));
+  --_eevenkoto-button-gradient-end: var(--eevenkoto-button-gradient-end, color-mix(
+    in display-p3,
+    var(--eevenkoto-color-action),
+    var(--eevenkoto-color-action-icon) 30%
+  ));
+  --_eevenkoto-button-text: var(--eevenkoto-button-text, var(--eevenkoto-color-action-text));
+  --_eevenkoto-button-border: var(--eevenkoto-button-border, var(--eevenkoto-color-action-border));
+  --_eevenkoto-button-radius: var(--eevenkoto-button-radius, var(--eevenkoto-radius-sm));
+  --_eevenkoto-button-padding: var(--eevenkoto-button-padding, var(--eevenkoto-space-3) var(--eevenkoto-space-6));
+  --_eevenkoto-button-font-size: var(--eevenkoto-button-font-size, var(--eevenkoto-font-size-md));
+  --_eevenkoto-button-icon: var(--eevenkoto-button-icon, var(--eevenkoto-color-action-icon));
+
+  display: inline-block;
+  cursor: pointer;
+  border: var(--eevenkoto-border-width-action) solid var(--_eevenkoto-button-border);
+  border-radius: var(--_eevenkoto-button-radius);
+  corner-shape: scoop;
+  font-family: var(--eevenkoto-font-sans);
+  font-weight: 700;
+  line-height: var(--_eevenkoto-button-line-height);
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+  padding: var(--_eevenkoto-button-padding);
+  font-size: var(--_eevenkoto-button-font-size);
+  background-color: var(--eevenkoto-color-action);
+  color: var(--_eevenkoto-button-text);
+  background: linear-gradient(
+    328deg,
+    var(--_eevenkoto-button-gradient-start) 0%,
+    var(--_eevenkoto-button-gradient-end) 50%, 
+    var(--_eevenkoto-button-gradient-middle) 100%
+  );
+  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1),
+              --eevenkoto-button-gradient-start 0.05s ease-in-out,
+              --eevenkoto-button-gradient-middle 0.1s ease-in-out,
+              --eevenkoto-button-gradient-end 0.15s ease-in-out;
+  will-change: transform;
+}
+
+.eevenkoto-button:active:not([disabled]) {
+  transform: scale(0.98);
+}
+
+.eevenkoto-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  text-shadow: none;
+  --eevenkoto-button-gradient-start: transparent;
+  --eevenkoto-button-gradient-middle: transparent;
+  --eevenkoto-button-gradient-end: transparent;
+  --eevenkoto-button-text: var(--eevenkoto-color-text-muted);
+  --eevenkoto-button-icon: var(--eevenkoto-color-text-muted);
+  --eevenkoto-button-border: var(--eevenkoto-color-action-border);
+}
+
+.eevenkoto-button--primary {
+  --eevenkoto-button-gradient-start: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-action),
+    var(--eevenkoto-color-action-hover) 30%
+  );
+  --eevenkoto-button-gradient-middle: var(--eevenkoto-color-action);
+  --eevenkoto-button-gradient-end: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-action),
+    var(--eevenkoto-color-action-icon) 30%
+  );
+  text-shadow: 0 0 2px var(--eevenkoto-color-action-text-shadow);
+  box-shadow: 0 0.75px 0 0 var(--eevenkoto-color-action-shadow);
+}
+
+.eevenkoto-button--primary:hover:not([disabled]),
+.eevenkoto-button--primary:focus-visible:not([disabled]) {
+  background-color: var(--eevenkoto-color-action-hover);
+  --eevenkoto-button-gradient-start: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-action-hover),
+    var(--eevenkoto-color-action-tint-deep) 10%
+  );
+  --eevenkoto-button-gradient-middle: var(--eevenkoto-color-action-hover);
+  --eevenkoto-button-gradient-end: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-action),
+    var(--eevenkoto-color-action-tint-cool) 10%
+  );
+}
+
+.eevenkoto-button--secondary {
+  --eevenkoto-button-gradient-middle: var(--eevenkoto-color-action-secondary);
+  --eevenkoto-button-gradient-end: var(--eevenkoto-color-action-secondary);
+  --eevenkoto-button-gradient-start: var(--eevenkoto-color-action-secondary);
+  --eevenkoto-button-text: var(--eevenkoto-color-action-secondary-text);
+  --eevenkoto-button-border: var(--eevenkoto-color-action-secondary-border);
+  --eevenkoto-button-font-size: var(--eevenkoto-font-size-md);
+  --eevenkoto-button-icon: var(--eevenkoto-color-action-secondary-icon);
+  /* Retain base gradient transitions while animating border-color */
+  transition: border-color 0.05s ease-in-out,
+              --eevenkoto-button-gradient-start 0.05s ease-in-out,
+              --eevenkoto-button-gradient-middle 0.1s ease-in-out,
+              --eevenkoto-button-gradient-end 0.15s ease-in-out;
+}
+
+.eevenkoto-button--secondary:hover:not([disabled]),
+.eevenkoto-button--secondary:focus-visible:not([disabled]) {
+  /* Warm gold accent at the upper corner */
+  --eevenkoto-button-gradient-end: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-action-secondary),
+    var(--eevenkoto-color-action-secondary-tint) 12%
+  );
+  --eevenkoto-button-gradient-middle: var(--eevenkoto-button-gradient-end);
+
+  /* Subtle deeper parchment shade at the start */
+  --eevenkoto-button-gradient-start: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-action-secondary),
+    var(--eevenkoto-color-action-secondary-hover) 35%
+  );
+  border-color: var(--eevenkoto-color-action-hover);
+}
+
+.eevenkoto-button--ghost {
+  --eevenkoto-button-gradient-middle: var(--eevenkoto-color-action-ghost);
+  --eevenkoto-button-gradient-end: var(--eevenkoto-color-action-ghost);
+  --eevenkoto-button-gradient-start: var(--eevenkoto-color-action-ghost);
+  --eevenkoto-button-text: var(--eevenkoto-color-action-ghost-text);
+  --eevenkoto-button-border: var(--eevenkoto-color-action-ghost-border);
+  --eevenkoto-button-icon: var(--eevenkoto-color-action-ghost-icon);
+  border-width: var(--eevenkoto-border-width-action-ghost);
+  transition: --eevenkoto-button-gradient-start 0.05s ease-in-out,
+              --eevenkoto-button-gradient-middle 0.1s ease-in-out,
+              --eevenkoto-button-gradient-end 0.15s ease-in-out,
+              border-color 0.05s ease-in-out;
+}
+
+.eevenkoto-button--ghost[disabled] {
+  --eevenkoto-button-border: transparent;
+}
+
+.eevenkoto-button--ghost:hover:not([disabled]),
+.eevenkoto-button--ghost:focus-visible:not([disabled]) {
+  --eevenkoto-button-gradient-start: transparent;
+  --eevenkoto-button-gradient-middle: transparent;
+  --eevenkoto-button-gradient-end: transparent;
+  --eevenkoto-button-border: var(--eevenkoto-color-action-ghost-hover);
+  --eevenkoto-button-icon: var(--eevenkoto-color-action-ghost-icon);
+  --eevenkoto-button-text: var(--eevenkoto-color-action-ghost-text);
+}
+
+.eevenkoto-button--small {
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-4);
+  font-size: var(--eevenkoto-font-size-sm);
+}
+
+.eevenkoto-button--large {
+  padding: var(--eevenkoto-space-4) var(--eevenkoto-space-8);
+  font-size: var(--eevenkoto-font-size-lg);
+}
+
+.eevenkoto-button__icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-bottom: 0.15em;
+  vertical-align: middle;
+  color: var(--_eevenkoto-button-icon);
+  filter: drop-shadow(0px 0px 2px color-mix(var(--_eevenkoto-button-text), transparent 50%));
+}
+
+.eevenkoto-button--icon-left .eevenkoto-button__icon {
+  margin-inline-end: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-button--icon-left {
+  padding-left: var(--eevenkoto-space-4);
+}
+
+.eevenkoto-button--icon-right .eevenkoto-button__icon {
+  margin-inline-start: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-button--icon-right {
+  padding-right: var(--eevenkoto-space-4);
+}
+
+.eevenkoto-button--icon-only {
+  padding-inline: var(--eevenkoto-space-3);
+  line-height: 1;
+}
+
+.eevenkoto-button--icon-only.eevenkoto-button--small {
+  padding-inline: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-button--icon-only.eevenkoto-button--large {
+  padding-inline: var(--eevenkoto-space-4);
+}
+
+.eevenkoto-button--icon-only .eevenkoto-button__icon {
+  vertical-align: middle;
+}
+
+.eevenkoto-button:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-focus-ring);
+  outline-offset: 2px;
+}

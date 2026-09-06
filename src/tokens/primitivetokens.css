@@ -1,0 +1,32 @@
+/* src/tokens/primitivetokens.css */
+:root {
+  /* ==========================================================================
+     TIER 1: PRIMITIVES
+     --eevenkoto-color-<colorname>-<function>[-<variant>]
+
+     Function-first scales (not numbered ramps). Only create primitives when
+     needed — with a human designer. Components must not reference these.
+     ========================================================================== */
+
+  /* Turquoise */
+  --eevenkoto-color-turquoise-state:          oklch(0.50 0.28 180);
+  --eevenkoto-color-turquoise-state-hover:    oklch(0.30 0.22 170);
+  --eevenkoto-color-turquoise-border-subtle:  oklch(0.10 0.22 180 / 20%);
+  --eevenkoto-color-turquoise-primary:        oklch(0.85 0.24 165);
+  --eevenkoto-color-turquoise-primary-hover:  oklch(0.70 0.28 180);
+  --eevenkoto-color-turquoise-text:           oklch(0.98 0.01 190);
+  --eevenkoto-color-turquoise-tint-cool:      oklch(0.98 0.015 202);
+  --eevenkoto-color-turquoise-tint-deep:      oklch(0.18 0.22 162);
+
+  /* Parchment */
+  --eevenkoto-color-parchment-background:         oklch(0.96 0.02 90);
+  --eevenkoto-color-parchment-background-element: oklch(0.90 0.04 85);
+  --eevenkoto-color-parchment-border:             oklch(0.50 0.18 80);
+  --eevenkoto-color-parchment-primary:            oklch(0.40 0.10 80);
+  --eevenkoto-color-parchment-text:               oklch(0.18 0.02 85);
+  --eevenkoto-color-parchment-text-muted:         oklch(0.35 0.04 85);
+
+  /* Gold */
+  --eevenkoto-color-gold-primary: oklch(0.78 0.17 70);
+  --eevenkoto-color-gold-state:   oklch(0.92 0.22 75);
+}

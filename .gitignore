@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+
+# Storybook
+storybook-static/
+*storybook.log
+
+# Build output
+dist/
+dist-ssr/
+*.local
+
+# Tests and coverage
+coverage/
+*.lcov
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# TypeScript
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Caches
+.cache/
+.npm/
+.eslintcache
+.stylelintcache
+.vite/
+.turbo/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+*.swp
+*.swo
+*~

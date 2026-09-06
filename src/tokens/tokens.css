@@ -1,0 +1,77 @@
+/* src/tokens/tokens.css */
+@import url('./primitivetokens.css');
+
+:root {
+  /* ==========================================================================
+     TIER 2: SEMANTIC ACTION TOKENS
+     ========================================================================== */
+
+  /* Primary Action */
+  --eevenkoto-color-action:             var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-action-hover:       var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-action-border:      var(--eevenkoto-color-turquoise-border-subtle);
+  --eevenkoto-color-action-icon:        var(--eevenkoto-color-turquoise-primary);
+  --eevenkoto-color-action-text:        var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-action-tint-cool:   var(--eevenkoto-color-turquoise-tint-cool);
+  --eevenkoto-color-action-tint-deep:   var(--eevenkoto-color-turquoise-tint-deep);
+  --eevenkoto-color-action-shadow:      oklch(0.15 0.25 192 / 25%);
+  --eevenkoto-color-action-text-shadow: oklch(0.12 0.20 192);
+  --eevenkoto-border-width-action:      var(--eevenkoto-line-width-md);
+
+  /* Secondary Action */
+  --eevenkoto-color-action-secondary:        var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-action-secondary-hover:  var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-action-secondary-border: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-action-secondary-icon:   var(--eevenkoto-color-parchment-primary);
+  --eevenkoto-color-action-secondary-text:   var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-action-secondary-tint:   var(--eevenkoto-color-gold-state);
+  --eevenkoto-border-width-action-secondary: var(--eevenkoto-line-width-md);
+
+  /* Ghost Action */
+  --eevenkoto-color-action-ghost:        transparent;
+  --eevenkoto-color-action-ghost-hover:  var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-action-ghost-border: transparent;
+  --eevenkoto-color-action-ghost-icon:   var(--eevenkoto-color-turquoise-primary-hover);
+  --eevenkoto-color-action-ghost-text:   var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-border-width-action-ghost: var(--eevenkoto-line-width-md);
+
+  /* State / Accessibility Tokens */
+  --eevenkoto-color-text-muted: var(--eevenkoto-color-parchment-text-muted);
+  --eevenkoto-color-focus-ring: var(--eevenkoto-color-gold-primary);
+
+  /* Global Surface Tokens */
+  --eevenkoto-color-bg:      var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-surface: var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-text:    var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-border:  var(--eevenkoto-color-parchment-border);
+
+  /* ==========================================================================
+     METRICS & TYPOGRAPHY
+     ========================================================================== */
+
+  --eevenkoto-font-sans: 'Source Sans 3', system-ui, sans-serif;
+  --eevenkoto-font-serif: 'Source Serif 4', Georgia, serif;
+
+  --eevenkoto-font-size-sm: 1.4rem;
+  --eevenkoto-font-size-md: 1.6rem;
+  --eevenkoto-font-size-lg: 1.8rem;
+  --eevenkoto-font-size-xl: 2.0rem;
+  --eevenkoto-font-size-2xl: 2.4rem;
+
+  --eevenkoto-line-height-tight: 1.2;
+  --eevenkoto-line-height-body: 1.5;
+
+  --eevenkoto-space-1: 0.4rem;
+  --eevenkoto-space-2: 0.8rem;
+  --eevenkoto-space-3: 1.2rem;
+  --eevenkoto-space-4: 1.6rem;
+  --eevenkoto-space-6: 2.4rem;
+  --eevenkoto-space-8: 3.2rem;
+
+  --eevenkoto-radius-sm: 0.4rem;
+  --eevenkoto-radius-md: 0.8rem;
+
+  --eevenkoto-line-width-sm: 0.1rem;
+  --eevenkoto-line-width-md: 0.2rem;
+  --eevenkoto-line-width-lg: 0.3rem;
+}
