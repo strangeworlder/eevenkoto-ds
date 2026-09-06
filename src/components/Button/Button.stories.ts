@@ -129,6 +129,7 @@ export const Ghost: Story = {
 
 export const Disabled: Story = {
   args: {
+    variant: 'primary',
     disabled: true,
     label: 'Disabled Button',
   },

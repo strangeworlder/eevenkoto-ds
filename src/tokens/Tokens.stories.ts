@@ -16,6 +16,8 @@ const turquoiseColors: Token[] = [
   { name: 'Text', variable: '--eevenkoto-color-turquoise-text' },
   { name: 'Tint cool', variable: '--eevenkoto-color-turquoise-tint-cool' },
   { name: 'Tint deep', variable: '--eevenkoto-color-turquoise-tint-deep' },
+  { name: 'Shadow', variable: '--eevenkoto-color-turquoise-shadow' },
+  { name: 'Text shadow', variable: '--eevenkoto-color-turquoise-text-shadow' },
 ];
 
 const parchmentColors: Token[] = [
@@ -29,37 +31,50 @@ const parchmentColors: Token[] = [
 
 const goldColors: Token[] = [
   { name: 'Primary', variable: '--eevenkoto-color-gold-primary' },
+  { name: 'Primary strong', variable: '--eevenkoto-color-gold-primary-strong' },
   { name: 'State', variable: '--eevenkoto-color-gold-state' },
 ];
 
-const actionColors: Token[] = [
-  { name: 'Action', variable: '--eevenkoto-color-action' },
-  { name: 'Action hover', variable: '--eevenkoto-color-action-hover' },
-  { name: 'Action border', variable: '--eevenkoto-color-action-border' },
-  { name: 'Action icon', variable: '--eevenkoto-color-action-icon' },
-  { name: 'Action text', variable: '--eevenkoto-color-action-text' },
-  { name: 'Action tint cool', variable: '--eevenkoto-color-action-tint-cool' },
-  { name: 'Action tint deep', variable: '--eevenkoto-color-action-tint-deep' },
-  { name: 'Action secondary', variable: '--eevenkoto-color-action-secondary' },
-  { name: 'Action secondary hover', variable: '--eevenkoto-color-action-secondary-hover' },
-  { name: 'Action secondary border', variable: '--eevenkoto-color-action-secondary-border' },
-  { name: 'Action secondary icon', variable: '--eevenkoto-color-action-secondary-icon' },
-  { name: 'Action secondary text', variable: '--eevenkoto-color-action-secondary-text' },
-  { name: 'Action secondary tint', variable: '--eevenkoto-color-action-secondary-tint' },
-  { name: 'Action ghost', variable: '--eevenkoto-color-action-ghost' },
-  { name: 'Action ghost hover', variable: '--eevenkoto-color-action-ghost-hover' },
-  { name: 'Action ghost border', variable: '--eevenkoto-color-action-ghost-border' },
-  { name: 'Action ghost icon', variable: '--eevenkoto-color-action-ghost-icon' },
-  { name: 'Action ghost text', variable: '--eevenkoto-color-action-ghost-text' },
+const controlColors: Token[] = [
+  { name: 'Primary background', variable: '--eevenkoto-color-control-primary-background' },
+  { name: 'Primary background hover', variable: '--eevenkoto-color-control-primary-background-hover' },
+  { name: 'Primary background active', variable: '--eevenkoto-color-control-primary-background-active' },
+  { name: 'Primary text', variable: '--eevenkoto-color-control-primary-text' },
+  { name: 'Primary border', variable: '--eevenkoto-color-control-primary-border' },
+  { name: 'Primary icon', variable: '--eevenkoto-color-control-primary-icon' },
+  { name: 'Primary tint cool', variable: '--eevenkoto-color-control-primary-tint-cool' },
+  { name: 'Primary tint deep', variable: '--eevenkoto-color-control-primary-tint-deep' },
+  { name: 'Primary background disabled', variable: '--eevenkoto-color-control-primary-background-disabled' },
+  { name: 'Primary text disabled', variable: '--eevenkoto-color-control-primary-text-disabled' },
+  { name: 'Primary border disabled', variable: '--eevenkoto-color-control-primary-border-disabled' },
+  { name: 'Secondary background', variable: '--eevenkoto-color-control-secondary-background' },
+  { name: 'Secondary background hover', variable: '--eevenkoto-color-control-secondary-background-hover' },
+  { name: 'Secondary text', variable: '--eevenkoto-color-control-secondary-text' },
+  { name: 'Secondary border', variable: '--eevenkoto-color-control-secondary-border' },
+  { name: 'Secondary icon', variable: '--eevenkoto-color-control-secondary-icon' },
+  { name: 'Secondary tint', variable: '--eevenkoto-color-control-secondary-tint' },
+  { name: 'Ghost background', variable: '--eevenkoto-color-control-ghost-background' },
+  { name: 'Ghost background hover', variable: '--eevenkoto-color-control-ghost-background-hover' },
+  { name: 'Ghost text', variable: '--eevenkoto-color-control-ghost-text' },
+  { name: 'Ghost border', variable: '--eevenkoto-color-control-ghost-border' },
+  { name: 'Ghost icon', variable: '--eevenkoto-color-control-ghost-icon' },
 ];
 
 const semanticColors: Token[] = [
-  { name: 'Background', variable: '--eevenkoto-color-bg' },
-  { name: 'Surface', variable: '--eevenkoto-color-surface' },
-  { name: 'Text', variable: '--eevenkoto-color-text' },
-  { name: 'Text muted', variable: '--eevenkoto-color-text-muted' },
-  { name: 'Border', variable: '--eevenkoto-color-border' },
-  { name: 'Focus ring', variable: '--eevenkoto-color-focus-ring' },
+  { name: 'Surface canvas', variable: '--eevenkoto-color-surface-canvas' },
+  { name: 'Surface sunken', variable: '--eevenkoto-color-surface-sunken' },
+  { name: 'Surface raised', variable: '--eevenkoto-color-surface-raised' },
+  { name: 'Content primary', variable: '--eevenkoto-color-content-primary' },
+  { name: 'Content secondary', variable: '--eevenkoto-color-content-secondary' },
+  { name: 'Content disabled', variable: '--eevenkoto-color-content-disabled' },
+  { name: 'Boundary subtle', variable: '--eevenkoto-color-boundary-subtle' },
+  { name: 'Boundary strong', variable: '--eevenkoto-color-boundary-strong' },
+  { name: 'Boundary focus outer', variable: '--eevenkoto-color-boundary-focus-outer' },
+  { name: 'Boundary focus inner', variable: '--eevenkoto-color-boundary-focus-inner' },
+  { name: 'Depth shadow umbra', variable: '--eevenkoto-color-depth-shadow-umbra' },
+  { name: 'Depth shadow penumbra', variable: '--eevenkoto-color-depth-shadow-penumbra' },
+  { name: 'Depth shadow control', variable: '--eevenkoto-color-depth-shadow-control' },
+  { name: 'Depth shadow control text', variable: '--eevenkoto-color-depth-shadow-control-text' },
 ];
 
 const fontFamilies: Token[] = [
@@ -98,9 +113,6 @@ const lineWidths: Token[] = [
   { name: 'Small', variable: '--eevenkoto-line-width-sm' },
   { name: 'Medium', variable: '--eevenkoto-line-width-md' },
   { name: 'Large', variable: '--eevenkoto-line-width-lg' },
-  { name: 'Action border', variable: '--eevenkoto-border-width-action' },
-  { name: 'Action secondary border', variable: '--eevenkoto-border-width-action-secondary' },
-  { name: 'Action ghost border', variable: '--eevenkoto-border-width-action-ghost' },
 ];
 
 const escapeHtml = (value: string): string =>
@@ -146,8 +158,8 @@ const renderColors = (): string => `
     ${renderColorGroup('Turquoise (Tier 1)', turquoiseColors)}
     ${renderColorGroup('Parchment (Tier 1)', parchmentColors)}
     ${renderColorGroup('Gold (Tier 1)', goldColors)}
-    ${renderColorGroup('Action (Tier 2)', actionColors)}
-    ${renderColorGroup('Semantic (Tier 2)', semanticColors)}
+    ${renderColorGroup('Control (Tier 2)', controlColors)}
+    ${renderColorGroup('Surface / content / boundary / depth (Tier 2)', semanticColors)}
   </div>
 `;
 
@@ -277,7 +289,7 @@ const renderLineWidths = (): string => `
   <div class="eevenkoto-tokens">
     <section class="eevenkoto-tokens__section">
       <h2 class="eevenkoto-tokens__heading">Line widths</h2>
-      <p class="eevenkoto-tokens__intro">Border and stroke widths, including action aliases.</p>
+      <p class="eevenkoto-tokens__intro">Border and stroke widths.</p>
       <div class="eevenkoto-tokens__stack">
         ${lineWidths
           .map(

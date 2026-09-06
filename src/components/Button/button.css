@@ -1,188 +1,428 @@
 /* src/components/Button/button.css */
-@property --eevenkoto-button-gradient-start {
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: BUTTON (TIER 3)
+   Solid contrast tuples from Tier 2. Gradient recipe + @property animation
+   owned here via private bridges.
+   ========================================================================== */
+
+@property --_eevenkoto-button-gradient-start {
   syntax: "<color>";
   inherits: false;
-  initial-value: black;
+  initial-value: transparent;
 }
 
-@property --eevenkoto-button-gradient-end {
+@property --_eevenkoto-button-gradient-middle {
   syntax: "<color>";
   inherits: false;
-  initial-value: white;
+  initial-value: transparent;
 }
 
-@property --eevenkoto-button-gradient-middle {
+@property --_eevenkoto-button-gradient-end {
   syntax: "<color>";
   inherits: false;
-  initial-value: turquoise;
+  initial-value: transparent;
 }
 
 .eevenkoto-button {
-  --_eevenkoto-button-line-height: var(--eevenkoto-line-height-tight);
-  --_eevenkoto-button-gradient-start: var(--eevenkoto-button-gradient-start, color-mix(
-    in display-p3,
-    var(--eevenkoto-color-action),
-    var(--eevenkoto-color-action-hover) 30%
-  ));
-  --_eevenkoto-button-gradient-middle: var(--eevenkoto-button-gradient-middle, var(--eevenkoto-color-action));
-  --_eevenkoto-button-gradient-end: var(--eevenkoto-button-gradient-end, color-mix(
-    in display-p3,
-    var(--eevenkoto-color-action),
-    var(--eevenkoto-color-action-icon) 30%
-  ));
-  --_eevenkoto-button-text: var(--eevenkoto-button-text, var(--eevenkoto-color-action-text));
-  --_eevenkoto-button-border: var(--eevenkoto-button-border, var(--eevenkoto-color-action-border));
+  /* 1. PRIVATE BRIDGE INITIALIZATION (primary defaults) */
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text,
+    var(--eevenkoto-color-control-primary-text)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color,
+    var(--eevenkoto-color-control-primary-border)
+  );
+  --_eevenkoto-button-icon: var(
+    --eevenkoto-button-icon,
+    var(--eevenkoto-color-control-primary-icon)
+  );
+  --_eevenkoto-button-gradient-start: var(
+    --eevenkoto-button-gradient-start,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-background-hover) 30%
+    )
+  );
+  --_eevenkoto-button-gradient-middle: var(
+    --eevenkoto-button-gradient-middle,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-button-gradient-end: var(
+    --eevenkoto-button-gradient-end,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-icon) 30%
+    )
+  );
   --_eevenkoto-button-radius: var(--eevenkoto-button-radius, var(--eevenkoto-radius-sm));
-  --_eevenkoto-button-padding: var(--eevenkoto-button-padding, var(--eevenkoto-space-3) var(--eevenkoto-space-6));
+  --_eevenkoto-button-pad-block: var(--eevenkoto-button-pad-block, var(--eevenkoto-space-3));
+  --_eevenkoto-button-pad-inline: var(--eevenkoto-button-pad-inline, var(--eevenkoto-space-6));
   --_eevenkoto-button-font-size: var(--eevenkoto-button-font-size, var(--eevenkoto-font-size-md));
-  --_eevenkoto-button-icon: var(--eevenkoto-button-icon, var(--eevenkoto-color-action-icon));
+  --_eevenkoto-button-line-height: var(
+    --eevenkoto-button-line-height,
+    var(--eevenkoto-line-height-tight)
+  );
+  --_eevenkoto-button-border-width: var(
+    --eevenkoto-button-border-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-button-text-shadow: var(--eevenkoto-button-text-shadow, none);
+  --_eevenkoto-button-box-shadow: var(--eevenkoto-button-box-shadow, none);
 
+  /* 2. ELEMENT STYLING */
   display: inline-block;
   cursor: pointer;
-  border: var(--eevenkoto-border-width-action) solid var(--_eevenkoto-button-border);
-  border-radius: var(--_eevenkoto-button-radius);
-  corner-shape: scoop;
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--_eevenkoto-button-pad-block) var(--_eevenkoto-button-pad-inline);
+
   font-family: var(--eevenkoto-font-sans);
   font-weight: 700;
+  font-size: var(--_eevenkoto-button-font-size);
   line-height: var(--_eevenkoto-button-line-height);
   text-box-trim: trim-both;
   text-box-edge: cap alphabetic;
-  padding: var(--_eevenkoto-button-padding);
-  font-size: var(--_eevenkoto-button-font-size);
-  background-color: var(--eevenkoto-color-action);
+  text-shadow: var(--_eevenkoto-button-text-shadow);
+
   color: var(--_eevenkoto-button-text);
-  background: linear-gradient(
+  background-color: var(--_eevenkoto-button-bg);
+  background-image: linear-gradient(
     328deg,
     var(--_eevenkoto-button-gradient-start) 0%,
-    var(--_eevenkoto-button-gradient-end) 50%, 
+    var(--_eevenkoto-button-gradient-end) 50%,
     var(--_eevenkoto-button-gradient-middle) 100%
   );
-  transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1),
-              --eevenkoto-button-gradient-start 0.05s ease-in-out,
-              --eevenkoto-button-gradient-middle 0.1s ease-in-out,
-              --eevenkoto-button-gradient-end 0.15s ease-in-out;
+
+  border-width: var(--_eevenkoto-button-border-width);
+  border-style: solid;
+  border-color: var(--_eevenkoto-button-border-color);
+  border-radius: var(--_eevenkoto-button-radius);
+  corner-shape: scoop;
+  box-shadow: var(--_eevenkoto-button-box-shadow);
+
+  user-select: none;
+  transition:
+    transform 0.1s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.05s ease-in-out,
+    --_eevenkoto-button-gradient-start 0.05s ease-in-out,
+    --_eevenkoto-button-gradient-middle 0.1s ease-in-out,
+    --_eevenkoto-button-gradient-end 0.15s ease-in-out;
   will-change: transform;
 }
 
-.eevenkoto-button:active:not([disabled]) {
+.eevenkoto-button:active:not(:disabled):not([aria-disabled="true"]) {
   transform: scale(0.98);
 }
 
-.eevenkoto-button[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  text-shadow: none;
-  --eevenkoto-button-gradient-start: transparent;
-  --eevenkoto-button-gradient-middle: transparent;
-  --eevenkoto-button-gradient-end: transparent;
-  --eevenkoto-button-text: var(--eevenkoto-color-text-muted);
-  --eevenkoto-button-icon: var(--eevenkoto-color-text-muted);
-  --eevenkoto-button-border: var(--eevenkoto-color-action-border);
-}
+/* --- VARIANT: PRIMARY --- */
 
 .eevenkoto-button--primary {
-  --eevenkoto-button-gradient-start: color-mix(
-    in display-p3,
-    var(--eevenkoto-color-action),
-    var(--eevenkoto-color-action-hover) 30%
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg,
+    var(--eevenkoto-color-control-primary-background)
   );
-  --eevenkoto-button-gradient-middle: var(--eevenkoto-color-action);
-  --eevenkoto-button-gradient-end: color-mix(
-    in display-p3,
-    var(--eevenkoto-color-action),
-    var(--eevenkoto-color-action-icon) 30%
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text,
+    var(--eevenkoto-color-control-primary-text)
   );
-  text-shadow: 0 0 2px var(--eevenkoto-color-action-text-shadow);
-  box-shadow: 0 0.75px 0 0 var(--eevenkoto-color-action-shadow);
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color,
+    var(--eevenkoto-color-control-primary-border)
+  );
+  --_eevenkoto-button-icon: var(
+    --eevenkoto-button-icon,
+    var(--eevenkoto-color-control-primary-icon)
+  );
+  --_eevenkoto-button-gradient-start: var(
+    --eevenkoto-button-gradient-start,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-background-hover) 30%
+    )
+  );
+  --_eevenkoto-button-gradient-middle: var(
+    --eevenkoto-button-gradient-middle,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-button-gradient-end: var(
+    --eevenkoto-button-gradient-end,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-icon) 30%
+    )
+  );
+  --_eevenkoto-button-text-shadow: var(
+    --eevenkoto-button-text-shadow,
+    0 0 2px var(--eevenkoto-color-depth-shadow-control-text)
+  );
+  --_eevenkoto-button-box-shadow: var(
+    --eevenkoto-button-box-shadow,
+    0 0.75px 0 0 var(--eevenkoto-color-depth-shadow-control)
+  );
 }
 
-.eevenkoto-button--primary:hover:not([disabled]),
-.eevenkoto-button--primary:focus-visible:not([disabled]) {
-  background-color: var(--eevenkoto-color-action-hover);
-  --eevenkoto-button-gradient-start: color-mix(
-    in display-p3,
-    var(--eevenkoto-color-action-hover),
-    var(--eevenkoto-color-action-tint-deep) 10%
+.eevenkoto-button--primary:hover:not(:disabled):not([aria-disabled="true"]),
+.eevenkoto-button--primary:focus-visible:not(:disabled):not([aria-disabled="true"]) {
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
   );
-  --eevenkoto-button-gradient-middle: var(--eevenkoto-color-action-hover);
-  --eevenkoto-button-gradient-end: color-mix(
-    in display-p3,
-    var(--eevenkoto-color-action),
-    var(--eevenkoto-color-action-tint-cool) 10%
+  --_eevenkoto-button-gradient-start: var(
+    --eevenkoto-button-gradient-start-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background-hover),
+      var(--eevenkoto-color-control-primary-tint-deep) 10%
+    )
+  );
+  --_eevenkoto-button-gradient-middle: var(
+    --eevenkoto-button-gradient-middle-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
+  --_eevenkoto-button-gradient-end: var(
+    --eevenkoto-button-gradient-end-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-tint-cool) 10%
+    )
   );
 }
+
+.eevenkoto-button--primary:active:not(:disabled):not([aria-disabled="true"]) {
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-active,
+    var(--eevenkoto-color-control-primary-background-active)
+  );
+}
+
+/* --- VARIANT: SECONDARY --- */
 
 .eevenkoto-button--secondary {
-  --eevenkoto-button-gradient-middle: var(--eevenkoto-color-action-secondary);
-  --eevenkoto-button-gradient-end: var(--eevenkoto-color-action-secondary);
-  --eevenkoto-button-gradient-start: var(--eevenkoto-color-action-secondary);
-  --eevenkoto-button-text: var(--eevenkoto-color-action-secondary-text);
-  --eevenkoto-button-border: var(--eevenkoto-color-action-secondary-border);
-  --eevenkoto-button-font-size: var(--eevenkoto-font-size-md);
-  --eevenkoto-button-icon: var(--eevenkoto-color-action-secondary-icon);
-  /* Retain base gradient transitions while animating border-color */
-  transition: border-color 0.05s ease-in-out,
-              --eevenkoto-button-gradient-start 0.05s ease-in-out,
-              --eevenkoto-button-gradient-middle 0.1s ease-in-out,
-              --eevenkoto-button-gradient-end 0.15s ease-in-out;
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg,
+    var(--eevenkoto-color-control-secondary-background)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text,
+    var(--eevenkoto-color-control-secondary-text)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color,
+    var(--eevenkoto-color-control-secondary-border)
+  );
+  --_eevenkoto-button-icon: var(
+    --eevenkoto-button-icon,
+    var(--eevenkoto-color-control-secondary-icon)
+  );
+  --_eevenkoto-button-gradient-start: var(
+    --eevenkoto-button-gradient-start,
+    var(--eevenkoto-color-control-secondary-background)
+  );
+  --_eevenkoto-button-gradient-middle: var(
+    --eevenkoto-button-gradient-middle,
+    var(--eevenkoto-color-control-secondary-background)
+  );
+  --_eevenkoto-button-gradient-end: var(
+    --eevenkoto-button-gradient-end,
+    var(--eevenkoto-color-control-secondary-background)
+  );
+  --_eevenkoto-button-text-shadow: none;
+  --_eevenkoto-button-box-shadow: none;
 }
 
-.eevenkoto-button--secondary:hover:not([disabled]),
-.eevenkoto-button--secondary:focus-visible:not([disabled]) {
-  /* Warm gold accent at the upper corner */
-  --eevenkoto-button-gradient-end: color-mix(
-    in display-p3,
-    var(--eevenkoto-color-action-secondary),
-    var(--eevenkoto-color-action-secondary-tint) 12%
+.eevenkoto-button--secondary:hover:not(:disabled):not([aria-disabled="true"]),
+.eevenkoto-button--secondary:focus-visible:not(:disabled):not([aria-disabled="true"]) {
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
   );
-  --eevenkoto-button-gradient-middle: var(--eevenkoto-button-gradient-end);
-
-  /* Subtle deeper parchment shade at the start */
-  --eevenkoto-button-gradient-start: color-mix(
-    in display-p3,
-    var(--eevenkoto-color-action-secondary),
-    var(--eevenkoto-color-action-secondary-hover) 35%
+  --_eevenkoto-button-gradient-end: var(
+    --eevenkoto-button-gradient-end-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-secondary-background),
+      var(--eevenkoto-color-control-secondary-tint) 12%
+    )
   );
-  border-color: var(--eevenkoto-color-action-hover);
+  --_eevenkoto-button-gradient-middle: var(
+    --eevenkoto-button-gradient-middle-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-secondary-background),
+      var(--eevenkoto-color-control-secondary-tint) 12%
+    )
+  );
+  --_eevenkoto-button-gradient-start: var(
+    --eevenkoto-button-gradient-start-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-secondary-background),
+      var(--eevenkoto-color-control-secondary-background-hover) 35%
+    )
+  );
 }
+
+/* --- VARIANT: GHOST --- */
 
 .eevenkoto-button--ghost {
-  --eevenkoto-button-gradient-middle: var(--eevenkoto-color-action-ghost);
-  --eevenkoto-button-gradient-end: var(--eevenkoto-color-action-ghost);
-  --eevenkoto-button-gradient-start: var(--eevenkoto-color-action-ghost);
-  --eevenkoto-button-text: var(--eevenkoto-color-action-ghost-text);
-  --eevenkoto-button-border: var(--eevenkoto-color-action-ghost-border);
-  --eevenkoto-button-icon: var(--eevenkoto-color-action-ghost-icon);
-  border-width: var(--eevenkoto-border-width-action-ghost);
-  transition: --eevenkoto-button-gradient-start 0.05s ease-in-out,
-              --eevenkoto-button-gradient-middle 0.1s ease-in-out,
-              --eevenkoto-button-gradient-end 0.15s ease-in-out,
-              border-color 0.05s ease-in-out;
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg,
+    var(--eevenkoto-color-control-ghost-background)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text,
+    var(--eevenkoto-color-control-ghost-text)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color,
+    var(--eevenkoto-color-control-ghost-border)
+  );
+  --_eevenkoto-button-icon: var(
+    --eevenkoto-button-icon,
+    var(--eevenkoto-color-control-ghost-icon)
+  );
+  --_eevenkoto-button-gradient-start: var(
+    --eevenkoto-button-gradient-start,
+    var(--eevenkoto-color-control-ghost-background)
+  );
+  --_eevenkoto-button-gradient-middle: var(
+    --eevenkoto-button-gradient-middle,
+    var(--eevenkoto-color-control-ghost-background)
+  );
+  --_eevenkoto-button-gradient-end: var(
+    --eevenkoto-button-gradient-end,
+    var(--eevenkoto-color-control-ghost-background)
+  );
+  --_eevenkoto-button-text-shadow: none;
+  --_eevenkoto-button-box-shadow: none;
 }
 
-.eevenkoto-button--ghost[disabled] {
-  --eevenkoto-button-border: transparent;
+.eevenkoto-button--ghost:hover:not(:disabled):not([aria-disabled="true"]),
+.eevenkoto-button--ghost:focus-visible:not(:disabled):not([aria-disabled="true"]) {
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color-hover,
+    var(--eevenkoto-color-control-ghost-background-hover)
+  );
+  --_eevenkoto-button-gradient-start: transparent;
+  --_eevenkoto-button-gradient-middle: transparent;
+  --_eevenkoto-button-gradient-end: transparent;
 }
 
-.eevenkoto-button--ghost:hover:not([disabled]),
-.eevenkoto-button--ghost:focus-visible:not([disabled]) {
-  --eevenkoto-button-gradient-start: transparent;
-  --eevenkoto-button-gradient-middle: transparent;
-  --eevenkoto-button-gradient-end: transparent;
-  --eevenkoto-button-border: var(--eevenkoto-color-action-ghost-hover);
-  --eevenkoto-button-icon: var(--eevenkoto-color-action-ghost-icon);
-  --eevenkoto-button-text: var(--eevenkoto-color-action-ghost-text);
+/* --- DISABLED (opaque tuples; no opacity) --- */
+
+.eevenkoto-button:disabled,
+.eevenkoto-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-disabled,
+    var(--eevenkoto-color-control-primary-background-disabled)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text-disabled,
+    var(--eevenkoto-color-control-primary-text-disabled)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color-disabled,
+    var(--eevenkoto-color-control-primary-border-disabled)
+  );
+  --_eevenkoto-button-icon: var(
+    --eevenkoto-button-icon-disabled,
+    var(--eevenkoto-color-control-primary-icon-disabled)
+  );
+  --_eevenkoto-button-gradient-start: var(--_eevenkoto-button-bg);
+  --_eevenkoto-button-gradient-middle: var(--_eevenkoto-button-bg);
+  --_eevenkoto-button-gradient-end: var(--_eevenkoto-button-bg);
+  --_eevenkoto-button-text-shadow: none;
+  --_eevenkoto-button-box-shadow: none;
 }
+
+.eevenkoto-button--secondary:disabled,
+.eevenkoto-button--secondary[aria-disabled="true"] {
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-disabled,
+    var(--eevenkoto-color-control-secondary-background-disabled)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text-disabled,
+    var(--eevenkoto-color-control-secondary-text-disabled)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color-disabled,
+    var(--eevenkoto-color-control-secondary-border-disabled)
+  );
+  --_eevenkoto-button-icon: var(
+    --eevenkoto-button-icon-disabled,
+    var(--eevenkoto-color-control-secondary-icon-disabled)
+  );
+  --_eevenkoto-button-gradient-start: var(--_eevenkoto-button-bg);
+  --_eevenkoto-button-gradient-middle: var(--_eevenkoto-button-bg);
+  --_eevenkoto-button-gradient-end: var(--_eevenkoto-button-bg);
+}
+
+.eevenkoto-button--ghost:disabled,
+.eevenkoto-button--ghost[aria-disabled="true"] {
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-disabled,
+    var(--eevenkoto-color-control-ghost-background-disabled)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text-disabled,
+    var(--eevenkoto-color-control-ghost-text-disabled)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color-disabled,
+    var(--eevenkoto-color-control-ghost-border-disabled)
+  );
+  --_eevenkoto-button-icon: var(
+    --eevenkoto-button-icon-disabled,
+    var(--eevenkoto-color-control-ghost-icon-disabled)
+  );
+  --_eevenkoto-button-gradient-start: transparent;
+  --_eevenkoto-button-gradient-middle: transparent;
+  --_eevenkoto-button-gradient-end: transparent;
+}
+
+/* --- FOCUS (dual-halo); compose with brand elevation when present --- */
+
+.eevenkoto-button:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--eevenkoto-color-boundary-focus-inner),
+    var(--_eevenkoto-button-box-shadow);
+}
+
+.eevenkoto-button--primary:focus-visible:not(:disabled):not([aria-disabled="true"]) {
+  box-shadow:
+    0 0 0 2px var(--eevenkoto-color-boundary-focus-inner),
+    0 0.75px 0 0 var(--eevenkoto-color-depth-shadow-control);
+}
+
+/* --- SIZES (bridge mutation) --- */
 
 .eevenkoto-button--small {
-  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-4);
-  font-size: var(--eevenkoto-font-size-sm);
+  --_eevenkoto-button-pad-block: var(--eevenkoto-button-pad-block, var(--eevenkoto-space-2));
+  --_eevenkoto-button-pad-inline: var(--eevenkoto-button-pad-inline, var(--eevenkoto-space-4));
+  --_eevenkoto-button-font-size: var(--eevenkoto-button-font-size, var(--eevenkoto-font-size-sm));
 }
 
 .eevenkoto-button--large {
-  padding: var(--eevenkoto-space-4) var(--eevenkoto-space-8);
-  font-size: var(--eevenkoto-font-size-lg);
+  --_eevenkoto-button-pad-block: var(--eevenkoto-button-pad-block, var(--eevenkoto-space-4));
+  --_eevenkoto-button-pad-inline: var(--eevenkoto-button-pad-inline, var(--eevenkoto-space-8));
+  --_eevenkoto-button-font-size: var(--eevenkoto-button-font-size, var(--eevenkoto-font-size-lg));
 }
+
+/* --- ICONS --- */
 
 .eevenkoto-button__icon {
   display: inline-block;
@@ -191,7 +431,9 @@
   margin-bottom: 0.15em;
   vertical-align: middle;
   color: var(--_eevenkoto-button-icon);
-  filter: drop-shadow(0px 0px 2px color-mix(var(--_eevenkoto-button-text), transparent 50%));
+  filter: drop-shadow(
+    0 0 2px color-mix(in display-p3, var(--_eevenkoto-button-text) 50%, transparent)
+  );
 }
 
 .eevenkoto-button--icon-left .eevenkoto-button__icon {
@@ -199,7 +441,7 @@
 }
 
 .eevenkoto-button--icon-left {
-  padding-left: var(--eevenkoto-space-4);
+  padding-inline-start: var(--eevenkoto-space-4);
 }
 
 .eevenkoto-button--icon-right .eevenkoto-button__icon {
@@ -207,27 +449,23 @@
 }
 
 .eevenkoto-button--icon-right {
-  padding-right: var(--eevenkoto-space-4);
+  padding-inline-end: var(--eevenkoto-space-4);
 }
 
 .eevenkoto-button--icon-only {
-  padding-inline: var(--eevenkoto-space-3);
-  line-height: 1;
+  --_eevenkoto-button-pad-inline: var(--eevenkoto-space-3);
+  --_eevenkoto-button-line-height: 1;
+  padding-inline: var(--_eevenkoto-button-pad-inline);
 }
 
 .eevenkoto-button--icon-only.eevenkoto-button--small {
-  padding-inline: var(--eevenkoto-space-2);
+  --_eevenkoto-button-pad-inline: var(--eevenkoto-space-2);
 }
 
 .eevenkoto-button--icon-only.eevenkoto-button--large {
-  padding-inline: var(--eevenkoto-space-4);
+  --_eevenkoto-button-pad-inline: var(--eevenkoto-space-4);
 }
 
 .eevenkoto-button--icon-only .eevenkoto-button__icon {
   vertical-align: middle;
-}
-
-.eevenkoto-button:focus-visible {
-  outline: 2px solid var(--eevenkoto-color-focus-ring);
-  outline-offset: 2px;
 }

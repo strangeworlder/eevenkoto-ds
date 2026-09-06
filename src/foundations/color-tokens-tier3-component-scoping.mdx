@@ -183,6 +183,75 @@ Variants and states should not duplicate the full declaration list of a componen
 └─────────────────────────────────┘ └───────────────────────────────────┘
 ```
 
+## Gradients as Tier 3 Composition
+
+Tier 2 owns **solid** contrast tuples (`background` / `text` / `border` / `icon`). Multi-stop gradients, staggered stop transitions, and decorative elevation shadows are **Tier 3 recipes** — they ornament the solid fill; they do not replace the contrast contract.
+
+### Rules
+
+1. **Solid fill always exists.** Set `--_eevenkoto-<component>-bg` from a Tier 2 `*-background` token and attach it to `background-color`. Gradients attach via `background-image` so forced-colors / gradient stripping still leave a readable fill.
+2. **Compose stops from Tier 2.** Default gradient stops with `color-mix(in display-p3, …)` over semantic tokens — never hue primitives, never raw `oklch()` in the component sheet.
+3. **Public stop overrides.** Expose `--eevenkoto-<component>-gradient-{start,middle,end}` (and `-hover` / state variants when needed). Bridge through private `--_eevenkoto-<component>-gradient-*`.
+4. **`@property` registers private bridges only.** Registering a public custom property with an `initial-value` makes `var(--public, fallback)` always take the initial value and kills Tier 2 fallbacks. Animate the private `--_*` names.
+5. **States rebind the full color tuple plus stops together.** Disabled states must use opaque disabled backgrounds as gradient stops (or `transparent` for ghost) — never `opacity` on the host.
+
+```css
+@property --_eevenkoto-button-gradient-start {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+.eevenkoto-button {
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-button-gradient-start: var(
+    --eevenkoto-button-gradient-start,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-background-hover) 30%
+    )
+  );
+  --_eevenkoto-button-gradient-middle: var(
+    --eevenkoto-button-gradient-middle,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-button-gradient-end: var(
+    --eevenkoto-button-gradient-end,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-icon) 30%
+    )
+  );
+
+  background-color: var(--_eevenkoto-button-bg);
+  background-image: linear-gradient(
+    328deg,
+    var(--_eevenkoto-button-gradient-start) 0%,
+    var(--_eevenkoto-button-gradient-end) 50%,
+    var(--_eevenkoto-button-gradient-middle) 100%
+  );
+  transition:
+    --_eevenkoto-button-gradient-start 0.05s ease-in-out,
+    --_eevenkoto-button-gradient-middle 0.1s ease-in-out,
+    --_eevenkoto-button-gradient-end 0.15s ease-in-out;
+}
+```
+
+Parents override look without specificity wars:
+
+```css
+.hero-banner {
+  --eevenkoto-button-gradient-start: var(--eevenkoto-color-control-secondary-background);
+  --eevenkoto-button-gradient-middle: var(--eevenkoto-color-control-secondary-background);
+  --eevenkoto-button-gradient-end: var(--eevenkoto-color-control-secondary-tint);
+}
+```
+
 ### Opaque Disabled State Implementation
 
 Per Tier 2 architecture, `opacity: 0.5` is strictly banned. Tier 3 components must implement disabled states using opaque, non-bleeding semantic tokens:
@@ -281,6 +350,8 @@ In `@media (forced-colors: active)`, user-agent stylesheets strip author backgro
 ### Component: Contained Interactive Control (Button)
 
 `src/components/Button/button.css`
+
+The live Button uses the private-bridge contract below **plus** the [Gradients as Tier 3 Composition](#gradients-as-tier-3-composition) recipe (animated stops, brand shadows, scoop corners). The excerpt shows the solid tuple and dual-halo focus; open the component stylesheet for the full gradient implementation.
 
 ```css
 /* ==========================================================================

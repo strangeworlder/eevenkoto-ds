@@ -28,6 +28,6 @@ body {
   font-family: var(--eevenkoto-font-sans);
   font-size: var(--eevenkoto-font-size-lg);
   line-height: var(--eevenkoto-line-height-body);
-  color: var(--eevenkoto-color-text);
-  background: var(--eevenkoto-color-bg);
+  color: var(--eevenkoto-color-content-primary);
+  background: var(--eevenkoto-color-surface-canvas);
 }

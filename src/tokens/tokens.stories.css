@@ -4,7 +4,7 @@
   gap: var(--eevenkoto-space-8);
   padding: var(--eevenkoto-space-6);
   max-width: 56rem;
-  color: var(--eevenkoto-color-text);
+  color: var(--eevenkoto-color-content-primary);
   font-family: var(--eevenkoto-font-sans);
 }
 
@@ -31,7 +31,7 @@
 
 .eevenkoto-tokens__intro {
   margin: 0;
-  color: var(--eevenkoto-color-text-muted);
+  color: var(--eevenkoto-color-content-secondary);
   font-size: var(--eevenkoto-font-size-md);
   line-height: var(--eevenkoto-line-height-body);
 }
@@ -51,7 +51,7 @@
 
 .eevenkoto-tokens__swatch-chip {
   aspect-ratio: 16 / 10;
-  border: var(--eevenkoto-line-width-sm) solid var(--eevenkoto-color-border);
+  border: var(--eevenkoto-line-width-sm) solid var(--eevenkoto-color-boundary-strong);
   border-radius: var(--eevenkoto-radius-md);
   background:
     linear-gradient(45deg, #ccc 25%, transparent 25%),
@@ -85,7 +85,7 @@
 
 .eevenkoto-tokens__value {
   margin: 0;
-  color: var(--eevenkoto-color-text-muted);
+  color: var(--eevenkoto-color-content-secondary);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 1.2rem;
   line-height: var(--eevenkoto-line-height-body);
@@ -103,7 +103,7 @@
   flex-direction: column;
   gap: var(--eevenkoto-space-1);
   padding-block: var(--eevenkoto-space-3);
-  border-bottom: var(--eevenkoto-line-width-sm) solid var(--eevenkoto-color-border);
+  border-bottom: var(--eevenkoto-line-width-sm) solid var(--eevenkoto-color-boundary-strong);
 }
 
 .eevenkoto-tokens__type-row:last-child {
@@ -112,7 +112,7 @@
 
 .eevenkoto-tokens__type-sample {
   margin: 0;
-  color: var(--eevenkoto-color-text);
+  color: var(--eevenkoto-color-content-primary);
 }
 
 .eevenkoto-tokens__space-row,
@@ -126,15 +126,15 @@
 
 .eevenkoto-tokens__space-bar {
   height: var(--eevenkoto-space-6);
-  background: var(--eevenkoto-color-action);
+  background: var(--eevenkoto-color-control-primary-background);
   border-radius: var(--eevenkoto-radius-sm);
 }
 
 .eevenkoto-tokens__radius-demo {
   width: 4.8rem;
   height: 4.8rem;
-  background: var(--eevenkoto-color-surface);
-  border: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-border);
+  background: var(--eevenkoto-color-surface-sunken);
+  border: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-strong);
 }
 
 .eevenkoto-tokens__line-demo {
@@ -143,5 +143,5 @@
   background: transparent;
   border: none;
   border-top-style: solid;
-  border-top-color: var(--eevenkoto-color-text);
+  border-top-color: var(--eevenkoto-color-content-primary);
 }

@@ -3,47 +3,83 @@
 
 :root {
   /* ==========================================================================
-     TIER 2: SEMANTIC ACTION TOKENS
+     TIER 2: SEMANTIC TOKENS
+     Exclusively references Tier 1 primitives or color-mix over them.
+     Grammar: --eevenkoto-color-[domain]-[variant]-[element]-[state]
      ========================================================================== */
 
-  /* Primary Action */
-  --eevenkoto-color-action:             var(--eevenkoto-color-turquoise-state);
-  --eevenkoto-color-action-hover:       var(--eevenkoto-color-turquoise-state-hover);
-  --eevenkoto-color-action-border:      var(--eevenkoto-color-turquoise-border-subtle);
-  --eevenkoto-color-action-icon:        var(--eevenkoto-color-turquoise-primary);
-  --eevenkoto-color-action-text:        var(--eevenkoto-color-turquoise-text);
-  --eevenkoto-color-action-tint-cool:   var(--eevenkoto-color-turquoise-tint-cool);
-  --eevenkoto-color-action-tint-deep:   var(--eevenkoto-color-turquoise-tint-deep);
-  --eevenkoto-color-action-shadow:      oklch(0.15 0.25 192 / 25%);
-  --eevenkoto-color-action-text-shadow: oklch(0.12 0.20 192);
-  --eevenkoto-border-width-action:      var(--eevenkoto-line-width-md);
+  /* --- Surfaces & depth (light / subtractive) --- */
+  --eevenkoto-color-surface-canvas: var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-surface-sunken: var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-surface-raised: var(--eevenkoto-color-parchment-background);
 
-  /* Secondary Action */
-  --eevenkoto-color-action-secondary:        var(--eevenkoto-color-parchment-background);
-  --eevenkoto-color-action-secondary-hover:  var(--eevenkoto-color-parchment-background-element);
-  --eevenkoto-color-action-secondary-border: var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-action-secondary-icon:   var(--eevenkoto-color-parchment-primary);
-  --eevenkoto-color-action-secondary-text:   var(--eevenkoto-color-parchment-text);
-  --eevenkoto-color-action-secondary-tint:   var(--eevenkoto-color-gold-state);
-  --eevenkoto-border-width-action-secondary: var(--eevenkoto-line-width-md);
+  --eevenkoto-color-depth-shadow-umbra: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 12%,
+    transparent
+  );
+  --eevenkoto-color-depth-shadow-penumbra: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 6%,
+    transparent
+  );
+  --eevenkoto-color-depth-shadow-control: var(--eevenkoto-color-turquoise-shadow);
+  --eevenkoto-color-depth-shadow-control-text: var(--eevenkoto-color-turquoise-text-shadow);
 
-  /* Ghost Action */
-  --eevenkoto-color-action-ghost:        transparent;
-  --eevenkoto-color-action-ghost-hover:  var(--eevenkoto-color-parchment-background-element);
-  --eevenkoto-color-action-ghost-border: transparent;
-  --eevenkoto-color-action-ghost-icon:   var(--eevenkoto-color-turquoise-primary-hover);
-  --eevenkoto-color-action-ghost-text:   var(--eevenkoto-color-turquoise-state);
-  --eevenkoto-border-width-action-ghost: var(--eevenkoto-line-width-md);
+  /* --- Content --- */
+  --eevenkoto-color-content-primary: var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-content-secondary: var(--eevenkoto-color-parchment-text-muted);
+  --eevenkoto-color-content-disabled: var(--eevenkoto-color-parchment-border);
 
-  /* State / Accessibility Tokens */
-  --eevenkoto-color-text-muted: var(--eevenkoto-color-parchment-text-muted);
-  --eevenkoto-color-focus-ring: var(--eevenkoto-color-gold-primary);
+  /* --- Boundaries & focus --- */
+  --eevenkoto-color-boundary-subtle: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-border) 35%,
+    transparent
+  );
+  --eevenkoto-color-boundary-strong: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-boundary-focus-outer: var(--eevenkoto-color-gold-primary-strong);
+  --eevenkoto-color-boundary-focus-inner: var(--eevenkoto-color-surface-canvas);
 
-  /* Global Surface Tokens */
-  --eevenkoto-color-bg:      var(--eevenkoto-color-parchment-background);
-  --eevenkoto-color-surface: var(--eevenkoto-color-parchment-background-element);
-  --eevenkoto-color-text:    var(--eevenkoto-color-parchment-text);
-  --eevenkoto-color-border:  var(--eevenkoto-color-parchment-border);
+  /* --- Controls: primary --- */
+  --eevenkoto-color-control-primary-background: var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-control-primary-background-hover: var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-control-primary-background-active: var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-control-primary-text: var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-control-primary-border: var(--eevenkoto-color-turquoise-border-subtle);
+  --eevenkoto-color-control-primary-icon: var(--eevenkoto-color-turquoise-primary);
+  --eevenkoto-color-control-primary-tint-cool: var(--eevenkoto-color-turquoise-tint-cool);
+  --eevenkoto-color-control-primary-tint-deep: var(--eevenkoto-color-turquoise-tint-deep);
+
+  --eevenkoto-color-control-primary-background-disabled: var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-control-primary-text-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-primary-border-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-primary-icon-disabled: var(--eevenkoto-color-parchment-border);
+
+  /* --- Controls: secondary --- */
+  --eevenkoto-color-control-secondary-background: var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-control-secondary-background-hover: var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-control-secondary-text: var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-control-secondary-border: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-secondary-icon: var(--eevenkoto-color-parchment-primary);
+  --eevenkoto-color-control-secondary-tint: var(--eevenkoto-color-gold-state);
+
+  --eevenkoto-color-control-secondary-background-disabled: var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-control-secondary-text-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-secondary-border-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-secondary-icon-disabled: var(--eevenkoto-color-parchment-border);
+
+  /* --- Controls: ghost --- */
+  --eevenkoto-color-control-ghost-background: transparent;
+  --eevenkoto-color-control-ghost-background-hover: var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-control-ghost-text: var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-control-ghost-border: transparent;
+  --eevenkoto-color-control-ghost-icon: var(--eevenkoto-color-turquoise-primary-hover);
+
+  --eevenkoto-color-control-ghost-background-disabled: transparent;
+  --eevenkoto-color-control-ghost-text-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-ghost-border-disabled: transparent;
+  --eevenkoto-color-control-ghost-icon-disabled: var(--eevenkoto-color-parchment-border);
 
   /* ==========================================================================
      METRICS & TYPOGRAPHY
