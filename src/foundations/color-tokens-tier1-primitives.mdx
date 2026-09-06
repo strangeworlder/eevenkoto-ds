@@ -1,0 +1,76 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Color Tokens/Tier 1 — Primitives" />
+
+# Tier 1: Primitives
+
+**Doc set:** [Architecture](./color-tokens-architecture.mdx) → Tier 1 Primitives (this file) → [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx) → [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)
+
+Tier 1 is the sparse, hand-tuned pigment library. It holds raw OKLCH coordinates and grows only through an accretive, designer-reviewed process.
+
+| Field | Value |
+| --- | --- |
+| Source file | `src/tokens/primitivetokens.css` |
+| Naming convention | `--eevenkoto-color-<colorname>-<function>[-<variant>]` |
+| Consumer scope | **Tier 2 only.** Never reference Tier 1 primitives directly in component stylesheets. |
+
+## The Primitive Thought Experiment
+
+Primitives do not describe how a color is deployed across the entire application. Instead, they answer a targeted question:
+
+> *"If an entire monochrome interface were sculpted exclusively out of this single hue, what functional role would this specific shade perform?"*
+
+Because colors are defined by functional affordances rather than arbitrary integers, primitive values reflect deliberate design interventions. A subtle tint might shift hue slightly toward green or violet to keep the atmosphere organic, rather than relying on a purely mathematical reduction of chroma.
+
+## The Canonical Functional Scale
+
+Primitives are authored strictly within this functional taxonomy:
+
+| Function Role | Description | Common Variants |
+| --- | --- | --- |
+| `background` | Broad structural canvases (page root, large panes). | `background-subtle`, `background-element` |
+| `state` | Interactive mechanics and active states. | `state-hover`, `state-active` |
+| `border` | Boundary definitions, separators, and outlines. | `border-subtle` |
+| `primary` | High-impact, punchy focal points, icons, and hero elements. | `primary-hover` |
+| `text` | Readable content calibrated for typography. | `text-muted` |
+| `tint` | Atmospheric surface shifts and ambient gradient washes. | `tint-cool`, `tint-deep`, `tint-warm` |
+
+```css
+/* Example: Primitives for Turquoise & Parchment */
+:root {
+  /* Turquoise */
+  --eevenkoto-color-turquoise-state:          oklch(0.50 0.28 180);
+  --eevenkoto-color-turquoise-state-hover:    oklch(0.30 0.22 170);
+  --eevenkoto-color-turquoise-border-subtle:  oklch(0.10 0.22 180 / 20%);
+  --eevenkoto-color-turquoise-primary:        oklch(0.85 0.24 165);
+  --eevenkoto-color-turquoise-primary-hover:  oklch(0.70 0.28 180);
+  --eevenkoto-color-turquoise-text:           oklch(0.98 0.01 190);
+  --eevenkoto-color-turquoise-tint-cool:      oklch(0.98 0.015 202);
+  --eevenkoto-color-turquoise-tint-deep:      oklch(0.18 0.22 162);
+
+  /* Parchment */
+  --eevenkoto-color-parchment-background:         oklch(0.96 0.02 90);
+  --eevenkoto-color-parchment-background-element: oklch(0.90 0.04 85);
+  --eevenkoto-color-parchment-border:             oklch(0.50 0.18 80);
+  --eevenkoto-color-parchment-primary:            oklch(0.40 0.10 80);
+  --eevenkoto-color-parchment-text:               oklch(0.18 0.02 85);
+  --eevenkoto-color-parchment-text-muted:         oklch(0.35 0.04 85);
+}
+```
+
+## Sparse Primitives vs. Completism
+
+**Never create a Tier 1 token for the sake of completism.**
+
+Do not generate empty scales or preemptive tokens. Authoring arbitrary 10-step ramps (50–900) creates gamut clipping and unused mid-tones. Primitives are added only when an interface requirement demands a new optical benchmark.
+
+If an engineer needs a color that does not exist in Tier 1, this friction is an intentional system checkpoint. The new primitive must be created in direct collaboration with a designer to verify:
+
+1. Whether an existing functional primitive already satisfies the need.
+2. Whether the requested shade maintains harmony across both light and dark themes.
+
+## Consumption Rules
+
+- Tier 2 maps primitives to semantic intent (see [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx)).
+- Components must never import or reference `--eevenkoto-color-<hue>-*` primitives directly (see [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)).
+- Tier 1 values remain stable libraries of available pigments; themes do not rewrite primitive definitions.

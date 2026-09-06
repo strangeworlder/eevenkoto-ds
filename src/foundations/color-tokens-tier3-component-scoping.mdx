@@ -1,0 +1,581 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Color Tokens/Tier 3 — Component Scoping" />
+
+# Tier 3: Component Scoping & Token Architecture
+
+**Doc set:** [Architecture](./color-tokens-architecture.mdx) → [Tier 1 Primitives](./color-tokens-tier1-primitives.mdx) → [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx) → Tier 3 Component Scoping (this file)
+
+This document defines the architectural mechanics, naming grammar, encapsulation contracts, and governance rules for the component token layer (Tier 3). Tier 3 bridges Tier 2 semantic tokens into scoped, override-resilient component implementations without specificity wars or cascading side effects.
+
+| Field | Value |
+| --- | --- |
+| Source file | `src/components/<ComponentName>/<component>.css` |
+| Public API | `--eevenkoto-<component>-[element]-[property]-[state]` |
+| Private bridge | `--_eevenkoto-<component>-[element]-[property]` |
+
+## Architectural Scope & The Encapsulation Contract
+
+The Eevenkoto token architecture decouples physical color physics (Tier 1) and intent orchestration (Tier 2) from DOM element boundaries (Tier 3).
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  Tier 1: Primitives (primitivetokens.css)                        │
+│  --eevenkoto-color-<hue>-<function>                              │
+│  Sparse, hue-specific OKLCH pigment jars                         │
+└────────────────────────────────┬─────────────────────────────────┘
+                                 │ Mapped per theme / context
+                                 ▼
+┌──────────────────────────────────────────────────────────────────┐
+│  Tier 2: Semantics (tokens.css)                                  │
+│  --eevenkoto-color-[domain]-[variant]-[element]-[state]          │
+│  Cross-hue composition, intent tuples, & contrast enforcement    │
+└────────────────────────────────┬─────────────────────────────────┘
+                                 │ Consumed as fallback defaults
+                                 ▼
+┌──────────────────────────────────────────────────────────────────┐
+│  Tier 3: Component Scoping (src/components/<Name>/<name>.css)    │
+│  --eevenkoto-<component>-[element]-[property]-[state] (Public)   │
+│  --_eevenkoto-<component>-[element]-[property]        (Private)  │
+│  Encapsulated DOM boundaries, private bridges, & context hooks   │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+### The Division of Concerns
+
+| Tier | Answers |
+| --- | --- |
+| 1 | What does this pigment look like across its physical optical curve? |
+| 2 | What role does this color play in the interface, and which counter-ink guarantees accessibility? |
+| 3 | Which DOM element surface consumes which semantic intent, how do sub-elements interact, and how can parent layouts contextualize this component without breaking encapsulation? |
+
+### The Encapsulation Guarantee
+
+A production UI component must behave as a sealed mechanical unit. It manages its own internal geometry, layout, hitboxes, and accessibility state indicators. It exposes a minimal, explicit public API for contextual theming and style overrides while remaining completely immune to accidental parent cascade bleeding.
+
+## The Two-Layer Underscore Bridge Pattern
+
+Consuming CSS variables directly inside properties (e.g., `background-color: var(--eevenkoto-color-control-primary-background)`) creates two systemic flaws:
+
+1. **Zero Override Ergonomics:** External consumers must either write high-specificity CSS overrides or redefine a global semantic variable, risking unintended sibling/child fallout.
+2. **The Cyclic Invalidation Trap (IACVT):** If a component accepts an override via the same variable name it assigns (`--eevenkoto-button-bg: var(--eevenkoto-button-bg, ...)`), CSS Custom Property resolution flags a cyclic dependency. At computed-value time the variable becomes Invalid at Computed-Value Time (IACVT) and resolves to `unset`.
+
+### The Private Bridge Pattern (`--_`)
+
+Every component styles its DOM using a three-tier assignment cycle:
+
+1. **Public Custom Property API:** `--eevenkoto-<component>-[element]-[property]`
+2. **Private Internal Bridge Property:** `--_eevenkoto-<component>-[element]-[property]`
+3. **CSS Spec Property Declaration:** `property: var(--_eevenkoto-...)`
+
+```css
+/* Canonical Tier 3 Implementation */
+.eevenkoto-button {
+  /* 1. PRIVATE BRIDGE DECLARATIONS
+     Read from public override API; fall back to Tier 2 semantic tokens. */
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text,
+    var(--eevenkoto-color-control-primary-text)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color,
+    var(--eevenkoto-color-control-primary-border)
+  );
+
+  /* 2. PROPERTY ATTACHMENT
+     Attach ONLY private bridge variables to standard CSS properties. */
+  background-color: var(--_eevenkoto-button-bg);
+  color: var(--_eevenkoto-button-text);
+  border-color: var(--_eevenkoto-button-border-color);
+}
+```
+
+### How the Engine Resolves the Bridge
+
+```text
+Parent passes public override?
+      │
+      ├─► YES: --eevenkoto-button-bg is defined ──► --_eevenkoto-button-bg takes override value
+      │
+      └─► NO:  --eevenkoto-button-bg is missing ─► --_eevenkoto-button-bg resolves Tier 2 fallback
+```
+
+Because the public variable and the private variable have distinct identifiers, no cycle exists. The component provides guaranteed fallback behavior while exposing a declarative, zero-specificity override hook.
+
+## Naming Grammar & Token Anatomy
+
+### Public Override API Grammar
+
+```text
+--eevenkoto-[component]-[element]-[property]-[state]
+```
+
+| Token Segment | Description | Examples |
+| --- | --- | --- |
+| `--eevenkoto-` | System root prefix. Identifies official design system tokens. | `--eevenkoto-` |
+| `[component]` | Canonical component identifier in kebab-case. | `button`, `text-input`, `card`, `modal` |
+| `[element]` | Optional sub-element or slot. Omitted if target is root container. | `label`, `input`, `indicator`, `track`, `thumb`, `icon` |
+| `[property]` | Exact visual or geometric property being manipulated. | `bg`, `text`, `border-color`, `radius`, `pad-block`, `pad-inline` |
+| `[state]` | Optional interactive or structural state. Omitted for default resting state. | `hover`, `active`, `focus`, `disabled`, `invalid`, `checked` |
+
+### Private Internal Bridge Grammar
+
+```text
+--_eevenkoto-[component]-[element]-[property]
+```
+
+- The underscore prefix (`--_`) denotes a private variable scoped strictly to the component's internal stylesheet.
+- Private bridges must never appear in external consumer stylesheets.
+- Private bridges must never have states in their identifier names; states modulate which public variable or Tier 2 token is assigned to the private bridge.
+
+## The 4 Strict Scoping Rules
+
+### Rule 1: Strict Tier Isolation (No Tier 1 Leakage)
+
+A component stylesheet must never reference a Tier 1 primitive by hue (e.g., `--eevenkoto-color-turquoise-*`).
+
+- **Violation:** `background-color: var(--eevenkoto-color-turquoise-state);`
+- **Correction:** Reference the semantic intent: `var(--eevenkoto-color-control-primary-background)`.
+- **Enforcement:** Stylelint blocks hue-primitive leakage in `src/components/**`.
+
+### Rule 2: Complete Tuple Synchronization on State & Variant Shifts
+
+When a component variant, pseudo-class (`:hover`, `:active`, `:focus-visible`), or state (`:disabled`, `[aria-invalid="true"]`) alters a surface background token, it is mandatory to rebind the matching text and border tokens within the exact same rule block.
+
+- **Failure Mode:** Overriding `--_eevenkoto-button-bg` on hover without updating `--_eevenkoto-button-text` causes local contrast collapse when a theme or variant changes.
+- **Standard:** Rebind the entire tuple simultaneously.
+
+### Rule 3: No Downward or Sibling Leakage
+
+- Component tokens are scoped to their component host class (`.eevenkoto-<component>`).
+- Component stylesheets must not define global selectors (`:root`, `body`, `div`).
+- Modifiers must be applied via BEM-style variant classes (e.g., `.eevenkoto-button--secondary`) or data attributes (`data-variant="secondary"`), never via bare tag selectors.
+
+### Rule 4: Zero Speculative Property Exposure
+
+Do not author public override tokens for CSS properties the component does not actively support. If a component does not explicitly govern `line-height` or `transform`, do not declare `--eevenkoto-button-line-height`. Expose only verified geometric, color, and depth parameters.
+
+## State & Variant Mechanics
+
+Variants and states should not duplicate the full declaration list of a component. They mutate the internal bridge values.
+
+```text
+       ┌────────────────────────────────────────────────────────┐
+       │               .eevenkoto-button (Base)                 │
+       │  --_eevenkoto-button-bg: var(..., primary-background); │
+       │  --_eevenkoto-button-text: var(..., primary-text);     │
+       │  background-color: var(--_eevenkoto-button-bg);        │
+       │  color: var(--_eevenkoto-button-text);                 │
+       └───────────────────────────┬────────────────────────────┘
+                                   │
+         ┌─────────────────────────┴─────────────────────────┐
+         ▼                                                   ▼
+┌─────────────────────────────────┐ ┌───────────────────────────────────┐
+│   .eevenkoto-button--secondary  │ │   .eevenkoto-button:hover         │
+│   (Variant Mutation)            │ │   (State Mutation)                │
+│   Rebinds bridges to Secondary  │ │   Rebinds bridges to Hover tokens │
+│   tokens without modifying DOM  │ │   Maintains coupled background    │
+│   layout properties.            │ │   and text contrast.              │
+└─────────────────────────────────┘ └───────────────────────────────────┘
+```
+
+### Opaque Disabled State Implementation
+
+Per Tier 2 architecture, `opacity: 0.5` is strictly banned. Tier 3 components must implement disabled states using opaque, non-bleeding semantic tokens:
+
+```css
+.eevenkoto-button:disabled,
+.eevenkoto-button[aria-disabled="true"] {
+  cursor: not-allowed;
+
+  /* Rebind the complete disabled tuple simultaneously */
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-disabled,
+    var(--eevenkoto-color-control-primary-background-disabled)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text-disabled,
+    var(--eevenkoto-color-control-primary-text-disabled)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color-disabled,
+    var(--eevenkoto-color-control-primary-border-disabled)
+  );
+}
+```
+
+## Contextual Theming & Parent-Child Override Protocols
+
+When a parent container requires its child components to render in a distinct variant, developers must never write cross-component selector overrides.
+
+### The Anti-Pattern (Selector Specificity Leaks)
+
+```css
+/* BANNED: Breaks button encapsulation, escalates specificity, breaks when button DOM refactors */
+.hero-banner .eevenkoto-button {
+  background-color: oklch(0.96 0.02 90) !important;
+  color: oklch(0.18 0.02 85) !important;
+}
+```
+
+### The Architectural Pattern (Declarative API Injection)
+
+The parent container sets the child component's public override variables locally. The child's internal bridge resolves the override automatically without specificity wars:
+
+```css
+/* RECOMMENDED: Declarative, zero-specificity override */
+.hero-banner {
+  --eevenkoto-button-bg: var(--eevenkoto-color-control-secondary-background);
+  --eevenkoto-button-text: var(--eevenkoto-color-control-secondary-text);
+  --eevenkoto-button-border-color: var(--eevenkoto-color-control-secondary-border);
+}
+```
+
+### Surface Context Switching (`data-surface-mode`)
+
+When a component is embedded within a dark surface inside an otherwise light page, the system leverages Tier 2 Scoped Context Theming. The component's standard Tier 2 tokens automatically remap without requiring variant classes on the component:
+
+```html
+<!-- The button remains plain .eevenkoto-button; tokens adapt automatically -->
+<aside class="marketing-callout" data-surface-mode="dark">
+  <p class="callout-prose">Subscribe to our newsletter.</p>
+  <button type="button" class="eevenkoto-button">Subscribe</button>
+</aside>
+```
+
+## Platform Adaptations & Accessibility at Tier 3
+
+### Dual-Halo Focus Indicators
+
+Focus rings must achieve minimum non-text contrast (≥ 3.0:1) against both the inner button fill and the outer layout canvas. Tier 3 implements a synchronized dual-halo boundary using an offset outline coupled with a box-shadow:
+
+```css
+.eevenkoto-button:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--eevenkoto-color-boundary-focus-inner);
+}
+```
+
+### Forced Colors Mode (Windows High Contrast)
+
+In `@media (forced-colors: active)`, user-agent stylesheets strip author background colors and drop shadows. If an interactive element lacks an explicit border in standard mode, its hit boundaries disappear entirely.
+
+**The Forced-Colors Guardrail:** Every interactive component must declare an explicit border width and style, utilizing `transparent` when an invisible border is desired in standard rendering. In Forced Colors mode, the browser automatically converts transparent borders into visible system `ButtonBorder` strokes:
+
+```css
+.eevenkoto-button {
+  /* Explicit 1px border is invisible in standard mode, but preserves hit boundaries in HCM */
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--_eevenkoto-button-border-color); /* Defaults to transparent for solid buttons */
+}
+```
+
+## Canonical Component Implementations
+
+### Component: Contained Interactive Control (Button)
+
+`src/components/Button/button.css`
+
+```css
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: BUTTON COMPONENT (TIER 3)
+   ========================================================================== */
+
+.eevenkoto-button {
+  /* 1. PRIVATE BRIDGE INITIALIZATION (Primary Action Defaults) */
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text,
+    var(--eevenkoto-color-control-primary-text)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color,
+    var(--eevenkoto-color-control-primary-border)
+  );
+
+  /* Geometry & Typography Tokens */
+  --_eevenkoto-button-pad-block: var(--eevenkoto-button-pad-block, 0.625rem);
+  --_eevenkoto-button-pad-inline: var(--eevenkoto-button-pad-inline, 1.25rem);
+  --_eevenkoto-button-radius: var(--eevenkoto-button-radius, 0.375rem);
+  --_eevenkoto-button-font-size: var(--eevenkoto-button-font-size, 0.875rem);
+  --_eevenkoto-button-font-weight: var(--eevenkoto-button-font-weight, 600);
+
+  /* 2. ELEMENT STYLING DECLARATIONS */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--_eevenkoto-button-pad-block) var(--_eevenkoto-button-pad-inline);
+
+  font-family: inherit;
+  font-size: var(--_eevenkoto-button-font-size);
+  font-weight: var(--_eevenkoto-button-font-weight);
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+
+  background-color: var(--_eevenkoto-button-bg);
+  color: var(--_eevenkoto-button-text);
+
+  /* Forced-Colors boundary guardrail: explicit 1px stroke */
+  border: 1px solid var(--_eevenkoto-button-border-color);
+  border-radius: var(--_eevenkoto-button-radius);
+
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 150ms cubic-bezier(0.2, 0, 0, 1),
+              border-color 150ms cubic-bezier(0.2, 0, 0, 1),
+              color 150ms cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* INTERACTIVE STATES (Coupled Tuple Updates) */
+
+.eevenkoto-button:hover:not(:disabled) {
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
+}
+
+.eevenkoto-button:active:not(:disabled) {
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-active,
+    var(--eevenkoto-color-control-primary-background-active)
+  );
+}
+
+.eevenkoto-button:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--eevenkoto-color-boundary-focus-inner);
+}
+
+.eevenkoto-button:disabled,
+.eevenkoto-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-disabled,
+    var(--eevenkoto-color-control-primary-background-disabled)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text-disabled,
+    var(--eevenkoto-color-control-primary-text-disabled)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color-disabled,
+    var(--eevenkoto-color-control-primary-border-disabled)
+  );
+}
+
+/* VARIANT: DESTRUCTIVE ACTION */
+
+.eevenkoto-button--destructive {
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg,
+    var(--eevenkoto-color-control-destructive-background)
+  );
+  --_eevenkoto-button-text: var(
+    --eevenkoto-button-text,
+    var(--eevenkoto-color-control-destructive-text)
+  );
+  --_eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color,
+    var(--eevenkoto-color-control-destructive-border)
+  );
+}
+
+.eevenkoto-button--destructive:hover:not(:disabled) {
+  --_eevenkoto-button-bg: var(
+    --eevenkoto-button-bg-hover,
+    var(--eevenkoto-color-control-destructive-background-hover)
+  );
+}
+```
+
+### Component: Form Field (TextField)
+
+`src/components/TextField/text-field.css`
+
+```css
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: TEXT FIELD COMPONENT (TIER 3)
+   ========================================================================== */
+
+.eevenkoto-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  width: 100%;
+}
+
+.eevenkoto-field__label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--eevenkoto-color-content-primary);
+}
+
+.eevenkoto-field__input {
+  /* 1. PRIVATE BRIDGE INITIALIZATION */
+  --_eevenkoto-field-input-bg: var(
+    --eevenkoto-field-input-bg,
+    var(--eevenkoto-color-form-input-background)
+  );
+  --_eevenkoto-field-input-text: var(
+    --eevenkoto-field-input-text,
+    var(--eevenkoto-color-form-input-text)
+  );
+  --_eevenkoto-field-input-border-color: var(
+    --eevenkoto-field-input-border-color,
+    var(--eevenkoto-color-form-input-border)
+  );
+
+  /* 2. ELEMENT STYLING DECLARATIONS */
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25;
+
+  background-color: var(--_eevenkoto-field-input-bg);
+  color: var(--_eevenkoto-field-input-text);
+  border: 1px solid var(--_eevenkoto-field-input-border-color);
+  border-radius: 0.375rem;
+
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.eevenkoto-field__input:focus {
+  outline: none;
+  border-color: var(--eevenkoto-color-boundary-focus-outer);
+  box-shadow: 0 0 0 1px var(--eevenkoto-color-boundary-focus-outer);
+}
+
+/* VALIDATION STATE: INVALID / ERROR TUPLE */
+
+.eevenkoto-field__input[aria-invalid="true"] {
+  --_eevenkoto-field-input-bg: var(
+    --eevenkoto-field-input-bg-invalid,
+    var(--eevenkoto-color-form-input-background-invalid)
+  );
+  --_eevenkoto-field-input-text: var(
+    --eevenkoto-field-input-text-invalid,
+    var(--eevenkoto-color-form-input-text-invalid)
+  );
+  --_eevenkoto-field-input-border-color: var(
+    --eevenkoto-field-input-border-color-invalid,
+    var(--eevenkoto-color-form-input-border-invalid)
+  );
+}
+
+.eevenkoto-field__message {
+  font-size: 0.75rem;
+  color: var(--eevenkoto-color-content-secondary);
+}
+
+.eevenkoto-field__message--error {
+  color: var(--eevenkoto-color-form-input-message-invalid);
+}
+```
+
+### Component: Composite Surface Container (Card)
+
+`src/components/Card/card.css`
+
+```css
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: CARD SURFACE COMPONENT (TIER 3)
+   ========================================================================== */
+
+.eevenkoto-card {
+  /* 1. PRIVATE BRIDGE INITIALIZATION */
+  --_eevenkoto-card-bg: var(
+    --eevenkoto-card-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-card-border-color: var(
+    --eevenkoto-card-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-card-shadow: var(
+    --eevenkoto-card-shadow,
+    0 1px 3px var(--eevenkoto-color-depth-shadow-penumbra),
+    0 4px 6px var(--eevenkoto-color-depth-shadow-umbra)
+  );
+
+  /* 2. ELEMENT STYLING DECLARATIONS */
+  box-sizing: border-box;
+  padding: 1.5rem;
+  background-color: var(--_eevenkoto-card-bg);
+  border: 1px solid var(--_eevenkoto-card-border-color);
+  border-radius: 0.5rem;
+  box-shadow: var(--_eevenkoto-card-shadow);
+  color: var(--eevenkoto-color-content-primary);
+}
+
+/* Moded Well variant */
+.eevenkoto-card--sunken {
+  --_eevenkoto-card-bg: var(--eevenkoto-color-surface-sunken);
+  --_eevenkoto-card-shadow: none;
+}
+```
+
+## Automated CI Verification & Linting Rules
+
+To protect component isolation, CI enforces four AST-based Stylelint checks against all stylesheets in `src/components/**/*.css`:
+
+```text
+                    Pull Request / Code Commit
+                                │
+                                ▼
+         ┌──────────────────────────────────────────────┐
+         │       Check 1: Primitive Prefix Check        │
+         │  Does file contain hue-primitive leakage?    │
+         └──────────────────────┬───────────────────────┘
+                                │ NO
+                                ▼
+         ┌──────────────────────────────────────────────┐
+         │          Check 2: Raw Color Literals         │
+         │ Does file contain #hex, rgb(), or oklch()?   │
+         └──────────────────────┬───────────────────────┘
+                                │ NO
+                                ▼
+         ┌──────────────────────────────────────────────┐
+         │     Check 3: Direct Tier 2 in Property       │
+         │  Is CSS property set to var(--eevenkoto-color│
+         │        WITHOUT a private bridge (--_)?       │
+         └──────────────────────┬───────────────────────┘
+                                │ NO
+                                ▼
+         ┌──────────────────────────────────────────────┐
+         │     Check 4: Cyclic Dependency Detection     │
+         │   Is a public token assigned to itself?      │
+         └──────────────────────┬───────────────────────┘
+                                │ NO
+                                ▼
+                     [CI VALIDATION PASSED]
+```
+
+1. **Strict Tier 1 Boundary Guard** (`eevenkoto/no-primitive-in-components`) — Rejects hue-primitive references inside `src/components/`.
+2. **Raw Literal Guard** (`eevenkoto/no-raw-color-literals`) — Rejects raw hex, `rgb()`, `hsl()`, or `oklch()` literals within component stylesheets.
+3. **Bridge Enforcement** (`eevenkoto/enforce-private-bridge`) — Flags component CSS that consumes a Tier 2 token without establishing the private `--_eevenkoto-` bridge fallback pattern.
+4. **Cyclic Invalidation Guard** (`eevenkoto/no-self-referencing-vars`) — Flags assignments where a public token references itself without a separate private variable.
+
+```css
+/* CI FAILS THIS: Cyclic invalidation (IACVT) */
+--eevenkoto-button-bg: var(--eevenkoto-button-bg, red);
+
+/* CI PASSES THIS: Distinct private variable */
+--_eevenkoto-button-bg: var(--eevenkoto-button-bg, red);
+```

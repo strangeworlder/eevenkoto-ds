@@ -1,0 +1,151 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Color Tokens/Architecture" />
+
+# Color Token Architecture
+
+**Doc set:** Architecture (this file) → [Tier 1 Primitives](./color-tokens-tier1-primitives.mdx) → [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx) → [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)
+
+This document defines the architectural rationale, color-space mechanics, theming model, accessibility guardrails, and governance flowchart for the Eevenkoto color token system. Tier-specific naming, invariants, and examples live in the linked docs above.
+
+## Core Architectural Philosophy
+
+Traditional design systems frequently adopt numerical ramps for primitive palettes (e.g., `--color-blue-50` through `--color-blue-900`). While systematic, this pattern creates three foundational failures:
+
+1. **Illusion of Completeness:** Teams spend hours calibrating steps (100, 200, …, 900) that are never rendered in the interface.
+
+2. **Ambiguous Utility:** An engineer or designer choosing between `blue-500` and `blue-600` is forced to make an aesthetic guess rather than an intentional ergonomic choice.
+
+3. **Decoupled Hue Behavior:** Colors do not behave identically across lightness scales. A yellow at lightness L = 0.85 functions as a vibrant background; a blue at L = 0.85 is often an anemic, illegible wash.
+
+The Eevenkoto system departs from numerical ramps by implementing a **function-first primitive model** inspired by the functional mapping of Radix Colors, coupled with an absolute three-tier separation of concerns.
+
+```
+┌────────────────────────────────────────────────────────┐
+│  Tier 1: Primitives (primitivetokens.css)               │
+│  Function-first pigment library in isolated color space│
+└──────────────────────────┬─────────────────────────────┘
+                           │ Mapped per theme (Light / Dark / Contrast)
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│  Tier 2: Semantics (tokens.css)                        │
+│  System-wide intent, UX roles, and contextual meaning  │
+└──────────────────────────┬─────────────────────────────┘
+                           │ Consumed as fallback defaults
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│  Tier 3: Component Scoping (*.css)                     │
+│  Element boundaries, private bridges, and local APIs   │
+└────────────────────────────────────────────────────────┘
+```
+
+| Tier | Source file | Responsibility | Consumers |
+| --- | --- | --- | --- |
+| 1 — Primitives | `src/tokens/primitivetokens.css` | Sparse OKLCH pigment library | Tier 2 only |
+| 2 — Semantics | `src/tokens/tokens.css` | Intent, theming, contrast pairs | Layouts, utilities, Tier 3 |
+| 3 — Components | `src/components/<Name>/<name>.css` | Private bridges + public override API | Host component only |
+
+## Color Space Mechanics: OKLCH & Display P3
+
+All color definitions across the system are authored natively in **OKLCH** (`oklch(L C H [/ A])`).
+
+```
+Color specification: oklch(Lightness [0–1], Chroma [0–0.4], Hue [0–360] [/ Alpha])
+```
+
+### Why OKLCH?
+
+- **Perceptual Uniformity:** In standard sRGB and HSL, hue and lightness are entangled. For example, pure sRGB yellow (`hsl(60, 100%, 50%)`) has a perceived lightness drastically higher than pure sRGB blue (`hsl(240, 100%, 50%)`). In OKLCH, two colors with L = 0.60 share identical perceived luminance, allowing predictable contrast calculations across disparate hues.
+
+- **Independent Chroma Control:** Chroma (C) can be adjusted to desaturate or supercharge a hue without altering its lightness or disrupting accessibility deltas.
+
+- **P3 Gamut Access:** Modern mobile and desktop displays reproduce colors far outside standard sRGB. OKLCH unlocks the wider Display P3 color space natively without clipping.
+
+### Color-Mix & Interpolation
+
+Interactive transitions and subtle tints leverage `color-mix(in display-p3, ...)` to ensure that gradients and transitions do not pass through muddy, desaturated gray zones during interpolation.
+
+## Environmental Adaptations & Theming
+
+### Light vs. Dark Elevation Models
+
+Dark mode is fundamentally different from inverting lightness (L<sub>dark</sub> ≠ 1 − L<sub>light</sub>).
+
+- **Light Mode (Subtractive & Atmospheric):**
+  - Canvas is light parchment (`oklch(0.96 0.02 90)`).
+  - Elevation and separation are communicated through **ambient shadows**, subtle border lines, and parchment tone variations.
+
+- **Dark Mode (Additive & Luminous):**
+  - Canvas is deep charcoal/obsidian (`oklch(0.14 0.01 240)`).
+  - Shadows disappear into dark backgrounds. Elevation is communicated by **stepping lightness upward**:
+    - Canvas root: L = 0.14
+    - Surface Layer 1 (Cards, Sidebars): L = 0.18
+    - Surface Layer 2 (Modals, Popovers): L = 0.23
+
+- **The Chroma Vibration Guardrail:** High-chroma colors on pitch-dark surfaces cause visual vibration (halation). In dark mode, state and action tokens must be remapped to variants with **slightly decreased chroma (C)** and elevated lightness (L) to maintain legibility without fatiguing the eye.
+
+Theme remapping happens **only at Tier 2**. See [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx).
+
+### High Contrast & Forced Colors Mode
+
+When operating under assistive settings (e.g. Windows High Contrast Mode or `@media (forced-colors: active)`):
+
+- System colors override author CSS colors (`Canvas`, `CanvasText`, `Highlight`, `ButtonText`).
+- Gradients and subtle box-shadows disappear entirely.
+- **Architecture Rule:** Every interactive component must define an explicit `border` (even if set to `transparent` in standard mode). In forced-colors mode, transparent borders are automatically converted into visible system outlines, preserving component hit-boxes and structural hierarchy.
+
+## Accessibility in Practice vs. Theory
+
+Theoretical contrast formulas (such as simple WCAG 2.1 math) often fail in real-world rendering engines, particularly when dealing with complex gradients or chromatic backgrounds.
+
+### Practical Validation Guardrails
+
+1. **Spatial Frequency Check**
+
+   Contrast is perceived differently across shapes:
+
+   - Body text (16px) requires higher lightness deltas (ΔL ≥ 0.50) against its background.
+   - Bold interactive outlines or large buttons remain legible at lower deltas (ΔL ≥ 0.30).
+   - Thin icons (1px strokes) must use high-impact tokens rather than muted border tokens to remain distinct.
+
+2. **Focus Ring Luminance Guarantee**
+
+   A focus ring must stand out equally against both the component's inner fill and the parent page canvas.
+
+   - A single pale gold ring (`oklch(0.92 0.22 75)`) on parchment (`oklch(0.96 0.02 90)`) fails WCAG non-text contrast because the two lightness levels are nearly indistinguishable.
+   - Focus rings must use a high-contrast delta (e.g., deep gold/amber `oklch(0.65 0.20 65)` or an offset compound outline) to guarantee immediate visibility regardless of placement.
+
+## Governance & Token Decision Flowchart
+
+When an engineer or designer needs a new style, follow this process before writing CSS:
+
+```
+                  Need a color for a UI element
+                                │
+                                ▼
+                 Does a Tier 2 token express this
+                 intent? (e.g. --color-action, --color-surface)
+                                │
+               ┌────────────────┴────────────────┐
+              YES                                NO
+               │                                 │
+               ▼                                 ▼
+   Consume Tier 2 in component       Does this represent a new,
+   bridge (--_component-prop)        reusable system intent?
+                                                 │
+                                 ┌───────────────┴───────────────┐
+                                YES                              NO
+                                 │                               │
+                                 ▼                               ▼
+                 Check Tier 1 Primitives           Do not create a token.
+                 Does the hue/function exist?      Use a local contextual
+                                 │                 override via component API.
+                 ┌───────────────┴───────────────┐
+                YES                              NO
+                 │                               │
+                 ▼                               ▼
+      Map Tier 1 to a new              [HUMAN FRICTION CHECKPOINT]
+      Tier 2 semantic token            Collaborate with designer to
+                                       author a new functional primitive
+                                       in primitivetokens.css
+```
