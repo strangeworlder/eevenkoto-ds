@@ -1,0 +1,237 @@
+/* src/tokens/tokens.css */
+@import url('./primitivetokens.css');
+
+:root {
+  /* ==========================================================================
+     TIER 2: SEMANTIC TOKENS
+     Exclusively references Tier 1 primitives or color-mix over them.
+     Grammar: --eevenkoto-color-[domain]-[variant]-[element]-[state]
+     ========================================================================== */
+
+  /* --- Surfaces & depth (light / subtractive) --- */
+  --eevenkoto-color-surface-canvas: var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-surface-sunken: var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-surface-raised: var(--eevenkoto-color-parchment-background);
+
+  --eevenkoto-color-depth-shadow-umbra: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 12%,
+    transparent
+  );
+  --eevenkoto-color-depth-shadow-penumbra: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 6%,
+    transparent
+  );
+  --eevenkoto-color-depth-shadow-control: var(--eevenkoto-color-turquoise-shadow);
+  --eevenkoto-color-depth-shadow-control-text: var(--eevenkoto-color-turquoise-text-shadow);
+
+  /* --- Content --- */
+  --eevenkoto-color-content-primary: var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-content-secondary: var(--eevenkoto-color-parchment-text-muted);
+  --eevenkoto-color-content-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+
+  /* --- Boundaries & focus --- */
+  --eevenkoto-color-boundary-subtle: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-border) 35%,
+    transparent
+  );
+  --eevenkoto-color-boundary-strong: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-boundary-focus-outer: var(--eevenkoto-color-gold-primary-strong);
+  --eevenkoto-color-boundary-focus-inner: var(--eevenkoto-color-surface-canvas);
+
+  /* --- Controls: primary --- */
+  --eevenkoto-color-control-primary-background: var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-control-primary-background-hover: var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-control-primary-background-active: var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-control-primary-text: var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-control-primary-border: var(--eevenkoto-color-turquoise-border-subtle);
+  --eevenkoto-color-control-primary-icon: var(--eevenkoto-color-turquoise-primary);
+  --eevenkoto-color-control-primary-tint-cool: var(--eevenkoto-color-turquoise-tint-cool);
+  --eevenkoto-color-control-primary-tint-deep: var(--eevenkoto-color-turquoise-tint-deep);
+
+  --eevenkoto-color-control-primary-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-primary-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-text) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-primary-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-border-subtle) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-primary-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-primary) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
+
+  /* --- Controls: secondary --- */
+  --eevenkoto-color-control-secondary-background: var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-control-secondary-background-hover: var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-control-secondary-text: var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-control-secondary-border: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-secondary-icon: var(--eevenkoto-color-parchment-primary);
+  --eevenkoto-color-control-secondary-tint: var(--eevenkoto-color-gold-state);
+
+  --eevenkoto-color-control-secondary-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-background) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-secondary-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-secondary-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-border) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-secondary-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-primary) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+
+  /* --- Controls: ghost --- */
+  --eevenkoto-color-control-ghost-background: transparent;
+  --eevenkoto-color-control-ghost-background-hover: var(--eevenkoto-color-parchment-background-element);
+  --eevenkoto-color-control-ghost-text: var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-control-ghost-border: transparent;
+  --eevenkoto-color-control-ghost-icon: var(--eevenkoto-color-turquoise-primary-hover);
+
+  --eevenkoto-color-control-ghost-background-disabled: transparent;
+  --eevenkoto-color-control-ghost-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-ghost-border-disabled: transparent;
+  --eevenkoto-color-control-ghost-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-primary-hover) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
+
+  /* ==========================================================================
+     METRICS & TYPOGRAPHY
+     Font-size roles map Tier 1 rem steps → intent (same rule as color).
+     Components consume these aliases — never --eevenkoto-font-size-sm…3xl.
+     ========================================================================== */
+
+  --eevenkoto-font-sans: 'Source Sans 3', system-ui, sans-serif;
+  --eevenkoto-font-serif: 'Source Serif 4', Georgia, serif;
+
+  /* --- Semantic font sizes (Tier 2) ---
+     Heading ladder uses multi-axis hierarchy: macro (1–2) keep size jumps;
+     meso (3–4) compress toward body; micro (5–6) differentiate via posture /
+     case / run-in — H6 matches body-md, H5 sits one step above. */
+  --eevenkoto-font-size-heading-1: var(--eevenkoto-font-size-3xl);
+  --eevenkoto-font-size-heading-2: var(--eevenkoto-font-size-2xl);
+  --eevenkoto-font-size-heading-3: var(--eevenkoto-font-size-lg);
+  --eevenkoto-font-size-heading-4: var(--eevenkoto-font-size-lg);
+  --eevenkoto-font-size-heading-5: var(--eevenkoto-font-size-lg);
+  --eevenkoto-font-size-heading-6: var(--eevenkoto-font-size-md);
+
+  --eevenkoto-font-size-body-sm: var(--eevenkoto-font-size-sm);
+  --eevenkoto-font-size-body-md: var(--eevenkoto-font-size-md);
+  --eevenkoto-font-size-body-lg: var(--eevenkoto-font-size-lg);
+
+  --eevenkoto-font-size-caption: var(--eevenkoto-font-size-sm);
+
+  --eevenkoto-font-size-control-sm: var(--eevenkoto-font-size-sm);
+  --eevenkoto-font-size-control-md: var(--eevenkoto-font-size-md);
+  --eevenkoto-font-size-control-lg: var(--eevenkoto-font-size-lg);
+
+  --eevenkoto-line-height-tight: 1.2;
+  --eevenkoto-line-height-body: 1.5;
+
+  --eevenkoto-space-1: 0.4rem;
+  --eevenkoto-space-2: 0.8rem;
+  --eevenkoto-space-3: 1.2rem;
+  --eevenkoto-space-4: 1.6rem;
+  --eevenkoto-space-6: 2.4rem;
+  --eevenkoto-space-8: 3.2rem;
+
+  --eevenkoto-radius-sm: 0.4rem;
+  --eevenkoto-radius-md: 0.8rem;
+
+  --eevenkoto-line-width-sm: 0.1rem;
+  --eevenkoto-line-width-md: 0.2rem;
+  --eevenkoto-line-width-lg: 0.3rem;
+}
+
+/* Dark theme: disabled mixes veer toward black endpoint (*-tint-disabled-deep).
+   Other semantic remaps land when dark surfaces are authored. */
+[data-theme="dark"] {
+  --eevenkoto-color-content-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+
+  --eevenkoto-color-control-primary-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-primary-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-text) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-primary-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-border-subtle) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-primary-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-primary) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+
+  --eevenkoto-color-control-secondary-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-background) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-secondary-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-secondary-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-border) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-secondary-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-primary) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+
+  --eevenkoto-color-control-ghost-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-ghost-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-primary-hover) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+}

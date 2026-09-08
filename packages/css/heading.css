@@ -1,0 +1,308 @@
+/* src/primitives/Heading/heading.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: HEADING (TIER 3)
+   Multi-axis hierarchy (macro / meso / micro): size, weight, family, case,
+   posture, spacing, and light structural rules — not six pure size steps.
+   Semantic sizes from Tier 2 heading-* only.
+   ========================================================================== */
+
+.eevenkoto-heading {
+  --_eevenkoto-heading-color: var(
+    --eevenkoto-heading-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-heading-font-size: var(
+    --eevenkoto-heading-font-size,
+    var(--eevenkoto-font-size-heading-2)
+  );
+  --_eevenkoto-heading-font-family: var(
+    --eevenkoto-heading-font-family,
+    var(--eevenkoto-font-serif)
+  );
+  --_eevenkoto-heading-font-weight: var(
+    --eevenkoto-heading-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-heading-font-style: var(--eevenkoto-heading-font-style, normal);
+  --_eevenkoto-heading-font-variant-caps: var(--eevenkoto-heading-font-variant-caps, normal);
+  --_eevenkoto-heading-letter-spacing: var(--eevenkoto-heading-letter-spacing, normal);
+  --_eevenkoto-heading-line-height: var(
+    --eevenkoto-heading-line-height,
+    var(--eevenkoto-line-height-tight)
+  );
+  --_eevenkoto-heading-margin-block: var(
+    --eevenkoto-heading-margin-block,
+    var(--eevenkoto-space-6) 0 var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-heading-padding: var(--eevenkoto-heading-padding, 0);
+  --_eevenkoto-heading-background: var(--eevenkoto-heading-background, transparent);
+  --_eevenkoto-heading-radius: var(--eevenkoto-heading-radius, 0);
+  --_eevenkoto-heading-border-block-end: var(--eevenkoto-heading-border-block-end, none);
+  --_eevenkoto-heading-display: var(--eevenkoto-heading-display, block);
+
+  display: var(--_eevenkoto-heading-display);
+  box-sizing: border-box;
+  margin-block: var(--_eevenkoto-heading-margin-block);
+  margin-inline: 0;
+  padding: var(--_eevenkoto-heading-padding);
+  border-block-end: var(--_eevenkoto-heading-border-block-end);
+  border-radius: var(--_eevenkoto-heading-radius);
+  color: var(--_eevenkoto-heading-color);
+  background: var(--_eevenkoto-heading-background);
+  font-family: var(--_eevenkoto-heading-font-family);
+  font-size: var(--_eevenkoto-heading-font-size);
+  font-weight: var(--_eevenkoto-heading-font-weight);
+  font-style: var(--_eevenkoto-heading-font-style);
+  font-variant-caps: var(--_eevenkoto-heading-font-variant-caps);
+  letter-spacing: var(--_eevenkoto-heading-letter-spacing);
+  line-height: var(--_eevenkoto-heading-line-height);
+  break-after: avoid;
+  break-inside: avoid;
+}
+
+/* --- MACRO: H1 / H2 — size jump + structural rule + generous space --- */
+
+.eevenkoto-heading--1 {
+  --_eevenkoto-heading-font-size: var(
+    --eevenkoto-heading-font-size,
+    var(--eevenkoto-font-size-heading-1)
+  );
+  --_eevenkoto-heading-font-family: var(
+    --eevenkoto-heading-font-family,
+    var(--eevenkoto-font-serif)
+  );
+  --_eevenkoto-heading-font-weight: var(
+    --eevenkoto-heading-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-heading-margin-block: var(
+    --eevenkoto-heading-margin-block,
+    var(--eevenkoto-space-8) 0 var(--eevenkoto-space-6)
+  );
+  --_eevenkoto-heading-padding: var(
+    --eevenkoto-heading-padding,
+    0 0 var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-heading-border-block-end: var(
+    --eevenkoto-heading-border-block-end,
+    var(--eevenkoto-line-width-lg) solid var(--eevenkoto-color-boundary-strong)
+  );
+}
+
+.eevenkoto-heading--2 {
+  --_eevenkoto-heading-color: var(
+    --eevenkoto-heading-color,
+    var(--eevenkoto-color-control-secondary-icon)
+  );
+  --_eevenkoto-heading-font-size: var(
+    --eevenkoto-heading-font-size,
+    var(--eevenkoto-font-size-heading-2)
+  );
+  --_eevenkoto-heading-font-family: var(
+    --eevenkoto-heading-font-family,
+    var(--eevenkoto-font-serif)
+  );
+  --_eevenkoto-heading-font-weight: var(
+    --eevenkoto-heading-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-heading-margin-block: var(
+    --eevenkoto-heading-margin-block,
+    var(--eevenkoto-space-8) 0 var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-heading-padding: var(
+    --eevenkoto-heading-padding,
+    0 0 var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-heading-border-block-end: var(
+    --eevenkoto-heading-border-block-end,
+    var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-subtle)
+  );
+}
+
+/* --- MESO: H3 / H4 — weight + modest size; no tint bands --- */
+
+.eevenkoto-heading--3 {
+  --_eevenkoto-heading-font-size: var(
+    --eevenkoto-heading-font-size,
+    var(--eevenkoto-font-size-heading-3)
+  );
+  --_eevenkoto-heading-font-family: var(
+    --eevenkoto-heading-font-family,
+    var(--eevenkoto-font-serif)
+  );
+  --_eevenkoto-heading-font-weight: var(
+    --eevenkoto-heading-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-heading-margin-block: var(
+    --eevenkoto-heading-margin-block,
+    var(--eevenkoto-space-6) 0 var(--eevenkoto-space-2)
+  );
+}
+
+.eevenkoto-heading--4 {
+  --_eevenkoto-heading-color: var(
+    --eevenkoto-heading-color,
+    var(--eevenkoto-color-control-secondary-icon)
+  );
+  --_eevenkoto-heading-font-size: var(
+    --eevenkoto-heading-font-size,
+    var(--eevenkoto-font-size-heading-4)
+  );
+  --_eevenkoto-heading-font-family: var(
+    --eevenkoto-heading-font-family,
+    var(--eevenkoto-font-sans)
+  );
+  --_eevenkoto-heading-font-weight: var(
+    --eevenkoto-heading-font-weight,
+    var(--eevenkoto-font-weight-semibold)
+  );
+  --_eevenkoto-heading-line-height: var(
+    --eevenkoto-heading-line-height,
+    var(--eevenkoto-line-height-body)
+  );
+  --_eevenkoto-heading-margin-block: var(
+    --eevenkoto-heading-margin-block,
+    var(--eevenkoto-space-4) 0 var(--eevenkoto-space-2)
+  );
+}
+
+/* --- MICRO: H5 / H6 — same size as body-md; case / posture / run-in --- */
+
+.eevenkoto-heading--5 {
+  --_eevenkoto-heading-font-size: var(
+    --eevenkoto-heading-font-size,
+    var(--eevenkoto-font-size-heading-5)
+  );
+  --_eevenkoto-heading-font-family: var(
+    --eevenkoto-heading-font-family,
+    var(--eevenkoto-font-sans)
+  );
+  --_eevenkoto-heading-font-weight: var(
+    --eevenkoto-heading-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-heading-font-variant-caps: var(
+    --eevenkoto-heading-font-variant-caps,
+    all-small-caps
+  );
+  --_eevenkoto-heading-letter-spacing: var(
+    --eevenkoto-heading-letter-spacing,
+    0.06em
+  );
+  --_eevenkoto-heading-line-height: var(
+    --eevenkoto-heading-line-height,
+    var(--eevenkoto-line-height-body)
+  );
+  --_eevenkoto-heading-margin-block: var(
+    --eevenkoto-heading-margin-block,
+    var(--eevenkoto-space-4) 0 var(--eevenkoto-space-2)
+  );
+  /* Bleed X matches pad-inline so label text stays on the content edge
+     while the sunken band breaks out: margin -X, width 100% + 2X. */
+  --_eevenkoto-heading-pad-inline: var(
+    --eevenkoto-heading-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-heading-bleed: var(
+    --eevenkoto-heading-bleed,
+    var(--_eevenkoto-heading-pad-inline)
+  );
+  --_eevenkoto-heading-padding: var(
+    --eevenkoto-heading-padding,
+    var(--eevenkoto-space-2) var(--_eevenkoto-heading-pad-inline)
+  );
+  --_eevenkoto-heading-background: var(
+    --eevenkoto-heading-background,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-heading-radius: var(
+    --eevenkoto-heading-radius,
+    var(--eevenkoto-radius-sm)
+  );
+
+  margin-inline: calc(-1 * var(--_eevenkoto-heading-bleed));
+  width: calc(100% + 2 * var(--_eevenkoto-heading-bleed));
+  max-width: none;
+}
+
+.eevenkoto-heading--6 {
+  --_eevenkoto-heading-color: var(
+    --eevenkoto-heading-color,
+    var(--eevenkoto-color-control-secondary-icon)
+  );
+  --_eevenkoto-heading-font-size: var(
+    --eevenkoto-heading-font-size,
+    var(--eevenkoto-font-size-heading-6)
+  );
+  --_eevenkoto-heading-font-family: var(
+    --eevenkoto-heading-font-family,
+    var(--eevenkoto-font-sans)
+  );
+  --_eevenkoto-heading-font-weight: var(
+    --eevenkoto-heading-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-heading-font-style: var(--eevenkoto-heading-font-style, italic);
+  --_eevenkoto-heading-line-height: var(
+    --eevenkoto-heading-line-height,
+    var(--eevenkoto-line-height-body)
+  );
+  --_eevenkoto-heading-margin-block: var(
+    --eevenkoto-heading-margin-block,
+    var(--eevenkoto-space-3) 0 var(--eevenkoto-space-1)
+  );
+}
+
+.eevenkoto-heading--primary {
+  --_eevenkoto-heading-color: var(
+    --eevenkoto-heading-color,
+    var(--eevenkoto-color-content-primary)
+  );
+}
+
+.eevenkoto-heading--2.eevenkoto-heading--primary {
+  --_eevenkoto-heading-color: var(
+    --eevenkoto-heading-color,
+    var(--eevenkoto-color-control-secondary-icon)
+  );
+}
+
+.eevenkoto-heading--4.eevenkoto-heading--primary {
+  --_eevenkoto-heading-color: var(
+    --eevenkoto-heading-color,
+    var(--eevenkoto-color-control-secondary-icon)
+  );
+}
+
+.eevenkoto-heading--6.eevenkoto-heading--primary {
+  --_eevenkoto-heading-color: var(
+    --eevenkoto-heading-color,
+    var(--eevenkoto-color-control-secondary-icon)
+  );
+}
+
+.eevenkoto-heading--secondary {
+  --_eevenkoto-heading-color: var(
+    --eevenkoto-heading-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+}
+
+/* Run-in H6: flows into the following Paragraph (eliminates orphan title lines). */
+.eevenkoto-heading--6.eevenkoto-heading--run-in {
+  --_eevenkoto-heading-display: inline-block;
+  --_eevenkoto-heading-margin-block: 0;
+}
+
+.eevenkoto-heading--6.eevenkoto-heading--run-in::after {
+  content: var(--eevenkoto-heading-run-in-suffix, ". ");
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+.eevenkoto-heading--6.eevenkoto-heading--run-in + .eevenkoto-paragraph {
+  display: inline;
+  margin-block-start: 0;
+}

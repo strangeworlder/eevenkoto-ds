@@ -1,0 +1,112 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+**Related:** [Tokens catalog](?path=/docs/foundations-tokens--docs) · [Typography sample](?path=/docs/primitives-typography-sample--docs) · [Flow](?path=/docs/primitives-flow--docs) · [Heading](?path=/docs/primitives-heading--docs) · [Paragraph](?path=/docs/primitives-paragraph--docs) · [Caption](?path=/docs/primitives-caption--docs)
+
+Typography in Eevenkoto follows the same tier discipline as color: raw optical values live in Tier 1; roles that UI consumes live in Tier 2; component bridges live in Tier 3.
+
+```
+┌────────────────────────────────────────────────────────┐
+│  Tier 1: Type scale (primitivetokens.css)               │
+│  --eevenkoto-font-size-sm … 3xl, font-weight-*         │
+└──────────────────────────┬─────────────────────────────┘
+                           │ Mapped to roles
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│  Tier 2: Semantic type (tokens.css)                    │
+│  heading-*, body-*, caption, control-*                 │
+└──────────────────────────┬─────────────────────────────┘
+                           │ Consumed by primitives / components
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│  Tier 3: Heading, Paragraph, Caption, Button, …        │
+│  Private bridges + public override APIs                │
+└────────────────────────────────────────────────────────┘
+```
+
+## Families
+
+| Token | Face | Use |
+| --- | --- | --- |
+| `--eevenkoto-font-sans` | Source Sans 3 | Body, UI controls, meso/micro headings |
+| `--eevenkoto-font-serif` | Source Serif 4 | Macro + H3 display headings |
+
+## Heading hierarchy (multi-axis)
+
+Six levels are grouped into three visual tiers. **Do not rely on size alone** — micro levels match body size and differentiate via case, posture, and placement.
+
+| Visual tier | Levels | Primary tools |
+| --- | --- | --- |
+| **Macro** | H1, H2 | Size jump, bottom rule, generous space-before |
+| **Meso** | H3, H4 | Modest size + weight; H4 near body; no tint bands |
+| **Micro** | H5, H6 | Same size as `body-md`; small caps (H5); bold italic / run-in (H6) |
+
+Details and examples live on [Heading](?path=/docs/primitives-heading--docs).
+
+## Font sizes — two tiers
+
+### Tier 1 (scale)
+
+Sparse rem steps in `primitivetokens.css`: `sm` → `3xl`. These answer “how large is this optical step?” **Never reference Tier 1 sizes from component stylesheets.**
+
+### Tier 2 (semantic)
+
+Role aliases in `tokens.css`. Grammar: `--eevenkoto-font-size-[role]-[variant]`.
+
+| Role | Tokens | Typical consumer |
+| --- | --- | --- |
+| `heading` | `heading-1` … `heading-6` | Heading primitive (`4`/`5` → lg; `6` → body-md) |
+| `body` | `body-sm`, `body-md`, `body-lg` | Paragraph, document `body` |
+| `caption` | `caption` | Caption primitive |
+| `control` | `control-sm`, `control-md`, `control-lg` | Button sizes |
+
+Themes or density modes can remap a role without renaming the rem ladder.
+
+```css
+/* Correct: semantic intent */
+.eevenkoto-button {
+  font-size: var(--eevenkoto-font-size-control-md);
+}
+
+/* Incorrect: Tier 1 scale in a component */
+.eevenkoto-button {
+  font-size: var(--eevenkoto-font-size-md);
+}
+```
+
+## Weights
+
+Tier 1 weights (loaded with the faces):
+
+| Token | Value |
+| --- | --- |
+| `--eevenkoto-font-weight-regular` | `400` |
+| `--eevenkoto-font-weight-semibold` | `600` |
+| `--eevenkoto-font-weight-bold` | `700` |
+
+Italic bold is loaded for Source Sans 3 so H6 can use bold italic posture.
+
+## Line heights
+
+| Token | Use |
+| --- | --- |
+| `--eevenkoto-line-height-tight` | Macro/meso headings, controls |
+| `--eevenkoto-line-height-body` | Paragraphs, captions, H4–H6, page body |
+
+## Content color
+
+Pair type with `--eevenkoto-color-content-primary`, `--eevenkoto-color-content-secondary`, or `--eevenkoto-color-content-disabled` — never hue primitives.
+
+## Usage rules
+
+- Prefer **Heading** for section structure; do not fake titles with bold Paragraph.
+- Use **one `h1` per view**; do not skip levels only for visual size.
+- Differentiate **H5/H6 with posture and case**, not a size below body.
+- Limit structural rules/tints to **macro** headings (H1/H2).
+- Use **Caption** for metadata and helper copy — not for main body text.
+- Button label size comes from **`control-*`**, not `body-*`.
+
+See the [Tokens → Typography](?path=/docs/foundations-tokens--docs) story for live specimens.

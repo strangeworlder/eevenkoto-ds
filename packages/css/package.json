@@ -1,0 +1,21 @@
+{
+  "name": "@eevenkoto/css",
+  "version": "0.1.0",
+  "description": "Eevenkoto design system tokens and component CSS",
+  "type": "module",
+  "files": [
+    "*.css",
+    "tokens"
+  ],
+  "exports": {
+    "./styles.css": "./styles.css",
+    "./tokens.css": "./tokens/tokens.css",
+    "./primitivetokens.css": "./tokens/primitivetokens.css",
+    "./button.css": "./button.css",
+    "./heading.css": "./heading.css",
+    "./paragraph.css": "./paragraph.css",
+    "./caption.css": "./caption.css",
+    "./flow.css": "./flow.css"
+  },
+  "license": "ISC"
+}

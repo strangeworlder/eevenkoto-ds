@@ -1,0 +1,40 @@
+{
+  "name": "@eevenkoto/vue",
+  "version": "0.1.0",
+  "description": "Eevenkoto Vue component wrappers",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean --external vue --external @eevenkoto/core",
+    "dev": "tsup src/index.ts --format esm --dts --watch --external vue --external @eevenkoto/core"
+  },
+  "dependencies": {
+    "@eevenkoto/core": "0.1.0"
+  },
+  "peerDependencies": {
+    "@eevenkoto/css": "0.1.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@eevenkoto/css": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "vue": "^3.5.21"
+  },
+  "license": "ISC"
+}

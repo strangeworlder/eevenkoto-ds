@@ -1,0 +1,31 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Packages" />
+
+# Packages
+
+Eevenkoto ships as separate npm packages so CSS stays framework-free and each runtime gets a thin binding.
+
+| Package | Role |
+| --- | --- |
+| `@eevenkoto/css` | Tokens, base styles, and component/primitive CSS |
+| `@eevenkoto/core` | Shared prop types + `*ClassNames()` helpers (no DOM) |
+| `@eevenkoto/html` | Canonical vanilla API — HTML templates + `render*` |
+| `@eevenkoto/react` | Thin React wrappers over the same classes |
+| `@eevenkoto/vue` | Thin Vue wrappers over the same classes |
+
+## Source of truth
+
+1. **CSS** defines appearance (`@eevenkoto/css`).
+2. **Core** defines the public prop contract and BEM class assembly.
+3. **HTML** is the reference markup implementation used by this Storybook.
+4. **React / Vue** only map props → the same class strings and elements (Flow uses children / default slot instead of a `content` string).
+
+Import styles explicitly in the host app:
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/button.css';
+```
+
+Component docs briefly show HTML, React, and Vue usage under **Framework packages**. The live Canvas and Controls remain HTML-driven.

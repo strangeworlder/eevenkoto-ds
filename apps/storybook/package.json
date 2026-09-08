@@ -1,0 +1,30 @@
+{
+  "name": "@eevenkoto/storybook",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@eevenkoto/core": "0.1.0",
+    "@eevenkoto/css": "0.1.0",
+    "@eevenkoto/html": "0.1.0"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "latest",
+    "@storybook/addon-a11y": "^10.6.0",
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/addon-vitest": "^10.6.0",
+    "@storybook/html-vite": "^10.6.0",
+    "@types/node": "^26.4.1",
+    "@vitest/browser-playwright": "latest",
+    "@vitest/coverage-v8": "latest",
+    "playwright": "latest",
+    "remark-gfm": "^4.0.1",
+    "storybook": "^10.6.0",
+    "typescript": "^5.9.2",
+    "vitest": "latest"
+  }
+}

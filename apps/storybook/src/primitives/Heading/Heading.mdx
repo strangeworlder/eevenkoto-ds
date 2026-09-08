@@ -1,0 +1,156 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as HeadingStories from './Heading.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={HeadingStories} />
+
+# Heading
+
+Heading establishes page and section structure with a **multi-axis** six-level system: size, weight, family, case, posture, spacing, and light structural rules — not six pure size steps.
+
+<Canvas of={HeadingStories.Default} />
+
+```html
+<h2 class="eevenkoto-heading eevenkoto-heading--2 eevenkoto-heading--primary">
+  Section title
+</h2>
+```
+
+### Playground
+
+<Controls of={HeadingStories.Default} />
+
+## Why multi-axis
+
+A pure geometric scale makes H6 smaller than body or H1 absurdly large. Group levels into three visual tiers and split them with other axes:
+
+| Visual tier | Levels | Differentiation |
+| --- | --- | --- |
+| **Macro** | H1, H2 | Distinct size jump, bottom rule, generous space-before |
+| **Meso** | H3, H4 | Modest size + weight; H4 near body size; no tint bands |
+| **Micro** | H5, H6 | **Same size as body**; small caps (H5) or bold italic / run-in (H6) |
+
+<Canvas of={HeadingStories.AllLevels} />
+
+## When to use
+
+Use Heading for page titles and section labels. One `h1` per view; nest levels without skipping for style alone.
+
+<DoDont
+  do={
+    <ul>
+      <li>Use macro rules only on H1/H2 — keep lower levels clean.</li>
+      <li>Differentiate H5/H6 with case and posture, not smaller type.</li>
+      <li>Prefer H6 run-in for the lowest label when the next line is body copy.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t invent a sixth size step that undercuts body copy.</li>
+      <li>Don’t shade every heading level — zebra banding exhausts the eye.</li>
+      <li>Don’t fake titles with a bold Paragraph.</li>
+    </ul>
+  }
+/>
+
+## Key modifiers
+
+### level
+
+| Value | Element | Size token | Family | Weight / posture | Color / anchor |
+| --- | --- | --- | --- | --- | --- |
+| `1` | `h1` | `heading-1` | serif | bold | Content primary + strong bottom rule |
+| `2` | `h2` | `heading-2` | serif | bold | Warm parchment (`control-secondary-icon`) + subtle rule |
+| `3` | `h3` | `heading-3` | serif | bold | Content primary |
+| `4` | `h4` | `heading-4` | sans | semibold | Warm parchment (`control-secondary-icon`) |
+| `5` | `h5` | `heading-5` | sans | bold + small caps | Sunken band; bleeds by pad-inline (`margin ±X`, `width: 100% + 2X`) |
+| `6` | `h6` | `heading-6` (= body-md) | sans | bold italic | Warm parchment (`control-secondary-icon`); optional run-in |
+
+### tone
+
+| Value | Content color |
+| --- | --- |
+| `primary` | `--eevenkoto-color-content-primary` |
+| `secondary` | `--eevenkoto-color-content-secondary` |
+
+<Canvas of={HeadingStories.Secondary} />
+
+### runIn (H6)
+
+Flows the heading into the following `.eevenkoto-paragraph` and appends a period suffix.
+
+<Canvas of={HeadingStories.RunIn} />
+
+```html
+<h6 class="eevenkoto-heading eevenkoto-heading--6 eevenkoto-heading--run-in">Safety protocol</h6>
+<p class="eevenkoto-paragraph eevenkoto-paragraph--md eevenkoto-paragraph--primary">
+  Always inspect the valve before engaging the primary circuit.
+</p>
+```
+
+<Canvas of={HeadingStories.MicroCluster} />
+
+## Accessibility & flow
+
+- Preserve logical heading order for screen readers.
+- Headings use `break-after: avoid` / `break-inside: avoid` so print/PDF flows keep titles with following copy.
+- Run-in keeps an `<h6>` element — do not demote it to a `<span>` for styling.
+
+## API reference
+
+<ArgTypes of={HeadingStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/heading.css';
+import { renderHeading } from '@eevenkoto/html';
+
+renderHeading({ level: 2, text: 'Section title' });
+```
+
+```tsx
+import { Heading } from '@eevenkoto/react';
+
+<Heading level={2} text="Section title" />
+```
+
+```vue
+<script setup>
+import { Heading } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Heading :level="2" text="Section title" />
+</template>
+```
+
+## Related
+
+- [Typography](?path=/docs/foundations-typography--docs) — Two-tier sizes + heading hierarchy model
+- [Typography sample](?path=/docs/primitives-typography-sample--docs) — Composed reading-flow specimen
+- [Paragraph](?path=/docs/primitives-paragraph--docs) — Body copy (sibling of run-in H6)
+- [Caption](?path=/docs/primitives-caption--docs) — Supporting text
+- [Tokens](?path=/docs/foundations-tokens--docs) — Live size specimens
