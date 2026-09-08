@@ -39,6 +39,29 @@
   --eevenkoto-color-gold-state:          oklch(0.92 0.22 75);
 
   /* ==========================================================================
+     PLACEHOLDER HUES (feedback intents)
+     Rough OKLCH scaffolds so Tier 2 / Badge can wire up. Designer finalizes
+     each pigment via the single-hue thought experiment — do not treat these
+     as approved brand values.
+     ========================================================================== */
+
+  /* Green → feedback-success */
+  --eevenkoto-color-green-state:         oklch(0.55 0.16 145);
+  --eevenkoto-color-green-text:          oklch(0.98 0.01 145);
+
+  /* Orange → feedback-caution (darker state for solid + white on-fill ink) */
+  --eevenkoto-color-orange-state:        oklch(0.52 0.17 50);
+  --eevenkoto-color-orange-text:         oklch(0.99 0.01 55);
+
+  /* Crimson → feedback-critical (darker state for solid contrast) */
+  --eevenkoto-color-crimson-state:       oklch(0.45 0.20 25);
+  --eevenkoto-color-crimson-text:        oklch(0.99 0.01 25);
+
+  /* Purple → feedback-admin */
+  --eevenkoto-color-purple-state:        oklch(0.50 0.18 320);
+  --eevenkoto-color-purple-text:         oklch(0.98 0.01 320);
+
+  /* ==========================================================================
      TIER 1: TYPE SCALE & WEIGHTS
      Raw rem steps and face weights. Components must not reference these —
      consume Tier 2 semantic font-size / weight aliases in tokens.css.

@@ -1,4 +1,5 @@
 export { Button, type ButtonComponentProps, type ButtonProps, type ButtonIconName } from './Button';
+export { Badge, type BadgeComponentProps, type BadgeProps } from './Badge';
 export { Heading, type HeadingComponentProps, type HeadingProps, type HeadingLevel } from './Heading';
 export { Paragraph, type ParagraphComponentProps, type ParagraphProps } from './Paragraph';
 export { Caption, type CaptionComponentProps, type CaptionProps } from './Caption';

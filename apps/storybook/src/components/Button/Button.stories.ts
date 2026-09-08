@@ -25,11 +25,11 @@ const meta: Meta<ButtonArgs> = {
     },
     size: {
       control: 'select',
-      options: [undefined, 'small', 'large'],
-      description: 'Optional sizing modifier. Omit for the default size.',
+      options: ['sm', 'md', 'lg'],
+      description: 'Shared size ladder (sm | md | lg). Default: md.',
       table: {
-        type: { summary: "'small' | 'large'" },
-        defaultValue: { summary: '—' },
+        type: { summary: "'sm' | 'md' | 'lg'" },
+        defaultValue: { summary: 'md' },
       },
     },
     label: {
@@ -90,7 +90,7 @@ export const Secondary: Story = {
 export const Small: Story = {
   args: {
     variant: 'primary',
-    size: 'small',
+    size: 'sm',
     label: 'Small Button',
   },
 };
@@ -98,7 +98,7 @@ export const Small: Story = {
 export const Large: Story = {
   args: {
     variant: 'secondary',
-    size: 'large',
+    size: 'lg',
     label: 'Large Button',
   },
 };
@@ -180,14 +180,15 @@ export const SizeComparison: Story = {
   render: () =>
     `<div class="eevenkoto-docs-example-row">${renderButton({
       variant: 'primary',
-      size: 'small',
+      size: 'sm',
       label: 'Small',
     })}${renderButton({
       variant: 'primary',
-      label: 'Default',
+      size: 'md',
+      label: 'Medium',
     })}${renderButton({
       variant: 'primary',
-      size: 'large',
+      size: 'lg',
       label: 'Large',
     })}</div>`,
 };

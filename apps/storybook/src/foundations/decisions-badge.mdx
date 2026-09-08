@@ -1,0 +1,60 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Decisions/Badge & size ladder" />
+
+# Decisions: Badge, feedback intents, size ladder
+
+Locked product/design decisions for the Badge track (consumer wishlist → DS philosophy). Chip is deferred.
+
+## Scope (P1)
+
+| Ship now | Later |
+| --- | --- |
+| **Badge** (`feedback`) | **Chip** (`control`, interactive filters) |
+
+## Feedback intents & hues (P2 / P3)
+
+| Intent | Hue | Status |
+| --- | --- | --- |
+| `neutral` | parchment | Live parchment primitives |
+| `info` | turquoise | Live |
+| `success` | green | **Placeholder** Tier 1 |
+| `caution` | orange | **Placeholder** Tier 1 |
+| `critical` | crimson | **Placeholder** Tier 1 |
+| `admin` | purple | **Placeholder** Tier 1 |
+
+Designer finalizes placeholder OKLCH in `primitivetokens.css`. Do not paint pigments in `badge.css`.
+
+## Variants (P4)
+
+`subtle` | `solid` | `outline`
+
+## Typography (P5)
+
+Sentence case + bold. No `text-transform: uppercase`.
+
+## Size ladder (P6)
+
+Public props use **`sm | md | lg`** everywhere (Button, Paragraph, Badge). Map to Tier 2 `control-*` / `body-*`. Do not reintroduce `small` / `large`.
+
+## Shape (P7)
+
+- Default: **pill** → `--eevenkoto-radius-full` (metric token; not raw pixels in the component)
+- Variant: **rounded** → `--eevenkoto-radius-sm`
+
+## Dot / icon (P8)
+
+- `dot`: yes
+- `icon`: no (v1)
+
+## Subtle recipe (P9)
+
+Subtle feedback backgrounds/borders are **`color-mix` in Tier 2** over `*-state` (and similar). Documented in [Tier 2 — Semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs) under Control vs. Feedback.
+
+```css
+--eevenkoto-color-feedback-success-background: color-mix(
+  in oklch,
+  var(--eevenkoto-color-green-state) 14%,
+  transparent
+);
+```

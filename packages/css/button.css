@@ -415,9 +415,9 @@
     0 0.75px 0 0 var(--eevenkoto-color-depth-shadow-control);
 }
 
-/* --- SIZES (bridge mutation) --- */
+/* --- SIZES (sm | md | lg — shared ladder with Paragraph / Badge) --- */
 
-.eevenkoto-button--small {
+.eevenkoto-button--sm {
   --_eevenkoto-button-pad-block: var(--eevenkoto-button-pad-block, var(--eevenkoto-space-2));
   --_eevenkoto-button-pad-inline: var(--eevenkoto-button-pad-inline, var(--eevenkoto-space-4));
   --_eevenkoto-button-font-size: var(
@@ -426,7 +426,16 @@
   );
 }
 
-.eevenkoto-button--large {
+.eevenkoto-button--md {
+  --_eevenkoto-button-pad-block: var(--eevenkoto-button-pad-block, var(--eevenkoto-space-3));
+  --_eevenkoto-button-pad-inline: var(--eevenkoto-button-pad-inline, var(--eevenkoto-space-6));
+  --_eevenkoto-button-font-size: var(
+    --eevenkoto-button-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+}
+
+.eevenkoto-button--lg {
   --_eevenkoto-button-pad-block: var(--eevenkoto-button-pad-block, var(--eevenkoto-space-4));
   --_eevenkoto-button-pad-inline: var(--eevenkoto-button-pad-inline, var(--eevenkoto-space-8));
   --_eevenkoto-button-font-size: var(
@@ -471,11 +480,11 @@
   padding-inline: var(--_eevenkoto-button-pad-inline);
 }
 
-.eevenkoto-button--icon-only.eevenkoto-button--small {
+.eevenkoto-button--icon-only.eevenkoto-button--sm {
   --_eevenkoto-button-pad-inline: var(--eevenkoto-space-2);
 }
 
-.eevenkoto-button--icon-only.eevenkoto-button--large {
+.eevenkoto-button--icon-only.eevenkoto-button--lg {
   --_eevenkoto-button-pad-inline: var(--eevenkoto-space-4);
 }
 

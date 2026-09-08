@@ -17,13 +17,13 @@ import { buttonClassNames, type ButtonProps } from '@eevenkoto/core';
 
 const className = buttonClassNames({
   variant: 'primary',
-  size: 'small',
+  size: 'sm',
   icon: 'star',
 });
-// "eevenkoto-button eevenkoto-button--primary eevenkoto-button--small eevenkoto-button--icon-left"
+// "eevenkoto-button eevenkoto-button--primary eevenkoto-button--sm eevenkoto-button--icon-left"
 ```
 
-Helpers: `buttonClassNames`, `headingClassNames`, `paragraphClassNames`, `captionClassNames`, `flowClassNames`.
+Helpers: `buttonClassNames`, `badgeClassNames`, `headingClassNames`, `paragraphClassNames`, `captionClassNames`, `flowClassNames`.
 
 Pair with `@eevenkoto/css` for styling.
 

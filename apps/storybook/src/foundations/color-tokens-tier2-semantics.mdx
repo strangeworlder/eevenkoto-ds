@@ -76,8 +76,12 @@ Examples:
 
 #### Control vs. Feedback
 
-- `feedback` owns contextual status palettes across subtle and solid modes (`feedback-info`, `feedback-success`, `feedback-caution`, `feedback-critical`).
-- `control` maintains an exhaustive vocabulary for buttons. High-urgency actions consume `--eevenkoto-color-control-destructive-*`, which aliases directly to the critical primitive trajectory in `tokens.css`. Button authors always consume the `control` domain.
+- `feedback` owns contextual status palettes across **subtle** (default) and **solid** modes, plus outline surfaces derived in Tier 3 from the subtle tuple.
+- Authored intents: `neutral`, `info`, `success`, `caution`, `critical`, `admin`.
+- Hue map (Tier 1 → intent): parchment→neutral, turquoise→info, green→success, orange→caution, crimson→critical, purple→admin. New hues may be **placeholders** until a designer finalizes them.
+- **Subtle fills are authored in Tier 2 with `color-mix(in oklch, var(--eevenkoto-color-*-state) …%, transparent)`** — never raw `oklch` inside component CSS (Badge, future banners/toasts).
+- `control` maintains the vocabulary for buttons and future chips/pills. High-urgency actions consume `--eevenkoto-color-control-destructive-*` (aliases to the critical/crimson trajectory when authored). Button authors always consume the `control` domain.
+- Badge (status) → `feedback` only. Chip (interactive filter) → `control` (ships later).
 
 #### Form Validation vs. Feedback
 
@@ -286,14 +290,38 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
   --eevenkoto-color-form-input-border-invalid:     var(--eevenkoto-color-crimson-state);
   --eevenkoto-color-form-input-message-invalid:    var(--eevenkoto-color-crimson-text);
 
-  /* 8. FEEDBACK CONTAINERS */
-  --eevenkoto-color-feedback-caution-background:   var(--eevenkoto-color-gold-tint-cool);
-  --eevenkoto-color-feedback-caution-border:       var(--eevenkoto-color-gold-primary);
-  --eevenkoto-color-feedback-caution-text:         var(--eevenkoto-color-gold-text);
+  /* 8. FEEDBACK CONTAINERS — subtle via color-mix; solid via state + on-fill text */
+  --eevenkoto-color-feedback-caution-background: color-mix(
+    in oklch,
+    var(--eevenkoto-color-orange-state) 16%,
+    transparent
+  );
+  --eevenkoto-color-feedback-caution-border: color-mix(
+    in oklch,
+    var(--eevenkoto-color-orange-state) 30%,
+    transparent
+  );
+  --eevenkoto-color-feedback-caution-text: color-mix(
+    in oklch,
+    var(--eevenkoto-color-orange-state) 65%,
+    var(--eevenkoto-color-parchment-text)
+  );
 
-  --eevenkoto-color-feedback-critical-background:  var(--eevenkoto-color-crimson-tint-cool);
-  --eevenkoto-color-feedback-critical-border:      var(--eevenkoto-color-crimson-state);
-  --eevenkoto-color-feedback-critical-text:        var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-feedback-critical-background: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 14%,
+    transparent
+  );
+  --eevenkoto-color-feedback-critical-border: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 28%,
+    transparent
+  );
+  --eevenkoto-color-feedback-critical-text: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 70%,
+    var(--eevenkoto-color-parchment-text)
+  );
 }
 
 /* ==========================================================================

@@ -10,6 +10,16 @@ export {
 } from './button';
 
 export {
+  type BadgeVariant,
+  type BadgeSize,
+  type BadgeShape,
+  type BadgeIntent,
+  type BadgeProps,
+  type BadgeClassNameProps,
+  badgeClassNames,
+} from './badge';
+
+export {
   type HeadingLevel,
   type HeadingTone,
   type HeadingProps,

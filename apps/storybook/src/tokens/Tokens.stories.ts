@@ -39,6 +39,65 @@ const goldColors: Token[] = [
   { name: 'State', variable: '--eevenkoto-color-gold-state' },
 ];
 
+const greenColors: Token[] = [
+  { name: 'State (placeholder)', variable: '--eevenkoto-color-green-state' },
+  { name: 'Text (placeholder)', variable: '--eevenkoto-color-green-text' },
+];
+
+const orangeColors: Token[] = [
+  { name: 'State (placeholder)', variable: '--eevenkoto-color-orange-state' },
+  { name: 'Text (placeholder)', variable: '--eevenkoto-color-orange-text' },
+];
+
+const crimsonColors: Token[] = [
+  { name: 'State (placeholder)', variable: '--eevenkoto-color-crimson-state' },
+  { name: 'Text (placeholder)', variable: '--eevenkoto-color-crimson-text' },
+];
+
+const purpleColors: Token[] = [
+  { name: 'State (placeholder)', variable: '--eevenkoto-color-purple-state' },
+  { name: 'Text (placeholder)', variable: '--eevenkoto-color-purple-text' },
+];
+
+const feedbackColors: Token[] = [
+  { name: 'Neutral background', variable: '--eevenkoto-color-feedback-neutral-background' },
+  { name: 'Neutral text', variable: '--eevenkoto-color-feedback-neutral-text' },
+  { name: 'Neutral border', variable: '--eevenkoto-color-feedback-neutral-border' },
+  { name: 'Neutral icon', variable: '--eevenkoto-color-feedback-neutral-icon' },
+  { name: 'Neutral solid background', variable: '--eevenkoto-color-feedback-neutral-solid-background' },
+  { name: 'Neutral solid text', variable: '--eevenkoto-color-feedback-neutral-solid-text' },
+  { name: 'Info background', variable: '--eevenkoto-color-feedback-info-background' },
+  { name: 'Info text', variable: '--eevenkoto-color-feedback-info-text' },
+  { name: 'Info border', variable: '--eevenkoto-color-feedback-info-border' },
+  { name: 'Info icon', variable: '--eevenkoto-color-feedback-info-icon' },
+  { name: 'Info solid background', variable: '--eevenkoto-color-feedback-info-solid-background' },
+  { name: 'Info solid text', variable: '--eevenkoto-color-feedback-info-solid-text' },
+  { name: 'Success background', variable: '--eevenkoto-color-feedback-success-background' },
+  { name: 'Success text', variable: '--eevenkoto-color-feedback-success-text' },
+  { name: 'Success border', variable: '--eevenkoto-color-feedback-success-border' },
+  { name: 'Success icon', variable: '--eevenkoto-color-feedback-success-icon' },
+  { name: 'Success solid background', variable: '--eevenkoto-color-feedback-success-solid-background' },
+  { name: 'Success solid text', variable: '--eevenkoto-color-feedback-success-solid-text' },
+  { name: 'Caution background', variable: '--eevenkoto-color-feedback-caution-background' },
+  { name: 'Caution text', variable: '--eevenkoto-color-feedback-caution-text' },
+  { name: 'Caution border', variable: '--eevenkoto-color-feedback-caution-border' },
+  { name: 'Caution icon', variable: '--eevenkoto-color-feedback-caution-icon' },
+  { name: 'Caution solid background', variable: '--eevenkoto-color-feedback-caution-solid-background' },
+  { name: 'Caution solid text', variable: '--eevenkoto-color-feedback-caution-solid-text' },
+  { name: 'Critical background', variable: '--eevenkoto-color-feedback-critical-background' },
+  { name: 'Critical text', variable: '--eevenkoto-color-feedback-critical-text' },
+  { name: 'Critical border', variable: '--eevenkoto-color-feedback-critical-border' },
+  { name: 'Critical icon', variable: '--eevenkoto-color-feedback-critical-icon' },
+  { name: 'Critical solid background', variable: '--eevenkoto-color-feedback-critical-solid-background' },
+  { name: 'Critical solid text', variable: '--eevenkoto-color-feedback-critical-solid-text' },
+  { name: 'Admin background', variable: '--eevenkoto-color-feedback-admin-background' },
+  { name: 'Admin text', variable: '--eevenkoto-color-feedback-admin-text' },
+  { name: 'Admin border', variable: '--eevenkoto-color-feedback-admin-border' },
+  { name: 'Admin icon', variable: '--eevenkoto-color-feedback-admin-icon' },
+  { name: 'Admin solid background', variable: '--eevenkoto-color-feedback-admin-solid-background' },
+  { name: 'Admin solid text', variable: '--eevenkoto-color-feedback-admin-solid-text' },
+];
+
 const controlColors: Token[] = [
   { name: 'Primary background', variable: '--eevenkoto-color-control-primary-background' },
   { name: 'Primary background hover', variable: '--eevenkoto-color-control-primary-background-hover' },
@@ -143,6 +202,7 @@ const spaces: Token[] = [
 const radii: Token[] = [
   { name: 'Small', variable: '--eevenkoto-radius-sm' },
   { name: 'Medium', variable: '--eevenkoto-radius-md' },
+  { name: 'Full (pill)', variable: '--eevenkoto-radius-full' },
 ];
 
 const lineWidths: Token[] = [
@@ -192,6 +252,7 @@ const renderSemanticColors = (): string => `
       <p class="eevenkoto-tokens__intro">Tier 2 intent tokens from tokens.css — the only color tokens components and layouts should consume.</p>
     </section>
     ${renderColorGroup('Control', controlColors)}
+    ${renderColorGroup('Feedback', feedbackColors)}
     ${renderColorGroup('Surface / content / boundary / depth', semanticColors)}
   </div>
 `;
@@ -205,6 +266,10 @@ const renderPrimitives = (): string => `
     ${renderColorGroup('Turquoise', turquoiseColors)}
     ${renderColorGroup('Parchment', parchmentColors)}
     ${renderColorGroup('Gold', goldColors)}
+    ${renderColorGroup('Green (placeholder)', greenColors)}
+    ${renderColorGroup('Orange (placeholder)', orangeColors)}
+    ${renderColorGroup('Crimson (placeholder)', crimsonColors)}
+    ${renderColorGroup('Purple (placeholder)', purpleColors)}
   </div>
 `;
 

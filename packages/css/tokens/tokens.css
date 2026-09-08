@@ -125,6 +125,130 @@
     var(--eevenkoto-color-turquoise-tint-disabled) 50%
   );
 
+  /* --- Feedback (subtle default + solid emphasis) ---
+     Subtle fills/borders are authored here with color-mix over Tier 1 state
+     pigments — never raw oklch in component CSS (P9). Intent → hue map:
+     neutral→parchment, info→turquoise, success→green, caution→orange,
+     critical→crimson, admin→purple. Chip/control interactive states stay in
+     `control`; Badge (status) consumes only `feedback`. */
+  --eevenkoto-color-feedback-neutral-background: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-border) 16%,
+    transparent
+  );
+  --eevenkoto-color-feedback-neutral-text: var(--eevenkoto-color-parchment-primary);
+  --eevenkoto-color-feedback-neutral-border: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-border) 40%,
+    transparent
+  );
+  --eevenkoto-color-feedback-neutral-icon: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-feedback-neutral-solid-background: var(--eevenkoto-color-parchment-primary);
+  --eevenkoto-color-feedback-neutral-solid-text: var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-feedback-neutral-solid-border: transparent;
+  --eevenkoto-color-feedback-neutral-solid-icon: var(--eevenkoto-color-parchment-background);
+
+  --eevenkoto-color-feedback-info-background: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 14%,
+    transparent
+  );
+  --eevenkoto-color-feedback-info-text: var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-feedback-info-border: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 28%,
+    transparent
+  );
+  --eevenkoto-color-feedback-info-icon: var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-feedback-info-solid-background: var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-feedback-info-solid-text: var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-feedback-info-solid-border: transparent;
+  --eevenkoto-color-feedback-info-solid-icon: var(--eevenkoto-color-turquoise-text);
+
+  --eevenkoto-color-feedback-success-background: color-mix(
+    in oklch,
+    var(--eevenkoto-color-green-state) 14%,
+    transparent
+  );
+  --eevenkoto-color-feedback-success-text: color-mix(
+    in oklch,
+    var(--eevenkoto-color-green-state) 70%,
+    var(--eevenkoto-color-parchment-text)
+  );
+  --eevenkoto-color-feedback-success-border: color-mix(
+    in oklch,
+    var(--eevenkoto-color-green-state) 28%,
+    transparent
+  );
+  --eevenkoto-color-feedback-success-icon: var(--eevenkoto-color-green-state);
+  --eevenkoto-color-feedback-success-solid-background: var(--eevenkoto-color-green-state);
+  --eevenkoto-color-feedback-success-solid-text: var(--eevenkoto-color-green-text);
+  --eevenkoto-color-feedback-success-solid-border: transparent;
+  --eevenkoto-color-feedback-success-solid-icon: var(--eevenkoto-color-green-text);
+
+  --eevenkoto-color-feedback-caution-background: color-mix(
+    in oklch,
+    var(--eevenkoto-color-orange-state) 16%,
+    transparent
+  );
+  --eevenkoto-color-feedback-caution-text: color-mix(
+    in oklch,
+    var(--eevenkoto-color-orange-state) 65%,
+    var(--eevenkoto-color-parchment-text)
+  );
+  --eevenkoto-color-feedback-caution-border: color-mix(
+    in oklch,
+    var(--eevenkoto-color-orange-state) 30%,
+    transparent
+  );
+  --eevenkoto-color-feedback-caution-icon: var(--eevenkoto-color-orange-state);
+  --eevenkoto-color-feedback-caution-solid-background: var(--eevenkoto-color-orange-state);
+  --eevenkoto-color-feedback-caution-solid-text: var(--eevenkoto-color-orange-text);
+  --eevenkoto-color-feedback-caution-solid-border: transparent;
+  --eevenkoto-color-feedback-caution-solid-icon: var(--eevenkoto-color-orange-text);
+
+  --eevenkoto-color-feedback-critical-background: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 14%,
+    transparent
+  );
+  --eevenkoto-color-feedback-critical-text: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 70%,
+    var(--eevenkoto-color-parchment-text)
+  );
+  --eevenkoto-color-feedback-critical-border: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 28%,
+    transparent
+  );
+  --eevenkoto-color-feedback-critical-icon: var(--eevenkoto-color-crimson-state);
+  --eevenkoto-color-feedback-critical-solid-background: var(--eevenkoto-color-crimson-state);
+  --eevenkoto-color-feedback-critical-solid-text: var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-feedback-critical-solid-border: transparent;
+  --eevenkoto-color-feedback-critical-solid-icon: var(--eevenkoto-color-crimson-text);
+
+  --eevenkoto-color-feedback-admin-background: color-mix(
+    in oklch,
+    var(--eevenkoto-color-purple-state) 14%,
+    transparent
+  );
+  --eevenkoto-color-feedback-admin-text: color-mix(
+    in oklch,
+    var(--eevenkoto-color-purple-state) 70%,
+    var(--eevenkoto-color-parchment-text)
+  );
+  --eevenkoto-color-feedback-admin-border: color-mix(
+    in oklch,
+    var(--eevenkoto-color-purple-state) 28%,
+    transparent
+  );
+  --eevenkoto-color-feedback-admin-icon: var(--eevenkoto-color-purple-state);
+  --eevenkoto-color-feedback-admin-solid-background: var(--eevenkoto-color-purple-state);
+  --eevenkoto-color-feedback-admin-solid-text: var(--eevenkoto-color-purple-text);
+  --eevenkoto-color-feedback-admin-solid-border: transparent;
+  --eevenkoto-color-feedback-admin-solid-icon: var(--eevenkoto-color-purple-text);
+
   /* ==========================================================================
      METRICS & TYPOGRAPHY
      Font-size roles map Tier 1 rem steps → intent (same rule as color).
@@ -167,6 +291,8 @@
 
   --eevenkoto-radius-sm: 0.4rem;
   --eevenkoto-radius-md: 0.8rem;
+  /* Fully rounded caps (pill). Prefer this metric over raw 9999px in components. */
+  --eevenkoto-radius-full: 9999px;
 
   --eevenkoto-line-width-sm: 0.1rem;
   --eevenkoto-line-width-md: 0.2rem;

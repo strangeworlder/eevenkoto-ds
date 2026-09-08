@@ -61,7 +61,17 @@ Role aliases in `tokens.css`. Grammar: `--eevenkoto-font-size-[role]-[variant]`.
 | `heading` | `heading-1` … `heading-6` | Heading primitive (`4`/`5` → lg; `6` → body-md) |
 | `body` | `body-sm`, `body-md`, `body-lg` | Paragraph, document `body` |
 | `caption` | `caption` | Caption primitive |
-| `control` | `control-sm`, `control-md`, `control-lg` | Button sizes |
+| `control` | `control-sm`, `control-md`, `control-lg` | Button, Badge (and future Chip) |
+
+### Component size props (`sm | md | lg`)
+
+Public size props across Button, Paragraph, and Badge use the same **`sm | md | lg`** names. Do not reintroduce `small` / `large` or omit-means-default without an explicit `--md` class — that drift already happened once between Button and Paragraph.
+
+| Prop value | Typical Tier 2 font role |
+| --- | --- |
+| `sm` | `control-sm` or `body-sm` |
+| `md` | `control-md` or `body-md` (default) |
+| `lg` | `control-lg` or `body-lg` |
 
 Themes or density modes can remap a role without renaming the rem ladder.
 

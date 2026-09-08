@@ -1,11 +1,13 @@
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
-export type ButtonSize = 'small' | 'large';
+/** Shared size ladder across controls and type primitives: sm | md | lg */
+export type ButtonSize = 'sm' | 'md' | 'lg';
 export type ButtonIconName = 'star' | 'check' | 'arrow' | 'plus';
 export type ButtonIconPosition = 'left' | 'right' | 'only';
 
 export interface ButtonProps {
   variant: ButtonVariant;
   label: string;
+  /** Default: md */
   size?: ButtonSize;
   disabled?: boolean;
   /** Which placeholder icon to render. */
@@ -25,8 +27,8 @@ export const resolveButtonIconPosition = (
 };
 
 export const buttonClassNames = (props: ButtonClassNameProps): string => {
+  const size = props.size ?? 'md';
   const iconPosition = resolveButtonIconPosition(props);
-  const sizeClass = props.size ? ` eevenkoto-button--${props.size}` : '';
   const iconClass = iconPosition ? ` eevenkoto-button--icon-${iconPosition}` : '';
-  return `eevenkoto-button eevenkoto-button--${props.variant}${sizeClass}${iconClass}`;
+  return `eevenkoto-button eevenkoto-button--${props.variant} eevenkoto-button--${size}${iconClass}`;
 };

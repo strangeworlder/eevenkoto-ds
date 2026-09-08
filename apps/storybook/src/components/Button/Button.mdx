@@ -79,7 +79,7 @@ Use a Button when the user needs to perform an explicit action — initiating a 
       <li>Don’t use a Button when the action is ambiguous or a menu would better support the flow.</li>
       <li>Don’t use multiple Primary buttons in the same section — it weakens the main action.</li>
       <li>Don’t use disabled buttons as the only way to explain why something can’t be done — provide helper or error text nearby.</li>
-      <li>Don’t use the small size as the default, especially on touch devices.</li>
+      <li>Don’t use the sm size as the default, especially on touch devices.</li>
     </ul>
   }
 />
@@ -225,20 +225,20 @@ Defines the visual and hierarchical level of the button. Applied as `eevenkoto-b
 
 ### size
 
-Adjusts dimensions and typography. Omit the size class for the default size.
+Shared `sm | md | lg` ladder (same tokens as Paragraph / Badge → `control-*`). Default: `md`.
 
 | Value | Class | Description |
 | --- | --- | --- |
-| _(default)_ | — | Default comfortable size. |
-| `small` | `eevenkoto-button--small` | Compact button; avoid as the default on touch UIs. |
-| `large` | `eevenkoto-button--large` | Larger button for key CTAs. |
+| `sm` | `eevenkoto-button--sm` | Compact; avoid as the default on touch UIs. |
+| `md` | `eevenkoto-button--md` | Default comfortable size. |
+| `lg` | `eevenkoto-button--lg` | Larger button for key CTAs. |
 
 <Canvas of={ButtonStories.SizeComparison} />
 
 ```html
-<button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--small">Small</button>
-<button type="button" class="eevenkoto-button eevenkoto-button--primary">Default</button>
-<button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--large">Large</button>
+<button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--sm">Small</button>
+<button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--md">Medium</button>
+<button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--lg">Large</button>
 ```
 
 ### disabled
@@ -384,7 +384,7 @@ The Storybook controls map to the HTML class and attribute contract below. The B
 | --- | --- | --- | --- | --- |
 | `variant` | `'primary' \| 'secondary' \| 'ghost'` | Yes | `'primary'` | Maps to `eevenkoto-button--{variant}`. |
 | `label` | `string` | Yes | — | Visible text; also `aria-label` when `iconPosition` is `only`. |
-| `size` | `'small' \| 'large'` | No | default (no class) | Maps to `eevenkoto-button--small` / `--large`. |
+| `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Maps to `eevenkoto-button--sm` / `--md` / `--lg`. |
 | `disabled` | `boolean` | No | `false` | Sets the native `disabled` attribute. |
 | `icon` | `'star' \| 'check' \| 'arrow' \| 'plus'` | No | — | Placeholder icon (until a shared icon library exists). |
 | `iconPosition` | `'left' \| 'right' \| 'only'` | No | `'left'` when icon is set | Maps to `eevenkoto-button--icon-*`. |
@@ -399,8 +399,9 @@ The Storybook controls map to the HTML class and attribute contract below. The B
 | `eevenkoto-button--primary` | Primary variant |
 | `eevenkoto-button--secondary` | Secondary variant |
 | `eevenkoto-button--ghost` | Ghost variant |
-| `eevenkoto-button--small` | Small size |
-| `eevenkoto-button--large` | Large size |
+| `eevenkoto-button--sm` | Small size |
+| `eevenkoto-button--md` | Medium (default) size |
+| `eevenkoto-button--lg` | Large size |
 | `eevenkoto-button--icon-left` | Icon before label |
 | `eevenkoto-button--icon-right` | Icon after label |
 | `eevenkoto-button--icon-only` | Icon-only layout |
@@ -416,7 +417,7 @@ export type ButtonIconName = 'star' | 'check' | 'arrow' | 'plus';
 export interface ButtonProps {
   variant: 'primary' | 'secondary' | 'ghost';
   label: string;
-  size?: 'small' | 'large';
+  size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   icon?: ButtonIconName;
   iconPosition?: 'left' | 'right' | 'only';

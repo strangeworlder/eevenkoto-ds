@@ -12,6 +12,7 @@
     "./tokens.css": "./tokens/tokens.css",
     "./primitivetokens.css": "./tokens/primitivetokens.css",
     "./button.css": "./button.css",
+    "./badge.css": "./badge.css",
     "./heading.css": "./heading.css",
     "./paragraph.css": "./paragraph.css",
     "./caption.css": "./caption.css",
