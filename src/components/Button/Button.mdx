@@ -1,0 +1,446 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+
+{/* Docs callouts — defined in MDX so Storybook’s JSX transform stays consistent. */}
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Danger = ({ children, caption, label = 'Danger' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--danger">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={ButtonStories} />
+
+# Button
+
+A Button triggers an action or confirms a choice when the user activates it.
+
+<Canvas of={ButtonStories.Default} />
+
+```html
+<button type="button" class="eevenkoto-button eevenkoto-button--primary">
+  Standard Button
+</button>
+```
+
+### Playground
+
+Use the controls to explore variants, sizes, icons, and disabled state.
+
+<Controls of={ButtonStories.Default} />
+
+## Why to use
+
+Buttons execute actions in the interface: submitting a form, opening a dialog, cancelling an operation, or performing add/remove actions. They stand out from surrounding content and guide attention to the most important actions.
+
+The button label must clearly communicate what happens when it is pressed (for example, “Delete all” or “Submit form”). Labels should typically start with a verb and use sentence case.
+
+## When to use
+
+Use a Button when the user needs to perform an explicit action — initiating a task, submitting information, confirming a decision, or opening additional functionality. Prefer a Button whenever the user is expected to *do* something, not only navigate or view content.
+
+<DoDont
+  do={
+    <ul>
+      <li>Use a Button when an action changes data, advances a task, or opens an interaction.</li>
+      <li>Use Primary for the main action in a section or flow.</li>
+      <li>Use Secondary and Ghost for supporting or lower-priority actions.</li>
+      <li>Use a Button instead of a link when something should happen on the same page.</li>
+      <li>Use icon-only buttons only when the icon is widely recognized or space is limited — and always provide an accessible name.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use a Button for simple navigation — use a Link instead.</li>
+      <li>Don’t use a Button when the action is ambiguous or a menu would better support the flow.</li>
+      <li>Don’t use multiple Primary buttons in the same section — it weakens the main action.</li>
+      <li>Don’t use disabled buttons as the only way to explain why something can’t be done — provide helper or error text nearby.</li>
+      <li>Don’t use the small size as the default, especially on touch devices.</li>
+    </ul>
+  }
+/>
+
+## Content guidelines
+
+Button labels must be short, clear, and action-oriented. Good labels increase confidence and reduce cognitive load.
+
+- Start labels with a clear verb (e.g. Save, Continue, Edit, Delete).
+- Keep labels brief — ideally 1–2 words.
+- Use consistent wording across the product (e.g. always use Cancel for dismissing actions).
+- Don’t use vague labels like OK, Accept, or Click here.
+- Don’t rely on icon-only labels without accessible text.
+
+### Usage in UI patterns
+
+#### Verb labels
+
+Use concise, action-oriented labels starting with a verb. Avoid unnecessary politeness or filler words.
+
+<DoDont
+  do={<p><strong>Skip</strong></p>}
+  doCaption="Clear and concise."
+  dont={<p><strong>Not now, thanks!</strong></p>}
+  dontCaption="Unnecessary politeness."
+/>
+
+<DoDont
+  do={<p><strong>Save</strong></p>}
+  doCaption="Clear and concise."
+  dont={<p><strong>I want to save</strong></p>}
+  dontCaption="Unnecessary words."
+/>
+
+#### Short labels
+
+Keep labels brief — ideally 1–2 words. Avoid long phrases or sentences.
+
+<DoDont
+  do={<p><strong>Start</strong></p>}
+  doCaption="Short and to the point."
+  dont={<p><strong>Create account and play</strong></p>}
+  dontCaption="Too long and wordy."
+/>
+
+#### Icons
+
+Even with an icon, the label must clearly describe the action (e.g. “Delete file” with a trash icon), not the icon alone.
+
+<DoDont
+  do={<p><strong>Add item</strong> (with plus icon)</p>}
+  doCaption="Text describes the action."
+  dont={<p>Icon alone with no visible label</p>}
+  dontCaption="Unclear unless the pattern is familiar and an accessible name is provided."
+/>
+
+Prefer labeled icons when possible:
+
+<Canvas of={ButtonStories.IconPlus} />
+
+Icon-only is allowed only with an accessible name:
+
+<Canvas of={ButtonStories.IconOnly} />
+
+#### Forms
+
+The label should describe the result of submitting (e.g. “Submit form”, “Save changes”), not a vague “Submit”.
+
+<DoDont
+  do={<p><strong>Submit form</strong></p>}
+  doCaption="Describes the result of the action."
+  dont={<p><strong>Submit</strong></p>}
+  dontCaption="Vague about what happens."
+/>
+
+#### Dialogs and confirmations
+
+The primary button must clearly confirm the intended action (e.g. “Delete file”, “Accept terms”), while secondary actions use neutral wording (e.g. “Cancel”).
+
+<DoDont
+  do={<p><strong>Delete file</strong></p>}
+  doCaption="Clearly states the action."
+  dont={<p><strong>Yes</strong></p>}
+  dontCaption="Ambiguous confirmation."
+/>
+
+#### Destructive actions
+
+Make the consequence explicit to prevent mistakes (e.g. “Delete all”, “Clear list”). Avoid ambiguous verbs without a target.
+
+<DoDont
+  do={<p><strong>Delete all</strong></p>}
+  doCaption="Specifies what will be deleted."
+  dont={<p><strong>Delete</strong></p>}
+  dontCaption="Unclear about the target."
+/>
+
+#### Navigation-adjacent actions
+
+If a button opens a destination-like experience, labels should indicate where the user will go (e.g. “Open settings”, “Show more”).
+
+<DoDont
+  do={<p><strong>Open settings</strong></p>}
+  doCaption="Indicates the destination."
+  dont={<p><strong>Next</strong></p>}
+  dontCaption="Vague about where it leads."
+/>
+
+## Anatomy
+
+1. **Container** — Clickable target (`button.eevenkoto-button`)
+2. **Label** — Action text
+3. **Icon before (optional)** — Visual cue preceding text (`eevenkoto-button--icon-left`)
+4. **Icon after (optional)** — Supplementary indicator (`eevenkoto-button--icon-right`)
+5. **Icon only (optional)** — Icon without visible text; requires `aria-label` (`eevenkoto-button--icon-only`)
+
+## Key modifiers
+
+Use these class modifiers and attributes to configure the Button.
+
+### variant
+
+Defines the visual and hierarchical level of the button. Applied as `eevenkoto-button--{variant}`.
+
+| Value | Example | Description |
+| --- | --- | --- |
+| `primary` | Save | Default variant for the main action. |
+| `secondary` | Cancel | Supporting action; use with a primary when both appear. |
+| `ghost` | Details | Low-emphasis text-style button. |
+
+<Canvas of={ButtonStories.PrimaryWithSecondary} />
+
+```html
+<button type="button" class="eevenkoto-button eevenkoto-button--primary">Save</button>
+<button type="button" class="eevenkoto-button eevenkoto-button--secondary">Cancel</button>
+```
+
+<Canvas of={ButtonStories.Ghost} />
+
+```html
+<button type="button" class="eevenkoto-button eevenkoto-button--ghost">Ghost Button</button>
+```
+
+### size
+
+Adjusts dimensions and typography. Omit the size class for the default size.
+
+| Value | Class | Description |
+| --- | --- | --- |
+| _(default)_ | — | Default comfortable size. |
+| `small` | `eevenkoto-button--small` | Compact button; avoid as the default on touch UIs. |
+| `large` | `eevenkoto-button--large` | Larger button for key CTAs. |
+
+<Canvas of={ButtonStories.SizeComparison} />
+
+```html
+<button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--small">Small</button>
+<button type="button" class="eevenkoto-button eevenkoto-button--primary">Default</button>
+<button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--large">Large</button>
+```
+
+### disabled
+
+Non-interactive, dimmed styling via the native `disabled` attribute.
+
+| Type | Example | Description |
+| --- | --- | --- |
+| `boolean` attribute | Disabled Button | Temporarily prevents interaction. |
+
+<Canvas of={ButtonStories.Disabled} />
+
+```html
+<button type="button" class="eevenkoto-button eevenkoto-button--primary" disabled>
+  Disabled Button
+</button>
+```
+
+<Danger>
+  Don’t rely on a disabled button alone to explain why an action isn’t available. Provide helper or error text nearby that tells the user what they need to do.
+</Danger>
+
+### icon and iconPosition
+
+Add an icon before the label, after the label, or as icon-only. Icon-only buttons must expose an accessible name with `aria-label`.
+
+| Modifier | Class | Description |
+| --- | --- | --- |
+| Icon left | `eevenkoto-button--icon-left` | Icon preceding the label. |
+| Icon right | `eevenkoto-button--icon-right` | Icon after the label (e.g. directional). |
+| Icon only | `eevenkoto-button--icon-only` | Icon without visible text; requires `aria-label`. |
+
+Icons use the `eevenkoto-button__icon` class on the SVG and should be marked `aria-hidden="true"` when a text label (or `aria-label`) already names the control.
+
+<Canvas of={ButtonStories.IconLeft} />
+
+```html
+<button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--icon-left">
+  <svg class="eevenkoto-button__icon" aria-hidden="true" focusable="false" …>…</svg>
+  Icon Left
+</button>
+```
+
+<Canvas of={ButtonStories.IconRight} />
+
+```html
+<button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--icon-right">
+  Continue
+  <svg class="eevenkoto-button__icon" aria-hidden="true" focusable="false" …>…</svg>
+</button>
+```
+
+<Canvas of={ButtonStories.IconOnly} />
+
+```html
+<button
+  type="button"
+  class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--icon-only"
+  aria-label="Favorite"
+>
+  <svg class="eevenkoto-button__icon" aria-hidden="true" focusable="false" …>…</svg>
+</button>
+```
+
+## Behavior
+
+- Buttons provide clear visual feedback for interaction states (hover, focus-visible, active, disabled).
+- Clicking or tapping a button triggers its action immediately.
+- Disabled buttons do not respond to interaction and appear inactive.
+- Keep button sizes consistent within a group.
+- Icon-only buttons must behave consistently with text buttons.
+- Focus uses a visible dual-halo treatment so keyboard users can always see where they are.
+
+## Accessibility
+
+- Ensure icon-only buttons have an accessible name via `aria-label`.
+- Prefer explaining unavailable actions with nearby helper text rather than a silent disabled control.
+- Disable a button only when the action cannot yet be performed — and provide guidance nearby.
+- Decorative icons inside labeled buttons should use `aria-hidden="true"` and `focusable="false"`.
+- Fully keyboard-accessible with a visible `:focus-visible` state (WCAG 2.1.1 Keyboard).
+- Forced-colors / Windows High Contrast Mode support is handled in the component stylesheet; see [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs) for the architectural pattern.
+
+## Implementation examples
+
+### Primary with secondary
+
+Pair one Primary action with a Secondary cancel or alternative.
+
+<Canvas of={ButtonStories.PrimaryWithSecondary} />
+
+```html
+<div class="eevenkoto-docs-example-row">
+  <button type="button" class="eevenkoto-button eevenkoto-button--primary">Save</button>
+  <button type="button" class="eevenkoto-button eevenkoto-button--secondary">Cancel</button>
+</div>
+```
+
+### Icon-only with accessible name
+
+Icon-only buttons must include `aria-label` (or equivalent accessible naming).
+
+<Canvas of={ButtonStories.IconOnly} />
+
+```html
+<button
+  type="button"
+  class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--icon-only"
+  aria-label="Favorite"
+>
+  <svg class="eevenkoto-button__icon" aria-hidden="true" focusable="false" …>…</svg>
+</button>
+```
+
+### Disabled until conditions are met
+
+When an action isn’t ready, keep the button disabled and explain what the user needs to complete.
+
+```html
+<p id="terms-hint">Accept the terms to continue.</p>
+<label>
+  <input type="checkbox" id="terms" />
+  I accept the terms
+</label>
+<button
+  type="button"
+  class="eevenkoto-button eevenkoto-button--primary"
+  disabled
+  aria-describedby="terms-hint"
+>
+  Submit form
+</button>
+```
+
+Enable the button in your application logic when the prerequisite is satisfied; keep the helper text until then.
+
+## API reference
+
+### Story args / markup contract
+
+The Storybook controls map to the HTML class and attribute contract below. The Button accepts all standard HTML `<button>` attributes in addition to these modifiers.
+
+| Arg / concern | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `variant` | `'primary' \| 'secondary' \| 'ghost'` | Yes | `'primary'` | Maps to `eevenkoto-button--{variant}`. |
+| `label` | `string` | Yes | — | Visible text; also `aria-label` when `iconPosition` is `only`. |
+| `size` | `'small' \| 'large'` | No | default (no class) | Maps to `eevenkoto-button--small` / `--large`. |
+| `disabled` | `boolean` | No | `false` | Sets the native `disabled` attribute. |
+| `icon` | `'star' \| 'check' \| 'arrow' \| 'plus'` | No | — | Placeholder icon (until a shared icon library exists). |
+| `iconPosition` | `'left' \| 'right' \| 'only'` | No | `'left'` when icon is set | Maps to `eevenkoto-button--icon-*`. |
+
+<ArgTypes of={ButtonStories} />
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-button` | Base button |
+| `eevenkoto-button--primary` | Primary variant |
+| `eevenkoto-button--secondary` | Secondary variant |
+| `eevenkoto-button--ghost` | Ghost variant |
+| `eevenkoto-button--small` | Small size |
+| `eevenkoto-button--large` | Large size |
+| `eevenkoto-button--icon-left` | Icon before label |
+| `eevenkoto-button--icon-right` | Icon after label |
+| `eevenkoto-button--icon-only` | Icon-only layout |
+| `eevenkoto-button__icon` | Icon SVG element |
+
+### Type definitions
+
+```ts
+export type ButtonIconName = 'star' | 'check' | 'arrow' | 'plus';
+
+export interface ButtonArgs {
+  variant: 'primary' | 'secondary' | 'ghost';
+  label: string;
+  size?: 'small' | 'large';
+  disabled?: boolean;
+  icon?: ButtonIconName;
+  iconPosition?: 'left' | 'right' | 'only';
+}
+```
+
+### Public CSS override tokens
+
+Parents may contextualize Button appearance via public custom properties (bridged privately inside the component). Common tokens include:
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-button-bg` | Background |
+| `--eevenkoto-button-text` | Label color |
+| `--eevenkoto-button-border-color` | Border color |
+| `--eevenkoto-button-icon` | Icon color |
+| `--eevenkoto-button-bg-hover` / `-active` / `-disabled` | State backgrounds |
+| `--eevenkoto-button-pad-block` / `-pad-inline` | Padding |
+| `--eevenkoto-button-radius` | Corner radius |
+| `--eevenkoto-button-font-size` | Type size |
+| `--eevenkoto-button-gradient-start` / `-middle` / `-end` | Gradient stops |
+
+See [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs) for the private-bridge pattern and governance rules.
+
+## Related
+
+- [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs) — Token encapsulation and Button as the canonical Tier 3 example
+- [Tokens](?path=/docs/foundations-tokens--docs) — Live catalog of implemented color, type, spacing, and radius tokens
+- [Color Tokens — Architecture](?path=/docs/foundations-color-tokens-architecture--docs) — Three-tier color system rules

@@ -29,7 +29,11 @@
   /* --- Content --- */
   --eevenkoto-color-content-primary: var(--eevenkoto-color-parchment-text);
   --eevenkoto-color-content-secondary: var(--eevenkoto-color-parchment-text-muted);
-  --eevenkoto-color-content-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-content-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
 
   /* --- Boundaries & focus --- */
   --eevenkoto-color-boundary-subtle: color-mix(
@@ -51,10 +55,26 @@
   --eevenkoto-color-control-primary-tint-cool: var(--eevenkoto-color-turquoise-tint-cool);
   --eevenkoto-color-control-primary-tint-deep: var(--eevenkoto-color-turquoise-tint-deep);
 
-  --eevenkoto-color-control-primary-background-disabled: var(--eevenkoto-color-parchment-background-element);
-  --eevenkoto-color-control-primary-text-disabled: var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-control-primary-border-disabled: var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-control-primary-icon-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-primary-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-primary-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-text) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-primary-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-border-subtle) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-primary-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-primary) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
 
   /* --- Controls: secondary --- */
   --eevenkoto-color-control-secondary-background: var(--eevenkoto-color-parchment-background);
@@ -64,10 +84,26 @@
   --eevenkoto-color-control-secondary-icon: var(--eevenkoto-color-parchment-primary);
   --eevenkoto-color-control-secondary-tint: var(--eevenkoto-color-gold-state);
 
-  --eevenkoto-color-control-secondary-background-disabled: var(--eevenkoto-color-parchment-background-element);
-  --eevenkoto-color-control-secondary-text-disabled: var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-control-secondary-border-disabled: var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-control-secondary-icon-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-secondary-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-background) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-secondary-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-secondary-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-border) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-secondary-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-primary) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
 
   /* --- Controls: ghost --- */
   --eevenkoto-color-control-ghost-background: transparent;
@@ -77,9 +113,17 @@
   --eevenkoto-color-control-ghost-icon: var(--eevenkoto-color-turquoise-primary-hover);
 
   --eevenkoto-color-control-ghost-background-disabled: transparent;
-  --eevenkoto-color-control-ghost-text-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-ghost-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
   --eevenkoto-color-control-ghost-border-disabled: transparent;
-  --eevenkoto-color-control-ghost-icon-disabled: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-control-ghost-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-primary-hover) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled) 50%
+  );
 
   /* ==========================================================================
      METRICS & TYPOGRAPHY
@@ -110,4 +154,67 @@
   --eevenkoto-line-width-sm: 0.1rem;
   --eevenkoto-line-width-md: 0.2rem;
   --eevenkoto-line-width-lg: 0.3rem;
+}
+
+/* Dark theme: disabled mixes veer toward black endpoint (*-tint-disabled-deep).
+   Other semantic remaps land when dark surfaces are authored. */
+[data-theme="dark"] {
+  --eevenkoto-color-content-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+
+  --eevenkoto-color-control-primary-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-primary-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-text) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-primary-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-border-subtle) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-primary-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-primary) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+
+  --eevenkoto-color-control-secondary-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-background) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-secondary-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-secondary-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-border) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-secondary-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-primary) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
+  );
+
+  --eevenkoto-color-control-ghost-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-ghost-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-primary-hover) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
 }

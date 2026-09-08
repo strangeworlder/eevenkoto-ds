@@ -1,0 +1,180 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as TokensStories from './Tokens.stories';
+
+{/* Docs callouts — same pattern as Button.mdx */}
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Danger = ({ children, caption, label = 'Danger' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--danger">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={TokensStories} />
+
+# Tokens
+
+Design tokens are the shared CSS custom properties for color intent, typography, spacing, radius, and line width. **When building UI, consume semantic (Tier 2) tokens and metrics — never hue primitives.**
+
+```css
+/* Correct: semantic intent */
+.eevenkoto-card {
+  background-color: var(--eevenkoto-color-surface-raised);
+  color: var(--eevenkoto-color-content-primary);
+  border-color: var(--eevenkoto-color-boundary-subtle);
+}
+```
+
+## Why to use
+
+Tokens keep product UI consistent, themeable, and accessible without hard-coding pigments. Semantic names describe *role* (`control-primary-background`, `content-primary`) so engineers choose intent instead of guessing between `turquoise-state` and `turquoise-primary`.
+
+## When to use
+
+Reach for tokens whenever you style a layout, utility, or component. Prefer an existing semantic token; only escalate to new primitives when intent is missing from Tier 2 and a designer confirms the pigment.
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        Use Tier 2 tokens such as{' '}
+        <code>{'--eevenkoto-color-control-*'}</code>,{' '}
+        <code>{'--eevenkoto-color-surface-*'}</code>, and{' '}
+        <code>{'--eevenkoto-color-content-*'}</code>.
+      </li>
+      <li>
+        Use metric tokens for type, space, radius, and line width (
+        <code>{'--eevenkoto-font-*'}</code>, <code>{'--eevenkoto-space-*'}</code>, …).
+      </li>
+      <li>
+        In components, bridge public overrides through private{' '}
+        <code>{'--_eevenkoto-*'}</code> variables that fall back to Tier 2.
+      </li>
+      <li>
+        If intent is missing, add or request a Tier 2 token — do not invent a local hex/oklch
+        in the component.
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>
+        Don’t reference Tier 1 hue primitives (
+        <code>{'--eevenkoto-color-turquoise-*'}</code>,{' '}
+        <code>{'--eevenkoto-color-parchment-*'}</code>,{' '}
+        <code>{'--eevenkoto-color-gold-*'}</code>) from components or app CSS.
+      </li>
+      <li>
+        Don’t pick a primitive because its swatch “looks right” — that bypasses contrast
+        pairing and theming.
+      </li>
+      <li>
+        Don’t hard-code <code>{'oklch()'}</code>, hex, or rgb in component stylesheets.
+      </li>
+      <li>
+        Don’t dim disabled UI with <code>opacity</code> — use the opaque{' '}
+        <code>{'*-disabled'}</code> semantic tuples.
+      </li>
+    </ul>
+  }
+/>
+
+<DoDont
+  do={
+    <pre>{`--_eevenkoto-button-bg: var(
+  --eevenkoto-button-bg,
+  var(--eevenkoto-color-control-primary-background)
+);`}</pre>
+  }
+  doCaption="Component bridge falls back to Tier 2 intent."
+  dont={
+    <pre>{`background-color: var(--eevenkoto-color-turquoise-state);`}</pre>
+  }
+  dontCaption="Hue primitive leaked into a component."
+/>
+
+## Semantic colors
+
+These are the **consumable** color tokens (Tier 2) currently defined in `tokens.css`. Use them in layouts, utilities, and as Tier 3 bridge fallbacks.
+
+| Domain | Examples | Use for |
+| --- | --- | --- |
+| `control` | `--eevenkoto-color-control-primary-background` | Buttons, chips, and other contained actions |
+| `surface` | `--eevenkoto-color-surface-canvas` | Page canvases, cards, sunken wells |
+| `content` | `--eevenkoto-color-content-primary` | Body text and secondary/disabled copy |
+| `boundary` | `--eevenkoto-color-boundary-focus-outer` | Dividers and dual-halo focus rings |
+| `depth` | `--eevenkoto-color-depth-shadow-umbra` | Elevation shadows |
+
+<Canvas of={TokensStories.SemanticColors} />
+
+Domains documented in architecture but not yet authored (for example full `link` / `form` / `feedback`) appear here once they land in CSS.
+
+## Typography
+
+Font families, sizes, and line heights from `tokens.css`. Safe to consume anywhere.
+
+<Canvas of={TokensStories.Typography} />
+
+## Spacing
+
+Space scale for padding, gaps, and layout rhythm.
+
+<Canvas of={TokensStories.Spacing} />
+
+## Radius
+
+Corner radius tokens for controls and surfaces.
+
+<Canvas of={TokensStories.Radius} />
+
+## Line widths
+
+Border and stroke widths.
+
+<Canvas of={TokensStories.LineWidths} />
+
+## Primitives (internal)
+
+Hue pigments in `primitivetokens.css`. Tier 2 maps these to semantic roles. **Components and product CSS must never import them.**
+
+<Danger>
+  If you are styling a component or page and reach for{' '}
+  <code>{'--eevenkoto-color-turquoise-*'}</code>,{' '}
+  <code>{'--eevenkoto-color-parchment-*'}</code>, or{' '}
+  <code>{'--eevenkoto-color-gold-*'}</code>, stop. Use a Tier 2 semantic token above, or add
+  one in <code>tokens.css</code> with a designer.
+</Danger>
+
+<Canvas of={TokensStories.Primitives} />
+
+For how primitives are authored and when new ones are allowed, see [Tier 1 — Primitives](?path=/docs/foundations-color-tokens-tier-1-primitives--docs).
+
+## Related
+
+- [Color Tokens — Architecture](?path=/docs/foundations-color-tokens-architecture--docs) — Philosophy, OKLCH, theming, governance flowchart
+- [Tier 2 — Semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs) — Domain grammar, contrast tuples, CI invariants
+- [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs) — Private-bridge pattern
+- [Button](?path=/docs/components-button--docs) — Canonical consumer of control + metric tokens

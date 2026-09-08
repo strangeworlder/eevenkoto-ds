@@ -16,6 +16,8 @@ const turquoiseColors: Token[] = [
   { name: 'Text', variable: '--eevenkoto-color-turquoise-text' },
   { name: 'Tint cool', variable: '--eevenkoto-color-turquoise-tint-cool' },
   { name: 'Tint deep', variable: '--eevenkoto-color-turquoise-tint-deep' },
+  { name: 'Tint disabled', variable: '--eevenkoto-color-turquoise-tint-disabled' },
+  { name: 'Tint disabled deep', variable: '--eevenkoto-color-turquoise-tint-disabled-deep' },
   { name: 'Shadow', variable: '--eevenkoto-color-turquoise-shadow' },
   { name: 'Text shadow', variable: '--eevenkoto-color-turquoise-text-shadow' },
 ];
@@ -27,6 +29,8 @@ const parchmentColors: Token[] = [
   { name: 'Primary', variable: '--eevenkoto-color-parchment-primary' },
   { name: 'Text', variable: '--eevenkoto-color-parchment-text' },
   { name: 'Text muted', variable: '--eevenkoto-color-parchment-text-muted' },
+  { name: 'Tint disabled', variable: '--eevenkoto-color-parchment-tint-disabled' },
+  { name: 'Tint disabled deep', variable: '--eevenkoto-color-parchment-tint-disabled-deep' },
 ];
 
 const goldColors: Token[] = [
@@ -47,17 +51,26 @@ const controlColors: Token[] = [
   { name: 'Primary background disabled', variable: '--eevenkoto-color-control-primary-background-disabled' },
   { name: 'Primary text disabled', variable: '--eevenkoto-color-control-primary-text-disabled' },
   { name: 'Primary border disabled', variable: '--eevenkoto-color-control-primary-border-disabled' },
+  { name: 'Primary icon disabled', variable: '--eevenkoto-color-control-primary-icon-disabled' },
   { name: 'Secondary background', variable: '--eevenkoto-color-control-secondary-background' },
   { name: 'Secondary background hover', variable: '--eevenkoto-color-control-secondary-background-hover' },
   { name: 'Secondary text', variable: '--eevenkoto-color-control-secondary-text' },
   { name: 'Secondary border', variable: '--eevenkoto-color-control-secondary-border' },
   { name: 'Secondary icon', variable: '--eevenkoto-color-control-secondary-icon' },
   { name: 'Secondary tint', variable: '--eevenkoto-color-control-secondary-tint' },
+  { name: 'Secondary background disabled', variable: '--eevenkoto-color-control-secondary-background-disabled' },
+  { name: 'Secondary text disabled', variable: '--eevenkoto-color-control-secondary-text-disabled' },
+  { name: 'Secondary border disabled', variable: '--eevenkoto-color-control-secondary-border-disabled' },
+  { name: 'Secondary icon disabled', variable: '--eevenkoto-color-control-secondary-icon-disabled' },
   { name: 'Ghost background', variable: '--eevenkoto-color-control-ghost-background' },
   { name: 'Ghost background hover', variable: '--eevenkoto-color-control-ghost-background-hover' },
   { name: 'Ghost text', variable: '--eevenkoto-color-control-ghost-text' },
   { name: 'Ghost border', variable: '--eevenkoto-color-control-ghost-border' },
   { name: 'Ghost icon', variable: '--eevenkoto-color-control-ghost-icon' },
+  { name: 'Ghost background disabled', variable: '--eevenkoto-color-control-ghost-background-disabled' },
+  { name: 'Ghost text disabled', variable: '--eevenkoto-color-control-ghost-text-disabled' },
+  { name: 'Ghost border disabled', variable: '--eevenkoto-color-control-ghost-border-disabled' },
+  { name: 'Ghost icon disabled', variable: '--eevenkoto-color-control-ghost-icon-disabled' },
 ];
 
 const semanticColors: Token[] = [
@@ -149,17 +162,26 @@ const renderColorGroup = (title: string, tokens: Token[]): string => `
   </section>
 `;
 
-const renderColors = (): string => `
+const renderSemanticColors = (): string => `
   <div class="eevenkoto-tokens">
     <section class="eevenkoto-tokens__section">
-      <h2 class="eevenkoto-tokens__heading">Colors</h2>
-      <p class="eevenkoto-tokens__intro">Tier 1 primitives (primitivetokens.css) and Tier 2 semantic tokens (tokens.css). Only existing primitives are listed — no completist ramps.</p>
+      <h2 class="eevenkoto-tokens__heading">Semantic colors</h2>
+      <p class="eevenkoto-tokens__intro">Tier 2 intent tokens from tokens.css — the only color tokens components and layouts should consume.</p>
     </section>
-    ${renderColorGroup('Turquoise (Tier 1)', turquoiseColors)}
-    ${renderColorGroup('Parchment (Tier 1)', parchmentColors)}
-    ${renderColorGroup('Gold (Tier 1)', goldColors)}
-    ${renderColorGroup('Control (Tier 2)', controlColors)}
-    ${renderColorGroup('Surface / content / boundary / depth (Tier 2)', semanticColors)}
+    ${renderColorGroup('Control', controlColors)}
+    ${renderColorGroup('Surface / content / boundary / depth', semanticColors)}
+  </div>
+`;
+
+const renderPrimitives = (): string => `
+  <div class="eevenkoto-tokens">
+    <section class="eevenkoto-tokens__section">
+      <h2 class="eevenkoto-tokens__heading">Primitives</h2>
+      <p class="eevenkoto-tokens__intro">Tier 1 pigments from primitivetokens.css — mapped only inside tokens.css. Do not reference these from component stylesheets.</p>
+    </section>
+    ${renderColorGroup('Turquoise', turquoiseColors)}
+    ${renderColorGroup('Parchment', parchmentColors)}
+    ${renderColorGroup('Gold', goldColors)}
   </div>
 `;
 
@@ -312,19 +334,29 @@ const renderLineWidths = (): string => `
 
 const meta: Meta = {
   title: 'Foundations/Tokens',
-  tags: ['autodocs'],
   parameters: {
     controls: { disable: true },
     actions: { disable: true },
+    docs: {
+      description: {
+        component:
+          'Consume Tier 2 semantic tokens (and metrics). Primitives are internal pigments mapped only in tokens.css.',
+      },
+    },
   },
 };
 
 export default meta;
 type Story = StoryObj;
 
-export const Colors: Story = {
-  name: 'Colors',
-  render: () => renderColors(),
+export const SemanticColors: Story = {
+  name: 'Semantic colors',
+  render: () => renderSemanticColors(),
+};
+
+export const Primitives: Story = {
+  name: 'Primitives',
+  render: () => renderPrimitives(),
 };
 
 export const Typography: Story = {

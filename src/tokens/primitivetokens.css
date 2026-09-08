@@ -17,6 +17,9 @@
   --eevenkoto-color-turquoise-text:           oklch(0.98 0.01 190);
   --eevenkoto-color-turquoise-tint-cool:      oklch(0.98 0.015 202);
   --eevenkoto-color-turquoise-tint-deep:      oklch(0.18 0.22 162);
+  /* Disabled mix partners: mode endpoints (C=0, A=0). Tier 2 picks light vs deep. */
+  --eevenkoto-color-turquoise-tint-disabled:      oklch(1 0 180 / 0%);
+  --eevenkoto-color-turquoise-tint-disabled-deep: oklch(0 0 180 / 0%);
   --eevenkoto-color-turquoise-shadow:         oklch(0.15 0.25 192 / 25%);
   --eevenkoto-color-turquoise-text-shadow:    oklch(0.12 0.20 192);
 
@@ -27,6 +30,8 @@
   --eevenkoto-color-parchment-primary:            oklch(0.40 0.10 80);
   --eevenkoto-color-parchment-text:               oklch(0.18 0.02 85);
   --eevenkoto-color-parchment-text-muted:         oklch(0.35 0.04 85);
+  --eevenkoto-color-parchment-tint-disabled:      oklch(1 0 85 / 0%);
+  --eevenkoto-color-parchment-tint-disabled-deep: oklch(0 0 85 / 0%);
 
   /* Gold */
   --eevenkoto-color-gold-primary:        oklch(0.78 0.17 70);
