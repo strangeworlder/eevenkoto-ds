@@ -131,8 +131,8 @@
      Components consume these aliases — never --eevenkoto-font-size-sm…3xl.
      ========================================================================== */
 
-  --eevenkoto-font-sans: 'Source Sans 3', system-ui, sans-serif;
-  --eevenkoto-font-serif: 'Source Serif 4', Georgia, serif;
+  --eevenkoto-font-sans: 'Inter', system-ui, sans-serif;
+  --eevenkoto-font-serif: 'Outfit', system-ui, sans-serif;
 
   /* --- Semantic font sizes (Tier 2) ---
      Heading ladder uses multi-axis hierarchy: macro (1–2) keep size jumps;
@@ -155,7 +155,7 @@
   --eevenkoto-font-size-control-md: var(--eevenkoto-font-size-md);
   --eevenkoto-font-size-control-lg: var(--eevenkoto-font-size-lg);
 
-  --eevenkoto-line-height-tight: 1.2;
+  --eevenkoto-line-height-tight: 1;
   --eevenkoto-line-height-body: 1.5;
 
   --eevenkoto-space-1: 0.4rem;
