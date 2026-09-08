@@ -17,5 +17,8 @@
     "./caption.css": "./caption.css",
     "./flow.css": "./flow.css"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  }
 }
