@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/html",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Eevenkoto vanilla HTML renderers (canonical markup API)",
   "type": "module",
   "files": [
@@ -20,10 +20,10 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@eevenkoto/core": "0.1.0"
+    "@eevenkoto/core": "0.1.1"
   },
   "peerDependencies": {
-    "@eevenkoto/css": "0.1.0"
+    "@eevenkoto/css": "0.1.1"
   },
   "peerDependenciesMeta": {
     "@eevenkoto/css": {

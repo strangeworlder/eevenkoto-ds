@@ -46,15 +46,15 @@
      ========================================================================== */
 
   /* Green → feedback-success */
-  --eevenkoto-color-green-state:         oklch(0.55 0.16 145);
-  --eevenkoto-color-green-text:          oklch(0.98 0.01 145);
+  --eevenkoto-color-green-state:         oklch(0.55 0.23 125);
+  --eevenkoto-color-green-text:          oklch(0.98 0.01 125);
 
   /* Orange → feedback-caution (darker state for solid + white on-fill ink) */
-  --eevenkoto-color-orange-state:        oklch(0.52 0.17 50);
-  --eevenkoto-color-orange-text:         oklch(0.99 0.01 55);
+  --eevenkoto-color-orange-state:        oklch(0.82 0.32 70);
+  --eevenkoto-color-orange-text:         oklch(0.09 0.01 65);
 
   /* Crimson → feedback-critical (darker state for solid contrast) */
-  --eevenkoto-color-crimson-state:       oklch(0.45 0.20 25);
+  --eevenkoto-color-crimson-state:       oklch(0.35 0.33 15);
   --eevenkoto-color-crimson-text:        oklch(0.99 0.01 25);
 
   /* Purple → feedback-admin */
@@ -67,6 +67,7 @@
      consume Tier 2 semantic font-size / weight aliases in tokens.css.
      ========================================================================== */
 
+  --eevenkoto-font-size-xs: 1.2rem;
   --eevenkoto-font-size-sm: 1.4rem;
   --eevenkoto-font-size-md: 1.6rem;
   --eevenkoto-font-size-lg: 1.8rem;

@@ -265,7 +265,7 @@
   --eevenkoto-font-size-heading-1: var(--eevenkoto-font-size-3xl);
   --eevenkoto-font-size-heading-2: var(--eevenkoto-font-size-2xl);
   --eevenkoto-font-size-heading-3: var(--eevenkoto-font-size-lg);
-  --eevenkoto-font-size-heading-4: var(--eevenkoto-font-size-lg);
+  --eevenkoto-font-size-heading-4: var(--eevenkoto-font-size-md);
   --eevenkoto-font-size-heading-5: var(--eevenkoto-font-size-lg);
   --eevenkoto-font-size-heading-6: var(--eevenkoto-font-size-md);
 
@@ -275,9 +275,9 @@
 
   --eevenkoto-font-size-caption: var(--eevenkoto-font-size-sm);
 
-  --eevenkoto-font-size-control-sm: var(--eevenkoto-font-size-sm);
-  --eevenkoto-font-size-control-md: var(--eevenkoto-font-size-md);
-  --eevenkoto-font-size-control-lg: var(--eevenkoto-font-size-lg);
+  --eevenkoto-font-size-control-sm: var(--eevenkoto-font-size-xs);
+  --eevenkoto-font-size-control-md: var(--eevenkoto-font-size-sm);
+  --eevenkoto-font-size-control-lg: var(--eevenkoto-font-size-md);
 
   --eevenkoto-line-height-tight: 1;
   --eevenkoto-line-height-body: 1.5;
