@@ -4,13 +4,15 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Tier 1: Primitives
 
+**Audience:** authors extending pigments — not app usage. Consumable tokens: [Foundations → Tokens](?path=/docs/foundations-tokens--docs).
+
 **Doc set:** [Architecture](./color-tokens-architecture.mdx) → Tier 1 Primitives (this file) → [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx) → [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)
 
 Tier 1 is the sparse, hand-tuned pigment library. It holds raw OKLCH coordinates and grows only through an accretive, designer-reviewed process.
 
 | Field | Value |
 | --- | --- |
-| Source file | `src/tokens/primitivetokens.css` |
+| Source file | `packages/css/tokens/primitive-tokens.css` |
 | Naming convention | `--eevenkoto-color-<colorname>-<function>[-<variant>]` |
 | Consumer scope | **Tier 2 only.** Never reference Tier 1 primitives directly in component stylesheets. |
 
@@ -56,6 +58,7 @@ Primitives are authored strictly within this functional taxonomy:
 
   /* Parchment */
   --eevenkoto-color-parchment-background:         oklch(0.96 0.02 90);
+  --eevenkoto-color-parchment-background-subtle:  oklch(0.97 0.014 90);
   --eevenkoto-color-parchment-background-element: oklch(0.90 0.04 85);
   --eevenkoto-color-parchment-border:             oklch(0.50 0.18 80);
   --eevenkoto-color-parchment-primary:            oklch(0.40 0.10 80);
@@ -87,6 +90,7 @@ When UI chrome needs a quieter accent (for example ability labels vs proficient-
 | --- | --- | --- |
 | Quiet parchment chrome | Alias `parchment-primary` / `parchment-border` at Tier 2 | `color-mix(gold, parchment-border)` |
 | Bright emphasis | Alias `gold-primary-strong` (or add a reviewed gold stop) | Mix gold with text/border to “tone it down” |
+| Deep chrome on sunken | Alias `gold-primary-deep` (≥3:1 vs sunken) | Reuse a light gold that fails non-text contrast |
 | Truly new optical stop | Add a Tier 1 primitive with a designer | Encode the pigment only as a Tier 2 mix |
 
 Friction to add a primitive is intentional: it keeps Tier 1 the single place pigments are authored.

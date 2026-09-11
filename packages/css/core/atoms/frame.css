@@ -1,0 +1,35 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: FRAME (TIER 3)
+   Portable bordered surface host (“chart in a box”).
+   ========================================================================== */
+
+.eevenkoto-frame {
+  --_eevenkoto-frame-bg: var(
+    --eevenkoto-frame-bg,
+    var(--eevenkoto-color-surface-canvas)
+  );
+  --_eevenkoto-frame-border-color: var(
+    --eevenkoto-frame-border-color,
+    var(--eevenkoto-color-boundary-strong)
+  );
+  --_eevenkoto-frame-border-width: var(
+    --eevenkoto-frame-border-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-frame-radius: var(--eevenkoto-frame-radius, var(--eevenkoto-radius-sm));
+  --_eevenkoto-frame-padding: var(--eevenkoto-frame-padding, 0);
+
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--_eevenkoto-frame-padding);
+  background-color: var(--_eevenkoto-frame-bg);
+  border: var(--_eevenkoto-frame-border-width) solid var(--_eevenkoto-frame-border-color);
+  border-radius: var(--_eevenkoto-frame-radius);
+  overflow: hidden;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-frame {
+    border-color: CanvasText;
+  }
+}

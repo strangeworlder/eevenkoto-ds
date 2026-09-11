@@ -1,14 +1,26 @@
-export { Button, type ButtonProps, type ButtonIconName } from './Button';
-export { Badge, type BadgeProps } from './Badge';
-export { Heading, type HeadingProps, type HeadingLevel } from './Heading';
-export { Paragraph, type ParagraphProps } from './Paragraph';
-export { Caption, type CaptionProps } from './Caption';
-export { Flow, type FlowProps, type FlowDensity } from './Flow';
-export { Property, type PropertyProps } from './Property';
-export { PropertyList, type PropertyListProps, type PropertyItem } from './PropertyList';
-export { Stat, type StatProps } from './Stat';
-export { AbilityScore, type AbilityScoreProps } from './AbilityScore';
-export { AbilityScoreGroup } from './AbilityScoreGroup';
-export { StatblockFeature, type StatblockFeatureProps } from './StatblockFeature';
-export { StatblockSection, type StatblockSectionProps } from './StatblockSection';
-export { Statblock } from './Statblock';
+export { Button, type ButtonProps, type ButtonIconName } from './core/atoms/Button';
+export { Badge, type BadgeProps } from './core/atoms/Badge';
+export { Heading, type HeadingProps, type HeadingLevel } from './core/atoms/Heading';
+export { Paragraph, type ParagraphProps } from './core/atoms/Paragraph';
+export { Caption, type CaptionProps } from './core/atoms/Caption';
+export { Frame } from './core/atoms/Frame';
+export { Scroll, type ScrollProps } from './core/atoms/Scroll';
+export { TableCell } from './core/atoms/TableCell';
+export { Flow, type FlowProps, type FlowDensity } from './core/molecules/Flow';
+export { Prose } from './core/molecules/Prose';
+export { Property, type PropertyProps } from './core/atoms/Property';
+export { PropertyList, type PropertyListProps, type PropertyItem } from './core/molecules/PropertyList';
+export { Stat, type StatProps } from './core/atoms/Stat';
+export {
+  Table,
+  type TableColumn,
+  type TableProps,
+  type TableStripe,
+  type TableVariant,
+} from './core/molecules/Table';
+export { TableShell } from './core/organisms/TableShell';
+export { AbilityScore, type AbilityScoreProps } from './domain/molecules/AbilityScore';
+export { AbilityScoreGroup } from './domain/organisms/AbilityScoreGroup';
+export { StatblockFeature, type StatblockFeatureProps } from './domain/molecules/StatblockFeature';
+export { StatblockSection, type StatblockSectionProps } from './domain/molecules/StatblockSection';
+export { Statblock } from './domain/organisms/Statblock';

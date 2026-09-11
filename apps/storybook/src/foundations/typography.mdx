@@ -4,13 +4,15 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Typography
 
-**Related:** [Tokens catalog](?path=/docs/foundations-tokens--docs) · [Typography sample](?path=/docs/primitives-typography-sample--docs) · [Flow](?path=/docs/primitives-flow--docs) · [Heading](?path=/docs/primitives-heading--docs) · [Paragraph](?path=/docs/primitives-paragraph--docs) · [Caption](?path=/docs/primitives-caption--docs)
+**Related:** [Tokens catalog](?path=/docs/foundations-tokens--docs) · [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) · [Typography sample](?path=/docs/core-molecules-typography-sample--docs) · [Prose](?path=/docs/core-molecules-prose--docs) · [Flow](?path=/docs/core-molecules-flow--docs) · [Heading](?path=/docs/core-atoms-heading--docs) · [Paragraph](?path=/docs/core-atoms-paragraph--docs) · [Caption](?path=/docs/core-atoms-caption--docs)
+
+Type roles and usage for UI. Live size specimens also appear under [Foundations → Tokens → Typography](?path=/docs/foundations-tokens--docs). Color architecture is separate: [Color Tokens](?path=/docs/foundations-color-tokens-architecture--docs).
 
 Typography in Eevenkoto follows the same tier discipline as color: raw optical values live in Tier 1; roles that UI consumes live in Tier 2; component bridges live in Tier 3.
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│  Tier 1: Type scale (primitivetokens.css)               │
+│  Tier 1: Type scale (primitive-tokens.css)               │
 │  --eevenkoto-font-size-sm … 3xl, font-weight-*         │
 └──────────────────────────┬─────────────────────────────┘
                            │ Mapped to roles
@@ -44,13 +46,13 @@ Six levels are grouped into three visual tiers. **Do not rely on size alone** �
 | **Meso** | H3, H4 | Modest size + weight; H4 near body; no tint bands |
 | **Micro** | H5, H6 | Same size as `body-md`; small caps (H5); bold italic / run-in (H6) |
 
-Details and examples live on [Heading](?path=/docs/primitives-heading--docs).
+Details and examples live on [Heading](?path=/docs/core-atoms-heading--docs).
 
 ## Font sizes — two tiers
 
 ### Tier 1 (scale)
 
-Sparse rem steps in `primitivetokens.css`: `sm` → `3xl`. These answer “how large is this optical step?” **Never reference Tier 1 sizes from component stylesheets.**
+Sparse rem steps in `primitive-tokens.css`: `sm` → `3xl`. These answer “how large is this optical step?” **Never reference Tier 1 sizes from component stylesheets.**
 
 ### Tier 2 (semantic)
 
@@ -65,7 +67,7 @@ Role aliases in `tokens.css`. Grammar: `--eevenkoto-font-size-[role]-[variant]`.
 
 ### Component size props (`sm | md | lg`)
 
-Public size props across Button, Paragraph, and Badge use the same **`sm | md | lg`** names. Do not reintroduce `small` / `large` or omit-means-default without an explicit `--md` class — that drift already happened once between Button and Paragraph.
+Public size props across Button, Paragraph, and Badge use the same **`sm | md | lg`** names. Do not reintroduce `small` / `large`. Host CSS may omit `--md` (the base class is already md); framework helpers still emit an explicit `--md` when assembling class strings so the prop API stays aligned across controls.
 
 | Prop value | Typical Tier 2 font role |
 | --- | --- |

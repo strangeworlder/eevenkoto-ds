@@ -1,0 +1,20 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as TypographySampleStories from './TypographySample.stories';
+
+<Meta of={TypographySampleStories} />
+
+# Typography sample
+
+A reading-flow specimen that composes [Flow](?path=/docs/core-molecules-flow--docs), [Heading](?path=/docs/core-atoms-heading--docs), [Paragraph](?path=/docs/core-atoms-paragraph--docs), and [Caption](?path=/docs/core-atoms-caption--docs) — not a token swatch grid.
+
+Vertical gaps are owned by **Flow** (pair-aware rhythm), not by stacking each primitive’s default margins.
+
+Use it to judge hierarchy, rhythm, and color together: macro rules, meso weight, micro bands and run-ins.
+
+<Canvas of={TypographySampleStories.Document} />
+
+## Related
+
+- [Flow](?path=/docs/core-molecules-flow--docs) — Vertical rhythm container
+- [Typography](?path=/docs/foundations-typography--docs) — Two-tier sizes and hierarchy model
+- [Tokens](?path=/docs/foundations-tokens--docs) — Live metric specimens

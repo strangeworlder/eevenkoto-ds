@@ -1,0 +1,43 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Component taxonomy" />
+
+# Component taxonomy
+
+Eevenkoto organizes UI on **two axes**:
+
+1. **Reuse scope** — **Core** (product-agnostic chrome) vs **Domain** (Eevenkoto content vocabulary: creatures, abilities, statblocks).
+2. **Composition level** — Atomic Design: **Atoms → Molecules → Organisms**. Templates and Pages are reserved for later full-page demos.
+
+Also read: [Glossary](?path=/docs/foundations-glossary--docs) · [Packages](?path=/docs/foundations-packages--docs) · [Authoring composed components](?path=/docs/foundations-authoring-composed-components--docs)
+
+## Why both axes
+
+Atomic levels answer “how complex is this?” They do **not** answer “is this reusable chrome or creature content?” Core vs Domain keeps Button and Heading from looking interchangeable with Statblock in the sidebar and in source layout.
+
+| Scope | Meaning | Examples |
+| --- | --- | --- |
+| **Core** | Portable building blocks; English APIs; no RPG vocabulary required | Button, Badge, Heading, Property, Stat, Flow, Table, TableShell |
+| **Domain** | Content patterns for this product family; may compose Core freely | AbilityScore, StatblockFeature, Statblock |
+
+## Composition levels
+
+| Level | Owns | Core examples | Domain examples |
+| --- | --- | --- | --- |
+| **Atom** | One semantic unit + BEM classes | Button, Badge, Heading, Paragraph, Caption, Property, Stat, Frame, Scroll, TableCell | — |
+| **Molecule** | Layout of atoms + local ARIA | Flow, PropertyList, Table | AbilityScore, StatblockFeature, StatblockSection |
+| **Organism** | Page-shaped composition, slots, outline | TableShell | AbilityScoreGroup, Statblock |
+
+Prop and file naming: see [Glossary](?path=/docs/foundations-glossary--docs).
+
+## Dependency rule
+
+**Domain may import Core. Core must never import Domain.**
+
+Promote a Domain piece into Core only when reuse is proven across unrelated contexts — never because one screen needs it.
+
+## Source layout
+
+Package source mirrors the taxonomy (`core/atoms/…`, `domain/organisms/…`) while root barrels (`@eevenkoto/html`, `@eevenkoto/react`, …) keep a stable public export surface.
+
+Storybook titles follow the same paths: `Core/Atoms/Button`, `Domain/Organisms/Statblock`.

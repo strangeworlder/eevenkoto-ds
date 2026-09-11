@@ -1,0 +1,26 @@
+# Eevenkoto Design System
+
+> Framework-free tokens and components (CSS → core → html/react/vue). Feed this file to an agent as a starting map. Generated 2026-09-11 — do not edit by hand (`npm run generate:llms`).
+
+## Using the system
+
+- [llms-full.txt](/llms-full.txt): generated one-shot body (package READMEs + Tokens + Typography + Packages)
+- [@eevenkoto/css README](/?path=/docs/foundations-packages--docs): install narrative also in Packages docs
+- [Tokens catalog](/?path=/docs/foundations-tokens--docs): live swatches in Storybook
+- [Typography](/?path=/docs/foundations-typography--docs): semantic type roles
+
+## Authoring in this repo
+
+- [AGENTS.md](/AGENTS.md): contributor operating rules
+- [llms-full.txt — Authoring foundations](/llms-full.txt): Color Tokens MDX + taxonomy (same generated file, second half)
+- [Color architecture](/?path=/docs/foundations-color-tokens-architecture--docs): three-tier model
+- [Tier 3 component scoping](/?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs): private bridges
+- [Packages](/?path=/docs/foundations-packages--docs): package roles and source-of-truth order
+
+## Optional
+
+- [Tier 1 — Primitives](/?path=/docs/foundations-color-tokens-tier-1-primitives--docs)
+- [Tier 2 — Semantics](/?path=/docs/foundations-color-tokens-tier-2-semantics--docs)
+- [Component taxonomy](/?path=/docs/foundations-component-taxonomy--docs)
+- [Authoring composed components](/?path=/docs/foundations-authoring-composed-components--docs)
+- [Minimum-class defaults](/?path=/docs/foundations-minimum-class-defaults--docs)

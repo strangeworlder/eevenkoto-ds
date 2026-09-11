@@ -1,0 +1,51 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: TABLE SHELL (TIER 3)
+   Organism host: Frame + Scroll + Table (+ footer slot for future Pager).
+   ========================================================================== */
+
+.eevenkoto-table-shell {
+  --_eevenkoto-table-shell-gap: var(
+    --eevenkoto-table-shell-gap,
+    var(--eevenkoto-space-3)
+  );
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-table-shell-gap);
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.eevenkoto-table-shell__footer {
+  min-width: 0;
+}
+
+/* Sticky index column when table sits in Scroll inside the shell */
+.eevenkoto-table-shell .eevenkoto-scroll .eevenkoto-table thead .eevenkoto-table-cell--index,
+.eevenkoto-table-shell .eevenkoto-scroll .eevenkoto-table tbody .eevenkoto-table-cell--index {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+
+.eevenkoto-table-shell .eevenkoto-scroll .eevenkoto-table thead .eevenkoto-table-cell--index {
+  z-index: 3;
+  background-color: var(
+    --eevenkoto-table-header-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+}
+
+.eevenkoto-table-shell .eevenkoto-scroll .eevenkoto-table tbody .eevenkoto-table-cell--index {
+  background-color: var(--eevenkoto-color-surface-canvas);
+}
+
+.eevenkoto-table-shell
+  .eevenkoto-scroll
+  .eevenkoto-table--stripe-row
+  tbody
+  tr:nth-child(even)
+  .eevenkoto-table-cell--index {
+  background-color: var(--eevenkoto-color-surface-subtle);
+}

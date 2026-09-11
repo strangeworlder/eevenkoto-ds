@@ -1,0 +1,147 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as StatblockSectionStories from './StatblockSection.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={StatblockSectionStories} />
+
+# StatblockSection
+
+**StatblockSection** is the section molecule: a semantic **H2** title plus a stack of [StatblockFeature](?path=/docs/domain-molecules-statblockfeature--docs) entries. Visual weight for the title matches meso H3 (no macro bottom rule).
+
+<Canvas of={StatblockSectionStories.Default} />
+
+```html
+<section class="eevenkoto-statblock-section">
+  <h2 class="eevenkoto-heading eevenkoto-heading--2 eevenkoto-heading--primary">Toiminnot</h2>
+  <div class="eevenkoto-statblock-feature">…</div>
+  <div class="eevenkoto-statblock-feature">…</div>
+</section>
+```
+
+### Playground
+
+Use story args in the Canvas controls where available; the default story shows a typical Actions block.
+
+## Why to use
+
+Grouping features under a real H2 keeps the outline contiguous under the creature H1 and gives a clear landmark for Actions, Reactions, Legendary Actions, and similar clusters.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Actions, bonus actions, reactions, legendary / lair actions, traits clusters.</li>
+      <li>Reuse outside a full Statblock when a rules page only needs one section.</li>
+      <li>Pass product copy for <code>title</code> (<em>Toiminnot</em>, <em>Reaktiot</em>) — no DS enums.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use H3 or H5 for the section title inside a Statblock — that breaks H1 → H2 → H3.</li>
+      <li>Don’t put feature bodies directly under the H2 without StatblockFeature (loses run-in + remap).</li>
+      <li>Don’t invent a second visual heading scale; remap happens here via Tier 3 bridges.</li>
+    </ul>
+  }
+/>
+
+<Canvas of={StatblockSectionStories.Reactions} />
+
+## Anatomy
+
+1. **Root** — `section.eevenkoto-statblock-section`
+2. **Title** — `h2.eevenkoto-heading--2` (visual remap → meso H3)
+3. **Features** — one or more `.eevenkoto-statblock-feature` children
+
+## Visual remap
+
+Inside `.eevenkoto-statblock-section`, the H2 drops macro chrome:
+
+| Axis | Override |
+| --- | --- |
+| Color | `--eevenkoto-color-content-primary` |
+| Size | `--eevenkoto-font-size-heading-3` |
+| Family / weight | Serif bold |
+| Border | None (no macro rule) |
+| Margin | Compact (`space-2` start) |
+
+Gap between title and features uses `--eevenkoto-statblock-section-gap` (default `--eevenkoto-space-3`).
+
+## Accessibility
+
+- Section landmark is a real `<section>` with an H2 title.
+- Feature children must be H3 (via StatblockFeature) — do not insert bare paragraphs as “named” entries.
+- One section title per cluster; avoid multiple H2s that repeat the same label.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | — | Section heading (H2). |
+| `features` | `StatblockFeatureProps[]` | — | Stacked feature entries. |
+
+```ts
+export interface StatblockSectionProps {
+  title: string;
+  features: StatblockFeatureProps[];
+}
+```
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-statblock-section` | Section root |
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-statblock-section-gap` | Gap between title and features / between features |
+
+Required CSS: `heading.css`, `paragraph.css`, `statblock-feature.css`, `statblock-section.css`.
+
+## Framework packages
+
+```ts
+import { renderStatblockSection } from '@eevenkoto/html';
+
+renderStatblockSection({
+  title: 'Toiminnot',
+  features: [{ name: 'Kalpa', description: '…' }],
+});
+```
+
+```tsx
+import { StatblockSection } from '@eevenkoto/react';
+
+<StatblockSection title="Toiminnot" features={features} />
+```
+
+## Related
+
+- [StatblockFeature](?path=/docs/domain-molecules-statblockfeature--docs) — Child entry molecule
+- [Statblock](?path=/docs/domain-organisms-statblock--docs) — Parent organism
+- [Heading](?path=/docs/core-atoms-heading--docs) — H2 semantics

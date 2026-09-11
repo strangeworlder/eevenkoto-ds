@@ -4,9 +4,11 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Color Token Architecture
 
+**Audience:** authors extending the system — not the app usage guide. For “what tokens exist to consume,” see [Foundations → Tokens](?path=/docs/foundations-tokens--docs). For install/use feed-in, see repo `llms.txt` / `llms-full.txt`.
+
 **Doc set:** Architecture (this file) → [Tier 1 Primitives](./color-tokens-tier1-primitives.mdx) → [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx) → [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)
 
-This document defines the architectural rationale, color-space mechanics, theming model, accessibility guardrails, and governance flowchart for the Eevenkoto color token system. Tier-specific naming, invariants, and examples live in the linked docs above. For the live swatch catalog of tokens that exist in CSS today, see [Foundations → Tokens](?path=/docs/foundations-tokens--docs).
+This document defines the architectural rationale, color-space mechanics, theming model, accessibility guardrails, and governance flowchart for the Eevenkoto color token system. Tier-specific naming, invariants, and examples live in the linked docs above.
 
 ## Core Architectural Philosophy
 
@@ -22,7 +24,7 @@ The Eevenkoto system departs from numerical ramps by implementing a **function-f
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│  Tier 1: Primitives (primitivetokens.css)               │
+│  Tier 1: Primitives (primitive-tokens.css)               │
 │  Function-first pigment library in isolated color space│
 └──────────────────────────┬─────────────────────────────┘
                            │ Mapped per theme (Light / Dark / Contrast)
@@ -41,9 +43,9 @@ The Eevenkoto system departs from numerical ramps by implementing a **function-f
 
 | Tier | Source file | Responsibility | Consumers |
 | --- | --- | --- | --- |
-| 1 — Primitives | `src/tokens/primitivetokens.css` | Sparse OKLCH pigment library | Tier 2 only |
-| 2 — Semantics | `src/tokens/tokens.css` | Intent, theming, contrast pairs | Layouts, utilities, Tier 3 |
-| 3 — Components | `src/components/<Name>/<name>.css` | Private bridges + public override API | Host component only |
+| 1 — Primitives | `packages/css/tokens/primitive-tokens.css` | Sparse OKLCH pigment library | Tier 2 only |
+| 2 — Semantics | `packages/css/tokens/tokens.css` | Intent, theming, contrast pairs | Layouts, utilities, Tier 3 |
+| 3 — Components | `packages/css/core/...` or `domain/...` | Private bridges + public override API | Host component only |
 
 ## Color Space Mechanics: OKLCH & Display P3
 
@@ -149,5 +151,5 @@ When an engineer or designer needs a new style, follow this process before writi
       Map Tier 1 to a new              [HUMAN FRICTION CHECKPOINT]
       Tier 2 semantic token            Collaborate with designer to
                                        author a new functional primitive
-                                       in primitivetokens.css
+                                       in primitive-tokens.css
 ```

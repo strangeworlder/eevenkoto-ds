@@ -4,13 +4,15 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Tier 3: Component Scoping & Token Architecture
 
+**Audience:** authors writing component CSS in this repo — not app consumers. App usage: [Tokens catalog](?path=/docs/foundations-tokens--docs) and repo `llms-full.txt`. Contributor rules: root `AGENTS.md`.
+
 **Doc set:** [Architecture](./color-tokens-architecture.mdx) → [Tier 1 Primitives](./color-tokens-tier1-primitives.mdx) → [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx) → Tier 3 Component Scoping (this file)
 
 This document defines the architectural mechanics, naming grammar, encapsulation contracts, and governance rules for the component token layer (Tier 3). Tier 3 bridges Tier 2 semantic tokens into scoped, override-resilient component implementations without specificity wars or cascading side effects.
 
 | Field | Value |
 | --- | --- |
-| Source file | `src/components/<ComponentName>/<component>.css` |
+| Source file | `packages/css/core/...` or `packages/css/domain/...` (atoms / molecules / organisms) |
 | Public API | `--eevenkoto-<component>-[element]-[property]-[state]` |
 | Private bridge | `--_eevenkoto-<component>-[element]-[property]` |
 
@@ -20,7 +22,7 @@ The Eevenkoto token architecture decouples physical color physics (Tier 1) and i
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│  Tier 1: Primitives (primitivetokens.css)                        │
+│  Tier 1: Primitives (primitive-tokens.css)                        │
 │  --eevenkoto-color-<hue>-<function>                              │
 │  Sparse, hue-specific OKLCH pigment jars                         │
 └────────────────────────────────┬─────────────────────────────────┘
@@ -34,7 +36,7 @@ The Eevenkoto token architecture decouples physical color physics (Tier 1) and i
                                  │ Consumed as fallback defaults
                                  ▼
 ┌──────────────────────────────────────────────────────────────────┐
-│  Tier 3: Component Scoping (src/components/<Name>/<name>.css)    │
+│  Tier 3: Component Scoping (packages/css/core or domain)         │
 │  --eevenkoto-<component>-[element]-[property]-[state] (Public)   │
 │  --_eevenkoto-<component>-[element]-[property]        (Private)  │
 │  Encapsulated DOM boundaries, private bridges, & context hooks   │
@@ -141,7 +143,7 @@ A component stylesheet must never reference a Tier 1 primitive by hue (e.g., `--
 
 - **Violation:** `background-color: var(--eevenkoto-color-turquoise-state);`
 - **Correction:** Reference the semantic intent: `var(--eevenkoto-color-control-primary-background)`.
-- **Enforcement:** Stylelint blocks hue-primitive leakage in `src/components/**`.
+- **Planned enforcement:** Stylelint should block hue-primitive leakage in component stylesheets under `packages/css/core/**` and `packages/css/domain/**` (not wired in CI yet — follow the rule manually).
 
 ### Rule 2: Complete Tuple Synchronization on State & Variant Shifts
 
@@ -155,6 +157,8 @@ When a component variant, pseudo-class (`:hover`, `:active`, `:focus-visible`), 
 - Component tokens are scoped to their component host class (`.eevenkoto-<component>`).
 - Component stylesheets must not define global selectors (`:root`, `body`, `div`).
 - Modifiers must be applied via BEM-style variant classes (e.g., `.eevenkoto-button--secondary`) or data attributes (`data-variant="secondary"`), never via bare tag selectors.
+- **Exception (type only):** Heading may map level from the host tag with `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides). Bare `h1`–`h6` / `p` styling is allowed only under the Prose host (`.eevenkoto-prose :where(…)`). Do not style those tags globally.
+- **Host defaults:** The host class alone must implement the documented default (see [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs)). Default variant/size modifiers are optional aliases, not requirements.
 
 ### Rule 4: Zero Speculative Property Exposure
 
@@ -367,7 +371,7 @@ In `@media (forced-colors: active)`, user-agent stylesheets strip author backgro
 
 ### Component: Contained Interactive Control (Button)
 
-`src/components/Button/button.css`
+`packages/css/core/atoms/button.css`
 
 The live Button uses the private-bridge contract below **plus** the [Gradients as Tier 3 Composition](#gradients-as-tier-3-composition) recipe (animated stops, brand shadows, scoop corners). The excerpt shows the solid tuple and dual-halo focus; open the component stylesheet for the full gradient implementation.
 
@@ -485,7 +489,7 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 
 ### Component: Form Field (TextField)
 
-`src/components/TextField/text-field.css`
+`packages/css/core/atoms/text-field.css` (example)
 
 ```css
 /* ==========================================================================
@@ -571,7 +575,7 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 
 ### Component: Composite Surface Container (Card)
 
-`src/components/Card/card.css`
+`packages/css/core/molecules/card.css` (example)
 
 ```css
 /* ==========================================================================
@@ -611,9 +615,9 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 }
 ```
 
-## Automated CI Verification & Linting Rules
+## Planned CI verification & linting rules
 
-To protect component isolation, CI enforces four AST-based Stylelint checks against all stylesheets in `src/components/**/*.css`:
+These AST-based Stylelint checks are the **intended** guardrails for `packages/css/core/**/*.css` and `packages/css/domain/**/*.css`. They are **not enforced in CI yet** — treat them as authoring requirements until plugins ship.
 
 ```text
                     Pull Request / Code Commit
@@ -647,7 +651,7 @@ To protect component isolation, CI enforces four AST-based Stylelint checks agai
                      [CI VALIDATION PASSED]
 ```
 
-1. **Strict Tier 1 Boundary Guard** (`eevenkoto/no-primitive-in-components`) — Rejects hue-primitive references inside `src/components/`.
+1. **Strict Tier 1 Boundary Guard** (`eevenkoto/no-primitive-in-components`) — Rejects hue-primitive references inside `packages/css/core/` and `packages/css/domain/`.
 2. **Raw Literal Guard** (`eevenkoto/no-raw-color-literals`) — Rejects raw hex, `rgb()`, `hsl()`, or `oklch()` literals within component stylesheets.
 3. **Bridge Enforcement** (`eevenkoto/enforce-private-bridge`) — Flags component CSS that consumes a Tier 2 token without establishing the private `--_eevenkoto-` bridge fallback pattern.
 4. **Cyclic Invalidation Guard** (`eevenkoto/no-self-referencing-vars`) — Flags assignments where a public token references itself without a separate private variable.

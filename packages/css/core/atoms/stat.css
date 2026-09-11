@@ -1,0 +1,162 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: STAT (TIER 3)
+   Numeric display chip with geometric shapes (disk / arch / shield).
+   Content domain — not Badge (feedback).
+   ========================================================================== */
+
+.eevenkoto-stat {
+  --_eevenkoto-stat-bg: var(--eevenkoto-stat-bg, var(--eevenkoto-color-surface-raised));
+  --_eevenkoto-stat-text: var(--eevenkoto-stat-text, var(--eevenkoto-color-content-primary));
+  --_eevenkoto-stat-border-color: var(
+    --eevenkoto-stat-border-color,
+    var(--eevenkoto-color-content-accent)
+  );
+  --_eevenkoto-stat-border-width: var(
+    --eevenkoto-stat-border-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-stat-shadow: var(
+    --eevenkoto-stat-shadow,
+    1px 1px 3px var(--eevenkoto-color-depth-shadow-umbra)
+  );
+  --_eevenkoto-stat-font-family: var(
+    --eevenkoto-stat-font-family,
+    var(--eevenkoto-font-sans)
+  );
+  --_eevenkoto-stat-font-weight: var(
+    --eevenkoto-stat-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-stat-font-size: var(
+    --eevenkoto-stat-font-size,
+    var(--eevenkoto-font-size-body-md)
+  );
+  --_eevenkoto-stat-size: var(--eevenkoto-stat-size, 3.2rem);
+  --_eevenkoto-stat-height: var(--eevenkoto-stat-height, var(--_eevenkoto-stat-size));
+  --_eevenkoto-stat-radius: var(--eevenkoto-stat-radius, var(--eevenkoto-radius-sm));
+
+  position: relative;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_eevenkoto-stat-size);
+  height: var(--_eevenkoto-stat-height);
+  margin: 0;
+  padding: 0;
+
+  font-family: var(--_eevenkoto-stat-font-family);
+  font-size: var(--_eevenkoto-stat-font-size);
+  font-weight: var(--_eevenkoto-stat-font-weight);
+  line-height: 1;
+  color: var(--_eevenkoto-stat-text);
+  background: var(--_eevenkoto-stat-bg);
+  border: var(--_eevenkoto-stat-border-width) solid var(--_eevenkoto-stat-border-color);
+  border-radius: var(--_eevenkoto-stat-radius);
+  box-shadow: var(--_eevenkoto-stat-shadow);
+  z-index: 1;
+}
+
+/* --- SIZES --- */
+
+.eevenkoto-stat--sm {
+  --eevenkoto-stat-size: 3rem;
+  --eevenkoto-stat-height: 3rem;
+  --eevenkoto-stat-font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+.eevenkoto-stat--md {
+  --eevenkoto-stat-size: 4rem;
+  --eevenkoto-stat-height: 4rem;
+  --eevenkoto-stat-font-size: var(--eevenkoto-font-size-body-md);
+}
+
+.eevenkoto-stat--lg {
+  --eevenkoto-stat-size: 5rem;
+  --eevenkoto-stat-height: 5rem;
+  --eevenkoto-stat-font-size: var(--eevenkoto-font-size-body-xl);
+}
+
+/*
+  Emphasis (proficient saves, etc.): deeper accent + thicker stroke + outline
+  so the cue is not color-only (WCAG 1.4.1) and clears 3:1 on sunken (1.4.11).
+*/
+.eevenkoto-stat--emphasis {
+  --eevenkoto-stat-border-color: var(--eevenkoto-color-content-accent-strong);
+  --eevenkoto-stat-border-width: var(--eevenkoto-line-width-lg);
+  outline: var(--eevenkoto-line-width-sm) solid var(--eevenkoto-color-content-accent-strong);
+  outline-offset: 0.12rem;
+}
+
+/* --- SHAPES --- */
+
+/* Score: full circle */
+.eevenkoto-stat--disk {
+  --eevenkoto-stat-radius: var(--eevenkoto-radius-full);
+}
+
+/* Modifier: tall arch (rounded top) with a notched back-frame */
+.eevenkoto-stat--arch {
+  --eevenkoto-stat-height: calc(var(--_eevenkoto-stat-size) * 1.35);
+  --eevenkoto-stat-radius: 50% 50% 0.4rem 0.4rem / 42% 42% 0.4rem 0.4rem;
+  --eevenkoto-stat-bg: linear-gradient(
+    var(--eevenkoto-color-surface-raised) 12%,
+    var(--eevenkoto-color-surface-sunken) 88%
+  );
+  transform-style: preserve-3d;
+  align-items: flex-start;
+  padding-block-start: calc(var(--_eevenkoto-stat-size) * 0.28);
+}
+
+.eevenkoto-stat--arch::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--_eevenkoto-stat-border-width) * -1.5);
+  box-sizing: border-box;
+  border: var(--_eevenkoto-stat-border-width) solid var(--_eevenkoto-stat-border-color);
+  border-radius: var(--eevenkoto-radius-md) var(--eevenkoto-radius-md) 0 0; 
+  top: var(--eevenkoto-line-width-md);
+  corner-shape: scoop;
+  background: var(--eevenkoto-color-surface-sunken);
+  box-shadow: var(--_eevenkoto-stat-shadow);
+  transform: translateZ(-1px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Save: classic shield — flat top, soft point at bottom */
+.eevenkoto-stat--shield {
+  top: var(--eevenkoto-line-width-md);
+  padding: 0 0 var(--eevenkoto-space-1) 0;
+  --eevenkoto-stat-radius: 0.35rem 0.35rem 50% 50% / 0.35rem 0.35rem 70% 70%;
+  --eevenkoto-stat-bg: var(--eevenkoto-color-surface-sunken);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-stat {
+    background: Canvas;
+    color: CanvasText;
+    border-color: ButtonText;
+    box-shadow: none;
+  }
+
+  .eevenkoto-stat--arch {
+    --eevenkoto-stat-bg: Canvas;
+  }
+
+  .eevenkoto-stat--arch::before {
+    background: Canvas;
+    border-color: ButtonText;
+    box-shadow: none;
+  }
+
+  .eevenkoto-stat--shield {
+    --eevenkoto-stat-bg: Canvas;
+  }
+
+  .eevenkoto-stat--emphasis {
+    border-color: Highlight;
+    outline: var(--eevenkoto-line-width-sm) solid Highlight;
+    outline-offset: 0.12rem;
+  }
+}

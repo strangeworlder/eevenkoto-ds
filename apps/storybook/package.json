@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "generate:llms": "node ../../scripts/generate-llms.mjs",
+    "storybook": "npm run generate:llms && storybook dev -p 6006",
+    "build-storybook": "npm run generate:llms && storybook build"
   },
   "dependencies": {
     "@eevenkoto/core": "0.1.1",

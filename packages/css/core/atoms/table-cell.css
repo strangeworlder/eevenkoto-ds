@@ -1,0 +1,89 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: TABLE CELL (TIER 3)
+   th/td atom — kinds index | numeric | text.
+   ========================================================================== */
+
+.eevenkoto-table-cell {
+  --_eevenkoto-table-cell-color: var(
+    --eevenkoto-table-cell-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-table-cell-font-size: var(
+    --eevenkoto-table-cell-font-size,
+    var(--eevenkoto-font-size-body-md)
+  );
+  --_eevenkoto-table-cell-font-family: var(
+    --eevenkoto-table-cell-font-family,
+    var(--eevenkoto-font-sans)
+  );
+  --_eevenkoto-table-cell-padding-block: var(
+    --eevenkoto-table-cell-padding-block,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-table-cell-padding-inline: var(
+    --eevenkoto-table-cell-padding-inline,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-table-cell-border-color: var(
+    --eevenkoto-table-cell-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-table-cell-border-width: var(
+    --eevenkoto-table-cell-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+
+  box-sizing: border-box;
+  padding-block: var(--_eevenkoto-table-cell-padding-block);
+  padding-inline: var(--_eevenkoto-table-cell-padding-inline);
+  color: var(--_eevenkoto-table-cell-color);
+  font-family: var(--_eevenkoto-table-cell-font-family);
+  font-size: var(--_eevenkoto-table-cell-font-size);
+  line-height: var(--eevenkoto-line-height-body);
+  border-block-end: var(--_eevenkoto-table-cell-border-width) solid
+    var(--_eevenkoto-table-cell-border-color);
+  border-inline-end: var(--_eevenkoto-table-cell-border-width) solid
+    var(--_eevenkoto-table-cell-border-color);
+  vertical-align: top;
+  text-align: start;
+  /* Default kind is text (omit --text). Index/numeric reset min-width. */
+  min-width: 12rem;
+}
+
+.eevenkoto-table-cell--index {
+  white-space: nowrap;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  width: 1%;
+  min-width: 0;
+}
+
+.eevenkoto-table-cell--numeric {
+  white-space: nowrap;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  width: 1%;
+  min-width: 0;
+}
+
+.eevenkoto-table-cell--text {
+  text-align: start;
+  min-width: 12rem;
+}
+
+th.eevenkoto-table-cell {
+  font-weight: var(--eevenkoto-font-weight-bold);
+}
+
+.eevenkoto-table-cell__head-label {
+  display: inline-block;
+  max-width: 100%;
+  margin: 25%;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-table-cell {
+    border-color: CanvasText;
+  }
+}

@@ -1,0 +1,94 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as FrameStories from './Frame.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={FrameStories} />
+
+# Frame
+
+Portable bordered surface (“chart in a box”). TableShell uses Frame by default; Frame is reusable beyond tables.
+
+<Canvas of={FrameStories.Default} />
+
+```html
+<div class="eevenkoto-frame">…</div>
+```
+
+### Playground
+
+<Controls of={FrameStories.Default} />
+
+## When to use
+
+Wrap dense charts, token panels, or any content that should read as a contained rulebook panel. Prefer bare layout when the page canvas is enough.
+
+<DoDont
+  do={
+    <ul>
+      <li>Use Frame for portable bordered hosts.</li>
+      <li>Compose Frame inside TableShell for rulebook charts.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t nest Frames for decoration alone.</li>
+      <li>Don’t put product vocabulary into Frame APIs.</li>
+    </ul>
+  }
+/>
+
+## API reference
+
+<ArgTypes of={FrameStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/frame.css';
+import { renderFrame } from '@eevenkoto/html';
+
+renderFrame({ content: '<p>…</p>' });
+```
+
+```tsx
+import { Frame } from '@eevenkoto/react';
+
+<Frame>…</Frame>
+```
+
+```vue
+<script setup>
+import { Frame } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Frame>…</Frame>
+</template>
+```
+
+## Related
+
+- [Scroll](?path=/docs/core-atoms-scroll--docs)
+- [TableShell](?path=/docs/core-organisms-tableshell--docs)

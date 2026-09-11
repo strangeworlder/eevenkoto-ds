@@ -1,0 +1,158 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as StatblockFeatureStories from './StatblockFeature.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={StatblockFeatureStories} />
+
+# StatblockFeature
+
+**StatblockFeature** is the small molecule for a named **action, trait, or reaction**: an **H3 run-in** heading flowing into a Paragraph. Semantic outline stays under a section H2; visual weight matches micro H6 (sans, bold italic).
+
+<Canvas of={StatblockFeatureStories.Default} />
+
+```html
+<div class="eevenkoto-statblock-feature">
+  <h3 class="eevenkoto-heading eevenkoto-heading--3 eevenkoto-heading--primary eevenkoto-heading--run-in">Kalpa</h3>
+  <p class="eevenkoto-paragraph eevenkoto-paragraph--md eevenkoto-paragraph--primary">
+    <em>Lähitaisteluhyökkäys:</em> +3, ulottuvuus 2 m. <em>Osuma:</em> 5 (1n8 + 1) iskuvahinkoa.
+  </p>
+</div>
+```
+
+### Playground
+
+<Controls of={StatblockFeatureStories.Default} />
+
+## Why to use
+
+Feature names should participate in the document outline without orphaning a full-width heading above a one-line mechanic. Run-in H3 keeps the name on the same line as the body while remaining a real heading.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Attacks, traits, bonus actions, reactions, legendary actions.</li>
+      <li>Nest under <a href="?path=/docs/domain-molecules-statblocksection--docs">StatblockSection</a> (or any H2 cluster).</li>
+      <li>Pass the name without a trailing period — CSS appends <code>. </code> via <code>::after</code>.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t fake the name with <code>&lt;strong&gt;&lt;em&gt;</code> inside a Paragraph.</li>
+      <li>Don’t use H6 for features inside a Statblock — that skips levels; use H3 run-in.</li>
+      <li>Don’t put the colon or period in the <code>name</code> string.</li>
+    </ul>
+  }
+/>
+
+## Anatomy
+
+1. **Root** — `div.eevenkoto-statblock-feature`
+2. **Name** — `h3.eevenkoto-heading--3.eevenkoto-heading--run-in` (visual remap → micro)
+3. **Body** — sibling `p.eevenkoto-paragraph` (`display: inline` after run-in)
+
+## Visual remap
+
+Inside `.eevenkoto-statblock-feature`, the H3 run-in overrides Heading bridges to match default H6:
+
+| Axis | Value |
+| --- | --- |
+| Family | `--eevenkoto-font-sans` |
+| Size | `--eevenkoto-font-size-heading-6` (= body-md) |
+| Weight / style | Bold italic |
+| Color | `--eevenkoto-color-control-secondary-icon` |
+| Display | `inline-block` + period suffix + `--eevenkoto-heading-run-in-gap` |
+
+Run-in structure (inline + suffix + sibling paragraph) is defined on Heading for levels **3** and **6**. See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h3--h6).
+
+## Content guidelines
+
+- Keep `name` short (one or two words / a proper noun).
+- Put attack formulas, ranges, and triggers in `description`.
+- For HTML renderer: trusted inline markup (`<em>`, etc.) is fine in `description`.
+- For React: pass `description` as `ReactNode` when you need rich text without HTML strings.
+
+## Accessibility
+
+- The feature name remains an `<h3>` — do not demote it to a span.
+- Place features only under an H2 (StatblockSection) so the outline does not jump H1 → H3.
+- Trailing gap after the name uses `--eevenkoto-heading-run-in-gap` (default `0.35em`) so the body does not collide with the suffix.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Feature title (H3 run-in). |
+| `description` | `string` (HTML) / `ReactNode` (React) | — | Body after the run-in. |
+
+```ts
+export interface StatblockFeatureProps {
+  name: string;
+  description: string;
+}
+```
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-statblock-feature` | Feature root |
+
+Required CSS: `heading.css`, `paragraph.css`, `statblock-feature.css`.
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/statblock-feature.css';
+import { renderStatblockFeature } from '@eevenkoto/html';
+
+renderStatblockFeature({
+  name: 'Kalpa',
+  description: '<em>Lähitaisteluhyökkäys:</em> +3…',
+});
+```
+
+```tsx
+import { StatblockFeature } from '@eevenkoto/react';
+
+<StatblockFeature
+  name="Kalpa"
+  description={
+    <>
+      <em>Lähitaisteluhyökkäys:</em> +3…
+    </>
+  }
+/>
+```
+
+## Related
+
+- [StatblockSection](?path=/docs/domain-molecules-statblocksection--docs) — Parent section molecule
+- [Statblock](?path=/docs/domain-organisms-statblock--docs) — Full entry organism
+- [Heading](?path=/docs/core-atoms-heading--docs) — Run-in behavior
+- [Paragraph](?path=/docs/core-atoms-paragraph--docs) — Feature body

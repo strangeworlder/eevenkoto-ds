@@ -1,0 +1,174 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as PropertyListStories from './PropertyList.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={PropertyListStories} />
+
+# PropertyList
+
+**PropertyList** is the Core **molecule** that stacks **Property** rows in a semantic definition list (`dl`). Property itself is the row atom (`dt` / `dd` inside a grouping `div`).
+
+HTML5 allows a grouping `div` inside `dl` so each pair can be one flex row (`.eevenkoto-property`) without adjacent-sibling hacks. The colon after the term is rendered by CSS (`dt::after`), not stored in the label string.
+
+<Canvas of={PropertyListStories.Default} />
+
+```html
+<dl class="eevenkoto-property-list">
+  <div class="eevenkoto-property">
+    <dt class="eevenkoto-property__label">Defense</dt>
+    <dd class="eevenkoto-property__value">15</dd>
+  </div>
+  <div class="eevenkoto-property">
+    <dt class="eevenkoto-property__label">Initiative</dt>
+    <dd class="eevenkoto-property__value">+1 (11)</dd>
+  </div>
+</dl>
+```
+
+### Playground
+
+<Controls of={PropertyListStories.Default} />
+
+## Why to use
+
+Combat vitals, skills, senses, languages, and challenge lines are definitional metadata. A real `dl` exposes that relationship to assistive tech and keeps Statblock rails honest — no bold Paragraph + `<br>` scaffolding.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Vitals and details inside AbilityScoreGroup header/footer rails.</li>
+      <li>Any compact label→value metadata list in rules UI.</li>
+      <li>Keep Finnish (or other) labels as data — not DS enums.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t fake properties with <code>&lt;strong&gt;Label:&lt;/strong&gt;</code> and line breaks.</li>
+      <li>Don’t include the colon in <code>label</code> — CSS appends it.</li>
+      <li>Don’t render a bare Property outside a PropertyList <code>dl</code> (invalid / incomplete semantics).</li>
+    </ul>
+  }
+/>
+
+<Canvas of={PropertyListStories.FinnishVitals} />
+
+## Anatomy
+
+1. **PropertyList** — `dl.eevenkoto-property-list` (column flex, `width: 100%`)
+2. **Property** — grouping `div.eevenkoto-property` (`width: 100%`, flex row)
+3. **Label** — `dt.eevenkoto-property__label` (+ `::after` colon)
+4. **Value** — `dd.eevenkoto-property__value` (`flex: 1` so long values use remaining space)
+
+### Why the grouping `div`?
+
+`<dl>` children are `dt` / `dd` (and, in HTML5, a grouping `div`). The wrapper is the BEM block for one row so label and value can sit on a single flex line. Without it, pairing would rely on brittle adjacent selectors.
+
+## Layout & density
+
+| Token / rule | Default | Role |
+| --- | --- | --- |
+| `--eevenkoto-property-list-gap` | `--eevenkoto-space-2` | Space between rows |
+| `--eevenkoto-property-gap` | `0.35em` | Space between label and value |
+| Row width | `100%` | Fills the rail / container, including narrow AbilityScoreGroup breakpoints |
+
+## Accessibility
+
+- Prefer PropertyList as the public entry; Property alone is a fragment for composition.
+- Labels should be human language terms; values can include formula text (`9 (2n8)`).
+- Do not use PropertyList for narrative paragraphs — use Paragraph.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` (list) | `PropertyItem[]` | — | Rows to render. |
+| `label` (item) | `string` | — | Term (no colon). |
+| `value` (item) | `string` | — | Detail text. |
+
+```ts
+export interface PropertyItem {
+  label: string;
+  value: string;
+}
+
+export interface PropertyListProps {
+  items: PropertyItem[];
+}
+```
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-property-list` | `dl` root |
+| `eevenkoto-property` | Row group |
+| `eevenkoto-property__label` | `dt` |
+| `eevenkoto-property__value` | `dd` |
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-property-list-gap` | Gap between rows |
+| `--eevenkoto-property-list-margin-block` | List block margins |
+| `--eevenkoto-property-label-color` / `-value-color` | Ink |
+| `--eevenkoto-property-font-size` | Type size (defaults to `body-md`) |
+| `--eevenkoto-property-gap` | Label↔value gap |
+| `--eevenkoto-property-label-weight` | Term weight (defaults to bold) |
+
+Required CSS: `property.css`.
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/property.css';
+import { renderPropertyList } from '@eevenkoto/html';
+
+renderPropertyList({
+  items: [
+    { label: 'Puolustus', value: '15' },
+    { label: 'Aloite', value: '+1 (11)' },
+  ],
+});
+```
+
+```tsx
+import { PropertyList } from '@eevenkoto/react';
+
+<PropertyList items={vitals} />
+```
+
+```vue
+<PropertyList :items="vitals" />
+```
+
+## Related
+
+- [AbilityScoreGroup](?path=/docs/domain-organisms-abilityscoregroup--docs) — Consumes PropertyList in rails
+- [Statblock](?path=/docs/domain-organisms-statblock--docs) — Vitals / details data
+- [Caption](?path=/docs/core-atoms-caption--docs) — Supporting type (not for definition rows)
+- [Glossary](?path=/docs/foundations-glossary--docs) — `label` vs `value` props

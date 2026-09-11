@@ -1,0 +1,61 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TableCellStories from './TableCell.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={TableCellStories} />
+
+# TableCell
+
+`th` / `td` atom with kinds `index`, `numeric`, and `text`. The Table molecule composes these cells.
+
+<Canvas of={TableCellStories.Default} />
+
+```html
+<td class="eevenkoto-table-cell">Body cell</td>
+```
+
+Host alone is the **text** kind (`min-width`, start-aligned). Add `--index` / `--numeric` only when needed; `--text` remains a valid alias.
+
+### Playground
+
+<Controls of={TableCellStories.Default} />
+
+## Kinds
+
+| Kind | Role |
+| --- | --- |
+| `index` | Level, die face, row key — narrow, tabular |
+| `numeric` | Compact digits; angled head label when used as numeric header in Table `--numeric` |
+| `text` | Descriptive cells — take remaining width |
+
+<Canvas of={TableCellStories.NumericHeader} />
+
+## API reference
+
+<ArgTypes of={TableCellStories} />
+
+## Related
+
+- [Table](?path=/docs/core-molecules-table--docs)

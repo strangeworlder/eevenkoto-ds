@@ -1,0 +1,26 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: SCROLL (TIER 3)
+   Portable overflow host for wide or tall content.
+   ========================================================================== */
+
+.eevenkoto-scroll {
+  --_eevenkoto-scroll-max-block: var(--eevenkoto-scroll-max-block, none);
+
+  box-sizing: border-box;
+  min-width: 0;
+  max-block-size: var(--_eevenkoto-scroll-max-block);
+}
+
+.eevenkoto-scroll--x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.eevenkoto-scroll--y {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.eevenkoto-scroll--both {
+  overflow: auto;
+}

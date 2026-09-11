@@ -1,6 +1,6 @@
 # @eevenkoto/vue
 
-Thin Vue wrappers around Eevenkoto’s BEM classes. Styling comes from `@eevenkoto/css`; class assembly from `@eevenkoto/core`.
+Thin Vue wrappers around Eevenkoto’s BEM classes. Source lives under `core/` and `domain/` (Atoms / Molecules / Organisms); the package barrel keeps a stable public API. Styling comes from `@eevenkoto/css`; class assembly from `@eevenkoto/core`.
 
 ## Install
 
@@ -17,9 +17,10 @@ Peer: `vue` ^3.5.
 import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/flow.css';
+import '@eevenkoto/css/prose.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
-import { Button, Flow, Heading, Paragraph } from '@eevenkoto/vue';
+import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 </script>
 
 <template>
@@ -31,12 +32,14 @@ import { Button, Flow, Heading, Paragraph } from '@eevenkoto/vue';
 </template>
 ```
 
-Components: `Button`, `Heading`, `Paragraph`, `Caption`, `Flow`.
+Components: `Button`, `Heading`, `Paragraph`, `Caption`, `Flow`, `Prose`.
 
-`Flow` uses the default slot (not a `content` string like `@eevenkoto/html`).
+`Flow` / `Prose` use the default slot (not a `content` string like `@eevenkoto/html`). Compose Prose with Flow for bare-tag reading content.
 
 ## Related
 
-- `@eevenkoto/css` — styles (required for appearance)
+- `@eevenkoto/css` — styles (required for appearance; consume / never rules live there)
 - `@eevenkoto/html` — reference vanilla renderers
 - `@eevenkoto/react` — React equivalents
+
+For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

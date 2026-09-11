@@ -1,0 +1,83 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ScrollStories from './Scroll.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={ScrollStories} />
+
+# Scroll
+
+Portable overflow host. Default axis is horizontal (`x`) for wide tables.
+
+<Canvas of={ScrollStories.Default} />
+
+```html
+<div class="eevenkoto-scroll eevenkoto-scroll--x">…</div>
+```
+
+### Playground
+
+<Controls of={ScrollStories.Default} />
+
+## When to use
+
+Wrap content that may exceed the viewport or frame. TableShell enables Scroll by default around Table.
+
+<DoDont
+  do={
+    <ul>
+      <li>Use Scroll for overflow, not for decorative clipping alone.</li>
+      <li>Pair with sticky index columns via TableShell.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t hide essential content behind scroll without a sticky cue when possible.</li>
+    </ul>
+  }
+/>
+
+## API reference
+
+<ArgTypes of={ScrollStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/scroll.css';
+import { renderScroll } from '@eevenkoto/html';
+
+renderScroll({ content: '…', axis: 'x' });
+```
+
+```tsx
+import { Scroll } from '@eevenkoto/react';
+
+<Scroll axis="x">…</Scroll>
+```
+
+## Related
+
+- [Frame](?path=/docs/core-atoms-frame--docs)
+- [TableShell](?path=/docs/core-organisms-tableshell--docs)

@@ -26,18 +26,13 @@ export const Danger = ({ children, caption, label = 'Danger' }) => (
   </aside>
 );
 
-export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
-  <div className="eevenkoto-docs-dodont">
-    <Do caption={doCaption}>{doContent}</Do>
-    <Dont caption={dontCaption}>{dontContent}</Dont>
-  </div>
-);
-
 <Meta of={TokensStories} />
 
 # Tokens
 
-Design tokens are the shared CSS custom properties for color intent, typography, spacing, radius, and line width. **When building UI, consume semantic (Tier 2) tokens and metrics — never hue primitives.**
+Live catalog of design tokens that exist in CSS today (color, typography, spacing, radius, line width). **Consume Tier 2 semantics and metrics — never hue primitives.**
+
+This page is the **what exists** gallery. App consume rules are generated into `llms-full.txt` (served at `/llms-full.txt` when Storybook runs). Contributor rules live in `AGENTS.md`. Color tier governance for authors lives under [Color Tokens — Architecture](?path=/docs/foundations-color-tokens-architecture--docs).
 
 ```css
 /* Correct: semantic intent */
@@ -48,76 +43,6 @@ Design tokens are the shared CSS custom properties for color intent, typography,
 }
 ```
 
-## Why to use
-
-Tokens keep product UI consistent, themeable, and accessible without hard-coding pigments. Semantic names describe *role* (`control-primary-background`, `content-primary`) so engineers choose intent instead of guessing between `turquoise-state` and `turquoise-primary`.
-
-## When to use
-
-Reach for tokens whenever you style a layout, utility, or component. Prefer an existing semantic token; only escalate to new primitives when intent is missing from Tier 2 and a designer confirms the pigment.
-
-<DoDont
-  do={
-    <ul>
-      <li>
-        Use Tier 2 tokens such as{' '}
-        <code>{'--eevenkoto-color-control-*'}</code>,{' '}
-        <code>{'--eevenkoto-color-surface-*'}</code>, and{' '}
-        <code>{'--eevenkoto-color-content-*'}</code>.
-      </li>
-      <li>
-        Use metric tokens for type, space, radius, and line width (
-        <code>{'--eevenkoto-font-*'}</code>, <code>{'--eevenkoto-space-*'}</code>, …).
-      </li>
-      <li>
-        In components, bridge public overrides through private{' '}
-        <code>{'--_eevenkoto-*'}</code> variables that fall back to Tier 2.
-        Variants and states set the public <code>{'--eevenkoto-*'}</code> API —
-        never reassign the private bridges.
-      </li>
-      <li>
-        If intent is missing, add or request a Tier 2 token — do not invent a local hex/oklch
-        in the component.
-      </li>
-    </ul>
-  }
-  dont={
-    <ul>
-      <li>
-        Don’t reference Tier 1 hue primitives (
-        <code>{'--eevenkoto-color-turquoise-*'}</code>,{' '}
-        <code>{'--eevenkoto-color-parchment-*'}</code>,{' '}
-        <code>{'--eevenkoto-color-gold-*'}</code>) from components or app CSS.
-      </li>
-      <li>
-        Don’t pick a primitive because its swatch “looks right” — that bypasses contrast
-        pairing and theming.
-      </li>
-      <li>
-        Don’t hard-code <code>{'oklch()'}</code>, hex, or rgb in component stylesheets.
-      </li>
-      <li>
-        Don’t dim disabled UI with <code>opacity</code> — use the opaque{' '}
-        <code>{'*-disabled'}</code> semantic tuples.
-      </li>
-    </ul>
-  }
-/>
-
-<DoDont
-  do={
-    <pre>{`--_eevenkoto-button-bg: var(
-  --eevenkoto-button-bg,
-  var(--eevenkoto-color-control-primary-background)
-);`}</pre>
-  }
-  doCaption="Component bridge falls back to Tier 2 intent."
-  dont={
-    <pre>{`background-color: var(--eevenkoto-color-turquoise-state);`}</pre>
-  }
-  dontCaption="Hue primitive leaked into a component."
-/>
-
 ## Semantic colors
 
 These are the **consumable** color tokens (Tier 2) currently defined in `tokens.css`. Use them in layouts, utilities, and as Tier 3 bridge fallbacks.
@@ -125,14 +50,15 @@ These are the **consumable** color tokens (Tier 2) currently defined in `tokens.
 | Domain | Examples | Use for |
 | --- | --- | --- |
 | `control` | `--eevenkoto-color-control-primary-background` | Buttons, chips, and other contained actions |
-| `surface` | `--eevenkoto-color-surface-canvas` | Page canvases, cards, sunken wells |
+| `surface` | `--eevenkoto-color-surface-canvas`, `surface-subtle`, `surface-sunken` | Page canvases, quiet stripes, sunken wells |
 | `content` | `--eevenkoto-color-content-primary` | Body text and secondary/disabled copy |
 | `boundary` | `--eevenkoto-color-boundary-focus-outer` | Dividers and dual-halo focus rings |
 | `depth` | `--eevenkoto-color-depth-shadow-umbra` | Elevation shadows |
+| `feedback` | `--eevenkoto-color-feedback-success-background` | Badges and status (subtle + solid) |
 
 <Canvas of={TokensStories.SemanticColors} />
 
-Domains documented in architecture but not yet fully authored (for example full `link` / `form`) appear here once they land in CSS. `feedback` is authored for Badge intents.
+Domains planned but not fully authored (for example full `link` / `form` / `control-destructive`) appear here once they land in CSS.
 
 ## Typography
 
@@ -160,7 +86,7 @@ Border and stroke widths.
 
 ## Primitives (internal)
 
-Hue pigments in `primitivetokens.css`. Tier 2 maps these to semantic roles. **Components and product CSS must never import them.**
+Hue pigments in `primitive-tokens.css`. Tier 2 maps these to semantic roles. **Components and product CSS must never import them.**
 
 <Danger>
   If you are styling a component or page and reach for{' '}
@@ -177,7 +103,7 @@ For how primitives are authored and when new ones are allowed, see [Tier 1 — P
 ## Related
 
 - [Typography](?path=/docs/foundations-typography--docs) — Two-tier font sizes, families, usage rules
-- [Color Tokens — Architecture](?path=/docs/foundations-color-tokens-architecture--docs) — Philosophy, OKLCH, theming, governance flowchart
-- [Tier 2 — Semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs) — Domain grammar, contrast tuples, CI invariants
+- [Color Tokens — Architecture](?path=/docs/foundations-color-tokens-architecture--docs) — Author governance (not the usage catalog)
+- [Tier 2 — Semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs) — Domain grammar, contrast tuples
 - [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs) — Private-bridge pattern
-- [Button](?path=/docs/components-button--docs) — Canonical consumer of control + metric tokens
+- [Button](?path=/docs/core-atoms-button--docs) — Canonical consumer of control + metric tokens

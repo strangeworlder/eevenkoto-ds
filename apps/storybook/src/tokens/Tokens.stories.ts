@@ -24,6 +24,7 @@ const turquoiseColors: Token[] = [
 
 const parchmentColors: Token[] = [
   { name: 'Background', variable: '--eevenkoto-color-parchment-background' },
+  { name: 'Background subtle', variable: '--eevenkoto-color-parchment-background-subtle' },
   { name: 'Background element', variable: '--eevenkoto-color-parchment-background-element' },
   { name: 'Border', variable: '--eevenkoto-color-parchment-border' },
   { name: 'Primary', variable: '--eevenkoto-color-parchment-primary' },
@@ -134,6 +135,7 @@ const controlColors: Token[] = [
 
 const semanticColors: Token[] = [
   { name: 'Surface canvas', variable: '--eevenkoto-color-surface-canvas' },
+  { name: 'Surface subtle', variable: '--eevenkoto-color-surface-subtle' },
   { name: 'Surface sunken', variable: '--eevenkoto-color-surface-sunken' },
   { name: 'Surface raised', variable: '--eevenkoto-color-surface-raised' },
   { name: 'Content primary', variable: '--eevenkoto-color-content-primary' },
@@ -261,7 +263,7 @@ const renderPrimitives = (): string => `
   <div class="eevenkoto-tokens">
     <section class="eevenkoto-tokens__section">
       <h2 class="eevenkoto-tokens__heading">Primitives</h2>
-      <p class="eevenkoto-tokens__intro">Tier 1 pigments from primitivetokens.css — mapped only inside tokens.css. Do not reference these from component stylesheets.</p>
+      <p class="eevenkoto-tokens__intro">Tier 1 pigments from primitive-tokens.css — mapped only inside tokens.css. Do not reference these from component stylesheets.</p>
     </section>
     ${renderColorGroup('Turquoise', turquoiseColors)}
     ${renderColorGroup('Parchment', parchmentColors)}
@@ -277,7 +279,7 @@ const renderTypography = (): string => `
   <div class="eevenkoto-tokens">
     <section class="eevenkoto-tokens__section">
       <h2 class="eevenkoto-tokens__heading">Typography</h2>
-      <p class="eevenkoto-tokens__intro">Font families and line heights are Tier 2 metrics. Font sizes follow the same Tier 1 → Tier 2 split as color: rem steps in primitivetokens.css, semantic roles in tokens.css. Components consume semantic sizes only.</p>
+      <p class="eevenkoto-tokens__intro">Font families and line heights are Tier 2 metrics. Font sizes follow the same Tier 1 → Tier 2 split as color: rem steps in primitive-tokens.css, semantic roles in tokens.css. Components consume semantic sizes only.</p>
     </section>
     <section class="eevenkoto-tokens__section">
       <h3 class="eevenkoto-tokens__subheading">Font families</h3>
@@ -302,7 +304,7 @@ const renderTypography = (): string => `
     </section>
     <section class="eevenkoto-tokens__section">
       <h3 class="eevenkoto-tokens__subheading">Font sizes — Tier 1 (scale)</h3>
-      <p class="eevenkoto-tokens__intro">Raw rem steps from primitivetokens.css. Do not reference these from component stylesheets.</p>
+      <p class="eevenkoto-tokens__intro">Raw rem steps from primitive-tokens.css. Do not reference these from component stylesheets.</p>
       <div class="eevenkoto-tokens__stack">
         ${fontSizePrimitives
           .map(

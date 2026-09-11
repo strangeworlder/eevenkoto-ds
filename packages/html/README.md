@@ -1,6 +1,6 @@
 # @eevenkoto/html
 
-Canonical vanilla API for Eevenkoto: HTML templates + `render*` functions that return markup strings.
+Canonical vanilla API for Eevenkoto: HTML templates + `render*` functions that return markup strings. Source lives under `core/` and `domain/` (Atoms / Molecules / Organisms); the package barrel keeps a stable public API.
 
 ## Install
 
@@ -23,14 +23,16 @@ document.body.innerHTML = renderButton({
 });
 ```
 
-Also exported: `renderHeading`, `renderParagraph`, `renderCaption`, `renderFlow`.
+Also exported: `renderHeading`, `renderParagraph`, `renderCaption`, `renderFlow`, `renderProse`.
 
-`renderFlow` takes a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
+`renderFlow` / `renderProse` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
 
 Class names and prop types come from `@eevenkoto/core`.
 
 ## Related
 
-- `@eevenkoto/css` — styles
+- `@eevenkoto/css` — styles (consume / never rules live there)
 - `@eevenkoto/core` — shared contract
 - `@eevenkoto/react` / `@eevenkoto/vue` — framework wrappers over the same classes
+
+For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "build": "npm run build -w @eevenkoto/core && npm run build -w @eevenkoto/html && npm run build -w @eevenkoto/react && npm run build -w @eevenkoto/vue",
+    "generate:llms": "node scripts/generate-llms.mjs",
     "storybook": "npm run storybook -w @eevenkoto/storybook",
     "build-storybook": "npm run build && npm run build-storybook -w @eevenkoto/storybook"
   },

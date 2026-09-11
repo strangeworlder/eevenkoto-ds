@@ -7,7 +7,7 @@ export {
   type ButtonClassNameProps,
   resolveButtonIconPosition,
   buttonClassNames,
-} from './button';
+} from './core/atoms/button';
 
 export {
   type BadgeVariant,
@@ -17,7 +17,7 @@ export {
   type BadgeProps,
   type BadgeClassNameProps,
   badgeClassNames,
-} from './badge';
+} from './core/atoms/badge';
 
 export {
   type HeadingLevel,
@@ -27,7 +27,7 @@ export {
   type HeadingClassNameProps,
   HEADING_RUN_IN_LEVELS,
   headingClassNames,
-} from './heading';
+} from './core/atoms/heading';
 
 export {
   type ParagraphSize,
@@ -35,24 +35,46 @@ export {
   type ParagraphProps,
   type ParagraphClassNameProps,
   paragraphClassNames,
-} from './paragraph';
+} from './core/atoms/paragraph';
 
 export {
   type CaptionTone,
   type CaptionProps,
   type CaptionClassNameProps,
   captionClassNames,
-} from './caption';
+} from './core/atoms/caption';
 
-export { type FlowDensity, type FlowProps, flowClassNames } from './flow';
+export { frameClassNames } from './core/atoms/frame';
+
+export {
+  type ScrollAxis,
+  type ScrollProps,
+  type ScrollClassNameProps,
+  scrollClassNames,
+} from './core/atoms/scroll';
+
+export {
+  type TableCellKind,
+  type TableCellProps,
+  type TableCellClassNameProps,
+  tableCellClassNames,
+  tableColClassNames,
+} from './core/atoms/tableCell';
+
+export { type FlowDensity, type FlowProps, flowClassNames } from './core/molecules/flow';
+
+export { proseClassNames } from './core/molecules/prose';
 
 export {
   type PropertyItem,
   type PropertyProps,
-  type PropertyListProps,
   propertyClassNames,
+} from './core/atoms/property';
+
+export {
+  type PropertyListProps,
   propertyListClassNames,
-} from './property';
+} from './core/molecules/propertyList';
 
 export {
   type StatShape,
@@ -60,27 +82,47 @@ export {
   type StatProps,
   type StatClassNameProps,
   statClassNames,
-} from './stat';
+} from './core/atoms/stat';
+
+export {
+  type TableVariant,
+  type TableStripe,
+  type TableColumn,
+  type TableProps,
+  type TableClassNameProps,
+  tableClassNames,
+  tableCaptionClassNames,
+} from './core/molecules/table';
+
+export {
+  tableShellClassNames,
+  tableShellFooterClassNames,
+} from './core/organisms/tableShell';
 
 export {
   type AbilityScoreProps,
-  type AbilityScoreGroupProps,
   abilityScoreClassNames,
+} from './domain/molecules/abilityScore';
+
+export {
+  type AbilityScoreGroupProps,
   abilityScoreGroupClassNames,
-} from './abilityScore';
+} from './domain/organisms/abilityScoreGroup';
 
 export {
   type StatblockFeatureProps,
-  type StatblockFeature,
-  type StatblockSectionProps,
-  type StatblockSection,
   statblockFeatureClassNames,
+} from './domain/molecules/statblockFeature';
+
+export {
+  type StatblockSectionProps,
   statblockSectionClassNames,
-} from './statblockSection';
+} from './domain/molecules/statblockSection';
 
 export {
   type StatblockProps,
+  type StatblockNameLevel,
   statblockClassNames,
-} from './statblock';
+} from './domain/organisms/statblock';
 
-export { buttonIconPaths } from './icons';
+export { buttonIconPaths } from './core/atoms/icons';

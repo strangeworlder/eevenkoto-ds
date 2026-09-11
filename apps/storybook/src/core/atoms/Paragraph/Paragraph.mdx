@@ -1,0 +1,126 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ParagraphStories from './Paragraph.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={ParagraphStories} />
+
+# Paragraph
+
+Paragraph styles body copy using Tier 2 `--eevenkoto-font-size-body-*` tokens (never raw `sm`/`md`/`lg` scale steps).
+
+<Canvas of={ParagraphStories.Default} />
+
+```html
+<p class="eevenkoto-paragraph">
+  …
+</p>
+```
+
+The base class alone is the default (`body-md` / primary). Size and tone modifiers are opt-in. Framework helpers still emit explicit `--md` / `--primary` for the component API.
+
+### Playground
+
+<Controls of={ParagraphStories.Default} />
+
+## Why to use
+
+Consistent body type keeps reading rhythm stable across pages and themes. Semantic sizes let density or theme remaps change roles without renaming the rem ladder.
+
+## When to use
+
+Use Paragraph for multi-sentence body copy. Prefer Heading for titles and Caption for short metadata.
+
+<DoDont
+  do={
+    <ul>
+      <li>Use Paragraph for body copy and supporting prose.</li>
+      <li>Pick size from body roles (`sm` / `md` / `lg`).</li>
+      <li>Use Secondary tone for de-emphasized supporting paragraphs.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use Paragraph as a page or section title — use Heading.</li>
+      <li>Don’t use Paragraph for one-line metadata — use Caption.</li>
+      <li>Don’t hard-code rem or Tier 1 `--eevenkoto-font-size-md` in local CSS.</li>
+    </ul>
+  }
+/>
+
+## Key modifiers
+
+### size
+
+| Value | Token |
+| --- | --- |
+| `sm` | `--eevenkoto-font-size-body-sm` |
+| `md` | `--eevenkoto-font-size-body-md` |
+| `lg` | `--eevenkoto-font-size-body-lg` |
+
+<Canvas of={ParagraphStories.SizeComparison} />
+
+### tone
+
+| Value | Content color |
+| --- | --- |
+| `primary` | `--eevenkoto-color-content-primary` |
+| `secondary` | `--eevenkoto-color-content-secondary` |
+
+## API reference
+
+<ArgTypes of={ParagraphStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/paragraph.css';
+import { renderParagraph } from '@eevenkoto/html';
+
+renderParagraph({ text: 'Body copy.', size: 'md' });
+```
+
+```tsx
+import { Paragraph } from '@eevenkoto/react';
+
+<Paragraph text="Body copy." size="md" />
+```
+
+```vue
+<script setup>
+import { Paragraph } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Paragraph text="Body copy." size="md" />
+</template>
+```
+
+## Related
+
+- [Typography](?path=/docs/foundations-typography--docs)
+- [Heading](?path=/docs/core-atoms-heading--docs)
+- [Prose](?path=/docs/core-molecules-prose--docs) — Bare `<p>` inside a scope
+- [Flow](?path=/docs/core-molecules-flow--docs)
+- [Caption](?path=/docs/core-atoms-caption--docs)

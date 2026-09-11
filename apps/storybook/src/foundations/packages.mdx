@@ -8,16 +8,18 @@ Eevenkoto ships as separate npm packages so CSS stays framework-free and each ru
 
 | Package | Role |
 | --- | --- |
-| `@eevenkoto/css` | Tokens, base styles, and component/primitive CSS |
+| `@eevenkoto/css` | Tokens, base styles, and Core/Domain component CSS |
 | `@eevenkoto/core` | Shared prop types + `*ClassNames()` helpers (no DOM) |
 | `@eevenkoto/html` | Canonical vanilla API — HTML templates + `render*` |
 | `@eevenkoto/react` | Thin React wrappers over the same classes |
 | `@eevenkoto/vue` | Thin Vue wrappers over the same classes |
 
+Source folders inside each package follow **Core vs Domain** and **Atoms / Molecules / Organisms** (see [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs) and [Glossary](?path=/docs/foundations-glossary--docs)). Root barrels keep a stable public API.
+
 ## Source of truth
 
 1. **CSS** defines appearance (`@eevenkoto/css`).
-2. **Core** defines the public prop contract and BEM class assembly.
+2. **Core package** defines the public prop contract and BEM class assembly (`@eevenkoto/core`).
 3. **HTML** is the reference markup implementation used by this Storybook.
 4. **React / Vue** only map props → the same class strings and elements (Flow uses children / default slot instead of a `content` string).
 
@@ -29,3 +31,7 @@ import '@eevenkoto/css/button.css';
 ```
 
 Component docs briefly show HTML, React, and Vue usage under **Framework packages**. The live Canvas and Controls remain HTML-driven.
+
+## Authoring new components
+
+Decide Core vs Domain and atom → molecule → organism first ([Component taxonomy](?path=/docs/foundations-component-taxonomy--docs)). Host classes must ship usable defaults without modifier classes ([Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs)). For multi-piece Domain UIs, see [Authoring composed components](?path=/docs/foundations-authoring-composed-components--docs) — hierarchy, honest outlines, emphasis/contrast, package checklist, and HTML trust boundaries.

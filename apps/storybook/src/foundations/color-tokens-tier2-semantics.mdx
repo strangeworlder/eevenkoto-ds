@@ -4,13 +4,15 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Tier 2: Semantic Token Architecture
 
+**Audience:** authors mapping intent — not the app usage catalog. For tokens that exist today, see [Foundations → Tokens](?path=/docs/foundations-tokens--docs).
+
 **Doc set:** [Architecture](./color-tokens-architecture.mdx) → [Tier 1 Primitives](./color-tokens-tier1-primitives.mdx) → Tier 2 Semantics (this file) → [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)
 
 This document defines the naming grammar, architectural invariants, and governance rules for the semantic token layer (Tier 2). Tier 2 translates Tier 1 primitive pigments into web platform tokens (background, text, border, outline) and enforces color contrast and pairing guarantees.
 
 | Field | Value |
 | --- | --- |
-| Source file | `src/tokens/tokens.css` |
+| Source file | `packages/css/tokens/tokens.css` |
 | Naming convention | `--eevenkoto-color-[domain]-[variant]-[element]-[state]` |
 | Consumer scope | Global layouts, utilities, and Tier 3 component definitions |
 
@@ -18,7 +20,7 @@ This document defines the naming grammar, architectural invariants, and governan
 
 The Eevenkoto token system uses a strict three-tier hierarchy:
 
-- **Tier 1: Primitives** (`primitivetokens.css`) — A sparse palette of hand-tuned OKLCH pigment curves. Tier 1 is the sole repository of raw color coordinates (`oklch()`, Display P3) and grows strictly through an accretive, append-only process.
+- **Tier 1: Primitives** (`primitive-tokens.css`) — A sparse palette of hand-tuned OKLCH pigment curves. Tier 1 is the sole repository of raw color coordinates (`oklch()`, Display P3) and grows strictly through an accretive, append-only process.
 - **Tier 2: Semantics** (`tokens.css`) — The complete semantic dictionary for the web platform. Tier 2 contains zero raw color values; every token maps Tier 1 primitives to functional UI roles. Color contrast, container pairing, and theme remapping are enforced here.
 - **Tier 3: Components** (`*.css`) — Component-scoped styles. Components consume Tier 2 tokens through private `--_*` bridge variables. Component stylesheets are strictly isolated from Tier 1.
 
@@ -110,7 +112,7 @@ Form components consume only the `form` domain.
 - Platform keywords: `transparent` and `currentColor`
 - CSS system color keywords for Windows High Contrast Mode (`Canvas`, `CanvasText`, `ButtonBorder`, `Highlight`, `HighlightText`, `LinkText`)
 
-**Enforcement:** Stylelint fails the CI build if raw color strings appear in `tokens.css`. If an intent requires an unvetted color stop, it must be added to Tier 1 via the primitive review process.
+**Planned enforcement:** Stylelint should fail CI if raw color strings appear in `tokens.css` (not wired yet). If an intent requires an unvetted color stop, it must be added to Tier 1 via the primitive review process.
 
 ### 3.1a Prefer aliases — constrain `color-mix`
 
@@ -131,7 +133,7 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 ```css
 /* ✅ Quiet chrome: alias parchment */
 --eevenkoto-color-content-accent: var(--eevenkoto-color-parchment-primary);
---eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-strong);
+--eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-deep);
 
 /* ✅ Documented fade */
 --eevenkoto-color-boundary-subtle: color-mix(
@@ -174,7 +176,7 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 );
 ```
 
-**Enforcement:** AST linting enforces that every token ending in `-background` has a co-located `-text` sibling within the same selector.
+**Planned enforcement:** AST linting should require every token ending in `-background` to have a co-located `-text` sibling within the same selector (not wired yet).
 
 ### 3.3 Ban on `-inverse` Tokens (Scoped Context Theming)
 
@@ -194,7 +196,7 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 }
 ```
 
-**Enforcement:** AST linting rejects any token name containing the substring `-inverse`.
+**Planned enforcement:** AST linting should reject any token name containing the substring `-inverse` (not wired yet).
 
 ### 3.4 Contrast & Polarity Standards
 
@@ -219,7 +221,7 @@ Token pairings must pass two automated CI checks:
 - **Dual-Boundary Focus Indicators:** A single focus ring cannot guarantee contrast against both an arbitrary control fill and an unknown outer canvas. Tier 2 defines a two-part halo:
   - `--eevenkoto-color-boundary-focus-outer`: Contrasts against the surrounding canvas (≥ 3.0:1).
   - `--eevenkoto-color-boundary-focus-inner`: Contrasts against the component's inner fill (≥ 3.0:1).
-- **Multi-Canvas Surface Rule:** Because typography renders across multiple elevation steps, `--eevenkoto-color-content-primary` must clear WCAG AA (≥ 4.5:1) against both `--eevenkoto-color-surface-canvas` and `--eevenkoto-color-surface-sunken`.
+- **Multi-Canvas Surface Rule:** Because typography renders across multiple elevation steps, `--eevenkoto-color-content-primary` must clear WCAG AA (≥ 4.5:1) against `--eevenkoto-color-surface-canvas`, `--eevenkoto-color-surface-subtle`, and `--eevenkoto-color-surface-sunken`.
 
 ### 3.5 Elevation & Depth Mechanics
 
@@ -257,6 +259,7 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
 :root {
   /* 1. SURFACES & DEPTH (Light Mode - Subtractive Model) */
   --eevenkoto-color-surface-canvas:        var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-surface-subtle:        var(--eevenkoto-color-parchment-background-subtle);
   --eevenkoto-color-surface-sunken:        var(--eevenkoto-color-parchment-background-element);
   --eevenkoto-color-surface-raised:        var(--eevenkoto-color-parchment-background);
 
@@ -275,7 +278,7 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
   --eevenkoto-color-content-primary:       var(--eevenkoto-color-parchment-text);
   --eevenkoto-color-content-secondary:     var(--eevenkoto-color-parchment-text-muted);
   --eevenkoto-color-content-accent:        var(--eevenkoto-color-parchment-primary);
-  --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-strong);
+  --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-deep);
   --eevenkoto-color-content-disabled:      var(--eevenkoto-color-parchment-border);
 
   /* 3. TYPOGRAPHIC LINKS */
@@ -378,9 +381,9 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
 }
 ```
 
-## Automated CI Enforcement
+## Planned CI enforcement
 
-Continuous Integration enforces architectural integrity through automated Stylelint rules and contrast checks on every commit:
+These Stylelint rules and contrast checks are the **intended** CI guardrails. They are **not enforced on every commit yet** — follow them when authoring tokens.
 
 | Check | Behavior |
 | --- | --- |
@@ -388,5 +391,5 @@ Continuous Integration enforces architectural integrity through automated Stylel
 | Mandatory Text Tuples | Requires any selector declaring a `-background` property to include a matching `-text` property, unless annotated with `/* stylelint-disable-next-line eevenkoto/require-text-tuple */`. |
 | Mandatory Disabled Tuples | Requires interactive variants with `-background-disabled` to also declare `-text-disabled` and `-border-disabled`. |
 | Banned `-inverse` Names | Scans for `-inverse` in token names and fails the build. Use scoped context containers instead. |
-| Dual-Canvas Contrast Audits | Verifies `--eevenkoto-color-content-primary` meets WCAG AA (≥ 4.5:1) against both `--eevenkoto-color-surface-canvas` and `--eevenkoto-color-surface-sunken` across all themes. |
-| Tier Isolation | Rejects any occurrence of Tier 1 primitive leakage patterns in `src/components/`. |
+| Dual-Canvas Contrast Audits | Verifies `--eevenkoto-color-content-primary` meets WCAG AA (≥ 4.5:1) against `--eevenkoto-color-surface-canvas`, `--eevenkoto-color-surface-subtle`, and `--eevenkoto-color-surface-sunken` across all themes. |
+| Tier Isolation | Rejects any occurrence of Tier 1 primitive leakage patterns in `packages/css/core/` and `packages/css/domain/`. |

@@ -1,0 +1,122 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Glossary" />
+
+# Glossary
+
+Canonical vocabulary for Eevenkoto APIs, source layout, and docs. Prefer these names in props, types, file paths, and prose.
+
+Also read: [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs) · [Authoring composed components](?path=/docs/foundations-authoring-composed-components--docs) · [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) · [Packages](?path=/docs/foundations-packages--docs)
+
+## Locale policy
+
+- **Public APIs are English** (prop names, type names, BEM blocks, defaults).
+- **Product-language strings are data** — Finnish (or any locale) belongs in story / app props, not in `@eevenkoto/core`.
+- English defaults (`Score`, `Modifier`, `Save`, `proficient`) may ship for AT labels; override them when the surrounding UI is localized (`scoreLabel`, `modifierLabel`, `saveLabel`, `proficientLabel`).
+
+## Architecture terms
+
+| Term | Meaning |
+| --- | --- |
+| **Core** | Product-agnostic chrome; no RPG vocabulary required |
+| **Domain** | Eevenkoto content patterns (creatures, abilities, statblocks); may compose Core |
+| **Atom** | One semantic unit + BEM classes |
+| **Molecule** | Layout of atoms + local ARIA |
+| **Organism** | Page-shaped composition, slots, outline |
+| **Tier 1 / 2 / 3** | Token layers: primitives → semantics → component bridges |
+| **Host default** | `.eevenkoto-<block>` alone = documented default look; see [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) |
+| **Prose** | Scope for bare `h1`–`h6` / `p` type styles (compose with Flow for rhythm) |
+| **Flow** | Vertical rhythm for stacked type (classed or Prose+Flow bare tags) |
+
+## Domain entry stack
+
+| Term | Meaning | Prop / type |
+| --- | --- | --- |
+| **Statblock** | Creature / entity **entry** organism | `StatblockProps` |
+| **name** | Creature title | `name`, `nameLevel` |
+| **flavor** | Optional lead paragraph | `flavor` |
+| **typeLine** | Size / type caption | `typeLine` |
+| **vitals** | Combat vitals PropertyList (AbilityScoreGroup **header**) | `vitals: PropertyItem[]` |
+| **abilities** | Ability columns | `abilities: AbilityScoreProps[]` |
+| **details** | Skills, gear, senses, languages, CR (AbilityScoreGroup **footer**) | `details: PropertyItem[]` |
+| **section** | Named block (Actions, Reactions, …) | `StatblockSectionProps.title` |
+| **feature** | Named action / trait / reaction line | `StatblockFeatureProps` (`name`, `description`) |
+| **AbilityScore** | One ability column (label + score + modifier + save) | `AbilityScoreProps` |
+| **AbilityScoreGroup** | Sandwich organism (header + grid + footer) | `AbilityScoreGroupProps` |
+
+Do **not** use **traits** for the footer PropertyList — that word collides with feature-style “traits” in rules prose. The footer rail is **`details`**.
+
+## Core display terms
+
+| Term | Meaning |
+| --- | --- |
+| **Property** | One label → value pair (`dt` / `dd`) |
+| **PropertyList** | Stacked properties (`dl`) — Core **molecule** |
+| **Stat** | Numeric display chip (`disk` / `arch` / `shield`) |
+| **emphasis** | Generic Stat highlight (thicker stroke, etc.) |
+| **saveProficient** | Domain flag on AbilityScore; maps to Stat `emphasis` + AT suffix |
+
+**Stat** (chip) and **Statblock** (entry) are different concepts that share a root word on purpose.
+
+## Visible-string props
+
+Use the prop that matches the role — do not force one name everywhere.
+
+| Prop | Use for |
+| --- | --- |
+| `label` | Control/chrome copy and definition terms (Button, Badge, Property, AbilityScore header) |
+| `text` | Typography primitives (Heading, Paragraph, Caption, TableCell body) |
+| `name` | Named entity (Statblock creature, StatblockFeature) |
+| `title` | Section heading (StatblockSection) |
+| `value` | Numeric or definitional payload (Stat, Property) |
+| `description` | Feature body after the run-in name |
+| `content` | HTML-only string body for composed hosts (e.g. Flow); React/Vue use `children` / slots |
+
+In markup, a Property `label` is the definition **term** (`dt`). The prop name stays **`label`**.
+
+## Variant vocabulary
+
+| Surface | Prop | Values mean |
+| --- | --- | --- |
+| Button | `variant` | Action hierarchy: `primary` / `secondary` / `ghost` |
+| Badge | `variant` | Surface recipe: `subtle` / `solid` / `outline` |
+| Badge | `intent` | Feedback severity: `neutral` / `info` / `success` / `caution` / `critical` / `admin` |
+| Heading / Paragraph / Caption | `tone` | Content weight: `primary` / `secondary` |
+
+`primary` is overloaded by design (control hierarchy vs content weight vs token slots). Prefer the table above over inventing parallel words.
+
+Feedback uses **`caution`** / **`critical`** (not `warning` / `error`). Destructive actions use control **`destructive`** tokens / Button examples — that is separate from Badge intent.
+
+## Type layers
+
+| Package | Canonical type name |
+| --- | --- |
+| `@eevenkoto/core` | `*Props` + `*ClassNames()` |
+| `@eevenkoto/html` | `*Props` (HTML-only extensions stay as local `*Props` that extend core) |
+| `@eevenkoto/react` | `*ComponentProps` (DOM attrs + core props) |
+| `@eevenkoto/vue` | `*Props` on the component |
+
+Do not introduce `*Args` aliases.
+
+## File-name conventions
+
+| Surface | Convention | Example |
+| --- | --- | --- |
+| Core TS sources | camelCase | `abilityScore.ts` |
+| CSS / HTML folders & files | kebab-case | `ability-score/`, `primitive-tokens.css` |
+| React / Vue / Storybook components | PascalCase | `AbilityScore.tsx` |
+| BEM blocks | `eevenkoto-<block>` | `eevenkoto-ability-score` |
+| camelCase props → BEM modifiers | kebab-case | `saveProficient` → `--save-proficient`, `runIn` → `--run-in` |
+
+Public CSS import paths stay flat (`@eevenkoto/css/ability-score.css`) even when source lives under `core/` or `domain/`.
+
+## Migration (0.1.x)
+
+| Was | Use instead |
+| --- | --- |
+| `StatblockProps.traits` | `details` |
+| HTML `*Args` (e.g. `ButtonArgs`) | `*Props` |
+| Bare `StatblockFeature` / `StatblockSection` type aliases | `StatblockFeatureProps` / `StatblockSectionProps` |
+| `primitivetokens.css` (legacy filename) | `primitive-tokens.css` |
+| PropertyList under `core/atoms/` | `core/molecules/` |
+| AbilityScoreGroup under `domain/molecules/` | `domain/organisms/` |

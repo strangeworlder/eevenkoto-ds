@@ -1,0 +1,144 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as FlowStories from './Flow.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={FlowStories} />
+
+# Flow
+
+Flow is the vertical rhythm container for stacked primitives. It resets child block margins and applies pair-aware gaps so Heading, Paragraph, and Caption never invent competing space.
+
+<Canvas of={FlowStories.Default} />
+
+```html
+<div class="eevenkoto-flow">
+  <h2 class="eevenkoto-heading …">…</h2>
+  <p class="eevenkoto-paragraph …">…</p>
+</div>
+```
+
+### Playground
+
+<Controls of={FlowStories.Default} />
+
+## Why to use
+
+Type primitives need default margins for standalone stories, but those margins **stack** in compositions — especially with global `text-box` trim removing half-leading. Flow owns the gaps instead.
+
+## When to use
+
+Wrap any vertical stack of Heading / Paragraph / Caption (and nested Flows) in `eevenkoto-flow`. For bare CMS/`h*`/`p` markup, compose with [Prose](?path=/docs/core-molecules-prose--docs) (`eevenkoto-prose eevenkoto-flow`).
+
+<DoDont
+  do={
+    <ul>
+      <li>Compose reading layouts inside Flow.</li>
+      <li>Use density modifiers or public `--eevenkoto-flow-gap-*` tokens to tune rhythm.</li>
+      <li>Nest Flows for section groups when you want macro separation between clusters.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t add one-off margin utilities on every Heading/Paragraph in a page.</li>
+      <li>Don’t nest arbitrary wrappers that reintroduce their own vertical margins.</li>
+    </ul>
+  }
+/>
+
+## Density
+
+| Modifier | Class | Effect |
+| --- | --- | --- |
+| _(default)_ | `eevenkoto-flow` | Comfortable reading rhythm |
+| `tight` | `eevenkoto-flow--tight` | Compact stacks |
+| `loose` | `eevenkoto-flow--loose` | Airier editorial layouts |
+
+<Canvas of={FlowStories.Tight} />
+<Canvas of={FlowStories.Loose} />
+
+## Pair rules (defaults)
+
+Gaps use `padding-block-start` on the following sibling (not stacked margins), so rhythm survives margin collapse and global `text-box` trim.
+
+| Adjacent pair | Gap token fallback |
+| --- | --- |
+| Generic sibling | `--eevenkoto-space-4` |
+| Heading → Paragraph / Caption | `--eevenkoto-space-4` |
+| Paragraph / Caption → Heading | `--eevenkoto-space-8` |
+| → H1 / H2 | `--eevenkoto-space-8` |
+| Paragraph → Paragraph | `--eevenkoto-space-4` |
+| → Caption | `--eevenkoto-space-2` |
+| Nested Flow → Flow | `--eevenkoto-space-8` |
+| Run-in H6 → Paragraph | `0` (inline) |
+
+## API reference
+
+<ArgTypes of={FlowStories} />
+
+## Framework packages
+
+HTML takes a `content` string. React/Vue use children / the default slot instead.
+
+```ts
+import '@eevenkoto/css/flow.css';
+import { renderFlow, renderHeading, renderParagraph } from '@eevenkoto/html';
+
+renderFlow({
+  content: [
+    renderHeading({ level: 2, text: 'Title' }),
+    renderParagraph({ text: 'Body.' }),
+  ].join(''),
+});
+```
+
+```tsx
+import { Flow, Heading, Paragraph } from '@eevenkoto/react';
+
+<Flow>
+  <Heading level={2} text="Title" />
+  <Paragraph text="Body." />
+</Flow>
+```
+
+```vue
+<script setup>
+import { Flow, Heading, Paragraph } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Flow>
+    <Heading :level="2" text="Title" />
+    <Paragraph text="Body." />
+  </Flow>
+</template>
+```
+
+## Related
+
+- [Prose](?path=/docs/core-molecules-prose--docs) — Bare `h1`–`h6` / `p` (compose as `eevenkoto-prose eevenkoto-flow`)
+- [Typography sample](?path=/docs/core-molecules-typography-sample--docs) — Flow in a full reading specimen
+- [Heading](?path=/docs/core-atoms-heading--docs)
+- [Paragraph](?path=/docs/core-atoms-paragraph--docs)
+- [Caption](?path=/docs/core-atoms-caption--docs)

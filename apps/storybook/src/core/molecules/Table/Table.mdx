@@ -1,0 +1,122 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TableStories from './Table.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={TableStories} />
+
+# Table
+
+Core **molecule** for real `<table>` charts. Composes [TableCell](?path=/docs/core-atoms-tablecell--docs) atoms. For framed/scrollable product charts, wrap with [TableShell](?path=/docs/core-organisms-tableshell--docs).
+
+<Canvas of={TableStories.Default} />
+
+Minimum markup is the host class: `<table class="eevenkoto-table">` is the **default** variant with **row** striping. Cells need `eevenkoto-table-cell` (kind defaults to text without `--text`). Opt out of stripes with `eevenkoto-table--stripe-none`.
+
+### Playground
+
+<Controls of={TableStories.Default} />
+
+## Variants
+
+| Variant | Use |
+| --- | --- |
+| `default` | Everyday multi-column grids |
+| `numeric` | Progression charts — angled numeric headers, upright index/text |
+| `pair` | Roll / index → description (rulebook look) |
+
+### Numeric progression
+
+Long headers over single-digit cells: only **numeric** heads rotate (−45°). Full text stays in the DOM. Hover/focus a numeric head to outline that column. `prefers-reduced-motion: reduce` keeps headers upright and wrapping.
+
+<Canvas of={TableStories.NumericProgression} />
+
+### Pair / roll
+
+Use a real table for lookup charts. Prefer [PropertyList](?path=/docs/core-molecules-propertylist--docs) for definitional label→value metadata (“Armor Class: 15”).
+
+<Canvas of={TableStories.PairRoll} />
+
+### Stripe
+
+Default `row` zebra uses `surface-subtle` on the host (no `--stripe-row` required). `column` stripes digit columns; `none` (`eevenkoto-table--stripe-none`) turns striping off. Borders remain so color is not the only structure cue.
+
+<Canvas of={TableStories.StripeColumn} />
+
+## Ecosystem
+
+```
+TableCell + Caption  →  Table (molecule)  →  TableShell (Frame + Scroll + footer slot)
+```
+
+Pager is not shipped yet — put future Pager in the TableShell footer slot.
+
+<DoDont
+  do={
+    <ul>
+      <li>Use Table for true tabular charts (progression, rolls, grids).</li>
+      <li>Keep RPG terms in story/product data — Core APIs stay English and generic.</li>
+      <li>Use PropertyList for definitional metadata pairs.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t truncate headers to icons without an accessible name in the DOM.</li>
+      <li>Don’t use Table as a fake PropertyList for “Label: value” metadata.</li>
+      <li>Don’t bury Frame/Scroll only inside Table CSS — they are atoms.</li>
+    </ul>
+  }
+/>
+
+## API reference
+
+<ArgTypes of={TableStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/table-cell.css';
+import '@eevenkoto/css/table.css';
+import { renderTable } from '@eevenkoto/html';
+
+renderTable({
+  variant: 'numeric',
+  caption: 'Class progression',
+  columns: [/* … */],
+  rows: [/* … */],
+});
+```
+
+```tsx
+import { Table } from '@eevenkoto/react';
+
+<Table variant="pair" columns={…} rows={…} />
+```
+
+## Related
+
+- [TableShell](?path=/docs/core-organisms-tableshell--docs)
+- [Frame](?path=/docs/core-atoms-frame--docs)
+- [Scroll](?path=/docs/core-atoms-scroll--docs)
+- [PropertyList](?path=/docs/core-molecules-propertylist--docs)

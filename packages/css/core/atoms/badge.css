@@ -1,0 +1,249 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: BADGE (TIER 3)
+   Status / metadata label. Consumes Tier 2 `feedback-*` only.
+   Interactive chips stay in `control` (Chip — later). Sentence case + bold.
+   ========================================================================== */
+
+.eevenkoto-badge {
+  /* 1. Private bridges (subtle + neutral + md + pill defaults on the host) */
+  --_eevenkoto-badge-bg: var(
+    --eevenkoto-badge-bg,
+    var(--eevenkoto-color-feedback-neutral-background)
+  );
+  --_eevenkoto-badge-text: var(
+    --eevenkoto-badge-text,
+    var(--eevenkoto-color-feedback-neutral-text)
+  );
+  --_eevenkoto-badge-border-color: var(
+    --eevenkoto-badge-border-color,
+    var(--eevenkoto-color-feedback-neutral-border)
+  );
+  --_eevenkoto-badge-dot-color: var(
+    --eevenkoto-badge-dot-color,
+    var(--eevenkoto-color-feedback-neutral-icon)
+  );
+  --_eevenkoto-badge-font-size: var(
+    --eevenkoto-badge-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-badge-pad-block: var(--eevenkoto-badge-pad-block, var(--eevenkoto-space-1));
+  --_eevenkoto-badge-pad-inline: var(--eevenkoto-badge-pad-inline, var(--eevenkoto-space-2));
+  --_eevenkoto-badge-radius: var(--eevenkoto-badge-radius, var(--eevenkoto-radius-full));
+  --_eevenkoto-badge-dot-size: var(--eevenkoto-badge-dot-size, 0.6em);
+  --_eevenkoto-badge-gap: var(--eevenkoto-badge-gap, var(--eevenkoto-space-1));
+  --_eevenkoto-badge-border-width: var(
+    --eevenkoto-badge-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-badge-font-weight: var(
+    --eevenkoto-badge-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-badge-line-height: var(
+    --eevenkoto-badge-line-height,
+    var(--eevenkoto-line-height-tight)
+  );
+
+  /* 2. Structure */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_eevenkoto-badge-gap);
+  box-sizing: border-box;
+  vertical-align: middle;
+  white-space: nowrap;
+  user-select: none;
+  text-decoration: none;
+
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--_eevenkoto-badge-font-size);
+  font-weight: var(--_eevenkoto-badge-font-weight);
+  line-height: var(--_eevenkoto-badge-line-height);
+  text-transform: none;
+  letter-spacing: normal;
+
+  color: var(--_eevenkoto-badge-text);
+  background: var(--_eevenkoto-badge-bg);
+  border: var(--_eevenkoto-badge-border-width) solid var(--_eevenkoto-badge-border-color);
+  border-radius: var(--_eevenkoto-badge-radius);
+  padding: var(--_eevenkoto-badge-pad-block) var(--_eevenkoto-badge-pad-inline);
+}
+
+.eevenkoto-badge__dot {
+  display: inline-block;
+  width: var(--_eevenkoto-badge-dot-size);
+  height: var(--_eevenkoto-badge-dot-size);
+  border-radius: var(--eevenkoto-radius-full);
+  background-color: var(--_eevenkoto-badge-dot-color);
+  margin-right: var(--_eevenkoto-badge-gap);
+  flex-shrink: 0;
+}
+
+.eevenkoto-badge__label {
+  min-width: 0;
+}
+
+/* --- SIZES (sm | md | lg — shared control ladder) --- */
+
+.eevenkoto-badge--sm {
+  --eevenkoto-badge-font-size: var(--eevenkoto-font-size-control-sm);
+  --eevenkoto-badge-pad-block: var(--eevenkoto-space-1);
+  --eevenkoto-badge-pad-inline: var(--eevenkoto-space-2);
+  --eevenkoto-badge-dot-size: 0.3em;
+}
+
+.eevenkoto-badge--md {
+  --eevenkoto-badge-font-size: var(--eevenkoto-font-size-control-md);
+  --eevenkoto-badge-pad-block: var(--eevenkoto-space-1);
+  --eevenkoto-badge-pad-inline: var(--eevenkoto-space-2);
+  --eevenkoto-badge-dot-size: 0.4em;
+}
+
+.eevenkoto-badge--lg {
+  --eevenkoto-badge-font-size: var(--eevenkoto-font-size-control-lg);
+  --eevenkoto-badge-pad-block: var(--eevenkoto-space-1);
+  --eevenkoto-badge-pad-inline: var(--eevenkoto-space-3);
+  --eevenkoto-badge-dot-size: 0.5em;
+}
+
+/* --- SHAPES --- */
+
+.eevenkoto-badge--pill {
+  --eevenkoto-badge-radius: var(--eevenkoto-radius-full);
+}
+
+.eevenkoto-badge--rounded {
+  --eevenkoto-badge-radius: var(--eevenkoto-radius-sm);
+}
+
+/* --- VARIANTS × INTENTS (bridge rebinds → Tier 2 feedback) ---
+   Host alone = subtle + neutral. Intent modifiers apply the subtle recipe
+   without requiring --subtle. --solid / --outline alone default to neutral. */
+
+.eevenkoto-badge--neutral {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-neutral-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-neutral-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-neutral-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-neutral-icon);
+}
+
+.eevenkoto-badge--info {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-info-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-info-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-info-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-info-icon);
+}
+
+.eevenkoto-badge--success {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-success-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-success-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-success-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-success-icon);
+}
+
+.eevenkoto-badge--caution {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-caution-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-caution-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-caution-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-caution-icon);
+}
+
+.eevenkoto-badge--critical {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-critical-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-critical-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-critical-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-critical-icon);
+}
+
+.eevenkoto-badge--admin {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-admin-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-admin-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-admin-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-admin-icon);
+}
+
+.eevenkoto-badge--solid,
+.eevenkoto-badge--solid.eevenkoto-badge--neutral {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-neutral-solid-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-neutral-solid-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-neutral-solid-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-neutral-solid-icon);
+}
+
+.eevenkoto-badge--solid.eevenkoto-badge--info {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-info-solid-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-info-solid-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-info-solid-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-info-solid-icon);
+}
+
+.eevenkoto-badge--solid.eevenkoto-badge--success {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-success-solid-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-success-solid-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-success-solid-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-success-solid-icon);
+}
+
+.eevenkoto-badge--solid.eevenkoto-badge--caution {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-caution-solid-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-caution-solid-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-caution-solid-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-caution-solid-icon);
+}
+
+.eevenkoto-badge--solid.eevenkoto-badge--critical {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-critical-solid-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-critical-solid-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-critical-solid-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-critical-solid-icon);
+}
+
+.eevenkoto-badge--solid.eevenkoto-badge--admin {
+  --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-admin-solid-background);
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-admin-solid-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-admin-solid-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-admin-solid-icon);
+}
+
+/* Outline: transparent fill; stroke + ink from subtle tuple */
+.eevenkoto-badge--outline,
+.eevenkoto-badge--outline.eevenkoto-badge--neutral {
+  --eevenkoto-badge-bg: transparent;
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-neutral-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-neutral-icon);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-neutral-icon);
+}
+
+.eevenkoto-badge--outline.eevenkoto-badge--info {
+  --eevenkoto-badge-bg: transparent;
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-info-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-info-icon);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-info-icon);
+}
+
+.eevenkoto-badge--outline.eevenkoto-badge--success {
+  --eevenkoto-badge-bg: transparent;
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-success-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-success-icon);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-success-icon);
+}
+
+.eevenkoto-badge--outline.eevenkoto-badge--caution {
+  --eevenkoto-badge-bg: transparent;
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-caution-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-caution-icon);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-caution-icon);
+}
+
+.eevenkoto-badge--outline.eevenkoto-badge--critical {
+  --eevenkoto-badge-bg: transparent;
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-critical-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-critical-icon);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-critical-icon);
+}
+
+.eevenkoto-badge--outline.eevenkoto-badge--admin {
+  --eevenkoto-badge-bg: transparent;
+  --eevenkoto-badge-text: var(--eevenkoto-color-feedback-admin-text);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-admin-icon);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-admin-icon);
+}

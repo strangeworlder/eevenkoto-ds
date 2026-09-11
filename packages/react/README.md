@@ -1,6 +1,6 @@
 # @eevenkoto/react
 
-Thin React wrappers around Eevenkoto’s BEM classes. Styling comes from `@eevenkoto/css`; class assembly from `@eevenkoto/core`.
+Thin React wrappers around Eevenkoto’s BEM classes. Source lives under `core/` and `domain/` (Atoms / Molecules / Organisms); the package barrel keeps a stable public API. Styling comes from `@eevenkoto/css`; class assembly from `@eevenkoto/core`.
 
 ## Install
 
@@ -16,9 +16,10 @@ Peer: `react` ^18 or ^19.
 import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/flow.css';
+import '@eevenkoto/css/prose.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
-import { Button, Flow, Heading, Paragraph } from '@eevenkoto/react';
+import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/react';
 
 export function Example() {
   return (
@@ -31,12 +32,14 @@ export function Example() {
 }
 ```
 
-Components: `Button`, `Heading`, `Paragraph`, `Caption`, `Flow`.
+Components: `Button`, `Heading`, `Paragraph`, `Caption`, `Flow`, `Prose`.
 
-`Flow` uses `children` (not a `content` string like `@eevenkoto/html`).
+`Flow` / `Prose` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`.
 
 ## Related
 
-- `@eevenkoto/css` — styles (required for appearance)
+- `@eevenkoto/css` — styles (required for appearance; consume / never rules live there)
 - `@eevenkoto/html` — reference vanilla renderers
 - `@eevenkoto/vue` — Vue equivalents
+
+For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

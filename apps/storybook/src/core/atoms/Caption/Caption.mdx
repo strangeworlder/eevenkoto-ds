@@ -1,0 +1,110 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as CaptionStories from './Caption.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={CaptionStories} />
+
+# Caption
+
+Caption styles short supporting or metadata text with `--eevenkoto-font-size-caption`.
+
+<Canvas of={CaptionStories.Default} />
+
+```html
+<p class="eevenkoto-caption eevenkoto-caption--secondary">Updated 2 hours ago</p>
+```
+
+### Playground
+
+<Controls of={CaptionStories.Default} />
+
+## Why to use
+
+Captions keep timestamps, helper hints, and field metadata visually quieter than body copy without inventing a one-off rem value.
+
+## When to use
+
+Use Caption under form fields, on cards, or beside status metadata. Prefer Paragraph for multi-sentence prose and Heading for titles.
+
+<DoDont
+  do={
+    <ul>
+      <li>Use Caption for metadata, timestamps, and short helper text.</li>
+      <li>Default to Secondary tone so captions stay subordinate to body copy.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use Caption for main body paragraphs.</li>
+      <li>Don’t use Caption as a section title — use Heading.</li>
+    </ul>
+  }
+/>
+
+## Key modifiers
+
+### tone
+
+| Value | Default | Content color |
+| --- | --- | --- |
+| `secondary` | Yes | `--eevenkoto-color-content-secondary` |
+| `primary` | No | `--eevenkoto-color-content-primary` |
+
+<Canvas of={CaptionStories.Helper} />
+
+## API reference
+
+<ArgTypes of={CaptionStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/caption.css';
+import { renderCaption } from '@eevenkoto/html';
+
+renderCaption({ text: 'Updated 2 hours ago' });
+```
+
+```tsx
+import { Caption } from '@eevenkoto/react';
+
+<Caption text="Updated 2 hours ago" />
+```
+
+```vue
+<script setup>
+import { Caption } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Caption text="Updated 2 hours ago" />
+</template>
+```
+
+## Related
+
+- [Typography](?path=/docs/foundations-typography--docs)
+- [Paragraph](?path=/docs/core-atoms-paragraph--docs)
+- [Heading](?path=/docs/core-atoms-heading--docs)

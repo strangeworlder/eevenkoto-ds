@@ -1,0 +1,182 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as AbilityScoreStories from './AbilityScore.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={AbilityScoreStories} />
+
+# AbilityScore
+
+**AbilityScore** is one ability **column**: gold label + three [Stat](?path=/docs/core-atoms-stat--docs) chips (arch modifier, disk score, shield save).
+
+For the sandwich panel (header / grid / footer), use **[AbilityScoreGroup](?path=/docs/domain-organisms-abilityscoregroup--docs)**.
+
+<Canvas of={AbilityScoreStories.Default} />
+
+### Playground
+
+<Controls of={AbilityScoreStories.Default} />
+
+## Why to use
+
+Ability columns are decorative and positional (orbiting chips), but still need accessible terms for score / modifier / save. AbilityScore owns that column AT contract.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Pass ability names as data (<em>Karisma</em>, <em>Ketteryys</em>) — never as core enums.</li>
+      <li>Override <code>scoreLabel</code> / <code>modifierLabel</code> / <code>saveLabel</code> / <code>proficientLabel</code> for Finnish (<em>Arvo</em>, <em>Muuttuja</em>, <em>Pelastus</em>, <em>pätevä</em>).</li>
+      <li>Set <code>saveProficient</code> when the creature is proficient — bright shield border only.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use Badge for these numbers — Badge is feedback; Stat is content display.</li>
+      <li>Don’t use bright gold on every chip — reserve <code>content-accent-strong</code> for proficient saves.</li>
+      <li>Don’t style adjacent paragraphs into a sandwich — compose [AbilityScoreGroup](?path=/docs/domain-organisms-abilityscoregroup--docs).</li>
+    </ul>
+  }
+/>
+
+<Canvas of={AbilityScoreStories.NotProficient} />
+
+## Anatomy
+
+1. **Root** — `figure.eevenkoto-ability-score`
+2. **Label** — `figcaption.eevenkoto-ability-score__label` (serif + `content-accent`)
+3. **Stats list** — `dl.eevenkoto-ability-score__stats`
+4. **Slots** — modifier (arch, lg), score (disk, sm), save (shield, sm) with visually hidden `dt`s
+
+Chip roles and shapes:
+
+| Role | Shape | Size | Position |
+| --- | --- | --- | --- |
+| Modifier | `arch` | `lg` | Centered primary figure |
+| Score | `disk` | `sm` | Hugs bottom-left of arch |
+| Save | `shield` | `sm` | Hugs bottom-right of arch |
+
+## Save proficiency
+
+Default chip borders and ability labels use parchment **`content-accent`**. When `saveProficient` is true, the save shield uses deep gold **`content-accent-strong`** (`eevenkoto-stat--emphasis`) with a thicker border + outline (not color-only). The visually hidden term becomes `{saveLabel} ({proficientLabel})` (defaults `Save (proficient)`).
+
+## Accessibility
+
+- Each column is a `figure` with a `figcaption` ability name and a definition list of score / modifier / save.
+- The figcaption has an `id`; the stats `dl` uses `aria-labelledby` so AT announces the ability name with the scores.
+- Prefer meaningful `scoreLabel` / `proficientLabel` etc. in the document language.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | — | Ability name (column header). |
+| `labelId` | `string` | derived | Optional stable id for `aria-labelledby`. |
+| `score` | `string` | — | Base score. |
+| `modifier` | `string` | — | Modifier (typically signed). |
+| `save` | `string` | — | Save bonus (typically signed). |
+| `scoreLabel` | `string` | `'Score'` | Visually hidden term. |
+| `modifierLabel` | `string` | `'Modifier'` | Visually hidden term. |
+| `saveLabel` | `string` | `'Save'` | Visually hidden term. |
+| `saveProficient` | `boolean` | `false` | Emphasized shield + proficient suffix in the hidden term. |
+| `proficientLabel` | `string` | `'proficient'` | Suffix inside the hidden save term when proficient. |
+
+```ts
+export interface AbilityScoreProps {
+  label: string;
+  labelId?: string;
+  score: string;
+  modifier: string;
+  save: string;
+  scoreLabel?: string;
+  modifierLabel?: string;
+  saveLabel?: string;
+  saveProficient?: boolean;
+  proficientLabel?: string;
+}
+```
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-ability-score` | Column root (`figure`) |
+| `eevenkoto-ability-score--save-proficient` | Proficient save emphasis |
+| `eevenkoto-ability-score__label` | Ability name (`figcaption`) |
+| `eevenkoto-ability-score__stats` | Stat definition list |
+| `eevenkoto-ability-score__stat` / `--modifier` / `--score` / `--save` | Slot wrappers |
+| `eevenkoto-ability-score__stat-label` | Visually hidden `dt` |
+| `eevenkoto-ability-score__stat-value` | `dd` around Stat |
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-ability-score-label-color` | Column header ink (defaults to parchment `content-accent`) |
+
+Required CSS: `stat.css`, `ability-score.css`.
+
+## Framework packages
+
+```ts
+import { renderAbilityScore } from '@eevenkoto/html';
+
+renderAbilityScore({
+  label: 'Karisma',
+  score: '16',
+  modifier: '+3',
+  save: '+5',
+  saveProficient: true,
+  proficientLabel: 'pätevä',
+  scoreLabel: 'Arvo',
+  modifierLabel: 'Muuttuja',
+  saveLabel: 'Pelastus',
+});
+```
+
+```tsx
+import { AbilityScore } from '@eevenkoto/react';
+
+<AbilityScore label="Karisma" score="16" modifier="+3" save="+5" saveProficient proficientLabel="pätevä" />
+```
+
+```vue
+<AbilityScore
+  label="Karisma"
+  score="16"
+  modifier="+3"
+  save="+5"
+  save-proficient
+  proficient-label="pätevä"
+/>
+```
+
+## Related
+
+- [AbilityScoreGroup](?path=/docs/domain-organisms-abilityscoregroup--docs) — Sandwich organism
+- [Stat](?path=/docs/core-atoms-stat--docs) — Chip shapes
+- [PropertyList](?path=/docs/core-molecules-propertylist--docs) — Rail content for the group
+- [Statblock](?path=/docs/domain-organisms-statblock--docs) — Full entry
+- [Glossary](?path=/docs/foundations-glossary--docs) — Prop vocabulary

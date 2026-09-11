@@ -1,0 +1,106 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TableShellStories from './TableShell.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={TableShellStories} />
+
+# TableShell
+
+First **Core organism**: nests [Frame](?path=/docs/core-atoms-frame--docs) + [Scroll](?path=/docs/core-atoms-scroll--docs) around a [Table](?path=/docs/core-molecules-table--docs), and exposes a **footer** slot for a future Pager.
+
+<Canvas of={TableShellStories.Default} />
+
+```html
+<div class="eevenkoto-table-shell">
+  <div class="eevenkoto-frame">
+    <div class="eevenkoto-scroll eevenkoto-scroll--x">
+      <table class="eevenkoto-table …">…</table>
+    </div>
+  </div>
+  <!-- footer → Pager (later) -->
+</div>
+```
+
+### Playground
+
+<Controls of={TableShellStories.Default} />
+
+## Sticky index
+
+Inside Scroll, `--index` cells stick to the inline start so level/die columns stay visible while scanning wide numeric charts.
+
+## Pager (not shipped)
+
+Pager is part of the ecosystem design but not implemented yet. Use the footer slot when it lands:
+
+<Canvas of={TableShellStories.WithPagerPlaceholder} />
+
+<DoDont
+  do={
+    <ul>
+      <li>Compose TableShell for product charts that need frame + overflow.</li>
+      <li>Put future Pager in the shell footer — don’t rewrite Table.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t reimplement Frame/Scroll as private Table-only wrappers.</li>
+      <li>Don’t invent a Domain ClassTable until Core reuse is proven.</li>
+    </ul>
+  }
+/>
+
+## API reference
+
+<ArgTypes of={TableShellStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/frame.css';
+import '@eevenkoto/css/scroll.css';
+import '@eevenkoto/css/table-cell.css';
+import '@eevenkoto/css/table.css';
+import '@eevenkoto/css/table-shell.css';
+import { renderTable, renderTableShell } from '@eevenkoto/html';
+
+renderTableShell({
+  table: renderTable({ /* … */ }),
+  footer: '<!-- Pager later -->',
+});
+```
+
+```tsx
+import { Table, TableShell } from '@eevenkoto/react';
+
+<TableShell footer={/* Pager later */}>
+  <Table variant="numeric" columns={…} rows={…} />
+</TableShell>
+```
+
+## Related
+
+- [Table](?path=/docs/core-molecules-table--docs)
+- [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs)

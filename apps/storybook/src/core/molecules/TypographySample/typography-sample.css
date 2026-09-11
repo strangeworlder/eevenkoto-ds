@@ -1,0 +1,10 @@
+/* apps/storybook/src/core/molecules/TypographySample/typography-sample.css */
+.eevenkoto-typography-sample {
+  box-sizing: border-box;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: var(--eevenkoto-space-8) var(--eevenkoto-space-6);
+  color: var(--eevenkoto-color-content-primary);
+  background: var(--eevenkoto-color-surface-canvas);
+  font-family: var(--eevenkoto-font-sans);
+}

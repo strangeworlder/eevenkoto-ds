@@ -1,0 +1,73 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Authoring composed components" />
+
+# Authoring composed components
+
+Patterns learned while porting the Statblock stack (Property → Stat → AbilityScore → Statblock). Use this when adding **Domain organisms** that compose Core atoms and molecules — not when tweaking a single Core control like Button.
+
+Also read: [Glossary](?path=/docs/foundations-glossary--docs) · [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs) · [Packages](?path=/docs/foundations-packages--docs) · [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) · [Color Tokens — Architecture](?path=/docs/foundations-color-tokens-architecture--docs) · [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)
+
+## 1. Decide scope and hierarchy before the CSS
+
+Place each piece on **Core vs Domain**, then map **atom → molecule → organism**. Keep English APIs; leave **product-language strings as data**. Canonical prop names (`details` vs features, `label` vs `text` vs `name`) are in the [Glossary](?path=/docs/foundations-glossary--docs).
+
+| Scope | Layer | Statblock example | Owns |
+| --- | --- | --- | --- |
+| Core | Atom | Property, Stat, Heading, Frame, Scroll, TableCell | One semantic unit + BEM classes |
+| Core | Molecule | PropertyList, Table | Layout of atoms + local ARIA |
+| Core | Organism | TableShell | Slots composing Frame + Scroll + Table (+ future Pager) |
+| Domain | Molecule | AbilityScore, StatblockFeature | Layout of Core atoms + local ARIA |
+| Domain | Organism | AbilityScoreGroup, Statblock | Page-shaped composition, slots, outline |
+
+**Do:** Ship a working Domain organism against a real specimen (e.g. Aatelinen), then extract molecules once the seams are obvious.
+
+**Don’t:** Invent Heading/Paragraph “product variants” for organism chrome. Visual remaps belong on the **molecule/organism host** (section looks like meso H3; feature run-in looks like micro H6) while **element levels stay honest**. Domain must not leak into Core source folders.
+
+## 2. Keep the accessibility tree honest
+
+| Rule | Why it mattered |
+| --- | --- |
+| Contiguous heading outline | Legacy H1 → H3 → H6 looked fine visually and broke structure. Prefer H1 → H2 → H3; remap *look* in CSS on the host. |
+| Real landmarks and lists | `article` / `section`, real `dl` / `dt` / `dd` for definitional metadata. Use the Core **Table** ecosystem (`TableCell` → `Table` → `TableShell`) for true tabular charts — not bold-label paragraphs. |
+| Name the group | Prefer `figure` / `figcaption` for a named unit; still wire `id` + `aria-labelledby` on the inner `dl` when the caption alone does not name the list. |
+| Decorative punctuation in CSS | Colons and run-in periods via `::after`, not baked into copy strings. |
+| Embed-safe outline props | Hardcoding H1 is correct for a dedicated entry page and wrong under a docs chrome H1. Expose something like `nameLevel?: 1 \| 2` when the organism owns a title. |
+
+Screen-reader-only text belongs on a shared utility (`.eevenkoto-visually-hidden` with `clip-path: inset(50%)`), not ad-hoc `clip: rect(...)`.
+
+## 3. Emphasis is never color alone
+
+Status and proficiency cues must survive CVD, low vision, and **forced colors**.
+
+1. **Redundant channel** — thicker stroke, outline, pattern, or visible mark *plus* an AT-facing term (`Save (proficient)`).
+2. **Measure contrast on the real surface** — gold that passes on `surface-raised` / canvas can fail **1.4.11 (3:1)** on `surface-sunken`. Audit the panel the chip actually sits on.
+3. **Prefer a new Tier 1 stop** when chrome needs a darker/lighter pigment (`gold-primary-deep`) — do not invent brand accents with hue×hue `color-mix` in Tier 2 ([Tier 1 — Prefer a new primitive](?path=/docs/foundations-color-tokens-tier-1-primitives--docs)).
+4. **Forced-colors** — strip decorative shadows; map borders to system colors (`ButtonText`, `Highlight` for emphasis). Interactive Tier 3 already requires explicit borders; content chips need the same habit.
+
+## 4. Package checklist (every new piece)
+
+Follow the same seam as Button / Badge / Statblock:
+
+1. **`@eevenkoto/core`** — props + `*ClassNames()` (no DOM).
+2. **`@eevenkoto/css`** — Tier 3 file; private `--_eevenkoto-*` bridges; public `--eevenkoto-<component>-*` overrides only.
+3. **`@eevenkoto/html`** — canonical `render*` + template (Storybook source of truth).
+4. **`@eevenkoto/react` / `@eevenkoto/vue`** — thin wrappers; prefer `ReactNode` / slots for rich text.
+5. **Storybook** — specimen story from real product copy + MDX with outline, a11y, and framework notes.
+
+HTML string → DOM is a **trust boundary**. If the HTML package accepts inline markup, **sanitize to an allowlist** (`em`, `strong`, `i`, `b`, `br`, …) and escape everything else. Framework wrappers should take nodes, not raw HTML strings.
+
+## 5. Quick pre-merge checklist
+
+- [ ] Heading levels match the document role; visuals remapped on the host, not via fake levels
+- [ ] Lists / labels / values are programmatically associated (`dl`, `aria-labelledby`, etc.)
+- [ ] Status/emphasis has a non-color cue + AT text where needed
+- [ ] Non-text contrast checked on **sunken and raised** backgrounds the component uses
+- [ ] `forced-colors` and `prefers-reduced-motion` considered
+- [ ] Organism titles that might embed under another H1 have an escape hatch (`nameLevel` or equivalent)
+- [ ] HTML renderer escapes / sanitizes; React/Vue don’t reintroduce `dangerouslySetInnerHTML` by default
+- [ ] Public API is English; locale strings stay in story / product data
+
+## Reference specimen
+
+[Statblock — Aatelinen](?path=/docs/domain-organisms-statblock--docs) is the worked example: Core atoms (Property, Stat), Domain molecules (AbilityScore, StatblockFeature), Domain organisms (AbilityScoreGroup, Statblock), honest outline with visual remaps, proficiency emphasis, and embed `nameLevel`.

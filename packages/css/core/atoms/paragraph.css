@@ -1,0 +1,62 @@
+/* packages/css/core/atoms/paragraph.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: PARAGRAPH (TIER 3)
+   Body roles via Tier 2 font-size-body-* tokens.
+   Base class alone is the default (body-md / primary). Prose maps bare <p>.
+   ========================================================================== */
+
+.eevenkoto-paragraph,
+.eevenkoto-prose :where(p) {
+  --_eevenkoto-paragraph-color: var(
+    --eevenkoto-paragraph-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-paragraph-font-size: var(
+    --eevenkoto-paragraph-font-size,
+    var(--eevenkoto-font-size-body-md)
+  );
+  --_eevenkoto-paragraph-font-family: var(
+    --eevenkoto-paragraph-font-family,
+    var(--eevenkoto-font-sans)
+  );
+  --_eevenkoto-paragraph-font-weight: var(
+    --eevenkoto-paragraph-font-weight,
+    var(--eevenkoto-font-weight-regular)
+  );
+  --_eevenkoto-paragraph-line-height: var(
+    --eevenkoto-paragraph-line-height,
+    var(--eevenkoto-line-height-body)
+  );
+  --_eevenkoto-paragraph-margin-block: var(
+    --eevenkoto-paragraph-margin-block,
+    0 0 var(--eevenkoto-space-4)
+  );
+
+  margin-block: var(--_eevenkoto-paragraph-margin-block);
+  margin-inline: 0;
+  color: var(--_eevenkoto-paragraph-color);
+  font-family: var(--_eevenkoto-paragraph-font-family);
+  font-size: var(--_eevenkoto-paragraph-font-size);
+  font-weight: var(--_eevenkoto-paragraph-font-weight);
+  line-height: var(--_eevenkoto-paragraph-line-height);
+}
+
+.eevenkoto-paragraph--primary {
+  --eevenkoto-paragraph-color: var(--eevenkoto-color-content-primary);
+}
+
+.eevenkoto-paragraph--secondary {
+  --eevenkoto-paragraph-color: var(--eevenkoto-color-content-secondary);
+}
+
+.eevenkoto-paragraph--sm {
+  --eevenkoto-paragraph-font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+.eevenkoto-paragraph--md {
+  --eevenkoto-paragraph-font-size: var(--eevenkoto-font-size-body-md);
+}
+
+.eevenkoto-paragraph--lg {
+  --eevenkoto-paragraph-font-size: var(--eevenkoto-font-size-body-lg);
+}

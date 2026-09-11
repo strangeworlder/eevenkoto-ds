@@ -1,5 +1,5 @@
 /* src/tokens/tokens.css */
-@import url('./primitivetokens.css');
+@import url('./primitive-tokens.css');
 
 :root {
   /* ==========================================================================
@@ -12,6 +12,8 @@
 
   /* --- Surfaces & depth (light / subtractive) --- */
   --eevenkoto-color-surface-canvas: var(--eevenkoto-color-parchment-background);
+  /* Quiet alternating / dense-data band (tables, calendars). Lighter than canvas in light. */
+  --eevenkoto-color-surface-subtle: var(--eevenkoto-color-parchment-background-subtle);
   --eevenkoto-color-surface-sunken: var(--eevenkoto-color-parchment-background-element);
   --eevenkoto-color-surface-raised: var(--eevenkoto-color-parchment-background);
 
@@ -33,8 +35,8 @@
   --eevenkoto-color-content-secondary: var(--eevenkoto-color-parchment-text-muted);
   /* Quiet chrome (ability labels, default chip borders) — parchment, not mixed gold. */
   --eevenkoto-color-content-accent: var(--eevenkoto-color-parchment-primary);
-  /* Bright gold for emphasis (e.g. proficient save shields). */
-  --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-strong);
+  /* Deep gold for emphasis chrome (e.g. proficient save shields) — clears 3:1 on sunken. */
+  --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-deep);
   --eevenkoto-color-content-disabled: color-mix(
     in oklch,
     var(--eevenkoto-color-parchment-text) 50%,

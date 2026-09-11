@@ -1,0 +1,152 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ProseStories from './Prose.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={ProseStories} />
+
+# Prose
+
+Prose is the scope host for **bare** `h1`–`h6` and `p`. Those tags receive the same default look as `eevenkoto-heading` / `eevenkoto-paragraph`. Prose does **not** own vertical rhythm — compose with [Flow](?path=/docs/core-molecules-flow--docs).
+
+<Canvas of={ProseStories.Default} />
+
+```html
+<div class="eevenkoto-prose">
+  <h1>Title</h1>
+  <p>Body copy without BEM classes.</p>
+</div>
+```
+
+### Playground
+
+<Controls of={ProseStories.Default} />
+
+## Why to use
+
+CMS HTML, markdown, and editorial content often ship tags without DS classes. Prose opts those tags into the type system without restyling every `h1`/`p` in the document.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Wrap reading/CMS content in <code>eevenkoto-prose</code>.</li>
+      <li>Compose <code>eevenkoto-prose eevenkoto-flow</code> when you need pair-aware gaps.</li>
+      <li>Prefer classed Heading/Paragraph outside Prose when you control the markup.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t expect bare tags to style outside Prose.</li>
+      <li>Don’t use Prose as a substitute for Flow on classed primitive stacks.</li>
+      <li>Don’t style global <code>h1</code>/<code>p</code> in app CSS — keep the opt-in scope.</li>
+    </ul>
+  }
+/>
+
+## With Flow
+
+Bare-tag pair rules activate only when **both** hosts are present.
+
+<Canvas of={ProseStories.WithFlow} />
+
+```html
+<div class="eevenkoto-prose eevenkoto-flow">
+  <h2>Section</h2>
+  <p>Rhythm matches classed Heading → Paragraph pairs.</p>
+</div>
+```
+
+## Level override
+
+Tag inference yields to an explicit `--N` modifier on a classed heading (same cascade as minimum-class Heading).
+
+<Canvas of={ProseStories.LevelOverride} />
+
+```html
+<div class="eevenkoto-prose eevenkoto-flow">
+  <h1 class="eevenkoto-heading eevenkoto-heading--3">Looks like H3</h1>
+  <p>…</p>
+</div>
+```
+
+## Imports
+
+Type appearance lives in `heading.css` and `paragraph.css`. Always import them with Prose:
+
+```ts
+import '@eevenkoto/css/prose.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/flow.css'; // when composing rhythm
+```
+
+## API reference
+
+<ArgTypes of={ProseStories} />
+
+## Framework packages
+
+HTML takes a `content` string. React/Vue use children / the default slot.
+
+```ts
+import '@eevenkoto/css/prose.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import { renderProse } from '@eevenkoto/html';
+
+renderProse({
+  content: '<h1>Title</h1><p>Body.</p>',
+});
+```
+
+```tsx
+import { Prose } from '@eevenkoto/react';
+
+<Prose className="eevenkoto-flow">
+  <h1>Title</h1>
+  <p>Body.</p>
+</Prose>
+```
+
+```vue
+<script setup>
+import { Prose } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Prose class="eevenkoto-flow">
+    <h1>Title</h1>
+    <p>Body.</p>
+  </Prose>
+</template>
+```
+
+## Related
+
+- [Flow](?path=/docs/core-molecules-flow--docs) — Vertical rhythm (compose with Prose)
+- [Heading](?path=/docs/core-atoms-heading--docs) — Classed + tag-inferred levels
+- [Paragraph](?path=/docs/core-atoms-paragraph--docs)
+- [Typography sample](?path=/docs/core-molecules-typography-sample--docs)

@@ -1,0 +1,210 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: TABLE (TIER 3)
+   Molecule: real <table> with default | numeric | pair + stripe.
+   Consumes TableCell atom classes on th/td.
+   ========================================================================== */
+
+.eevenkoto-table {
+  --_eevenkoto-table-bg: var(--eevenkoto-table-bg, var(--eevenkoto-color-surface-canvas));
+  --_eevenkoto-table-header-bg: var(
+    --eevenkoto-table-header-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-table-header-color: var(
+    --eevenkoto-table-header-color,
+    var(--eevenkoto-color-content-accent)
+  );
+  --_eevenkoto-table-header-border-color: var(
+    --eevenkoto-table-header-border-color,
+    var(--eevenkoto-color-boundary-strong)
+  );
+  --_eevenkoto-table-header-border-width: var(
+    --eevenkoto-table-header-border-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-table-stripe-bg: var(
+    --eevenkoto-table-stripe-bg,
+    var(--eevenkoto-color-surface-subtle)
+  );
+  --_eevenkoto-table-caption-color: var(
+    --eevenkoto-table-caption-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-table-caption-font-size: var(
+    --eevenkoto-table-caption-font-size,
+    var(--eevenkoto-font-size-caption)
+  );
+  --_eevenkoto-table-border-collapse: collapse;
+  --_eevenkoto-table-width: 100%;
+
+  box-sizing: border-box;
+  width: var(--_eevenkoto-table-width);
+  border-collapse: var(--_eevenkoto-table-border-collapse);
+  background-color: var(--_eevenkoto-table-bg);
+}
+
+.eevenkoto-table__caption {
+  caption-side: top;
+  text-align: start;
+  padding-block-end: var(--eevenkoto-space-3);
+  color: var(--_eevenkoto-table-caption-color);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--_eevenkoto-table-caption-font-size);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-table__col--index,
+.eevenkoto-table__col--numeric {
+  width: 1%;
+}
+
+.eevenkoto-table__col--text {
+  width: auto;
+}
+
+/* --- Header band --- */
+
+.eevenkoto-table thead .eevenkoto-table-cell {
+  background-color: var(--_eevenkoto-table-header-bg);
+  color: var(--_eevenkoto-table-header-color);
+  border-block-end: var(--_eevenkoto-table-header-border-width) solid
+    var(--_eevenkoto-table-header-border-color);
+  vertical-align: bottom;
+}
+
+.eevenkoto-table thead .eevenkoto-table-cell:focus-visible {
+  outline: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: calc(-1 * var(--eevenkoto-line-width-md));
+}
+
+/* --- Stripe (host default = row; --stripe-row is an explicit alias; --stripe-none opts out) --- */
+
+.eevenkoto-table tbody tr:nth-child(even) .eevenkoto-table-cell,
+.eevenkoto-table--stripe-row tbody tr:nth-child(even) .eevenkoto-table-cell {
+  background-color: var(--_eevenkoto-table-stripe-bg);
+}
+
+.eevenkoto-table--stripe-column tbody tr:nth-child(even) .eevenkoto-table-cell {
+  background-color: transparent;
+}
+
+.eevenkoto-table--stripe-column tbody .eevenkoto-table-cell:nth-child(even) {
+  background-color: var(--_eevenkoto-table-stripe-bg);
+}
+
+.eevenkoto-table--stripe-none tbody tr:nth-child(even) .eevenkoto-table-cell,
+.eevenkoto-table--stripe-none tbody .eevenkoto-table-cell:nth-child(even) {
+  background-color: transparent;
+}
+
+/* --- Pair --- */
+
+.eevenkoto-table--pair .eevenkoto-table-cell--index,
+.eevenkoto-table--pair tbody th.eevenkoto-table-cell {
+  white-space: nowrap;
+  width: 1%;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+.eevenkoto-table--pair .eevenkoto-table-cell--text {
+  min-width: 16rem;
+}
+
+/* --- Numeric angled heads --- */
+
+.eevenkoto-table--numeric thead th.eevenkoto-table-cell--numeric {
+  height: 9rem;
+  max-width: 3.2rem;
+  padding-inline: var(--eevenkoto-space-1);
+  padding-block-end: var(--eevenkoto-space-2);
+  vertical-align: bottom;
+}
+
+.eevenkoto-table--numeric thead th.eevenkoto-table-cell--numeric .eevenkoto-table-cell__head-label {
+  display: inline-block;
+  transform: translate(0.55rem, 0) rotate(-45deg);
+  transform-origin: bottom left;
+  white-space: nowrap;
+  font-size: var(--eevenkoto-font-size-caption);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  line-height: var(--eevenkoto-line-height-tight);
+}
+
+.eevenkoto-table--numeric thead th.eevenkoto-table-cell--index,
+.eevenkoto-table--numeric thead th.eevenkoto-table-cell--text {
+  vertical-align: bottom;
+}
+
+/* Column tracking highlight (numeric heads); covers common chart widths */
+.eevenkoto-table--numeric:has(thead th:nth-child(1):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(1),
+.eevenkoto-table--numeric:has(thead th:nth-child(2):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(2),
+.eevenkoto-table--numeric:has(thead th:nth-child(3):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(3),
+.eevenkoto-table--numeric:has(thead th:nth-child(4):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(4),
+.eevenkoto-table--numeric:has(thead th:nth-child(5):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(5),
+.eevenkoto-table--numeric:has(thead th:nth-child(6):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(6),
+.eevenkoto-table--numeric:has(thead th:nth-child(7):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(7),
+.eevenkoto-table--numeric:has(thead th:nth-child(8):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(8),
+.eevenkoto-table--numeric:has(thead th:nth-child(9):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(9),
+.eevenkoto-table--numeric:has(thead th:nth-child(10):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(10),
+.eevenkoto-table--numeric:has(thead th:nth-child(11):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(11),
+.eevenkoto-table--numeric:has(thead th:nth-child(12):is(:hover, :focus-within))
+  tbody
+  :is(td, th):nth-child(12) {
+  box-shadow: inset 0 0 0 var(--eevenkoto-line-width-md) var(--eevenkoto-color-boundary-strong);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-table--numeric thead th.eevenkoto-table-cell--numeric {
+    height: auto;
+    max-width: none;
+    padding-inline: var(--eevenkoto-space-2);
+  }
+
+  .eevenkoto-table--numeric
+    thead
+    th.eevenkoto-table-cell--numeric
+    .eevenkoto-table-cell__head-label {
+    transform: none;
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-table thead .eevenkoto-table-cell {
+    border-block-end-color: CanvasText;
+    forced-color-adjust: none;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .eevenkoto-table tbody tr:nth-child(even) .eevenkoto-table-cell,
+  .eevenkoto-table--stripe-row tbody tr:nth-child(even) .eevenkoto-table-cell,
+  .eevenkoto-table--stripe-column tbody .eevenkoto-table-cell:nth-child(even) {
+    background-color: Canvas;
+  }
+}

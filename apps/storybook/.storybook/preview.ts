@@ -12,6 +12,27 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    options: {
+      storySort: {
+        order: [
+          'Foundations',
+          [
+            'Packages',
+            'Component taxonomy',
+            'Typography',
+            'Tokens',
+            'Color Tokens',
+            'Authoring composed components',
+            'Decisions',
+            '*',
+          ],
+          'Core',
+          ['Atoms', 'Molecules', 'Organisms'],
+          'Domain',
+          ['Atoms', 'Molecules', 'Organisms'],
+        ],
+      },
+    },
   },
 };
 
