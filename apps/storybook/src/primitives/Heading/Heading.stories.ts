@@ -40,7 +40,7 @@ const meta: Meta<HeadingArgs> = {
     },
     runIn: {
       control: 'boolean',
-      description: 'Level 6 only: run the heading into the following Paragraph.',
+      description: 'Levels 3 and 6: run the heading into the following Paragraph.',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -104,5 +104,17 @@ export const RunIn: Story = {
       runIn: true,
     })}${renderParagraph({
       text: 'Always inspect the valve before engaging the primary circuit.',
+    })}`,
+};
+
+export const RunInH3: Story = {
+  name: 'H3 run-in',
+  render: () =>
+    `${renderHeading({
+      level: 3,
+      text: 'Kalpa',
+      runIn: true,
+    })}${renderParagraph({
+      text: 'Melee attack: +3, reach 2 m. Hit: 5 (1d8 + 1) slashing damage.',
     })}`,
 };

@@ -40,15 +40,9 @@
 }
 
 .eevenkoto-caption--secondary {
-  --_eevenkoto-caption-color: var(
-    --eevenkoto-caption-color,
-    var(--eevenkoto-color-content-secondary)
-  );
+  --eevenkoto-caption-color: var(--eevenkoto-color-content-secondary);
 }
 
 .eevenkoto-caption--primary {
-  --_eevenkoto-caption-color: var(
-    --eevenkoto-caption-color,
-    var(--eevenkoto-color-content-primary)
-  );
+  --eevenkoto-caption-color: var(--eevenkoto-color-content-primary);
 }

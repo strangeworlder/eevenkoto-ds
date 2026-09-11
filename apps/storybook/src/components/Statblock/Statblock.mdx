@@ -1,0 +1,226 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as StatblockStories from './Statblock.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={StatblockStories} />
+
+# Statblock
+
+**Statblock** is the creature / entity **entry organism** for rules content — name, flavor, type line, ability sandwich, and named sections (actions, reactions, traits). It replaces the legacy Markdown table + sibling-paragraph CSS (`kykylistaus-*`) with composable DS pieces.
+
+English APIs; Finnish (or any) labels stay in **product data**.
+
+<Canvas of={StatblockStories.Aatelinen} />
+
+## Why to use
+
+Rules pages need a stable, accessible structure for NPC and monster entries. Statblock gives you one organism that:
+
+- Preserves a contiguous heading outline (**H1 → H2 → H3**)
+- Frames vitals / abilities / traits as an explicit sandwich (no `:has(+)` hacks)
+- Reuses Heading, Paragraph, Caption, PropertyList, AbilityScoreGroup, StatblockSection, and StatblockFeature
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Full NPC, monster, or archetype entries in rules docs.</li>
+      <li>Keep ability names, vitals labels, and feature copy in the product — map them into props.</li>
+      <li>Compose from smaller molecules when you only need a grid, a section, or a single feature.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t revive the Markdown <code>&lt;table class="kykylistaus-table"&gt;</code> + sibling-paragraph sandwich.</li>
+      <li>Don’t put Finnish ability enums or CR math into <code>@eevenkoto/core</code>.</li>
+      <li>Don’t skip heading levels for style (e.g. H1 → H6) — use H2 / H3 run-in; visuals remap on the molecules.</li>
+      <li>Don’t use Statblock for generic page chrome — it is an entry organism, not a Card.</li>
+    </ul>
+  }
+/>
+
+## Composition map
+
+| Layer | Piece | Docs |
+| --- | --- | --- |
+| Atom | [Stat](?path=/docs/components-stat--docs) | Numeric chip (`disk` / `arch` / `shield`) |
+| Atom | [Property](?path=/docs/components-property--docs) | Label → value (`dt` / `dd`) |
+| Molecule | [PropertyList](?path=/docs/components-property--docs) | Stacked properties (`dl`) |
+| Molecule | [AbilityScore](?path=/docs/components-abilityscore--docs) | One ability column |
+| Molecule | [StatblockFeature](?path=/docs/components-statblockfeature--docs) | Named action / trait (H3 run-in) |
+| Molecule | [StatblockSection](?path=/docs/components-statblocksection--docs) | H2 + stacked features |
+| Organism | [AbilityScoreGroup](?path=/docs/components-abilityscore--docs) | Sandwich panel + responsive grid |
+| Organism | **Statblock** | Full entry |
+| Reused | Heading, Paragraph, Caption | Primitives |
+
+```
+Statblock
+├── Heading 1          name
+├── Paragraph          flavor (optional)
+├── Caption            type line (optional, italic)
+├── AbilityScoreGroup
+│   ├── header → PropertyList   vitals
+│   ├── grid   → AbilityScore[] abilities
+│   └── footer → PropertyList   traits
+└── StatblockSection[]          actions / reactions / …
+    ├── Heading 2               section title
+    └── StatblockFeature[]      H3 run-in + body
+```
+
+## Anatomy
+
+1. **Name** — `h1.eevenkoto-heading--1`
+2. **Flavor** — supporting Paragraph
+3. **Type line** — Caption + `.eevenkoto-statblock__type` (italic size / type string)
+4. **Ability sandwich** — AbilityScoreGroup with PropertyList rails
+5. **Sections** — zero or more StatblockSection molecules
+
+## Heading outline vs visual weight
+
+Semantic levels stay honest. Visual remaps live on the **molecules**, not as product presets on Heading:
+
+| Role | Element | Looks like |
+| --- | --- | --- |
+| Creature name | H1 | Macro H1 |
+| Section (`Toiminnot`) | H2 | Meso H3 (no macro rule) |
+| Feature (`Kalpa`) | H3 + `runIn` | Micro H6 (sans, italic, inline) |
+
+See [Heading — runIn](?path=/docs/primitives-heading--docs#runin-h3--h6) for the shared run-in behavior (levels 3 and 6).
+
+## Content guidelines
+
+- **Name** — Proper noun or archetype title; one H1 per entry / view.
+- **Flavor** — Short prose; avoid stuffing combat math into the flavor paragraph.
+- **Type line** — Size and type only (e.g. *Keskikokoinen humanoidi*); keep it italic via `__type`.
+- **Vitals / traits** — Use PropertyList; do not bold-label Paragraphs with `<br>`.
+- **Feature names** — Short proper names; the run-in suffix period is CSS (`::after`), not part of the string.
+- **Feature body** — Mechanics prose; trusted inline emphasis (`<em>`) is allowed in the HTML renderer. Prefer React/Vue nodes for rich text in apps.
+
+## Accessibility
+
+- Outline is contiguous: **H1 → H2 → H3**. Screen readers get the same structure as the visual hierarchy implies.
+- Ability columns expose score / modifier / save via visually hidden `dt` terms (`scoreLabel`, `modifierLabel`, `saveLabel` — override for Finnish).
+- PropertyList uses a real `<dl>` with grouped `dt` / `dd` pairs.
+- Run-in keeps a real `<h3>` — never demote the feature name to a `<span>` for styling.
+
+## Migration from `kykylistaus-*`
+
+| Legacy | DS |
+| --- | --- |
+| `kykylistaus-wrapper` + table | AbilityScoreGroup + AbilityScore |
+| `p:has(+.kykylistaus-wrapper)` / sibling `p` | PropertyList in `header` / `footer` slots |
+| Row labels Arvo / Muuttuja / Pelastus (hidden cells) | `scoreLabel` / `modifierLabel` / `saveLabel` |
+| Ad-hoc `<strong>Label:</strong>` lines | Property / PropertyList |
+| Bold-italic action paragraphs | StatblockFeature (H3 run-in) |
+| Site tokens (`--accent-gold`, `--border-glow`) | Tier 2 (`content-accent`, `boundary-*`, `surface-*`) |
+
+## API reference
+
+| Arg | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Creature / entity title (H1). |
+| `flavor` | `string` | — | Optional flavor Paragraph. |
+| `typeLine` | `string` | — | Optional italic type line. |
+| `vitals` | `PropertyItem[]` | — | Combat vitals → AbilityScoreGroup header. |
+| `abilities` | `AbilityScoreProps[]` | — | Ability columns. |
+| `traits` | `PropertyItem[]` | — | Skills / senses / languages / CR → footer. |
+| `sections` | `StatblockSectionProps[]` | — | Actions, reactions, etc. |
+
+```ts
+export interface StatblockProps {
+  name: string;
+  flavor?: string;
+  typeLine?: string;
+  vitals: PropertyItem[];
+  abilities: AbilityScoreProps[];
+  traits: PropertyItem[];
+  sections?: StatblockSectionProps[];
+}
+```
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-statblock` | Organism root (`article`) |
+| `eevenkoto-statblock__type` | Italic type-line treatment on Caption |
+
+Import companion CSS for composed pieces: `heading`, `paragraph`, `caption`, `property`, `stat`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`.
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-statblock-gap` | Vertical gap between organism children |
+
+## Framework packages
+
+```bash
+npm install @eevenkoto/css @eevenkoto/html
+# or @eevenkoto/react / @eevenkoto/vue
+```
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/statblock-section.css';
+import '@eevenkoto/css/statblock.css';
+import { renderStatblock } from '@eevenkoto/html';
+
+document.body.innerHTML = renderStatblock({ /* StatblockProps */ });
+```
+
+```tsx
+import { Statblock } from '@eevenkoto/react';
+
+<Statblock name="Aatelinen" vitals={…} abilities={…} traits={…} sections={…} />
+```
+
+```vue
+<script setup>
+import { Statblock } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Statblock name="Aatelinen" :vitals="vitals" :abilities="abilities" :traits="traits" :sections="sections" />
+</template>
+```
+
+## Related
+
+- [StatblockSection](?path=/docs/components-statblocksection--docs) — H2 + features
+- [StatblockFeature](?path=/docs/components-statblockfeature--docs) — H3 run-in entry
+- [AbilityScore](?path=/docs/components-abilityscore--docs) — Column + group
+- [Property](?path=/docs/components-property--docs) — Definition-list rows
+- [Stat](?path=/docs/components-stat--docs) — Numeric chips
+- [Heading](?path=/docs/primitives-heading--docs) — Outline + run-in
+- [Packages](?path=/docs/foundations-packages--docs) — Package map

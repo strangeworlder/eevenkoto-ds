@@ -1,0 +1,32 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: STATBLOCK (TIER 3)
+   Creature / entity entry organism. Composes Heading, Paragraph, Caption,
+   PropertyList, AbilityScoreGroup, StatblockSection, and StatblockFeature.
+
+   Heading outline is honest (H1 → H2 → H3). Visual remaps live on the
+   section / feature molecules.
+   ========================================================================== */
+
+.eevenkoto-statblock {
+  --_eevenkoto-statblock-gap: var(--eevenkoto-statblock-gap, var(--eevenkoto-space-4));
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-statblock-gap);
+  margin: 0;
+  min-width: 0;
+}
+
+.eevenkoto-statblock__type {
+  margin-block: 0;
+  font-style: italic;
+}
+
+.eevenkoto-statblock > .eevenkoto-heading--1 {
+  margin-block-end: 0;
+}
+
+.eevenkoto-statblock > .eevenkoto-paragraph,
+.eevenkoto-statblock > .eevenkoto-caption {
+  margin-block: 0;
+}

@@ -4,7 +4,9 @@
 :root {
   /* ==========================================================================
      TIER 2: SEMANTIC TOKENS
-     Exclusively references Tier 1 primitives or color-mix over them.
+     Prefer direct aliases to Tier 1 primitives. color-mix is allowed only for
+     documented recipes (transparent fades, disabled endpoints) — not for
+     inventing new brand/chrome hues by blending two pigments.
      Grammar: --eevenkoto-color-[domain]-[variant]-[element]-[state]
      ========================================================================== */
 
@@ -29,6 +31,10 @@
   /* --- Content --- */
   --eevenkoto-color-content-primary: var(--eevenkoto-color-parchment-text);
   --eevenkoto-color-content-secondary: var(--eevenkoto-color-parchment-text-muted);
+  /* Quiet chrome (ability labels, default chip borders) — parchment, not mixed gold. */
+  --eevenkoto-color-content-accent: var(--eevenkoto-color-parchment-primary);
+  /* Bright gold for emphasis (e.g. proficient save shields). */
+  --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-strong);
   --eevenkoto-color-content-disabled: color-mix(
     in oklch,
     var(--eevenkoto-color-parchment-text) 50%,
@@ -272,6 +278,7 @@
   --eevenkoto-font-size-body-sm: var(--eevenkoto-font-size-sm);
   --eevenkoto-font-size-body-md: var(--eevenkoto-font-size-md);
   --eevenkoto-font-size-body-lg: var(--eevenkoto-font-size-lg);
+  --eevenkoto-font-size-body-xl: var(--eevenkoto-font-size-xl);
 
   --eevenkoto-font-size-caption: var(--eevenkoto-font-size-sm);
 

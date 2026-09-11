@@ -1,0 +1,80 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: PROPERTY / PROPERTY LIST (TIER 3)
+   Definition-list metadata rows (Label → value). Consumes content / surface.
+   ========================================================================== */
+
+.eevenkoto-property-list {
+  --_eevenkoto-property-list-gap: var(
+    --eevenkoto-property-list-gap,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-property-list-margin-block: var(--eevenkoto-property-list-margin-block, 0);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-property-list-gap);
+  width: 100%;
+  margin-block: var(--_eevenkoto-property-list-margin-block);
+  margin-inline: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.eevenkoto-property {
+  --_eevenkoto-property-label-color: var(
+    --eevenkoto-property-label-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-property-value-color: var(
+    --eevenkoto-property-value-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-property-font-size: var(
+    --eevenkoto-property-font-size,
+    var(--eevenkoto-font-size-body-md)
+  );
+  --_eevenkoto-property-font-family: var(
+    --eevenkoto-property-font-family,
+    var(--eevenkoto-font-sans)
+  );
+  --_eevenkoto-property-line-height: var(
+    --eevenkoto-property-line-height,
+    var(--eevenkoto-line-height-body)
+  );
+  --_eevenkoto-property-label-weight: var(
+    --eevenkoto-property-label-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-property-gap: var(--eevenkoto-property-gap, 0.35em);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--_eevenkoto-property-gap);
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+
+  font-family: var(--_eevenkoto-property-font-family);
+  font-size: var(--_eevenkoto-property-font-size);
+  line-height: var(--_eevenkoto-property-line-height);
+}
+
+.eevenkoto-property__label {
+  margin: 0;
+  flex-shrink: 0;
+  font-weight: var(--_eevenkoto-property-label-weight);
+  color: var(--_eevenkoto-property-label-color);
+}
+
+.eevenkoto-property__label::after {
+  content: ':';
+}
+
+.eevenkoto-property__value {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-weight: var(--eevenkoto-font-weight-regular);
+  color: var(--_eevenkoto-property-value-color);
+}

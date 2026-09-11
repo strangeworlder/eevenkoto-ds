@@ -1,0 +1,28 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: STATBLOCK SECTION (TIER 3)
+   Section molecule: H2 title + stacked StatblockFeature entries.
+   Visual remap: semantic H2 → meso H3 look.
+   ========================================================================== */
+
+.eevenkoto-statblock-section {
+  --_eevenkoto-statblock-section-gap: var(
+    --eevenkoto-statblock-section-gap,
+    var(--eevenkoto-space-3)
+  );
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-statblock-section-gap);
+  margin: 0;
+  min-width: 0;
+}
+
+.eevenkoto-statblock-section > .eevenkoto-heading--2 {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-3);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
+  --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-2) 0 0;
+  --eevenkoto-heading-padding: 0;
+  --eevenkoto-heading-border-block-end: none;
+}

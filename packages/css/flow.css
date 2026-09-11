@@ -77,11 +77,13 @@
   padding-block-start: var(--eevenkoto-space-3);
 }
 
-/* Run-in H6 + paragraph stay on one line — no stack gap between them */
+/* Run-in H3 / H6 + paragraph stay on one line — no stack gap between them */
+.eevenkoto-flow > .eevenkoto-heading--3.eevenkoto-heading--run-in,
 .eevenkoto-flow > .eevenkoto-heading--6.eevenkoto-heading--run-in {
   padding-block-start: var(--_eevenkoto-flow-gap-before-heading);
 }
 
+.eevenkoto-flow > .eevenkoto-heading--3.eevenkoto-heading--run-in + .eevenkoto-paragraph,
 .eevenkoto-flow > .eevenkoto-heading--6.eevenkoto-heading--run-in + .eevenkoto-paragraph {
   padding-block-start: 0;
 }
@@ -95,41 +97,17 @@
 /* --- Density modifiers --- */
 
 .eevenkoto-flow--tight {
-  --_eevenkoto-flow-gap: var(--eevenkoto-flow-gap, var(--eevenkoto-space-2));
-  --_eevenkoto-flow-gap-after-heading: var(
-    --eevenkoto-flow-gap-after-heading,
-    var(--eevenkoto-space-2)
-  );
-  --_eevenkoto-flow-gap-before-heading: var(
-    --eevenkoto-flow-gap-before-heading,
-    var(--eevenkoto-space-4)
-  );
-  --_eevenkoto-flow-gap-before-heading-macro: var(
-    --eevenkoto-flow-gap-before-heading-macro,
-    var(--eevenkoto-space-6)
-  );
-  --_eevenkoto-flow-gap-paragraph: var(
-    --eevenkoto-flow-gap-paragraph,
-    var(--eevenkoto-space-3)
-  );
+  --eevenkoto-flow-gap: var(--eevenkoto-space-2);
+  --eevenkoto-flow-gap-after-heading: var(--eevenkoto-space-2);
+  --eevenkoto-flow-gap-before-heading: var(--eevenkoto-space-4);
+  --eevenkoto-flow-gap-before-heading-macro: var(--eevenkoto-space-6);
+  --eevenkoto-flow-gap-paragraph: var(--eevenkoto-space-3);
 }
 
 .eevenkoto-flow--loose {
-  --_eevenkoto-flow-gap: var(--eevenkoto-flow-gap, var(--eevenkoto-space-6));
-  --_eevenkoto-flow-gap-after-heading: var(
-    --eevenkoto-flow-gap-after-heading,
-    var(--eevenkoto-space-4)
-  );
-  --_eevenkoto-flow-gap-before-heading: var(
-    --eevenkoto-flow-gap-before-heading,
-    var(--eevenkoto-space-8)
-  );
-  --_eevenkoto-flow-gap-before-heading-macro: var(
-    --eevenkoto-flow-gap-before-heading-macro,
-    var(--eevenkoto-space-8)
-  );
-  --_eevenkoto-flow-gap-paragraph: var(
-    --eevenkoto-flow-gap-paragraph,
-    var(--eevenkoto-space-6)
-  );
+  --eevenkoto-flow-gap: var(--eevenkoto-space-6);
+  --eevenkoto-flow-gap-after-heading: var(--eevenkoto-space-4);
+  --eevenkoto-flow-gap-before-heading: var(--eevenkoto-space-8);
+  --eevenkoto-flow-gap-before-heading-macro: var(--eevenkoto-space-8);
+  --eevenkoto-flow-gap-paragraph: var(--eevenkoto-space-6);
 }

@@ -1,0 +1,182 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as StatStories from './Stat.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={StatStories} />
+
+# Stat
+
+**Stat** is a numeric **display chip** for content (scores, modifiers, saves). It consumes surface / content / accent tokens — **not** the feedback domain. Interactive or status chips stay on Badge / future Chip.
+
+Shapes map to ability roles inside AbilityScore:
+
+| Shape | Typical role | Geometry |
+| --- | --- | --- |
+| `disk` | Score | Full circle |
+| `arch` | Modifier | Tall figure, rounded top + scoop back-frame |
+| `shield` | Save | Flat top, soft point at bottom |
+
+<Canvas of={StatStories.Default} />
+
+```html
+<span class="eevenkoto-stat eevenkoto-stat--arch eevenkoto-stat--lg">+3</span>
+```
+
+### Playground
+
+<Controls of={StatStories.Default} />
+
+## Why to use
+
+Ability math needs scannable glyphs with distinctive silhouettes. Stat encodes that geometry once so AbilityScore can compose three chips without one-off CSS per cell.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Ability score / modifier / save glyphs.</li>
+      <li>Other prominent numeric badges that are not feedback status.</li>
+      <li>Compose via AbilityScore when building the standard triad.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use Stat for readiness / severity — that is <a href="?path=/docs/components-badge--docs">Badge</a>.</li>
+      <li>Don’t invent local OKLCH; bridge to Tier 2 (<code>surface-*</code>, <code>content-accent</code>).</li>
+      <li>Don’t hard-code <code>9999px</code> for disks — use <code>--eevenkoto-radius-full</code>.</li>
+    </ul>
+  }
+/>
+
+## Shapes
+
+<Canvas of={StatStories.Shapes} />
+
+### Emphasis
+
+Default borders use parchment chrome (`content-accent` → `parchment-primary`). `emphasis` (and AbilityScore `saveProficient`) switches to bright gold (`content-accent-strong`).
+
+<Canvas of={StatStories.SaveEmphasis} />
+
+### disk
+
+Full circle (`--eevenkoto-radius-full`). Default shape. Used for base scores.
+
+### arch
+
+Taller than wide, semi-circular top, light gradient fill, decorative scoop back-frame (`::before`). Primary modifier figure.
+
+### shield
+
+Slightly taller disk footprint with flat top corners and a soft pointed bottom (`border-radius` ellipse). Used for saves.
+
+## Size
+
+Shared **`sm | md | lg`** ladder. AbilityScore uses **`lg` arch** + **`sm` disk/shield**.
+
+| Size | Approx footprint | Type |
+| --- | --- | --- |
+| `sm` | 3rem | `body-sm` |
+| `md` | 4rem | `body-md` |
+| `lg` | 5rem (arch height × 1.35) | `body-lg` |
+
+## Anatomy
+
+1. **Host** — `span.eevenkoto-stat`
+2. **Value** — text content (no child required)
+3. **Back-frame (arch only)** — `::before` scoop layer behind the face
+
+## Accessibility
+
+- Stat is presentational; AbilityScore supplies the accessible name via a parent `dt`.
+- If used alone, wrap with visible or `aria-label` context describing what the number means.
+- Prefer signed strings (`+3`, `+0`) as stored in product data — do not localize the sign in CSS.
+
+## API reference
+
+| Arg | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | — | Displayed number / signed modifier. |
+| `shape` | `'disk' \| 'arch' \| 'shield'` | `'disk'` | Geometry. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Shared size ladder. |
+| `emphasis` | `boolean` | `false` | Bright border via `content-accent-strong`. |
+
+```ts
+export type StatShape = 'disk' | 'arch' | 'shield';
+export type StatSize = 'sm' | 'md' | 'lg';
+
+export interface StatProps {
+  value: string;
+  shape?: StatShape;
+  size?: StatSize;
+  emphasis?: boolean;
+}
+```
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-stat` | Base |
+| `eevenkoto-stat--disk` / `--arch` / `--shield` | Shape |
+| `eevenkoto-stat--sm` / `--md` / `--lg` | Size |
+| `eevenkoto-stat--emphasis` | Bright accent border |
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-stat-bg` | Fill (arch sets a gradient by default) |
+| `--eevenkoto-stat-text` | Ink |
+| `--eevenkoto-stat-border-color` | Stroke (defaults to parchment `content-accent`) |
+| `--eevenkoto-stat-border-width` | Stroke width |
+| `--eevenkoto-stat-size` / `-height` | Box metrics |
+| `--eevenkoto-stat-radius` | Corner recipe |
+| `--eevenkoto-stat-font-size` | Type size |
+| `--eevenkoto-stat-shadow` | Depth shadow |
+
+Required CSS: `stat.css`.
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/stat.css';
+import { renderStat } from '@eevenkoto/html';
+
+renderStat({ value: '+3', shape: 'arch', size: 'lg' });
+```
+
+```tsx
+import { Stat } from '@eevenkoto/react';
+
+<Stat value="+3" shape="arch" size="lg" />
+```
+
+## Related
+
+- [AbilityScore](?path=/docs/components-abilityscore--docs) — Composes three Stats
+- [Badge](?path=/docs/components-badge--docs) — Feedback labels (different domain)
+- [Tier 2 semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs) — `content-accent`

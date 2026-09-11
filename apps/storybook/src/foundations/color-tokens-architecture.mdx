@@ -65,6 +65,8 @@ Color specification: oklch(Lightness [0–1], Chroma [0–0.4], Hue [0–360] [/
 
 Interactive transitions and subtle tints leverage `color-mix(in display-p3, ...)` to ensure that gradients and transitions do not pass through muddy, desaturated gray zones during interpolation.
 
+At **Tier 2**, prefer direct aliases to Tier 1 primitives for brand and chrome. Reserve `color-mix` for documented recipes (transparent fades, disabled endpoints) — do not invent muted brand hues by blending two pigments. See [Tier 1 — Prefer a new primitive](./color-tokens-tier1-primitives.mdx) and [Tier 2 — Prefer aliases](./color-tokens-tier2-semantics.mdx).
+
 ## Environmental Adaptations & Theming
 
 ### Light vs. Dark Elevation Models

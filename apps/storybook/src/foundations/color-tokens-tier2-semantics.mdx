@@ -64,7 +64,7 @@ Examples:
 | Domain | Description | Elements | Supported States |
 | --- | --- | --- | --- |
 | `surface` | Spatial layers, canvas backplates, cards, modals, wells | background, border | default |
-| `content` | Body prose, headings, captions, icons | text, icon | default, hover (interactive wrappers) |
+| `content` | Body prose, headings, captions, icons; quiet chrome (`accent`) vs emphasis (`accent-strong`) | text, icon | default, hover (interactive wrappers) |
 | `link` | Inline text navigation, breadcrumbs, action text | text, underline | default, hover, active, visited, focus |
 | `control` | Contained interactive elements (buttons, chips, pills) | background, text, border, icon | default, hover, active, disabled, focus |
 | `form` | Inputs, checkboxes, radios, switch tracks, thumbs | background, text, placeholder, border, message | default, hover, focus, checked, disabled, invalid |
@@ -105,12 +105,44 @@ Form components consume only the `form` domain.
 
 **Allowed values:**
 
-- `var(--eevenkoto-color-*)` primitive references (and `color-mix` over them)
-- `color-mix(in oklch, ...)` operating purely on primitive variables
+- `var(--eevenkoto-color-*)` primitive references (**preferred** for brand, chrome, and content accents)
+- `color-mix(in oklch, ...)` operating purely on primitive variables — **only** for the documented recipes below
 - Platform keywords: `transparent` and `currentColor`
 - CSS system color keywords for Windows High Contrast Mode (`Canvas`, `CanvasText`, `ButtonBorder`, `Highlight`, `HighlightText`, `LinkText`)
 
 **Enforcement:** Stylelint fails the CI build if raw color strings appear in `tokens.css`. If an intent requires an unvetted color stop, it must be added to Tier 1 via the primitive review process.
+
+### 3.1a Prefer aliases — constrain `color-mix`
+
+Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct alias to an existing Tier 1 stop.
+
+`color-mix` at Tier 2 is easy to overuse. Blending two chromatic primitives (for example gold × parchment-border) to fake a “muted accent” looks fine until Tier 1 is retuned — then every dependent mix drifts, often into muddy or oversaturated results that no one authored.
+
+| Allowed mix recipes | Examples |
+| --- | --- |
+| Fade a primitive toward `transparent` | `boundary-subtle`, feedback subtle fills, link underlines, depth umbra/penumbra |
+| Mix with mode endpoints (`*-tint-disabled` / `*-tint-disabled-deep`) | Disabled control / content tuples |
+
+| Disallowed without a new Tier 1 stop | Why |
+| --- | --- |
+| Hue × hue “muted brand” mixes | Unstable when either primitive changes; hides a missing pigment |
+| Mixes that exist only to avoid adding a primitive | Friction is intentional — see [Tier 1 — Prefer a new primitive](?path=/docs/foundations-color-tokens-tier-1-primitives--docs) |
+
+```css
+/* ✅ Quiet chrome: alias parchment */
+--eevenkoto-color-content-accent: var(--eevenkoto-color-parchment-primary);
+--eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-strong);
+
+/* ✅ Documented fade */
+--eevenkoto-color-boundary-subtle: color-mix(
+  in oklch,
+  var(--eevenkoto-color-parchment-border) 35%,
+  transparent
+);
+
+/* ❌ Don’t invent muted gold by mixing pigments */
+/* --eevenkoto-color-content-accent: color-mix(in oklch, var(--gold-primary) 45%, var(--parchment-border) 55%); */
+```
 
 ### 3.2 Coupled Background-Text Tuples & Opaque Disabled States
 
@@ -242,6 +274,8 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
   /* 2. CONTENT & TYPOGRAPHY */
   --eevenkoto-color-content-primary:       var(--eevenkoto-color-parchment-text);
   --eevenkoto-color-content-secondary:     var(--eevenkoto-color-parchment-text-muted);
+  --eevenkoto-color-content-accent:        var(--eevenkoto-color-parchment-primary);
+  --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-strong);
   --eevenkoto-color-content-disabled:      var(--eevenkoto-color-parchment-border);
 
   /* 3. TYPOGRAPHIC LINKS */
@@ -350,7 +384,7 @@ Continuous Integration enforces architectural integrity through automated Stylel
 
 | Check | Behavior |
 | --- | --- |
-| Zero Raw Literals | Rejects raw color formats in `tokens.css`. Allowed: primitive `var()`, `color-mix(in oklch, ...)`, platform keywords, system colors. |
+| Zero Raw Literals | Rejects raw color formats in `tokens.css`. Allowed: primitive `var()`, constrained `color-mix(in oklch, …)` recipes (fades / disabled endpoints — see §3.1a), platform keywords, system colors. |
 | Mandatory Text Tuples | Requires any selector declaring a `-background` property to include a matching `-text` property, unless annotated with `/* stylelint-disable-next-line eevenkoto/require-text-tuple */`. |
 | Mandatory Disabled Tuples | Requires interactive variants with `-background-disabled` to also declare `-text-disabled` and `-border-disabled`. |
 | Banned `-inverse` Names | Scans for `-inverse` in token names and fails the build. Use scoped context containers instead. |

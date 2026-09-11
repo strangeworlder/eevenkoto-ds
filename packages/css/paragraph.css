@@ -40,36 +40,21 @@
 }
 
 .eevenkoto-paragraph--primary {
-  --_eevenkoto-paragraph-color: var(
-    --eevenkoto-paragraph-color,
-    var(--eevenkoto-color-content-primary)
-  );
+  --eevenkoto-paragraph-color: var(--eevenkoto-color-content-primary);
 }
 
 .eevenkoto-paragraph--secondary {
-  --_eevenkoto-paragraph-color: var(
-    --eevenkoto-paragraph-color,
-    var(--eevenkoto-color-content-secondary)
-  );
+  --eevenkoto-paragraph-color: var(--eevenkoto-color-content-secondary);
 }
 
 .eevenkoto-paragraph--sm {
-  --_eevenkoto-paragraph-font-size: var(
-    --eevenkoto-paragraph-font-size,
-    var(--eevenkoto-font-size-body-sm)
-  );
+  --eevenkoto-paragraph-font-size: var(--eevenkoto-font-size-body-sm);
 }
 
 .eevenkoto-paragraph--md {
-  --_eevenkoto-paragraph-font-size: var(
-    --eevenkoto-paragraph-font-size,
-    var(--eevenkoto-font-size-body-md)
-  );
+  --eevenkoto-paragraph-font-size: var(--eevenkoto-font-size-body-md);
 }
 
 .eevenkoto-paragraph--lg {
-  --_eevenkoto-paragraph-font-size: var(
-    --eevenkoto-paragraph-font-size,
-    var(--eevenkoto-font-size-body-lg)
-  );
+  --eevenkoto-paragraph-font-size: var(--eevenkoto-font-size-body-lg);
 }

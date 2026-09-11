@@ -1,0 +1,209 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as AbilityScoreStories from './AbilityScore.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={AbilityScoreStories} />
+
+# AbilityScore
+
+**AbilityScore** is one ability **column**: gold label + three [Stat](?path=/docs/components-stat--docs) chips (arch modifier, disk score, shield save).
+
+**AbilityScoreGroup** is the sandwich **organism**: optional header/footer rails + a responsive six→three column grid. It replaces the legacy `kykylistaus-*` table and sibling-paragraph CSS.
+
+<Canvas of={AbilityScoreStories.Default} />
+
+### Playground
+
+<Controls of={AbilityScoreStories.Default} />
+
+## Why to use
+
+Ability grids are decorative and positional (orbiting chips), but still need accessible terms for score / modifier / save. AbilityScore owns that column; AbilityScoreGroup owns the panel, noise surface, scoop corners, and container query.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Pass ability names as data (<em>Karisma</em>, <em>Ketteryys</em>) — never as core enums.</li>
+      <li>Override <code>scoreLabel</code> / <code>modifierLabel</code> / <code>saveLabel</code> for Finnish (<em>Arvo</em>, <em>Muuttuja</em>, <em>Pelastus</em>).</li>
+      <li>Set <code>saveProficient</code> when the creature is proficient — bright shield border only.</li>
+      <li>Put vitals in <code>header</code> and traits in <code>footer</code> as PropertyLists.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t style adjacent paragraphs with <code>:has(+.wrapper)</code> — use explicit slots.</li>
+      <li>Don’t ship a display:<code>table</code> reordering hack; columns are real AbilityScore nodes.</li>
+      <li>Don’t use Badge for these numbers — Badge is feedback; Stat is content display.</li>
+      <li>Don’t use bright gold on every chip — reserve <code>content-accent-strong</code> for proficient saves.</li>
+    </ul>
+  }
+/>
+
+## AbilityScore anatomy
+
+1. **Root** — `.eevenkoto-ability-score`
+2. **Label** — `.eevenkoto-ability-score__label` (serif + `content-accent`)
+3. **Stats list** — `dl.eevenkoto-ability-score__stats`
+4. **Slots** — modifier (arch, lg), score (disk, sm), save (shield, sm) with visually hidden `dt`s
+
+Chip roles and shapes:
+
+| Role | Shape | Size | Position |
+| --- | --- | --- | --- |
+| Modifier | `arch` | `lg` | Centered primary figure |
+| Score | `disk` | `sm` | Hugs bottom-left of arch |
+| Save | `shield` | `sm` | Hugs bottom-right of arch |
+
+## AbilityScoreGroup
+
+Header and footer slots take a PropertyList (or any HTML / nodes). At narrow **container** widths (`max-width: 650px`) the grid reflows to three columns; rails match the grid width.
+
+<Canvas of={AbilityScoreStories.Group} />
+
+### Group anatomy
+
+1. **Root** — `.eevenkoto-ability-score-group` (`container-type: inline-size`)
+2. **Header** — `.eevenkoto-ability-score-group__header` (optional inset scoop rail)
+3. **Grid** — `.eevenkoto-ability-score-group__grid` (6 columns → 3)
+4. **Footer** — `.eevenkoto-ability-score-group__footer` (optional inset scoop rail)
+
+### Responsive behavior
+
+| Container | Grid | Rails |
+| --- | --- | --- |
+| Wide | `repeat(6, 1fr)`, full width | Inset via `--eevenkoto-ability-score-group-inset-inline` |
+| ≤ 650px | `repeat(3, 1fr)`, `max-width: 40rem`, centered | `width: 100%`, same `max-width` |
+
+## Save proficiency
+
+Default chip borders and ability labels use parchment **`content-accent`**. When `saveProficient` is true, the save shield uses bright gold **`content-accent-strong`** (`eevenkoto-stat--emphasis`). The visually hidden term becomes `Save (proficient)` (or your `saveLabel` + that suffix).
+
+This is a soft cue — not required for reading the bonus — so keep contrast subtle enough that non-proficient shields still read as part of the set.
+
+## Accessibility
+
+- Each column is a definition list with hidden terms for score / modifier / save.
+- Prefer meaningful `scoreLabel` etc. in the document language.
+- Group is a layout region; the creature name / section headings live on Statblock, not here.
+
+## API reference
+
+### AbilityScore
+
+| Arg | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | — | Ability name (column header). |
+| `score` | `string` | — | Base score. |
+| `modifier` | `string` | — | Modifier (typically signed). |
+| `save` | `string` | — | Save bonus (typically signed). |
+| `scoreLabel` | `string` | `'Score'` | Visually hidden term. |
+| `modifierLabel` | `string` | `'Modifier'` | Visually hidden term. |
+| `saveLabel` | `string` | `'Save'` | Visually hidden term. |
+| `saveProficient` | `boolean` | `false` | Bright shield border + “(proficient)” in the hidden term. |
+
+```ts
+export interface AbilityScoreProps {
+  label: string;
+  score: string;
+  modifier: string;
+  save: string;
+  scoreLabel?: string;
+  modifierLabel?: string;
+  saveLabel?: string;
+  saveProficient?: boolean;
+}
+```
+
+### AbilityScoreGroup
+
+| Arg | Type | Default | Description |
+| --- | --- | --- | --- |
+| `abilities` | `AbilityScoreProps[]` | — | Columns. |
+| `header` | HTML string / `ReactNode` / Vue slot | — | Inset rail (typically PropertyList). |
+| `footer` | HTML string / `ReactNode` / Vue slot | — | Inset rail (typically PropertyList). |
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-ability-score` | Column root |
+| `eevenkoto-ability-score--save-proficient` | Proficient save emphasis |
+| `eevenkoto-ability-score__label` | Ability name |
+| `eevenkoto-ability-score__stats` | Stat definition list |
+| `eevenkoto-ability-score__stat` / `--modifier` / `--score` / `--save` | Slot wrappers |
+| `eevenkoto-ability-score__stat-label` | Visually hidden `dt` |
+| `eevenkoto-ability-score__stat-value` | `dd` around Stat |
+| `eevenkoto-ability-score-group` | Group root |
+| `eevenkoto-ability-score-group__header` / `__footer` / `__grid` | Sandwich regions |
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-ability-score-group-inset-inline` | Header/footer side inset (wide) |
+| `--eevenkoto-ability-score-group-bg` | Panel surface |
+| `--eevenkoto-ability-score-group-border-color` | Panel border |
+| `--eevenkoto-ability-score-group-radius` | Scoop radius |
+| `--eevenkoto-ability-score-label-color` | Column header ink (defaults to parchment `content-accent`) |
+
+Required CSS: `stat.css`, `ability-score.css` (+ `property.css` when using PropertyList rails).
+
+## Framework packages
+
+```ts
+import { renderAbilityScore, renderAbilityScoreGroup, renderPropertyList } from '@eevenkoto/html';
+
+renderAbilityScoreGroup({
+  abilities: [/* … */],
+  header: renderPropertyList({ items: vitals }),
+  footer: renderPropertyList({ items: traits }),
+});
+```
+
+```tsx
+import { AbilityScoreGroup, PropertyList } from '@eevenkoto/react';
+
+<AbilityScoreGroup
+  abilities={abilities}
+  header={<PropertyList items={vitals} />}
+  footer={<PropertyList items={traits} />}
+/>
+```
+
+```vue
+<AbilityScoreGroup :abilities="abilities">
+  <template #header><PropertyList :items="vitals" /></template>
+  <template #footer><PropertyList :items="traits" /></template>
+</AbilityScoreGroup>
+```
+
+## Related
+
+- [Stat](?path=/docs/components-stat--docs) — Chip shapes
+- [Property](?path=/docs/components-property--docs) — Rail content
+- [Statblock](?path=/docs/components-statblock--docs) — Full entry
+- [Tier 2 semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs) — `content-accent`, surfaces

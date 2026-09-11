@@ -22,8 +22,10 @@ export {
 export {
   type HeadingLevel,
   type HeadingTone,
+  type HeadingRunInLevel,
   type HeadingProps,
   type HeadingClassNameProps,
+  HEADING_RUN_IN_LEVELS,
   headingClassNames,
 } from './heading';
 
@@ -43,5 +45,42 @@ export {
 } from './caption';
 
 export { type FlowDensity, type FlowProps, flowClassNames } from './flow';
+
+export {
+  type PropertyItem,
+  type PropertyProps,
+  type PropertyListProps,
+  propertyClassNames,
+  propertyListClassNames,
+} from './property';
+
+export {
+  type StatShape,
+  type StatSize,
+  type StatProps,
+  type StatClassNameProps,
+  statClassNames,
+} from './stat';
+
+export {
+  type AbilityScoreProps,
+  type AbilityScoreGroupProps,
+  abilityScoreClassNames,
+  abilityScoreGroupClassNames,
+} from './abilityScore';
+
+export {
+  type StatblockFeatureProps,
+  type StatblockFeature,
+  type StatblockSectionProps,
+  type StatblockSection,
+  statblockFeatureClassNames,
+  statblockSectionClassNames,
+} from './statblockSection';
+
+export {
+  type StatblockProps,
+  statblockClassNames,
+} from './statblock';
 
 export { buttonIconPaths } from './icons';

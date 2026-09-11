@@ -79,6 +79,18 @@ If an engineer needs a color that does not exist in Tier 1, this friction is an 
 1. Whether an existing functional primitive already satisfies the need.
 2. Whether the requested shade maintains harmony across both light and dark themes.
 
+### Prefer a new primitive over a “muted mix”
+
+When UI chrome needs a quieter accent (for example ability labels vs proficient-save gold), **do not invent that shade by `color-mix`-ing two Tier 1 hues in Tier 2**. Mixing pigments to fake a missing stop looks fine until a designer retunes Tier 1 — then every mix shifts in unpredictable, often muddy ways.
+
+| Need | Do | Don’t |
+| --- | --- | --- |
+| Quiet parchment chrome | Alias `parchment-primary` / `parchment-border` at Tier 2 | `color-mix(gold, parchment-border)` |
+| Bright emphasis | Alias `gold-primary-strong` (or add a reviewed gold stop) | Mix gold with text/border to “tone it down” |
+| Truly new optical stop | Add a Tier 1 primitive with a designer | Encode the pigment only as a Tier 2 mix |
+
+Friction to add a primitive is intentional: it keeps Tier 1 the single place pigments are authored.
+
 ## Consumption Rules
 
 - Tier 2 maps primitives to semantic intent (see [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx)).

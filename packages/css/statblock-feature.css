@@ -1,0 +1,21 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: STATBLOCK FEATURE (TIER 3)
+   Named action / trait / reaction entry: H3 run-in + Paragraph.
+   Visual remap: semantic H3 run-in → micro H6 look.
+   ========================================================================== */
+
+.eevenkoto-statblock-feature {
+  margin: 0;
+  min-width: 0;
+}
+
+.eevenkoto-statblock-feature > .eevenkoto-heading--3.eevenkoto-heading--run-in {
+  --eevenkoto-heading-color: var(--eevenkoto-color-control-secondary-icon);
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-6);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-sans);
+  --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
+  --eevenkoto-heading-font-style: italic;
+  --eevenkoto-heading-line-height: var(--eevenkoto-line-height-body);
+  --eevenkoto-heading-margin-block: 0;
+  --eevenkoto-heading-display: inline-block;
+}

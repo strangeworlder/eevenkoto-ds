@@ -72,6 +72,8 @@ Reach for tokens whenever you style a layout, utility, or component. Prefer an e
       <li>
         In components, bridge public overrides through private{' '}
         <code>{'--_eevenkoto-*'}</code> variables that fall back to Tier 2.
+        Variants and states set the public <code>{'--eevenkoto-*'}</code> API —
+        never reassign the private bridges.
       </li>
       <li>
         If intent is missing, add or request a Tier 2 token — do not invent a local hex/oklch

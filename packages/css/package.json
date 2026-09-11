@@ -16,7 +16,13 @@
     "./heading.css": "./heading.css",
     "./paragraph.css": "./paragraph.css",
     "./caption.css": "./caption.css",
-    "./flow.css": "./flow.css"
+    "./flow.css": "./flow.css",
+    "./property.css": "./property.css",
+    "./stat.css": "./stat.css",
+    "./ability-score.css": "./ability-score.css",
+    "./statblock-feature.css": "./statblock-feature.css",
+    "./statblock-section.css": "./statblock-section.css",
+    "./statblock.css": "./statblock.css"
   },
   "license": "ISC",
   "publishConfig": {

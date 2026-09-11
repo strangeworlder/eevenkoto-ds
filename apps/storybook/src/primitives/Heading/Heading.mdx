@@ -63,7 +63,7 @@ Use Heading for page titles and section labels. One `h1` per view; nest levels w
     <ul>
       <li>Use macro rules only on H1/H2 — keep lower levels clean.</li>
       <li>Differentiate H5/H6 with case and posture, not smaller type.</li>
-      <li>Prefer H6 run-in for the lowest label when the next line is body copy.</li>
+      <li>Prefer H6 or H3 run-in for the lowest label when the next line is body copy.</li>
     </ul>
   }
   dont={
@@ -87,6 +87,7 @@ Use Heading for page titles and section labels. One `h1` per view; nest levels w
 | `4` | `h4` | `heading-4` | sans | semibold | Warm parchment (`control-secondary-icon`) |
 | `5` | `h5` | `heading-5` | sans | bold + small caps | Sunken band; bleeds by pad-inline (`margin ±X`, `width: 100% + 2X`) |
 | `6` | `h6` | `heading-6` (= body-md) | sans | bold italic | Warm parchment (`control-secondary-icon`); optional run-in |
+| `3` + `runIn` | `h3` | default H3 scale (unless a parent remaps) | serif → often remapped | bold | Optional run-in — Statblock remaps to micro H6 look |
 
 ### tone
 
@@ -97,9 +98,9 @@ Use Heading for page titles and section labels. One `h1` per view; nest levels w
 
 <Canvas of={HeadingStories.Secondary} />
 
-### runIn (H6)
+### runIn (H3 / H6)
 
-Flows the heading into the following `.eevenkoto-paragraph` and appends a period suffix.
+Flows the heading into the following `.eevenkoto-paragraph` and appends a period suffix. Supported on levels **3** and **6**.
 
 <Canvas of={HeadingStories.RunIn} />
 
@@ -110,13 +111,15 @@ Flows the heading into the following `.eevenkoto-paragraph` and appends a period
 </p>
 ```
 
+<Canvas of={HeadingStories.RunInH3} />
+
 <Canvas of={HeadingStories.MicroCluster} />
 
 ## Accessibility & flow
 
 - Preserve logical heading order for screen readers.
 - Headings use `break-after: avoid` / `break-inside: avoid` so print/PDF flows keep titles with following copy.
-- Run-in keeps an `<h6>` element — do not demote it to a `<span>` for styling.
+- Run-in keeps a real heading element (`h3` or `h6`) — do not demote it to a `<span>` for styling.
 
 ## API reference
 
@@ -151,6 +154,6 @@ import { Heading } from '@eevenkoto/vue';
 
 - [Typography](?path=/docs/foundations-typography--docs) — Two-tier sizes + heading hierarchy model
 - [Typography sample](?path=/docs/primitives-typography-sample--docs) — Composed reading-flow specimen
-- [Paragraph](?path=/docs/primitives-paragraph--docs) — Body copy (sibling of run-in H6)
+- [Paragraph](?path=/docs/primitives-paragraph--docs) — Body copy (sibling of run-in H3 / H6)
 - [Caption](?path=/docs/primitives-caption--docs) — Supporting text
 - [Tokens](?path=/docs/foundations-tokens--docs) — Live size specimens
