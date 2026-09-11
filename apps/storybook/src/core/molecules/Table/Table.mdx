@@ -101,17 +101,57 @@ import '@eevenkoto/css/table.css';
 import { renderTable } from '@eevenkoto/html';
 
 renderTable({
-  variant: 'numeric',
+  variant: 'pair',
   caption: 'Class progression',
-  columns: [/* … */],
-  rows: [/* … */],
+  columns: [
+    { key: 'class', header: 'Class', kind: 'index' },
+    { key: 'hit', header: 'Hit die', kind: 'text' },
+  ],
+  rows: [
+    ['Fighter', 'd10'],
+    ['Wizard', 'd6'],
+  ],
 });
 ```
 
 ```tsx
+import '@eevenkoto/css/table-cell.css';
+import '@eevenkoto/css/table.css';
 import { Table } from '@eevenkoto/react';
 
-<Table variant="pair" columns={…} rows={…} />
+<Table
+  variant="pair"
+  caption="Class progression"
+  columns={[
+    { key: 'class', header: 'Class', kind: 'index' },
+    { key: 'hit', header: 'Hit die', kind: 'text' },
+  ]}
+  rows={[
+    ['Fighter', 'd10'],
+    ['Wizard', 'd6'],
+  ]}
+/>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/table-cell.css';
+import '@eevenkoto/css/table.css';
+import { Table } from '@eevenkoto/vue';
+
+const columns = [
+  { key: 'class', header: 'Class', kind: 'index' },
+  { key: 'hit', header: 'Hit die', kind: 'text' },
+];
+const rows = [
+  ['Fighter', 'd10'],
+  ['Wizard', 'd6'],
+];
+</script>
+
+<template>
+  <Table variant="pair" caption="Class progression" :columns="columns" :rows="rows" />
+</template>
 ```
 
 ## Related

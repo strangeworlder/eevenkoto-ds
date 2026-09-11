@@ -17,6 +17,7 @@
     "./badge.css": "./core/atoms/badge.css",
     "./heading.css": "./core/atoms/heading.css",
     "./paragraph.css": "./core/atoms/paragraph.css",
+    "./list.css": "./core/atoms/list.css",
     "./caption.css": "./core/atoms/caption.css",
     "./frame.css": "./core/atoms/frame.css",
     "./scroll.css": "./core/atoms/scroll.css",

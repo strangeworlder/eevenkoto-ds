@@ -110,30 +110,85 @@ Required CSS: `stat.css`, `ability-score.css` (+ `property.css` when using Prope
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
 import { renderAbilityScoreGroup, renderPropertyList } from '@eevenkoto/html';
 
 renderAbilityScoreGroup({
-  abilities: [/* … */],
-  header: renderPropertyList({ items: vitals }),
-  footer: renderPropertyList({ items: details }),
+  abilities: [
+    {
+      label: 'Karisma',
+      score: '16',
+      modifier: '+3',
+      save: '+5',
+      saveProficient: true,
+      proficientLabel: 'pätevä',
+      scoreLabel: 'Arvo',
+      modifierLabel: 'Muuttuja',
+      saveLabel: 'Pelastus',
+    },
+  ],
+  header: renderPropertyList({ items: [{ label: 'Puolustus', value: '15' }] }),
+  footer: renderPropertyList({ items: [{ label: 'Taidot', value: 'huijaus +5' }] }),
 });
 ```
 
 ```tsx
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
 import { AbilityScoreGroup, PropertyList } from '@eevenkoto/react';
 
 <AbilityScoreGroup
-  abilities={abilities}
-  header={<PropertyList items={vitals} />}
-  footer={<PropertyList items={details} />}
+  abilities={[
+    {
+      label: 'Karisma',
+      score: '16',
+      modifier: '+3',
+      save: '+5',
+      saveProficient: true,
+      proficientLabel: 'pätevä',
+      scoreLabel: 'Arvo',
+      modifierLabel: 'Muuttuja',
+      saveLabel: 'Pelastus',
+    },
+  ]}
+  header={<PropertyList items={[{ label: 'Puolustus', value: '15' }]} />}
+  footer={<PropertyList items={[{ label: 'Taidot', value: 'huijaus +5' }]} />}
 />
 ```
 
 ```vue
-<AbilityScoreGroup :abilities="abilities">
-  <template #header><PropertyList :items="vitals" /></template>
-  <template #footer><PropertyList :items="details" /></template>
-</AbilityScoreGroup>
+<script setup>
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
+import { AbilityScoreGroup, PropertyList } from '@eevenkoto/vue';
+
+const abilities = [
+  {
+    label: 'Karisma',
+    score: '16',
+    modifier: '+3',
+    save: '+5',
+    saveProficient: true,
+    proficientLabel: 'pätevä',
+    scoreLabel: 'Arvo',
+    modifierLabel: 'Muuttuja',
+    saveLabel: 'Pelastus',
+  },
+];
+const vitals = [{ label: 'Puolustus', value: '15' }];
+const details = [{ label: 'Taidot', value: 'huijaus +5' }];
+</script>
+
+<template>
+  <AbilityScoreGroup :abilities="abilities">
+    <template #header><PropertyList :items="vitals" /></template>
+    <template #footer><PropertyList :items="details" /></template>
+  </AbilityScoreGroup>
+</template>
 ```
 
 ## Related

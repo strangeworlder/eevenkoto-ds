@@ -141,6 +141,8 @@ Required CSS: `stat.css`, `ability-score.css`.
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
 import { renderAbilityScore } from '@eevenkoto/html';
 
 renderAbilityScore({
@@ -157,20 +159,43 @@ renderAbilityScore({
 ```
 
 ```tsx
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
 import { AbilityScore } from '@eevenkoto/react';
 
-<AbilityScore label="Karisma" score="16" modifier="+3" save="+5" saveProficient proficientLabel="pätevä" />
-```
-
-```vue
 <AbilityScore
   label="Karisma"
   score="16"
   modifier="+3"
   save="+5"
-  save-proficient
-  proficient-label="pätevä"
+  saveProficient
+  proficientLabel="pätevä"
+  scoreLabel="Arvo"
+  modifierLabel="Muuttuja"
+  saveLabel="Pelastus"
 />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
+import { AbilityScore } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <AbilityScore
+    label="Karisma"
+    score="16"
+    modifier="+3"
+    save="+5"
+    save-proficient
+    proficient-label="pätevä"
+    score-label="Arvo"
+    modifier-label="Muuttuja"
+    save-label="Pelastus"
+  />
+</template>
 ```
 
 ## Related

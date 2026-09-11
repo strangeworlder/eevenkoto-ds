@@ -19,6 +19,7 @@ import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/list.css';
 import '@eevenkoto/css/caption.css';
 import '@eevenkoto/css/frame.css';
 import '@eevenkoto/css/scroll.css';

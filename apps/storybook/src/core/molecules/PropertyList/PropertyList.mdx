@@ -159,13 +159,28 @@ renderPropertyList({
 ```tsx
 import { PropertyList } from '@eevenkoto/react';
 
-<PropertyList items={vitals} />
+<PropertyList
+  items={[
+    { label: 'Puolustus', value: '15' },
+    { label: 'Aloite', value: '+1 (11)' },
+  ]}
+/>
 ```
 
 ```vue
-<PropertyList :items="vitals" />
-```
+<script setup>
+import { PropertyList } from '@eevenkoto/vue';
 
+const items = [
+  { label: 'Puolustus', value: '15' },
+  { label: 'Aloite', value: '+1 (11)' },
+];
+</script>
+
+<template>
+  <PropertyList :items="items" />
+</template>
+```
 ## Related
 
 - [AbilityScoreGroup](?path=/docs/domain-organisms-abilityscoregroup--docs) — Consumes PropertyList in rails

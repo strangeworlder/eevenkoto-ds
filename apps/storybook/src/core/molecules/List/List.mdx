@@ -1,0 +1,176 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ListStories from './List.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={ListStories} />
+
+# List
+
+**List** is the Core **molecule** that stacks **ListItem** rows in a semantic content list (`ul` / `ol`). ListItem is the row atom (`li`). Use [PropertyList](?path=/docs/core-molecules-propertylist--docs) for definitional label→value metadata (`dl`).
+
+The host class alone is the default (unordered / `body-md` / primary). Item look comes from `ul.eevenkoto-list li` / `ol.eevenkoto-list li` — bare `<li>` children need no item class. Ordered lists use `ol` (or `--ordered`); size and tone modifiers are opt-in. Framework helpers still emit explicit `--unordered` / `--md` / `--primary` for the component API.
+
+<Canvas of={ListStories.Default} />
+
+```html
+<ul class="eevenkoto-list">
+  <li>Inspect the valve before engaging the primary circuit.</li>
+  <li>Record pressure readings at each checkpoint.</li>
+</ul>
+```
+
+### Playground
+
+<Controls of={ListStories.Default} />
+
+## Why to use
+
+Reading content often needs bulleted or numbered steps. Real `ul` / `ol` / `li` keep semantics honest for assistive tech and let Prose style bare CMS tags the same way as classed Lists.
+
+## When to use
+
+Use List for unordered or ordered content lists in reading layouts. Prefer PropertyList for vitals and other definitional metadata. Prefer Paragraph for multi-sentence prose without markers.
+
+<DoDont
+  do={
+    <ul>
+      <li>Use List for bulleted or numbered reading content.</li>
+      <li>Pick size from body roles (<code>sm</code> / <code>md</code> / <code>lg</code>).</li>
+      <li>Compose inside Flow (and Prose for bare tags) so gaps stay consistent.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use List for label→value metadata — use PropertyList.</li>
+      <li>Don’t fake lists with Paragraph + manual bullets or line breaks.</li>
+      <li>Don’t hard-code rem or Tier 1 <code>--eevenkoto-font-size-md</code> in local CSS.</li>
+    </ul>
+  }
+/>
+
+## Anatomy
+
+1. **List** — `ul.eevenkoto-list` or `ol.eevenkoto-list` (host type, markers, and item look)
+2. **ListItem** — bare `li` under the host (framework prop `text`; no required item class)
+
+## Key modifiers
+
+### variant
+
+| Value | Element | Marker |
+| --- | --- | --- |
+| `unordered` | `ul` | `disc` (default) |
+| `ordered` | `ol` | `decimal` |
+
+Tag inference: `:where(ol).eevenkoto-list` and bare `ol` under Prose are ordered without requiring `--ordered`.
+
+<Canvas of={ListStories.Ordered} />
+
+### size
+
+| Value | Token |
+| --- | --- |
+| `sm` | `--eevenkoto-font-size-body-sm` |
+| `md` | `--eevenkoto-font-size-body-md` |
+| `lg` | `--eevenkoto-font-size-body-lg` |
+
+<Canvas of={ListStories.SizeComparison} />
+
+### tone
+
+| Value | Content color |
+| --- | --- |
+| `primary` | `--eevenkoto-color-content-primary` |
+| `secondary` | `--eevenkoto-color-content-secondary` |
+
+<Canvas of={ListStories.Secondary} />
+
+## API reference
+
+<ArgTypes of={ListStories} />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `ListItemProps[]` | — | Rows to render. |
+| `variant` | `'unordered' \| 'ordered'` | `unordered` | List kind / element. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `md` | Body type size. |
+| `tone` | `'primary' \| 'secondary'` | `primary` | Content color. |
+| `text` (item) | `string` | — | Item copy. |
+
+```ts
+export interface ListItemProps {
+  text: string;
+}
+
+export interface ListProps {
+  items: ListItemProps[];
+  variant?: 'unordered' | 'ordered';
+  size?: 'sm' | 'md' | 'lg';
+  tone?: 'primary' | 'secondary';
+}
+```
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/list.css';
+import { renderList } from '@eevenkoto/html';
+
+renderList({
+  variant: 'unordered',
+  items: [{ text: 'First step.' }, { text: 'Second step.' }],
+});
+```
+
+```tsx
+import { List } from '@eevenkoto/react';
+
+<List
+  variant="ordered"
+  items={[{ text: 'First step.' }, { text: 'Second step.' }]}
+/>
+```
+
+```vue
+<script setup>
+import { List } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <List
+    variant="ordered"
+    :items="[{ text: 'First step.' }, { text: 'Second step.' }]"
+  />
+</template>
+```
+
+## Related
+
+- [Typography](?path=/docs/foundations-typography--docs)
+- [Paragraph](?path=/docs/core-atoms-paragraph--docs)
+- [PropertyList](?path=/docs/core-molecules-propertylist--docs) — Definition lists
+- [Prose](?path=/docs/core-molecules-prose--docs) — Bare `<ul>` / `<ol>` / `<li>` inside a scope
+- [Flow](?path=/docs/core-molecules-flow--docs)
+- [Typography sample](?path=/docs/core-molecules-typography-sample--docs)

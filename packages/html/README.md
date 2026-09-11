@@ -23,9 +23,9 @@ document.body.innerHTML = renderButton({
 });
 ```
 
-Also exported: `renderHeading`, `renderParagraph`, `renderCaption`, `renderFlow`, `renderProse`.
+Also exported: `renderBadge`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderList`, `renderCaption`, `renderFrame`, `renderScroll`, `renderTableCell`, `renderFlow`, `renderProse`, `renderProperty`, `renderPropertyList`, `renderStat`, `renderTable`, `renderTableShell`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`.
 
-`renderFlow` / `renderProse` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
+`renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
 
 Class names and prop types come from `@eevenkoto/core`.
 

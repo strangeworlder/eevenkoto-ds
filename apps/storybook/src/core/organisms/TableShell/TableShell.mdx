@@ -78,6 +78,8 @@ Pager is part of the ecosystem design but not implemented yet. Use the footer sl
 
 ## Framework packages
 
+HTML nests a `renderTable` string. React/Vue nest `<Table>` as children / default slot; footer is a prop (React) or `#footer` slot (Vue).
+
 ```ts
 import '@eevenkoto/css/frame.css';
 import '@eevenkoto/css/scroll.css';
@@ -87,17 +89,69 @@ import '@eevenkoto/css/table-shell.css';
 import { renderTable, renderTableShell } from '@eevenkoto/html';
 
 renderTableShell({
-  table: renderTable({ /* … */ }),
+  table: renderTable({
+    variant: 'numeric',
+    columns: [
+      { key: 'lvl', header: 'Lvl', kind: 'index' },
+      { key: 'xp', header: 'XP', kind: 'numeric' },
+    ],
+    rows: [
+      ['1', '0'],
+      ['2', '300'],
+    ],
+  }),
   footer: '<!-- Pager later -->',
 });
 ```
 
 ```tsx
+import '@eevenkoto/css/frame.css';
+import '@eevenkoto/css/scroll.css';
+import '@eevenkoto/css/table-cell.css';
+import '@eevenkoto/css/table.css';
+import '@eevenkoto/css/table-shell.css';
 import { Table, TableShell } from '@eevenkoto/react';
 
-<TableShell footer={/* Pager later */}>
-  <Table variant="numeric" columns={…} rows={…} />
+<TableShell footer={<p>Pager later</p>}>
+  <Table
+    variant="numeric"
+    columns={[
+      { key: 'lvl', header: 'Lvl', kind: 'index' },
+      { key: 'xp', header: 'XP', kind: 'numeric' },
+    ]}
+    rows={[
+      ['1', '0'],
+      ['2', '300'],
+    ]}
+  />
 </TableShell>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/frame.css';
+import '@eevenkoto/css/scroll.css';
+import '@eevenkoto/css/table-cell.css';
+import '@eevenkoto/css/table.css';
+import '@eevenkoto/css/table-shell.css';
+import { Table, TableShell } from '@eevenkoto/vue';
+
+const columns = [
+  { key: 'lvl', header: 'Lvl', kind: 'index' },
+  { key: 'xp', header: 'XP', kind: 'numeric' },
+];
+const rows = [
+  ['1', '0'],
+  ['2', '300'],
+];
+</script>
+
+<template>
+  <TableShell>
+    <Table variant="numeric" :columns="columns" :rows="rows" />
+    <template #footer><p>Pager later</p></template>
+  </TableShell>
+</template>
 ```
 
 ## Related

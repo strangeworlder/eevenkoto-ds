@@ -2,6 +2,7 @@ export { Button, type ButtonComponentProps, type ButtonProps, type ButtonIconNam
 export { Badge, type BadgeComponentProps, type BadgeProps } from './core/atoms/Badge';
 export { Heading, type HeadingComponentProps, type HeadingProps, type HeadingLevel } from './core/atoms/Heading';
 export { Paragraph, type ParagraphComponentProps, type ParagraphProps } from './core/atoms/Paragraph';
+export { ListItem, type ListItemComponentProps, type ListItemProps } from './core/atoms/ListItem';
 export { Caption, type CaptionComponentProps, type CaptionProps } from './core/atoms/Caption';
 export { Frame, type FrameComponentProps } from './core/atoms/Frame';
 export { Scroll, type ScrollComponentProps, type ScrollProps } from './core/atoms/Scroll';
@@ -13,6 +14,11 @@ export {
 } from './core/atoms/TableCell';
 export { Flow, type FlowComponentProps, type FlowProps, type FlowDensity } from './core/molecules/Flow';
 export { Prose, type ProseComponentProps } from './core/molecules/Prose';
+export {
+  List,
+  type ListComponentProps,
+  type ListProps,
+} from './core/molecules/List';
 export { Property, type PropertyComponentProps, type PropertyProps } from './core/atoms/Property';
 export {
   PropertyList,

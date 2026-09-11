@@ -2,6 +2,7 @@ export { renderButton, type ButtonIconName, type ButtonProps } from './core/atom
 export { renderBadge, type BadgeProps } from './core/atoms/badge/renderBadge';
 export { renderHeading, type HeadingProps } from './core/atoms/heading/renderHeading';
 export { renderParagraph, type ParagraphProps } from './core/atoms/paragraph/renderParagraph';
+export { renderListItem, type ListItemProps } from './core/atoms/list-item/renderListItem';
 export { renderCaption, type CaptionProps } from './core/atoms/caption/renderCaption';
 export { renderFrame, type FrameProps } from './core/atoms/frame/renderFrame';
 export { renderScroll, type ScrollProps } from './core/atoms/scroll/renderScroll';
@@ -12,6 +13,7 @@ export {
 } from './core/atoms/table-cell/renderTableCell';
 export { renderFlow, type FlowProps, type FlowDensity } from './core/molecules/flow/renderFlow';
 export { renderProse, type ProseProps } from './core/molecules/prose/renderProse';
+export { renderList, type ListProps } from './core/molecules/list/renderList';
 export {
   renderProperty,
   type PropertyItem,

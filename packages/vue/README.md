@@ -32,9 +32,20 @@ import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 </template>
 ```
 
-Components: `Button`, `Heading`, `Paragraph`, `Caption`, `Flow`, `Prose`.
+Import each component’s CSS from `@eevenkoto/css` (for example `@eevenkoto/css/badge.css`). Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
 
-`Flow` / `Prose` use the default slot (not a `content` string like `@eevenkoto/html`). Compose Prose with Flow for bare-tag reading content.
+### Core
+
+- Atoms: `Badge`, `Button`, `Caption`, `Frame`, `Heading`, `Paragraph`, `ListItem`, `Property`, `Scroll`, `Stat`, `TableCell`
+- Molecules: `Flow`, `Prose`, `List`, `PropertyList`, `Table`
+- Organisms: `TableShell`
+
+### Domain
+
+- Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
+- Organisms: `AbilityScoreGroup`, `Statblock`
+
+`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use the default slot (not a `content` string like `@eevenkoto/html`). `AbilityScoreGroup` / `TableShell` also expose named slots (`header` / `footer`). Compose Prose with Flow for bare-tag reading content. CamelCase props become kebab-case in templates (`typeLine` → `type-line`).
 
 ## Related
 

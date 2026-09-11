@@ -150,6 +150,17 @@ import { StatblockFeature } from '@eevenkoto/react';
 />
 ```
 
+```vue
+<script setup>
+import { StatblockFeature } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <!-- Vue `description` is a plain string (not HTML / VNodes). -->
+  <StatblockFeature name="Kalpa" description="Lähitaisteluhyökkäys: +3…" />
+</template>
+```
+
 ## Related
 
 - [StatblockSection](?path=/docs/domain-molecules-statblocksection--docs) — Parent section molecule

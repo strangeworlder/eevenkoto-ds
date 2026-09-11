@@ -166,3 +166,48 @@ export interface BadgeProps {
   dot?: boolean;
 }
 ```
+
+## Framework packages
+
+HTML is the reference implementation. React and Vue are thin wrappers over the same BEM classes from `@eevenkoto/core`.
+
+```bash
+npm install @eevenkoto/css @eevenkoto/html
+# or
+npm install @eevenkoto/css @eevenkoto/react
+npm install @eevenkoto/css @eevenkoto/vue
+```
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/badge.css';
+import { renderBadge } from '@eevenkoto/html';
+
+document.body.innerHTML = renderBadge({
+  label: 'Neutral',
+});
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/badge.css';
+import { Badge } from '@eevenkoto/react';
+
+<Badge label="Neutral" />
+<Badge intent="success" label="Ready" dot />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/badge.css';
+import { Badge } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Badge label="Neutral" />
+  <Badge intent="success" label="Ready" :dot="true" />
+</template>
+```
+
+See [Packages](?path=/docs/foundations-packages--docs) for the package map.

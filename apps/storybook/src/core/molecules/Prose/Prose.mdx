@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Prose
 
-Prose is the scope host for **bare** `h1`–`h6` and `p`. Those tags receive the same default look as `eevenkoto-heading` / `eevenkoto-paragraph`. Prose does **not** own vertical rhythm — compose with [Flow](?path=/docs/core-molecules-flow--docs).
+Prose is the scope host for **bare** `h1`–`h6`, `p`, `ul`, `ol`, and `li`. Those tags receive the same default look as `eevenkoto-heading` / `eevenkoto-paragraph` / `eevenkoto-list`. Prose does **not** own vertical rhythm — compose with [Flow](?path=/docs/core-molecules-flow--docs).
 
 <Canvas of={ProseStories.Default} />
 
@@ -36,6 +36,9 @@ Prose is the scope host for **bare** `h1`–`h6` and `p`. Those tags receive the
 <div class="eevenkoto-prose">
   <h1>Title</h1>
   <p>Body copy without BEM classes.</p>
+  <ul>
+    <li>Bare list item</li>
+  </ul>
 </div>
 ```
 
@@ -45,7 +48,7 @@ Prose is the scope host for **bare** `h1`–`h6` and `p`. Those tags receive the
 
 ## Why to use
 
-CMS HTML, markdown, and editorial content often ship tags without DS classes. Prose opts those tags into the type system without restyling every `h1`/`p` in the document.
+CMS HTML, markdown, and editorial content often ship tags without DS classes. Prose opts those tags into the type system without restyling every `h1`/`p`/`ul` in the document.
 
 ## When to use
 
@@ -54,14 +57,14 @@ CMS HTML, markdown, and editorial content often ship tags without DS classes. Pr
     <ul>
       <li>Wrap reading/CMS content in <code>eevenkoto-prose</code>.</li>
       <li>Compose <code>eevenkoto-prose eevenkoto-flow</code> when you need pair-aware gaps.</li>
-      <li>Prefer classed Heading/Paragraph outside Prose when you control the markup.</li>
+      <li>Prefer classed Heading/Paragraph/List outside Prose when you control the markup.</li>
     </ul>
   }
   dont={
     <ul>
       <li>Don’t expect bare tags to style outside Prose.</li>
       <li>Don’t use Prose as a substitute for Flow on classed primitive stacks.</li>
-      <li>Don’t style global <code>h1</code>/<code>p</code> in app CSS — keep the opt-in scope.</li>
+      <li>Don’t style global <code>h1</code>/<code>p</code>/<code>ul</code> in app CSS — keep the opt-in scope.</li>
     </ul>
   }
 />
@@ -76,6 +79,9 @@ Bare-tag pair rules activate only when **both** hosts are present.
 <div class="eevenkoto-prose eevenkoto-flow">
   <h2>Section</h2>
   <p>Rhythm matches classed Heading → Paragraph pairs.</p>
+  <ul>
+    <li>Lists participate in the same stack.</li>
+  </ul>
 </div>
 ```
 
@@ -94,12 +100,13 @@ Tag inference yields to an explicit `--N` modifier on a classed heading (same ca
 
 ## Imports
 
-Type appearance lives in `heading.css` and `paragraph.css`. Always import them with Prose:
+Type appearance lives in `heading.css`, `paragraph.css`, and `list.css`. Always import them with Prose:
 
 ```ts
 import '@eevenkoto/css/prose.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/list.css';
 import '@eevenkoto/css/flow.css'; // when composing rhythm
 ```
 
@@ -115,10 +122,11 @@ HTML takes a `content` string. React/Vue use children / the default slot.
 import '@eevenkoto/css/prose.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/list.css';
 import { renderProse } from '@eevenkoto/html';
 
 renderProse({
-  content: '<h1>Title</h1><p>Body.</p>',
+  content: '<h1>Title</h1><p>Body.</p><ul><li>Item</li></ul>',
 });
 ```
 
@@ -128,6 +136,9 @@ import { Prose } from '@eevenkoto/react';
 <Prose className="eevenkoto-flow">
   <h1>Title</h1>
   <p>Body.</p>
+  <ul>
+    <li>Item</li>
+  </ul>
 </Prose>
 ```
 
@@ -140,6 +151,9 @@ import { Prose } from '@eevenkoto/vue';
   <Prose class="eevenkoto-flow">
     <h1>Title</h1>
     <p>Body.</p>
+    <ul>
+      <li>Item</li>
+    </ul>
   </Prose>
 </template>
 ```
@@ -149,4 +163,5 @@ import { Prose } from '@eevenkoto/vue';
 - [Flow](?path=/docs/core-molecules-flow--docs) — Vertical rhythm (compose with Prose)
 - [Heading](?path=/docs/core-atoms-heading--docs) — Classed + tag-inferred levels
 - [Paragraph](?path=/docs/core-atoms-paragraph--docs)
+- [List](?path=/docs/core-molecules-list--docs) — Classed `ul` / `ol`
 - [Typography sample](?path=/docs/core-molecules-typography-sample--docs)

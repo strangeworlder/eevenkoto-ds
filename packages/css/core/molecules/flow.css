@@ -5,7 +5,7 @@
    margins; Flow owns gaps via padding-block-start (survives margin collapse
    and global text-box trim better than stacked margins).
 
-   Bare h1–h6 / p pair rules apply only when composed with Prose
+   Bare h1–h6 / p / ul / ol pair rules apply only when composed with Prose
    (.eevenkoto-prose.eevenkoto-flow).
    ========================================================================== */
 
@@ -53,27 +53,51 @@
   padding-block-start: var(--_eevenkoto-flow-gap-paragraph);
 }
 
+/* List ↔ list / paragraph (same rhythm as paragraph clusters) */
+.eevenkoto-flow > .eevenkoto-list + .eevenkoto-list,
+.eevenkoto-flow > .eevenkoto-paragraph + .eevenkoto-list,
+.eevenkoto-flow > .eevenkoto-list + .eevenkoto-paragraph,
+.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + :where(ul, ol),
+.eevenkoto-prose.eevenkoto-flow > :where(p) + :where(ul, ol),
+.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + :where(p),
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-paragraph + :where(ul, ol),
+.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + .eevenkoto-paragraph,
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-list + :where(ul, ol),
+.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + .eevenkoto-list,
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-list + :where(p),
+.eevenkoto-prose.eevenkoto-flow > :where(p) + .eevenkoto-list {
+  padding-block-start: var(--_eevenkoto-flow-gap-paragraph);
+}
+
 /* Heading → following content (tighter than section breaks) */
 .eevenkoto-flow > .eevenkoto-heading + .eevenkoto-paragraph,
 .eevenkoto-flow > .eevenkoto-heading + .eevenkoto-caption,
 .eevenkoto-flow > .eevenkoto-heading + .eevenkoto-heading,
+.eevenkoto-flow > .eevenkoto-heading + .eevenkoto-list,
 .eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + :where(p),
 .eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-paragraph,
 .eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-caption,
 .eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + :where(h1, h2, h3, h4, h5, h6),
 .eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-heading,
+.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + :where(ul, ol),
+.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-list,
 .eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading + :where(p),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading + :where(h1, h2, h3, h4, h5, h6) {
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading + :where(h1, h2, h3, h4, h5, h6),
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading + :where(ul, ol) {
   padding-block-start: var(--_eevenkoto-flow-gap-after-heading);
 }
 
 /* Content → heading (open a new cluster) */
 .eevenkoto-flow > .eevenkoto-paragraph + .eevenkoto-heading,
 .eevenkoto-flow > .eevenkoto-caption + .eevenkoto-heading,
+.eevenkoto-flow > .eevenkoto-list + .eevenkoto-heading,
 .eevenkoto-prose.eevenkoto-flow > :where(p) + :where(h1, h2, h3, h4, h5, h6),
 .eevenkoto-prose.eevenkoto-flow > :where(p) + .eevenkoto-heading,
 .eevenkoto-prose.eevenkoto-flow > .eevenkoto-paragraph + :where(h1, h2, h3, h4, h5, h6),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-caption + :where(h1, h2, h3, h4, h5, h6) {
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-caption + :where(h1, h2, h3, h4, h5, h6),
+.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + :where(h1, h2, h3, h4, h5, h6),
+.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + .eevenkoto-heading,
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-list + :where(h1, h2, h3, h4, h5, h6) {
   padding-block-start: var(--_eevenkoto-flow-gap-before-heading);
 }
 
@@ -87,16 +111,30 @@
 /* Caption sits close to the block it annotates */
 .eevenkoto-flow > .eevenkoto-paragraph + .eevenkoto-caption,
 .eevenkoto-flow > .eevenkoto-heading + .eevenkoto-caption,
+.eevenkoto-flow > .eevenkoto-list + .eevenkoto-caption,
 .eevenkoto-prose.eevenkoto-flow > :where(p) + .eevenkoto-caption,
-.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-caption {
+.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-caption,
+.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + .eevenkoto-caption,
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-list + .eevenkoto-caption {
+  padding-block-start: var(--_eevenkoto-flow-gap-caption);
+}
+
+/* Caption → list (same close annotation gap as caption after content) */
+.eevenkoto-flow > .eevenkoto-caption + .eevenkoto-list,
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-caption + :where(ul, ol),
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-caption + .eevenkoto-list {
   padding-block-start: var(--_eevenkoto-flow-gap-caption);
 }
 
 /* H5 band: slightly tighter follow-on */
 .eevenkoto-flow > .eevenkoto-heading--5 + .eevenkoto-paragraph,
+.eevenkoto-flow > .eevenkoto-heading--5 + .eevenkoto-list,
 .eevenkoto-prose.eevenkoto-flow > :where(h5) + :where(p),
 .eevenkoto-prose.eevenkoto-flow > :where(h5) + .eevenkoto-paragraph,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--5 + :where(p) {
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--5 + :where(p),
+.eevenkoto-prose.eevenkoto-flow > :where(h5) + :where(ul, ol),
+.eevenkoto-prose.eevenkoto-flow > :where(h5) + .eevenkoto-list,
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--5 + :where(ul, ol) {
   padding-block-start: var(--eevenkoto-space-3);
 }
 

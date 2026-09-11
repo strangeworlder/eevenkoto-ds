@@ -201,22 +201,133 @@ import '@eevenkoto/css/statblock-section.css';
 import '@eevenkoto/css/statblock.css';
 import { renderStatblock } from '@eevenkoto/html';
 
-document.body.innerHTML = renderStatblock({ /* StatblockProps */ });
+document.body.innerHTML = renderStatblock({
+  name: 'Aatelinen',
+  typeLine: 'Keskikokoinen humanoidi',
+  vitals: [{ label: 'Puolustus', value: '15' }],
+  abilities: [
+    {
+      label: 'Karisma',
+      score: '16',
+      modifier: '+3',
+      save: '+5',
+      saveProficient: true,
+      proficientLabel: 'pätevä',
+      scoreLabel: 'Arvo',
+      modifierLabel: 'Muuttuja',
+      saveLabel: 'Pelastus',
+    },
+  ],
+  details: [{ label: 'Taidot', value: 'huijaus +5' }],
+  sections: [
+    {
+      title: 'Toiminnot',
+      features: [
+        {
+          name: 'Kalpa',
+          description: '<em>Lähitaisteluhyökkäys:</em> +3…',
+        },
+      ],
+    },
+  ],
+});
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/statblock-section.css';
+import '@eevenkoto/css/statblock.css';
 import { Statblock } from '@eevenkoto/react';
 
-<Statblock name="Aatelinen" vitals={…} abilities={…} details={…} sections={…} />
+<Statblock
+  name="Aatelinen"
+  typeLine="Keskikokoinen humanoidi"
+  vitals={[{ label: 'Puolustus', value: '15' }]}
+  abilities={[
+    {
+      label: 'Karisma',
+      score: '16',
+      modifier: '+3',
+      save: '+5',
+      saveProficient: true,
+      proficientLabel: 'pätevä',
+      scoreLabel: 'Arvo',
+      modifierLabel: 'Muuttuja',
+      saveLabel: 'Pelastus',
+    },
+  ]}
+  details={[{ label: 'Taidot', value: 'huijaus +5' }]}
+  sections={[
+    {
+      title: 'Toiminnot',
+      features: [
+        {
+          name: 'Kalpa',
+          description: (
+            <>
+              <em>Lähitaisteluhyökkäys:</em> +3…
+            </>
+          ),
+        },
+      ],
+    },
+  ]}
+/>
 ```
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/statblock-section.css';
+import '@eevenkoto/css/statblock.css';
 import { Statblock } from '@eevenkoto/vue';
+
+const vitals = [{ label: 'Puolustus', value: '15' }];
+const abilities = [
+  {
+    label: 'Karisma',
+    score: '16',
+    modifier: '+3',
+    save: '+5',
+    saveProficient: true,
+    proficientLabel: 'pätevä',
+    scoreLabel: 'Arvo',
+    modifierLabel: 'Muuttuja',
+    saveLabel: 'Pelastus',
+  },
+];
+const details = [{ label: 'Taidot', value: 'huijaus +5' }];
+const sections = [
+  {
+    title: 'Toiminnot',
+    features: [{ name: 'Kalpa', description: 'Lähitaisteluhyökkäys: +3…' }],
+  },
+];
 </script>
 
 <template>
-  <Statblock name="Aatelinen" :vitals="vitals" :abilities="abilities" :details="details" :sections="sections" />
+  <Statblock
+    name="Aatelinen"
+    type-line="Keskikokoinen humanoidi"
+    :vitals="vitals"
+    :abilities="abilities"
+    :details="details"
+    :sections="sections"
+  />
 </template>
 ```
 

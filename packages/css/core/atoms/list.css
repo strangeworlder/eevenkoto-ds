@@ -1,0 +1,131 @@
+/* packages/css/core/atoms/list.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: LIST / LIST ITEM (TIER 3)
+   Content lists (ul / ol + li). Body roles via Tier 2 font-size-body-*.
+   Base class alone is the default (unordered / body-md / primary).
+   Item look comes from host descendants — bare <li> under .eevenkoto-list.
+   Prose maps bare <ul>, <ol>, <li>.
+   ========================================================================== */
+
+.eevenkoto-list,
+.eevenkoto-prose :where(ul, ol) {
+  --_eevenkoto-list-color: var(
+    --eevenkoto-list-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-list-marker-color: var(
+    --eevenkoto-list-marker-color,
+    var(--_eevenkoto-list-color)
+  );
+  --_eevenkoto-list-font-size: var(
+    --eevenkoto-list-font-size,
+    var(--eevenkoto-font-size-body-md)
+  );
+  --_eevenkoto-list-font-family: var(
+    --eevenkoto-list-font-family,
+    var(--eevenkoto-font-sans)
+  );
+  --_eevenkoto-list-font-weight: var(
+    --eevenkoto-list-font-weight,
+    var(--eevenkoto-font-weight-regular)
+  );
+  --_eevenkoto-list-line-height: var(
+    --eevenkoto-list-line-height,
+    var(--eevenkoto-line-height-body)
+  );
+  --_eevenkoto-list-margin-block: var(
+    --eevenkoto-list-margin-block,
+    0 0 var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-list-pad-inline-start: var(
+    --eevenkoto-list-pad-inline-start,
+    var(--eevenkoto-space-6)
+  );
+  --_eevenkoto-list-item-gap: var(
+    --eevenkoto-list-item-gap,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-list-style-type: var(--eevenkoto-list-style-type, disc);
+
+  margin-block: var(--_eevenkoto-list-margin-block);
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline-start: var(--_eevenkoto-list-pad-inline-start);
+  padding-inline-end: 0;
+  color: var(--_eevenkoto-list-color);
+  font-family: var(--_eevenkoto-list-font-family);
+  font-size: var(--_eevenkoto-list-font-size);
+  font-weight: var(--_eevenkoto-list-font-weight);
+  line-height: var(--_eevenkoto-list-line-height);
+  list-style-type: var(--_eevenkoto-list-style-type);
+  list-style-position: outside;
+}
+
+/* Tag / modifier inference for ordered lists (host alone stays disc / ul). */
+:where(ol).eevenkoto-list,
+.eevenkoto-list--ordered,
+.eevenkoto-prose :where(ol) {
+  --eevenkoto-list-style-type: decimal;
+}
+
+.eevenkoto-list--unordered {
+  --eevenkoto-list-style-type: disc;
+}
+
+.eevenkoto-list--primary {
+  --eevenkoto-list-color: var(--eevenkoto-color-content-primary);
+}
+
+.eevenkoto-list--secondary {
+  --eevenkoto-list-color: var(--eevenkoto-color-content-secondary);
+}
+
+.eevenkoto-list--sm {
+  --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+.eevenkoto-list--md {
+  --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-md);
+}
+
+.eevenkoto-list--lg {
+  --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-lg);
+}
+
+/* Nested lists: tighter indent, no extra block margin. */
+.eevenkoto-list .eevenkoto-list,
+.eevenkoto-list :where(li) > .eevenkoto-list,
+.eevenkoto-prose :where(li) > :where(ul, ol) {
+  --_eevenkoto-list-margin-block: 0;
+  --_eevenkoto-list-pad-inline-start: var(--eevenkoto-space-5);
+  margin-block-start: var(--_eevenkoto-list-item-gap);
+}
+
+/* Item look from the list host — bare <li> is enough (no .eevenkoto-list-item). */
+ul.eevenkoto-list :where(li),
+ol.eevenkoto-list :where(li),
+.eevenkoto-prose :where(li) {
+  --_eevenkoto-list-item-pad-block: var(
+    --eevenkoto-list-item-pad-block,
+    calc(var(--_eevenkoto-list-item-gap, var(--eevenkoto-space-2)) / 2)
+  );
+
+  margin: 0;
+  padding-block: var(--_eevenkoto-list-item-pad-block);
+  padding-inline: 0;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+}
+
+ul.eevenkoto-list :where(li)::marker,
+ol.eevenkoto-list :where(li)::marker,
+.eevenkoto-prose :where(li)::marker {
+  color: var(--_eevenkoto-list-marker-color);
+}
+
+ul.eevenkoto-list :where(li) + :where(li),
+ol.eevenkoto-list :where(li) + :where(li),
+.eevenkoto-prose :where(li) + :where(li) {
+  margin-block-start: 0;
+}

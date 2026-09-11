@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Flow
 
-Flow is the vertical rhythm container for stacked primitives. It resets child block margins and applies pair-aware gaps so Heading, Paragraph, and Caption never invent competing space.
+Flow is the vertical rhythm container for stacked primitives. It resets child block margins and applies pair-aware gaps so Heading, Paragraph, Caption, and List never invent competing space.
 
 <Canvas of={FlowStories.Default} />
 
@@ -49,7 +49,7 @@ Type primitives need default margins for standalone stories, but those margins *
 
 ## When to use
 
-Wrap any vertical stack of Heading / Paragraph / Caption (and nested Flows) in `eevenkoto-flow`. For bare CMS/`h*`/`p` markup, compose with [Prose](?path=/docs/core-molecules-prose--docs) (`eevenkoto-prose eevenkoto-flow`).
+Wrap any vertical stack of Heading / Paragraph / Caption / List (and nested Flows) in `eevenkoto-flow`. For bare CMS/`h*`/`p`/`ul`/`ol` markup, compose with [Prose](?path=/docs/core-molecules-prose--docs) (`eevenkoto-prose eevenkoto-flow`).
 
 <DoDont
   do={
@@ -85,10 +85,10 @@ Gaps use `padding-block-start` on the following sibling (not stacked margins), s
 | Adjacent pair | Gap token fallback |
 | --- | --- |
 | Generic sibling | `--eevenkoto-space-4` |
-| Heading → Paragraph / Caption | `--eevenkoto-space-4` |
-| Paragraph / Caption → Heading | `--eevenkoto-space-8` |
+| Heading → Paragraph / Caption / List | `--eevenkoto-space-4` |
+| Paragraph / Caption / List → Heading | `--eevenkoto-space-8` |
 | → H1 / H2 | `--eevenkoto-space-8` |
-| Paragraph → Paragraph | `--eevenkoto-space-4` |
+| Paragraph ↔ Paragraph / List | `--eevenkoto-space-4` |
 | → Caption | `--eevenkoto-space-2` |
 | Nested Flow → Flow | `--eevenkoto-space-8` |
 | Run-in H6 → Paragraph | `0` (inline) |
@@ -137,8 +137,9 @@ import { Flow, Heading, Paragraph } from '@eevenkoto/vue';
 
 ## Related
 
-- [Prose](?path=/docs/core-molecules-prose--docs) — Bare `h1`–`h6` / `p` (compose as `eevenkoto-prose eevenkoto-flow`)
+- [Prose](?path=/docs/core-molecules-prose--docs) — Bare `h1`–`h6` / `p` / `ul` / `ol` (compose as `eevenkoto-prose eevenkoto-flow`)
 - [Typography sample](?path=/docs/core-molecules-typography-sample--docs) — Flow in a full reading specimen
 - [Heading](?path=/docs/core-atoms-heading--docs)
 - [Paragraph](?path=/docs/core-atoms-paragraph--docs)
+- [List](?path=/docs/core-molecules-list--docs)
 - [Caption](?path=/docs/core-atoms-caption--docs)

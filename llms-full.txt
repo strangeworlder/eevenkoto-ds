@@ -52,6 +52,7 @@ import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/list.css';
 import '@eevenkoto/css/caption.css';
 import '@eevenkoto/css/frame.css';
 import '@eevenkoto/css/scroll.css';
@@ -128,9 +129,20 @@ export function Example() {
 }
 ```
 
-Components: `Button`, `Heading`, `Paragraph`, `Caption`, `Flow`, `Prose`.
+Import each component’s CSS from `@eevenkoto/css` (for example `@eevenkoto/css/badge.css`). Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
 
-`Flow` / `Prose` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`.
+### Core
+
+- Atoms: `Badge`, `Button`, `Caption`, `Frame`, `Heading`, `Paragraph`, `ListItem`, `Property`, `Scroll`, `Stat`, `TableCell`
+- Molecules: `Flow`, `Prose`, `List`, `PropertyList`, `Table`
+- Organisms: `TableShell`
+
+### Domain
+
+- Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
+- Organisms: `AbilityScoreGroup`, `Statblock`
+
+`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`.
 
 ## Related
 
@@ -177,9 +189,20 @@ import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 </template>
 ```
 
-Components: `Button`, `Heading`, `Paragraph`, `Caption`, `Flow`, `Prose`.
+Import each component’s CSS from `@eevenkoto/css` (for example `@eevenkoto/css/badge.css`). Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
 
-`Flow` / `Prose` use the default slot (not a `content` string like `@eevenkoto/html`). Compose Prose with Flow for bare-tag reading content.
+### Core
+
+- Atoms: `Badge`, `Button`, `Caption`, `Frame`, `Heading`, `Paragraph`, `ListItem`, `Property`, `Scroll`, `Stat`, `TableCell`
+- Molecules: `Flow`, `Prose`, `List`, `PropertyList`, `Table`
+- Organisms: `TableShell`
+
+### Domain
+
+- Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
+- Organisms: `AbilityScoreGroup`, `Statblock`
+
+`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use the default slot (not a `content` string like `@eevenkoto/html`). `AbilityScoreGroup` / `TableShell` also expose named slots (`header` / `footer`). Compose Prose with Flow for bare-tag reading content. CamelCase props become kebab-case in templates (`typeLine` → `type-line`).
 
 ## Related
 
@@ -217,9 +240,9 @@ document.body.innerHTML = renderButton({
 });
 ```
 
-Also exported: `renderHeading`, `renderParagraph`, `renderCaption`, `renderFlow`, `renderProse`.
+Also exported: `renderBadge`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderList`, `renderCaption`, `renderFrame`, `renderScroll`, `renderTableCell`, `renderFlow`, `renderProse`, `renderProperty`, `renderPropertyList`, `renderStat`, `renderTable`, `renderTableShell`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`.
 
-`renderFlow` / `renderProse` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
+`renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
 
 Class names and prop types come from `@eevenkoto/core`.
 
@@ -261,7 +284,7 @@ const className = buttonClassNames({
 // "eevenkoto-button eevenkoto-button--primary eevenkoto-button--sm eevenkoto-button--icon-left"
 ```
 
-Helpers: `buttonClassNames`, `badgeClassNames`, `headingClassNames`, `paragraphClassNames`, `captionClassNames`, `flowClassNames`, `proseClassNames`, plus Domain helpers (`abilityScoreClassNames`, `statblockClassNames`, …).
+Helpers: `buttonClassNames`, `badgeClassNames`, `headingClassNames`, `paragraphClassNames`, `listClassNames`, `captionClassNames`, `flowClassNames`, `proseClassNames`, plus Domain helpers (`abilityScoreClassNames`, `statblockClassNames`, …).
 
 Pair with `@eevenkoto/css` for styling.
 
@@ -382,7 +405,7 @@ _Source: `apps/storybook/src/foundations/typography.mdx`_
 
 # Typography
 
-**Related:** [Tokens catalog](/?path=/docs/foundations-tokens--docs) · [Minimum-class defaults](/?path=/docs/foundations-minimum-class-defaults--docs) · [Typography sample](/?path=/docs/core-molecules-typography-sample--docs) · [Prose](/?path=/docs/core-molecules-prose--docs) · [Flow](/?path=/docs/core-molecules-flow--docs) · [Heading](/?path=/docs/core-atoms-heading--docs) · [Paragraph](/?path=/docs/core-atoms-paragraph--docs) · [Caption](/?path=/docs/core-atoms-caption--docs)
+**Related:** [Tokens catalog](/?path=/docs/foundations-tokens--docs) · [Minimum-class defaults](/?path=/docs/foundations-minimum-class-defaults--docs) · [Typography sample](/?path=/docs/core-molecules-typography-sample--docs) · [Prose](/?path=/docs/core-molecules-prose--docs) · [Flow](/?path=/docs/core-molecules-flow--docs) · [Heading](/?path=/docs/core-atoms-heading--docs) · [Paragraph](/?path=/docs/core-atoms-paragraph--docs) · [List](/?path=/docs/core-molecules-list--docs) · [Caption](/?path=/docs/core-atoms-caption--docs)
 
 Type roles and usage for UI. Live size specimens also appear under [Foundations → Tokens → Typography](/?path=/docs/foundations-tokens--docs). Color architecture is separate: [Color Tokens](/?path=/docs/foundations-color-tokens-architecture--docs).
 
@@ -402,7 +425,7 @@ Typography in Eevenkoto follows the same tier discipline as color: raw optical v
                            │ Consumed by primitives / components
                            ▼
 ┌────────────────────────────────────────────────────────┐
-│  Tier 3: Heading, Paragraph, Caption, Button, …        │
+│  Tier 3: Heading, Paragraph, List, Caption, Button, …  │
 │  Private bridges + public override APIs                │
 └────────────────────────────────────────────────────────┘
 ```
@@ -439,13 +462,13 @@ Role aliases in `tokens.css`. Grammar: `--eevenkoto-font-size-[role]-[variant]`.
 | Role | Tokens | Typical consumer |
 | --- | --- | --- |
 | `heading` | `heading-1` … `heading-6` | Heading primitive (`4`/`5` → lg; `6` → body-md) |
-| `body` | `body-sm`, `body-md`, `body-lg` | Paragraph, document `body` |
+| `body` | `body-sm`, `body-md`, `body-lg` | Paragraph, List, document `body` |
 | `caption` | `caption` | Caption primitive |
 | `control` | `control-sm`, `control-md`, `control-lg` | Button, Badge (and future Chip) |
 
 ### Component size props (`sm | md | lg`)
 
-Public size props across Button, Paragraph, and Badge use the same **`sm | md | lg`** names. Do not reintroduce `small` / `large`. Host CSS may omit `--md` (the base class is already md); framework helpers still emit an explicit `--md` when assembling class strings so the prop API stays aligned across controls.
+Public size props across Button, Paragraph, List, and Badge use the same **`sm | md | lg`** names. Do not reintroduce `small` / `large`. Host CSS may omit `--md` (the base class is already md); framework helpers still emit an explicit `--md` when assembling class strings so the prop API stays aligned across controls.
 
 | Prop value | Typical Tier 2 font role |
 | --- | --- |
@@ -1841,15 +1864,15 @@ Atomic levels answer “how complex is this?” They do **not** answer “is thi
 
 | Scope | Meaning | Examples |
 | --- | --- | --- |
-| **Core** | Portable building blocks; English APIs; no RPG vocabulary required | Button, Badge, Heading, Property, Stat, Flow, Table, TableShell |
+| **Core** | Portable building blocks; English APIs; no RPG vocabulary required | Button, Badge, Heading, Property, List, Stat, Flow, Table, TableShell |
 | **Domain** | Content patterns for this product family; may compose Core freely | AbilityScore, StatblockFeature, Statblock |
 
 ## Composition levels
 
 | Level | Owns | Core examples | Domain examples |
 | --- | --- | --- | --- |
-| **Atom** | One semantic unit + BEM classes | Button, Badge, Heading, Paragraph, Caption, Property, Stat, Frame, Scroll, TableCell | — |
-| **Molecule** | Layout of atoms + local ARIA | Flow, PropertyList, Table | AbilityScore, StatblockFeature, StatblockSection |
+| **Atom** | One semantic unit + BEM classes | Button, Badge, Heading, Paragraph, Caption, Property, ListItem, Stat, Frame, Scroll, TableCell | — |
+| **Molecule** | Layout of atoms + local ARIA | Flow, Prose, PropertyList, List, Table | AbilityScore, StatblockFeature, StatblockSection |
 | **Organism** | Page-shaped composition, slots, outline | TableShell | AbilityScoreGroup, Statblock |
 
 Prop and file naming: see [Glossary](/?path=/docs/foundations-glossary--docs).
@@ -1892,7 +1915,7 @@ Also read: [Component taxonomy](/?path=/docs/foundations-component-taxonomy--doc
 | **Organism** | Page-shaped composition, slots, outline |
 | **Tier 1 / 2 / 3** | Token layers: primitives → semantics → component bridges |
 | **Host default** | `.eevenkoto-<block>` alone = documented default look; see [Minimum-class defaults](/?path=/docs/foundations-minimum-class-defaults--docs) |
-| **Prose** | Scope for bare `h1`–`h6` / `p` type styles (compose with Flow for rhythm) |
+| **Prose** | Scope for bare `h1`–`h6` / `p` / `ul` / `ol` / `li` type styles (compose with Flow for rhythm) |
 | **Flow** | Vertical rhythm for stacked type (classed or Prose+Flow bare tags) |
 
 ## Domain entry stack
@@ -1919,6 +1942,8 @@ Do **not** use **traits** for the footer PropertyList — that word collides wit
 | --- | --- |
 | **Property** | One label → value pair (`dt` / `dd`) |
 | **PropertyList** | Stacked properties (`dl`) — Core **molecule** |
+| **ListItem** | One content-list row (`li`) |
+| **List** | Stacked content items (`ul` / `ol`) — Core **molecule** (not PropertyList) |
 | **Stat** | Numeric display chip (`disk` / `arch` / `shield`) |
 | **emphasis** | Generic Stat highlight (thicker stroke, etc.) |
 | **saveProficient** | Domain flag on AbilityScore; maps to Stat `emphasis` + AT suffix |
@@ -1932,7 +1957,7 @@ Use the prop that matches the role — do not force one name everywhere.
 | Prop | Use for |
 | --- | --- |
 | `label` | Control/chrome copy and definition terms (Button, Badge, Property, AbilityScore header) |
-| `text` | Typography primitives (Heading, Paragraph, Caption, TableCell body) |
+| `text` | Typography primitives (Heading, Paragraph, Caption, ListItem, TableCell body) |
 | `name` | Named entity (Statblock creature, StatblockFeature) |
 | `title` | Section heading (StatblockSection) |
 | `value` | Numeric or definitional payload (Stat, Property) |
@@ -1948,7 +1973,8 @@ In markup, a Property `label` is the definition **term** (`dt`). The prop name s
 | Button | `variant` | Action hierarchy: `primary` / `secondary` / `ghost` |
 | Badge | `variant` | Surface recipe: `subtle` / `solid` / `outline` |
 | Badge | `intent` | Feedback severity: `neutral` / `info` / `success` / `caution` / `critical` / `admin` |
-| Heading / Paragraph / Caption | `tone` | Content weight: `primary` / `secondary` |
+| Heading / Paragraph / Caption / List | `tone` | Content weight: `primary` / `secondary` |
+| List | `variant` | List kind: `unordered` / `ordered` |
 
 `primary` is overloaded by design (control hierarchy vs content weight vs token slots). Prefer the table above over inventing parallel words.
 
@@ -2076,8 +2102,8 @@ Also read: [Tier 3 — Component Scoping](/?path=/docs/foundations-color-tokens-
 2. **Modifiers are opt-in.** `--secondary`, `--sm`, `--solid`, etc. only change what is not already the default.
 3. **Default modifier classes are aliases.** `--primary`, `--md`, `--subtle`, `--text`, `--stripe-row` may exist for helpers/docs but must not be *required* for the default look.
 4. **Tag inference (type only).** Heading levels may come from `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides). Do not use bare global `h1` / `p` / `button` selectors.
-5. **Prose vs Flow.** Bare `h1`–`h6` / `p` get type styles only under `.eevenkoto-prose`. Vertical rhythm stays on `.eevenkoto-flow`. Compose: `eevenkoto-prose eevenkoto-flow`.
-6. **Helpers may still be explicit.** Core can emit default modifiers so Button / Paragraph / Badge size props stay aligned; CSS must not depend on those classes for the default.
+5. **Prose vs Flow.** Bare `h1`–`h6` / `p` / `ul` / `ol` / `li` get type styles only under `.eevenkoto-prose`. Vertical rhythm stays on `.eevenkoto-flow`. Compose: `eevenkoto-prose eevenkoto-flow`.
+6. **Helpers may still be explicit.** Core can emit default modifiers so Button / Paragraph / List / Badge size props stay aligned; CSS must not depend on those classes for the default.
 
 ## Checklist when adding or changing a component
 
@@ -2093,13 +2119,14 @@ Also read: [Tier 3 — Component Scoping](/?path=/docs/foundations-color-tokens-
 | --- | --- | --- |
 | Heading | `<h2 class="eevenkoto-heading">` | Level from tag (`:where(hN)`); `--M` overrides |
 | Paragraph | `<p class="eevenkoto-paragraph">` | `body-md` + primary |
+| List | `<ul class="eevenkoto-list">` + bare `li` | unordered + `body-md` + primary (`ol` / `--ordered` for decimal); items via host descendants |
 | Button | `<button class="eevenkoto-button">` | primary + md (full states) |
 | Badge | `<span class="eevenkoto-badge">` | subtle + neutral + md + pill |
 | Badge intent | `eevenkoto-badge eevenkoto-badge--success` | subtle + that intent |
 | Badge surface | `eevenkoto-badge eevenkoto-badge--solid` | solid + neutral |
 | Table | `<table class="eevenkoto-table">` | default variant + row stripe |
 | TableCell | `<td class="eevenkoto-table-cell">` | text kind |
-| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` | same defaults as classed type |
+| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` / `ul` / `ol` / `li` | same defaults as classed type |
 | Flow | Compose with Prose for bare-tag pair gaps | classed primitives always |
 
 ## CSS patterns

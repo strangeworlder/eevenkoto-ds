@@ -52,8 +52,8 @@ Deep dive: `apps/storybook/src/foundations/color-tokens-tier3-component-scoping.
 The **host class alone** must render the documented default (Button primary+md, Badge subtle+neutral, Table row stripe, Heading level from tag, etc.). Modifier classes are opt-in; default aliases (`--primary`, `--md`) may exist for helpers but must not be required for appearance.
 
 - Full rules + checklist: `apps/storybook/src/foundations/minimum-class-defaults.mdx` (Storybook **Foundations/Minimum-class defaults**)
-- Bare `h1`–`h6` / `p`: only under `.eevenkoto-prose`; compose with `.eevenkoto-flow` for rhythm
-- Heading tag maps use `:where(hN).eevenkoto-heading` so `--M` still overrides
+- Bare `h1`–`h6` / `p` / `ul` / `ol` / `li`: only under `.eevenkoto-prose`; compose with `.eevenkoto-flow` for rhythm
+- Heading tag maps use `:where(hN).eevenkoto-heading` so `--M` still overrides; List ordered maps use `:where(ol).eevenkoto-list`
 
 ## Where to look
 

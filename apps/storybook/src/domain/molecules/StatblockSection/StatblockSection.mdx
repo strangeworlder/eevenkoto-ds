@@ -137,7 +137,31 @@ renderStatblockSection({
 ```tsx
 import { StatblockSection } from '@eevenkoto/react';
 
-<StatblockSection title="Toiminnot" features={features} />
+<StatblockSection
+  title="Toiminnot"
+  features={[
+    {
+      name: 'Kalpa',
+      description: (
+        <>
+          <em>Lähitaisteluhyökkäys:</em> +3…
+        </>
+      ),
+    },
+  ]}
+/>
+```
+
+```vue
+<script setup>
+import { StatblockSection } from '@eevenkoto/vue';
+
+const features = [{ name: 'Kalpa', description: 'Lähitaisteluhyökkäys: +3…' }];
+</script>
+
+<template>
+  <StatblockSection title="Toiminnot" :features="features" />
+</template>
 ```
 
 ## Related

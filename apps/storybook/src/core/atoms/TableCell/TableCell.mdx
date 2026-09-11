@@ -56,6 +56,40 @@ Host alone is the **text** kind (`min-width`, start-aligned). Add `--index` / `-
 
 <ArgTypes of={TableCellStories} />
 
+## Framework packages
+
+HTML uses a `text` prop. React/Vue use children / the default slot.
+
+```ts
+import '@eevenkoto/css/table-cell.css';
+import { renderTableCell } from '@eevenkoto/html';
+
+renderTableCell({ text: 'Body cell' });
+renderTableCell({ kind: 'numeric', header: true, scope: 'col', text: 'Lvl', angled: true });
+```
+
+```tsx
+import '@eevenkoto/css/table-cell.css';
+import { TableCell } from '@eevenkoto/react';
+
+<TableCell>Body cell</TableCell>
+<TableCell header scope="col" kind="numeric" angled>
+  Lvl
+</TableCell>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/table-cell.css';
+import { TableCell } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <TableCell>Body cell</TableCell>
+  <TableCell header scope="col" kind="numeric" angled>Lvl</TableCell>
+</template>
+```
+
 ## Related
 
 - [Table](?path=/docs/core-molecules-table--docs)

@@ -25,7 +25,7 @@ Also read: [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs
 | **Organism** | Page-shaped composition, slots, outline |
 | **Tier 1 / 2 / 3** | Token layers: primitives → semantics → component bridges |
 | **Host default** | `.eevenkoto-<block>` alone = documented default look; see [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) |
-| **Prose** | Scope for bare `h1`–`h6` / `p` type styles (compose with Flow for rhythm) |
+| **Prose** | Scope for bare `h1`–`h6` / `p` / `ul` / `ol` / `li` type styles (compose with Flow for rhythm) |
 | **Flow** | Vertical rhythm for stacked type (classed or Prose+Flow bare tags) |
 
 ## Domain entry stack
@@ -52,6 +52,8 @@ Do **not** use **traits** for the footer PropertyList — that word collides wit
 | --- | --- |
 | **Property** | One label → value pair (`dt` / `dd`) |
 | **PropertyList** | Stacked properties (`dl`) — Core **molecule** |
+| **ListItem** | One content-list row (`li`) |
+| **List** | Stacked content items (`ul` / `ol`) — Core **molecule** (not PropertyList) |
 | **Stat** | Numeric display chip (`disk` / `arch` / `shield`) |
 | **emphasis** | Generic Stat highlight (thicker stroke, etc.) |
 | **saveProficient** | Domain flag on AbilityScore; maps to Stat `emphasis` + AT suffix |
@@ -65,7 +67,7 @@ Use the prop that matches the role — do not force one name everywhere.
 | Prop | Use for |
 | --- | --- |
 | `label` | Control/chrome copy and definition terms (Button, Badge, Property, AbilityScore header) |
-| `text` | Typography primitives (Heading, Paragraph, Caption, TableCell body) |
+| `text` | Typography primitives (Heading, Paragraph, Caption, ListItem, TableCell body) |
 | `name` | Named entity (Statblock creature, StatblockFeature) |
 | `title` | Section heading (StatblockSection) |
 | `value` | Numeric or definitional payload (Stat, Property) |
@@ -81,7 +83,8 @@ In markup, a Property `label` is the definition **term** (`dt`). The prop name s
 | Button | `variant` | Action hierarchy: `primary` / `secondary` / `ghost` |
 | Badge | `variant` | Surface recipe: `subtle` / `solid` / `outline` |
 | Badge | `intent` | Feedback severity: `neutral` / `info` / `success` / `caution` / `critical` / `admin` |
-| Heading / Paragraph / Caption | `tone` | Content weight: `primary` / `secondary` |
+| Heading / Paragraph / Caption / List | `tone` | Content weight: `primary` / `secondary` |
+| List | `variant` | List kind: `unordered` / `ordered` |
 
 `primary` is overloaded by design (control hierarchy vs content weight vs token slots). Prefer the table above over inventing parallel words.
 

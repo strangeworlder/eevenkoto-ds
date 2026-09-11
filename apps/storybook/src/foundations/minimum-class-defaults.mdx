@@ -14,8 +14,8 @@ Also read: [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-t
 2. **Modifiers are opt-in.** `--secondary`, `--sm`, `--solid`, etc. only change what is not already the default.
 3. **Default modifier classes are aliases.** `--primary`, `--md`, `--subtle`, `--text`, `--stripe-row` may exist for helpers/docs but must not be *required* for the default look.
 4. **Tag inference (type only).** Heading levels may come from `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides). Do not use bare global `h1` / `p` / `button` selectors.
-5. **Prose vs Flow.** Bare `h1`–`h6` / `p` get type styles only under `.eevenkoto-prose`. Vertical rhythm stays on `.eevenkoto-flow`. Compose: `eevenkoto-prose eevenkoto-flow`.
-6. **Helpers may still be explicit.** Core can emit default modifiers so Button / Paragraph / Badge size props stay aligned; CSS must not depend on those classes for the default.
+5. **Prose vs Flow.** Bare `h1`–`h6` / `p` / `ul` / `ol` / `li` get type styles only under `.eevenkoto-prose`. Vertical rhythm stays on `.eevenkoto-flow`. Compose: `eevenkoto-prose eevenkoto-flow`.
+6. **Helpers may still be explicit.** Core can emit default modifiers so Button / Paragraph / List / Badge size props stay aligned; CSS must not depend on those classes for the default.
 
 ## Checklist when adding or changing a component
 
@@ -31,13 +31,14 @@ Also read: [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-t
 | --- | --- | --- |
 | Heading | `<h2 class="eevenkoto-heading">` | Level from tag (`:where(hN)`); `--M` overrides |
 | Paragraph | `<p class="eevenkoto-paragraph">` | `body-md` + primary |
+| List | `<ul class="eevenkoto-list">` + bare `li` | unordered + `body-md` + primary (`ol` / `--ordered` for decimal); items via host descendants |
 | Button | `<button class="eevenkoto-button">` | primary + md (full states) |
 | Badge | `<span class="eevenkoto-badge">` | subtle + neutral + md + pill |
 | Badge intent | `eevenkoto-badge eevenkoto-badge--success` | subtle + that intent |
 | Badge surface | `eevenkoto-badge eevenkoto-badge--solid` | solid + neutral |
 | Table | `<table class="eevenkoto-table">` | default variant + row stripe |
 | TableCell | `<td class="eevenkoto-table-cell">` | text kind |
-| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` | same defaults as classed type |
+| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` / `ul` / `ol` / `li` | same defaults as classed type |
 | Flow | Compose with Prose for bare-tag pair gaps | classed primitives always |
 
 ## CSS patterns

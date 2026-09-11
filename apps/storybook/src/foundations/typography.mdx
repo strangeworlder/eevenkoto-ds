@@ -4,7 +4,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Typography
 
-**Related:** [Tokens catalog](?path=/docs/foundations-tokens--docs) · [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) · [Typography sample](?path=/docs/core-molecules-typography-sample--docs) · [Prose](?path=/docs/core-molecules-prose--docs) · [Flow](?path=/docs/core-molecules-flow--docs) · [Heading](?path=/docs/core-atoms-heading--docs) · [Paragraph](?path=/docs/core-atoms-paragraph--docs) · [Caption](?path=/docs/core-atoms-caption--docs)
+**Related:** [Tokens catalog](?path=/docs/foundations-tokens--docs) · [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) · [Typography sample](?path=/docs/core-molecules-typography-sample--docs) · [Prose](?path=/docs/core-molecules-prose--docs) · [Flow](?path=/docs/core-molecules-flow--docs) · [Heading](?path=/docs/core-atoms-heading--docs) · [Paragraph](?path=/docs/core-atoms-paragraph--docs) · [List](?path=/docs/core-molecules-list--docs) · [Caption](?path=/docs/core-atoms-caption--docs)
 
 Type roles and usage for UI. Live size specimens also appear under [Foundations → Tokens → Typography](?path=/docs/foundations-tokens--docs). Color architecture is separate: [Color Tokens](?path=/docs/foundations-color-tokens-architecture--docs).
 
@@ -24,7 +24,7 @@ Typography in Eevenkoto follows the same tier discipline as color: raw optical v
                            │ Consumed by primitives / components
                            ▼
 ┌────────────────────────────────────────────────────────┐
-│  Tier 3: Heading, Paragraph, Caption, Button, …        │
+│  Tier 3: Heading, Paragraph, List, Caption, Button, …  │
 │  Private bridges + public override APIs                │
 └────────────────────────────────────────────────────────┘
 ```
@@ -61,13 +61,13 @@ Role aliases in `tokens.css`. Grammar: `--eevenkoto-font-size-[role]-[variant]`.
 | Role | Tokens | Typical consumer |
 | --- | --- | --- |
 | `heading` | `heading-1` … `heading-6` | Heading primitive (`4`/`5` → lg; `6` → body-md) |
-| `body` | `body-sm`, `body-md`, `body-lg` | Paragraph, document `body` |
+| `body` | `body-sm`, `body-md`, `body-lg` | Paragraph, List, document `body` |
 | `caption` | `caption` | Caption primitive |
 | `control` | `control-sm`, `control-md`, `control-lg` | Button, Badge (and future Chip) |
 
 ### Component size props (`sm | md | lg`)
 
-Public size props across Button, Paragraph, and Badge use the same **`sm | md | lg`** names. Do not reintroduce `small` / `large`. Host CSS may omit `--md` (the base class is already md); framework helpers still emit an explicit `--md` when assembling class strings so the prop API stays aligned across controls.
+Public size props across Button, Paragraph, List, and Badge use the same **`sm | md | lg`** names. Do not reintroduce `small` / `large`. Host CSS may omit `--md` (the base class is already md); framework helpers still emit an explicit `--md` when assembling class strings so the prop API stays aligned across controls.
 
 | Prop value | Typical Tier 2 font role |
 | --- | --- |

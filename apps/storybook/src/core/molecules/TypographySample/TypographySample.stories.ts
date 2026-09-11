@@ -3,16 +3,23 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import '@eevenkoto/css/flow.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/list.css';
 import '@eevenkoto/css/caption.css';
 import './typography-sample.css';
-import { renderCaption, renderFlow, renderHeading, renderParagraph } from '@eevenkoto/html';
+import {
+  renderCaption,
+  renderFlow,
+  renderHeading,
+  renderList,
+  renderParagraph,
+} from '@eevenkoto/html';
 
 const renderSample = (): string => {
   const lede = renderFlow({
     content: [
       renderParagraph({
         size: 'lg',
-        text: 'A composed specimen of Heading, Paragraph, and Caption — the multi-axis hierarchy in a reading flow, not a token grid.',
+        text: 'A composed specimen of Heading, Paragraph, List, and Caption — the multi-axis hierarchy in a reading flow, not a token grid.',
       }),
       renderCaption({ text: 'Specimen · Foundations / Typography sample' }),
     ].join(''),
@@ -37,10 +44,26 @@ const renderSample = (): string => {
       renderParagraph({
         text: 'H3 relies on serif weight against body copy. No tint bands — shading every level turns the page into stripes.',
       }),
+      renderList({
+        items: [
+          { text: 'Keep markers honest with real ul / ol markup.' },
+          { text: 'Size lists from the same body roles as Paragraph.' },
+          { text: 'Let Flow own vertical gaps between blocks.' },
+        ],
+      }),
       renderHeading({ level: 4, text: 'Subsections near body size' }),
       renderParagraph({
         size: 'sm',
         text: 'H4 sits close to body size in warm parchment, so hierarchy continues through family and weight rather than another large jump.',
+      }),
+      renderList({
+        variant: 'ordered',
+        size: 'sm',
+        items: [
+          { text: 'Survey the ridge before descending.' },
+          { text: 'Mark the latch once the circuit clears.' },
+          { text: 'Log the reading in the field book.' },
+        ],
       }),
     ].join(''),
   });
@@ -86,7 +109,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Reading-flow specimen composing Flow, Heading, Paragraph, and Caption under the multi-axis type hierarchy.',
+          'Reading-flow specimen composing Flow, Heading, Paragraph, List, and Caption under the multi-axis type hierarchy.',
       },
     },
   },

@@ -17,15 +17,15 @@ Atomic levels answer “how complex is this?” They do **not** answer “is thi
 
 | Scope | Meaning | Examples |
 | --- | --- | --- |
-| **Core** | Portable building blocks; English APIs; no RPG vocabulary required | Button, Badge, Heading, Property, Stat, Flow, Table, TableShell |
+| **Core** | Portable building blocks; English APIs; no RPG vocabulary required | Button, Badge, Heading, Property, List, Stat, Flow, Table, TableShell |
 | **Domain** | Content patterns for this product family; may compose Core freely | AbilityScore, StatblockFeature, Statblock |
 
 ## Composition levels
 
 | Level | Owns | Core examples | Domain examples |
 | --- | --- | --- | --- |
-| **Atom** | One semantic unit + BEM classes | Button, Badge, Heading, Paragraph, Caption, Property, Stat, Frame, Scroll, TableCell | — |
-| **Molecule** | Layout of atoms + local ARIA | Flow, PropertyList, Table | AbilityScore, StatblockFeature, StatblockSection |
+| **Atom** | One semantic unit + BEM classes | Button, Badge, Heading, Paragraph, Caption, Property, ListItem, Stat, Frame, Scroll, TableCell | — |
+| **Molecule** | Layout of atoms + local ARIA | Flow, Prose, PropertyList, List, Table | AbilityScore, StatblockFeature, StatblockSection |
 | **Organism** | Page-shaped composition, slots, outline | TableShell | AbilityScoreGroup, Statblock |
 
 Prop and file naming: see [Glossary](?path=/docs/foundations-glossary--docs).

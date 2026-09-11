@@ -32,9 +32,20 @@ export function Example() {
 }
 ```
 
-Components: `Button`, `Heading`, `Paragraph`, `Caption`, `Flow`, `Prose`.
+Import each component’s CSS from `@eevenkoto/css` (for example `@eevenkoto/css/badge.css`). Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
 
-`Flow` / `Prose` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`.
+### Core
+
+- Atoms: `Badge`, `Button`, `Caption`, `Frame`, `Heading`, `Paragraph`, `ListItem`, `Property`, `Scroll`, `Stat`, `TableCell`
+- Molecules: `Flow`, `Prose`, `List`, `PropertyList`, `Table`
+- Organisms: `TableShell`
+
+### Domain
+
+- Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
+- Organisms: `AbilityScoreGroup`, `Statblock`
+
+`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`.
 
 ## Related
 
