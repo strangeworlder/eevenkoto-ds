@@ -1,0 +1,237 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as EntityRefStories from './EntityRef.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={EntityRefStories} />
+
+# Entity Ref
+
+An **EntityRef** is an inline pointer to a rules entity (condition, spell, item, …). It **specializes** Core [InlineRef](?path=/docs/core-atoms-inlineref--docs): same chrome (`eevenkoto-inline-ref`), plus Domain `kind` modifiers. It lives in **Domain** because the kind set is product vocabulary. Host alone is **item** (neutral).
+
+In product copy the common form is a real link (`href`) — the same role as eevenkoto_web `.tooltip-ref`. Pair with [Popover](?path=/docs/core-atoms-popover--docs) + [TooltipCard](?path=/docs/core-molecules-tooltipcard--docs) for previews; the DS does not ship tooltip JS.
+
+<Canvas of={EntityRefStories.Default} />
+
+```html
+<a
+  class="eevenkoto-inline-ref eevenkoto-entity-ref eevenkoto-entity-ref--condition"
+  href="/conditions/frightened"
+>
+  <span class="eevenkoto-inline-ref__label">Frightened</span>
+</a>
+```
+
+### Playground
+
+<Controls of={EntityRefStories.Default} />
+
+## Why to use
+
+Rules prose names other entities constantly. EntityRef marks those names with **kind-colored** ink so readers can tell a referenced term from ordinary words — without Badge chrome or a Button. Prefer bare [InlineRef](?path=/docs/core-atoms-inlineref--docs) when you do not need a closed kind.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        Point at another rules entity inside body copy (<em>Frightened</em>, <em>Advantage</em>,{' '}
+        <em>Cure Wounds</em>) when a kind color matters.
+      </li>
+      <li>
+        Prefer a real <code>href</code> when the entity has a page — tooltips and deep links hang off
+        that link.
+      </li>
+      <li>
+        Keep the visible string as the entity <strong>name</strong>; localize the name in app data,
+        not in the kind API.
+      </li>
+      <li>
+        Use the closed <code>kind</code> set so ink and hover chip map to the right Tier 2 tuple.
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>
+        Don’t use EntityRef for a generic Core preview trigger — that is{' '}
+        <a href="?path=/docs/core-atoms-inlineref--docs">InlineRef</a>.
+      </li>
+      <li>
+        Don’t use EntityRef for status or readiness — that is{' '}
+        <a href="?path=/docs/core-atoms-badge--docs">Badge</a>.
+      </li>
+      <li>
+        Don’t invent open-ended kinds in props. New kinds are a design decision (CSS +{' '}
+        <code>EntityRefKind</code>), not a free string.
+      </li>
+      <li>
+        Don’t wrap EntityRef in a Button. The trigger for entity tooltips is the link itself.
+      </li>
+      <li>
+        Don’t rely on a permanent filled chip in dense prose — rest state is ink + underline only.
+      </li>
+    </ul>
+  }
+/>
+
+## Appearance
+
+### Rest vs hover
+
+At rest the chip **fill and border are transparent**. Kind **ink** (and, for links, a dotted underline) stay visible so the term still reads as a reference. Hover / `:focus-visible` paints the kind background and border.
+
+Motion uses Tier 2 tokens — border on `duration-1`, fill on `duration-3` with `ease-in-out` (same stagger idea as Button).
+
+### Inline flow
+
+Chip padding and border hang outside the glyph via matching negative `margin-inline`, so a normal word space before/after the ref does not look doubled.
+
+## Kinds
+
+The kind set is **closed**. English API names; BEM modifiers are kebab-case.
+
+| Kind (`kind`) | Modifier | Tier 2 source |
+| --- | --- | --- |
+| `condition` | `--condition` | `feedback-caution` |
+| `mechanic` | `--mechanic` | `feedback-info` |
+| `classFeature` | `--class-feature` | `feedback-admin` |
+| `spell` | `--spell` | `feedback-info` fill; `control-primary` ink / border / underline |
+| `item` (default) | `--item` | `feedback-neutral` |
+
+<Canvas of={EntityRefStories.Kinds} />
+
+## Links vs plain text
+
+| Form | Markup | Cue |
+| --- | --- | --- |
+| Link | `<a class="eevenkoto-inline-ref eevenkoto-entity-ref …">` | Dotted underline → solid on hover / focus |
+| Tag | `<span class="eevenkoto-inline-ref eevenkoto-entity-ref …">` | Kind ink only (no underline) |
+
+Product entity tooltips should use the **link** form so the preview is extra content on top of navigation, not a substitute for it.
+
+<Canvas of={EntityRefStories.Links} />
+
+## Plain tags
+
+Omit `href` for a non-navigating mark (kind ink only). Prefer links when a page or tooltip exists.
+
+<Canvas of={EntityRefStories.PlainTags} />
+
+## In body copy
+
+<Canvas of={EntityRefStories.InBodyCopy} />
+
+## Anatomy
+
+| Part | Role |
+| --- | --- |
+| Host (`a` or `span`) | `eevenkoto-inline-ref` + `eevenkoto-entity-ref` + kind modifier |
+| `__label` (`eevenkoto-inline-ref__label`) | Visible entity name |
+
+Apps may add `data-ref-id` (or similar) on the host for a TooltipManager-style lookup — that attribute is not part of the DS prop contract.
+
+## Composition with Popover
+
+1. **EntityRef link** — hover / focus target and destination URL.
+2. **Popover** (`fixed` + `open`) — portaled panel; app sets `top` / `left`.
+3. **TooltipCard** — header / body / footer inside the panel.
+
+See [Popover — Fixed on a link](?path=/docs/core-atoms-popover--docs#fixed-on-a-link-portal-recipe).
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Visible entity name. |
+| `kind` | `EntityRefKind` | `'item'` | Closed kind set. |
+| `href` | `string` | — | When set, renders as `<a>`. |
+
+<ArgTypes of={EntityRefStories} />
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-inline-ref` | Shared Core chrome (always present) |
+| `eevenkoto-entity-ref` | Domain marker |
+| `eevenkoto-entity-ref--item` … `--spell` | Kind → InlineRef bridge remaps |
+| `eevenkoto-inline-ref__label` | Name |
+
+### Type definitions
+
+```ts
+export type EntityRefKind =
+  | 'condition'
+  | 'mechanic'
+  | 'classFeature'
+  | 'spell'
+  | 'item';
+
+export interface EntityRefProps {
+  kind?: EntityRefKind;
+  name: string;
+  href?: string;
+}
+```
+
+## Framework packages
+
+```bash
+npm install @eevenkoto/css @eevenkoto/html
+# or @eevenkoto/react / @eevenkoto/vue
+```
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/entity-ref.css';
+import { renderEntityRef } from '@eevenkoto/html';
+
+renderEntityRef({
+  kind: 'condition',
+  name: 'Frightened',
+  href: '/conditions/frightened',
+});
+```
+
+```tsx
+import '@eevenkoto/css/entity-ref.css';
+import { EntityRef } from '@eevenkoto/react';
+
+<EntityRef kind="condition" name="Frightened" href="/conditions/frightened" />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/entity-ref.css';
+import { EntityRef } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <EntityRef kind="condition" name="Frightened" href="/conditions/frightened" />
+</template>
+```
+
+See [Packages](?path=/docs/foundations-packages--docs) · [Glossary](?path=/docs/foundations-glossary--docs) · [InlineRef](?path=/docs/core-atoms-inlineref--docs).

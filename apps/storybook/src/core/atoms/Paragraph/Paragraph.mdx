@@ -44,6 +44,17 @@ The base class alone is the default (`body-md` / primary). Size and tone modifie
 
 <Controls of={ParagraphStories.Default} />
 
+## Paragraph vs Caption
+
+| Need | Use |
+| --- | --- |
+| Multi-sentence body or supporting prose | **Paragraph** |
+| Timestamp, field helper, or one-line metadata | **[Caption](?path=/docs/core-atoms-caption--docs)** |
+| Softer body copy (still a paragraph) | Paragraph `tone="secondary"` |
+| Quiet metadata (not body) | Caption — uses `content-tertiary`, not Paragraph secondary |
+
+Agents: default to Paragraph for readable content. Caption is for chrome/metadata beside UI, not a smaller paragraph.
+
 ## Why to use
 
 Consistent body type keeps reading rhythm stable across pages and themes. Semantic sizes let density or theme remaps change roles without renaming the rem ladder.
@@ -56,7 +67,7 @@ Use Paragraph for multi-sentence body copy. Prefer Heading for titles and Captio
   do={
     <ul>
       <li>Use Paragraph for body copy and supporting prose.</li>
-      <li>Pick size from body roles (`sm` / `md` / `lg`).</li>
+      <li>Pick size from body roles (<code>sm</code> / <code>md</code> / <code>lg</code>).</li>
       <li>Use Secondary tone for de-emphasized supporting paragraphs.</li>
     </ul>
   }
@@ -64,7 +75,11 @@ Use Paragraph for multi-sentence body copy. Prefer Heading for titles and Captio
     <ul>
       <li>Don’t use Paragraph as a page or section title — use Heading.</li>
       <li>Don’t use Paragraph for one-line metadata — use Caption.</li>
-      <li>Don’t hard-code rem or Tier 1 `--eevenkoto-font-size-md` in local CSS.</li>
+      <li>
+        Don’t combine <code>sm</code> + <code>secondary</code> to fake Caption — Caption owns
+        caption size and tertiary ink.
+      </li>
+      <li>Don’t hard-code rem or Tier 1 <code>--eevenkoto-font-size-md</code> in local CSS.</li>
     </ul>
   }
 />

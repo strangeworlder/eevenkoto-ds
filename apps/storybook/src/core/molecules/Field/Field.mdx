@@ -1,0 +1,193 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as FieldStories from './Field.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={FieldStories} />
+
+# Field
+
+A **Field** is a labeled form control: visible `<label for>`, a control slot (usually [Input](?path=/docs/core-atoms-input--docs)), and an optional hint or error message. It exists so forms meet basic WCAG — a real label, and errors as **text**, not color alone.
+
+Stack rhythm uses `padding-block-start` between parts (like [Flow](?path=/docs/core-molecules-flow--docs)), and Field resets `text-box` so global trim in `styles.css` does not collapse the label into the control.
+
+**Default for forms:** use Field. Bare Input is only for chrome-only controls (see table below).
+
+<Canvas of={FieldStories.Default} />
+
+### Playground
+
+<Controls of={FieldStories.Default} />
+
+## Field vs Input
+
+| | **Field** (molecule) | **Input** (atom) |
+| --- | --- | --- |
+| Owns | Visible `label`, hint/error message, stack layout | Fill / border / focus / invalid **chrome** |
+| `label` prop | Visible `<label for>` text | — (Input uses `ariaLabel` only for chrome-only names) |
+| Typical use | Every form row | Nested **inside** Field’s control slot |
+| Alone? | Yes — this is the form row | Only for toolbar search / no visible label |
+| BEM note | `.eevenkoto-field` | `.eevenkoto-input__field` = the native `<input>`, not this molecule |
+
+Agents: if the UI has a label above a text box, start with **Field** and nest Input. Do not invent a second label API on Input.
+
+## Why to use
+
+Form controls fail WCAG when the name is only a placeholder, or when invalid state is red chrome with no words. Field owns the visible label and the hint/error message so that contract stays consistent — Input stays control chrome, not a half-built form row.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Always show a visible label for form data entry.</li>
+      <li>
+        When invalid, set <code>error</code> on Field and <code>invalid</code> +{' '}
+        <code>describedBy</code> on Input (same message id).
+      </li>
+      <li>
+        Use <code>hint</code> for helper text; it yields to <code>error</code> when both would
+        apply.
+      </li>
+      <li>Keep placeholder as an example value only.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t mark a field invalid with red chrome and no error string.</li>
+      <li>Don’t use placeholder (or aria-label alone) instead of a visible label in forms.</li>
+      <li>
+        Don’t omit <code>htmlFor</code> / matching Input <code>id</code> — the label must
+        associate.
+      </li>
+    </ul>
+  }
+/>
+
+## Hint
+
+<Canvas of={FieldStories.WithHint} />
+
+## Error
+
+Error copy uses `__message--error` (invalid crimson + semibold) so it does not read as a muted hint. Input must receive `aria-invalid` and `aria-describedby` pointing at this message — the **words** carry the meaning; color is reinforcement only.
+
+<Canvas of={FieldStories.WithError} />
+
+### Writing error text
+
+Errors must be understandable without seeing the red chrome (WCAG 1.4.1 / 3.3.1 / 3.3.3).
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        Say what went wrong <em>and</em> how to fix it: “Enter an email address that includes @.”
+      </li>
+      <li>Keep it short — one or two sentences tied to this field.</li>
+      <li>
+        Put the message in Field <code>error</code> and wire the same id to Input{' '}
+        <code>describedBy</code>.
+      </li>
+      <li>
+        Prefer specific guidance over generic blame (“Choose a date in the future,” not “Invalid
+        input”).
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t rely on a red border alone — always ship error text.</li>
+      <li>
+        Don’t style the error like a hint (muted secondary). Errors use{' '}
+        <code>form-input-message-invalid</code> via <code>--error</code>.
+      </li>
+      <li>Don’t put the only explanation in <code>placeholder</code> or a toast far from the field.</li>
+      <li>
+        Don’t use vague copy (“Error”, “Invalid”, “Try again”) with no field-specific fix.
+      </li>
+    </ul>
+  }
+/>
+
+| | Hint (`__message`) | Error (`__message--error`) |
+| --- | --- | --- |
+| When | Optional helper while the value can still be valid | Validation failed / blocked submit |
+| Tone | Tertiary / quiet (`content-tertiary`) | Invalid crimson + semibold |
+| Copy | Context (“Shown on the roster”) | Problem + fix (“Enter an email that includes @”) |
+| Input | `describedBy` only | `invalid` + `describedBy` |
+
+## Search
+
+Field still owns the visible label; Input `--search` is only the control recipe.
+
+<Canvas of={FieldStories.SearchChrome} />
+
+## Anatomy
+
+| Part | Role |
+| --- | --- |
+| Host | Column stack |
+| `__label` | Visible `<label for>` |
+| `__control` | Slot for Input (or other control) |
+| `__message` | Hint (tertiary quiet) |
+| `__message--error` | Error text |
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | — | Visible label. |
+| `htmlFor` | `string` | slug from label (HTML) | Control id. |
+| `hint` | `string` | — | Helper text when no error. |
+| `error` | `string` | — | Error text (takes priority over hint). |
+| `messageId` | `string` | `` `${htmlFor}-message` `` | Id for `aria-describedby`. |
+| `control` | `string` | — | HTML package: nested control markup. |
+
+<ArgTypes of={FieldStories} />
+
+```ts
+import '@eevenkoto/css/field.css';
+import '@eevenkoto/css/input.css';
+import { renderField, renderInput } from '@eevenkoto/html';
+
+const id = 'email';
+const messageId = `${id}-message`;
+
+renderField({
+  label: 'Email',
+  htmlFor: id,
+  error: 'Enter an email address that includes @.',
+  messageId,
+  control: renderInput({
+    id,
+    type: 'email',
+    invalid: true,
+    describedBy: messageId,
+    value: 'elowen',
+  }),
+});
+```
+
+Related: [Input](?path=/docs/core-atoms-input--docs).

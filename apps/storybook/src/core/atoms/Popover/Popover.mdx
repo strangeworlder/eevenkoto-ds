@@ -1,0 +1,247 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as PopoverStories from './Popover.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Danger = ({ children, caption, label = 'Danger' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--danger">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={PopoverStories} />
+
+# Popover
+
+A **Popover** is a raised floating panel: `surface-raised` fill plus the umbra + penumbra depth shadows. It is a **panel only** — CSS chrome, placement, optional arrow, and a portal open recipe. The DS does **not** ship open/close JS, focus traps, or collision flipping.
+
+Triggers are **not** woven into Button. Any element can be the anchor; Core demos use [InlineRef](?path=/docs/core-atoms-inlineref--docs) **links**. Product rules copy may swap in Domain [EntityRef](?path=/docs/domain-atoms-entityref--docs) (InlineRef + kinds).
+
+<Canvas of={PopoverStories.Default} />
+
+```html
+<span style="position: relative">
+  <a class="eevenkoto-inline-ref" href="/topics/paralyzed">
+    <span class="eevenkoto-inline-ref__label">Paralyzed</span>
+  </a>
+  <div class="eevenkoto-popover eevenkoto-popover--bottom" role="note" aria-label="Paralyzed">
+    A paralyzed creature is incapacitated and can’t move or speak.
+    <span class="eevenkoto-popover__arrow"></span>
+  </div>
+</span>
+```
+
+Host alone (non-`fixed`) is **bottom** placement. Framework helpers still emit `--bottom` explicitly when placement is set.
+
+### Playground
+
+<Controls of={PopoverStories.Default} />
+
+## Why to use
+
+Short-lived secondary content — entity previews, compact help, a small menu shell — needs an elevated surface next to a trigger without the weight of a dialog. Popover is that chrome; the app still owns show/hide, focus, and collision.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        Use the panel as chrome and let the <strong>app</strong> own show/hide, delays, Escape, and
+        collision.
+      </li>
+      <li>
+        Anchor preview tooltips on <strong>InlineRef links</strong> (Core). Use Domain{' '}
+        <a href="?path=/docs/domain-atoms-entityref--docs">EntityRef</a> when closed kinds are
+        required.
+      </li>
+      <li>
+        Nest <a href="?path=/docs/core-molecules-tooltipcard--docs">TooltipCard</a> for header /
+        body / footer inside the panel.
+      </li>
+      <li>
+        Prefer <code>fixed</code> + portal to <code>body</code> when the trigger lives in scrolling
+        or overflowing prose.
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>
+        Don’t assume a Button trigger — Storybook demos once used buttons for convenience only.
+      </li>
+      <li>
+        Don’t put Floating UI / Popper inside <code>@eevenkoto/css</code>. Positioning math stays in
+        the app (or a future optional helper package).
+      </li>
+      <li>
+        Don’t use Popover for blocking multi-step flows — that is a dialog pattern with focus
+        management you own carefully.
+      </li>
+      <li>
+        Don’t double chrome: either plain content in Popover, or TooltipCard nested (it sheds its
+        own border/shadow as a direct child).
+      </li>
+    </ul>
+  }
+/>
+
+<Danger>
+  Popover is CSS-only. Without app script the absolute demos stay visible for Storybook; in product
+  you must toggle visibility (<code>hidden</code>, <code>--open</code> / <code>data-open</code>, or
+  the native Popover API) and manage focus for <code>role="dialog"</code>.
+</Danger>
+
+## What the DS owns vs the app
+
+| Concern | Owner |
+| --- | --- |
+| Surface, shadow, arrow, placement classes | DS (`popover.css`) |
+| `fixed` open motion (`duration-4`) | DS |
+| Hover / focus delays, Escape, scroll reposition | App (e.g. TooltipManager) |
+| Collision flipping / viewport clamp | App |
+| Entity lookup + HTML body | App |
+| Trigger markup | App — typically InlineRef (Core) or EntityRef (Domain) |
+
+## Modes
+
+### Absolute (anchored)
+
+`position: absolute` against the nearest `position: relative` ancestor. Placement modifiers (`--top` / `--bottom` / `--left` / `--right`) offset the panel from that parent. Best for docs harnesses and simple non-scrolling anchors.
+
+<Canvas of={PopoverStories.Placements} />
+
+### Fixed (portal recipe)
+
+`eevenkoto-popover--fixed` uses `position: fixed`, clears inset placement, and starts **hidden** (`opacity: 0`, `pointer-events: none`). Toggle with `--open` or `data-open="true"`. The app sets `top` / `left` (and usually appends the node to `document.body`).
+
+This matches eevenkoto_web TooltipManager: listen on inline reference links, one shared panel, recompute position on scroll. Core stories use InlineRef; product may use EntityRef.
+
+<Canvas of={PopoverStories.FixedOnLink} />
+
+## Arrow
+
+Optional `__arrow` — a rotated square using the panel fill and border so it reads as part of the surface. Omit when the panel is a portaled TooltipCard (footer link already grounds the preview).
+
+<Canvas of={PopoverStories.WithoutArrow} />
+
+## With TooltipCard
+
+Nest TooltipCard as a **direct** child. It drops its own border, radius, and shadow and zeroes the Popover padding so the surfaces do not double up.
+
+<Canvas of={PopoverStories.WithTooltipCard} />
+
+## Roles
+
+Pick a role that matches behavior you implement:
+
+| `role` | When |
+| --- | --- |
+| `tooltip` | Pure preview; usually not focusable content (keep footer links rare or use `note`) |
+| `note` | Supplemental content that may include a link |
+| `dialog` | Focus moves into the panel — **you** must trap / restore focus |
+| `group` | Generic labeled region |
+
+Always provide an accessible name (`aria-label` / `label` prop) when the panel has no visible title.
+
+## Anatomy
+
+| Part | Role |
+| --- | --- |
+| Host | Raised panel; placement or `fixed` |
+| `__arrow` | Optional pointer |
+| Children | Plain HTML or TooltipCard |
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `placement` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Absolute placement. Ignored when `fixed`. |
+| `arrow` | `boolean` | `false` | Renders `__arrow`. |
+| `fixed` | `boolean` | `false` | Portal / JS-positioned overlay. |
+| `open` | `boolean` | `false` | Visible state for `fixed` panels. |
+| `label` | `string` | — | `aria-label` on the panel. |
+| `content` | `string` | — | HTML package: panel inner HTML. |
+| `role` | `'dialog' \| 'tooltip' \| 'note' \| 'group'` | — | Optional ARIA role. |
+
+<ArgTypes of={PopoverStories} />
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-popover` | Host |
+| `eevenkoto-popover--top` … `--right` | Absolute placement |
+| `eevenkoto-popover--fixed` | Portal mode |
+| `eevenkoto-popover--open` | Open (with `fixed`) |
+| `eevenkoto-popover__arrow` | Arrow |
+
+`data-open="true"` is accepted as an alternate open signal for `fixed` panels.
+
+### Type definitions
+
+```ts
+export type PopoverPlacement = 'top' | 'bottom' | 'left' | 'right';
+
+export interface PopoverProps {
+  placement?: PopoverPlacement;
+  arrow?: boolean;
+  fixed?: boolean;
+  open?: boolean;
+  label?: string;
+}
+```
+
+## Framework packages
+
+```bash
+npm install @eevenkoto/css @eevenkoto/html
+# or @eevenkoto/react / @eevenkoto/vue
+```
+
+```ts
+import '@eevenkoto/css/popover.css';
+import { renderPopover } from '@eevenkoto/html';
+
+renderPopover({
+  content: '…',
+  placement: 'bottom',
+  arrow: true,
+  role: 'note',
+  label: 'Paralyzed',
+});
+```
+
+```tsx
+import '@eevenkoto/css/popover.css';
+import { Popover } from '@eevenkoto/react';
+
+<Popover placement="bottom" arrow label="Paralyzed" role="note">
+  …
+</Popover>
+```
+
+Related: [InlineRef](?path=/docs/core-atoms-inlineref--docs) · [TooltipCard](?path=/docs/core-molecules-tooltipcard--docs) · [EntityRef](?path=/docs/domain-atoms-entityref--docs) (Domain) · [Packages](?path=/docs/foundations-packages--docs).

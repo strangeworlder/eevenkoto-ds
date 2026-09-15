@@ -1,0 +1,22 @@
+.eevenkoto-icon-sizes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--eevenkoto-space-6);
+  color: var(--eevenkoto-color-content-primary);
+  font-family: var(--eevenkoto-font-sans);
+}
+
+.eevenkoto-icon-sizes__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-icon-sizes__label {
+  margin: 0;
+  color: var(--eevenkoto-color-content-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--eevenkoto-font-size-caption);
+}

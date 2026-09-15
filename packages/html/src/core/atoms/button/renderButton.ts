@@ -1,20 +1,13 @@
 import {
   buttonClassNames,
-  buttonIconPaths,
   resolveButtonIconPosition,
   type ButtonIconName,
   type ButtonProps,
 } from '@eevenkoto/core';
+import { renderIcon } from '../icon/renderIcon';
 import template from './Button.html';
 
 export type { ButtonIconName, ButtonProps };
-
-const renderIcon = (name: ButtonIconName): string =>
-  `
-  <svg class="eevenkoto-button__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false">
-    <path d="${buttonIconPaths[name]}"/>
-  </svg>
-`.trim();
 
 export const renderButton = (args: ButtonProps): string => {
   const iconPosition = resolveButtonIconPosition(args);
@@ -24,7 +17,8 @@ export const renderButton = (args: ButtonProps): string => {
   let ariaLabel = '';
 
   if (args.icon && iconPosition) {
-    const iconMarkup = renderIcon(args.icon);
+    // Same glyph path as Icon — Button CSS sizes it to 1em via .eevenkoto-button .eevenkoto-icon
+    const iconMarkup = renderIcon({ name: args.icon });
 
     if (iconPosition === 'left') {
       content = `${iconMarkup}${args.label}`;

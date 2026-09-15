@@ -1,0 +1,119 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as CardStories from './Card.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={CardStories} />
+
+# Card
+
+Sectioned surface container with `__header`, `__body`, and `__footer`. Every section is optional. Host alone is a flat raised surface with hairline dividers and no interaction affordance.
+
+<Canvas of={CardStories.Default} />
+
+### Playground
+
+<Controls of={CardStories.Default} />
+
+## Card vs Frame / Notice
+
+| Need | Use |
+| --- | --- |
+| Thin portable bordered box (charts, tables, token panels) | **[Frame](?path=/docs/core-atoms-frame--docs)** |
+| Sectioned content with header / body / footer rhythm | **Card** |
+| Elevation or clickable summary tile | Card `--elevated` / `--interactive` |
+| Status / gate / warning banner (intent-colored) | **[Notice](?path=/docs/core-molecules-notice--docs)** — not Card |
+
+## Why to use
+
+Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned box so products do not invent one-off bordered panels for every teaser.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Group related content that reads as one unit (item card, gate summary, teaser).</li>
+      <li>Omit unused sections — body-only is still a valid Card.</li>
+      <li>
+        Use <code>elevated</code> when the card should float above the page (overlays, pinned
+        summaries).
+      </li>
+      <li>
+        Use <code>interactive</code> only with a real link or button host so keyboard activation
+        works.
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use Card for dense charts or table shells — that is Frame / TableShell.</li>
+      <li>Don’t use Card for status or gate banners — that is Notice.</li>
+      <li>Don’t nest Cards for decoration alone.</li>
+      <li>
+        Don’t mark a Card interactive without an actionable host (<code>href</code> / button) —
+        hover alone is not enough.
+      </li>
+      <li>Don’t bake product layout or paywall copy into the Card API — keep strings as data.</li>
+    </ul>
+  }
+/>
+
+## Elevated
+
+<Canvas of={CardStories.Elevated} />
+
+## Interactive
+
+<Canvas of={CardStories.Interactive} />
+
+## Body only
+
+<Canvas of={CardStories.BodyOnly} />
+
+## Usage
+
+```html
+<div class="eevenkoto-card">
+  <div class="eevenkoto-card__header">Cloak of Elvenkind</div>
+  <div class="eevenkoto-card__body"><p>Wisdom (Perception) checks have disadvantage.</p></div>
+  <div class="eevenkoto-card__footer">Wondrous item, uncommon</div>
+</div>
+```
+
+```ts
+import '@eevenkoto/css/card.css';
+import { renderCard } from '@eevenkoto/html';
+```
+
+Pair `--interactive` with a real link or button host so keyboard activation works; `aria-disabled="true"` carries the disabled recipe.
+
+## API reference
+
+<ArgTypes of={CardStories} />
+
+## Related
+
+- [Frame](?path=/docs/core-atoms-frame--docs) — thin bordered host
+- [Notice](?path=/docs/core-molecules-notice--docs) — feedback callout (not a Card substitute)

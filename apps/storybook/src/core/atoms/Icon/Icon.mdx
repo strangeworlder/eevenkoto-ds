@@ -1,0 +1,130 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as IconStories from './Icon.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={IconStories} />
+
+# Icon
+
+Inline SVG **chrome** on a 16×16 viewBox: size ladder + `currentColor` fill. Icon does **not** own the glyph list.
+
+Names and path data are **tokens** in `@eevenkoto/core` (`tokens/icons`: `ICON_NAMES`, `iconPaths`, `BUTTON_ICON_NAMES`). See the full catalog under [Foundations → Tokens → Icons](?path=/docs/foundations-tokens--docs#icons).
+
+Button composes this atom and restricts `icon` to `BUTTON_ICON_NAMES` — same paths, no second inventory.
+
+<Canvas of={IconStories.Default} />
+
+Host alone is **md**. Import `@eevenkoto/css/icon.css` (Button stories that show icons need it too).
+
+### Playground
+
+<Controls of={IconStories.Default} />
+
+## Why to use
+
+Chrome needs the same glyphs in Button, adornments, and product UI without each consumer pasting SVG path strings. Icon is the shared renderer (size ladder + `currentColor`); the name inventory stays in core tokens so the catalog has one source of truth.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        Pick names from the <a href="?path=/docs/foundations-tokens--docs#icons">Icons token
+        catalog</a> — add glyphs only in <code>tokens/icons.ts</code>.
+      </li>
+      <li>
+        Let the parent set color (<code>currentColor</code>). Omit <code>label</code> when decorative
+        (<code>aria-hidden</code>).
+      </li>
+      <li>
+        Use Button’s <code>icon</code> prop for the four-name subset; use Icon everywhere else.
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t paste path strings into Button, Menu, or product CSS.</li>
+      <li>Don’t grow a parallel icon map next to <code>iconPaths</code>.</li>
+      <li>
+        Don’t treat Icon as a click target — wrap Button or a link when the glyph is interactive.
+      </li>
+    </ul>
+  }
+/>
+
+## Glyph tokens
+
+| Export | Role |
+| --- | --- |
+| `ICON_NAMES` | Ordered inventory |
+| `iconPaths` | `Record<IconName, string>` (16×16 `d`) |
+| `BUTTON_ICON_NAMES` | Subset Button may use |
+| `IconName` / `ButtonIconName` | Derived types |
+
+```ts
+import { ICON_NAMES, iconPaths, BUTTON_ICON_NAMES } from '@eevenkoto/core';
+```
+
+## Sizes
+
+Shared **`sm | md | lg`** → `--eevenkoto-space-3` / `4` / `6`. Inside Button, CSS overrides to `1em` so the glyph tracks control type size.
+
+<Canvas of={IconStories.Sizes} />
+
+## Adding a glyph
+
+1. Append the kebab-case name to **`ICON_NAMES`** in `packages/core/src/tokens/icons.ts`.
+2. Add the matching path to **`iconPaths`**.
+3. Optionally add it to **`BUTTON_ICON_NAMES`** after design review (keep Button sparse).
+4. Rebuild `@eevenkoto/core`. The Tokens catalog updates automatically.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `IconName` | — | From token `ICON_NAMES`. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size ladder. |
+| `label` | `string` | — | Accessible name; omit when decorative. |
+
+<ArgTypes of={IconStories} />
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-icon` | Host SVG |
+| `eevenkoto-icon--sm` / `--md` / `--lg` | Size |
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/icon.css';
+import { ICON_NAMES } from '@eevenkoto/core';
+import { renderIcon } from '@eevenkoto/html';
+// or Icon from @eevenkoto/react / @eevenkoto/vue
+```
+
+Related: [Tokens — Icons](?path=/docs/foundations-tokens--docs#icons) · [Button](?path=/docs/core-atoms-button--docs).

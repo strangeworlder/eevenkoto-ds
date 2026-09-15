@@ -1,35 +1,13 @@
 import {
   buttonClassNames,
-  buttonIconPaths,
   resolveButtonIconPosition,
   type ButtonIconName,
   type ButtonProps,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vue';
+import { Icon } from './Icon';
 
 export type { ButtonProps, ButtonIconName };
-
-const ButtonIcon = defineComponent({
-  name: 'EevenkotoButtonIcon',
-  props: {
-    name: { type: String as PropType<ButtonIconName>, required: true },
-  },
-  setup(props) {
-    return () =>
-      h(
-        'svg',
-        {
-          class: 'eevenkoto-button__icon',
-          xmlns: 'http://www.w3.org/2000/svg',
-          viewBox: '0 0 16 16',
-          fill: 'currentColor',
-          'aria-hidden': 'true',
-          focusable: 'false',
-        },
-        [h('path', { d: buttonIconPaths[props.name] })],
-      );
-  },
-});
 
 export const Button = defineComponent({
   name: 'EevenkotoButton',
@@ -64,7 +42,7 @@ export const Button = defineComponent({
       let ariaLabel: string | undefined;
 
       if (props.icon && iconPosition) {
-        const iconVNode = h(ButtonIcon, { name: props.icon });
+        const iconVNode = h(Icon, { name: props.icon });
         if (iconPosition === 'left') {
           children.push(iconVNode, props.label);
         } else if (iconPosition === 'right') {

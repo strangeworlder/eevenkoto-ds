@@ -53,7 +53,7 @@ Follow the same seam as Button / Badge / Statblock:
 2. **`@eevenkoto/css`** — Tier 3 file; private `--_eevenkoto-*` bridges; public `--eevenkoto-<component>-*` overrides only.
 3. **`@eevenkoto/html`** — canonical `render*` + template (Storybook source of truth).
 4. **`@eevenkoto/react` / `@eevenkoto/vue`** — thin wrappers; prefer `ReactNode` / slots for rich text.
-5. **Storybook** — specimen story from real product copy + MDX with outline, a11y, and framework notes.
+5. **Storybook** — specimen story from real product copy + MDX with **Why to use** (problem / motivation) before **When to use** (situations + Do/Don’t), plus outline, a11y, and framework notes.
 
 HTML string → DOM is a **trust boundary**. If the HTML package accepts inline markup, **sanitize to an allowlist** (`em`, `strong`, `i`, `b`, `br`, …) and escape everything else. Framework wrappers should take nodes, not raw HTML strings.
 
@@ -67,6 +67,7 @@ HTML string → DOM is a **trust boundary**. If the HTML package accepts inline 
 - [ ] Organism titles that might embed under another H1 have an escape hatch (`nameLevel` or equivalent)
 - [ ] HTML renderer escapes / sanitizes; React/Vue don’t reintroduce `dangerouslySetInnerHTML` by default
 - [ ] Public API is English; locale strings stay in story / product data
+- [ ] Docs: **Why to use** explains the problem; **When to use** covers situations (do not put “Use X when…” only under Why)
 
 ## Reference specimen
 

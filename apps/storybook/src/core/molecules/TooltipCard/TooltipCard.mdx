@@ -1,0 +1,118 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TooltipCardStories from './TooltipCard.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={TooltipCardStories} />
+
+# Tooltip Card
+
+Header / body / footer on a popover-like surface: `surface-raised` plus the two depth shadows. Standalone it reads as a compact elevated card; nested in [Popover](?path=/docs/core-atoms-popover--docs) it sheds its own chrome.
+
+<Canvas of={TooltipCardStories.Default} />
+
+### Playground
+
+<Controls of={TooltipCardStories.Default} />
+
+## TooltipCard vs Card / InlineRef / EntityRef
+
+| Need | Use |
+| --- | --- |
+| In-page sectioned content tile (header / body / footer) | **[Card](?path=/docs/core-molecules-card--docs)** |
+| Floating preview panel chrome (often inside Popover) | **TooltipCard** |
+| Inline term trigger in body copy (Core) | **[InlineRef](?path=/docs/core-atoms-inlineref--docs)** |
+| Inline term with closed rules kinds (Domain) | **[EntityRef](?path=/docs/domain-atoms-entityref--docs)** |
+| Positioning / arrow shell | [Popover](?path=/docs/core-atoms-popover--docs) |
+
+Agents: Core docs compose **InlineRef → Popover → TooltipCard**. Do not import Domain EntityRef from Core stories. EntityRef may replace InlineRef in product when kinds matter.
+
+## Why to use
+
+Preview panels need a compact elevated surface with an optional title, scrollable body, and footer link — without inventing a one-off panel or overloading page [Card](?path=/docs/core-molecules-card--docs). TooltipCard is that chrome; Popover owns placement.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Nest TooltipCard as a direct Popover child for entity / topic previews.</li>
+      <li>Use <code>scrollBody</code> when the body can exceed the max block size.</li>
+      <li>Keep footer actions as data (e.g. “Avaa sivu”) — not baked into the molecule API.</li>
+      <li>
+        Pair with InlineRef (Core) or EntityRef (Domain) as the trigger — app owns open / position.
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use TooltipCard as an in-page Card for item listings or teasers.</li>
+      <li>Don’t use Card inside Popover as a substitute for TooltipCard (double chrome / wrong elevation recipe).</li>
+      <li>Don’t make Core demos depend on Domain EntityRef — use InlineRef.</li>
+      <li>Don’t ship tooltip show/hide JS in the DS — that stays in the app.</li>
+    </ul>
+  }
+/>
+
+## Long body
+
+<Canvas of={TooltipCardStories.ScrollingBody} />
+
+`scrollBody` composes Scroll on `__body` (`eevenkoto-scroll eevenkoto-scroll--y`) and caps it with `--eevenkoto-tooltip-card-body-max-block-size`, so the header and footer stay pinned.
+
+## Inside a Popover
+
+<Canvas of={TooltipCardStories.InsidePopover} />
+
+As a direct Popover child it drops its own border, radius, and shadow and zeroes the panel padding, so the two surfaces never double up.
+
+## Usage
+
+```html
+<div class="eevenkoto-tooltip-card">
+  <div class="eevenkoto-tooltip-card__header">Cure Wounds</div>
+  <div class="eevenkoto-tooltip-card__body eevenkoto-scroll eevenkoto-scroll--y">
+    <p>A creature you touch regains hit points.</p>
+  </div>
+  <div class="eevenkoto-tooltip-card__footer">
+    <a href="/spells/cure-wounds">Avaa sivu →</a>
+  </div>
+</div>
+```
+
+```ts
+import '@eevenkoto/css/tooltip-card.css';
+import { renderTooltipCard } from '@eevenkoto/html';
+```
+
+## API reference
+
+<ArgTypes of={TooltipCardStories} />
+
+## Related
+
+- [Popover](?path=/docs/core-atoms-popover--docs) — panel shell
+- [InlineRef](?path=/docs/core-atoms-inlineref--docs) — Core trigger
+- [EntityRef](?path=/docs/domain-atoms-entityref--docs) — Domain trigger (kinds)
+- [Card](?path=/docs/core-molecules-card--docs) — in-page sectioned surface

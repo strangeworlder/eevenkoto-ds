@@ -1,0 +1,101 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as InlineRefStories from './InlineRef.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={InlineRefStories} />
+
+# Inline Ref
+
+An **InlineRef** is Core’s product-agnostic inline reference: mark a term in running text with ink at rest and a chip on hover. Optional `href` makes it a link (dotted underline). Host alone is **neutral** feedback chrome.
+
+Domain [EntityRef](?path=/docs/domain-atoms-entityref--docs) specializes this with a closed `kind` set. Core demos (Popover, TooltipCard) use InlineRef so Core never depends on Domain.
+
+<Canvas of={InlineRefStories.Default} />
+
+```html
+<a class="eevenkoto-inline-ref" href="/topics/cure-wounds">
+  <span class="eevenkoto-inline-ref__label">Cure Wounds</span>
+</a>
+```
+
+### Playground
+
+<Controls of={InlineRefStories.Default} />
+
+## Why to use
+
+Body copy often points at another page or previewable term. InlineRef is that mark without Button chrome, Badge status, or product vocabulary — so Core Popover triggers stay Core.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Mark an inline term that can open a Popover / TooltipCard preview.</li>
+      <li>Prefer a real <code>href</code> when the term has a destination URL.</li>
+      <li>
+        Use Domain <a href="?path=/docs/domain-atoms-entityref--docs">EntityRef</a> when you need
+        closed rules kinds (<code>spell</code>, <code>condition</code>, …).
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t invent Domain kinds on InlineRef — that is EntityRef.</li>
+      <li>Don’t use InlineRef for status or readiness — that is Badge.</li>
+      <li>Don’t wrap InlineRef in a Button; the link (or tag) is the trigger.</li>
+    </ul>
+  }
+/>
+
+## Plain tag
+
+Omit `href` for a non-navigating mark.
+
+<Canvas of={InlineRefStories.PlainTag} />
+
+## In body copy
+
+<Canvas of={InlineRefStories.InBodyCopy} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Visible label. |
+| `href` | `string` | — | When set, renders as `<a>`. |
+
+<ArgTypes of={InlineRefStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/inline-ref.css';
+import { renderInlineRef } from '@eevenkoto/html';
+
+renderInlineRef({ name: 'Cure Wounds', href: '/spells/cure-wounds' });
+```
+
+Related: [EntityRef](?path=/docs/domain-atoms-entityref--docs) · [Popover](?path=/docs/core-atoms-popover--docs) · [TooltipCard](?path=/docs/core-molecules-tooltipcard--docs)

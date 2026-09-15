@@ -1,5 +1,8 @@
 // src/tokens/Tokens.stories.ts
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { BUTTON_ICON_NAMES, ICON_NAMES } from '@eevenkoto/core';
+import '@eevenkoto/css/icon.css';
+import { renderIcon } from '@eevenkoto/html';
 import './tokens.stories.css';
 
 type Token = {
@@ -24,12 +27,14 @@ const turquoiseColors: Token[] = [
 
 const parchmentColors: Token[] = [
   { name: 'Background', variable: '--eevenkoto-color-parchment-background' },
+  { name: 'Background bright', variable: '--eevenkoto-color-parchment-background-bright' },
   { name: 'Background subtle', variable: '--eevenkoto-color-parchment-background-subtle' },
   { name: 'Background element', variable: '--eevenkoto-color-parchment-background-element' },
   { name: 'Border', variable: '--eevenkoto-color-parchment-border' },
   { name: 'Primary', variable: '--eevenkoto-color-parchment-primary' },
   { name: 'Text', variable: '--eevenkoto-color-parchment-text' },
   { name: 'Text muted', variable: '--eevenkoto-color-parchment-text-muted' },
+  { name: 'Text subtle', variable: '--eevenkoto-color-parchment-text-subtle' },
   { name: 'Tint disabled', variable: '--eevenkoto-color-parchment-tint-disabled' },
   { name: 'Tint disabled deep', variable: '--eevenkoto-color-parchment-tint-disabled-deep' },
 ];
@@ -58,6 +63,28 @@ const crimsonColors: Token[] = [
 const purpleColors: Token[] = [
   { name: 'State (placeholder)', variable: '--eevenkoto-color-purple-state' },
   { name: 'Text (placeholder)', variable: '--eevenkoto-color-purple-text' },
+];
+
+const linkColors: Token[] = [
+  { name: 'Default', variable: '--eevenkoto-color-link-default' },
+  { name: 'Hover', variable: '--eevenkoto-color-link-hover' },
+  { name: 'Visited', variable: '--eevenkoto-color-link-visited' },
+];
+
+const formColors: Token[] = [
+  { name: 'Background', variable: '--eevenkoto-color-form-input-background' },
+  { name: 'Text', variable: '--eevenkoto-color-form-input-text' },
+  { name: 'Border', variable: '--eevenkoto-color-form-input-border' },
+  { name: 'Border focus', variable: '--eevenkoto-color-form-input-border-focus' },
+  { name: 'Invalid background', variable: '--eevenkoto-color-form-input-background-invalid' },
+  { name: 'Invalid text', variable: '--eevenkoto-color-form-input-text-invalid' },
+  { name: 'Invalid border', variable: '--eevenkoto-color-form-input-border-invalid' },
+];
+
+const destructiveColors: Token[] = [
+  { name: 'Background', variable: '--eevenkoto-color-control-destructive-background' },
+  { name: 'Background hover', variable: '--eevenkoto-color-control-destructive-background-hover' },
+  { name: 'Text', variable: '--eevenkoto-color-control-destructive-text' },
 ];
 
 const feedbackColors: Token[] = [
@@ -140,6 +167,7 @@ const semanticColors: Token[] = [
   { name: 'Surface raised', variable: '--eevenkoto-color-surface-raised' },
   { name: 'Content primary', variable: '--eevenkoto-color-content-primary' },
   { name: 'Content secondary', variable: '--eevenkoto-color-content-secondary' },
+  { name: 'Content tertiary', variable: '--eevenkoto-color-content-tertiary' },
   { name: 'Content disabled', variable: '--eevenkoto-color-content-disabled' },
   { name: 'Boundary subtle', variable: '--eevenkoto-color-boundary-subtle' },
   { name: 'Boundary strong', variable: '--eevenkoto-color-boundary-strong' },
@@ -213,6 +241,18 @@ const lineWidths: Token[] = [
   { name: 'Large', variable: '--eevenkoto-line-width-lg' },
 ];
 
+const durations: Token[] = [
+  { name: 'Duration 1', variable: '--eevenkoto-duration-1' },
+  { name: 'Duration 2', variable: '--eevenkoto-duration-2' },
+  { name: 'Duration 3', variable: '--eevenkoto-duration-3' },
+  { name: 'Duration 4', variable: '--eevenkoto-duration-4' },
+];
+
+const eases: Token[] = [
+  { name: 'Standard', variable: '--eevenkoto-ease-standard' },
+  { name: 'In-out', variable: '--eevenkoto-ease-in-out' },
+];
+
 const escapeHtml = (value: string): string =>
   value
     .replaceAll('&', '&amp;')
@@ -254,7 +294,10 @@ const renderSemanticColors = (): string => `
       <p class="eevenkoto-tokens__intro">Tier 2 intent tokens from tokens.css — the only color tokens components and layouts should consume.</p>
     </section>
     ${renderColorGroup('Control', controlColors)}
+    ${renderColorGroup('Control destructive', destructiveColors)}
     ${renderColorGroup('Feedback', feedbackColors)}
+    ${renderColorGroup('Link', linkColors)}
+    ${renderColorGroup('Form', formColors)}
     ${renderColorGroup('Surface / content / boundary / depth', semanticColors)}
   </div>
 `;
@@ -466,6 +509,53 @@ const renderLineWidths = (): string => `
   </div>
 `;
 
+const renderMotion = (): string => `
+  <div class="eevenkoto-tokens">
+    <section class="eevenkoto-tokens__section">
+      <h2 class="eevenkoto-tokens__heading">Motion</h2>
+      <p class="eevenkoto-tokens__intro">Duration ladder (Button stagger: 1 → 3) and shared easings.</p>
+      <h3 class="eevenkoto-tokens__subheading">Durations</h3>
+      <div class="eevenkoto-tokens__stack">
+        ${durations
+          .map(
+            (token) => `
+              <div class="eevenkoto-tokens__motion-row">
+                <div class="eevenkoto-tokens__meta">
+                  <p class="eevenkoto-tokens__name">${escapeHtml(token.name)}</p>
+                  <p class="eevenkoto-tokens__value">${escapeHtml(token.variable)}</p>
+                  <p class="eevenkoto-tokens__value">${escapeHtml(resolveTokenValue(token.variable))}</p>
+                </div>
+                <div class="eevenkoto-tokens__motion-track" aria-hidden="true">
+                  <span class="eevenkoto-tokens__motion-dot" style="animation-duration: var(${token.variable});"></span>
+                </div>
+              </div>
+            `,
+          )
+          .join('')}
+      </div>
+      <h3 class="eevenkoto-tokens__subheading">Easing</h3>
+      <div class="eevenkoto-tokens__stack">
+        ${eases
+          .map(
+            (token) => `
+              <div class="eevenkoto-tokens__motion-row">
+                <div class="eevenkoto-tokens__meta">
+                  <p class="eevenkoto-tokens__name">${escapeHtml(token.name)}</p>
+                  <p class="eevenkoto-tokens__value">${escapeHtml(token.variable)}</p>
+                  <p class="eevenkoto-tokens__value">${escapeHtml(resolveTokenValue(token.variable))}</p>
+                </div>
+                <div class="eevenkoto-tokens__motion-track" aria-hidden="true">
+                  <span class="eevenkoto-tokens__motion-dot eevenkoto-tokens__motion-dot--ease" style="animation-timing-function: var(${token.variable});"></span>
+                </div>
+              </div>
+            `,
+          )
+          .join('')}
+      </div>
+    </section>
+  </div>
+`;
+
 const meta: Meta = {
   title: 'Foundations/Tokens',
   parameters: {
@@ -474,7 +564,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Consume Tier 2 semantic tokens (and metrics). Primitives are internal pigments mapped only in tokens.css.',
+          'Consume Tier 2 semantic tokens (and metrics). Icon glyphs live in @eevenkoto/core tokens/icons. Primitives are internal pigments mapped only in tokens.css.',
       },
     },
   },
@@ -511,4 +601,48 @@ export const Radius: Story = {
 export const LineWidths: Story = {
   name: 'Line widths',
   render: () => renderLineWidths(),
+};
+
+export const Motion: Story = {
+  name: 'Motion',
+  render: () => renderMotion(),
+};
+
+const buttonIconSet = new Set<string>(BUTTON_ICON_NAMES);
+
+const renderIcons = (): string => `
+  <div class="eevenkoto-tokens">
+    <section class="eevenkoto-tokens__section">
+      <h2 class="eevenkoto-tokens__heading">Icons</h2>
+      <p class="eevenkoto-tokens__intro">
+        Glyph inventory from <code>ICON_NAMES</code> / <code>iconPaths</code>
+        (<code>@eevenkoto/core</code> <code>tokens/icons</code>). Outlined cards are also in
+        <code>BUTTON_ICON_NAMES</code> for Button.
+      </p>
+      <ul class="eevenkoto-tokens__icon-catalog" role="list">
+        ${ICON_NAMES.map((name) => {
+          const inButton = buttonIconSet.has(name);
+          const itemClass = [
+            'eevenkoto-tokens__icon-item',
+            inButton ? 'eevenkoto-tokens__icon-item--button' : '',
+          ]
+            .filter(Boolean)
+            .join(' ');
+          const meta = inButton
+            ? `<p class="eevenkoto-tokens__icon-meta">BUTTON_ICON_NAMES</p>`
+            : '';
+          return `<li class="${itemClass}">
+            <span class="eevenkoto-tokens__icon-glyph">${renderIcon({ name, size: 'lg', label: name })}</span>
+            <p class="eevenkoto-tokens__icon-name">${escapeHtml(name)}</p>
+            ${meta}
+          </li>`;
+        }).join('')}
+      </ul>
+    </section>
+  </div>
+`;
+
+export const Icons: Story = {
+  name: 'Icons',
+  render: () => renderIcons(),
 };

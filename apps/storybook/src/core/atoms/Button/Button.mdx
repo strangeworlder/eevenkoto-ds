@@ -273,13 +273,13 @@ Add an icon before the label, after the label, or as icon-only. Icon-only button
 | Icon right | `eevenkoto-button--icon-right` | Icon after the label (e.g. directional). |
 | Icon only | `eevenkoto-button--icon-only` | Icon without visible text; requires `aria-label`. |
 
-Icons use the `eevenkoto-button__icon` class on the SVG and should be marked `aria-hidden="true"` when a text label (or `aria-label`) already names the control.
+Icons compose the shared [Icon](?path=/docs/core-atoms-icon--docs) atom (`eevenkoto-icon`) and glyph tokens (`BUTTON_ICON_NAMES` ⊂ `iconPaths`). Button CSS sizes the glyph to `1em` and tints it with `--_eevenkoto-button-icon`. Mark decorative icons `aria-hidden="true"` when a text label (or `aria-label`) already names the control. Full inventory: [Tokens → Icons](?path=/docs/foundations-tokens--docs#icons).
 
 <Canvas of={ButtonStories.IconLeft} />
 
 ```html
 <button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--icon-left">
-  <svg class="eevenkoto-button__icon" aria-hidden="true" focusable="false" …>…</svg>
+  <svg class="eevenkoto-icon eevenkoto-icon--md" aria-hidden="true" focusable="false" …>…</svg>
   Icon Left
 </button>
 ```
@@ -289,7 +289,7 @@ Icons use the `eevenkoto-button__icon` class on the SVG and should be marked `ar
 ```html
 <button type="button" class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--icon-right">
   Continue
-  <svg class="eevenkoto-button__icon" aria-hidden="true" focusable="false" …>…</svg>
+  <svg class="eevenkoto-icon eevenkoto-icon--md" aria-hidden="true" focusable="false" …>…</svg>
 </button>
 ```
 
@@ -301,7 +301,7 @@ Icons use the `eevenkoto-button__icon` class on the SVG and should be marked `ar
   class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--icon-only"
   aria-label="Favorite"
 >
-  <svg class="eevenkoto-button__icon" aria-hidden="true" focusable="false" …>…</svg>
+  <svg class="eevenkoto-icon eevenkoto-icon--md" aria-hidden="true" focusable="false" …>…</svg>
 </button>
 ```
 
@@ -350,7 +350,7 @@ Icon-only buttons must include `aria-label` (or equivalent accessible naming).
   class="eevenkoto-button eevenkoto-button--primary eevenkoto-button--icon-only"
   aria-label="Favorite"
 >
-  <svg class="eevenkoto-button__icon" aria-hidden="true" focusable="false" …>…</svg>
+  <svg class="eevenkoto-icon eevenkoto-icon--md" aria-hidden="true" focusable="false" …>…</svg>
 </button>
 ```
 
@@ -388,7 +388,7 @@ The Storybook controls map to the HTML class and attribute contract below. The B
 | `label` | `string` | Yes | — | Visible text; also `aria-label` when `iconPosition` is `only`. |
 | `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Maps to `eevenkoto-button--sm` / `--md` / `--lg`. |
 | `disabled` | `boolean` | No | `false` | Sets the native `disabled` attribute. |
-| `icon` | `'star' \| 'check' \| 'arrow' \| 'plus'` | No | — | Placeholder icon (until a shared icon library exists). |
+| `icon` | `ButtonIconName` | No | — | From token `BUTTON_ICON_NAMES` (renders Icon). |
 | `iconPosition` | `'left' \| 'right' \| 'only'` | No | `'left'` when icon is set | Maps to `eevenkoto-button--icon-*`. |
 
 <ArgTypes of={ButtonStories} />
@@ -407,14 +407,15 @@ The Storybook controls map to the HTML class and attribute contract below. The B
 | `eevenkoto-button--icon-left` | Icon before label |
 | `eevenkoto-button--icon-right` | Icon after label |
 | `eevenkoto-button--icon-only` | Icon-only layout |
-| `eevenkoto-button__icon` | Icon SVG element |
+| (nested) `eevenkoto-icon` | Icon atom SVG (paths from `iconPaths`) |
 
 ### Type definitions
 
-Shared contract lives in `@eevenkoto/core` (`ButtonProps`). The HTML package exports `ButtonProps` for Storybook.
+Shared contract lives in `@eevenkoto/core` (`ButtonProps`). Glyph names come from token `BUTTON_ICON_NAMES`.
 
 ```ts
-export type ButtonIconName = 'star' | 'check' | 'arrow' | 'plus';
+import type { ButtonIconName } from '@eevenkoto/core';
+// ButtonIconName = (typeof BUTTON_ICON_NAMES)[number]
 
 export interface ButtonProps {
   /** Default: primary (host class alone is also primary in CSS) */

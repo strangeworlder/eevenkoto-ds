@@ -1,0 +1,159 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: INPUT (TIER 3)
+   Single-line text field. Host is the wrapper (border, fill, focus ring) so an
+   icon slot can sit beside the transparent `__field`.
+   Consumes Tier 2 `form-input-*` only. Host alone = md, valid, enabled.
+   ========================================================================== */
+
+.eevenkoto-input {
+  --_eevenkoto-input-bg: var(
+    --eevenkoto-input-bg,
+    var(--eevenkoto-color-form-input-background)
+  );
+  --_eevenkoto-input-text: var(
+    --eevenkoto-input-text,
+    var(--eevenkoto-color-form-input-text)
+  );
+  --_eevenkoto-input-border-color: var(
+    --eevenkoto-input-border-color,
+    var(--eevenkoto-color-form-input-border)
+  );
+  --_eevenkoto-input-border-width: var(
+    --eevenkoto-input-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-input-icon: var(
+    --eevenkoto-input-icon,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-input-placeholder: var(
+    --eevenkoto-input-placeholder,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-input-radius: var(--eevenkoto-input-radius, var(--eevenkoto-radius-sm));
+  --_eevenkoto-input-pad-block: var(--eevenkoto-input-pad-block, var(--eevenkoto-space-2));
+  --_eevenkoto-input-pad-inline: var(--eevenkoto-input-pad-inline, var(--eevenkoto-space-3));
+  --_eevenkoto-input-gap: var(--eevenkoto-input-gap, var(--eevenkoto-space-2));
+  --_eevenkoto-input-font-size: var(
+    --eevenkoto-input-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_eevenkoto-input-gap);
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--_eevenkoto-input-pad-block) var(--_eevenkoto-input-pad-inline);
+  background: var(--_eevenkoto-input-bg);
+  border: var(--_eevenkoto-input-border-width) solid var(--_eevenkoto-input-border-color);
+  border-radius: var(--_eevenkoto-input-radius);
+  color: var(--_eevenkoto-input-text);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--_eevenkoto-input-font-size);
+  line-height: var(--eevenkoto-line-height-body);
+  /* Keep descenders (g, j, y…) — global styles.css trims to alphabetic. */
+  text-box: normal;
+}
+
+.eevenkoto-input__icon {
+  color: var(--_eevenkoto-input-icon);
+  flex-shrink: 0;
+}
+
+.eevenkoto-input__field {
+  appearance: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-box: normal;
+}
+
+.eevenkoto-input__field:focus {
+  outline: none;
+}
+
+.eevenkoto-input__field::placeholder {
+  color: var(--_eevenkoto-input-placeholder);
+  opacity: 1;
+}
+
+/* Native search affordances are replaced by the icon slot. */
+.eevenkoto-input__field::-webkit-search-decoration,
+.eevenkoto-input__field::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.eevenkoto-input:hover:not(:has(.eevenkoto-input__field:disabled)) {
+  --eevenkoto-input-bg: var(--eevenkoto-color-form-input-background-hover);
+}
+
+.eevenkoto-input:focus-within {
+  --eevenkoto-input-border-color: var(--eevenkoto-color-form-input-border-focus);
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--eevenkoto-color-boundary-focus-inner);
+}
+
+/* --- SIZES (sm | md) --- */
+
+.eevenkoto-input--sm {
+  --eevenkoto-input-pad-block: var(--eevenkoto-space-1);
+  --eevenkoto-input-pad-inline: var(--eevenkoto-space-2);
+  --eevenkoto-input-font-size: var(--eevenkoto-font-size-control-sm);
+}
+
+.eevenkoto-input--md {
+  --eevenkoto-input-pad-block: var(--eevenkoto-space-2);
+  --eevenkoto-input-pad-inline: var(--eevenkoto-space-3);
+  --eevenkoto-input-font-size: var(--eevenkoto-font-size-control-md);
+}
+
+/* --- SEARCH (leading icon slot, pill cap) --- */
+
+.eevenkoto-input--search {
+  --eevenkoto-input-radius: var(--eevenkoto-radius-full);
+  --eevenkoto-input-bg: var(--eevenkoto-color-surface-sunken);
+}
+
+/* --- INVALID --- */
+
+.eevenkoto-input--invalid,
+.eevenkoto-input:has(.eevenkoto-input__field[aria-invalid='true']) {
+  --eevenkoto-input-bg: var(--eevenkoto-color-form-input-background-invalid);
+  --eevenkoto-input-text: var(--eevenkoto-color-form-input-text-invalid);
+  --eevenkoto-input-border-color: var(--eevenkoto-color-form-input-border-invalid);
+  --eevenkoto-input-border-width: var(--eevenkoto-line-width-md);
+  --eevenkoto-input-icon: var(--eevenkoto-color-form-input-message-invalid);
+}
+
+/* --- DISABLED (opaque tuples; no opacity) --- */
+
+.eevenkoto-input:has(.eevenkoto-input__field:disabled) {
+  --eevenkoto-input-bg: var(--eevenkoto-color-form-input-background-disabled);
+  --eevenkoto-input-text: var(--eevenkoto-color-form-input-text-disabled);
+  --eevenkoto-input-border-color: var(--eevenkoto-color-form-input-border-disabled);
+  --eevenkoto-input-icon: var(--eevenkoto-color-form-input-text-disabled);
+  --eevenkoto-input-placeholder: var(--eevenkoto-color-form-input-text-disabled);
+}
+
+.eevenkoto-input__field:disabled {
+  cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-input {
+    border-color: CanvasText;
+  }
+
+  .eevenkoto-input--invalid {
+    border-color: Highlight;
+  }
+}

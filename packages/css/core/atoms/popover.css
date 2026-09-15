@@ -1,0 +1,179 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: POPOVER (TIER 3)
+   Raised floating panel anchored to a positioned parent. CSS only — apps own
+   visibility and focus. Host alone = bottom placement.
+   ========================================================================== */
+
+.eevenkoto-popover {
+  --_eevenkoto-popover-bg: var(
+    --eevenkoto-popover-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-popover-text: var(
+    --eevenkoto-popover-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-popover-border-color: var(
+    --eevenkoto-popover-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-popover-border-width: var(
+    --eevenkoto-popover-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-popover-radius: var(--eevenkoto-popover-radius, var(--eevenkoto-radius-md));
+  --_eevenkoto-popover-padding: var(--eevenkoto-popover-padding, var(--eevenkoto-space-3));
+  --_eevenkoto-popover-shadow: var(
+    --eevenkoto-popover-shadow,
+    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.8rem 1.6rem var(--eevenkoto-color-depth-shadow-penumbra)
+  );
+  --_eevenkoto-popover-offset: var(--eevenkoto-popover-offset, var(--eevenkoto-space-2));
+  --_eevenkoto-popover-max-inline-size: var(--eevenkoto-popover-max-inline-size, 32rem);
+  --_eevenkoto-popover-arrow-size: var(--eevenkoto-popover-arrow-size, var(--eevenkoto-space-2));
+
+  position: absolute;
+  z-index: 1;
+  box-sizing: border-box;
+  max-inline-size: var(--_eevenkoto-popover-max-inline-size);
+  padding: var(--_eevenkoto-popover-padding);
+  color: var(--_eevenkoto-popover-text);
+  background: var(--_eevenkoto-popover-bg);
+  border: var(--_eevenkoto-popover-border-width) solid var(--_eevenkoto-popover-border-color);
+  border-radius: var(--_eevenkoto-popover-radius);
+  box-shadow: var(--_eevenkoto-popover-shadow);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-body-md);
+  line-height: var(--eevenkoto-line-height-body);
+
+  /* Host default: below the anchor, centred (in-flow absolute). */
+  inset-block-start: 100%;
+  inset-inline-start: 50%;
+  margin-block-start: var(--_eevenkoto-popover-offset);
+  transform: translateX(-50%);
+}
+
+/* Portal / JS tooltips: app sets top/left; DS owns chrome + open motion. */
+.eevenkoto-popover--fixed {
+  position: fixed;
+  z-index: 1000;
+  inset: auto;
+  margin: 0;
+  transform: none;
+  max-block-size: min(42rem, calc(100vh - 2rem));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity var(--eevenkoto-duration-4) var(--eevenkoto-ease-in-out),
+    transform var(--eevenkoto-duration-4) var(--eevenkoto-ease-in-out);
+}
+
+.eevenkoto-popover--fixed.eevenkoto-popover--open,
+.eevenkoto-popover--fixed[data-open='true'] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-popover--fixed {
+    transition: none;
+  }
+}
+
+/* --- PLACEMENT (host alone is already bottom; ignored when --fixed) --- */
+
+.eevenkoto-popover--bottom {
+  inset-block-start: 100%;
+  inset-block-end: auto;
+  inset-inline-start: 50%;
+  inset-inline-end: auto;
+  margin: var(--_eevenkoto-popover-offset) 0 0 0;
+  transform: translateX(-50%);
+}
+
+.eevenkoto-popover--top {
+  inset-block-start: auto;
+  inset-block-end: 100%;
+  inset-inline-start: 50%;
+  inset-inline-end: auto;
+  margin: 0 0 var(--_eevenkoto-popover-offset) 0;
+  transform: translateX(-50%);
+}
+
+.eevenkoto-popover--right {
+  inset-block-start: 50%;
+  inset-block-end: auto;
+  inset-inline-start: 100%;
+  inset-inline-end: auto;
+  margin: 0 0 0 var(--_eevenkoto-popover-offset);
+  transform: translateY(-50%);
+}
+
+.eevenkoto-popover--left {
+  inset-block-start: 50%;
+  inset-block-end: auto;
+  inset-inline-start: auto;
+  inset-inline-end: 100%;
+  margin: 0 var(--_eevenkoto-popover-offset) 0 0;
+  transform: translateY(-50%);
+}
+
+/* --- ARROW (rotated square; two visible strokes point at the anchor) --- */
+
+.eevenkoto-popover__arrow {
+  position: absolute;
+  inline-size: var(--_eevenkoto-popover-arrow-size);
+  block-size: var(--_eevenkoto-popover-arrow-size);
+  background: var(--_eevenkoto-popover-bg);
+  border: var(--_eevenkoto-popover-border-width) solid transparent;
+  border-block-start-color: var(--_eevenkoto-popover-border-color);
+  border-inline-start-color: var(--_eevenkoto-popover-border-color);
+  transform: rotate(45deg);
+
+  inset-block-start: calc(var(--_eevenkoto-popover-arrow-size) / -2);
+  inset-inline-start: 50%;
+  margin-inline-start: calc(var(--_eevenkoto-popover-arrow-size) / -2);
+}
+
+.eevenkoto-popover--top .eevenkoto-popover__arrow {
+  inset-block-start: auto;
+  inset-block-end: calc(var(--_eevenkoto-popover-arrow-size) / -2);
+  border-block-start-color: transparent;
+  border-inline-start-color: transparent;
+  border-block-end-color: var(--_eevenkoto-popover-border-color);
+  border-inline-end-color: var(--_eevenkoto-popover-border-color);
+}
+
+.eevenkoto-popover--right .eevenkoto-popover__arrow {
+  inset-block-start: 50%;
+  inset-inline-start: calc(var(--_eevenkoto-popover-arrow-size) / -2);
+  margin-block-start: calc(var(--_eevenkoto-popover-arrow-size) / -2);
+  margin-inline-start: 0;
+  border-block-start-color: transparent;
+  border-inline-end-color: transparent;
+  border-inline-start-color: var(--_eevenkoto-popover-border-color);
+  border-block-end-color: var(--_eevenkoto-popover-border-color);
+}
+
+.eevenkoto-popover--left .eevenkoto-popover__arrow {
+  inset-block-start: 50%;
+  inset-inline-start: auto;
+  inset-inline-end: calc(var(--_eevenkoto-popover-arrow-size) / -2);
+  margin-block-start: calc(var(--_eevenkoto-popover-arrow-size) / -2);
+  margin-inline-start: 0;
+  border-inline-start-color: transparent;
+  border-block-end-color: transparent;
+  border-block-start-color: var(--_eevenkoto-popover-border-color);
+  border-inline-end-color: var(--_eevenkoto-popover-border-color);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-popover {
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  .eevenkoto-popover__arrow {
+    background: Canvas;
+  }
+}

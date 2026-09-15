@@ -1,7 +1,10 @@
+import type { ButtonIconName } from '../../tokens/icons';
+
+export type { ButtonIconName };
+
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 /** Shared size ladder across controls and type primitives: sm | md | lg */
 export type ButtonSize = 'sm' | 'md' | 'lg';
-export type ButtonIconName = 'star' | 'check' | 'arrow' | 'plus';
 export type ButtonIconPosition = 'left' | 'right' | 'only';
 
 export interface ButtonProps {
@@ -11,7 +14,7 @@ export interface ButtonProps {
   /** Default: md */
   size?: ButtonSize;
   disabled?: boolean;
-  /** Which placeholder icon to render. */
+  /** Glyph from token subset `BUTTON_ICON_NAMES`. */
   icon?: ButtonIconName;
   /** Where the icon sits relative to the label. Defaults to left when icon is set. */
   iconPosition?: ButtonIconPosition;

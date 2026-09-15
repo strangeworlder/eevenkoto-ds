@@ -1,0 +1,130 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: CARD (TIER 3)
+   Sectioned surface container (header / body / footer). Frame stays the thin
+   bordered box; Card owns section rhythm and elevation.
+   Host alone = flat raised surface, no interaction affordance.
+   ========================================================================== */
+
+.eevenkoto-card {
+  --_eevenkoto-card-bg: var(--eevenkoto-card-bg, var(--eevenkoto-color-surface-raised));
+  --_eevenkoto-card-text: var(--eevenkoto-card-text, var(--eevenkoto-color-content-primary));
+  --_eevenkoto-card-border-color: var(
+    --eevenkoto-card-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-card-border-width: var(
+    --eevenkoto-card-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-card-radius: var(--eevenkoto-card-radius, var(--eevenkoto-radius-md));
+  --_eevenkoto-card-pad-block: var(--eevenkoto-card-pad-block, var(--eevenkoto-space-3));
+  --_eevenkoto-card-pad-inline: var(--eevenkoto-card-pad-inline, var(--eevenkoto-space-4));
+  --_eevenkoto-card-gap: var(--eevenkoto-card-gap, var(--eevenkoto-space-2));
+  --_eevenkoto-card-shadow: var(--eevenkoto-card-shadow, none);
+  --_eevenkoto-card-divider-color: var(
+    --eevenkoto-card-divider-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  color: var(--_eevenkoto-card-text);
+  background: var(--_eevenkoto-card-bg);
+  border: var(--_eevenkoto-card-border-width) solid var(--_eevenkoto-card-border-color);
+  border-radius: var(--_eevenkoto-card-radius);
+  box-shadow: var(--_eevenkoto-card-shadow);
+  overflow: hidden;
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-body-md);
+  line-height: var(--eevenkoto-line-height-body);
+  text-decoration: none;
+}
+
+.eevenkoto-card__header,
+.eevenkoto-card__body,
+.eevenkoto-card__footer {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--_eevenkoto-card-pad-block) var(--_eevenkoto-card-pad-inline);
+}
+
+.eevenkoto-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--_eevenkoto-card-gap);
+  font-family: var(--eevenkoto-font-serif);
+  font-size: var(--eevenkoto-font-size-heading-4);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  border-block-end: var(--_eevenkoto-card-border-width) solid
+    var(--_eevenkoto-card-divider-color);
+}
+
+.eevenkoto-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-card-gap);
+  flex: 1 1 auto;
+}
+
+.eevenkoto-card__body > :is(p, h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+}
+
+.eevenkoto-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--_eevenkoto-card-gap);
+  color: var(--eevenkoto-color-content-secondary);
+  font-size: var(--eevenkoto-font-size-body-sm);
+  border-block-start: var(--_eevenkoto-card-border-width) solid
+    var(--_eevenkoto-card-divider-color);
+}
+
+/* --- ELEVATED --- */
+
+.eevenkoto-card--elevated {
+  --eevenkoto-card-shadow:
+    0 0.1rem 0.2rem var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.4rem 1.2rem var(--eevenkoto-color-depth-shadow-penumbra);
+}
+
+/* --- INTERACTIVE (clickable card: link / button host) --- */
+
+.eevenkoto-card--interactive {
+  cursor: pointer;
+  transition:
+    border-color 0.1s ease-in-out,
+    box-shadow 0.1s ease-in-out;
+}
+
+.eevenkoto-card--interactive:hover:not([aria-disabled='true']) {
+  --eevenkoto-card-border-color: var(--eevenkoto-color-control-primary-background-hover);
+  --eevenkoto-card-bg: var(--eevenkoto-color-control-secondary-background-hover);
+}
+
+.eevenkoto-card--interactive:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+.eevenkoto-card--interactive[aria-disabled='true'] {
+  cursor: not-allowed;
+  --eevenkoto-card-bg: var(--eevenkoto-color-control-secondary-background-disabled);
+  --eevenkoto-card-text: var(--eevenkoto-color-content-disabled);
+  --eevenkoto-card-border-color: var(--eevenkoto-color-control-secondary-border-disabled);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-card {
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  .eevenkoto-card__header,
+  .eevenkoto-card__footer {
+    border-color: CanvasText;
+  }
+}

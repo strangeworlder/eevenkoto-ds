@@ -54,11 +54,13 @@ These are the **consumable** color tokens (Tier 2) currently defined in `tokens.
 | `content` | `--eevenkoto-color-content-primary` | Body text and secondary/disabled copy |
 | `boundary` | `--eevenkoto-color-boundary-focus-outer` | Dividers and dual-halo focus rings |
 | `depth` | `--eevenkoto-color-depth-shadow-umbra` | Elevation shadows |
-| `feedback` | `--eevenkoto-color-feedback-success-background` | Badges and status (subtle + solid) |
+| `feedback` | `--eevenkoto-color-feedback-success-background` | Badges, notices, and status (subtle + solid) |
+| `link` | `--eevenkoto-color-link-default` | Inline links |
+| `form` | `--eevenkoto-color-form-input-background` | Text fields and validation |
+| `control` (+ destructive) | `--eevenkoto-color-control-destructive-background` | High-urgency actions |
 
 <Canvas of={TokensStories.SemanticColors} />
 
-Domains planned but not fully authored (for example full `link` / `form` / `control-destructive`) appear here once they land in CSS.
 
 ## Typography
 
@@ -83,6 +85,20 @@ Corner radius tokens for controls and surfaces.
 Border and stroke widths.
 
 <Canvas of={TokensStories.LineWidths} />
+
+## Motion
+
+Duration ladder and easing curves. Components stagger properties the way Button does (`duration-1` → `duration-3`).
+
+<Canvas of={TokensStories.Motion} />
+
+## Icons
+
+Glyph inventory (`ICON_NAMES` / `iconPaths`) lives in **`@eevenkoto/core`** as `tokens/icons` — not inside the Icon atom. [Icon](?path=/docs/core-atoms-icon--docs) and [Button](?path=/docs/core-atoms-button--docs) both consume it. Cards with a primary border are also in `BUTTON_ICON_NAMES`.
+
+Add a name + 16×16 path in `packages/core/src/tokens/icons.ts`; rebuild core. Do not paste ad-hoc SVG paths into components.
+
+<Canvas of={TokensStories.Icons} />
 
 ## Primitives (internal)
 

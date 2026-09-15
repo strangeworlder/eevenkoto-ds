@@ -1,0 +1,100 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as AvatarStories from './Avatar.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={AvatarStories} />
+
+# Avatar
+
+Circular **portrait** for a named entity: a real image when `src` is set, otherwise a parchment placeholder with the shared `user` icon. Host alone is **md**. Chrome uses surface/content parchment tokens — not turquoise control tints.
+
+There is no social status ring, presence dot, or initials fallback. Role and readiness belong beside the avatar ([Badge](?path=/docs/core-atoms-badge--docs), copy, etc.).
+
+<Canvas of={AvatarStories.Default} />
+
+### Playground
+
+<Controls of={AvatarStories.Default} />
+
+## Why to use
+
+Rules and roster UIs need a compact face mark for a character or account without inventing ad-hoc circles. Avatar is that portrait shell — image or quiet parchment placeholder — sized on the shared sm/md/lg ladder.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Pass <code>src</code> when you have a portrait asset.</li>
+      <li>Omit <code>src</code> for the parchment user placeholder until an image exists.</li>
+      <li>Always provide <code>name</code> for <code>alt</code> / <code>aria-label</code>.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t encode online status or role on the avatar — use Badge or text nearby.</li>
+      <li>Don’t invent initials or turquoise fills; the placeholder is the user icon on parchment.</li>
+      <li>Don’t use Avatar as a Button — wrap a control if the portrait is interactive.</li>
+    </ul>
+  }
+/>
+
+## With image
+
+<Canvas of={AvatarStories.WithImage} />
+
+## Sizes
+
+<Canvas of={AvatarStories.Sizes} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Accessible name. |
+| `src` | `string` | — | Portrait URL; omit for placeholder. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `md` | Diameter ladder. |
+
+<ArgTypes of={AvatarStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/avatar.css';
+import '@eevenkoto/css/icon.css';
+import { renderAvatar } from '@eevenkoto/html';
+
+renderAvatar({ name: 'Elowen Karth' });
+renderAvatar({ name: 'Elowen Karth', src: '/portraits/elowen.webp' });
+```
+
+```tsx
+import { Avatar } from '@eevenkoto/react';
+
+<Avatar name="Elowen Karth" />
+<Avatar name="Elowen Karth" src="/portraits/elowen.webp" />
+```
+
+Import `icon.css` whenever the placeholder may render (no `src`).

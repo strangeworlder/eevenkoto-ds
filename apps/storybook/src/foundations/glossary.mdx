@@ -55,8 +55,21 @@ Do **not** use **traits** for the footer PropertyList — that word collides wit
 | **ListItem** | One content-list row (`li`) |
 | **List** | Stacked content items (`ul` / `ol`) — Core **molecule** (not PropertyList) |
 | **Stat** | Numeric display chip (`disk` / `arch` / `shield`) |
+| **Popover** | Raised floating panel chrome (CSS only; app owns open/position) |
+| **TooltipCard** | Header / body / footer chrome nested in Popover (or standalone) — not an in-page Card |
+| **Card** | In-page sectioned surface (`__header` / `__body` / `__footer`) |
+| **InlineRef** | Core inline reference chrome (`name`, optional `href`); Popover trigger in Core demos |
+| **Input** | Single-line **control chrome** only (fill / border / focus). Nest inside Field for forms. Uses `ariaLabel`, not `label`. |
+| **Field** | Form **row**: visible `label` + control slot + hint/error. Default choice for data entry. |
 | **emphasis** | Generic Stat highlight (thicker stroke, etc.) |
 | **saveProficient** | Domain flag on AbilityScore; maps to Stat `emphasis` + AT suffix |
+
+## Domain inline terms
+
+| Term | Meaning | Prop / type |
+| --- | --- | --- |
+| **EntityRef** | Domain specialization of InlineRef with closed kinds | `EntityRefProps` (`name`, `kind`, `href?`) |
+| **kind** | Closed EntityRef taxonomy (`condition`, `mechanic`, …) | `EntityRefKind` |
 
 **Stat** (chip) and **Statblock** (entry) are different concepts that share a root word on purpose.
 
@@ -66,13 +79,14 @@ Use the prop that matches the role — do not force one name everywhere.
 
 | Prop | Use for |
 | --- | --- |
-| `label` | Control/chrome copy and definition terms (Button, Badge, Property, AbilityScore header) |
+| `label` | Visible control/chrome copy and definition terms (Button, Badge, Property, AbilityScore header, **Field** visible label). **Not** used on Input. |
+| `ariaLabel` | Input-only: `aria-label` when there is no Field / visible label (chrome search). |
 | `text` | Typography primitives (Heading, Paragraph, Caption, ListItem, TableCell body) |
-| `name` | Named entity (Statblock creature, StatblockFeature) |
-| `title` | Section heading (StatblockSection) |
+| `name` | Named entity or inline reference (Statblock creature, StatblockFeature, InlineRef, EntityRef) |
+| `title` | Section heading (StatblockSection, TooltipCard header) |
 | `value` | Numeric or definitional payload (Stat, Property) |
 | `description` | Feature body after the run-in name |
-| `content` | HTML-only string body for composed hosts (e.g. Flow); React/Vue use `children` / slots |
+| `content` | HTML-only string body for composed hosts (Flow, Popover panel); React/Vue use `children` / slots |
 
 In markup, a Property `label` is the definition **term** (`dt`). The prop name stays **`label`**.
 

@@ -1,0 +1,197 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: MENU (TIER 3)
+   Vertical action / navigation list. Flat items + nested `group` branches
+   (<details>) for multi-level nav (eevenko.to sidebar). Nest inside Popover
+   for compact dropdowns. Host alone = raised surface, no open/position JS.
+   ========================================================================== */
+
+.eevenkoto-menu {
+  --_eevenkoto-menu-bg: var(--eevenkoto-menu-bg, var(--eevenkoto-color-surface-raised));
+  --_eevenkoto-menu-radius: var(--eevenkoto-menu-radius, var(--eevenkoto-radius-sm));
+  --_eevenkoto-menu-pad-block: var(--eevenkoto-menu-pad-block, var(--eevenkoto-space-1));
+  --_eevenkoto-menu-min-inline-size: var(--eevenkoto-menu-min-inline-size, 18rem);
+  --_eevenkoto-menu-indent: var(--eevenkoto-menu-indent, var(--eevenkoto-space-4));
+  --_eevenkoto-menu-item-text: var(
+    --eevenkoto-menu-item-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-menu-item-bg-hover: var(
+    --eevenkoto-menu-item-bg-hover,
+    var(--eevenkoto-color-control-secondary-background-hover)
+  );
+  --_eevenkoto-menu-item-selected-bg: var(
+    --eevenkoto-menu-item-selected-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-menu-item-selected-text: var(
+    --eevenkoto-menu-item-selected-text,
+    var(--eevenkoto-color-control-primary-text)
+  );
+  --_eevenkoto-menu-item-pad-block: var(
+    --eevenkoto-menu-item-pad-block,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-menu-item-pad-inline: var(
+    --eevenkoto-menu-item-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-menu-separator-color: var(
+    --eevenkoto-menu-separator-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-menu-chevron: var(
+    --eevenkoto-menu-chevron,
+    var(--eevenkoto-color-content-tertiary)
+  );
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-inline-size: var(--_eevenkoto-menu-min-inline-size);
+  margin: 0;
+  padding: var(--_eevenkoto-menu-pad-block) 0;
+  list-style: none;
+  background: var(--_eevenkoto-menu-bg);
+  border-radius: var(--_eevenkoto-menu-radius);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-control-md);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-menu__header {
+  margin: 0;
+  padding: var(--_eevenkoto-menu-item-pad-block) var(--_eevenkoto-menu-item-pad-inline);
+  color: var(--eevenkoto-color-content-secondary);
+  font-size: var(--eevenkoto-font-size-caption);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.eevenkoto-menu__separator {
+  margin: var(--_eevenkoto-menu-pad-block) 0;
+  border: 0;
+  border-block-start: var(--eevenkoto-line-width-sm) solid
+    var(--_eevenkoto-menu-separator-color);
+}
+
+.eevenkoto-menu__item {
+  --_eevenkoto-menu-item-font-weight: var(
+    --eevenkoto-menu-item-font-weight,
+    var(--eevenkoto-font-weight-regular)
+  );
+  --_eevenkoto-menu-item-text-shadow: var(--eevenkoto-menu-item-text-shadow, none);
+
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin: 0;
+  padding: var(--_eevenkoto-menu-item-pad-block) var(--_eevenkoto-menu-item-pad-inline);
+  border: 0;
+  border-radius: var(--_eevenkoto-menu-radius);
+  background: transparent;
+  color: var(--_eevenkoto-menu-item-text);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: var(--_eevenkoto-menu-item-font-weight);
+  line-height: inherit;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: var(--_eevenkoto-menu-item-text-shadow);
+  cursor: pointer;
+}
+
+.eevenkoto-menu__item:hover:not(:disabled):not([aria-disabled='true']) {
+  --_eevenkoto-menu-item-text: var(--eevenkoto-color-content-primary);
+  --_eevenkoto-menu-item-text-shadow: none;
+  background: var(--_eevenkoto-menu-item-bg-hover);
+}
+
+.eevenkoto-menu__item:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: -2px;
+}
+
+.eevenkoto-menu__item--selected {
+  background: var(--_eevenkoto-menu-item-selected-bg);
+  --_eevenkoto-menu-item-text: var(--_eevenkoto-menu-item-selected-text);
+  --_eevenkoto-menu-item-font-weight: var(--eevenkoto-font-weight-bold);
+  --_eevenkoto-menu-item-text-shadow: 0 0 2px var(--eevenkoto-color-depth-shadow-control-text);
+}
+
+.eevenkoto-menu__item:disabled,
+.eevenkoto-menu__item[aria-disabled='true'] {
+  cursor: not-allowed;
+  background: transparent;
+  --_eevenkoto-menu-item-text: var(--eevenkoto-color-content-disabled);
+}
+
+/* --- Nested branches (details / summary) --- */
+
+.eevenkoto-menu__branch {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.eevenkoto-menu__summary {
+  list-style: none;
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+.eevenkoto-menu__summary::-webkit-details-marker {
+  display: none;
+}
+
+.eevenkoto-menu__summary::marker {
+  content: '';
+}
+
+.eevenkoto-menu__chevron {
+  flex-shrink: 0;
+  color: var(--_eevenkoto-menu-chevron);
+  transition: transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
+}
+
+.eevenkoto-menu__branch[open] > .eevenkoto-menu__summary .eevenkoto-menu__chevron {
+  transform: rotate(90deg);
+}
+
+.eevenkoto-menu__group {
+  display: flex;
+  flex-direction: column;
+  padding-inline-start: var(--_eevenkoto-menu-indent);
+}
+
+/* Root sections echo eevenko.to uppercase chrome; nested summaries stay sentence case. */
+.eevenkoto-menu > .eevenkoto-menu__branch > .eevenkoto-menu__summary {
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--eevenkoto-font-size-caption);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-menu__chevron {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-menu__item--selected {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .eevenkoto-menu__separator {
+    border-block-start-color: CanvasText;
+  }
+
+  .eevenkoto-menu__chevron {
+    color: CanvasText;
+  }
+}

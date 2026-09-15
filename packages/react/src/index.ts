@@ -6,6 +6,20 @@ export { ListItem, type ListItemComponentProps, type ListItemProps } from './cor
 export { Caption, type CaptionComponentProps, type CaptionProps } from './core/atoms/Caption';
 export { Frame, type FrameComponentProps } from './core/atoms/Frame';
 export { Scroll, type ScrollComponentProps, type ScrollProps } from './core/atoms/Scroll';
+export { Icon, type IconComponentProps, type IconProps, type IconName } from './core/atoms/Icon';
+export { Popover, type PopoverComponentProps, type PopoverProps } from './core/atoms/Popover';
+export {
+  InlineRef,
+  type InlineRefComponentProps,
+  type InlineRefProps,
+} from './core/atoms/InlineRef';
+export { Avatar, type AvatarComponentProps, type AvatarProps } from './core/atoms/Avatar';
+export {
+  Input,
+  type InputComponentProps,
+  type InputProps,
+  type InputType,
+} from './core/atoms/Input';
 export {
   TableCell,
   type TableCellComponentProps,
@@ -13,6 +27,25 @@ export {
   type TableCellProps,
 } from './core/atoms/TableCell';
 export { Flow, type FlowComponentProps, type FlowProps, type FlowDensity } from './core/molecules/Flow';
+export { Notice, type NoticeComponentProps, type NoticeProps } from './core/molecules/Notice';
+export { Field, type FieldComponentProps, type FieldProps } from './core/molecules/Field';
+export {
+  SegmentedControl,
+  type SegmentedControlComponentProps,
+  type SegmentedControlProps,
+} from './core/molecules/SegmentedControl';
+export { Card, type CardComponentProps, type CardProps } from './core/molecules/Card';
+export {
+  TooltipCard,
+  type TooltipCardComponentProps,
+  type TooltipCardProps,
+} from './core/molecules/TooltipCard';
+export {
+  Menu,
+  type MenuComponentProps,
+  type MenuProps,
+  type MenuEntry,
+} from './core/molecules/Menu';
 export { Prose, type ProseComponentProps } from './core/molecules/Prose';
 export {
   List,
@@ -36,6 +69,12 @@ export {
   type TableVariant,
 } from './core/molecules/Table';
 export { TableShell, type TableShellComponentProps } from './core/organisms/TableShell';
+export {
+  EntityRef,
+  type EntityRefComponentProps,
+  type EntityRefProps,
+  type EntityRefKind,
+} from './domain/atoms/EntityRef';
 export {
   AbilityScore,
   type AbilityScoreComponentProps,

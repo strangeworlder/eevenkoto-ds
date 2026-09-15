@@ -123,11 +123,11 @@
 
   user-select: none;
   transition:
-    transform 0.1s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.05s ease-in-out,
-    --_eevenkoto-button-gradient-start 0.05s ease-in-out,
-    --_eevenkoto-button-gradient-middle 0.1s ease-in-out,
-    --_eevenkoto-button-gradient-end 0.15s ease-in-out;
+    transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    border-color var(--eevenkoto-duration-1) var(--eevenkoto-ease-in-out),
+    --_eevenkoto-button-gradient-start var(--eevenkoto-duration-1) var(--eevenkoto-ease-in-out),
+    --_eevenkoto-button-gradient-middle var(--eevenkoto-duration-2) var(--eevenkoto-ease-in-out),
+    --_eevenkoto-button-gradient-end var(--eevenkoto-duration-3) var(--eevenkoto-ease-in-out);
   will-change: transform;
 }
 
@@ -374,21 +374,18 @@
   --eevenkoto-button-font-size: var(--eevenkoto-font-size-control-lg);
 }
 
-/* --- ICONS --- */
+/* --- ICONS (compose Icon atom; size to 1em so glyphs track button type) --- */
 
-.eevenkoto-button__icon {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
+.eevenkoto-button .eevenkoto-icon {
+  --eevenkoto-icon-size: 1em;
   margin-bottom: 0.15em;
-  vertical-align: middle;
   color: var(--_eevenkoto-button-icon);
   filter: drop-shadow(
     0 0 2px color-mix(in display-p3, var(--_eevenkoto-button-text) 50%, transparent)
   );
 }
 
-.eevenkoto-button--icon-left .eevenkoto-button__icon {
+.eevenkoto-button--icon-left .eevenkoto-icon {
   margin-inline-end: var(--eevenkoto-space-2);
 }
 
@@ -396,7 +393,7 @@
   padding-inline-start: var(--eevenkoto-space-4);
 }
 
-.eevenkoto-button--icon-right .eevenkoto-button__icon {
+.eevenkoto-button--icon-right .eevenkoto-icon {
   margin-inline-start: var(--eevenkoto-space-2);
 }
 
@@ -418,6 +415,6 @@
   --eevenkoto-button-pad-inline: var(--eevenkoto-space-4);
 }
 
-.eevenkoto-button--icon-only .eevenkoto-button__icon {
+.eevenkoto-button--icon-only .eevenkoto-icon {
   vertical-align: middle;
 }

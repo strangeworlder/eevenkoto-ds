@@ -1,0 +1,100 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: INLINE REF (TIER 3, CORE)
+   Product-agnostic inline reference chrome. Transparent rest; hover paints a
+   chip. Domain EntityRef specializes this with closed kind modifiers.
+   Host alone = neutral feedback bridges.
+   ========================================================================== */
+
+.eevenkoto-inline-ref {
+  --_eevenkoto-inline-ref-bg: var(
+    --eevenkoto-inline-ref-bg,
+    var(--eevenkoto-color-feedback-neutral-background)
+  );
+  --_eevenkoto-inline-ref-text: var(
+    --eevenkoto-inline-ref-text,
+    var(--eevenkoto-color-feedback-neutral-text)
+  );
+  --_eevenkoto-inline-ref-border-color: var(
+    --eevenkoto-inline-ref-border-color,
+    var(--eevenkoto-color-feedback-neutral-border)
+  );
+  --_eevenkoto-inline-ref-underline: var(
+    --eevenkoto-inline-ref-underline,
+    var(--eevenkoto-color-feedback-neutral-icon)
+  );
+  --_eevenkoto-inline-ref-border-width: var(
+    --eevenkoto-inline-ref-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-inline-ref-radius: var(
+    --eevenkoto-inline-ref-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-inline-ref-pad-block: var(--eevenkoto-inline-ref-pad-block, 0.1em);
+  --_eevenkoto-inline-ref-pad-inline: var(--eevenkoto-inline-ref-pad-inline, 0.35em);
+
+  display: inline;
+  box-sizing: border-box;
+  /* Chip pad/border paint outside the glyph metrics so word spaces stay natural. */
+  padding: var(--_eevenkoto-inline-ref-pad-block) var(--_eevenkoto-inline-ref-pad-inline);
+  margin-inline: calc(
+    -1 * (var(--_eevenkoto-inline-ref-pad-inline) + var(--_eevenkoto-inline-ref-border-width))
+  );
+  /* Rest: ink + underline only — fill/stroke stay transparent so body copy stays calm. */
+  background: transparent;
+  border: var(--_eevenkoto-inline-ref-border-width) solid transparent;
+  border-radius: var(--_eevenkoto-inline-ref-radius);
+  color: var(--_eevenkoto-inline-ref-text);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  text-decoration: none;
+  /* Same stagger as Button: border snaps first, fill settles after. */
+  transition:
+    background-color var(--eevenkoto-duration-3) var(--eevenkoto-ease-in-out),
+    border-color var(--eevenkoto-duration-1) var(--eevenkoto-ease-in-out);
+}
+
+.eevenkoto-inline-ref:hover,
+.eevenkoto-inline-ref:focus-visible {
+  background: var(--_eevenkoto-inline-ref-bg);
+  border-color: var(--_eevenkoto-inline-ref-border-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-inline-ref {
+    transition: none;
+  }
+}
+
+.eevenkoto-inline-ref__label {
+  min-width: 0;
+}
+
+/* Link variant: dotted underline signals a followable reference. */
+a.eevenkoto-inline-ref {
+  cursor: pointer;
+  text-decoration: underline dotted var(--_eevenkoto-inline-ref-underline);
+  text-underline-offset: 0.2em;
+}
+
+a.eevenkoto-inline-ref:hover,
+a.eevenkoto-inline-ref:focus-visible {
+  text-decoration-style: solid;
+}
+
+a.eevenkoto-inline-ref:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-inline-ref {
+    border-color: CanvasText;
+    forced-color-adjust: none;
+  }
+
+  a.eevenkoto-inline-ref {
+    color: LinkText;
+  }
+}

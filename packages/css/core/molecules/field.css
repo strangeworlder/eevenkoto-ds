@@ -1,0 +1,92 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: FIELD (TIER 3)
+   Labeled control + optional hint / error. Wraps Input (or other controls).
+   Host alone is a vertical stack. Gaps use `padding-block-start` on following siblings (same approach as Flow) so label / control / message stay clear under the global `text-box: trim-both` rule in `styles.css`.
+   ========================================================================== */
+
+.eevenkoto-field {
+  --_eevenkoto-field-gap: var(--eevenkoto-field-gap, var(--eevenkoto-space-2));
+  --_eevenkoto-field-label-text: var(
+    --eevenkoto-field-label-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-field-label-weight: var(
+    --eevenkoto-field-label-weight,
+    var(--eevenkoto-font-weight-semibold)
+  );
+  --_eevenkoto-field-label-size: var(
+    --eevenkoto-field-label-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-field-message-text: var(
+    --eevenkoto-field-message-text,
+    var(--eevenkoto-color-content-tertiary)
+  );
+  --_eevenkoto-field-message-error-text: var(
+    --eevenkoto-field-message-error-text,
+    var(--eevenkoto-color-form-input-message-invalid)
+  );
+  --_eevenkoto-field-message-size: var(
+    --eevenkoto-field-message-size,
+    var(--eevenkoto-font-size-caption)
+  );
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  font-family: var(--eevenkoto-font-sans);
+  /* Own vertical rhythm; do not inherit global text-box trim onto the stack. */
+  text-box: normal;
+}
+
+.eevenkoto-field > * {
+  margin-block: 0;
+  text-box: normal;
+}
+
+.eevenkoto-field > * + * {
+  padding-block-start: var(--_eevenkoto-field-gap);
+}
+
+.eevenkoto-field__label {
+  display: block;
+  color: var(--_eevenkoto-field-label-text);
+  font-size: var(--_eevenkoto-field-label-size);
+  font-weight: var(--_eevenkoto-field-label-weight);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-field__control {
+  display: block;
+  min-inline-size: 0;
+}
+
+.eevenkoto-field__control .eevenkoto-input {
+  inline-size: 100%;
+}
+
+.eevenkoto-field__message {
+  margin: 0;
+  color: var(--_eevenkoto-field-message-text);
+  font-size: var(--_eevenkoto-field-message-size);
+  font-weight: var(--eevenkoto-font-weight-regular);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+/* Reassign the private bridge on the message — host already resolved secondary. */
+.eevenkoto-field__message--error {
+  --_eevenkoto-field-message-text: var(
+    --eevenkoto-field-message-error-text,
+    var(--eevenkoto-color-form-input-message-invalid)
+  );
+  color: var(--_eevenkoto-field-message-text);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-field__message--error {
+    color: Highlight;
+  }
+}

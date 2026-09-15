@@ -55,7 +55,7 @@ CMS HTML, markdown, and editorial content often ship tags without DS classes. Pr
 <DoDont
   do={
     <ul>
-      <li>Wrap reading/CMS content in <code>eevenkoto-prose</code>.</li>
+      <li>Wrap reading/CMS content in <code>eevenkoto-prose</code> — bare <code>ul</code>/<code>ol</code> match List.</li>
       <li>Compose <code>eevenkoto-prose eevenkoto-flow</code> when you need pair-aware gaps.</li>
       <li>Prefer classed Heading/Paragraph/List outside Prose when you control the markup.</li>
     </ul>
@@ -100,15 +100,14 @@ Tag inference yields to an explicit `--N` modifier on a classed heading (same ca
 
 ## Imports
 
-Type appearance lives in `heading.css`, `paragraph.css`, and `list.css`. Always import them with Prose:
+`prose.css` pulls in `heading.css`, `paragraph.css`, and `list.css`, so bare tags under Prose match classed Heading / Paragraph / **List** (`.eevenkoto-list`). Add Flow when you need pair-aware rhythm:
 
 ```ts
 import '@eevenkoto/css/prose.css';
-import '@eevenkoto/css/heading.css';
-import '@eevenkoto/css/paragraph.css';
-import '@eevenkoto/css/list.css';
 import '@eevenkoto/css/flow.css'; // when composing rhythm
 ```
+
+Import `list.css` on its own when you use classed `<ul class="eevenkoto-list">` outside Prose.
 
 ## API reference
 
@@ -120,9 +119,6 @@ HTML takes a `content` string. React/Vue use children / the default slot.
 
 ```ts
 import '@eevenkoto/css/prose.css';
-import '@eevenkoto/css/heading.css';
-import '@eevenkoto/css/paragraph.css';
-import '@eevenkoto/css/list.css';
 import { renderProse } from '@eevenkoto/html';
 
 renderProse({

@@ -1,7 +1,6 @@
 export {
   type ButtonVariant,
   type ButtonSize,
-  type ButtonIconName,
   type ButtonIconPosition,
   type ButtonProps,
   type ButtonClassNameProps,
@@ -49,6 +48,36 @@ export {
 export { frameClassNames } from './core/atoms/frame';
 
 export {
+  type PopoverPlacement,
+  type PopoverProps,
+  type PopoverClassNameProps,
+  popoverClassNames,
+} from './core/atoms/popover';
+
+export {
+  type InlineRefProps,
+  type InlineRefClassNameProps,
+  inlineRefClassNames,
+  inlineRefLabelClassNames,
+} from './core/atoms/inlineRef';
+
+export {
+  type AvatarSize,
+  type AvatarProps,
+  type AvatarClassNameProps,
+  avatarClassNames,
+} from './core/atoms/avatar';
+
+export {
+  type InputSize,
+  type InputType,
+  type InputProps,
+  type InputClassNameProps,
+  inputClassNames,
+  inputFieldClassNames,
+} from './core/atoms/input';
+
+export {
   type ScrollAxis,
   type ScrollProps,
   type ScrollClassNameProps,
@@ -64,6 +93,63 @@ export {
 } from './core/atoms/tableCell';
 
 export { type FlowDensity, type FlowProps, flowClassNames } from './core/molecules/flow';
+
+export {
+  type NoticeIntent,
+  type NoticeVariant,
+  type NoticeProps,
+  type NoticeClassNameProps,
+  noticeClassNames,
+} from './core/molecules/notice';
+
+export {
+  type FieldProps,
+  type FieldClassNameProps,
+  fieldClassNames,
+  fieldLabelClassNames,
+  fieldControlClassNames,
+  fieldMessageClassNames,
+  resolveFieldMessageId,
+} from './core/molecules/field';
+
+export {
+  type SegmentedControlTone,
+  type SegmentedControlSize,
+  type SegmentedControlMode,
+  type SegmentedControlOption,
+  type SegmentedControlProps,
+  type SegmentedControlClassNameProps,
+  type SegmentedControlOptionClassNameProps,
+  segmentedControlClassNames,
+  segmentedControlOptionClassNames,
+  resolveSegmentedControlOptionTone,
+} from './core/molecules/segmentedControl';
+
+export {
+  type CardProps,
+  type CardClassNameProps,
+  cardClassNames,
+} from './core/molecules/card';
+
+export {
+  type TooltipCardProps,
+  tooltipCardClassNames,
+  tooltipCardBodyClassNames,
+} from './core/molecules/tooltipCard';
+
+export {
+  type MenuEntry,
+  type MenuItemEntry,
+  type MenuHeaderEntry,
+  type MenuSeparatorEntry,
+  type MenuGroupEntry,
+  type MenuProps,
+  menuClassNames,
+  menuItemClassNames,
+  menuBranchClassNames,
+  menuSummaryClassNames,
+  menuGroupClassNames,
+} from './core/molecules/menu';
 
 export { proseClassNames } from './core/molecules/prose';
 
@@ -111,6 +197,14 @@ export {
 } from './core/organisms/tableShell';
 
 export {
+  type EntityRefKind,
+  type EntityRefProps,
+  type EntityRefClassNameProps,
+  ENTITY_REF_MODIFIERS,
+  entityRefClassNames,
+} from './domain/atoms/entityRef';
+
+export {
   type AbilityScoreProps,
   abilityScoreClassNames,
 } from './domain/molecules/abilityScore';
@@ -136,4 +230,17 @@ export {
   statblockClassNames,
 } from './domain/organisms/statblock';
 
-export { buttonIconPaths } from './core/atoms/icons';
+export {
+  type IconName,
+  type ButtonIconName,
+  ICON_NAMES,
+  BUTTON_ICON_NAMES,
+  iconPaths,
+} from './tokens/icons';
+
+export {
+  type IconSize,
+  type IconProps,
+  type IconClassNameProps,
+  iconClassNames,
+} from './core/atoms/icons';

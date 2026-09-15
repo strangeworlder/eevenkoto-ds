@@ -1,0 +1,133 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as InputStories from './Input.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={InputStories} />
+
+# Input
+
+Single-line **control chrome** from Tier 2 **`form-input`** tokens: fill, border, focus ring, invalid paint, sizes, optional search icon. The host is `.eevenkoto-input`; the native element is `.eevenkoto-input__field` (BEM element — **not** the [Field](?path=/docs/core-molecules-field--docs) molecule).
+
+**Input is not a form row.** It does not render a visible label, hint, or error. For those, use Field and nest Input inside it.
+
+<Canvas of={InputStories.Default} />
+
+Host alone is **md**, valid, and enabled.
+
+### Playground
+
+<Controls of={InputStories.Default} />
+
+## Input vs Field
+
+| Need | Use |
+| --- | --- |
+| Form data entry (visible label, optional hint/error) | **[Field](?path=/docs/core-molecules-field--docs)** wrapping Input |
+| Shared text-box chrome only (this page) | **Input** |
+| Header / toolbar search with no room for a visible label | **Input** + `ariaLabel` |
+| Accessible name for a form control | Field’s visible `label` + `htmlFor` — **not** Input `ariaLabel` |
+| Error / helper copy | Field `error` / `hint` — Input only receives `invalid` + `describedBy` |
+
+Agents: default to **Field** for anything that looks like a form. Reach for bare Input only for chrome-only controls.
+
+## Why to use
+
+Every product form should not invent its own text-box surface. Input owns fill, border, focus, and invalid chrome once; Field (or equivalent host markup) owns the labeling contract around it.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        Nest Input inside <strong>Field</strong> for forms; pass matching <code>id</code> /{' '}
+        <code>describedBy</code> / <code>invalid</code> from the Field message.
+      </li>
+      <li>
+        Use <code>ariaLabel</code> only when there is genuinely no visible label (chrome search).
+      </li>
+      <li>
+        Treat <code>placeholder</code> as an example value — never as the accessible name.
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>
+        Don’t treat Input as a complete form field (no visible label + no Field).
+      </li>
+      <li>
+        Don’t pass a visible-label string as Input <code>ariaLabel</code> when Field already has{' '}
+        <code>label</code> — that duplicates the name.
+      </li>
+      <li>
+        Don’t show <code>invalid</code> chrome without Field <code>error</code> text linked via{' '}
+        <code>describedBy</code>.
+      </li>
+    </ul>
+  }
+/>
+
+## Search (chrome-only name)
+
+Toolbar / header search with no visible Field label: `ariaLabel` names the control; placeholder stays an example query.
+
+<Canvas of={InputStories.Search} />
+
+## Invalid chrome
+
+`invalid` paints the control and sets `aria-invalid`. In real forms, always pair with Field error text — see [Field → Error](?path=/docs/core-molecules-field--docs#error).
+
+<Canvas of={InputStories.Invalid} />
+
+## Disabled
+
+<Canvas of={InputStories.Disabled} />
+
+## Sizes
+
+<Canvas of={InputStories.Sizes} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | Wire to Field `htmlFor` / `<label for>`. |
+| `ariaLabel` | `string` | — | `aria-label` when **no** visible Field label. |
+| `describedBy` | `string` | — | `aria-describedby` (Field message id). |
+| `invalid` | `boolean` | `false` | Invalid paint + `aria-invalid`. |
+| `placeholder` | `string` | — | Example hint, not the name. |
+| `search` | `boolean` | `false` | Pill + search icon recipe. |
+
+<ArgTypes of={InputStories} />
+
+```html
+<span class="eevenkoto-input">
+  <input class="eevenkoto-input__field" type="search"
+         aria-label="Search spells" placeholder="Fireball…" />
+</span>
+```
+
+Form composition (label + error) lives on [Field](?path=/docs/core-molecules-field--docs).

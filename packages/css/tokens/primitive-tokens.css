@@ -25,6 +25,8 @@
 
   /* Parchment */
   --eevenkoto-color-parchment-background:         oklch(0.96 0.02 90);
+  /* Near-white field fill — Input on Card / raised surfaces. */
+  --eevenkoto-color-parchment-background-bright:  oklch(0.99 0.008 90);
   /* Quieter wash above canvas (L↑, chroma −30% vs background) — table stripes, dense bands. */
   --eevenkoto-color-parchment-background-subtle:  oklch(0.93 0.01 100);
   --eevenkoto-color-parchment-background-element: oklch(0.90 0.04 85);
@@ -32,6 +34,8 @@
   --eevenkoto-color-parchment-primary:            oklch(0.40 0.10 80);
   --eevenkoto-color-parchment-text:               oklch(0.18 0.02 85);
   --eevenkoto-color-parchment-text-muted:         oklch(0.35 0.04 85);
+  /* Quieter than muted — Caption / metadata (target ≥4.5:1 on canvas; audit on sunken). */
+  --eevenkoto-color-parchment-text-subtle:        oklch(0.50 0.025 85);
   --eevenkoto-color-parchment-tint-disabled:      oklch(1 0 85 / 0%);
   --eevenkoto-color-parchment-tint-disabled-deep: oklch(0 0 85 / 0%);
 

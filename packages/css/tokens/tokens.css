@@ -33,6 +33,8 @@
   /* --- Content --- */
   --eevenkoto-color-content-primary: var(--eevenkoto-color-parchment-text);
   --eevenkoto-color-content-secondary: var(--eevenkoto-color-parchment-text-muted);
+  /* Metadata / Caption default — quieter than secondary body de-emphasis. */
+  --eevenkoto-color-content-tertiary: var(--eevenkoto-color-parchment-text-subtle);
   /* Quiet chrome (ability labels, default chip borders) — parchment, not mixed gold. */
   --eevenkoto-color-content-accent: var(--eevenkoto-color-parchment-primary);
   /* Deep gold for emphasis chrome (e.g. proficient save shields) — clears 3:1 on sunken. */
@@ -257,6 +259,74 @@
   --eevenkoto-color-feedback-admin-solid-border: transparent;
   --eevenkoto-color-feedback-admin-solid-icon: var(--eevenkoto-color-purple-text);
 
+  /* --- Links --- */
+  --eevenkoto-color-link-default: var(--eevenkoto-color-turquoise-primary);
+  --eevenkoto-color-link-hover: var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-link-visited: var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-link-underline: color-mix(
+    in oklch,
+    var(--eevenkoto-color-link-default) 40%,
+    transparent
+  );
+
+  /* --- Form inputs & validation --- */
+  --eevenkoto-color-form-input-background: var(--eevenkoto-color-parchment-background-bright);
+  --eevenkoto-color-form-input-text: var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-form-input-border: var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-form-input-background-hover: var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-form-input-border-focus: var(--eevenkoto-color-boundary-focus-outer);
+  --eevenkoto-color-form-input-background-invalid: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 14%,
+    transparent
+  );
+  --eevenkoto-color-form-input-text-invalid: var(--eevenkoto-color-crimson-state);
+  --eevenkoto-color-form-input-border-invalid: var(--eevenkoto-color-crimson-state);
+  --eevenkoto-color-form-input-message-invalid: var(--eevenkoto-color-crimson-state);
+  --eevenkoto-color-form-input-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-background) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+  --eevenkoto-color-form-input-text-disabled: var(--eevenkoto-color-content-disabled);
+  --eevenkoto-color-form-input-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-border) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+
+  /* --- Controls: destructive --- */
+  --eevenkoto-color-control-destructive-background: var(--eevenkoto-color-crimson-state);
+  --eevenkoto-color-control-destructive-background-hover: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 85%,
+    var(--eevenkoto-color-parchment-text)
+  );
+  --eevenkoto-color-control-destructive-background-active: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 85%,
+    var(--eevenkoto-color-parchment-text)
+  );
+  --eevenkoto-color-control-destructive-text: var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-control-destructive-border: transparent;
+  --eevenkoto-color-control-destructive-icon: var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-control-destructive-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-state) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-destructive-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+  --eevenkoto-color-control-destructive-border-disabled: transparent;
+  --eevenkoto-color-control-destructive-icon-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-crimson-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
+
   /* ==========================================================================
      METRICS & TYPOGRAPHY
      Font-size roles map Tier 1 rem steps → intent (same rule as color).
@@ -306,6 +376,15 @@
   --eevenkoto-line-width-sm: 0.1rem;
   --eevenkoto-line-width-md: 0.2rem;
   --eevenkoto-line-width-lg: 0.3rem;
+
+  /* Motion — single-tier scale. Ladder mirrors Button’s staggered hover settle. */
+  --eevenkoto-duration-1: 50ms;
+  --eevenkoto-duration-2: 100ms;
+  --eevenkoto-duration-3: 150ms;
+  --eevenkoto-duration-4: 200ms;
+
+  --eevenkoto-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --eevenkoto-ease-in-out: ease-in-out;
 }
 
 /* Dark theme: disabled mixes veer toward black endpoint (*-tint-disabled-deep).

@@ -1,0 +1,147 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as MenuStories from './Menu.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={MenuStories} />
+
+# Menu
+
+Vertical **action or navigation** list. Entries are data: an `item`, a static `header`, a `separator`, or a nested **`group`** (disclosure branch). Items render as `<button>` by default and as `<a>` when `href` is set. Groups render as `<details>` / `<summary>` so multi-level expand works without app JS.
+
+<Canvas of={MenuStories.Default} />
+
+Hover and selection come from Tier 2 **`control`**; ink, group labels, and the disabled state come from **`content`**. Import `icon.css` whenever groups (chevrons) may render.
+
+### Playground
+
+<Controls of={MenuStories.Default} />
+
+## Why to use
+
+Account menus, view switchers, and worldbook sidebars all need a compact vertical list of actions or destinations. Menu owns that chrome — flat rows for Popover menus, nested `group` branches for eevenko.to-style trees — without baking open/position or routing into the DS.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        Use flat items (+ header/separator) for account and action menus inside{' '}
+        <a href="?path=/docs/core-atoms-popover--docs">Popover</a>.
+      </li>
+      <li>
+        Use nested <code>kind: 'group'</code> for multi-level nav (section → subsection → leaf
+        links), as on eevenko.to.
+      </li>
+      <li>
+        Put an overview page as the first child link when a section has both an index and children
+        (e.g. “Lajit” link under the Lajit branch).
+      </li>
+      <li>
+        Set <code>expanded</code> on a group when that branch should start open (current section).
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t fake nesting with only <code>header</code> + visual indent — use <code>group</code>.</li>
+      <li>Don’t put role=&quot;menu&quot; + arrow-key behavior on the host unless the app also implements that contract (host ships <code>role=&quot;group&quot;</code>).</li>
+      <li>Don’t use Menu for page body outlines — that is Heading + Flow / Prose.</li>
+    </ul>
+  }
+/>
+
+## Nested nav
+
+Branches nest arbitrarily. Root summaries use uppercase chrome; deeper summaries stay sentence case. Children indent with `--eevenkoto-menu-indent`.
+
+<Canvas of={MenuStories.NestedNav} />
+
+## Items only
+
+<Canvas of={MenuStories.ItemsOnly} />
+
+## Links
+
+<Canvas of={MenuStories.Links} />
+
+## Inside a Popover
+
+<Canvas of={MenuStories.InsidePopover} />
+
+## Anatomy
+
+| Part | Role |
+| --- | --- |
+| Host | `.eevenkoto-menu` |
+| `__item` | Button or link row |
+| `__header` | Static group label (not expandable) |
+| `__separator` | Rule between clusters |
+| `__branch` | `<details>` nest |
+| `__summary` | Disclosure control (`__item` + chevron) |
+| `__group` | Indented children stack |
+
+## API reference
+
+| Entry `kind` | Fields |
+| --- | --- |
+| `item` (default) | `id`, `label`, `href?`, `selected?`, `disabled?` |
+| `header` | `label` |
+| `separator` | — |
+| `group` | `id`, `label`, `expanded?`, `children: MenuEntry[]` |
+
+<ArgTypes of={MenuStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/menu.css';
+import '@eevenkoto/css/icon.css';
+import { renderMenu } from '@eevenkoto/html';
+
+renderMenu({
+  label: 'Worldbook',
+  entries: [
+    {
+      kind: 'group',
+      id: 'species',
+      label: 'Lajit',
+      expanded: true,
+      children: [
+        { id: 'human', label: 'Ihminen', href: '/lajit/ihminen' },
+        { id: 'troll', label: 'Peikko', href: '/lajit/peikko' },
+      ],
+    },
+  ],
+});
+```
+
+```tsx
+import { Menu } from '@eevenkoto/react';
+
+<Menu label="Worldbook" entries={entries} />
+```
+
+The host ships `role="group"`, not `role="menu"` — add menu semantics and arrow-key handling in the app only when you also implement the keyboard contract. Nested expand/collapse uses native `<details>`.

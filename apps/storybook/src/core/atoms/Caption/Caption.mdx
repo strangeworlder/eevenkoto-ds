@@ -40,9 +40,20 @@ Caption styles short supporting or metadata text with `--eevenkoto-font-size-cap
 
 <Controls of={CaptionStories.Default} />
 
+## Caption vs Paragraph
+
+| Need | Use |
+| --- | --- |
+| Multi-sentence body or supporting prose | **[Paragraph](?path=/docs/core-atoms-paragraph--docs)** |
+| Timestamp, status line, or short helper under a control | **Caption** |
+| De-emphasize a full paragraph (still body copy) | Paragraph `tone="secondary"` (`content-secondary`) |
+| Quiet metadata ink | Caption default (`content-tertiary`) — quieter than Paragraph secondary |
+
+Agents: if the string is a sentence people read as content, use Paragraph. If it is a label-adjacent hint, timestamp, or chrome metadata, use Caption.
+
 ## Why to use
 
-Captions keep timestamps, helper hints, and field metadata visually quieter than body copy without inventing a one-off rem value.
+Captions keep timestamps, helper hints, and field metadata visually quieter than body copy — smaller type and tertiary ink — without inventing a one-off rem or gray.
 
 ## When to use
 
@@ -52,13 +63,18 @@ Use Caption under form fields, on cards, or beside status metadata. Prefer Parag
   do={
     <ul>
       <li>Use Caption for metadata, timestamps, and short helper text.</li>
-      <li>Default to Secondary tone so captions stay subordinate to body copy.</li>
+      <li>Keep the default quiet tone (<code>secondary</code> → <code>content-tertiary</code>).</li>
+      <li>Reach for Paragraph when the copy is body prose, even if you want it softer.</li>
     </ul>
   }
   dont={
     <ul>
       <li>Don’t use Caption for main body paragraphs.</li>
       <li>Don’t use Caption as a section title — use Heading.</li>
+      <li>
+        Don’t fake Caption with Paragraph <code>sm</code> + <code>secondary</code> — that stays body
+        size roles and secondary ink, not caption/tertiary.
+      </li>
     </ul>
   }
 />
@@ -69,8 +85,10 @@ Use Caption under form fields, on cards, or beside status metadata. Prefer Parag
 
 | Value | Default | Content color |
 | --- | --- | --- |
-| `secondary` | Yes | `--eevenkoto-color-content-secondary` |
+| `secondary` | Yes | `--eevenkoto-color-content-tertiary` (metadata quiet) |
 | `primary` | No | `--eevenkoto-color-content-primary` |
+
+Caption’s default “secondary” tone is **not** the same token as Paragraph `--secondary`. Paragraph secondary uses `content-secondary`; Caption secondary uses quieter `content-tertiary`.
 
 <Canvas of={CaptionStories.Helper} />
 

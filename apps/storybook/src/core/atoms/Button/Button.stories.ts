@@ -1,6 +1,8 @@
 // apps/storybook/src/Button/Button.stories.ts
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { BUTTON_ICON_NAMES } from '@eevenkoto/core';
 import '@eevenkoto/css/button.css';
+import '@eevenkoto/css/icon.css';
 import { renderButton, type ButtonProps } from '@eevenkoto/html';
 
 const meta: Meta<ButtonProps> = {
@@ -50,10 +52,11 @@ const meta: Meta<ButtonProps> = {
     },
     icon: {
       control: 'select',
-      options: [undefined, 'star', 'check', 'arrow', 'plus'],
-      description: 'Placeholder icon name (stand-in until an icon library is added).',
+      options: [undefined, ...BUTTON_ICON_NAMES],
+      description:
+        'Glyph from BUTTON_ICON_NAMES (subset of ICON_NAMES / iconPaths). Renders the Icon atom.',
       table: {
-        type: { summary: "'star' | 'check' | 'arrow' | 'plus'" },
+        type: { summary: 'ButtonIconName' },
       },
     },
     iconPosition: {

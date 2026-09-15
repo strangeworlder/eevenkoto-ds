@@ -25,6 +25,7 @@ Operating rules for agents and humans editing **this repository**. For installin
 | --- | --- | --- |
 | 1 — Primitives | `packages/css/tokens/primitive-tokens.css` | Tier 2 only |
 | 2 — Semantics | `packages/css/tokens/tokens.css` | Layouts, utilities, Tier 3 bridges |
+| 2 — Icon glyphs | `packages/core/src/tokens/icons.ts` | Icon, Button, any chrome that draws a named glyph |
 | 3 — Components | `packages/css/core/**`, `packages/css/domain/**` | Host component only |
 
 **Hard rules**
@@ -33,8 +34,8 @@ Operating rules for agents and humans editing **this repository**. For installin
 - Never reference Tier 1 hue primitives (`--eevenkoto-color-turquoise-*`, `parchment-*`, `gold-*`, …) or the rem ladder (`--eevenkoto-font-size-xs`…`3xl`) from component CSS.
 - Missing intent → add a Tier 2 token in `tokens.css`. New pigment → Tier 1 only after design review.
 - No raw `oklch()` / hex / rgb in component sheets. Do not use `opacity` for disabled UI — use opaque `*-disabled` semantic tuples.
-- Space, radius, and line-width are single-tier scales in `tokens.css` (no primitive layer).
-
+- Space, radius, line-width, duration, and ease are single-tier scales in `tokens.css` (no primitive layer).
+- **Icon paths** are single-tier data tokens in `@eevenkoto/core` (`ICON_NAMES` / `iconPaths`). Do not embed SVG path strings in components; Button uses `BUTTON_ICON_NAMES` (subset) and composes the Icon atom.
 Stylelint / CI guards described in Storybook Color Tokens docs are **planned, not enforced yet**. Follow the rules anyway.
 
 ## Tier 3 component pattern

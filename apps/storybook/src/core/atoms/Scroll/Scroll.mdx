@@ -40,6 +40,10 @@ Portable overflow host. Default axis is horizontal (`x`) for wide tables.
 
 <Controls of={ScrollStories.Default} />
 
+## Why to use
+
+Wide tables and tall panels overflow the frame. Scroll owns the overflow axis (and sticky cues when composed) so hosts like TableShell do not invent one-off `overflow` CSS per layout.
+
 ## When to use
 
 Wrap content that may exceed the viewport or frame. TableShell enables Scroll by default around Table.

@@ -2,19 +2,26 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import '@eevenkoto/css/prose.css';
 import '@eevenkoto/css/flow.css';
-import '@eevenkoto/css/heading.css';
-import '@eevenkoto/css/paragraph.css';
 import { flowClassNames, proseClassNames } from '@eevenkoto/core';
 import { renderProse, type ProseProps } from '@eevenkoto/html';
 
 const bareReadingContent = (): string =>
   [
     '<h1>Prose styles bare tags</h1>',
-    '<p>Inside <code>eevenkoto-prose</code>, headings and paragraphs pick up the same defaults as the classed primitives — without BEM classes on each element.</p>',
+    '<p>Inside <code>eevenkoto-prose</code>, headings, paragraphs, and lists pick up the same defaults as the classed primitives — without BEM classes on each element.</p>',
     '<h2>Section break</h2>',
     '<p>Compose with Flow for pair-aware vertical rhythm.</p>',
+    '<ul>',
+    '<li>Bare unordered lists match <code>eevenkoto-list</code>.</li>',
+    '<li>Markers, gap, and body type come from List.</li>',
+    '<li>Nesting keeps a tighter indent.</li>',
+    '</ul>',
     '<h3>Meso heading</h3>',
     '<p>H3 through H6 follow the multi-axis hierarchy.</p>',
+    '<ol>',
+    '<li>Bare ordered lists use decimal markers.</li>',
+    '<li>Same size and tone defaults as classed List.</li>',
+    '</ol>',
     '<h4>Sans meso</h4>',
     '<p>Another paragraph for stack rhythm.</p>',
     '<h5>Micro band</h5>',
@@ -37,7 +44,7 @@ const meta: Meta<ProseProps> = {
     docs: {
       description: {
         component:
-          'Prose scopes bare h1–h6 and p to default Heading/Paragraph styles. Compose with Flow for rhythm.',
+          'Prose scopes bare h1–h6, p, ul, ol, and li to default Heading/Paragraph/List styles. Compose with Flow for rhythm.',
       },
     },
   },

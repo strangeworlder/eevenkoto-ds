@@ -117,7 +117,8 @@
 
 .eevenkoto-tokens__space-row,
 .eevenkoto-tokens__radius-row,
-.eevenkoto-tokens__line-row {
+.eevenkoto-tokens__line-row,
+.eevenkoto-tokens__motion-row {
   display: grid;
   grid-template-columns: minmax(10rem, 14rem) 1fr;
   gap: var(--eevenkoto-space-3);
@@ -144,4 +145,98 @@
   border: none;
   border-top-style: solid;
   border-top-color: var(--eevenkoto-color-content-primary);
+}
+
+.eevenkoto-tokens__motion-track {
+  position: relative;
+  height: var(--eevenkoto-space-6);
+  max-width: 16rem;
+  background: var(--eevenkoto-color-surface-sunken);
+  border-radius: var(--eevenkoto-radius-full);
+  overflow: hidden;
+}
+
+.eevenkoto-tokens__motion-dot {
+  position: absolute;
+  inset-block: 0.4rem;
+  inset-inline-start: 0.4rem;
+  inline-size: var(--eevenkoto-space-4);
+  border-radius: var(--eevenkoto-radius-full);
+  background: var(--eevenkoto-color-control-primary-background);
+  animation-name: eevenkoto-tokens-motion-slide;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.eevenkoto-tokens__motion-dot--ease {
+  animation-duration: var(--eevenkoto-duration-4);
+}
+
+@keyframes eevenkoto-tokens-motion-slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(11rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-tokens__motion-dot {
+    animation: none;
+  }
+}
+
+/* --- Icon glyph tokens (from @eevenkoto/core tokens/icons) --- */
+
+.eevenkoto-tokens__icon-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: var(--eevenkoto-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eevenkoto-tokens__icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  margin: 0;
+  padding: var(--eevenkoto-space-4) var(--eevenkoto-space-3);
+  background: var(--eevenkoto-color-surface-raised);
+  border: var(--eevenkoto-line-width-sm) solid var(--eevenkoto-color-boundary-subtle);
+  border-radius: var(--eevenkoto-radius-md);
+  text-align: center;
+}
+
+.eevenkoto-tokens__icon-item--button {
+  border-color: var(--eevenkoto-color-control-primary-border);
+}
+
+.eevenkoto-tokens__icon-glyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--eevenkoto-space-8);
+  block-size: var(--eevenkoto-space-8);
+  color: var(--eevenkoto-color-content-primary);
+}
+
+.eevenkoto-tokens__icon-name {
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--eevenkoto-font-size-caption);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  line-height: var(--eevenkoto-line-height-tight);
+  word-break: break-all;
+}
+
+.eevenkoto-tokens__icon-meta {
+  margin: 0;
+  color: var(--eevenkoto-color-content-secondary);
+  font-size: var(--eevenkoto-font-size-caption);
+  line-height: var(--eevenkoto-line-height-tight);
 }

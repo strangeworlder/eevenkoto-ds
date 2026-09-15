@@ -1,0 +1,50 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: ENTITY REF (TIER 3, DOMAIN)
+   Specializes Core InlineRef with a closed kind set. Host always includes
+   `.eevenkoto-inline-ref` (see entityRefClassNames). Kind modifiers set the
+   public InlineRef bridges:
+   condition→caution, mechanic→info, classFeature→admin,
+   spell→info fill + turquoise ink, item→neutral.
+   Host alone = item (neutral) — same as bare InlineRef.
+   ========================================================================== */
+
+@import url('../../core/atoms/inline-ref.css');
+
+/* --- KINDS (remap Core InlineRef public bridges) --- */
+
+.eevenkoto-entity-ref--item {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-neutral-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-neutral-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-neutral-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-neutral-icon);
+}
+
+.eevenkoto-entity-ref--condition {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-caution-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-caution-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-caution-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-caution-icon);
+}
+
+.eevenkoto-entity-ref--mechanic {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-info-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-info-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-info-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-info-icon);
+}
+
+.eevenkoto-entity-ref--class-feature {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-admin-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-admin-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-admin-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-admin-icon);
+}
+
+/* Spell keeps the info fill but takes its ink and stroke from the turquoise
+   control tuple, so it reads as arcane rather than informational chrome. */
+.eevenkoto-entity-ref--spell {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-info-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-control-primary-background);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-control-primary-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-control-primary-icon);
+}

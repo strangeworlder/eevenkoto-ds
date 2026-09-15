@@ -1,11 +1,11 @@
 import {
   buttonClassNames,
-  buttonIconPaths,
   resolveButtonIconPosition,
   type ButtonIconName,
   type ButtonProps,
 } from '@eevenkoto/core';
 import type { ButtonHTMLAttributes, ReactElement } from 'react';
+import { Icon } from './Icon';
 
 export type { ButtonProps, ButtonIconName };
 
@@ -14,19 +14,6 @@ export type ButtonComponentProps = Omit<
   'children' | 'disabled'
 > &
   ButtonProps;
-
-const ButtonIcon = ({ name }: { name: ButtonIconName }): ReactElement => (
-  <svg
-    className="eevenkoto-button__icon"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 16 16"
-    fill="currentColor"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path d={buttonIconPaths[name]} />
-  </svg>
-);
 
 export const Button = ({
   variant,
@@ -48,7 +35,7 @@ export const Button = ({
   let ariaLabel: string | undefined;
 
   if (icon && resolvedPosition) {
-    const iconEl = <ButtonIcon name={icon} />;
+    const iconEl = <Icon name={icon} />;
     if (resolvedPosition === 'left') {
       content = (
         <>

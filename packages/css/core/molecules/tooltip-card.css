@@ -1,0 +1,149 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: TOOLTIP CARD (TIER 3)
+   Header / body / footer on a popover-like surface. Standalone it is an
+   elevated card; nested in Popover it drops its own chrome and fills the panel.
+   Long copy composes Scroll on `__body`.
+   ========================================================================== */
+
+.eevenkoto-tooltip-card {
+  --_eevenkoto-tooltip-card-bg: var(
+    --eevenkoto-tooltip-card-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-tooltip-card-text: var(
+    --eevenkoto-tooltip-card-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-tooltip-card-border-color: var(
+    --eevenkoto-tooltip-card-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-tooltip-card-border-width: var(
+    --eevenkoto-tooltip-card-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-tooltip-card-radius: var(
+    --eevenkoto-tooltip-card-radius,
+    var(--eevenkoto-radius-md)
+  );
+  --_eevenkoto-tooltip-card-pad-block: var(
+    --eevenkoto-tooltip-card-pad-block,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-tooltip-card-pad-inline: var(
+    --eevenkoto-tooltip-card-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-tooltip-card-gap: var(
+    --eevenkoto-tooltip-card-gap,
+    var(--eevenkoto-space-1)
+  );
+  --_eevenkoto-tooltip-card-shadow: var(
+    --eevenkoto-tooltip-card-shadow,
+    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.8rem 1.6rem var(--eevenkoto-color-depth-shadow-penumbra)
+  );
+  --_eevenkoto-tooltip-card-max-inline-size: var(
+    --eevenkoto-tooltip-card-max-inline-size,
+    32rem
+  );
+  --_eevenkoto-tooltip-card-body-max-block-size: var(
+    --eevenkoto-tooltip-card-body-max-block-size,
+    16rem
+  );
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  max-inline-size: var(--_eevenkoto-tooltip-card-max-inline-size);
+  color: var(--_eevenkoto-tooltip-card-text);
+  background: var(--_eevenkoto-tooltip-card-bg);
+  border: var(--_eevenkoto-tooltip-card-border-width) solid
+    var(--_eevenkoto-tooltip-card-border-color);
+  border-radius: var(--_eevenkoto-tooltip-card-radius);
+  box-shadow: var(--_eevenkoto-tooltip-card-shadow);
+  overflow: hidden;
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-body-sm);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-tooltip-card__header,
+.eevenkoto-tooltip-card__body,
+.eevenkoto-tooltip-card__footer {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+  padding: var(--_eevenkoto-tooltip-card-pad-block) var(--_eevenkoto-tooltip-card-pad-inline);
+}
+
+.eevenkoto-tooltip-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--_eevenkoto-tooltip-card-gap);
+  font-family: var(--eevenkoto-font-serif);
+  font-size: var(--eevenkoto-font-size-heading-6);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  border-block-end: var(--_eevenkoto-tooltip-card-border-width) solid
+    var(--_eevenkoto-tooltip-card-border-color);
+}
+
+.eevenkoto-tooltip-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-tooltip-card-gap);
+}
+
+.eevenkoto-tooltip-card__body > :is(p, ul, ol) {
+  margin: 0;
+}
+
+/* Composed with Scroll for long copy. */
+.eevenkoto-tooltip-card__body.eevenkoto-scroll {
+  --eevenkoto-scroll-max-block: var(--_eevenkoto-tooltip-card-body-max-block-size);
+}
+
+.eevenkoto-tooltip-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--_eevenkoto-tooltip-card-gap);
+  color: var(--eevenkoto-color-content-secondary);
+  font-size: var(--eevenkoto-font-size-caption);
+  border-block-start: var(--_eevenkoto-tooltip-card-border-width) solid
+    var(--_eevenkoto-tooltip-card-border-color);
+}
+
+/* Nested in Popover: the panel already owns surface, border, and shadow. */
+.eevenkoto-popover:has(> .eevenkoto-tooltip-card) {
+  --eevenkoto-popover-padding: 0;
+}
+
+.eevenkoto-popover > .eevenkoto-tooltip-card {
+  --eevenkoto-tooltip-card-bg: transparent;
+  --eevenkoto-tooltip-card-shadow: none;
+  --eevenkoto-tooltip-card-border-color: transparent;
+  --eevenkoto-tooltip-card-radius: 0;
+  max-inline-size: none;
+}
+
+.eevenkoto-popover > .eevenkoto-tooltip-card > .eevenkoto-tooltip-card__header {
+  border-block-end-color: var(--eevenkoto-color-boundary-subtle);
+}
+
+.eevenkoto-popover > .eevenkoto-tooltip-card > .eevenkoto-tooltip-card__footer {
+  border-block-start-color: var(--eevenkoto-color-boundary-subtle);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-tooltip-card {
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  .eevenkoto-tooltip-card__header,
+  .eevenkoto-tooltip-card__footer {
+    border-color: CanvasText;
+  }
+}

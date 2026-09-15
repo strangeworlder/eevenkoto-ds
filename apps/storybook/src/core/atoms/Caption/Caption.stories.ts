@@ -8,7 +8,7 @@ const meta: Meta<CaptionProps> = {
   parameters: {
     docs: {
       description: {
-        component: 'Caption styles short supporting or metadata text.',
+        component: 'Caption styles short metadata with caption size and tertiary (quiet) ink.',
       },
     },
   },
@@ -21,7 +21,8 @@ const meta: Meta<CaptionProps> = {
     tone: {
       control: 'select',
       options: ['primary', 'secondary'],
-      description: 'Content color tone. Defaults to secondary.',
+      description:
+        'Content color tone. Defaults to secondary → content-tertiary (quieter than Paragraph secondary).',
       table: {
         type: { summary: "'primary' | 'secondary'" },
         defaultValue: { summary: 'secondary' },

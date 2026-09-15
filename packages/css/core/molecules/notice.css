@@ -1,0 +1,242 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: NOTICE (TIER 3)
+   Feedback callout / banner. Consumes Tier 2 `feedback-*` only.
+   Host alone = subtle + neutral. Same compound intent×variant rule as Badge.
+   ========================================================================== */
+
+.eevenkoto-notice {
+  --_eevenkoto-notice-bg: var(
+    --eevenkoto-notice-bg,
+    var(--eevenkoto-color-feedback-neutral-background)
+  );
+  --_eevenkoto-notice-text: var(
+    --eevenkoto-notice-text,
+    var(--eevenkoto-color-feedback-neutral-text)
+  );
+  --_eevenkoto-notice-border-color: var(
+    --eevenkoto-notice-border-color,
+    var(--eevenkoto-color-feedback-neutral-border)
+  );
+  --_eevenkoto-notice-icon: var(
+    --eevenkoto-notice-icon,
+    var(--eevenkoto-color-feedback-neutral-icon)
+  );
+  --_eevenkoto-notice-border-width: var(
+    --eevenkoto-notice-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-notice-radius: var(--eevenkoto-notice-radius, var(--eevenkoto-radius-sm));
+  --_eevenkoto-notice-padding: var(--eevenkoto-notice-padding, var(--eevenkoto-space-4));
+  --_eevenkoto-notice-gap: var(--eevenkoto-notice-gap, var(--eevenkoto-space-3));
+  --_eevenkoto-notice-title-weight: var(
+    --eevenkoto-notice-title-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-notice-font-size: var(
+    --eevenkoto-notice-font-size,
+    var(--eevenkoto-font-size-body-md)
+  );
+
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--_eevenkoto-notice-gap);
+  align-items: start;
+  padding: var(--_eevenkoto-notice-padding);
+  color: var(--_eevenkoto-notice-text);
+  background: var(--_eevenkoto-notice-bg);
+  border: var(--_eevenkoto-notice-border-width) solid var(--_eevenkoto-notice-border-color);
+  border-radius: var(--_eevenkoto-notice-radius);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--_eevenkoto-notice-font-size);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-notice:not(:has(.eevenkoto-notice__icon)) {
+  grid-template-columns: 1fr;
+}
+
+.eevenkoto-notice__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--_eevenkoto-notice-icon);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.eevenkoto-notice__icon svg {
+  width: 1.2em;
+  height: 1.2em;
+  fill: currentColor;
+}
+
+.eevenkoto-notice__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-2);
+  min-width: 0;
+}
+
+.eevenkoto-notice__title {
+  margin: 0;
+  font-weight: var(--_eevenkoto-notice-title-weight);
+  color: var(--_eevenkoto-notice-text);
+}
+
+.eevenkoto-notice__body {
+  margin: 0;
+  color: var(--_eevenkoto-notice-text);
+}
+
+.eevenkoto-notice__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--eevenkoto-space-2);
+  margin-block-start: var(--eevenkoto-space-1);
+}
+
+/* --- INTENTS (subtle recipe; host alone = neutral) --- */
+
+.eevenkoto-notice--neutral {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-neutral-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-neutral-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-neutral-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-neutral-icon);
+}
+
+.eevenkoto-notice--info {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-info-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-info-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-info-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-info-icon);
+}
+
+.eevenkoto-notice--success {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-success-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-success-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-success-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-success-icon);
+}
+
+.eevenkoto-notice--caution {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-caution-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-caution-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-caution-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-caution-icon);
+}
+
+.eevenkoto-notice--critical {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-critical-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-critical-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-critical-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-critical-icon);
+}
+
+.eevenkoto-notice--admin {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-admin-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-admin-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-admin-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-admin-icon);
+}
+
+/* --- SOLID --- */
+
+.eevenkoto-notice--solid,
+.eevenkoto-notice--solid.eevenkoto-notice--neutral {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-neutral-solid-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-neutral-solid-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-neutral-solid-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-neutral-solid-icon);
+}
+
+.eevenkoto-notice--solid.eevenkoto-notice--info {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-info-solid-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-info-solid-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-info-solid-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-info-solid-icon);
+}
+
+.eevenkoto-notice--solid.eevenkoto-notice--success {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-success-solid-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-success-solid-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-success-solid-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-success-solid-icon);
+}
+
+.eevenkoto-notice--solid.eevenkoto-notice--caution {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-caution-solid-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-caution-solid-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-caution-solid-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-caution-solid-icon);
+}
+
+.eevenkoto-notice--solid.eevenkoto-notice--critical {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-critical-solid-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-critical-solid-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-critical-solid-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-critical-solid-icon);
+}
+
+.eevenkoto-notice--solid.eevenkoto-notice--admin {
+  --eevenkoto-notice-bg: var(--eevenkoto-color-feedback-admin-solid-background);
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-admin-solid-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-admin-solid-border);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-admin-solid-icon);
+}
+
+/* --- OUTLINE --- */
+
+.eevenkoto-notice--outline,
+.eevenkoto-notice--outline.eevenkoto-notice--neutral {
+  --eevenkoto-notice-bg: transparent;
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-neutral-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-neutral-icon);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-neutral-icon);
+}
+
+.eevenkoto-notice--outline.eevenkoto-notice--info {
+  --eevenkoto-notice-bg: transparent;
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-info-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-info-icon);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-info-icon);
+}
+
+.eevenkoto-notice--outline.eevenkoto-notice--success {
+  --eevenkoto-notice-bg: transparent;
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-success-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-success-icon);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-success-icon);
+}
+
+.eevenkoto-notice--outline.eevenkoto-notice--caution {
+  --eevenkoto-notice-bg: transparent;
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-caution-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-caution-icon);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-caution-icon);
+}
+
+.eevenkoto-notice--outline.eevenkoto-notice--critical {
+  --eevenkoto-notice-bg: transparent;
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-critical-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-critical-icon);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-critical-icon);
+}
+
+.eevenkoto-notice--outline.eevenkoto-notice--admin {
+  --eevenkoto-notice-bg: transparent;
+  --eevenkoto-notice-text: var(--eevenkoto-color-feedback-admin-text);
+  --eevenkoto-notice-border-color: var(--eevenkoto-color-feedback-admin-icon);
+  --eevenkoto-notice-icon: var(--eevenkoto-color-feedback-admin-icon);
+}
+
+.eevenkoto-notice--subtle {
+  /* Alias for helpers; host alone is already subtle. */
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-notice {
+    border-color: CanvasText;
+    forced-color-adjust: none;
+  }
+}

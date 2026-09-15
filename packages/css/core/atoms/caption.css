@@ -7,7 +7,7 @@
 .eevenkoto-caption {
   --_eevenkoto-caption-color: var(
     --eevenkoto-caption-color,
-    var(--eevenkoto-color-content-secondary)
+    var(--eevenkoto-color-content-tertiary)
   );
   --_eevenkoto-caption-font-size: var(
     --eevenkoto-caption-font-size,
@@ -40,7 +40,7 @@
 }
 
 .eevenkoto-caption--secondary {
-  --eevenkoto-caption-color: var(--eevenkoto-color-content-secondary);
+  --eevenkoto-caption-color: var(--eevenkoto-color-content-tertiary);
 }
 
 .eevenkoto-caption--primary {

@@ -1,0 +1,112 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as NoticeStories from './Notice.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={NoticeStories} />
+
+# Notice
+
+A **Notice** is a feedback callout or banner. It consumes Tier 2 **`feedback`** intents (same set as Badge) with optional icon, title, body, and actions slots.
+
+<Canvas of={NoticeStories.Default} />
+
+Host alone is **subtle** + **neutral**. Use `role="alert"` for interrupting critical messages; default is `role="status"`.
+
+### Playground
+
+<Controls of={NoticeStories.Default} />
+
+## Notice vs Card
+
+| Need | Use |
+| --- | --- |
+| Status, validation, gate, or system message (intent-colored) | **Notice** |
+| Sectioned content tile (header / body / footer), item teaser | **[Card](?path=/docs/core-molecules-card--docs)** |
+| Elevate or make a content summary clickable | Card `--elevated` / `--interactive` |
+| Feedback chrome inside a larger layout | Notice (optionally **inside** a Card — do not restyle Card as a Notice) |
+
+Agents: if the copy is about what went wrong, what’s locked, or what succeeded, start with **Notice**. If it’s a self-contained content chunk (item, teaser), start with **Card**.
+
+## Why to use
+
+Readers need a scannable block that signals status — locked section, success, caution — with the same intent language as Badge, but as a banner rather than a chip. Notice owns that feedback surface so products do not paint Card or Paragraph in feedback colors.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Announce status, gates, warnings, and confirmations with the matching <code>intent</code>.</li>
+      <li>
+        Keep default <code>role=&quot;status&quot;</code>; use <code>role=&quot;alert&quot;</code> only for
+        interrupting critical messages.
+      </li>
+      <li>Put actions (Sign in, Dismiss) in the actions slot — compose Button, don’t invent local CTAs.</li>
+      <li>Pick <code>subtle</code> / <code>outline</code> / <code>solid</code> for how loud the banner is.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use Notice as a content Card (item entries, teasers, sectioned articles).</li>
+      <li>Don’t restyle Card with feedback fills to fake a Notice.</li>
+      <li>Don’t bake paywall layout or product chrome into the Notice API — keep title/body/actions as data.</li>
+      <li>Don’t use <code>role=&quot;alert&quot;</code> for every notice — it interrupts AT unnecessarily.</li>
+    </ul>
+  }
+/>
+
+## Intent matrix
+
+<Canvas of={NoticeStories.IntentMatrix} />
+
+## Variants
+
+<Canvas of={NoticeStories.Variants} />
+
+## Usage
+
+```html
+<aside class="eevenkoto-notice eevenkoto-notice--caution" role="status">
+  <div class="eevenkoto-notice__content">
+    <p class="eevenkoto-notice__title">Section locked</p>
+    <p class="eevenkoto-notice__body">Sign in to continue.</p>
+  </div>
+</aside>
+```
+
+```ts
+import '@eevenkoto/css/notice.css';
+import { renderNotice } from '@eevenkoto/html';
+```
+
+## API reference
+
+<ArgTypes of={NoticeStories} />
+
+## Related
+
+- [Badge](?path=/docs/core-atoms-badge--docs) — same intents, compact chip
+- [Card](?path=/docs/core-molecules-card--docs) — sectioned content surface (not feedback)
+- [Button](?path=/docs/core-atoms-button--docs) — actions inside Notice

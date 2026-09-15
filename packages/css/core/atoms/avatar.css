@@ -1,0 +1,81 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: AVATAR (TIER 3)
+   Circular portrait: image or parchment user placeholder. No status ring,
+   no initials. Host alone = md.
+   ========================================================================== */
+
+.eevenkoto-avatar {
+  --_eevenkoto-avatar-size: var(--eevenkoto-avatar-size, var(--eevenkoto-space-8));
+  --_eevenkoto-avatar-bg: var(
+    --eevenkoto-avatar-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-avatar-text: var(
+    --eevenkoto-avatar-text,
+    var(--eevenkoto-color-content-tertiary)
+  );
+  --_eevenkoto-avatar-border-color: var(
+    --eevenkoto-avatar-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-avatar-border-width: var(
+    --eevenkoto-avatar-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: var(--_eevenkoto-avatar-size);
+  block-size: var(--_eevenkoto-avatar-size);
+  flex-shrink: 0;
+  overflow: hidden;
+  vertical-align: middle;
+  background: var(--_eevenkoto-avatar-bg);
+  border: var(--_eevenkoto-avatar-border-width) solid var(--_eevenkoto-avatar-border-color);
+  border-radius: var(--eevenkoto-radius-full);
+  color: var(--_eevenkoto-avatar-text);
+  user-select: none;
+}
+
+.eevenkoto-avatar__image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.eevenkoto-avatar__placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 55%;
+  block-size: 55%;
+  color: inherit;
+}
+
+.eevenkoto-avatar__placeholder .eevenkoto-icon {
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+/* --- SIZES (sm | md | lg — shared control ladder) --- */
+
+.eevenkoto-avatar--sm {
+  --eevenkoto-avatar-size: var(--eevenkoto-space-6);
+}
+
+.eevenkoto-avatar--md {
+  --eevenkoto-avatar-size: var(--eevenkoto-space-8);
+}
+
+.eevenkoto-avatar--lg {
+  --eevenkoto-avatar-size: 4.8rem;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-avatar {
+    border-color: CanvasText;
+  }
+}

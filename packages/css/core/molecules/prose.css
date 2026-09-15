@@ -1,11 +1,15 @@
 /* packages/css/core/molecules/prose.css */
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: PROSE (TIER 3)
-   Scope host for bare heading / paragraph / list tags. Type appearance lives in
-   heading.css, paragraph.css, and list.css
-   (.eevenkoto-prose :where(h1–h6|p|ul|ol|li)).
-   Compose with Flow for vertical rhythm: class="eevenkoto-prose eevenkoto-flow"
+   Scope host for bare heading / paragraph / list tags. Pulls in type sheets so
+   `.eevenkoto-prose :where(h1–h6|p|ul|ol|li)` match classed Heading / Paragraph /
+   List defaults (see those files). Compose with Flow for vertical rhythm:
+   class="eevenkoto-prose eevenkoto-flow"
    ========================================================================== */
+
+@import url('../atoms/heading.css');
+@import url('../atoms/paragraph.css');
+@import url('../atoms/list.css');
 
 .eevenkoto-prose {
   display: block;

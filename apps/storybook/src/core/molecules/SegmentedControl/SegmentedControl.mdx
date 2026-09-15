@@ -1,0 +1,190 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SegmentedControlStories from './SegmentedControl.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={SegmentedControlStories} />
+
+# Segmented Control
+
+An exclusive **option group** for short choices. It consumes Tier 2 **`control`** (primary / secondary). Host alone is **md** + **radios**; each option defaults to **primary** tone when selected.
+
+Two modes share the same chrome and work **without JavaScript**:
+
+| Mode | Markup | Selected signal | Use when |
+| --- | --- | --- | --- |
+| `radios` (default) | `<fieldset>` + native radios in labels | `:checked` only (CSS `:has(:checked)`) | In-page exclusive value |
+| `links` | `<nav>` + `<a href>` | `aria-current="page"` + `--selected` | Alternate page versions (e.g. Full text ↔ Short SRD) |
+
+<Canvas of={SegmentedControlStories.Default} />
+
+### Playground
+
+<Controls of={SegmentedControlStories.Default} />
+
+## Why to use
+
+Mutually exclusive short options often need to stay visible as a compact track — not hidden in a select or scattered as separate Buttons. Segmented Control is that exclusive-choice chrome for in-page radios or navigational link sets.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        <strong>Radios</strong> for an in-page setting that stays on this document.
+      </li>
+      <li>
+        <strong>Links</strong> when each option is a different URL (Full text vs Short SRD).
+      </li>
+      <li>
+        Give each option its own <code>tone</code> when selected fills should differ (e.g. Text =
+        primary, SRD = secondary).
+      </li>
+      <li>
+        Keep option labels short. Provide an accessible name via <code>label</code> (legend /{' '}
+        <code>aria-label</code>).
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>
+        Don’t put <code>--selected</code> on radio labels — it sticks after a native change. Radios
+        paint selection only from <code>:checked</code>.
+      </li>
+      <li>
+        Don’t use buttons + <code>aria-pressed</code> for this pattern.
+      </li>
+      <li>
+        Don’t use <code>role="switch"</code> for labeled alternatives (Text / SRD).
+      </li>
+      <li>Don’t use Segmented Control for multi-select filters (Chip / checkbox group later).</li>
+    </ul>
+  }
+/>
+
+## Modes
+
+### Radios (default) — in-page, no JS
+
+Native radios inside labels. Selection styling follows **`:has(:checked)`** only — clicking another
+option clears the previous fill without script. Initial selection is the `checked` attribute on the
+input, **not** `--selected` on the label.
+
+```html
+<fieldset class="eevenkoto-segmented-control">
+  <legend class="eevenkoto-visually-hidden">Document version</legend>
+  <label class="eevenkoto-segmented-control__option eevenkoto-segmented-control__option--primary" for="doc-version-text">
+    <input class="eevenkoto-segmented-control__input" type="radio" id="doc-version-text" name="doc-version" value="text" checked />
+    <span class="eevenkoto-segmented-control__label">Text</span>
+  </label>
+  <label class="eevenkoto-segmented-control__option eevenkoto-segmented-control__option--secondary" for="doc-version-srd">
+    <input class="eevenkoto-segmented-control__input" type="radio" id="doc-version-srd" name="doc-version" value="srd" />
+    <span class="eevenkoto-segmented-control__label">SRD</span>
+  </label>
+</fieldset>
+```
+
+Require a shared **`name`**. Wire a visually-hidden **legend** via `label`.
+
+<Canvas of={SegmentedControlStories.Default} />
+
+### Links — alternate page versions
+
+Each option is a real link. Mark the current document with **`aria-current="page"`** and `--selected`
+(page load replaces the document, so the class does not stick across choices).
+
+```html
+<nav class="eevenkoto-segmented-control eevenkoto-segmented-control--links" aria-label="Document version">
+  <a class="eevenkoto-segmented-control__option eevenkoto-segmented-control__option--primary eevenkoto-segmented-control__option--selected"
+     href="/docs/example" aria-current="page"><span class="eevenkoto-segmented-control__label">Text</span></a>
+  <a class="eevenkoto-segmented-control__option eevenkoto-segmented-control__option--secondary"
+     href="/docs/example/srd"><span class="eevenkoto-segmented-control__label">SRD</span></a>
+</nav>
+```
+
+<Canvas of={SegmentedControlStories.Links} />
+
+### Side by side
+
+<Canvas of={SegmentedControlStories.Modes} />
+
+## Tone (per option)
+
+Each option can set **`tone`**: `primary` (turquoise control) or `secondary` (gold/parchment path).
+That tone applies to the **selected** fill for that value. Host `tone` is only the default when an
+option omits its own.
+
+| Class | Tokens |
+| --- | --- |
+| `__option--primary` | `control-primary-*` |
+| `__option--secondary` | `control-secondary-*` / secondary tint |
+
+Default story: Text = primary, SRD = secondary.
+
+<Canvas of={SegmentedControlStories.SameTone} />
+
+## Size
+
+Shared **`sm | md`** ladder → `--eevenkoto-font-size-control-*`.
+
+<Canvas of={SegmentedControlStories.Sizes} />
+
+## Anatomy
+
+| Part | Role |
+| --- | --- |
+| Host | Track; `fieldset` (radios) or `nav` (links) |
+| `__option` | Clickable surface (label or anchor) |
+| `__option--primary` / `--secondary` | Selected fill recipe for that value |
+| `__input` | Visually hidden radio (radios mode) |
+| `__label` | Visible text |
+
+Selected appearance: `:has(:checked)` (radios), or `[aria-current="page"]` / `--selected` (links).
+
+## Accessibility
+
+- **Radios:** real radio group + legend; keyboard and AT work without script. Do not keep a stale `--selected` class on radio labels.
+- **Links:** `nav` + `aria-label`; current page via `aria-current="page"`.
+- **Forced colors:** track border → `ButtonText`; selected option → `Highlight` outline.
+
+## Framework notes
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/segmented-control.css';
+import { renderSegmentedControl } from '@eevenkoto/html';
+```
+
+| Package | Notes |
+| --- | --- |
+| HTML | `renderSegmentedControl` — Storybook source of truth; radios omit `--selected` |
+| React | Radios use `defaultChecked` (uncontrolled) so native exclusivity works |
+| Vue | Prefer HTML for static no-JS pages; emit `@change` when wiring SPA state |
+| Core | `segmentedControlOptionClassNames({ tone, selected })` — set `selected` only for links |
+
+### Props
+
+<ArgTypes of={SegmentedControlStories} />

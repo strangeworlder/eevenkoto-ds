@@ -1,0 +1,239 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: SEGMENTED CONTROL (TIER 3)
+   Exclusive option group. Consumes Tier 2 `control-*` (primary / secondary).
+   Host alone = primary + md + radios.
+   Modes:
+   - radios: native <input type="radio">; selected via :has(:checked) (no JS)
+   - links:  <a>; selected via [aria-current="page"] / --selected (no JS nav)
+   ========================================================================== */
+
+.eevenkoto-segmented-control {
+  --_eevenkoto-segmented-control-track-bg: var(
+    --eevenkoto-segmented-control-track-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-segmented-control-track-border: var(
+    --eevenkoto-segmented-control-track-border,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-segmented-control-radius: var(
+    --eevenkoto-segmented-control-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-segmented-control-pad-block: var(
+    --eevenkoto-segmented-control-pad-block,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-segmented-control-pad-inline: var(
+    --eevenkoto-segmented-control-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-segmented-control-font-size: var(
+    --eevenkoto-segmented-control-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-segmented-control-gap: var(
+    --eevenkoto-segmented-control-gap,
+    var(--eevenkoto-space-1)
+  );
+  --_eevenkoto-segmented-control-border-width: var(
+    --eevenkoto-segmented-control-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+
+  position: relative;
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: var(--_eevenkoto-segmented-control-gap);
+  box-sizing: border-box;
+  margin: 0;
+  min-inline-size: 0;
+  padding: var(--eevenkoto-space-1);
+  background: var(--_eevenkoto-segmented-control-track-bg);
+  border: var(--_eevenkoto-segmented-control-border-width) solid
+    var(--_eevenkoto-segmented-control-track-border);
+  border-radius: var(--_eevenkoto-segmented-control-radius);
+  font-family: var(--eevenkoto-font-sans);
+}
+
+/* Kill UA fieldset quirks so radios match links track metrics. */
+fieldset.eevenkoto-segmented-control {
+  min-inline-size: 0;
+  margin-inline: 0;
+}
+
+.eevenkoto-segmented-control > legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.eevenkoto-segmented-control__option {
+  /* Private bridges on the option (Badge pattern) — variants set public only. */
+  --_eevenkoto-segmented-control-option-bg: var(
+    --eevenkoto-segmented-control-option-bg,
+    transparent
+  );
+  --_eevenkoto-segmented-control-option-text: var(
+    --eevenkoto-segmented-control-option-text,
+    var(--eevenkoto-color-content-secondary)
+  );
+  /* Default selected recipe = primary (overridden by --primary / --secondary). */
+  --eevenkoto-segmented-control-option-selected-bg: var(
+    --eevenkoto-color-control-primary-background
+  );
+  --eevenkoto-segmented-control-option-selected-text: var(
+    --eevenkoto-color-control-primary-text
+  );
+  --eevenkoto-segmented-control-option-hover-bg: var(
+    --eevenkoto-color-control-primary-background-hover
+  );
+
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  min-block-size: 0;
+  padding: var(--_eevenkoto-segmented-control-pad-block)
+    var(--_eevenkoto-segmented-control-pad-inline);
+  border: var(--eevenkoto-line-width-sm) solid transparent;
+  border-radius: calc(var(--_eevenkoto-segmented-control-radius) - 0.1rem);
+  background: var(--_eevenkoto-segmented-control-option-bg);
+  color: var(--_eevenkoto-segmented-control-option-text);
+  font-family: inherit;
+  font-size: var(--_eevenkoto-segmented-control-font-size);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Anchor reset — same box as label options (no UA link padding / underline). */
+a.eevenkoto-segmented-control__option {
+  text-decoration: none;
+  color: var(--_eevenkoto-segmented-control-option-text);
+}
+
+.eevenkoto-segmented-control__label {
+  display: inline-block;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Visually hide native radio; keep it focusable via label */
+.eevenkoto-segmented-control__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: inherit;
+  border: 0;
+}
+
+.eevenkoto-segmented-control__option:hover:not(:disabled):not(
+    .eevenkoto-segmented-control__option--selected
+  ):not([aria-current='page']):not(:has(:checked)) {
+  --eevenkoto-segmented-control-option-bg: color-mix(
+    in oklch,
+    var(--eevenkoto-segmented-control-option-hover-bg) 18%,
+    transparent
+  );
+  --eevenkoto-segmented-control-option-text: var(--eevenkoto-color-content-primary);
+}
+
+/* Selected: class, current page link, or checked radio (no JS) */
+.eevenkoto-segmented-control__option--selected,
+.eevenkoto-segmented-control__option[aria-current='page'],
+.eevenkoto-segmented-control__option:has(:checked) {
+  --eevenkoto-segmented-control-option-bg: var(
+    --eevenkoto-segmented-control-option-selected-bg
+  );
+  --eevenkoto-segmented-control-option-text: var(
+    --eevenkoto-segmented-control-option-selected-text
+  );
+}
+
+.eevenkoto-segmented-control__option:focus-visible,
+.eevenkoto-segmented-control__option:has(:focus-visible) {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--eevenkoto-color-boundary-focus-inner);
+}
+
+.eevenkoto-segmented-control__option:disabled,
+.eevenkoto-segmented-control__option:has(:disabled),
+.eevenkoto-segmented-control__option[aria-disabled='true'] {
+  cursor: not-allowed;
+  --eevenkoto-segmented-control-option-text: var(--eevenkoto-color-content-disabled);
+  --eevenkoto-segmented-control-option-bg: transparent;
+  pointer-events: none;
+}
+
+/* --- OPTION TONE (each value can have its own selected fill) --- */
+
+.eevenkoto-segmented-control__option--primary {
+  --eevenkoto-segmented-control-option-selected-bg: var(
+    --eevenkoto-color-control-primary-background
+  );
+  --eevenkoto-segmented-control-option-selected-text: var(
+    --eevenkoto-color-control-primary-text
+  );
+  --eevenkoto-segmented-control-option-hover-bg: var(
+    --eevenkoto-color-control-primary-background-hover
+  );
+}
+
+.eevenkoto-segmented-control__option--secondary {
+  --eevenkoto-segmented-control-option-selected-bg: var(
+    --eevenkoto-color-control-secondary-tint
+  );
+  --eevenkoto-segmented-control-option-selected-text: var(
+    --eevenkoto-color-control-secondary-text
+  );
+  --eevenkoto-segmented-control-option-hover-bg: var(
+    --eevenkoto-color-control-secondary-background-hover
+  );
+}
+
+/* --- SIZE --- */
+
+.eevenkoto-segmented-control--sm {
+  --eevenkoto-segmented-control-font-size: var(--eevenkoto-font-size-control-sm);
+  --eevenkoto-segmented-control-pad-block: var(--eevenkoto-space-1);
+  --eevenkoto-segmented-control-pad-inline: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-segmented-control--md {
+  --eevenkoto-segmented-control-font-size: var(--eevenkoto-font-size-control-md);
+  --eevenkoto-segmented-control-pad-block: var(--eevenkoto-space-2);
+  --eevenkoto-segmented-control-pad-inline: var(--eevenkoto-space-3);
+}
+
+/* Mode classes (--radios / --links) are emitted for hooks; selection is child-driven. */
+
+@media (forced-colors: active) {
+  .eevenkoto-segmented-control {
+    border-color: ButtonText;
+  }
+
+  .eevenkoto-segmented-control__option--selected,
+  .eevenkoto-segmented-control__option[aria-current='page'],
+  .eevenkoto-segmented-control__option:has(:checked) {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
