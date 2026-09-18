@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Eevenkoto shared prop types and className helpers",
   "type": "module",
   "files": [
