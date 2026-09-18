@@ -9,7 +9,8 @@
   min-width: 0;
 }
 
-.eevenkoto-statblock-feature > .eevenkoto-heading--3.eevenkoto-heading--run-in {
+/* Level-agnostic: the feature name may be H2 (Spellblock) or H3 (Statblock). */
+.eevenkoto-statblock-feature > .eevenkoto-heading--run-in {
   --eevenkoto-heading-color: var(--eevenkoto-color-control-secondary-icon);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-6);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-sans);

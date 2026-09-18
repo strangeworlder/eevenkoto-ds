@@ -14,6 +14,14 @@
     --eevenkoto-tooltip-card-text,
     var(--eevenkoto-color-content-primary)
   );
+  --_eevenkoto-tooltip-card-muted: var(
+    --eevenkoto-tooltip-card-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-tooltip-card-divider: var(
+    --eevenkoto-tooltip-card-divider,
+    var(--eevenkoto-color-boundary-subtle)
+  );
   --_eevenkoto-tooltip-card-border-color: var(
     --eevenkoto-tooltip-card-border-color,
     var(--eevenkoto-color-boundary-subtle)
@@ -109,7 +117,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--_eevenkoto-tooltip-card-gap);
-  color: var(--eevenkoto-color-content-secondary);
+  color: var(--_eevenkoto-tooltip-card-muted);
   font-size: var(--eevenkoto-font-size-caption);
   border-block-start: var(--_eevenkoto-tooltip-card-border-width) solid
     var(--_eevenkoto-tooltip-card-border-color);
@@ -129,11 +137,11 @@
 }
 
 .eevenkoto-popover > .eevenkoto-tooltip-card > .eevenkoto-tooltip-card__header {
-  border-block-end-color: var(--eevenkoto-color-boundary-subtle);
+  border-block-end-color: var(--_eevenkoto-tooltip-card-divider);
 }
 
 .eevenkoto-popover > .eevenkoto-tooltip-card > .eevenkoto-tooltip-card__footer {
-  border-block-start-color: var(--eevenkoto-color-boundary-subtle);
+  border-block-start-color: var(--_eevenkoto-tooltip-card-divider);
 }
 
 @media (forced-colors: active) {

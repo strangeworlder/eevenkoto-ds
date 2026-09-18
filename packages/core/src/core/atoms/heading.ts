@@ -2,7 +2,7 @@ export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 export type HeadingTone = 'primary' | 'secondary';
 
 /** Levels that support run-in (inline into the following Paragraph). */
-export const HEADING_RUN_IN_LEVELS = [3, 6] as const;
+export const HEADING_RUN_IN_LEVELS = [2, 3, 6] as const;
 export type HeadingRunInLevel = (typeof HEADING_RUN_IN_LEVELS)[number];
 
 export interface HeadingProps {
@@ -10,8 +10,10 @@ export interface HeadingProps {
   text: string;
   tone?: HeadingTone;
   /**
-   * Levels 3 and 6: flow the heading into the following Paragraph
+   * Levels 2, 3, and 6: flow the heading into the following Paragraph
    * (`.eevenkoto-heading--run-in` + sibling `.eevenkoto-paragraph`).
+   * Level 2 exists so an entry with no named sections (Spellblock) can run
+   * its subsections in without skipping from H1 to H3.
    */
   runIn?: boolean;
 }

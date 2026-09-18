@@ -106,6 +106,7 @@ Tag maps use `:where(hN)` so specificity stays low and `--M` modifiers win by so
 | `5` | `h5` | `heading-5` | sans | bold + small caps | Sunken band; bleeds by pad-inline (`margin ±X`, `width: 100% + 2X`) |
 | `6` | `h6` | `heading-6` (= body-md) | sans | bold italic | Warm parchment (`control-secondary-icon`); optional run-in |
 | `3` + `runIn` | `h3` | default H3 scale (unless a parent remaps) | serif → often remapped | bold | Optional run-in — Statblock remaps to micro H6 look |
+| `2` + `runIn` | `h2` | default H2 scale (unless a parent remaps) | serif → often remapped | bold | Run-in drops the H2 rule and padding — Spellblock remaps to micro H6 look |
 
 ### tone
 
@@ -116,9 +117,11 @@ Tag maps use `:where(hN)` so specificity stays low and `--M` modifiers win by so
 
 <Canvas of={HeadingStories.Secondary} />
 
-### runIn (H3 / H6)
+### runIn (H2 / H3 / H6)
 
-Flows the heading into the following `.eevenkoto-paragraph` and appends a period suffix. Supported on levels **3** and **6**.
+Flows the heading into the following `.eevenkoto-paragraph` and appends a period suffix. Supported on levels **2**, **3**, and **6**.
+
+Level 2 exists for entries that have no named sections to hang an H2 on. A Spellblock names the spell H1 and runs its scaling entry in at H2 rather than reaching for H3 and skipping a level. At level 2 the run-in also drops the macro H2 bottom rule and padding, since neither belongs inline.
 
 <Canvas of={HeadingStories.RunIn} />
 
@@ -131,13 +134,17 @@ Flows the heading into the following `.eevenkoto-paragraph` and appends a period
 
 <Canvas of={HeadingStories.RunInH3} />
 
+Bare, a run-in H2 keeps the H2 scale — hosts remap the size, as Spellblock does to the micro H6 look:
+
+<Canvas of={HeadingStories.RunInH2} />
+
 <Canvas of={HeadingStories.MicroCluster} />
 
 ## Accessibility & flow
 
 - Preserve logical heading order for screen readers.
 - Headings use `break-after: avoid` / `break-inside: avoid` so print/PDF flows keep titles with following copy.
-- Run-in keeps a real heading element (`h3` or `h6`) — do not demote it to a `<span>` for styling.
+- Run-in keeps a real heading element (`h2`, `h3`, or `h6`) — do not demote it to a `<span>` for styling. Pick the level the outline needs; the run-in look is identical at all three.
 
 ## API reference
 
@@ -174,6 +181,6 @@ import { Heading } from '@eevenkoto/vue';
 - [Typography sample](?path=/docs/core-molecules-typography-sample--docs) — Composed reading-flow specimen
 - [Prose](?path=/docs/core-molecules-prose--docs) — Bare `h1`–`h6` / `p` inside a scope
 - [Flow](?path=/docs/core-molecules-flow--docs) — Vertical rhythm for stacked type
-- [Paragraph](?path=/docs/core-atoms-paragraph--docs) — Body copy (sibling of run-in H3 / H6)
+- [Paragraph](?path=/docs/core-atoms-paragraph--docs) — Body copy (sibling of a run-in H2 / H3 / H6)
 - [Caption](?path=/docs/core-atoms-caption--docs) — Supporting text
 - [Tokens](?path=/docs/foundations-tokens--docs) — Live size specimens

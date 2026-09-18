@@ -138,14 +138,17 @@
   padding-block-start: var(--eevenkoto-space-3);
 }
 
-/* Run-in H3 / H6 + paragraph stay on one line — no stack gap between them */
+/* Run-in H2 / H3 / H6 + paragraph stay on one line — no stack gap between them */
+.eevenkoto-flow > .eevenkoto-heading--2.eevenkoto-heading--run-in,
 .eevenkoto-flow > .eevenkoto-heading--3.eevenkoto-heading--run-in,
 .eevenkoto-flow > .eevenkoto-heading--6.eevenkoto-heading--run-in {
   padding-block-start: var(--_eevenkoto-flow-gap-before-heading);
 }
 
+.eevenkoto-flow > .eevenkoto-heading--2.eevenkoto-heading--run-in + .eevenkoto-paragraph,
 .eevenkoto-flow > .eevenkoto-heading--3.eevenkoto-heading--run-in + .eevenkoto-paragraph,
 .eevenkoto-flow > .eevenkoto-heading--6.eevenkoto-heading--run-in + .eevenkoto-paragraph,
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--2.eevenkoto-heading--run-in + :where(p),
 .eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--3.eevenkoto-heading--run-in + :where(p),
 .eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--6.eevenkoto-heading--run-in + :where(p) {
   padding-block-start: 0;

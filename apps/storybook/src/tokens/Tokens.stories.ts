@@ -39,9 +39,21 @@ const parchmentColors: Token[] = [
   { name: 'Tint disabled deep', variable: '--eevenkoto-color-parchment-tint-disabled-deep' },
 ];
 
+const obsidianColors: Token[] = [
+  { name: 'Background', variable: '--eevenkoto-color-obsidian-background' },
+  { name: 'Background subtle', variable: '--eevenkoto-color-obsidian-background-subtle' },
+  { name: 'Background raised', variable: '--eevenkoto-color-obsidian-background-raised' },
+  { name: 'Background sunken', variable: '--eevenkoto-color-obsidian-background-sunken' },
+  { name: 'Border', variable: '--eevenkoto-color-obsidian-border' },
+  { name: 'Text', variable: '--eevenkoto-color-obsidian-text' },
+  { name: 'Text muted', variable: '--eevenkoto-color-obsidian-text-muted' },
+  { name: 'Text subtle', variable: '--eevenkoto-color-obsidian-text-subtle' },
+];
+
 const goldColors: Token[] = [
   { name: 'Primary', variable: '--eevenkoto-color-gold-primary' },
   { name: 'Primary strong', variable: '--eevenkoto-color-gold-primary-strong' },
+  { name: 'Primary deep', variable: '--eevenkoto-color-gold-primary-deep' },
   { name: 'State', variable: '--eevenkoto-color-gold-state' },
 ];
 
@@ -310,6 +322,7 @@ const renderPrimitives = (): string => `
     </section>
     ${renderColorGroup('Turquoise', turquoiseColors)}
     ${renderColorGroup('Parchment', parchmentColors)}
+    ${renderColorGroup('Obsidian', obsidianColors)}
     ${renderColorGroup('Gold', goldColors)}
     ${renderColorGroup('Green (placeholder)', greenColors)}
     ${renderColorGroup('Orange (placeholder)', orangeColors)}
@@ -645,4 +658,17 @@ const renderIcons = (): string => `
 export const Icons: Story = {
   name: 'Icons',
   render: () => renderIcons(),
+};
+
+export const DarkIsland: Story = {
+  name: 'Dark island (data-surface-mode)',
+  render: () => `
+    <div style="display:grid;gap:1.6rem;padding:1.6rem;background:var(--eevenkoto-color-surface-canvas);color:var(--eevenkoto-color-content-primary);">
+      <p>Page canvas uses the toolbar theme. The card below is a scoped dark island.</p>
+      <aside data-surface-mode="dark" style="padding:1.6rem;border-radius:0.8rem;background:var(--eevenkoto-color-surface-raised);color:var(--eevenkoto-color-content-primary);border:0.1rem solid var(--eevenkoto-color-boundary-subtle);">
+        <strong>data-surface-mode="dark"</strong>
+        <p style="margin:0.8rem 0 0;">Nested remaps share the same Tier 2 block as <code>[data-theme="dark"]</code>.</p>
+      </aside>
+    </div>
+  `,
 };

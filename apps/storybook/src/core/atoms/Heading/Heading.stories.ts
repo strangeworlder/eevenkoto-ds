@@ -118,3 +118,15 @@ export const RunInH3: Story = {
       text: 'Melee attack: +3, reach 2 m. Hit: 5 (1d8 + 1) slashing damage.',
     })}`,
 };
+
+export const RunInH2: Story = {
+  name: 'H2 run-in',
+  render: () =>
+    `${renderHeading({
+      level: 2,
+      text: 'Taikakonstin voimistuminen',
+      runIn: true,
+    })}${renderParagraph({
+      text: 'The damage increases by 1d8 at character levels 5, 11, and 17.',
+    })}`,
+};

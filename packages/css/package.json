@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/css",
-  "version": "0.3.1",
+  "version": "0.7.0",
   "description": "Eevenkoto design system tokens and component CSS",
   "type": "module",
   "files": [
@@ -44,7 +44,8 @@
     "./ability-score.css": "./domain/molecules/ability-score.css",
     "./statblock-feature.css": "./domain/molecules/statblock-feature.css",
     "./statblock-section.css": "./domain/molecules/statblock-section.css",
-    "./statblock.css": "./domain/organisms/statblock.css"
+    "./statblock.css": "./domain/organisms/statblock.css",
+    "./spellblock.css": "./domain/organisms/spellblock.css"
   },
   "license": "ISC",
   "publishConfig": {

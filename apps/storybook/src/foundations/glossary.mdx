@@ -46,6 +46,20 @@ Also read: [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs
 
 Do **not** use **traits** for the footer PropertyList — that word collides with feature-style “traits” in rules prose. The footer rail is **`details`**.
 
+## Domain spell entry
+
+| Term | Meaning | Prop / type |
+| --- | --- | --- |
+| **Spellblock** | Spell **entry** organism (banded card) | `SpellblockProps` |
+| **typeLine** | Level + school line, italic on the title plate | `typeLine` |
+| **classes** | Optional catalog rail (classes that grant the spell) | `classes: PropertyItem[]` |
+| **properties** | Casting time, range, components, duration — the boxed stat band | `properties: PropertyItem[]` |
+| **paragraphs** | Effect prose, one entry per paragraph | `paragraphs` |
+| **features** | Scaling entries (higher-level slot, cantrip upgrade) | `StatblockFeatureProps[]` |
+| **deck** | Compact card variant for spell grids | `deck` |
+
+Spellblock reuses **StatblockFeature** for scaling run-ins; there is no separate spell-feature molecule. Spell entries have no named **sections** — 5.5e prints no section title inside a spell, so the bands are visual only and the scaling run-in itself takes the H2 directly under the spell name.
+
 ## Core display terms
 
 | Term | Meaning |
@@ -82,7 +96,7 @@ Use the prop that matches the role — do not force one name everywhere.
 | `label` | Visible control/chrome copy and definition terms (Button, LinkButton, Badge, Property, AbilityScore header, **Field** visible label). **Not** used on Input. |
 | `ariaLabel` | Input-only: `aria-label` when there is no Field / visible label (chrome search). |
 | `text` | Typography primitives (Heading, Paragraph, Caption, ListItem, TableCell body) |
-| `name` | Named entity or inline reference (Statblock creature, StatblockFeature, InlineRef, EntityRef) |
+| `name` | Named entity or inline reference (Statblock creature, Spellblock spell, StatblockFeature, InlineRef, EntityRef) |
 | `title` | Section heading (StatblockSection, TooltipCard header) |
 | `value` | Numeric or definitional payload (Stat, Property) |
 | `description` | Feature body after the run-in name |

@@ -1,10 +1,16 @@
 import { propertyClassNames, type PropertyProps } from '@eevenkoto/core';
-import type { HTMLAttributes, ReactElement } from 'react';
+import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
 export type { PropertyProps };
 
+/** Property whose value may carry inline nodes (EntityRef, emphasis, …). */
+export type PropertyItemNode = {
+  label: string;
+  value: ReactNode;
+};
+
 export type PropertyComponentProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'> &
-  PropertyProps;
+  Omit<PropertyProps, 'value'> & { value: ReactNode };
 
 export const Property = ({
   label,

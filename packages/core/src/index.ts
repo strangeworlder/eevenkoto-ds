@@ -227,6 +227,7 @@ export {
 
 export {
   type StatblockFeatureProps,
+  type StatblockFeatureLevel,
   statblockFeatureClassNames,
 } from './domain/molecules/statblockFeature';
 
@@ -240,6 +241,13 @@ export {
   type StatblockNameLevel,
   statblockClassNames,
 } from './domain/organisms/statblock';
+
+export {
+  type SpellblockProps,
+  type SpellblockNameLevel,
+  type SpellblockClassNameProps,
+  spellblockClassNames,
+} from './domain/organisms/spellblock';
 
 export {
   type IconName,

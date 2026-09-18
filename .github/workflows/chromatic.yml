@@ -1,0 +1,30 @@
+name: Chromatic
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  chromatic:
+    runs-on: ubuntu-latest
+    env:
+      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Skip when token missing
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN == '' }}
+        run: echo "Set repository secret CHROMATIC_PROJECT_TOKEN to publish HTML visual tests."
+      - name: Build Storybook
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
+        run: npm run build-storybook
+      - name: Publish HTML Storybook to Chromatic
+        if: ${{ env.CHROMATIC_PROJECT_TOKEN != '' }}
+        run: npx chromatic --project-token="$CHROMATIC_PROJECT_TOKEN" --storybook-build-dir=apps/storybook/storybook-static --exit-zero-on-changes

@@ -1,0 +1,282 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: SPELLBLOCK (TIER 3)
+   Spell entry organism as a banded parchment card. Composes Heading, Caption,
+   Paragraph, PropertyList, and StatblockFeature.
+
+   Bands, in scan order:
+   __plate   title plate (sunken + noise), closed by the gold accent rule
+   __stats   casting properties, hairline below — the boxed 5.5e stat block
+   __body    effect prose on the card fill
+   __footer  scaling run-ins on a faint band
+
+   Heading outline stays honest (H1 → H3); the run-in remap lives on
+   StatblockFeature.
+   ========================================================================== */
+
+.eevenkoto-spellblock {
+  /* Parchment grain, shared motif with AbilityScoreGroup (no texture layer yet). */
+  --_eevenkoto-spellblock-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");
+  --_eevenkoto-spellblock-noise-soft: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+  --_eevenkoto-spellblock-bg: var(
+    --eevenkoto-spellblock-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-spellblock-band-bg: var(
+    --eevenkoto-spellblock-band-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-spellblock-text: var(
+    --eevenkoto-spellblock-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-spellblock-border-color: var(
+    --eevenkoto-spellblock-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-spellblock-border-width: var(
+    --eevenkoto-spellblock-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-spellblock-accent-rule-color: var(
+    --eevenkoto-spellblock-accent-rule-color,
+    var(--eevenkoto-color-content-accent)
+  );
+  --_eevenkoto-spellblock-accent-rule-width: var(
+    --eevenkoto-spellblock-accent-rule-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-spellblock-radius: var(
+    --eevenkoto-spellblock-radius,
+    var(--eevenkoto-radius-md)
+  );
+  --_eevenkoto-spellblock-shadow: var(
+    --eevenkoto-spellblock-shadow,
+    1px 1px 3px var(--eevenkoto-color-depth-shadow-umbra)
+  );
+  --_eevenkoto-spellblock-pad-block: var(
+    --eevenkoto-spellblock-pad-block,
+    var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-spellblock-pad-inline: var(
+    --eevenkoto-spellblock-pad-inline,
+    var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-spellblock-gap: var(--eevenkoto-spellblock-gap, var(--eevenkoto-space-3));
+  /*
+    Paragraph breaks need more than the stack gap. Global `text-box: trim-both`
+    removes the half-leading, so a gap near the line height (24px at body-md)
+    puts paragraph baselines on the same rhythm as the lines inside them and the
+    prose reads as one block. Flow warns about the same trap.
+  */
+  --_eevenkoto-spellblock-prose-gap: var(
+    --eevenkoto-spellblock-prose-gap,
+    var(--eevenkoto-space-6)
+  );
+  --_eevenkoto-spellblock-deck-width: var(--eevenkoto-spellblock-deck-width, 32rem);
+
+  /* Bands respond to the card, not the viewport — required for deck grids. */
+  container-type: inline-size;
+  container-name: eevenkoto-spellblock;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+
+  /*
+    The card sets its own body metrics so the StatblockFeature run-in (an inline
+    H3 + inline paragraph) gets a line-box strut that matches the prose. Without
+    this the footer inherits the page `body-lg` strut and out-leads the body.
+  */
+  font-size: var(--eevenkoto-font-size-body-md);
+  line-height: var(--eevenkoto-line-height-body);
+
+  color: var(--_eevenkoto-spellblock-text);
+  background: var(--_eevenkoto-spellblock-bg);
+  border: var(--_eevenkoto-spellblock-border-width) solid
+    var(--_eevenkoto-spellblock-border-color);
+  border-radius: var(--_eevenkoto-spellblock-radius);
+  corner-shape: scoop;
+  box-shadow: var(--_eevenkoto-spellblock-shadow);
+  overflow: hidden;
+
+  /* Finnish compounds must never escape the card edge. */
+  overflow-wrap: break-word;
+}
+
+.eevenkoto-spellblock__plate,
+.eevenkoto-spellblock__stats,
+.eevenkoto-spellblock__body,
+.eevenkoto-spellblock__footer {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--_eevenkoto-spellblock-pad-block) var(--_eevenkoto-spellblock-pad-inline);
+}
+
+/* --- TITLE PLATE: name + type line + optional class rail --- */
+
+.eevenkoto-spellblock__plate {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-1);
+  background:
+    var(--_eevenkoto-spellblock-noise),
+    var(--_eevenkoto-spellblock-band-bg);
+  border-block-end: var(--_eevenkoto-spellblock-accent-rule-width) solid
+    var(--_eevenkoto-spellblock-accent-rule-color);
+}
+
+.eevenkoto-spellblock__plate > .eevenkoto-heading {
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-1);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
+  --eevenkoto-heading-margin-block: 0;
+  --eevenkoto-heading-padding: 0;
+  --eevenkoto-heading-border-block-end: none;
+
+  text-wrap: balance;
+  hyphens: auto;
+}
+
+.eevenkoto-spellblock__type {
+  --eevenkoto-caption-color: var(--eevenkoto-color-content-secondary);
+
+  margin-block: 0;
+  font-style: italic;
+}
+
+/* Optional catalog rail (classes that grant the spell) sits under the type line. */
+.eevenkoto-spellblock__plate > .eevenkoto-property-list {
+  --eevenkoto-property-list-gap: var(--eevenkoto-space-1);
+  --eevenkoto-property-font-size: var(--eevenkoto-font-size-body-sm);
+
+  margin-block-start: var(--eevenkoto-space-1);
+}
+
+/* --- STATS BAND: casting time / range / components / duration --- */
+
+.eevenkoto-spellblock__stats {
+  border-block-end: var(--_eevenkoto-spellblock-border-width) solid
+    var(--_eevenkoto-spellblock-border-color);
+}
+
+.eevenkoto-spellblock__stats .eevenkoto-property__label {
+  hyphens: auto;
+}
+
+/* Quadrant once the card is wide enough for two labelled columns. */
+@container eevenkoto-spellblock (min-width: 34rem) {
+  .eevenkoto-spellblock:not(.eevenkoto-spellblock--deck)
+    .eevenkoto-spellblock__stats
+    > .eevenkoto-property-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--eevenkoto-space-4);
+  }
+}
+
+/* --- BODY: effect prose --- */
+
+.eevenkoto-spellblock__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-spellblock-prose-gap);
+}
+
+.eevenkoto-spellblock__body > .eevenkoto-paragraph {
+  --eevenkoto-paragraph-margin-block: 0;
+
+  text-wrap: pretty;
+}
+
+/* --- FOOTER: scaling run-ins ("At Higher Levels") --- */
+
+.eevenkoto-spellblock__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-spellblock-gap);
+  background:
+    var(--_eevenkoto-spellblock-noise-soft),
+    var(--_eevenkoto-spellblock-band-bg);
+  border-block-start: var(--_eevenkoto-spellblock-border-width) solid
+    var(--_eevenkoto-spellblock-border-color);
+}
+
+.eevenkoto-spellblock__footer .eevenkoto-paragraph {
+  --eevenkoto-paragraph-margin-block: 0;
+}
+
+/* --- DECK: compact card for grids --- */
+
+.eevenkoto-spellblock--deck {
+  --eevenkoto-spellblock-pad-block: var(--eevenkoto-space-3);
+  --eevenkoto-spellblock-pad-inline: var(--eevenkoto-space-3);
+
+  inline-size: var(--_eevenkoto-spellblock-deck-width);
+  max-inline-size: 100%;
+
+  /* Keep the run-in strut in step with the stepped-down prose. */
+  font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__plate > .eevenkoto-heading {
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-2);
+}
+
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__body > .eevenkoto-paragraph,
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__footer .eevenkoto-paragraph {
+  --eevenkoto-paragraph-font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__footer .eevenkoto-heading--run-in {
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+/*
+  `Loitsimisviive: 1 toiminto` does not fit one line at deck width, so labels
+  sit above values and drop the CSS colon.
+*/
+/* Stacked pairs need a clear row gap, since label and value sit flush. */
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__stats > .eevenkoto-property-list {
+  --eevenkoto-property-list-gap: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__stats .eevenkoto-property {
+  --eevenkoto-property-font-size: var(--eevenkoto-font-size-body-sm);
+
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--eevenkoto-space-1);
+}
+
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__stats .eevenkoto-property__label {
+  font-size: var(--eevenkoto-font-size-caption);
+}
+
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__stats .eevenkoto-property__label::after {
+  content: '';
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-spellblock {
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  .eevenkoto-spellblock__plate,
+  .eevenkoto-spellblock__footer {
+    background: Canvas;
+  }
+
+  .eevenkoto-spellblock__plate {
+    border-block-end-color: ButtonText;
+  }
+
+  .eevenkoto-spellblock__stats {
+    border-block-end-color: ButtonText;
+  }
+
+  .eevenkoto-spellblock__footer {
+    border-block-start-color: ButtonText;
+  }
+}

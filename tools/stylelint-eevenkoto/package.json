@@ -1,0 +1,10 @@
+{
+  "name": "stylelint-eevenkoto",
+  "version": "0.6.0",
+  "private": true,
+  "type": "module",
+  "description": "Stylelint rules for Eevenkoto token and Tier 3 CSS",
+  "exports": {
+    ".": "./index.js"
+  }
+}

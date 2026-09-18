@@ -618,9 +618,9 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 }
 ```
 
-## Planned CI verification & linting rules
+## CI verification & linting rules
 
-These AST-based Stylelint checks are the **intended** guardrails for `packages/css/core/**/*.css` and `packages/css/domain/**/*.css`. They are **not enforced in CI yet** — treat them as authoring requirements until plugins ship.
+These AST-based Stylelint checks run on `packages/css/core/**/*.css` and `packages/css/domain/**/*.css` via `npm run lint:css` / `npm run ci`.
 
 ```text
                     Pull Request / Code Commit

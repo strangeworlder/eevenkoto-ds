@@ -6,11 +6,16 @@
   "type": "module",
   "workspaces": [
     "packages/*",
-    "apps/*"
+    "apps/*",
+    "tools/*"
   ],
   "scripts": {
     "build": "npm run build -w @eevenkoto/core && npm run build -w @eevenkoto/html && npm run build -w @eevenkoto/react && npm run build -w @eevenkoto/vue",
     "generate:llms": "node scripts/generate-llms.mjs",
+    "lint:css": "stylelint \"packages/css/tokens/tokens.css\" \"packages/css/core/**/*.css\" \"packages/css/domain/**/*.css\"",
+    "test": "vitest run",
+    "contrast": "node scripts/contrast-audit.mjs",
+    "ci": "npm run build && npm run lint:css && npm run contrast && npm run test && npm run generate:llms",
     "storybook": "npm run storybook -w @eevenkoto/storybook",
     "build-storybook": "npm run build && npm run build-storybook -w @eevenkoto/storybook"
   },
@@ -18,7 +23,16 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.1",
+    "culori": "^4.0.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "stylelint": "^16.23.0",
+    "stylelint-eevenkoto": "*",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vitest": "^4.1.10",
+    "vue": "^3.5.21"
   }
 }

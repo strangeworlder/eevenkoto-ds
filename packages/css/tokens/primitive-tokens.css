@@ -39,6 +39,16 @@
   --eevenkoto-color-parchment-tint-disabled:      oklch(1 0 85 / 0%);
   --eevenkoto-color-parchment-tint-disabled-deep: oklch(0 0 85 / 0%);
 
+  /* Obsidian — dark elevation (additive). Hue ~240; L steps 0.14 / 0.18 / 0.23. */
+  --eevenkoto-color-obsidian-background:         oklch(0.14 0.01 240);
+  --eevenkoto-color-obsidian-background-subtle:  oklch(0.18 0.012 240);
+  --eevenkoto-color-obsidian-background-raised:  oklch(0.23 0.014 240);
+  --eevenkoto-color-obsidian-background-sunken:  oklch(0.11 0.01 240);
+  --eevenkoto-color-obsidian-border:             oklch(0.42 0.02 240);
+  --eevenkoto-color-obsidian-text:               oklch(0.93 0.012 90);
+  --eevenkoto-color-obsidian-text-muted:         oklch(0.76 0.016 90);
+  --eevenkoto-color-obsidian-text-subtle:        oklch(0.64 0.014 90);
+
   /* Gold */
   --eevenkoto-color-gold-primary:        oklch(0.78 0.17 70);
   --eevenkoto-color-gold-primary-strong: oklch(0.65 0.20 65);

@@ -81,4 +81,9 @@ export {
   type StatblockProps,
   type StatblockNameLevel,
 } from './domain/organisms/statblock/renderStatblock';
+export {
+  renderSpellblock,
+  type SpellblockProps,
+  type SpellblockNameLevel,
+} from './domain/organisms/spellblock/renderSpellblock';
 export { escapeHtml, sanitizeInlineHtml, slugifyId } from './utils/html';

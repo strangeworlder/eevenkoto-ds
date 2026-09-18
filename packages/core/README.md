@@ -25,7 +25,7 @@ const className = buttonClassNames({
 // "eevenkoto-button eevenkoto-button--primary eevenkoto-button--sm eevenkoto-button--icon-left"
 ```
 
-Helpers: `buttonClassNames`, `linkButtonClassNames`, `badgeClassNames`, `headingClassNames`, `paragraphClassNames`, `listClassNames`, `captionClassNames`, `flowClassNames`, `proseClassNames`, plus Domain helpers (`abilityScoreClassNames`, `statblockClassNames`, …).
+Helpers include `buttonClassNames`, `linkButtonClassNames`, `badgeClassNames`, `headingClassNames`, `iconClassNames`, `inputClassNames`, `fieldClassNames`, `menuClassNames`, `popoverClassNames`, `noticeClassNames`, `cardClassNames`, plus Domain helpers (`entityRefClassNames`, `abilityScoreClassNames`, `statblockClassNames`, `spellblockClassNames`, …). Full export list: `src/index.ts`.
 
 Pair with `@eevenkoto/css` for styling.
 

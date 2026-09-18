@@ -17,19 +17,11 @@ Import the base stylesheet once, then the CSS for each component you use:
 ```ts
 import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
-import '@eevenkoto/css/link-button.css';
-import '@eevenkoto/css/heading.css';
-import '@eevenkoto/css/paragraph.css';
-import '@eevenkoto/css/list.css';
-import '@eevenkoto/css/caption.css';
-import '@eevenkoto/css/frame.css';
-import '@eevenkoto/css/scroll.css';
-import '@eevenkoto/css/table-cell.css';
-import '@eevenkoto/css/flow.css';
-import '@eevenkoto/css/prose.css';
-import '@eevenkoto/css/table.css';
-import '@eevenkoto/css/table-shell.css';
 ```
+
+Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `heading`, `paragraph`, `list`, `caption`, `frame`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `property`, `stat`, `flow`, `notice`, `field`, `segmented-control`, `card`, `tooltip-card`, `menu`, `prose`, `table`, `table-shell`. **Domain:** `entity-ref`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`, `spellblock`. AbilityScoreGroup has no dedicated sheet (uses ability-score).
+
+`styles.css` pulls Inter/Outfit from Google Fonts.
 
 Also available:
 

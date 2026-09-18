@@ -18,7 +18,7 @@ Place each piece on **Core vs Domain**, then map **atom → molecule → organis
 | Core | Molecule | PropertyList, Table | Layout of atoms + local ARIA |
 | Core | Organism | TableShell | Slots composing Frame + Scroll + Table (+ future Pager) |
 | Domain | Molecule | AbilityScore, StatblockFeature | Layout of Core atoms + local ARIA |
-| Domain | Organism | AbilityScoreGroup, Statblock | Page-shaped composition, slots, outline |
+| Domain | Organism | AbilityScoreGroup, Statblock, Spellblock | Page-shaped composition, slots, outline |
 
 **Do:** Ship a working Domain organism against a real specimen (e.g. Aatelinen), then extract molecules once the seams are obvious.
 
@@ -72,3 +72,5 @@ HTML string → DOM is a **trust boundary**. If the HTML package accepts inline 
 ## Reference specimen
 
 [Statblock — Aatelinen](?path=/docs/domain-organisms-statblock--docs) is the worked example: Core atoms (Property, Stat), Domain molecules (AbilityScore, StatblockFeature), Domain organisms (AbilityScoreGroup, Statblock), honest outline with visual remaps, proficiency emphasis, and embed `nameLevel`.
+
+[Spellblock — Aavevalo](?path=/docs/domain-organisms-spellblock--docs) is the second specimen, and shows two things Statblock does not: an organism that **owns its own card surface** (banded Tier 3 chrome instead of a flat stack), and a density variant driven by `container-type: inline-size` plus explicit wrapping rules for long Finnish compounds.

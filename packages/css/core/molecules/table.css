@@ -18,6 +18,10 @@
     --eevenkoto-table-header-border-color,
     var(--eevenkoto-color-boundary-strong)
   );
+  --_eevenkoto-table-col-highlight: var(
+    --eevenkoto-table-col-highlight,
+    var(--eevenkoto-color-boundary-strong)
+  );
   --_eevenkoto-table-header-border-width: var(
     --eevenkoto-table-header-border-width,
     var(--eevenkoto-line-width-md)
@@ -174,7 +178,7 @@
 .eevenkoto-table--numeric:has(thead th:nth-child(12):is(:hover, :focus-within))
   tbody
   :is(td, th):nth-child(12) {
-  box-shadow: inset 0 0 0 var(--eevenkoto-line-width-md) var(--eevenkoto-color-boundary-strong);
+  box-shadow: inset 0 0 0 var(--eevenkoto-line-width-md) var(--_eevenkoto-table-col-highlight);
 }
 
 @media (prefers-reduced-motion: reduce) {

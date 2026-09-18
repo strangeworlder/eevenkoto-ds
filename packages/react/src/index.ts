@@ -57,7 +57,12 @@ export {
   type ListComponentProps,
   type ListProps,
 } from './core/molecules/List';
-export { Property, type PropertyComponentProps, type PropertyProps } from './core/atoms/Property';
+export {
+  Property,
+  type PropertyComponentProps,
+  type PropertyItemNode,
+  type PropertyProps,
+} from './core/atoms/Property';
 export {
   PropertyList,
   type PropertyListComponentProps,
@@ -106,3 +111,8 @@ export {
   type StatblockFeatureNode,
   type StatblockSectionNode,
 } from './domain/organisms/Statblock';
+export {
+  Spellblock,
+  type SpellblockComponentProps,
+  type SpellblockFeatureNode,
+} from './domain/organisms/Spellblock';

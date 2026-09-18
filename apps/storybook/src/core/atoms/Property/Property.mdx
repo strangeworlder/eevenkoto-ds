@@ -1,0 +1,22 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as PropertyStories from './Property.stories';
+
+<Meta of={PropertyStories} />
+
+# Property
+
+A Property is one label → value row inside a definition list. Use [PropertyList](?path=/docs/core-molecules-propertylist--docs) when you have several rows (statblock vitals, details).
+
+<Canvas of={PropertyStories.Default} />
+
+## Why to use
+
+Pair a definition term with its value without inventing a new layout. The atom keeps `dt`/`dd` semantics so assistive tech reads the association.
+
+## When to use
+
+Use Property inside a `dl` (PropertyList) for keyed facts. Do not use it for running prose or for interactive form fields (use Field).
+
+## Framework packages
+
+`renderProperty` / `Property` from html, react, and vue. Import `@eevenkoto/css/property.css`.

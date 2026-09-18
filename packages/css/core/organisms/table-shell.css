@@ -8,6 +8,18 @@
     --eevenkoto-table-shell-gap,
     var(--eevenkoto-space-3)
   );
+  --_eevenkoto-table-shell-index-header-bg: var(
+    --eevenkoto-table-shell-index-header-bg,
+    var(--eevenkoto-table-header-bg, var(--eevenkoto-color-surface-sunken))
+  );
+  --_eevenkoto-table-shell-index-bg: var(
+    --eevenkoto-table-shell-index-bg,
+    var(--eevenkoto-color-surface-canvas)
+  );
+  --_eevenkoto-table-shell-index-stripe-bg: var(
+    --eevenkoto-table-shell-index-stripe-bg,
+    var(--eevenkoto-color-surface-subtle)
+  );
 
   display: flex;
   flex-direction: column;
@@ -31,14 +43,11 @@
 
 .eevenkoto-table-shell .eevenkoto-scroll .eevenkoto-table thead .eevenkoto-table-cell--index {
   z-index: 3;
-  background-color: var(
-    --eevenkoto-table-header-bg,
-    var(--eevenkoto-color-surface-sunken)
-  );
+  background-color: var(--_eevenkoto-table-shell-index-header-bg);
 }
 
 .eevenkoto-table-shell .eevenkoto-scroll .eevenkoto-table tbody .eevenkoto-table-cell--index {
-  background-color: var(--eevenkoto-color-surface-canvas);
+  background-color: var(--_eevenkoto-table-shell-index-bg);
 }
 
 .eevenkoto-table-shell
@@ -47,5 +56,5 @@
   tbody
   tr:nth-child(even)
   .eevenkoto-table-cell--index {
-  background-color: var(--eevenkoto-color-surface-subtle);
+  background-color: var(--_eevenkoto-table-shell-index-stripe-bg);
 }

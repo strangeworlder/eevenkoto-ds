@@ -1,0 +1,313 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as SpellblockStories from './Spellblock.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={SpellblockStories} />
+
+# Spellblock
+
+**Spellblock** is the spell **entry organism** for rules content, rendered as a **card**: a title plate, a boxed casting-stat band, effect prose, and scaling run-ins. It follows the 5.5e spell layout.
+
+English APIs; Finnish (or any) labels stay in **product data**. See [Glossary](?path=/docs/foundations-glossary--docs) for entry vocabulary.
+
+<Canvas of={SpellblockStories.Aavevalo} />
+
+## Why to use
+
+Spell pages need the same structure a printed spell has: find the school line, then Range and Duration, then read the effect. Spellblock gives you one organism that:
+
+- Puts casting time / range / components / duration in a **banded stat block** instead of bold-label paragraphs with `<br>`
+- Keeps a contiguous heading outline (**H1 → H2 run-in**) while the card chrome carries the visual weight
+- Reuses Heading, Caption, Paragraph, PropertyList, and StatblockFeature
+- Ships a **deck** variant for browsing many spells at once
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Spell entries on rules pages, and spell catalogs via <code>deck</code>.</li>
+      <li>Keep level, school, ritual tags, and component copy in the product — map them into props.</li>
+      <li>Put the whole level/school string in <code>typeLine</code>, exactly as it is printed.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t rebuild the legacy <code>&lt;strong&gt;Kantama:&lt;/strong&gt;</code> + <code>&lt;br&gt;</code> paragraph block.</li>
+      <li>Don’t add school / ritual / concentration enums to <code>@eevenkoto/core</code> — they are strings.</li>
+      <li>Don’t use Spellblock for creatures — that is <a href="?path=/docs/domain-organisms-statblock--docs">Statblock</a>.</li>
+      <li>Don’t nest a Spellblock inside a Core Card; the organism already owns its surface.</li>
+    </ul>
+  }
+/>
+
+## Anatomy
+
+The card is four bands, in the order a player scans them:
+
+```
+article.eevenkoto-spellblock
+├── __plate    sunken band + grain, closed by the gold accent rule
+│   ├── Heading 1      name
+│   ├── Caption        type line (italic level + school)
+│   └── PropertyList   classes (optional catalog rail)
+├── __stats    casting properties, hairline below
+│   └── PropertyList   casting time / range / components / duration
+├── __body     effect paragraphs
+└── __footer   faint band
+    └── StatblockFeature[]   scaling run-ins (Heading 2, one below the name)
+```
+
+1. **Title plate** — the name in serif over a sunken, grained band. The **gold accent rule** under it is the same treatment `.eevenkoto-ability-score__label` uses, so a spell card and a creature ability column read as one family.
+2. **Stat band** — the four properties in their own region with a hairline below. From `34rem` of **card** width they lay out as a two-column quadrant. This is the block 5.5e sets in a box; it is the reason Spellblock is a card rather than a prose stack.
+3. **Body** — effect prose on the card fill, no chrome competing with it.
+4. **Footer** — *Korkeammilla piireillä* and cantrip upgrades on a faint band, so scaling reads as an appendix rather than another effect paragraph.
+
+The card host is `surface-raised` with a `boundary-subtle` border, `radius-md`, `corner-shape: scoop`, and the house `1px 1px 3px` umbra shadow. It also sets its own `body-md` font size and line height, so the footer run-in (an inline heading followed by an inline paragraph) gets a line-box strut that matches the prose instead of inheriting the page's `body-lg` leading.
+
+Every band is optional except the plate. Most spells have no scaling entry, so omitting `features` simply ends the card on the effect prose:
+
+<Canvas of={SpellblockStories.Linnoitus} />
+
+## Deck variant
+
+<Canvas of={SpellblockStories.Deck} />
+
+`deck` constrains the card to `--eevenkoto-spellblock-deck-width` (default `32rem`), steps the name down to the H2 size, drops body copy to `body-sm`, tightens padding, and forces a single stat column.
+
+The host sets `container-type: inline-size`, so every band responds to the **card**, not the viewport — that is what makes a responsive grid of deck cards work.
+
+### Finnish typography
+
+Long compounds (`Loitsimisviive`, `Taikakonstin voimistuminen`) are the binding constraint at deck width, so the sheet handles them directly:
+
+- `overflow-wrap: break-word` on the card, so nothing escapes the edge
+- `hyphens: auto` on the name and property labels — **set `lang` on the entry** (`lang: 'fi'`) or the browser will not hyphenate
+- `text-wrap: balance` on the name, `text-wrap: pretty` on paragraphs
+- In deck, each property label sits **above** its value at caption size with the CSS colon suppressed, because `Loitsimisviive: 1 toiminto` does not fit one line at `32rem`
+
+## Content guidelines
+
+- **Name** — the spell name only; one H1 per entry / view.
+- **Type line** — level and school as printed (*Taikakonsti, luominen* / *Ensimmäisen piirin lumoaminen*). Ritual tags belong in this string.
+- **Classes** — optional catalog metadata. Keep it out of the stat band; it is not a casting property.
+- **Properties** — the four casting stats. Concentration lives in the Duration value, materials in the Components value. Colons come from CSS, not from the label string.
+- **Paragraphs** — one entry per paragraph. The HTML renderer allows a sanitized inline set (`em`, `strong`, `i`, `b`, `br`); prefer React/Vue nodes for rich text. Paragraph breaks use `--eevenkoto-spellblock-prose-gap`, which is deliberately larger than the stack gap: global `text-box: trim-both` removes the half-leading, so a smaller gap would put paragraph baselines on the same rhythm as the lines within them.
+- **Features** — scaling only. The run-in suffix period is CSS (`::after`), not part of the name.
+
+## Accessibility
+
+- Outline is **H1 → H2 run-in**. Spells have no named sections in 5.5e, so there is no section H2 above the scaling entry — which means the scaling entry itself has to be the H2, or the card would skip from H1 to H3. The bands stay visual, not structural. Use `nameLevel: 2` when the host page already owns an H1; the scaling run-in follows to H3 automatically.
+- Casting properties are a real `<dl>` with `dt` / `dd` pairs via PropertyList.
+- Band separation never relies on color alone — each band carries a border and a padding change.
+- `forced-colors`: grain and shadow drop out, borders map to `CanvasText` / `ButtonText`.
+- Set `lang` so hyphenation and screen-reader pronunciation match the content language.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Spell name. |
+| `nameLevel` | `1 \| 2` | `1` | Heading level for the name (use `2` in embeds). |
+| `typeLine` | `string` | — | Italic level / school line on the plate. |
+| `classes` | `PropertyItem[]` | — | Optional catalog rail under the type line. |
+| `properties` | `PropertyItem[]` | — | Casting time, range, components, duration. |
+| `paragraphs` | `string[]` | — | Effect prose, one entry per paragraph. |
+| `features` | `StatblockFeatureProps[]` | — | Scaling run-ins. The level is derived from `nameLevel`; do not set it per item. |
+| `deck` | `boolean` | `false` | Compact card for grids. |
+| `lang` | `string` | — | BCP 47 tag on the article; enables `hyphens: auto`. |
+
+```ts
+export interface SpellblockProps {
+  name: string;
+  nameLevel?: 1 | 2;
+  typeLine?: string;
+  classes?: PropertyItem[];
+  properties: PropertyItem[];
+  paragraphs?: string[];
+  features?: StatblockFeatureProps[];
+  deck?: boolean;
+  lang?: string;
+}
+```
+
+React accepts `ReactNode` for `paragraphs` entries, property `value`s, and feature `description`s, so [EntityRef](?path=/docs/domain-atoms-entityref--docs) can be nested inline.
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-spellblock` | Organism root (`article`) |
+| `eevenkoto-spellblock--deck` | Compact card variant |
+| `eevenkoto-spellblock__plate` | Title plate band |
+| `eevenkoto-spellblock__type` | Italic type-line treatment on Caption |
+| `eevenkoto-spellblock__stats` | Casting-property band |
+| `eevenkoto-spellblock__body` | Effect prose band |
+| `eevenkoto-spellblock__footer` | Scaling band |
+
+Import companion CSS for composed pieces: `heading`, `paragraph`, `caption`, `property`, `statblock-feature`, `spellblock`.
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-spellblock-bg` | Card fill |
+| `--eevenkoto-spellblock-band-bg` | Plate / footer band fill |
+| `--eevenkoto-spellblock-text` | Card ink |
+| `--eevenkoto-spellblock-border-color` | Card border and band hairlines |
+| `--eevenkoto-spellblock-border-width` | Card border and hairline width |
+| `--eevenkoto-spellblock-accent-rule-color` | Rule under the title plate |
+| `--eevenkoto-spellblock-accent-rule-width` | Rule thickness |
+| `--eevenkoto-spellblock-radius` | Corner radius |
+| `--eevenkoto-spellblock-shadow` | Card shadow |
+| `--eevenkoto-spellblock-pad-block` | Band block padding |
+| `--eevenkoto-spellblock-pad-inline` | Band inline padding |
+| `--eevenkoto-spellblock-gap` | Gap between footer children |
+| `--eevenkoto-spellblock-prose-gap` | Gap between effect paragraphs |
+| `--eevenkoto-spellblock-deck-width` | Deck card width |
+
+## Framework packages
+
+```bash
+npm install @eevenkoto/css @eevenkoto/html
+# or @eevenkoto/react / @eevenkoto/vue
+```
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/spellblock.css';
+import { renderSpellblock } from '@eevenkoto/html';
+
+document.body.innerHTML = renderSpellblock({
+  name: 'Aavevalo',
+  typeLine: 'Taikakonsti, luominen',
+  lang: 'fi',
+  classes: [{ label: 'Luokat', value: 'mystikko, sensaatio' }],
+  properties: [
+    { label: 'Loitsimisviive', value: '1 toiminto' },
+    { label: 'Kantama', value: '20 metriä' },
+    { label: 'Komponentit', value: 'taikasana, ele' },
+    { label: 'Kesto', value: 'välitön' },
+  ],
+  paragraphs: ['Lähetät tuonpuoleisesta eetteripallon olentoon tai esineeseen kantamalla…'],
+  features: [
+    {
+      name: 'Taikakonstin voimistuminen',
+      description: 'Aavevalo tekee 1n8 lisää kuolonvahinkoa kun saavutat hahmotason 5 (2n8)…',
+    },
+  ],
+});
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/spellblock.css';
+import { Spellblock, EntityRef } from '@eevenkoto/react';
+
+<Spellblock
+  name="Aavevalo"
+  typeLine="Taikakonsti, luominen"
+  lang="fi"
+  classes={[{ label: 'Luokat', value: 'mystikko, sensaatio' }]}
+  properties={[
+    {
+      label: 'Loitsimisviive',
+      value: (
+        <>
+          1 <EntityRef kind="mechanic" name="toiminto" href="/saannot/taistelu#toiminto" />
+        </>
+      ),
+    },
+    { label: 'Kantama', value: '20 metriä' },
+    { label: 'Komponentit', value: 'taikasana, ele' },
+    { label: 'Kesto', value: 'välitön' },
+  ]}
+  paragraphs={['Lähetät tuonpuoleisesta eetteripallon olentoon tai esineeseen kantamalla…']}
+  features={[
+    {
+      name: 'Taikakonstin voimistuminen',
+      description: 'Aavevalo tekee 1n8 lisää kuolonvahinkoa kun saavutat hahmotason 5 (2n8)…',
+    },
+  ]}
+/>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/spellblock.css';
+import { Spellblock } from '@eevenkoto/vue';
+
+const properties = [
+  { label: 'Loitsimisviive', value: '1 toiminto' },
+  { label: 'Kantama', value: '20 metriä' },
+  { label: 'Komponentit', value: 'taikasana, ele' },
+  { label: 'Kesto', value: 'välitön' },
+];
+const features = [
+  {
+    name: 'Taikakonstin voimistuminen',
+    description: 'Aavevalo tekee 1n8 lisää kuolonvahinkoa kun saavutat hahmotason 5 (2n8)…',
+  },
+];
+</script>
+
+<template>
+  <Spellblock
+    name="Aavevalo"
+    type-line="Taikakonsti, luominen"
+    lang="fi"
+    :properties="properties"
+    :paragraphs="['Lähetät tuonpuoleisesta eetteripallon olentoon tai esineeseen kantamalla…']"
+    :features="features"
+  />
+</template>
+```
+
+<Controls of={SpellblockStories.Aavevalo} />
+
+## Related
+
+- [Statblock](?path=/docs/domain-organisms-statblock--docs) — Creature entry organism
+- [StatblockFeature](?path=/docs/domain-molecules-statblockfeature--docs) — Run-in entry, reused for scaling at H2
+- [PropertyList](?path=/docs/core-molecules-propertylist--docs) — Definition-list rows
+- [EntityRef](?path=/docs/domain-atoms-entityref--docs) — Inline rules references
+- [Authoring composed components](?path=/docs/foundations-authoring-composed-components--docs) — Hierarchy, outline, package checklist
+- [Packages](?path=/docs/foundations-packages--docs) — Package map

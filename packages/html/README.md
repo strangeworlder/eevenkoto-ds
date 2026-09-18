@@ -23,7 +23,13 @@ document.body.innerHTML = renderButton({
 });
 ```
 
-Also exported: `renderLinkButton`, `renderBadge`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderList`, `renderCaption`, `renderFrame`, `renderScroll`, `renderTableCell`, `renderFlow`, `renderProse`, `renderProperty`, `renderPropertyList`, `renderStat`, `renderTable`, `renderTableShell`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`.
+`@eevenkoto/css` is an **optional peer** — import it in the host or markup is unstyled.
+
+**Core atoms:** `renderButton`, `renderLinkButton`, `renderBadge`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderCaption`, `renderFrame`, `renderScroll`, `renderIcon`, `renderPopover`, `renderInlineRef`, `renderAvatar`, `renderInput`, `renderTableCell`, `renderProperty`, `renderStat`.
+
+**Core molecules / organism:** `renderFlow`, `renderNotice`, `renderField`, `renderSegmentedControl`, `renderCard`, `renderTooltipCard`, `renderMenu`, `renderProse`, `renderList`, `renderPropertyList`, `renderTable`, `renderTableShell`.
+
+**Domain:** `renderEntityRef`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`, `renderSpellblock`.
 
 `renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
 

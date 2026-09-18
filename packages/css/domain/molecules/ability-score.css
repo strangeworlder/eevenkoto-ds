@@ -204,7 +204,7 @@
 .eevenkoto-ability-score--save-proficient .eevenkoto-ability-score__stat--save .eevenkoto-stat {
   --eevenkoto-stat-border-color: var(--eevenkoto-color-content-accent-strong);
   --eevenkoto-stat-border-width: var(--eevenkoto-line-width-lg);
-  outline: var(--eevenkoto-line-width-sm) solid var(--eevenkoto-color-content-accent-strong);
+  outline: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-stat-emphasis-outline);
   outline-offset: 0.12rem;
 }
 

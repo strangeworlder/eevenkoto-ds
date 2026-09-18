@@ -15,6 +15,10 @@
     --eevenkoto-menu-item-text,
     var(--eevenkoto-color-content-primary)
   );
+  --_eevenkoto-menu-header-text: var(
+    --eevenkoto-menu-header-text,
+    var(--eevenkoto-color-content-secondary)
+  );
   --_eevenkoto-menu-item-bg-hover: var(
     --eevenkoto-menu-item-bg-hover,
     var(--eevenkoto-color-control-secondary-background-hover)
@@ -61,7 +65,7 @@
 .eevenkoto-menu__header {
   margin: 0;
   padding: var(--_eevenkoto-menu-item-pad-block) var(--_eevenkoto-menu-item-pad-inline);
-  color: var(--eevenkoto-color-content-secondary);
+  color: var(--_eevenkoto-menu-header-text);
   font-size: var(--eevenkoto-font-size-caption);
   font-weight: var(--eevenkoto-font-weight-bold);
   text-transform: uppercase;

@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # StatblockFeature
 
-**StatblockFeature** is the small molecule for a named **action, trait, or reaction**: an **H3 run-in** heading flowing into a Paragraph. Semantic outline stays under a section H2; visual weight matches micro H6 (sans, bold italic).
+**StatblockFeature** is the small molecule for a named **action, trait, or reaction**: a **run-in heading** flowing into a Paragraph. The name defaults to H3, which is correct under a section H2; visual weight matches micro H6 (sans, bold italic) at every level.
 
 <Canvas of={StatblockFeatureStories.Default} />
 
@@ -62,7 +62,7 @@ Feature names should participate in the document outline without orphaning a ful
   dont={
     <ul>
       <li>Don’t fake the name with <code>&lt;strong&gt;&lt;em&gt;</code> inside a Paragraph.</li>
-      <li>Don’t use H6 for features inside a Statblock — that skips levels; use H3 run-in.</li>
+      <li>Don’t use H6 for features inside a Statblock — that skips levels; use the run-in at the level the outline needs.</li>
       <li>Don’t put the colon or period in the <code>name</code> string.</li>
     </ul>
   }
@@ -71,12 +71,12 @@ Feature names should participate in the document outline without orphaning a ful
 ## Anatomy
 
 1. **Root** — `div.eevenkoto-statblock-feature`
-2. **Name** — `h3.eevenkoto-heading--3.eevenkoto-heading--run-in` (visual remap → micro)
+2. **Name** — `hN.eevenkoto-heading--N.eevenkoto-heading--run-in` (`N` = `level`, default `3`; visual remap → micro)
 3. **Body** — sibling `p.eevenkoto-paragraph` (`display: inline` after run-in)
 
 ## Visual remap
 
-Inside `.eevenkoto-statblock-feature`, the H3 run-in overrides Heading bridges to match default H6:
+Inside `.eevenkoto-statblock-feature`, the run-in heading overrides Heading bridges to match default H6:
 
 | Axis | Value |
 | --- | --- |
@@ -86,7 +86,7 @@ Inside `.eevenkoto-statblock-feature`, the H3 run-in overrides Heading bridges t
 | Color | `--eevenkoto-color-control-secondary-icon` |
 | Display | `inline-block` + period suffix + `--eevenkoto-heading-run-in-gap` |
 
-Run-in structure (inline + suffix + sibling paragraph) is defined on Heading for levels **3** and **6**. See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h3--h6).
+Run-in structure (inline + suffix + sibling paragraph) is defined on Heading for levels **2**, **3**, and **6**. See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2--h3--h6). The remap is keyed on `.eevenkoto-heading--run-in` rather than a level, so a feature looks the same whether its name is an H2 or an H3.
 
 ## Content guidelines
 
@@ -97,20 +97,22 @@ Run-in structure (inline + suffix + sibling paragraph) is defined on Heading for
 
 ## Accessibility
 
-- The feature name remains an `<h3>` — do not demote it to a span.
-- Place features only under an H2 (StatblockSection) so the outline does not jump H1 → H3.
+- The feature name remains a real heading — do not demote it to a span.
+- Keep the outline contiguous. Under a StatblockSection H2 the default `level: 3` is right; a host with no section H2 above it (Spellblock) passes `level: 2` so nothing jumps from H1 to H3.
 - Trailing gap after the name uses `--eevenkoto-heading-run-in-gap` (default `0.35em`) so the body does not collide with the suffix.
 
 ## API reference
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | — | Feature title (H3 run-in). |
+| `name` | `string` | — | Feature title (run-in heading). |
+| `level` | `2 \| 3 \| 6` | `3` | Semantic heading level for `name`. Appearance is identical at every level. |
 | `description` | `string` (HTML) / `ReactNode` (React) | — | Body after the run-in. |
 
 ```ts
 export interface StatblockFeatureProps {
   name: string;
+  level?: StatblockFeatureLevel; // 2 | 3 | 6, default 3
   description: string;
 }
 ```

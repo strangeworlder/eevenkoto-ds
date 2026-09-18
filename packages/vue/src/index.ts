@@ -39,3 +39,4 @@ export { AbilityScoreGroup } from './domain/organisms/AbilityScoreGroup';
 export { StatblockFeature, type StatblockFeatureProps } from './domain/molecules/StatblockFeature';
 export { StatblockSection, type StatblockSectionProps } from './domain/molecules/StatblockSection';
 export { Statblock } from './domain/organisms/Statblock';
+export { Spellblock } from './domain/organisms/Spellblock';

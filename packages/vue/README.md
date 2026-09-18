@@ -32,20 +32,21 @@ import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 </template>
 ```
 
-Import each component’s CSS from `@eevenkoto/css` (for example `@eevenkoto/css/badge.css`). Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
+`@eevenkoto/css` is an **optional peer** — import each component sheet (for example `@eevenkoto/css/badge.css`) or the UI is unstyled. Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
 
 ### Core
 
-- Atoms: `Badge`, `Button`, `LinkButton`, `Caption`, `Frame`, `Heading`, `Paragraph`, `ListItem`, `Property`, `Scroll`, `Stat`, `TableCell`
-- Molecules: `Flow`, `Prose`, `List`, `PropertyList`, `Table`
+- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Frame`, `Heading`, `Icon`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Scroll`, `Stat`, `TableCell`
+- Molecules: `Card`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `SegmentedControl`, `Table`, `TooltipCard`
 - Organisms: `TableShell`
 
 `Button` = in-page action. `LinkButton` = prominent URL CTA (`href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef`.
 
 ### Domain
 
+- Atoms: `EntityRef`
 - Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
-- Organisms: `AbilityScoreGroup`, `Statblock`
+- Organisms: `AbilityScoreGroup`, `Statblock`, `Spellblock`
 
 `Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use the default slot (not a `content` string like `@eevenkoto/html`). `AbilityScoreGroup` / `TableShell` also expose named slots (`header` / `footer`). Compose Prose with Flow for bare-tag reading content. CamelCase props become kebab-case in templates (`typeLine` → `type-line`).
 

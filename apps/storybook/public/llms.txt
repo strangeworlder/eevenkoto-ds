@@ -24,3 +24,5 @@
 - [Component taxonomy](/?path=/docs/foundations-component-taxonomy--docs)
 - [Authoring composed components](/?path=/docs/foundations-authoring-composed-components--docs)
 - [Minimum-class defaults](/?path=/docs/foundations-minimum-class-defaults--docs)
+- [Decisions](/?path=/docs/foundations-decisions--docs): product scope, token-only controls
+- [llms-full.txt — Component index](/llms-full.txt): Why/When + API tables per component

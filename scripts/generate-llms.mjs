@@ -4,7 +4,14 @@
  *
  * Do not hand-edit the outputs — change the sources and re-run.
  */
-import { mkdirSync, readFileSync, writeFileSync, copyFileSync, existsSync } from 'node:fs';
+import {
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+  copyFileSync,
+  existsSync,
+  readdirSync,
+} from 'node:fs';
 import { dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -64,7 +71,14 @@ const AUTHOR_SOURCES = [
     path: 'apps/storybook/src/foundations/minimum-class-defaults.mdx',
     kind: 'mdx',
   },
+  {
+    title: 'Decisions',
+    path: 'apps/storybook/src/foundations/decisions.mdx',
+    kind: 'mdx',
+  },
 ];
+
+const SKIP_COMPONENT_MDX = new Set(['TypographySample.mdx']);
 
 function mdxToMarkdown(source) {
   let s = source;
@@ -93,6 +107,80 @@ function loadSection({ title, path: relPath, kind }) {
   const raw = readFileSync(abs, 'utf8');
   const body = kind === 'mdx' ? mdxToMarkdown(raw) : raw.trim();
   return [`## ${title}`, '', `_Source: \`${relPath}\`_`, '', body].join('\n');
+}
+
+function walkMdx(dir, acc = []) {
+  if (!existsSync(dir)) return acc;
+  for (const name of readdirSync(dir, { withFileTypes: true })) {
+    const p = join(dir, name.name);
+    if (name.isDirectory()) walkMdx(p, acc);
+    else if (name.name.endsWith('.mdx')) acc.push(p);
+  }
+  return acc;
+}
+
+function firstMarkdownSection(md, heading) {
+  const re = new RegExp(`^## ${heading}\\s*$`, 'im');
+  const start = md.search(re);
+  if (start < 0) return '';
+  const after = md.slice(start).replace(/^##[^\n]*\n+/, '');
+  const next = after.search(/^##\s/m);
+  const body = (next < 0 ? after : after.slice(0, next)).trim();
+  const para = body.split(/\n\n/)[0]?.replace(/\n/g, ' ').replace(/<[^>]+>/g, '').trim();
+  return para || '';
+}
+
+function firstTable(md) {
+  const start = md.indexOf('|');
+  if (start < 0) return '';
+  const chunk = md.slice(start);
+  const lines = [];
+  for (const line of chunk.split('\n')) {
+    if (!line.startsWith('|')) break;
+    lines.push(line);
+    if (lines.length >= 12) break;
+  }
+  return lines.join('\n');
+}
+
+function storybookDocsPath(absPath) {
+  const rel = relative(join(root, 'apps/storybook/src'), absPath).replace(/\\/g, '/');
+  const parts = rel.split('/');
+  const file = parts.pop();
+  const slug = parts
+    .concat(file.replace(/\.mdx$/, ''))
+    .join('-')
+    .toLowerCase()
+    .replace(/[^a-z0-9-]+/g, '-');
+  return `/?path=/docs/${slug}--docs`;
+}
+
+function extractComponentIndex() {
+  const dirs = [
+    join(root, 'apps/storybook/src/core'),
+    join(root, 'apps/storybook/src/domain'),
+  ];
+  const files = dirs.flatMap((d) => walkMdx(d)).filter((p) => !SKIP_COMPONENT_MDX.has(p.split(/[/\\]/).pop()));
+  files.sort();
+  const entries = [];
+  for (const abs of files) {
+    const rel = relative(root, abs);
+    const raw = readFileSync(abs, 'utf8');
+    const md = mdxToMarkdown(raw);
+    const title = (md.match(/^#\s+(.+)$/m) || [])[1]?.trim() || rel;
+    const why = firstMarkdownSection(md, 'Why to use');
+    const when = firstMarkdownSection(md, 'When to use');
+    const apiIdx = md.search(/^## API reference/im);
+    const apiChunk = apiIdx >= 0 ? md.slice(apiIdx, apiIdx + 2500) : '';
+    const table = firstTable(apiChunk);
+    const docs = storybookDocsPath(abs);
+    const bits = [`### ${title}`, '', `_Source: \`${rel}\` · [Storybook](${docs})_`, ''];
+    if (why) bits.push(`**Why:** ${why}`, '');
+    if (when) bits.push(`**When:** ${when}`, '');
+    if (table) bits.push(table, '');
+    entries.push(bits.join('\n'));
+  }
+  return entries.join('\n');
 }
 
 function existingSources(list) {
@@ -128,6 +216,12 @@ function buildLlmsFull() {
     '',
     ...author.map(loadSection).filter(Boolean),
     '',
+    '# Component index',
+    '',
+    'Short Why/When plus the first API table from each Storybook MDX. Full docs stay in Storybook.',
+    '',
+    extractComponentIndex(),
+    '',
   ];
 
   return parts.join('\n').replace(/\n{3,}/g, '\n\n').trim() + '\n';
@@ -161,6 +255,8 @@ function buildLlmsTxt() {
 - [Component taxonomy](/?path=/docs/foundations-component-taxonomy--docs)
 - [Authoring composed components](/?path=/docs/foundations-authoring-composed-components--docs)
 - [Minimum-class defaults](/?path=/docs/foundations-minimum-class-defaults--docs)
+- [Decisions](/?path=/docs/foundations-decisions--docs): product scope, token-only controls
+- [llms-full.txt — Component index](/llms-full.txt): Why/When + API tables per component
 `;
 }
 

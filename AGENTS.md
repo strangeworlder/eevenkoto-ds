@@ -1,6 +1,8 @@
 # AGENTS.md — contributing to Eevenkoto
 
-Operating rules for agents and humans editing **this repository**. For installing and using published packages, feed Storybook’s [`/llms.txt`](http://localhost:6006/llms.txt) / [`/llms-full.txt`](http://localhost:6006/llms-full.txt) (generated from foundations MDX + package READMEs). Same files are written to the repo root by `npm run generate:llms`.
+Operating rules for agents and humans editing **this repository**. For installing and using published packages, feed Storybook’s [`/llms.txt`](http://localhost:6006/llms.txt) / [`/llms-full.txt`](http://localhost:6006/llms-full.txt) (generated from package READMEs, foundations MDX, and a short per-component index). Same files are written to the repo root by `npm run generate:llms`.
+
+**Product scope:** Eevenkoto is a **TTRPG content design system with growing core chrome**, not a full app kit. Dialog, Select, Toast, Tabs, and app shell are out of scope. Some Tier 2 roles (checkboxes, toasts, modals) are **token-only**. See root `README.md` and Storybook **Foundations/Decisions**.
 
 ## Repo map
 
@@ -36,7 +38,7 @@ Operating rules for agents and humans editing **this repository**. For installin
 - No raw `oklch()` / hex / rgb in component sheets. Do not use `opacity` for disabled UI — use opaque `*-disabled` semantic tuples.
 - Space, radius, line-width, duration, and ease are single-tier scales in `tokens.css` (no primitive layer).
 - **Icon paths** are single-tier data tokens in `@eevenkoto/core` (`ICON_NAMES` / `iconPaths`). Do not embed SVG path strings in components; Button uses `BUTTON_ICON_NAMES` (subset) and composes the Icon atom.
-Stylelint / CI guards described in Storybook Color Tokens docs are **planned, not enforced yet**. Follow the rules anyway.
+Stylelint / CI guards described in Storybook Color Tokens docs run via `npm run lint:css` and `npm run ci`.
 
 ## Tier 3 component pattern
 
@@ -77,4 +79,4 @@ Canonical names live in Storybook **Foundations/Glossary** (`apps/storybook/src/
 
 ## Agent feed-in files
 
-`llms.txt` / `llms-full.txt` are **generated** from package READMEs + foundations MDX (`npm run generate:llms`). Storybook serves them at `/llms.txt` and `/llms-full.txt` (and copies `AGENTS.md` to `/AGENTS.md`). Do not hand-edit the generated files — change the MDX/README sources and regenerate (also runs automatically before `storybook` / `build-storybook`).
+`llms.txt` / `llms-full.txt` are **generated** from package READMEs, foundations MDX, and a short Why/When/API index per component (`npm run generate:llms`). Storybook serves them at `/llms.txt` and `/llms-full.txt` (and copies `AGENTS.md` to `/AGENTS.md`). Do not hand-edit the generated files — change the MDX/README sources and regenerate (also runs automatically before `storybook` / `build-storybook`).

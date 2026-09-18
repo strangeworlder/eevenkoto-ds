@@ -1,0 +1,27 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Decisions" />
+
+# Decisions
+
+Short ADRs for product scope. Component APIs live on each component’s docs page.
+
+## Content DS, not a full app kit
+
+Eevenkoto is a **TTRPG content design system** (statblocks, entity refs, ability scores) plus **portable core chrome** (Button, Field, Menu, table stack, typography). It is not a general application kit.
+
+**Shipped:** Core atoms/molecules listed in package READMEs; Domain EntityRef → AbilityScore → Statblock → Spellblock.
+
+**Theming:** Light is the default. `[data-theme="dark"]` and `[data-surface-mode="dark"]` share the same Tier 2 remaps (Storybook toolbar). Contrast theme is not implemented.
+
+**Token-only (no component yet):** form checkbox/radio/switch, toast/banner containers, modal surface roles, breadcrumb-as-link tokens. Do not assume a component exists because a Tier 2 token is named.
+
+**Not in scope:** Dialog, Select, Toast, Pager, Tabs, date pickers, app shell. Popover is CSS chrome; the host app owns focus trapping and dialog behavior.
+
+## Optional CSS peer
+
+`@eevenkoto/html`, `@eevenkoto/react`, and `@eevenkoto/vue` list `@eevenkoto/css` as an **optional** peer so markup can be assembled without styles. Appearance requires explicit CSS imports (`styles.css` + each component sheet).
+
+## Google Fonts
+
+Base `styles.css` imports Inter and Outfit from Google Fonts. Consumers who cannot use that CDN should override `font-family` on `:root` / `body` or self-host.

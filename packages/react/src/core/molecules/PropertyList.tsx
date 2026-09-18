@@ -1,11 +1,11 @@
 import { propertyListClassNames, type PropertyItem, type PropertyListProps } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement } from 'react';
-import { Property } from '../atoms/Property';
+import { Property, type PropertyItemNode } from '../atoms/Property';
 
-export type { PropertyItem, PropertyListProps };
+export type { PropertyItem, PropertyItemNode, PropertyListProps };
 
 export type PropertyListComponentProps = Omit<HTMLAttributes<HTMLDListElement>, 'children'> &
-  PropertyListProps;
+  Omit<PropertyListProps, 'items'> & { items: PropertyItemNode[] | PropertyItem[] };
 
 export const PropertyList = ({
   items,
@@ -15,8 +15,8 @@ export const PropertyList = ({
   const classes = [propertyListClassNames(), className].filter(Boolean).join(' ');
   return (
     <dl className={classes} {...rest}>
-      {items.map((item) => (
-        <Property key={`${item.label}-${item.value}`} label={item.label} value={item.value} />
+      {items.map((item, index) => (
+        <Property key={`${item.label}-${index}`} label={item.label} value={item.value} />
       ))}
     </dl>
   );

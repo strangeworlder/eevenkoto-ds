@@ -8,6 +8,10 @@
 .eevenkoto-card {
   --_eevenkoto-card-bg: var(--eevenkoto-card-bg, var(--eevenkoto-color-surface-raised));
   --_eevenkoto-card-text: var(--eevenkoto-card-text, var(--eevenkoto-color-content-primary));
+  --_eevenkoto-card-muted: var(
+    --eevenkoto-card-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
   --_eevenkoto-card-border-color: var(
     --eevenkoto-card-border-color,
     var(--eevenkoto-color-boundary-subtle)
@@ -77,7 +81,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--_eevenkoto-card-gap);
-  color: var(--eevenkoto-color-content-secondary);
+  color: var(--_eevenkoto-card-muted);
   font-size: var(--eevenkoto-font-size-body-sm);
   border-block-start: var(--_eevenkoto-card-border-width) solid
     var(--_eevenkoto-card-divider-color);

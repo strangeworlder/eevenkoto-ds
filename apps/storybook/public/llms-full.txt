@@ -22,6 +22,7 @@ When Storybook is running, this file is also served at `/llms-full.txt`.
 - `apps/storybook/src/foundations/glossary.mdx`
 - `apps/storybook/src/foundations/authoring-composed-components.mdx`
 - `apps/storybook/src/foundations/minimum-class-defaults.mdx`
+- `apps/storybook/src/foundations/decisions.mdx`
 
 # Using the system
 
@@ -50,19 +51,11 @@ Import the base stylesheet once, then the CSS for each component you use:
 ```ts
 import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
-import '@eevenkoto/css/link-button.css';
-import '@eevenkoto/css/heading.css';
-import '@eevenkoto/css/paragraph.css';
-import '@eevenkoto/css/list.css';
-import '@eevenkoto/css/caption.css';
-import '@eevenkoto/css/frame.css';
-import '@eevenkoto/css/scroll.css';
-import '@eevenkoto/css/table-cell.css';
-import '@eevenkoto/css/flow.css';
-import '@eevenkoto/css/prose.css';
-import '@eevenkoto/css/table.css';
-import '@eevenkoto/css/table-shell.css';
 ```
+
+Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `heading`, `paragraph`, `list`, `caption`, `frame`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `property`, `stat`, `flow`, `notice`, `field`, `segmented-control`, `card`, `tooltip-card`, `menu`, `prose`, `table`, `table-shell`. **Domain:** `entity-ref`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`, `spellblock`. AbilityScoreGroup has no dedicated sheet (uses ability-score).
+
+`styles.css` pulls Inter/Outfit from Google Fonts.
 
 Also available:
 
@@ -132,20 +125,21 @@ export function Example() {
 }
 ```
 
-Import each component’s CSS from `@eevenkoto/css` (for example `@eevenkoto/css/badge.css`). Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
+`@eevenkoto/css` is an **optional peer** — import each component sheet (for example `@eevenkoto/css/badge.css`) or the UI is unstyled. Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
 
 ### Core
 
-- Atoms: `Badge`, `Button`, `LinkButton`, `Caption`, `Frame`, `Heading`, `Paragraph`, `ListItem`, `Property`, `Scroll`, `Stat`, `TableCell`
-- Molecules: `Flow`, `Prose`, `List`, `PropertyList`, `Table`
+- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Frame`, `Heading`, `Icon`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Scroll`, `Stat`, `TableCell`
+- Molecules: `Card`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `SegmentedControl`, `Table`, `TooltipCard`
 - Organisms: `TableShell`
 
 `Button` = in-page action. `LinkButton` = prominent URL CTA (`href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef`.
 
 ### Domain
 
+- Atoms: `EntityRef`
 - Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
-- Organisms: `AbilityScoreGroup`, `Statblock`
+- Organisms: `AbilityScoreGroup`, `Statblock`, `Spellblock`
 
 `Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`.
 
@@ -194,20 +188,21 @@ import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 </template>
 ```
 
-Import each component’s CSS from `@eevenkoto/css` (for example `@eevenkoto/css/badge.css`). Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
+`@eevenkoto/css` is an **optional peer** — import each component sheet (for example `@eevenkoto/css/badge.css`) or the UI is unstyled. Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
 
 ### Core
 
-- Atoms: `Badge`, `Button`, `LinkButton`, `Caption`, `Frame`, `Heading`, `Paragraph`, `ListItem`, `Property`, `Scroll`, `Stat`, `TableCell`
-- Molecules: `Flow`, `Prose`, `List`, `PropertyList`, `Table`
+- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Frame`, `Heading`, `Icon`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Scroll`, `Stat`, `TableCell`
+- Molecules: `Card`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `SegmentedControl`, `Table`, `TooltipCard`
 - Organisms: `TableShell`
 
 `Button` = in-page action. `LinkButton` = prominent URL CTA (`href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef`.
 
 ### Domain
 
+- Atoms: `EntityRef`
 - Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
-- Organisms: `AbilityScoreGroup`, `Statblock`
+- Organisms: `AbilityScoreGroup`, `Statblock`, `Spellblock`
 
 `Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use the default slot (not a `content` string like `@eevenkoto/html`). `AbilityScoreGroup` / `TableShell` also expose named slots (`header` / `footer`). Compose Prose with Flow for bare-tag reading content. CamelCase props become kebab-case in templates (`typeLine` → `type-line`).
 
@@ -247,7 +242,13 @@ document.body.innerHTML = renderButton({
 });
 ```
 
-Also exported: `renderLinkButton`, `renderBadge`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderList`, `renderCaption`, `renderFrame`, `renderScroll`, `renderTableCell`, `renderFlow`, `renderProse`, `renderProperty`, `renderPropertyList`, `renderStat`, `renderTable`, `renderTableShell`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`.
+`@eevenkoto/css` is an **optional peer** — import it in the host or markup is unstyled.
+
+**Core atoms:** `renderButton`, `renderLinkButton`, `renderBadge`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderCaption`, `renderFrame`, `renderScroll`, `renderIcon`, `renderPopover`, `renderInlineRef`, `renderAvatar`, `renderInput`, `renderTableCell`, `renderProperty`, `renderStat`.
+
+**Core molecules / organism:** `renderFlow`, `renderNotice`, `renderField`, `renderSegmentedControl`, `renderCard`, `renderTooltipCard`, `renderMenu`, `renderProse`, `renderList`, `renderPropertyList`, `renderTable`, `renderTableShell`.
+
+**Domain:** `renderEntityRef`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`, `renderSpellblock`.
 
 `renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
 
@@ -293,7 +294,7 @@ const className = buttonClassNames({
 // "eevenkoto-button eevenkoto-button--primary eevenkoto-button--sm eevenkoto-button--icon-left"
 ```
 
-Helpers: `buttonClassNames`, `linkButtonClassNames`, `badgeClassNames`, `headingClassNames`, `paragraphClassNames`, `listClassNames`, `captionClassNames`, `flowClassNames`, `proseClassNames`, plus Domain helpers (`abilityScoreClassNames`, `statblockClassNames`, …).
+Helpers include `buttonClassNames`, `linkButtonClassNames`, `badgeClassNames`, `headingClassNames`, `iconClassNames`, `inputClassNames`, `fieldClassNames`, `menuClassNames`, `popoverClassNames`, `noticeClassNames`, `cardClassNames`, plus Domain helpers (`entityRefClassNames`, `abilityScoreClassNames`, `statblockClassNames`, `spellblockClassNames`, …). Full export list: `src/index.ts`.
 
 Pair with `@eevenkoto/css` for styling.
 
@@ -330,6 +331,8 @@ Source folders inside each package follow **Core vs Domain** and **Atoms / Molec
 3. **HTML** is the reference markup implementation used by this Storybook.
 4. **React / Vue** only map props → the same class strings and elements (Flow uses children / default slot instead of a `content` string).
 
+`@eevenkoto/css` is an **optional peer** of html/react/vue: bindings assemble classes without injecting styles. Import CSS in the host app or the UI is unstyled.
+
 Import styles explicitly in the host app:
 
 ```ts
@@ -351,6 +354,8 @@ Do **not** put `href` on Button or wrap Button in an anchor. Same-site pages wit
 ## Authoring new components
 
 Decide Core vs Domain and atom → molecule → organism first ([Component taxonomy](/?path=/docs/foundations-component-taxonomy--docs)). Host classes must ship usable defaults without modifier classes ([Minimum-class defaults](/?path=/docs/foundations-minimum-class-defaults--docs)). For multi-piece Domain UIs, see [Authoring composed components](/?path=/docs/foundations-authoring-composed-components--docs) — hierarchy, honest outlines, emphasis/contrast, package checklist, and HTML trust boundaries.
+
+Product scope (content DS vs app kit, token-only controls): [Decisions](/?path=/docs/foundations-decisions--docs).
 ## Tokens
 
 _Source: `apps/storybook/src/tokens/Tokens.mdx`_
@@ -1217,9 +1222,9 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
 }
 ```
 
-## Planned CI enforcement
+## CI enforcement
 
-These Stylelint rules and contrast checks are the **intended** CI guardrails. They are **not enforced on every commit yet** — follow them when authoring tokens.
+These Stylelint rules and contrast checks run in `npm run lint:css`, `npm run contrast`, and `npm run ci`.
 
 | Check | Behavior |
 | --- | --- |
@@ -1849,9 +1854,9 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 }
 ```
 
-## Planned CI verification & linting rules
+## CI verification & linting rules
 
-These AST-based Stylelint checks are the **intended** guardrails for `packages/css/core/**/*.css` and `packages/css/domain/**/*.css`. They are **not enforced in CI yet** — treat them as authoring requirements until plugins ship.
+These AST-based Stylelint checks run on `packages/css/core/**/*.css` and `packages/css/domain/**/*.css` via `npm run lint:css` / `npm run ci`.
 
 ```text
                     Pull Request / Code Commit
@@ -1917,7 +1922,7 @@ Atomic levels answer “how complex is this?” They do **not** answer “is thi
 | Scope | Meaning | Examples |
 | --- | --- | --- |
 | **Core** | Portable building blocks; English APIs; no RPG vocabulary required | Button, LinkButton, Badge, Heading, Property, List, Stat, Flow, Table, TableShell |
-| **Domain** | Content patterns for this product family; may compose Core freely | AbilityScore, StatblockFeature, Statblock |
+| **Domain** | Content patterns for this product family; may compose Core freely | AbilityScore, StatblockFeature, Statblock, Spellblock |
 
 ## Composition levels
 
@@ -1925,7 +1930,7 @@ Atomic levels answer “how complex is this?” They do **not** answer “is thi
 | --- | --- | --- | --- |
 | **Atom** | One semantic unit + BEM classes | Button, LinkButton, Badge, Heading, Paragraph, Caption, Property, ListItem, Stat, Frame, Scroll, TableCell | — |
 | **Molecule** | Layout of atoms + local ARIA | Flow, Prose, PropertyList, List, Table | AbilityScore, StatblockFeature, StatblockSection |
-| **Organism** | Page-shaped composition, slots, outline | TableShell | AbilityScoreGroup, Statblock |
+| **Organism** | Page-shaped composition, slots, outline | TableShell | AbilityScoreGroup, Statblock, Spellblock |
 
 Prop and file naming: see [Glossary](/?path=/docs/foundations-glossary--docs).
 
@@ -1988,6 +1993,20 @@ Also read: [Component taxonomy](/?path=/docs/foundations-component-taxonomy--doc
 
 Do **not** use **traits** for the footer PropertyList — that word collides with feature-style “traits” in rules prose. The footer rail is **`details`**.
 
+## Domain spell entry
+
+| Term | Meaning | Prop / type |
+| --- | --- | --- |
+| **Spellblock** | Spell **entry** organism (banded card) | `SpellblockProps` |
+| **typeLine** | Level + school line, italic on the title plate | `typeLine` |
+| **classes** | Optional catalog rail (classes that grant the spell) | `classes: PropertyItem[]` |
+| **properties** | Casting time, range, components, duration — the boxed stat band | `properties: PropertyItem[]` |
+| **paragraphs** | Effect prose, one entry per paragraph | `paragraphs` |
+| **features** | Scaling entries (higher-level slot, cantrip upgrade) | `StatblockFeatureProps[]` |
+| **deck** | Compact card variant for spell grids | `deck` |
+
+Spellblock reuses **StatblockFeature** for scaling run-ins; there is no separate spell-feature molecule. Spell entries have no named **sections** — 5.5e prints no section title inside a spell, so the bands are visual only and the scaling run-in itself takes the H2 directly under the spell name.
+
 ## Core display terms
 
 | Term | Meaning |
@@ -2024,7 +2043,7 @@ Use the prop that matches the role — do not force one name everywhere.
 | `label` | Visible control/chrome copy and definition terms (Button, LinkButton, Badge, Property, AbilityScore header, **Field** visible label). **Not** used on Input. |
 | `ariaLabel` | Input-only: `aria-label` when there is no Field / visible label (chrome search). |
 | `text` | Typography primitives (Heading, Paragraph, Caption, ListItem, TableCell body) |
-| `name` | Named entity or inline reference (Statblock creature, StatblockFeature, InlineRef, EntityRef) |
+| `name` | Named entity or inline reference (Statblock creature, Spellblock spell, StatblockFeature, InlineRef, EntityRef) |
 | `title` | Section heading (StatblockSection, TooltipCard header) |
 | `value` | Numeric or definitional payload (Stat, Property) |
 | `description` | Feature body after the run-in name |
@@ -2115,7 +2134,7 @@ Place each piece on **Core vs Domain**, then map **atom → molecule → organis
 | Core | Molecule | PropertyList, Table | Layout of atoms + local ARIA |
 | Core | Organism | TableShell | Slots composing Frame + Scroll + Table (+ future Pager) |
 | Domain | Molecule | AbilityScore, StatblockFeature | Layout of Core atoms + local ARIA |
-| Domain | Organism | AbilityScoreGroup, Statblock | Page-shaped composition, slots, outline |
+| Domain | Organism | AbilityScoreGroup, Statblock, Spellblock | Page-shaped composition, slots, outline |
 
 **Do:** Ship a working Domain organism against a real specimen (e.g. Aatelinen), then extract molecules once the seams are obvious.
 
@@ -2169,6 +2188,8 @@ HTML string → DOM is a **trust boundary**. If the HTML package accepts inline 
 ## Reference specimen
 
 [Statblock — Aatelinen](/?path=/docs/domain-organisms-statblock--docs) is the worked example: Core atoms (Property, Stat), Domain molecules (AbilityScore, StatblockFeature), Domain organisms (AbilityScoreGroup, Statblock), honest outline with visual remaps, proficiency emphasis, and embed `nameLevel`.
+
+[Spellblock — Aavevalo](/?path=/docs/domain-organisms-spellblock--docs) is the second specimen, and shows two things Statblock does not: an organism that **owns its own card surface** (banded Tier 3 chrome instead of a flat stack), and a density variant driven by `container-type: inline-size` plus explicit wrapping rules for long Finnish compounds.
 ## Minimum-class defaults
 
 _Source: `apps/storybook/src/foundations/minimum-class-defaults.mdx`_
@@ -2264,3 +2285,464 @@ Put the **default surface** recipe on intent-only classes; higher-specificity co
 - Putting default hover only on `.eevenkoto-button--primary:hover` so host-alone buttons look dead
 - Bare `h1 { … }` or `button { … }` outside Prose / host compounds
 - Treating Flow as a substitute for Prose (Flow owns gaps; Prose owns bare-tag type)
+## Decisions
+
+_Source: `apps/storybook/src/foundations/decisions.mdx`_
+
+# Decisions
+
+Short ADRs for product scope. Component APIs live on each component’s docs page.
+
+## Content DS, not a full app kit
+
+Eevenkoto is a **TTRPG content design system** (statblocks, entity refs, ability scores) plus **portable core chrome** (Button, Field, Menu, table stack, typography). It is not a general application kit.
+
+**Shipped:** Core atoms/molecules listed in package READMEs; Domain EntityRef → AbilityScore → Statblock → Spellblock.
+
+**Theming:** Light is the default. `[data-theme="dark"]` and `[data-surface-mode="dark"]` share the same Tier 2 remaps (Storybook toolbar). Contrast theme is not implemented.
+
+**Token-only (no component yet):** form checkbox/radio/switch, toast/banner containers, modal surface roles, breadcrumb-as-link tokens. Do not assume a component exists because a Tier 2 token is named.
+
+**Not in scope:** Dialog, Select, Toast, Pager, Tabs, date pickers, app shell. Popover is CSS chrome; the host app owns focus trapping and dialog behavior.
+
+## Optional CSS peer
+
+`@eevenkoto/html`, `@eevenkoto/react`, and `@eevenkoto/vue` list `@eevenkoto/css` as an **optional** peer so markup can be assembled without styles. Appearance requires explicit CSS imports (`styles.css` + each component sheet).
+
+## Google Fonts
+
+Base `styles.css` imports Inter and Outfit from Google Fonts. Consumers who cannot use that CDN should override `font-family` on `:root` / `body` or self-host.
+
+# Component index
+
+Short Why/When plus the first API table from each Storybook MDX. Full docs stay in Storybook.
+
+### Avatar
+
+_Source: `apps/storybook/src/core/atoms/Avatar/Avatar.mdx` · [Storybook](/?path=/docs/core-atoms-avatar-avatar--docs)_
+
+**Why:** Rules and roster UIs need a compact face mark for a character or account without inventing ad-hoc circles. Avatar is that portrait shell — image or quiet parchment placeholder — sized on the shared sm/md/lg ladder.
+
+**When:** Pass src when you have a portrait asset.       Omit src for the parchment user placeholder until an image exists.       Always provide name for alt / aria-label.        }   dont={            Don’t encode online status or role on the avatar — use Badge or text nearby.       Don’t invent initials or turquoise fills; the placeholder is the user icon on parchment.       Don’t use Avatar as a Button — wrap a control if the portrait is interactive.        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Accessible name. |
+| `src` | `string` | — | Portrait URL; omit for placeholder. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `md` | Diameter ladder. |
+
+### Badge
+
+_Source: `apps/storybook/src/core/atoms/Badge/Badge.mdx` · [Storybook](/?path=/docs/core-atoms-badge-badge--docs)_
+
+**Why:** Status and taxonomy need a compact, scannable marker beside content — readiness, severity, membership — without looking like a click target. Badge is that non-interactive chip so metadata stays visible without competing with Buttons or filters.
+
+**When:** Status indicators with optional dot (readiness, validation state).       Non-interactive entity or role tags beside headings or rows.       Map product labels in the app (Ready, Draft) → DS intent; keep copy in the product.        }   dont={            Don’t use Badge as a clickable filter — that is Chip (control), not yet shipped.       Don’t invent local OKLCH in the component; finalize placeholder Tier 1 hues, then adjust Tier 2 mixes.       Don’t put product-specific presets (Guest, Spell) into @eevenkoto/core.       Don’t use ALL CAPS — sentence case + bold (P5).        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | — | Visible text (sentence case). |
+| `variant` | `'subtle' \| 'solid' \| 'outline'` | `'subtle'` | Surface recipe. |
+| `intent` | `'neutral' \| 'info' \| 'success' \| 'caution' \| 'critical' \| 'admin'` | `'neutral'` | Feedback intent. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Shared size ladder. |
+| `shape` | `'pill' \| 'rounded'` | `'pill'` | Corner treatment. |
+| `dot` | `boolean` | `false` | Status dot (`__dot`). |
+
+### Button
+
+_Source: `apps/storybook/src/core/atoms/Button/Button.mdx` · [Storybook](/?path=/docs/core-atoms-button-button--docs)_
+
+**Why:** Buttons execute actions in the interface: submitting a form, opening a dialog, cancelling an operation, or performing add/remove actions. They stand out from surrounding content and guide attention to the most important actions.
+
+**When:** Use a Button when the user needs to perform an explicit action — initiating a task, submitting information, confirming a decision, or opening additional functionality. Prefer a Button whenever the user is expected to *do* something, not only navigate or view content.
+
+| Arg / concern | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `variant` | `'primary' \| 'secondary' \| 'ghost'` | No | `'primary'` | Maps to `eevenkoto-button--{variant}`. Host alone is also primary in CSS. |
+| `label` | `string` | Yes | — | Visible text; also `aria-label` when `iconPosition` is `only`. |
+| `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Maps to `eevenkoto-button--sm` / `--md` / `--lg`. |
+| `disabled` | `boolean` | No | `false` | Sets the native `disabled` attribute. |
+| `icon` | `ButtonIconName` | No | — | From token `BUTTON_ICON_NAMES` (renders Icon). |
+| `iconPosition` | `'left' \| 'right' \| 'only'` | No | `'left'` when icon is set | Maps to `eevenkoto-button--icon-*`. |
+
+### Caption
+
+_Source: `apps/storybook/src/core/atoms/Caption/Caption.mdx` · [Storybook](/?path=/docs/core-atoms-caption-caption--docs)_
+
+**Why:** Captions keep timestamps, helper hints, and field metadata visually quieter than body copy — smaller type and tertiary ink — without inventing a one-off rem or gray.
+
+**When:** Use Caption under form fields, on cards, or beside status metadata. Prefer Paragraph for multi-sentence prose and Heading for titles.
+
+### Frame
+
+_Source: `apps/storybook/src/core/atoms/Frame/Frame.mdx` · [Storybook](/?path=/docs/core-atoms-frame-frame--docs)_
+
+**Why:** Dense charts and token boards need a portable bordered panel so they read as contained rulebook surfaces instead of bleeding into the page canvas. Frame is that host — TableShell uses it by default, and other panels can reuse the same border without a one-off box.
+
+**When:** Wrap dense charts, token panels, or any content that should read as a contained rulebook panel. Prefer bare layout when the page canvas is enough.
+
+### Heading
+
+_Source: `apps/storybook/src/core/atoms/Heading/Heading.mdx` · [Storybook](/?path=/docs/core-atoms-heading-heading--docs)_
+
+**Why:** Pages need a scannable outline readers and assistive tech can trust. Heading gives six structured levels — size, weight, family, case, posture, and light rules — so titles stay consistent without faking hierarchy with bold Paragraphs or skipped levels for looks alone.
+
+**When:** Use Heading for page titles and section labels. One `h1` per view; nest levels without skipping for style alone.
+
+### Icon
+
+_Source: `apps/storybook/src/core/atoms/Icon/Icon.mdx` · [Storybook](/?path=/docs/core-atoms-icon-icon--docs)_
+
+**Why:** Chrome needs the same glyphs in Button, adornments, and product UI without each consumer pasting SVG path strings. Icon is the shared renderer (size ladder + `currentColor`); the name inventory stays in core tokens so the catalog has one source of truth.
+
+**When:** Pick names from the Icons token         catalog — add glyphs only in tokens/icons.ts.                       Let the parent set color (currentColor). Omit label when decorative         (aria-hidden).                       Use Button’s icon prop for the four-name subset; use Icon everywhere else.               }   dont={            Don’t paste path strings into Button, Menu, or product CSS.       Don’t grow a parallel icon map next to iconPaths.                Don’t treat Icon as a click target — wrap Button or a link when the glyph is interactive.               } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `IconName` | — | From token `ICON_NAMES`. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size ladder. |
+| `label` | `string` | — | Accessible name; omit when decorative. |
+
+### Inline Ref
+
+_Source: `apps/storybook/src/core/atoms/InlineRef/InlineRef.mdx` · [Storybook](/?path=/docs/core-atoms-inlineref-inlineref--docs)_
+
+**Why:** Body copy often points at another page or previewable term. InlineRef is that mark without Button chrome, Badge status, or product vocabulary — so Core Popover triggers stay Core.
+
+**When:** Mark an inline term that can open a Popover / TooltipCard preview.       Prefer a real href when the term has a destination URL.                Use Domain EntityRef when you need         closed rules kinds (spell, condition, …).               }   dont={            Don’t invent Domain kinds on InlineRef — that is EntityRef.       Don’t use InlineRef for status or readiness — that is Badge.       Don’t wrap InlineRef in a Button; the link (or tag) is the trigger.        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Visible label. |
+| `href` | `string` | — | When set, renders as `<a>`. |
+
+### Input
+
+_Source: `apps/storybook/src/core/atoms/Input/Input.mdx` · [Storybook](/?path=/docs/core-atoms-input-input--docs)_
+
+**Why:** Every product form should not invent its own text-box surface. Input owns fill, border, focus, and invalid chrome once; Field (or equivalent host markup) owns the labeling contract around it.
+
+**When:** Nest Input inside Field for forms; pass matching id /{' '}         describedBy / invalid from the Field message.                       Use ariaLabel only when there is genuinely no visible label (chrome search).                       Treat placeholder as an example value — never as the accessible name.               }   dont={                     Don’t treat Input as a complete form field (no visible label + no Field).                       Don’t pass a visible-label string as Input ariaLabel when Field already has{' '}         label — that duplicates the name.                       Don’t show invalid chrome without Field error text linked via{' '}         describedBy.               } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | Wire to Field `htmlFor` / `<label for>`. |
+| `ariaLabel` | `string` | — | `aria-label` when **no** visible Field label. |
+| `describedBy` | `string` | — | `aria-describedby` (Field message id). |
+| `invalid` | `boolean` | `false` | Invalid paint + `aria-invalid`. |
+| `placeholder` | `string` | — | Example hint, not the name. |
+| `search` | `boolean` | `false` | Pill + search icon recipe. |
+
+### LinkButton
+
+_Source: `apps/storybook/src/core/atoms/LinkButton/LinkButton.mdx` · [Storybook](/?path=/docs/core-atoms-linkbutton-linkbutton--docs)_
+
+**Why:** Call-to-action navigation needs a control that *looks* like a button so it can compete with surrounding chrome, but it must remain a link: it has a destination, can be opened in a new tab, and participates in the browser’s link model. Putting `href` on Button (or wrapping Button in an anchor) mixes those roles.
+
+**When:** Use a LinkButton when the user should **go somewhere** and that destination is a primary or secondary marketing action (hero, empty state, campaign banner). Use [Button](/?path=/docs/core-atoms-button--docs) when the user **does** something on the page. Use [InlineRef](/?path=/docs/core-atoms-inlineref--docs) for terms inside running text.
+
+| Arg / concern | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `href` | `string` | Yes | — | Destination URL. |
+| `variant` | `'primary' \| 'secondary'` | No | `'primary'` | Maps to `eevenkoto-link-button--{variant}`. Host alone is also primary. |
+| `label` | `string` | Yes | — | Visible chrome copy. |
+| `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Maps to `--sm` / `--md` / `--lg`. |
+| `disabled` | `boolean` | No | `false` | Removes `href`; adds `aria-disabled` + `tabindex="-1"`. Prefer omitting. |
+| `icon` | `ButtonIconName` | No | — | From `BUTTON_ICON_NAMES`. |
+| `iconPosition` | `'left' \| 'right'` | No | `'right'` when icon is set | Maps to `--icon-*`. |
+| `target` | `string` | No | — | Native `target`. |
+| `rel` | `string` | No | — | Native `rel`; `_blank` automatically adds `noopener noreferrer`. |
+
+### Paragraph
+
+_Source: `apps/storybook/src/core/atoms/Paragraph/Paragraph.mdx` · [Storybook](/?path=/docs/core-atoms-paragraph-paragraph--docs)_
+
+**Why:** Consistent body type keeps reading rhythm stable across pages and themes. Semantic sizes let density or theme remaps change roles without renaming the rem ladder.
+
+**When:** Use Paragraph for multi-sentence body copy. Prefer Heading for titles and Caption for short metadata.
+
+### Popover
+
+_Source: `apps/storybook/src/core/atoms/Popover/Popover.mdx` · [Storybook](/?path=/docs/core-atoms-popover-popover--docs)_
+
+**Why:** Short-lived secondary content — entity previews, compact help, a small menu shell — needs an elevated surface next to a trigger without the weight of a dialog. Popover is that chrome; the app still owns show/hide, focus, and collision.
+
+**When:** Use the panel as chrome and let the app own show/hide, delays, Escape, and         collision.                       Anchor preview tooltips on InlineRef links (Core). Use Domain{' '}         EntityRef when closed kinds are         required.                       Nest TooltipCard for header /         body / footer inside the panel.                       Prefer fixed + portal to body when the trigger lives in scrolling         or overflowing prose.               }   dont={                     Don’t assume a Button trigger — Storybook demos once used buttons for convenience only.                       Don’t put Floating UI / Popper inside @eevenkoto/css. Positioning math stays in         the app (or a future optional helper package).                       Don’t use Popover for blocking multi-step flows — that is a dialog pattern with focus         management you own carefully.                       Don’t double chrome: either plain content in Popover, or TooltipCard nested (it sheds its         own border/shadow as a direct child).               } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `placement` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Absolute placement. Ignored when `fixed`. |
+| `arrow` | `boolean` | `false` | Renders `__arrow`. |
+| `fixed` | `boolean` | `false` | Portal / JS-positioned overlay. |
+| `open` | `boolean` | `false` | Visible state for `fixed` panels. |
+| `label` | `string` | — | `aria-label` on the panel. |
+| `content` | `string` | — | HTML package: panel inner HTML. |
+| `role` | `'dialog' \| 'tooltip' \| 'note' \| 'group'` | — | Optional ARIA role. |
+
+### Property
+
+_Source: `apps/storybook/src/core/atoms/Property/Property.mdx` · [Storybook](/?path=/docs/core-atoms-property-property--docs)_
+
+**Why:** Pair a definition term with its value without inventing a new layout. The atom keeps `dt`/`dd` semantics so assistive tech reads the association.
+
+**When:** Use Property inside a `dl` (PropertyList) for keyed facts. Do not use it for running prose or for interactive form fields (use Field).
+
+### Scroll
+
+_Source: `apps/storybook/src/core/atoms/Scroll/Scroll.mdx` · [Storybook](/?path=/docs/core-atoms-scroll-scroll--docs)_
+
+**Why:** Wide tables and tall panels overflow the frame. Scroll owns the overflow axis (and sticky cues when composed) so hosts like TableShell do not invent one-off `overflow` CSS per layout.
+
+**When:** Wrap content that may exceed the viewport or frame. TableShell enables Scroll by default around Table.
+
+### Stat
+
+_Source: `apps/storybook/src/core/atoms/Stat/Stat.mdx` · [Storybook](/?path=/docs/core-atoms-stat-stat--docs)_
+
+**Why:** Ability math needs scannable glyphs with distinctive silhouettes. Stat encodes that geometry once so AbilityScore can compose three chips without one-off CSS per cell.
+
+**When:** Ability score / modifier / save glyphs.       Other prominent numeric badges that are not feedback status.       Compose via AbilityScore when building the standard triad.        }   dont={            Don’t use Stat for readiness / severity — that is Badge.       Don’t invent local OKLCH; bridge to Tier 2 (surface-*, content-accent).       Don’t hard-code 9999px for disks — use --eevenkoto-radius-full.        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | — | Displayed number / signed modifier. |
+| `shape` | `'disk' \| 'arch' \| 'shield'` | `'disk'` | Geometry. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Shared size ladder. |
+| `emphasis` | `boolean` | `false` | Deep accent border + thicker stroke/outline. |
+
+### TableCell
+
+_Source: `apps/storybook/src/core/atoms/TableCell/TableCell.mdx` · [Storybook](/?path=/docs/core-atoms-tablecell-tablecell--docs)_
+
+### Card
+
+_Source: `apps/storybook/src/core/molecules/Card/Card.mdx` · [Storybook](/?path=/docs/core-molecules-card-card--docs)_
+
+**Why:** Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned box so products do not invent one-off bordered panels for every teaser.
+
+**When:** Group related content that reads as one unit (item card, gate summary, teaser).       Omit unused sections — body-only is still a valid Card.                Use elevated when the card should float above the page (overlays, pinned         summaries).                       Use interactive only with a real link or button host so keyboard activation         works.               }   dont={            Don’t use Card for dense charts or table shells — that is Frame / TableShell.       Don’t use Card for status or gate banners — that is Notice.       Don’t nest Cards for decoration alone.                Don’t mark a Card interactive without an actionable host (href / button) —         hover alone is not enough.              Don’t bake product layout or paywall copy into the Card API — keep strings as data.        } />
+
+### Field
+
+_Source: `apps/storybook/src/core/molecules/Field/Field.mdx` · [Storybook](/?path=/docs/core-molecules-field-field--docs)_
+
+**Why:** Form controls fail WCAG when the name is only a placeholder, or when invalid state is red chrome with no words. Field owns the visible label and the hint/error message so that contract stays consistent — Input stays control chrome, not a half-built form row.
+
+**When:** Always show a visible label for form data entry.                When invalid, set error on Field and invalid +{' '}         describedBy on Input (same message id).                       Use hint for helper text; it yields to error when both would         apply.              Keep placeholder as an example value only.        }   dont={            Don’t mark a field invalid with red chrome and no error string.       Don’t use placeholder (or aria-label alone) instead of a visible label in forms.                Don’t omit htmlFor / matching Input id — the label must         associate.               } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | — | Visible label. |
+| `htmlFor` | `string` | slug from label (HTML) | Control id. |
+| `hint` | `string` | — | Helper text when no error. |
+| `error` | `string` | — | Error text (takes priority over hint). |
+| `messageId` | `string` | `` `${htmlFor}-message` `` | Id for `aria-describedby`. |
+| `control` | `string` | — | HTML package: nested control markup. |
+
+### Flow
+
+_Source: `apps/storybook/src/core/molecules/Flow/Flow.mdx` · [Storybook](/?path=/docs/core-molecules-flow-flow--docs)_
+
+**Why:** Type primitives need default margins for standalone stories, but those margins **stack** in compositions — especially with global `text-box` trim removing half-leading. Flow owns the gaps instead.
+
+**When:** Wrap any vertical stack of Heading / Paragraph / Caption / List (and nested Flows) in `eevenkoto-flow`. For bare CMS/`h*`/`p`/`ul`/`ol` markup, compose with [Prose](/?path=/docs/core-molecules-prose--docs) (`eevenkoto-prose eevenkoto-flow`).
+
+### List
+
+_Source: `apps/storybook/src/core/molecules/List/List.mdx` · [Storybook](/?path=/docs/core-molecules-list-list--docs)_
+
+**Why:** Reading content often needs bulleted or numbered steps. Real `ul` / `ol` / `li` keep semantics honest for assistive tech and let Prose style bare CMS tags the same way as classed Lists.
+
+**When:** Use List for unordered or ordered content lists in reading layouts. Prefer PropertyList for vitals and other definitional metadata. Prefer Paragraph for multi-sentence prose without markers.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `ListItemProps[]` | — | Rows to render. |
+| `variant` | `'unordered' \| 'ordered'` | `unordered` | List kind / element. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `md` | Body type size. |
+| `tone` | `'primary' \| 'secondary'` | `primary` | Content color. |
+| `text` (item) | `string` | — | Item copy. |
+
+### Menu
+
+_Source: `apps/storybook/src/core/molecules/Menu/Menu.mdx` · [Storybook](/?path=/docs/core-molecules-menu-menu--docs)_
+
+**Why:** Account menus, view switchers, and worldbook sidebars all need a compact vertical list of actions or destinations. Menu owns that chrome — flat rows for Popover menus, nested `group` branches for eevenko.to-style trees — without baking open/position or routing into the DS.
+
+**When:** Use flat items (+ header/separator) for account and action menus inside{' '}         Popover.                       Use nested kind: 'group' for multi-level nav (section → subsection → leaf         links), as on eevenko.to.                       Put an overview page as the first child link when a section has both an index and children         (e.g. “Lajit” link under the Lajit branch).                       Set expanded on a group when that branch should start open (current section).               }   dont={            Don’t fake nesting with only header + visual indent — use group.       Don’t put role=&quot;menu&quot; + arrow-key behavior on the host unless the app also implements that contract (host ships role=&quot;group&quot;).       Don’t use Menu for page body outlines — that is Heading + Flow / Prose.        } />
+
+| Entry `kind` | Fields |
+| --- | --- |
+| `item` (default) | `id`, `label`, `href?`, `selected?`, `disabled?` |
+| `header` | `label` |
+| `separator` | — |
+| `group` | `id`, `label`, `expanded?`, `children: MenuEntry[]` |
+
+### Notice
+
+_Source: `apps/storybook/src/core/molecules/Notice/Notice.mdx` · [Storybook](/?path=/docs/core-molecules-notice-notice--docs)_
+
+**Why:** Readers need a scannable block that signals status — locked section, success, caution — with the same intent language as Badge, but as a banner rather than a chip. Notice owns that feedback surface so products do not paint Card or Paragraph in feedback colors.
+
+**When:** Announce status, gates, warnings, and confirmations with the matching intent.                Keep default role=&quot;status&quot;; use role=&quot;alert&quot; only for         interrupting critical messages.              Put actions (Sign in, Dismiss) in the actions slot — compose Button, don’t invent local CTAs.       Pick subtle / outline / solid for how loud the banner is.        }   dont={            Don’t use Notice as a content Card (item entries, teasers, sectioned articles).       Don’t restyle Card with feedback fills to fake a Notice.       Don’t bake paywall layout or product chrome into the Notice API — keep title/body/actions as data.       Don’t use role=&quot;alert&quot; for every notice — it interrupts AT unnecessarily.        } />
+
+### PropertyList
+
+_Source: `apps/storybook/src/core/molecules/PropertyList/PropertyList.mdx` · [Storybook](/?path=/docs/core-molecules-propertylist-propertylist--docs)_
+
+**Why:** Combat vitals, skills, senses, languages, and challenge lines are definitional metadata. A real `dl` exposes that relationship to assistive tech and keeps Statblock rails honest — no bold Paragraph + `` scaffolding.
+
+**When:** Vitals and details inside AbilityScoreGroup header/footer rails.       Any compact label→value metadata list in rules UI.       Keep Finnish (or other) labels as data — not DS enums.        }   dont={            Don’t fake properties with &lt;strong&gt;Label:&lt;/strong&gt; and line breaks.       Don’t include the colon in label — CSS appends it.       Don’t render a bare Property outside a PropertyList dl (invalid / incomplete semantics).        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` (list) | `PropertyItem[]` | — | Rows to render. |
+| `label` (item) | `string` | — | Term (no colon). |
+| `value` (item) | `string` | — | Detail text. |
+
+### Prose
+
+_Source: `apps/storybook/src/core/molecules/Prose/Prose.mdx` · [Storybook](/?path=/docs/core-molecules-prose-prose--docs)_
+
+**Why:** CMS HTML, markdown, and editorial content often ship tags without DS classes. Prose opts those tags into the type system without restyling every `h1`/`p`/`ul` in the document.
+
+**When:** Wrap reading/CMS content in eevenkoto-prose — bare ul/ol match List.       Compose eevenkoto-prose eevenkoto-flow when you need pair-aware gaps.       Prefer classed Heading/Paragraph/List outside Prose when you control the markup.        }   dont={            Don’t expect bare tags to style outside Prose.       Don’t use Prose as a substitute for Flow on classed primitive stacks.       Don’t style global h1/p/ul in app CSS — keep the opt-in scope.        } />
+
+### Segmented Control
+
+_Source: `apps/storybook/src/core/molecules/SegmentedControl/SegmentedControl.mdx` · [Storybook](/?path=/docs/core-molecules-segmentedcontrol-segmentedcontrol--docs)_
+
+**Why:** Mutually exclusive short options often need to stay visible as a compact track — not hidden in a select or scattered as separate Buttons. Segmented Control is that exclusive-choice chrome for in-page radios or navigational link sets.
+
+**When:** Radios for an in-page setting that stays on this document.                       Links when each option is a different URL (Full text vs Short SRD).                       Give each option its own tone when selected fills should differ (e.g. Text =         primary, SRD = secondary).                       Keep option labels short. Provide an accessible name via label (legend /{' '}         aria-label).               }   dont={                     Don’t put --selected on radio labels — it sticks after a native change. Radios         paint selection only from :checked.                       Don’t use buttons + aria-pressed for this pattern.                       Don’t use role="switch" for labeled alternatives (Text / SRD).              Don’t use Segmented Control for multi-select filters (Chip / checkbox group later).        } />
+
+### Table
+
+_Source: `apps/storybook/src/core/molecules/Table/Table.mdx` · [Storybook](/?path=/docs/core-molecules-table-table--docs)_
+
+### Tooltip Card
+
+_Source: `apps/storybook/src/core/molecules/TooltipCard/TooltipCard.mdx` · [Storybook](/?path=/docs/core-molecules-tooltipcard-tooltipcard--docs)_
+
+**Why:** Preview panels need a compact elevated surface with an optional title, scrollable body, and footer link — without inventing a one-off panel or overloading page [Card](/?path=/docs/core-molecules-card--docs). TooltipCard is that chrome; Popover owns placement.
+
+**When:** Nest TooltipCard as a direct Popover child for entity / topic previews.       Use scrollBody when the body can exceed the max block size.       Keep footer actions as data (e.g. “Avaa sivu”) — not baked into the molecule API.                Pair with InlineRef (Core) or EntityRef (Domain) as the trigger — app owns open / position.               }   dont={            Don’t use TooltipCard as an in-page Card for item listings or teasers.       Don’t use Card inside Popover as a substitute for TooltipCard (double chrome / wrong elevation recipe).       Don’t make Core demos depend on Domain EntityRef — use InlineRef.       Don’t ship tooltip show/hide JS in the DS — that stays in the app.        } />
+
+### TableShell
+
+_Source: `apps/storybook/src/core/organisms/TableShell/TableShell.mdx` · [Storybook](/?path=/docs/core-organisms-tableshell-tableshell--docs)_
+
+### Entity Ref
+
+_Source: `apps/storybook/src/domain/atoms/EntityRef/EntityRef.mdx` · [Storybook](/?path=/docs/domain-atoms-entityref-entityref--docs)_
+
+**Why:** Rules prose names other entities constantly. EntityRef marks those names with **kind-colored** ink so readers can tell a referenced term from ordinary words — without Badge chrome or a Button. Prefer bare [InlineRef](/?path=/docs/core-atoms-inlineref--docs) when you do not need a closed kind.
+
+**When:** Point at another rules entity inside body copy (Frightened, Advantage,{' '}         Cure Wounds) when a kind color matters.                       Prefer a real href when the entity has a page — tooltips and deep links hang off         that link.                       Keep the visible string as the entity name; localize the name in app data,         not in the kind API.                       Use the closed kind set so ink and hover chip map to the right Tier 2 tuple.               }   dont={                     Don’t use EntityRef for a generic Core preview trigger — that is{' '}         InlineRef.                       Don’t use EntityRef for status or readiness — that is{' '}         Badge.                       Don’t invent open-ended kinds in props. New kinds are a design decision (CSS +{' '}         EntityRefKind), not a free string.                       Don’t wrap EntityRef in a Button. The trigger for entity tooltips is the link itself.                       Don’t rely on a permanent filled chip in dense prose — rest state is ink + underline only.               } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Visible entity name. |
+| `kind` | `EntityRefKind` | `'item'` | Closed kind set. |
+| `href` | `string` | — | When set, renders as `<a>`. |
+
+### AbilityScore
+
+_Source: `apps/storybook/src/domain/molecules/AbilityScore/AbilityScore.mdx` · [Storybook](/?path=/docs/domain-molecules-abilityscore-abilityscore--docs)_
+
+**Why:** Ability columns are decorative and positional (orbiting chips), but still need accessible terms for score / modifier / save. AbilityScore owns that column AT contract.
+
+**When:** Pass ability names as data (Karisma, Ketteryys) — never as core enums.       Override scoreLabel / modifierLabel / saveLabel / proficientLabel for Finnish (Arvo, Muuttuja, Pelastus, pätevä).       Set saveProficient when the creature is proficient — bright shield border only.        }   dont={            Don’t use Badge for these numbers — Badge is feedback; Stat is content display.       Don’t use bright gold on every chip — reserve content-accent-strong for proficient saves.       Don’t style adjacent paragraphs into a sandwich — compose [AbilityScoreGroup](/?path=/docs/domain-organisms-abilityscoregroup--docs).        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | — | Ability name (column header). |
+| `labelId` | `string` | derived | Optional stable id for `aria-labelledby`. |
+| `score` | `string` | — | Base score. |
+| `modifier` | `string` | — | Modifier (typically signed). |
+| `save` | `string` | — | Save bonus (typically signed). |
+| `scoreLabel` | `string` | `'Score'` | Visually hidden term. |
+| `modifierLabel` | `string` | `'Modifier'` | Visually hidden term. |
+| `saveLabel` | `string` | `'Save'` | Visually hidden term. |
+| `saveProficient` | `boolean` | `false` | Emphasized shield + proficient suffix in the hidden term. |
+| `proficientLabel` | `string` | `'proficient'` | Suffix inside the hidden save term when proficient. |
+
+### StatblockFeature
+
+_Source: `apps/storybook/src/domain/molecules/StatblockFeature/StatblockFeature.mdx` · [Storybook](/?path=/docs/domain-molecules-statblockfeature-statblockfeature--docs)_
+
+**Why:** Feature names should participate in the document outline without orphaning a full-width heading above a one-line mechanic. Run-in H3 keeps the name on the same line as the body while remaining a real heading.
+
+**When:** Attacks, traits, bonus actions, reactions, legendary actions.       Nest under StatblockSection (or any H2 cluster).       Pass the name without a trailing period — CSS appends .  via ::after.        }   dont={            Don’t fake the name with &lt;strong&gt;&lt;em&gt; inside a Paragraph.       Don’t use H6 for features inside a Statblock — that skips levels; use the run-in at the level the outline needs.       Don’t put the colon or period in the name string.        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Feature title (run-in heading). |
+| `level` | `2 \| 3 \| 6` | `3` | Semantic heading level for `name`. Appearance is identical at every level. |
+| `description` | `string` (HTML) / `ReactNode` (React) | — | Body after the run-in. |
+
+### StatblockSection
+
+_Source: `apps/storybook/src/domain/molecules/StatblockSection/StatblockSection.mdx` · [Storybook](/?path=/docs/domain-molecules-statblocksection-statblocksection--docs)_
+
+**Why:** Grouping features under a real H2 keeps the outline contiguous under the creature H1 and gives a clear landmark for Actions, Reactions, Legendary Actions, and similar clusters.
+
+**When:** Actions, bonus actions, reactions, legendary / lair actions, traits clusters.       Reuse outside a full Statblock when a rules page only needs one section.       Pass product copy for title (Toiminnot, Reaktiot) — no DS enums.        }   dont={            Don’t use H3 or H5 for the section title inside a Statblock — that breaks H1 → H2 → H3.       Don’t put feature bodies directly under the H2 without StatblockFeature (loses run-in + remap).       Don’t invent a second visual heading scale; remap happens here via Tier 3 bridges.        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | — | Section heading (H2). |
+| `features` | `StatblockFeatureProps[]` | — | Stacked feature entries. |
+
+### AbilityScoreGroup
+
+_Source: `apps/storybook/src/domain/organisms/AbilityScoreGroup/AbilityScoreGroup.mdx` · [Storybook](/?path=/docs/domain-organisms-abilityscoregroup-abilityscoregroup--docs)_
+
+**Why:** Ability grids need a panel, noise surface, scoop corners, and a container query. AbilityScore owns one column; AbilityScoreGroup owns the sandwich layout.
+
+**When:** Put vitals in header and details in footer as PropertyLists.       Compose from AbilityScore columns — never invent a display:table reordering hack.       Use explicit slots instead of :has(+.wrapper) sibling styling.        }   dont={            Don’t put the creature name or section headings here — those live on Statblock.       Don’t use Badge for ability numbers — Stat is content display.        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `abilities` | `AbilityScoreProps[]` | — | Columns. |
+| `header` | HTML string / `ReactNode` / Vue slot | — | Inset rail (typically PropertyList). |
+| `footer` | HTML string / `ReactNode` / Vue slot | — | Inset rail (typically PropertyList). |
+
+### Spellblock
+
+_Source: `apps/storybook/src/domain/organisms/Spellblock/Spellblock.mdx` · [Storybook](/?path=/docs/domain-organisms-spellblock-spellblock--docs)_
+
+**Why:** Spell pages need the same structure a printed spell has: find the school line, then Range and Duration, then read the effect. Spellblock gives you one organism that:
+
+**When:** Spell entries on rules pages, and spell catalogs via deck.       Keep level, school, ritual tags, and component copy in the product — map them into props.       Put the whole level/school string in typeLine, exactly as it is printed.        }   dont={            Don’t rebuild the legacy &lt;strong&gt;Kantama:&lt;/strong&gt; + &lt;br&gt; paragraph block.       Don’t add school / ritual / concentration enums to @eevenkoto/core — they are strings.       Don’t use Spellblock for creatures — that is Statblock.       Don’t nest a Spellblock inside a Core Card; the organism already owns its surface.        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Spell name. |
+| `nameLevel` | `1 \| 2` | `1` | Heading level for the name (use `2` in embeds). |
+| `typeLine` | `string` | — | Italic level / school line on the plate. |
+| `classes` | `PropertyItem[]` | — | Optional catalog rail under the type line. |
+| `properties` | `PropertyItem[]` | — | Casting time, range, components, duration. |
+| `paragraphs` | `string[]` | — | Effect prose, one entry per paragraph. |
+| `features` | `StatblockFeatureProps[]` | — | Scaling run-ins. The level is derived from `nameLevel`; do not set it per item. |
+| `deck` | `boolean` | `false` | Compact card for grids. |
+| `lang` | `string` | — | BCP 47 tag on the article; enables `hyphens: auto`. |
+
+### Statblock
+
+_Source: `apps/storybook/src/domain/organisms/Statblock/Statblock.mdx` · [Storybook](/?path=/docs/domain-organisms-statblock-statblock--docs)_
+
+**Why:** Rules pages need a stable, accessible structure for NPC and monster entries. Statblock gives you one organism that:
+
+**When:** Full NPC, monster, or archetype entries in rules docs.       Keep ability names, vitals labels, and feature copy in the product — map them into props.       Compose from smaller molecules when you only need a grid, a section, or a single feature.        }   dont={            Don’t revive the Markdown &lt;table class="kykylistaus-table"&gt; + sibling-paragraph sandwich.       Don’t put Finnish ability enums or CR math into @eevenkoto/core.       Don’t skip heading levels for style (e.g. H1 → H6) — use H2 / H3 run-in; visuals remap on the molecules.       Don’t use Statblock for generic page chrome — it is an entry organism, not a Card.        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Creature / entity title. |
+| `nameLevel` | `1 \| 2` | `1` | Heading level for the name (use `2` in embeds). |
+| `flavor` | `string` | — | Optional flavor Paragraph. |
+| `typeLine` | `string` | — | Optional italic type line. |
+| `vitals` | `PropertyItem[]` | — | Combat vitals → AbilityScoreGroup header. |
+| `abilities` | `AbilityScoreProps[]` | — | Ability columns. |
+| `details` | `PropertyItem[]` | — | Skills / senses / languages / CR → footer. |
+| `sections` | `StatblockSectionProps[]` | — | Actions, reactions, etc. |
