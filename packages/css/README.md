@@ -17,6 +17,7 @@ Import the base stylesheet once, then the CSS for each component you use:
 ```ts
 import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
+import '@eevenkoto/css/link-button.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
 import '@eevenkoto/css/list.css';
@@ -52,6 +53,8 @@ This package is CSS only. Apply the documented BEM classes yourself, or use `@ee
   Save
 </button>
 ```
+
+**Button vs LinkButton:** `button.css` is for `<button>` actions. Marketing CTAs that go to a URL use `@eevenkoto/css/link-button.css` on `<a class="eevenkoto-link-button">` — do not restyle Button as a link. In-prose references use InlineRef.
 
 ## Related
 

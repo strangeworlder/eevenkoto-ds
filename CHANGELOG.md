@@ -6,6 +6,7 @@ All notable changes to the `@eevenkoto/*` packages are documented here.
 
 ### Added
 
+- **LinkButton** (Core atom) — CTA `<a>` with Button’s control recipe, inline-end scoop, and forward translate (not a Button with `href`)
 - **InlineRef** (Core atom) — product-agnostic inline reference chrome (`name`, optional `href`); Popover/TooltipCard Core demos use it
 - **TooltipCard** (Core molecule) — header / scrollable body / footer chrome for entity tooltips
 - **EntityRef** (Domain atom) — specializes InlineRef with closed kinds: `condition`, `mechanic`, `classFeature`, `spell`, `item`

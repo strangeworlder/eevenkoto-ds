@@ -32,6 +32,16 @@ import '@eevenkoto/css/button.css';
 
 Component docs briefly show HTML, React, and Vue usage under **Framework packages**. The live Canvas and Controls remain HTML-driven.
 
+## Button vs LinkButton (marketing / agents)
+
+| Situation | Use | Host |
+| --- | --- | --- |
+| Prominent “go to this URL” CTA (hero, campaign, empty state) | **LinkButton** | `<a class="eevenkoto-link-button" href="…">` |
+| In-page action (submit, dialog, add/remove, open UI) | **Button** | `<button type="button" class="eevenkoto-button">` |
+| Term or “read more” in running text | **InlineRef** (optional `href`) | not a CTA |
+
+Do **not** put `href` on Button or wrap Button in an anchor. Same-site pages with a real URL still use LinkButton. Import `@eevenkoto/css/link-button.css` separately from `button.css`. Full chooser: [Glossary — Button vs LinkButton vs InlineRef](?path=/docs/foundations-glossary--docs#button-vs-linkbutton-vs-inlineref).
+
 ## Authoring new components
 
 Decide Core vs Domain and atom → molecule → organism first ([Component taxonomy](?path=/docs/foundations-component-taxonomy--docs)). Host classes must ship usable defaults without modifier classes ([Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs)). For multi-piece Domain UIs, see [Authoring composed components](?path=/docs/foundations-authoring-composed-components--docs) — hierarchy, honest outlines, emphasis/contrast, package checklist, and HTML trust boundaries.

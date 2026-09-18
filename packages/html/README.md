@@ -23,11 +23,13 @@ document.body.innerHTML = renderButton({
 });
 ```
 
-Also exported: `renderBadge`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderList`, `renderCaption`, `renderFrame`, `renderScroll`, `renderTableCell`, `renderFlow`, `renderProse`, `renderProperty`, `renderPropertyList`, `renderStat`, `renderTable`, `renderTableShell`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`.
+Also exported: `renderLinkButton`, `renderBadge`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderList`, `renderCaption`, `renderFrame`, `renderScroll`, `renderTableCell`, `renderFlow`, `renderProse`, `renderProperty`, `renderPropertyList`, `renderStat`, `renderTable`, `renderTableShell`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`.
 
 `renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
 
 Class names and prop types come from `@eevenkoto/core`.
+
+**Button vs LinkButton:** `renderButton` is for in-page actions (`<button>`). Prominent “go to URL” CTAs use `renderLinkButton` (`<a href>`). Do not pass `href` into Button. Terms in running text use `renderInlineRef`. Same-site pages with a real URL still use LinkButton.
 
 ## Related
 

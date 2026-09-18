@@ -1,4 +1,9 @@
 export { Button, type ButtonComponentProps, type ButtonProps, type ButtonIconName } from './core/atoms/Button';
+export {
+  LinkButton,
+  type LinkButtonComponentProps,
+  type LinkButtonProps,
+} from './core/atoms/LinkButton';
 export { Badge, type BadgeComponentProps, type BadgeProps } from './core/atoms/Badge';
 export { Heading, type HeadingComponentProps, type HeadingProps, type HeadingLevel } from './core/atoms/Heading';
 export { Paragraph, type ParagraphComponentProps, type ParagraphProps } from './core/atoms/Paragraph';

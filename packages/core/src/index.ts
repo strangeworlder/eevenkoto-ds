@@ -9,6 +9,17 @@ export {
 } from './core/atoms/button';
 
 export {
+  type LinkButtonVariant,
+  type LinkButtonSize,
+  type LinkButtonIconPosition,
+  type LinkButtonProps,
+  type LinkButtonClassNameProps,
+  resolveLinkButtonIconPosition,
+  resolveLinkButtonRel,
+  linkButtonClassNames,
+} from './core/atoms/linkButton';
+
+export {
   type BadgeVariant,
   type BadgeSize,
   type BadgeShape,

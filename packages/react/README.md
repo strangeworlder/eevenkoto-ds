@@ -36,9 +36,11 @@ Import each component’s CSS from `@eevenkoto/css` (for example `@eevenkoto/css
 
 ### Core
 
-- Atoms: `Badge`, `Button`, `Caption`, `Frame`, `Heading`, `Paragraph`, `ListItem`, `Property`, `Scroll`, `Stat`, `TableCell`
+- Atoms: `Badge`, `Button`, `LinkButton`, `Caption`, `Frame`, `Heading`, `Paragraph`, `ListItem`, `Property`, `Scroll`, `Stat`, `TableCell`
 - Molecules: `Flow`, `Prose`, `List`, `PropertyList`, `Table`
 - Organisms: `TableShell`
+
+`Button` = in-page action. `LinkButton` = prominent URL CTA (`href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef`.
 
 ### Domain
 

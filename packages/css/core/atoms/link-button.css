@@ -1,0 +1,451 @@
+/* packages/css/core/atoms/link-button.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: LINK BUTTON (TIER 3)
+   CTA <a> that consumes the same control tuples as Button. Differentiator:
+   square inline-start, scooped inline-end; translate (not press scale).
+   Variants/states set public `--*`. Host alone is primary + md + end-scoop.
+   ========================================================================== */
+
+@property --_eevenkoto-link-button-gradient-start {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --_eevenkoto-link-button-gradient-middle {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --_eevenkoto-link-button-gradient-end {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+.eevenkoto-link-button {
+  /* 1. PRIVATE BRIDGE INITIALIZATION (primary defaults) */
+  --_eevenkoto-link-button-bg: var(
+    --eevenkoto-link-button-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-link-button-text: var(
+    --eevenkoto-link-button-text,
+    var(--eevenkoto-color-control-primary-text)
+  );
+  --_eevenkoto-link-button-border-color: var(
+    --eevenkoto-link-button-border-color,
+    var(--eevenkoto-color-control-primary-border)
+  );
+  --_eevenkoto-link-button-icon: var(
+    --eevenkoto-link-button-icon,
+    var(--eevenkoto-color-control-primary-icon)
+  );
+  --_eevenkoto-link-button-gradient-start: var(
+    --eevenkoto-link-button-gradient-start,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-background-hover) 30%
+    )
+  );
+  --_eevenkoto-link-button-gradient-middle: var(
+    --eevenkoto-link-button-gradient-middle,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-link-button-gradient-end: var(
+    --eevenkoto-link-button-gradient-end,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-icon) 30%
+    )
+  );
+  --_eevenkoto-link-button-radius: var(
+    --eevenkoto-link-button-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-link-button-pad-block: var(
+    --eevenkoto-link-button-pad-block,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-link-button-pad-inline: var(
+    --eevenkoto-link-button-pad-inline,
+    var(--eevenkoto-space-6)
+  );
+  --_eevenkoto-link-button-font-size: var(
+    --eevenkoto-link-button-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-link-button-font-weight: var(
+    --eevenkoto-link-button-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-link-button-line-height: var(
+    --eevenkoto-link-button-line-height,
+    var(--eevenkoto-line-height-tight)
+  );
+  --_eevenkoto-link-button-border-width: var(
+    --eevenkoto-link-button-border-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-link-button-text-shadow: var(
+    --eevenkoto-link-button-text-shadow,
+    0 0 2px var(--eevenkoto-color-depth-shadow-control-text)
+  );
+  --_eevenkoto-link-button-box-shadow: var(
+    --eevenkoto-link-button-box-shadow,
+    0 0.75px 0 0 var(--eevenkoto-color-depth-shadow-control)
+  );
+  --_eevenkoto-link-button-nudge: var(
+    --eevenkoto-link-button-nudge,
+    var(--eevenkoto-space-1)
+  );
+
+  /* 2. ELEMENT STYLING */
+  display: inline-block;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--_eevenkoto-link-button-pad-block) var(--_eevenkoto-link-button-pad-inline);
+
+  font-family: var(--eevenkoto-font-sans);
+  font-weight: var(--_eevenkoto-link-button-font-weight);
+  font-size: var(--_eevenkoto-link-button-font-size);
+  line-height: var(--_eevenkoto-link-button-line-height);
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+  text-shadow: var(--_eevenkoto-link-button-text-shadow);
+  text-decoration: none;
+
+  color: var(--_eevenkoto-link-button-text);
+  /* Keep a solid contrast tuple beneath the decorative gradient. */
+  background-color: var(--_eevenkoto-link-button-bg);
+  background-image: linear-gradient(
+    328deg,
+    var(--_eevenkoto-link-button-gradient-start) 0%,
+    var(--_eevenkoto-link-button-gradient-end) 50%,
+    var(--_eevenkoto-link-button-gradient-middle) 100%
+  );
+
+  border-width: var(--_eevenkoto-link-button-border-width);
+  border-style: solid;
+  border-color: var(--_eevenkoto-link-button-border-color);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: var(--_eevenkoto-link-button-radius);
+  border-end-end-radius: var(--_eevenkoto-link-button-radius);
+  /* Physical corner-shape; :dir(rtl) keeps scoop on inline-end. */
+  corner-shape: square scoop scoop square;
+  box-shadow: var(--_eevenkoto-link-button-box-shadow);
+
+  transition:
+    transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    border-color var(--eevenkoto-duration-1) var(--eevenkoto-ease-in-out),
+    --_eevenkoto-link-button-gradient-start var(--eevenkoto-duration-1) var(--eevenkoto-ease-in-out),
+    --_eevenkoto-link-button-gradient-middle var(--eevenkoto-duration-2) var(--eevenkoto-ease-in-out),
+    --_eevenkoto-link-button-gradient-end var(--eevenkoto-duration-3) var(--eevenkoto-ease-in-out);
+}
+
+.eevenkoto-link-button:dir(rtl) {
+  corner-shape: scoop square square scoop;
+}
+
+/* Marketing CTAs must not pick up UA visited purple. */
+.eevenkoto-link-button:link,
+.eevenkoto-link-button:visited,
+.eevenkoto-link-button:hover,
+.eevenkoto-link-button:active {
+  color: var(--_eevenkoto-link-button-text);
+  text-decoration: none;
+}
+
+/* --- DEFAULT / PRIMARY ---
+   Host alone is primary + md + end-scoop. --primary is an explicit alias. */
+
+.eevenkoto-link-button:hover:not([aria-disabled="true"]):not(.eevenkoto-link-button--secondary),
+.eevenkoto-link-button:focus-visible:not([aria-disabled="true"]):not(
+    .eevenkoto-link-button--secondary
+  ) {
+  --eevenkoto-link-button-bg: var(
+    --eevenkoto-link-button-bg-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
+  --eevenkoto-link-button-gradient-start: var(
+    --eevenkoto-link-button-gradient-start-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background-hover),
+      var(--eevenkoto-color-control-primary-tint-deep) 10%
+    )
+  );
+  --eevenkoto-link-button-gradient-middle: var(
+    --eevenkoto-link-button-gradient-middle-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
+  --eevenkoto-link-button-gradient-end: var(
+    --eevenkoto-link-button-gradient-end-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-color-control-primary-tint-cool) 10%
+    )
+  );
+}
+
+.eevenkoto-link-button:dir(rtl):hover:not([aria-disabled="true"]):not(
+    .eevenkoto-link-button--secondary
+  ) {
+  transform: translateX(calc(-1 * var(--_eevenkoto-link-button-nudge)));
+}
+
+.eevenkoto-link-button:hover:not([aria-disabled="true"]):not(.eevenkoto-link-button--secondary) {
+  transform: translateX(var(--_eevenkoto-link-button-nudge));
+}
+
+.eevenkoto-link-button:active:not([aria-disabled="true"]):not(.eevenkoto-link-button--secondary) {
+  --eevenkoto-link-button-bg: var(
+    --eevenkoto-link-button-bg-active,
+    var(--eevenkoto-color-control-primary-background-active)
+  );
+  transform: translateX(calc(var(--_eevenkoto-link-button-nudge) * 1.25));
+}
+
+.eevenkoto-link-button:dir(rtl):active:not([aria-disabled="true"]):not(
+    .eevenkoto-link-button--secondary
+  ) {
+  transform: translateX(calc(var(--_eevenkoto-link-button-nudge) * -1.25));
+}
+
+.eevenkoto-link-button--primary {
+  --eevenkoto-link-button-bg: var(--eevenkoto-color-control-primary-background);
+  --eevenkoto-link-button-text: var(--eevenkoto-color-control-primary-text);
+  --eevenkoto-link-button-border-color: var(--eevenkoto-color-control-primary-border);
+  --eevenkoto-link-button-icon: var(--eevenkoto-color-control-primary-icon);
+  --eevenkoto-link-button-gradient-start: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-control-primary-background),
+    var(--eevenkoto-color-control-primary-background-hover) 30%
+  );
+  --eevenkoto-link-button-gradient-middle: var(--eevenkoto-color-control-primary-background);
+  --eevenkoto-link-button-gradient-end: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-control-primary-background),
+    var(--eevenkoto-color-control-primary-icon) 30%
+  );
+  --eevenkoto-link-button-text-shadow: 0 0 2px var(--eevenkoto-color-depth-shadow-control-text);
+  --eevenkoto-link-button-box-shadow: 0 0.75px 0 0 var(--eevenkoto-color-depth-shadow-control);
+}
+
+/* --- VARIANT: SECONDARY --- */
+
+.eevenkoto-link-button--secondary {
+  --eevenkoto-link-button-bg: var(--eevenkoto-color-control-secondary-background);
+  --eevenkoto-link-button-text: var(--eevenkoto-color-control-secondary-text);
+  --eevenkoto-link-button-border-color: var(--eevenkoto-color-control-secondary-border);
+  --eevenkoto-link-button-icon: var(--eevenkoto-color-control-secondary-icon);
+  --eevenkoto-link-button-gradient-start: var(--eevenkoto-color-control-secondary-background);
+  --eevenkoto-link-button-gradient-middle: var(--eevenkoto-color-control-secondary-background);
+  --eevenkoto-link-button-gradient-end: var(--eevenkoto-color-control-secondary-background);
+  --eevenkoto-link-button-text-shadow: none;
+  --eevenkoto-link-button-box-shadow: none;
+}
+
+.eevenkoto-link-button--secondary:hover:not([aria-disabled="true"]),
+.eevenkoto-link-button--secondary:focus-visible:not([aria-disabled="true"]) {
+  --eevenkoto-link-button-border-color: var(
+    --eevenkoto-link-button-border-color-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
+  --eevenkoto-link-button-gradient-end: var(
+    --eevenkoto-link-button-gradient-end-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-secondary-background),
+      var(--eevenkoto-color-control-secondary-tint) 12%
+    )
+  );
+  --eevenkoto-link-button-gradient-middle: var(
+    --eevenkoto-link-button-gradient-middle-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-secondary-background),
+      var(--eevenkoto-color-control-secondary-tint) 12%
+    )
+  );
+  --eevenkoto-link-button-gradient-start: var(
+    --eevenkoto-link-button-gradient-start-hover,
+    color-mix(
+      in display-p3,
+      var(--eevenkoto-color-control-secondary-background),
+      var(--eevenkoto-color-control-secondary-background-hover) 35%
+    )
+  );
+}
+
+.eevenkoto-link-button--secondary:hover:not([aria-disabled="true"]) {
+  transform: translateX(var(--_eevenkoto-link-button-nudge));
+}
+
+.eevenkoto-link-button--secondary:dir(rtl):hover:not([aria-disabled="true"]) {
+  transform: translateX(calc(-1 * var(--_eevenkoto-link-button-nudge)));
+}
+
+.eevenkoto-link-button--secondary:active:not([aria-disabled="true"]) {
+  transform: translateX(calc(var(--_eevenkoto-link-button-nudge) * 1.25));
+}
+
+.eevenkoto-link-button--secondary:dir(rtl):active:not([aria-disabled="true"]) {
+  transform: translateX(calc(var(--_eevenkoto-link-button-nudge) * -1.25));
+}
+
+/* --- DISABLED (opaque tuples; no opacity). Prefer omitting the CTA. --- */
+
+.eevenkoto-link-button[aria-disabled="true"] {
+  cursor: not-allowed;
+  pointer-events: none;
+  --eevenkoto-link-button-bg: var(
+    --eevenkoto-link-button-bg-disabled,
+    var(--eevenkoto-color-control-primary-background-disabled)
+  );
+  --eevenkoto-link-button-text: var(
+    --eevenkoto-link-button-text-disabled,
+    var(--eevenkoto-color-control-primary-text-disabled)
+  );
+  --eevenkoto-link-button-border-color: var(
+    --eevenkoto-link-button-border-color-disabled,
+    var(--eevenkoto-color-control-primary-border-disabled)
+  );
+  --eevenkoto-link-button-icon: var(
+    --eevenkoto-link-button-icon-disabled,
+    var(--eevenkoto-color-control-primary-icon-disabled)
+  );
+  --eevenkoto-link-button-gradient-start: var(--eevenkoto-link-button-bg);
+  --eevenkoto-link-button-gradient-middle: var(--eevenkoto-link-button-bg);
+  --eevenkoto-link-button-gradient-end: var(--eevenkoto-link-button-bg);
+  --eevenkoto-link-button-text-shadow: none;
+  --eevenkoto-link-button-box-shadow: none;
+}
+
+.eevenkoto-link-button--secondary[aria-disabled="true"] {
+  --eevenkoto-link-button-bg: var(
+    --eevenkoto-link-button-bg-disabled,
+    var(--eevenkoto-color-control-secondary-background-disabled)
+  );
+  --eevenkoto-link-button-text: var(
+    --eevenkoto-link-button-text-disabled,
+    var(--eevenkoto-color-control-secondary-text-disabled)
+  );
+  --eevenkoto-link-button-border-color: var(
+    --eevenkoto-link-button-border-color-disabled,
+    var(--eevenkoto-color-control-secondary-border-disabled)
+  );
+  --eevenkoto-link-button-icon: var(
+    --eevenkoto-link-button-icon-disabled,
+    var(--eevenkoto-color-control-secondary-icon-disabled)
+  );
+  --eevenkoto-link-button-gradient-start: var(--eevenkoto-link-button-bg);
+  --eevenkoto-link-button-gradient-middle: var(--eevenkoto-link-button-bg);
+  --eevenkoto-link-button-gradient-end: var(--eevenkoto-link-button-bg);
+}
+
+/* --- FOCUS (dual-halo); compose with brand elevation when present --- */
+
+.eevenkoto-link-button:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--eevenkoto-color-boundary-focus-inner),
+    var(--_eevenkoto-link-button-box-shadow);
+}
+
+/* --- SIZES (sm | md | lg — shared ladder with Button / Paragraph / Badge) --- */
+
+.eevenkoto-link-button--sm {
+  --eevenkoto-link-button-pad-block: var(--eevenkoto-space-2);
+  --eevenkoto-link-button-pad-inline: var(--eevenkoto-space-4);
+  --eevenkoto-link-button-font-size: var(--eevenkoto-font-size-control-sm);
+}
+
+.eevenkoto-link-button--md {
+  --eevenkoto-link-button-pad-block: var(--eevenkoto-space-3);
+  --eevenkoto-link-button-pad-inline: var(--eevenkoto-space-6);
+  --eevenkoto-link-button-font-size: var(--eevenkoto-font-size-control-md);
+}
+
+.eevenkoto-link-button--lg {
+  --eevenkoto-link-button-pad-block: var(--eevenkoto-space-4);
+  --eevenkoto-link-button-pad-inline: var(--eevenkoto-space-8);
+  --eevenkoto-link-button-font-size: var(--eevenkoto-font-size-control-lg);
+}
+
+/* --- ICONS (compose Icon atom; size to 1em so glyphs track type) --- */
+
+.eevenkoto-link-button .eevenkoto-icon {
+  --eevenkoto-icon-size: 1em;
+  margin-bottom: 0.15em;
+  color: var(--_eevenkoto-link-button-icon);
+  filter: drop-shadow(
+    0 0 2px color-mix(in display-p3, var(--_eevenkoto-link-button-text) 50%, transparent)
+  );
+}
+
+.eevenkoto-link-button--icon-left .eevenkoto-icon {
+  margin-inline-end: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-link-button--icon-left {
+  padding-inline-start: var(--eevenkoto-space-4);
+}
+
+.eevenkoto-link-button--icon-right .eevenkoto-icon {
+  margin-inline-start: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-link-button--icon-right {
+  padding-inline-end: var(--eevenkoto-space-4);
+}
+
+/* The directional glyph follows inline progression. Other glyphs stay unchanged. */
+.eevenkoto-link-button--icon-arrow:dir(rtl) .eevenkoto-icon {
+  transform: scaleX(-1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-link-button {
+    transition: none;
+  }
+
+  .eevenkoto-link-button:hover,
+  .eevenkoto-link-button:active,
+  .eevenkoto-link-button:dir(rtl):hover,
+  .eevenkoto-link-button:dir(rtl):active {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-link-button,
+  .eevenkoto-link-button:link,
+  .eevenkoto-link-button:visited,
+  .eevenkoto-link-button:hover,
+  .eevenkoto-link-button:active {
+    color: LinkText;
+    background: Canvas;
+    border-color: LinkText;
+    box-shadow: none;
+    text-shadow: none;
+    forced-color-adjust: none;
+  }
+
+  .eevenkoto-link-button:focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+
+  .eevenkoto-link-button[aria-disabled="true"] {
+    color: GrayText;
+    border-color: GrayText;
+  }
+}

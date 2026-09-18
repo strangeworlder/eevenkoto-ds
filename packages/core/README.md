@@ -25,9 +25,11 @@ const className = buttonClassNames({
 // "eevenkoto-button eevenkoto-button--primary eevenkoto-button--sm eevenkoto-button--icon-left"
 ```
 
-Helpers: `buttonClassNames`, `badgeClassNames`, `headingClassNames`, `paragraphClassNames`, `listClassNames`, `captionClassNames`, `flowClassNames`, `proseClassNames`, plus Domain helpers (`abilityScoreClassNames`, `statblockClassNames`, …).
+Helpers: `buttonClassNames`, `linkButtonClassNames`, `badgeClassNames`, `headingClassNames`, `paragraphClassNames`, `listClassNames`, `captionClassNames`, `flowClassNames`, `proseClassNames`, plus Domain helpers (`abilityScoreClassNames`, `statblockClassNames`, …).
 
 Pair with `@eevenkoto/css` for styling.
+
+**Button vs LinkButton:** in-page actions → `buttonClassNames` / Button. Prominent “go to URL” CTAs → `linkButtonClassNames` / LinkButton (`<a>`, never `href` on Button). Terms in copy → InlineRef. Chooser: Storybook Glossary.
 
 ## Related
 

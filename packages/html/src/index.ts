@@ -1,4 +1,8 @@
 export { renderButton, type ButtonIconName, type ButtonProps } from './core/atoms/button/renderButton';
+export {
+  renderLinkButton,
+  type LinkButtonProps,
+} from './core/atoms/link-button/renderLinkButton';
 export { renderBadge, type BadgeProps } from './core/atoms/badge/renderBadge';
 export { renderHeading, type HeadingProps } from './core/atoms/heading/renderHeading';
 export { renderParagraph, type ParagraphProps } from './core/atoms/paragraph/renderParagraph';

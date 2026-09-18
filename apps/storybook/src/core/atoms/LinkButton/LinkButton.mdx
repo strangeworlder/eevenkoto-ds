@@ -1,0 +1,304 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as LinkButtonStories from './LinkButton.stories';
+
+{/* Docs callouts — defined in MDX so Storybook’s JSX transform stays consistent. */}
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Danger = ({ children, caption, label = 'Danger' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--danger">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={LinkButtonStories} />
+
+# LinkButton
+
+A LinkButton is a **real `<a>`** styled as a prominent marketing CTA. It looks related to [Button](?path=/docs/core-atoms-button--docs) but is never a `<button>` and never shares `.eevenkoto-button`.
+
+<Canvas of={LinkButtonStories.Default} />
+
+```html
+<a class="eevenkoto-link-button" href="#link-button">
+  Start playing
+</a>
+```
+
+The host class alone is **primary** + **md** + **end-scoop** (square on inline-start, scooped on inline-end). `--primary` / `--md` remain valid aliases. Add `--secondary` / `--sm` / `--lg` only when departing from the default.
+
+### Playground
+
+<Controls of={LinkButtonStories.Default} />
+
+## Why to use
+
+Call-to-action navigation needs a control that *looks* like a button so it can compete with surrounding chrome, but it must remain a link: it has a destination, can be opened in a new tab, and participates in the browser’s link model. Putting `href` on Button (or wrapping Button in an anchor) mixes those roles.
+
+LinkButton keeps Button’s **control** color recipe so CTAs feel on-brand, then breaks the pressable silhouette: scooped corners only on the **inline-end**, and a forward **translate** on hover instead of Button’s press scale. Visited color is neutralized so a marketing CTA does not look “spent.”
+
+## When to use
+
+Use a LinkButton when the user should **go somewhere** and that destination is a primary or secondary marketing action (hero, empty state, campaign banner). Use [Button](?path=/docs/core-atoms-button--docs) when the user **does** something on the page. Use [InlineRef](?path=/docs/core-atoms-inlineref--docs) for terms inside running text.
+
+<DoDont
+  do={
+    <ul>
+      <li>Use LinkButton for prominent “go to this URL” CTAs (Start playing, Get the book, Read the rules).</li>
+      <li>Use Primary for the main destination in a section; Secondary for a supporting destination.</li>
+      <li>Keep a visible <code>label</code> — CTAs are not icon-only.</li>
+      <li>Use a trailing arrow when you want to reinforce forward motion (default icon position is right).</li>
+      <li>Use <code>target="_blank"</code> only when a new tab is useful; wrappers automatically add <code>noopener noreferrer</code>.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t put <code>href</code> on Button or wrap a Button in an <code>&lt;a&gt;</code>.</li>
+      <li>Don’t use LinkButton for submit, dialog, or in-page actions — that is Button.</li>
+      <li>Don’t use LinkButton inside a paragraph for a term — that is InlineRef (or a prose link).</li>
+      <li>Don’t invent a ghost LinkButton; low-emphasis navigation stays InlineRef / text links.</li>
+      <li>Don’t rely on a disabled LinkButton as the only explanation that a destination isn’t ready — prefer omitting it.</li>
+    </ul>
+  }
+/>
+
+| Situation | Use |
+| --- | --- |
+| Hero / campaign “Start playing”, “Get the book” | LinkButton |
+| Same-site page with a real URL | LinkButton |
+| Form submit, dialog, add/remove, open a modal | Button |
+| Term or “read more” in a paragraph | InlineRef (or prose link) |
+| Destination not ready | Omit the CTA |
+
+## Content guidelines
+
+- Name the destination or outcome (“Start playing”, “Get the book”), not “Click here.”
+- Keep labels brief — ideally 1–3 words.
+- Sentence case, same as Button.
+
+<DoDont
+  do={<p><strong>Start playing</strong></p>}
+  doCaption="Names the destination."
+  dont={<p><strong>Click here</strong></p>}
+  dontCaption="Does not say where the user goes."
+/>
+
+## Anatomy
+
+1. **Container** — Followable target (`a.eevenkoto-link-button`)
+2. **Label** — Destination text
+3. **Icon after (optional, default when icon is set)** — Forward cue (`eevenkoto-link-button--icon-right`)
+4. **Icon before (optional)** — (`eevenkoto-link-button--icon-left`)
+
+The **end-scoop** is the host default (logical radii + `corner-shape`). In RTL the scoop stays on the inline-end.
+
+<Canvas of={LinkButtonStories.Rtl} />
+
+## Key modifiers
+
+### variant
+
+CTA hierarchy. Applied as `eevenkoto-link-button--{variant}`. Host only is equivalent to `primary`. There is no ghost.
+
+| Value | Example | Description |
+| --- | --- | --- |
+| `primary` | Start playing | Default; main destination (also the host default). |
+| `secondary` | Read the rules | Supporting destination beside a primary. |
+
+<Canvas of={LinkButtonStories.PrimaryWithSecondary} />
+
+```html
+<a class="eevenkoto-link-button" href="#play">Start playing</a>
+<a class="eevenkoto-link-button eevenkoto-link-button--secondary" href="#rules">Read the rules</a>
+```
+
+### size
+
+Shared `sm | md | lg` ladder (same tokens as Button → `control-*`). Default: `md`.
+
+<Canvas of={LinkButtonStories.SizeComparison} />
+
+### disabled
+
+Anchors have no native `disabled`. When `disabled` is true, renderers remove `href`, add `aria-disabled="true"` and `tabindex="-1"`, and CSS uses opaque disabled tuples. Prefer **omitting** the CTA.
+
+<Canvas of={LinkButtonStories.Disabled} />
+
+<Danger>
+  Don’t leave a disabled LinkButton as the only signal that a destination isn’t available. Hide it, or explain nearby why it isn’t ready.
+</Danger>
+
+### icon and iconPosition
+
+Icons compose the shared [Icon](?path=/docs/core-atoms-icon--docs) atom. Default position is **right** when `icon` is set (Button defaults to left). Icon-only is not part of this contract.
+
+<Canvas of={LinkButtonStories.IconRight} />
+
+```html
+<a class="eevenkoto-link-button eevenkoto-link-button--icon-right eevenkoto-link-button--icon-arrow" href="#continue">
+  Continue
+  <svg class="eevenkoto-icon eevenkoto-icon--md" aria-hidden="true" focusable="false" …>…</svg>
+</a>
+```
+
+<Canvas of={LinkButtonStories.External} />
+
+```html
+<a
+  class="eevenkoto-link-button eevenkoto-link-button--icon-right eevenkoto-link-button--icon-arrow"
+  href="https://eevenko.to"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Visit eevenko.to
+  …
+</a>
+```
+
+## Behavior
+
+- Hover **translates** toward inline-end (forward); keyboard focus stays still and uses the dual halo.
+- `:visited` keeps the same ink as `:link` so CTAs do not pick up UA purple.
+- No underline (prose / InlineRef own that).
+- Focus uses the same dual-halo treatment as Button.
+- Reduced-motion mode removes transitions and translation.
+- Forced-colors mode preserves link identity with `LinkText` and an explicit boundary.
+
+## Accessibility
+
+- Always a real `<a>` with `href` — keyboard users get native link behavior.
+- Visible `:focus-visible` (WCAG 2.1.1 Keyboard).
+- Decorative icons should use `aria-hidden="true"` and `focusable="false"`.
+- Disabled CTAs have no `href`, are removed from the tab order, and expose `aria-disabled`.
+
+## API reference
+
+| Arg / concern | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `href` | `string` | Yes | — | Destination URL. |
+| `variant` | `'primary' \| 'secondary'` | No | `'primary'` | Maps to `eevenkoto-link-button--{variant}`. Host alone is also primary. |
+| `label` | `string` | Yes | — | Visible chrome copy. |
+| `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Maps to `--sm` / `--md` / `--lg`. |
+| `disabled` | `boolean` | No | `false` | Removes `href`; adds `aria-disabled` + `tabindex="-1"`. Prefer omitting. |
+| `icon` | `ButtonIconName` | No | — | From `BUTTON_ICON_NAMES`. |
+| `iconPosition` | `'left' \| 'right'` | No | `'right'` when icon is set | Maps to `--icon-*`. |
+| `target` | `string` | No | — | Native `target`. |
+| `rel` | `string` | No | — | Native `rel`; `_blank` automatically adds `noopener noreferrer`. |
+
+<ArgTypes of={LinkButtonStories} />
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-link-button` | Base CTA link (primary + md + end-scoop) |
+| `eevenkoto-link-button--primary` | Primary alias |
+| `eevenkoto-link-button--secondary` | Secondary variant |
+| `eevenkoto-link-button--sm` | Small size |
+| `eevenkoto-link-button--md` | Medium (default) size |
+| `eevenkoto-link-button--lg` | Large size |
+| `eevenkoto-link-button--icon-left` | Icon before label |
+| `eevenkoto-link-button--icon-right` | Icon after label |
+| `eevenkoto-link-button--icon-arrow` | Directional glyph hook; mirrors in RTL |
+| (nested) `eevenkoto-icon` | Icon atom SVG |
+
+### Type definitions
+
+Shared contract lives in `@eevenkoto/core` (`LinkButtonProps`).
+
+```ts
+export interface LinkButtonProps {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  label: string;
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  icon?: ButtonIconName;
+  iconPosition?: 'left' | 'right';
+  target?: string;
+  rel?: string;
+}
+```
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-link-button-bg` | Background |
+| `--eevenkoto-link-button-text` | Label color |
+| `--eevenkoto-link-button-border-color` | Border color |
+| `--eevenkoto-link-button-icon` | Icon color |
+| `--eevenkoto-link-button-bg-hover` / `-active` / `-disabled` | State backgrounds |
+| `--eevenkoto-link-button-pad-block` / `-pad-inline` | Padding |
+| `--eevenkoto-link-button-radius` | End-side corner radius |
+| `--eevenkoto-link-button-nudge` | Hover/active translate distance |
+| `--eevenkoto-link-button-font-size` | Type size (`control-*`) |
+| `--eevenkoto-link-button-gradient-start` / `-middle` / `-end` | Gradient stops |
+
+See [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs) for the private-bridge pattern.
+
+## Framework packages
+
+HTML is the reference implementation. React and Vue are thin wrappers over the same BEM classes from `@eevenkoto/core`.
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/link-button.css';
+import { renderLinkButton } from '@eevenkoto/html';
+
+document.body.innerHTML = renderLinkButton({
+  href: '/play',
+  label: 'Start playing',
+});
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/link-button.css';
+import { LinkButton } from '@eevenkoto/react';
+
+<LinkButton href="/play" label="Start playing" />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/link-button.css';
+import { LinkButton } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <LinkButton href="/play" label="Start playing" />
+</template>
+```
+
+See [Packages](?path=/docs/foundations-packages--docs) for the package map.
+
+## Related
+
+- [Button](?path=/docs/core-atoms-button--docs) — in-page actions (`<button>`)
+- [InlineRef](?path=/docs/core-atoms-inlineref--docs) — inline term links
+- [Icon](?path=/docs/core-atoms-icon--docs) — composed glyphs
+- [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs)

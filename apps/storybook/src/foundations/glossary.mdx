@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 Canonical vocabulary for Eevenkoto APIs, source layout, and docs. Prefer these names in props, types, file paths, and prose.
 
-Also read: [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs) · [Authoring composed components](?path=/docs/foundations-authoring-composed-components--docs) · [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) · [Packages](?path=/docs/foundations-packages--docs)
+Also read: [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs) · [Authoring composed components](?path=/docs/foundations-authoring-composed-components--docs) · [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) · [Packages](?path=/docs/foundations-packages--docs) (Button vs LinkButton chooser for agents)
 
 ## Locale policy
 
@@ -79,7 +79,7 @@ Use the prop that matches the role — do not force one name everywhere.
 
 | Prop | Use for |
 | --- | --- |
-| `label` | Visible control/chrome copy and definition terms (Button, Badge, Property, AbilityScore header, **Field** visible label). **Not** used on Input. |
+| `label` | Visible control/chrome copy and definition terms (Button, LinkButton, Badge, Property, AbilityScore header, **Field** visible label). **Not** used on Input. |
 | `ariaLabel` | Input-only: `aria-label` when there is no Field / visible label (chrome search). |
 | `text` | Typography primitives (Heading, Paragraph, Caption, ListItem, TableCell body) |
 | `name` | Named entity or inline reference (Statblock creature, StatblockFeature, InlineRef, EntityRef) |
@@ -95,6 +95,7 @@ In markup, a Property `label` is the definition **term** (`dt`). The prop name s
 | Surface | Prop | Values mean |
 | --- | --- | --- |
 | Button | `variant` | Action hierarchy: `primary` / `secondary` / `ghost` |
+| LinkButton | `variant` | CTA hierarchy: `primary` / `secondary` (no ghost — in-prose links stay InlineRef) |
 | Badge | `variant` | Surface recipe: `subtle` / `solid` / `outline` |
 | Badge | `intent` | Feedback severity: `neutral` / `info` / `success` / `caution` / `critical` / `admin` |
 | Heading / Paragraph / Caption / List | `tone` | Content weight: `primary` / `secondary` |
@@ -103,6 +104,21 @@ In markup, a Property `label` is the definition **term** (`dt`). The prop name s
 `primary` is overloaded by design (control hierarchy vs content weight vs token slots). Prefer the table above over inventing parallel words.
 
 Feedback uses **`caution`** / **`critical`** (not `warning` / `error`). Destructive actions use control **`destructive`** tokens / Button examples — that is separate from Badge intent.
+
+## Button vs LinkButton vs InlineRef
+
+Never put `href` on Button or wrap a Button in an `<a>`. Pick by **what happens**, not by how prominent it looks.
+
+| Situation | Use |
+| --- | --- |
+| Hero / campaign “Start playing”, “Get the book”, “Read the rules” | **LinkButton** (`<a>`, required `href`) |
+| Same-site page that is still a real URL | **LinkButton** |
+| Form submit, dialog confirm, add/remove, open a modal or drawer | **Button** (`<button>`) |
+| “Read more” or a term inside a paragraph | **InlineRef** (or a prose link) — not LinkButton |
+| One main destination + one quieter destination | LinkButton **primary** + **secondary** (no ghost) |
+| Destination is not ready | Omit the CTA; do not ship a disabled LinkButton as the only signal |
+
+LinkButton looks related to Button on purpose (marketing CTAs) but stays a link: end-scoop shape, hover translate, no visited purple. Button is for **doing**; LinkButton is for **going**.
 
 ## Type layers
 

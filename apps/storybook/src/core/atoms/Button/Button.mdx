@@ -71,13 +71,13 @@ Use a Button when the user needs to perform an explicit action — initiating a 
       <li>Use a Button when an action changes data, advances a task, or opens an interaction.</li>
       <li>Use Primary for the main action in a section or flow.</li>
       <li>Use Secondary and Ghost for supporting or lower-priority actions.</li>
-      <li>Use a Button instead of a link when something should happen on the same page.</li>
+      <li>Use a Button for in-page actions (submit, dialog, add/remove). Same-site <em>pages</em> with a URL are still LinkButton.</li>
       <li>Use icon-only buttons only when the icon is widely recognized or space is limited — and always provide an accessible name.</li>
     </ul>
   }
   dont={
     <ul>
-      <li>Don’t use a Button for simple navigation — use a Link instead.</li>
+      <li>Don’t use a Button for navigation — use <a href="?path=/docs/core-atoms-linkbutton--docs">LinkButton</a> for CTAs, or <a href="?path=/docs/core-atoms-inlineref--docs">InlineRef</a> for terms in running text.</li>
       <li>Don’t use a Button when the action is ambiguous or a menu would better support the flow.</li>
       <li>Don’t use multiple Primary buttons in the same section — it weakens the main action.</li>
       <li>Don’t use disabled buttons as the only way to explain why something can’t be done — provide helper or error text nearby.</li>
@@ -181,13 +181,13 @@ Make the consequence explicit to prevent mistakes (e.g. “Delete all”, “Cle
 
 #### Navigation-adjacent actions
 
-If a button opens a destination-like experience, labels should indicate where the user will go (e.g. “Open settings”, “Show more”).
+If a **Button** opens UI on this page (settings panel, “show more”), the label should say what opens. If the control **navigates to a URL**, use [LinkButton](?path=/docs/core-atoms-linkbutton--docs) instead.
 
 <DoDont
   do={<p><strong>Open settings</strong></p>}
-  doCaption="Indicates the destination."
+  doCaption="In-page panel — Button."
   dont={<p><strong>Next</strong></p>}
-  dontCaption="Vague about where it leads."
+  dontCaption="Vague; and a real next-page URL would be LinkButton."
 />
 
 ## Anatomy
@@ -233,7 +233,7 @@ Shared `sm | md | lg` ladder (same tokens as Paragraph / Badge → `control-*`).
 | --- | --- | --- |
 | `sm` | `eevenkoto-button--sm` | Compact; avoid as the default on touch UIs. |
 | `md` | `eevenkoto-button--md` | Default comfortable size. |
-| `lg` | `eevenkoto-button--lg` | Larger button for key CTAs. |
+| `lg` | `eevenkoto-button--lg` | Larger size for prominent **in-page** actions. Marketing “go to URL” CTAs use [LinkButton](?path=/docs/core-atoms-linkbutton--docs), not a large Button. |
 
 <Canvas of={ButtonStories.SizeComparison} />
 
@@ -492,6 +492,7 @@ See [Packages](?path=/docs/foundations-packages--docs) for the package map.
 
 ## Related
 
+- [LinkButton](?path=/docs/core-atoms-linkbutton--docs) — prominent CTA navigation (`<a>`, not a Button with href)
 - [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs) — Token encapsulation and Button as the canonical Tier 3 example
 - [Typography](?path=/docs/foundations-typography--docs) — Two-tier font sizes; Button uses `control-*`
 - [Tokens](?path=/docs/foundations-tokens--docs) — Live catalog of implemented color, type, spacing, and radius tokens
