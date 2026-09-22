@@ -280,3 +280,11 @@
     border-block-start-color: ButtonText;
   }
 }
+
+@media print {
+  .eevenkoto-spellblock {
+    break-inside: avoid;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

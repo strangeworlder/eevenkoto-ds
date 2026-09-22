@@ -48,6 +48,7 @@ const preview: Preview = {
             'Color Tokens',
             'Authoring composed components',
             'Decisions',
+            'Print columns',
             '*',
           ],
           'Core',

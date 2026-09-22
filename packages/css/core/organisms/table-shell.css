@@ -58,3 +58,15 @@
   .eevenkoto-table-cell--index {
   background-color: var(--_eevenkoto-table-shell-index-stripe-bg);
 }
+
+@media print {
+  .eevenkoto-table-shell {
+    column-span: all;
+    break-inside: avoid;
+  }
+
+  .eevenkoto-table-shell .eevenkoto-scroll .eevenkoto-table thead .eevenkoto-table-cell--index,
+  .eevenkoto-table-shell .eevenkoto-scroll .eevenkoto-table tbody .eevenkoto-table-cell--index {
+    position: static;
+  }
+}

@@ -25,3 +25,7 @@ Eevenkoto is a **TTRPG content design system** (statblocks, entity refs, ability
 ## Google Fonts
 
 Base `styles.css` imports Inter and Outfit from Google Fonts. Consumers who cannot use that CDN should override `font-family` on `:root` / `body` or self-host.
+
+## Print is a media restyle, not a second view
+
+Content pages keep their screen markup. `@media print` on existing hosts (outermost [Prose](?path=/docs/core-molecules-prose--docs), Heading, TableShell, Statblock, Spellblock, Card, Scroll, Menu) turns a long article into two snaking columns. No print-specific BEM, no `/print` route. Nested Prose sections must not open a second column context. Details: [Print columns](?path=/docs/foundations-print-columns--docs).

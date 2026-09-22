@@ -256,3 +256,12 @@
     bottom: 1.8rem;
   }
 }
+
+@media print {
+  .eevenkoto-ability-score-group {
+    column-span: all;
+    break-inside: avoid;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

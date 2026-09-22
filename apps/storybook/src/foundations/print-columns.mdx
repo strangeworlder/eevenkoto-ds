@@ -1,0 +1,69 @@
+import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import * as PrintColumnsStories from './print-columns.stories';
+
+<Meta of={PrintColumnsStories} />
+
+# Print columns
+
+**Related:** [Prose](?path=/docs/core-molecules-prose--docs) · [Flow](?path=/docs/core-molecules-flow--docs) · [Decisions](?path=/docs/foundations-decisions--docs) · [Heading](?path=/docs/core-atoms-heading--docs)
+
+Long-form Eevenkoto pages stay **one column on screen**. Printing the **same document** (Ctrl+P / Save as PDF) restyles outermost Prose into two snaking columns. There is no print route, no `eevenkoto-print-*` class, and no extra markup.
+
+The live pattern is eevenko.to class pages: `article.eevenkoto-prose.eevenkoto-flow` wrapping nested `section.eevenkoto-prose.eevenkoto-flow`, bare `h1`–`h4`, TableShell, Notice, and EntityRef.
+
+<Canvas of={PrintColumnsStories.ClassPage} />
+
+Print **this canvas** in Chrome and Firefox (the story iframe, not the Storybook manager). On screen the article must stay a single column with the lab sidebar visible.
+
+## Architecture
+
+Print is a restyle of existing hosts:
+
+| Host | Print default |
+| --- | --- |
+| Outermost `.eevenkoto-prose` | `columns: 2`, `column-fill: auto` |
+| Nested `.eevenkoto-prose` | No columns (would nest fragmentainers) |
+| Direct child `h1` / `h2` of Prose | `column-span: all` (already `break-after: avoid`) |
+| Statblock, Spellblock, Card, Notice | `break-inside: avoid` |
+| TableShell, AbilityScoreGroup | `column-span: all` + avoid split |
+| Scroll | `overflow: visible` |
+| Menu, Popover, TooltipCard | `display: none` |
+| `@page` (in `styles.css`) | A4, 18mm margin; `print-color-adjust: exact` on `html, body` |
+
+Headings **inside** Statblock or Spellblock do not span: that would pull the title out of the card.
+
+## Tall boxed organisms
+
+One default, no author-facing print switch: **keep the box intact** (`break-inside: avoid`). If a Statblock is taller than the remaining column, the engine leaves a hole and moves the whole card. That is the handout-grade tradeoff. Do not add `--span` or `--allow-break` modifiers.
+
+AbilityScoreGroup and class tables span both columns so a six-wide grid is not crushed to ~90mm.
+
+## Nested Prose (required)
+
+```css
+@media print {
+  .eevenkoto-prose:not(.eevenkoto-prose .eevenkoto-prose) {
+    columns: 2;
+  }
+}
+```
+
+Applying `columns` to every Prose host would columnize each `section.doc-section` separately.
+
+## App chrome vs DS chrome
+
+`.layout-shell` / `.content-wrapper` belong to the site. Menu hiding stops a 139-item nav dump. Ambient glow, login, and side ribbons stay the host app’s print sheet.
+
+## What browsers will not do
+
+Handout-grade, not a typesetter. Fragile: last-page `column-fill: auto`, `orphans` / `widows`, `box-decoration-break: clone` on split cards. Missing: footnotes, running heads from the current heading, “see page N”. Those need a paged-media engine (Prince, WeasyPrint, Paged.js), which is out of scope.
+
+CSS Grid cannot snake a single prose stream. Do not print the article as two independent tracks.
+
+## Verify
+
+1. Screen: single column; nested sections; sidebar Menu visible.
+2. Chrome Print / Save as PDF: two columns, H1/H2 span, table unclipped and full width, Menu gone, EntityRefs in-flow (no tooltip cards), short Statblock unsplit.
+3. Firefox Print: same checks; note last-page fill if columns look balanced instead of newspaper-filled.
+
+**Observed (Chromium print media, A4-width canvas):** outermost Prose `column-count: 2` / `column-fill: auto`; nested section Prose stays `column-count: auto`; H1 `column-span: all`; TableShell and AbilityScoreGroup span; Scroll `overflow: visible`; Menu `display: none`; Statblock `break-inside: avoid`. Firefox Print was not run in this lab (agent browser is Chromium only).

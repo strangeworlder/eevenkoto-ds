@@ -15,3 +15,12 @@
   display: block;
   min-width: 0;
 }
+
+/* Nested Prose (section inside article) must not open a second multicol. */
+@media print {
+  .eevenkoto-prose:not(.eevenkoto-prose .eevenkoto-prose) {
+    columns: 2;
+    column-gap: var(--eevenkoto-space-8);
+    column-fill: auto;
+  }
+}

@@ -240,3 +240,11 @@
     forced-color-adjust: none;
   }
 }
+
+@media print {
+  .eevenkoto-notice {
+    break-inside: avoid;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

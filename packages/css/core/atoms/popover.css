@@ -177,3 +177,9 @@
     background: Canvas;
   }
 }
+
+@media print {
+  .eevenkoto-popover {
+    display: none;
+  }
+}

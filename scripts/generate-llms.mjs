@@ -76,6 +76,11 @@ const AUTHOR_SOURCES = [
     path: 'apps/storybook/src/foundations/decisions.mdx',
     kind: 'mdx',
   },
+  {
+    title: 'Print columns',
+    path: 'apps/storybook/src/foundations/print-columns.mdx',
+    kind: 'mdx',
+  },
 ];
 
 const SKIP_COMPONENT_MDX = new Set(['TypographySample.mdx']);

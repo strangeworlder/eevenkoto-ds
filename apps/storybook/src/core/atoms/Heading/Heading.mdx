@@ -143,7 +143,7 @@ Bare, a run-in H2 keeps the H2 scale — hosts remap the size, as Spellblock doe
 ## Accessibility & flow
 
 - Preserve logical heading order for screen readers.
-- Headings use `break-after: avoid` / `break-inside: avoid` so print/PDF flows keep titles with following copy.
+- Headings use `break-after: avoid` / `break-inside: avoid` so print/PDF flows keep titles with following copy. Direct-child `h1` / `h2` of Prose also `column-span: all` in print (see [Print columns](?path=/docs/foundations-print-columns--docs)).
 - Run-in keeps a real heading element (`h2`, `h3`, or `h6`) — do not demote it to a `<span>` for styling. Pick the level the outline needs; the run-in look is identical at all three.
 
 ## API reference

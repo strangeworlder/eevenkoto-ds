@@ -30,3 +30,9 @@
 .eevenkoto-statblock > .eevenkoto-caption {
   margin-block: 0;
 }
+
+@media print {
+  .eevenkoto-statblock {
+    break-inside: avoid;
+  }
+}

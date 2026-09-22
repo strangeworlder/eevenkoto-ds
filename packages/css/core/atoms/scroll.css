@@ -24,3 +24,13 @@
 .eevenkoto-scroll--both {
   overflow: auto;
 }
+
+@media print {
+  .eevenkoto-scroll,
+  .eevenkoto-scroll--x,
+  .eevenkoto-scroll--y,
+  .eevenkoto-scroll--both {
+    overflow: visible;
+    max-block-size: none;
+  }
+}

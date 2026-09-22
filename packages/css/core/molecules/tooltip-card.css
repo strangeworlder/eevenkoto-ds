@@ -155,3 +155,9 @@
     border-color: CanvasText;
   }
 }
+
+@media print {
+  .eevenkoto-tooltip-card {
+    display: none;
+  }
+}

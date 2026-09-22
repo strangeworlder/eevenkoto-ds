@@ -199,3 +199,9 @@
     color: CanvasText;
   }
 }
+
+@media print {
+  .eevenkoto-menu {
+    display: none;
+  }
+}

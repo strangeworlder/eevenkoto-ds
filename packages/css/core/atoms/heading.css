@@ -205,3 +205,12 @@
   display: inline;
   margin-block-start: 0;
 }
+
+/* Span only direct children of a Prose host so Statblock/Spellblock titles stay in-column. */
+@media print {
+  .eevenkoto-prose > :where(h1, h2),
+  .eevenkoto-prose > .eevenkoto-heading--1,
+  .eevenkoto-prose > .eevenkoto-heading--2 {
+    column-span: all;
+  }
+}
