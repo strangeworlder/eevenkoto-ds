@@ -40,6 +40,21 @@
   --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-admin-icon);
 }
 
+/* Class catalog (Hurjapää) is not a class feature (Hurma). Info fill + admin ink. */
+.eevenkoto-entity-ref--class {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-info-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-admin-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-admin-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-admin-icon);
+}
+
+.eevenkoto-entity-ref--creature {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-critical-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-critical-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-critical-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-critical-icon);
+}
+
 /* Spell keeps the info fill but takes its ink and stroke from the turquoise
    control tuple, so it reads as arcane rather than informational chrome. */
 .eevenkoto-entity-ref--spell {

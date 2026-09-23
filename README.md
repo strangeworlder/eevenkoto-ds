@@ -28,7 +28,7 @@ import '@eevenkoto/css/button.css';
 
 | Status | Surfaces |
 | --- | --- |
-| **Shipped** | Typography, Flow/Prose/Frame/Scroll, Button/LinkButton/Icon, Badge/Notice, Field+Input, Menu, Popover+TooltipCard, Card, table stack, Stat/Property/List, Avatar/InlineRef, Domain statblock stack |
+| **Shipped** | Typography, Flow/Prose/Frame/Scroll, Button/LinkButton/Icon, Badge/StatusDot/Chip/Notice, Field+Input, Menu, Catalog, Popover+TooltipCard, Card, table stack, Stat/Property/List, Avatar/InlineRef, Domain statblock stack |
 | **Token-only** | Checkbox/radio/switch, toast/banner fills, modal surface roles, breadcrumbs-as-link tokens |
 | **Not planned here** | Dialog, Select, Toast, Pager, Tabs, date pickers, app chrome |
 

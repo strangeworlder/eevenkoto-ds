@@ -1,24 +1,35 @@
-/** Closed set of referenced entity kinds. */
-export type EntityRefKind = 'condition' | 'mechanic' | 'classFeature' | 'spell' | 'item';
+import {
+  inlineRefClassNames,
+  type InlineRefClassNameProps,
+  type InlineRefProps,
+} from '../../core/atoms/inlineRef';
 
-export interface EntityRefProps {
+/** Closed set of referenced entity kinds. */
+export type EntityRefKind =
+  | 'condition'
+  | 'mechanic'
+  | 'classFeature'
+  | 'class'
+  | 'spell'
+  | 'item'
+  | 'creature';
+
+export interface EntityRefProps extends InlineRefProps {
   /** Entity kind (closed set). Default: item */
   kind?: EntityRefKind;
-  /** Visible entity name. */
-  name: string;
-  /** When set, the reference renders as a link. */
-  href?: string;
 }
 
-export type EntityRefClassNameProps = Pick<EntityRefProps, 'kind'>;
+export type EntityRefClassNameProps = Pick<EntityRefProps, 'kind'> & InlineRefClassNameProps;
 
 /** Kind → BEM modifier (kebab-case). */
 export const ENTITY_REF_MODIFIERS: Record<EntityRefKind, string> = {
   condition: 'condition',
   mechanic: 'mechanic',
   classFeature: 'class-feature',
+  class: 'class',
   spell: 'spell',
   item: 'item',
+  creature: 'creature',
 };
 
 /**
@@ -27,5 +38,9 @@ export const ENTITY_REF_MODIFIERS: Record<EntityRefKind, string> = {
  */
 export const entityRefClassNames = (props: EntityRefClassNameProps = {}): string => {
   const kind = props.kind ?? 'item';
-  return `eevenkoto-inline-ref eevenkoto-entity-ref eevenkoto-entity-ref--${ENTITY_REF_MODIFIERS[kind]}`;
+  return [
+    inlineRefClassNames(props),
+    'eevenkoto-entity-ref',
+    `eevenkoto-entity-ref--${ENTITY_REF_MODIFIERS[kind]}`,
+  ].join(' ');
 };

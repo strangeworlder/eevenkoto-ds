@@ -3,14 +3,37 @@ import {
   menuClassNames,
   menuGroupClassNames,
   menuItemClassNames,
+  menuItemLabelClassNames,
   menuSummaryClassNames,
   type MenuEntry,
+  type MenuItemEntry,
   type MenuProps,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNode } from 'vue';
 import { Icon } from '../atoms/Icon';
+import { StatusDot } from '../atoms/StatusDot';
 
 export type { MenuProps, MenuEntry };
+
+const itemChildren = (entry: MenuItemEntry): VNode[] => {
+  const nodes: VNode[] = [h('span', { class: menuItemLabelClassNames() }, entry.label)];
+  if (entry.locked) {
+    nodes.push(
+      h('span', { class: 'eevenkoto-menu__lock' }, [
+        h(Icon, { name: 'lock' }),
+        h('span', { class: 'eevenkoto-visually-hidden' }, entry.lockedLabel ?? 'Locked'),
+      ]),
+    );
+  }
+  if (entry.status) {
+    nodes.push(
+      h('span', { class: 'eevenkoto-menu__status' }, [
+        h(StatusDot, { intent: entry.status, label: entry.statusLabel ?? 'Ready' }),
+      ]),
+    );
+  }
+  return nodes;
+};
 
 const renderEntries = (
   entries: MenuEntry[],
@@ -42,14 +65,15 @@ const renderEntries = (
             h('span', { class: 'eevenkoto-menu__chevron', 'aria-hidden': 'true' }, [
               h(Icon, { name: 'chevron-right', size: 'sm' }),
             ]),
-            h('span', entry.label),
+            h('span', { class: menuItemLabelClassNames() }, entry.label),
           ]),
           h('div', { class: menuGroupClassNames() }, renderEntries(entry.children, onSelect)),
         ],
       );
     }
 
-    const itemClass = menuItemClassNames(entry.selected);
+    const itemClass = menuItemClassNames({ selected: entry.selected, locked: entry.locked });
+    const lockedNoHref = Boolean(entry.locked && !entry.href);
 
     if (entry.href) {
       return h(
@@ -57,10 +81,10 @@ const renderEntries = (
         {
           class: itemClass,
           href: entry.href,
-          'aria-disabled': entry.disabled ? 'true' : undefined,
+          'aria-disabled': entry.disabled || lockedNoHref ? 'true' : undefined,
           key: entry.id,
         },
-        entry.label,
+        itemChildren(entry),
       );
     }
 
@@ -69,11 +93,11 @@ const renderEntries = (
       {
         type: 'button',
         class: itemClass,
-        disabled: entry.disabled || undefined,
+        disabled: entry.disabled || entry.locked || undefined,
         key: entry.id,
         onClick: () => onSelect(entry.id),
       },
-      entry.label,
+      itemChildren(entry),
     );
   });
 
@@ -82,10 +106,11 @@ export const Menu = defineComponent({
   props: {
     entries: { type: Array as PropType<MenuEntry[]>, required: true },
     label: { type: String, default: undefined },
+    embedded: { type: Boolean, default: false },
   },
   emits: ['select'],
   setup(props, { emit }) {
-    const className = computed(() => menuClassNames());
+    const className = computed(() => menuClassNames({ embedded: props.embedded }));
 
     return () =>
       h(

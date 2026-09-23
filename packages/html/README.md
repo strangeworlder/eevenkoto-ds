@@ -25,9 +25,9 @@ document.body.innerHTML = renderButton({
 
 `@eevenkoto/css` is an **optional peer** — import it in the host or markup is unstyled.
 
-**Core atoms:** `renderButton`, `renderLinkButton`, `renderBadge`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderCaption`, `renderFrame`, `renderScroll`, `renderIcon`, `renderPopover`, `renderInlineRef`, `renderAvatar`, `renderInput`, `renderTableCell`, `renderProperty`, `renderStat`.
+**Core atoms:** `renderButton`, `renderLinkButton`, `renderBadge`, `renderStatusDot`, `renderChip`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderCaption`, `renderFrame`, `renderScroll`, `renderIcon`, `renderPopover`, `renderInlineRef`, `renderAvatar`, `renderInput`, `renderTableCell`, `renderProperty`, `renderStat`.
 
-**Core molecules / organism:** `renderFlow`, `renderNotice`, `renderField`, `renderSegmentedControl`, `renderCard`, `renderTooltipCard`, `renderMenu`, `renderProse`, `renderList`, `renderPropertyList`, `renderTable`, `renderTableShell`.
+**Core molecules / organism:** `renderFlow`, `renderNotice`, `renderField`, `renderSegmentedControl`, `renderCard`, `renderTooltipCard`, `renderMenu`, `renderCatalog`, `renderCatalogTile`, `renderProse`, `renderList`, `renderPropertyList`, `renderTable`, `renderTableShell`.
 
 **Domain:** `renderEntityRef`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`, `renderSpellblock`.
 

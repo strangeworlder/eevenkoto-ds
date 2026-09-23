@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Inline Ref
 
-An **InlineRef** is Core’s product-agnostic inline reference: mark a term in running text with ink at rest and a chip on hover. Optional `href` makes it a link (dotted underline). Host alone is **neutral** feedback chrome.
+An **InlineRef** is Core’s product-agnostic inline reference: mark a term in running text with ink at rest and a chip on hover. Optional `href` makes it a link (dotted underline). `unlinked` marks a known term with no page. `locked` adds a trailing lock (gated destination). Host alone is **neutral** feedback chrome.
 
 Domain [EntityRef](?path=/docs/domain-atoms-entityref--docs) specializes this with a closed `kind` set. Core demos (Popover, TooltipCard) use InlineRef so Core never depends on Domain.
 
@@ -46,7 +46,7 @@ Domain [EntityRef](?path=/docs/domain-atoms-entityref--docs) specializes this wi
 
 ## Why to use
 
-Body copy often points at another page or previewable term. InlineRef is that mark without Button chrome, Badge status, or product vocabulary — so Core Popover triggers stay Core.
+Body copy often points at another page, a previewable term, a name that has no page yet, or a destination the reader cannot open. InlineRef is that mark without Button chrome, Badge status, or product vocabulary — so Core Popover triggers stay Core and eevenko.to can drop `.unlinked-term` / `.tooltip-ref-locked`.
 
 ## When to use
 
@@ -56,8 +56,16 @@ Body copy often points at another page or previewable term. InlineRef is that ma
       <li>Mark an inline term that can open a Popover / TooltipCard preview.</li>
       <li>Prefer a real <code>href</code> when the term has a destination URL.</li>
       <li>
+        Set <code>unlinked</code> when the term is known but has no page (italic + dotted underline,
+        never a link).
+      </li>
+      <li>
+        Set <code>locked</code> when the destination is gated; keep <code>href</code> if login still
+        navigates. Override <code>lockedLabel</code> when the UI is localized (<em>Lukittu</em>).
+      </li>
+      <li>
         Use Domain <a href="?path=/docs/domain-atoms-entityref--docs">EntityRef</a> when you need
-        closed rules kinds (<code>spell</code>, <code>condition</code>, …).
+        closed rules kinds (<code>spell</code>, <code>condition</code>, <code>creature</code>, …).
       </li>
     </ul>
   }
@@ -66,6 +74,11 @@ Body copy often points at another page or previewable term. InlineRef is that ma
       <li>Don’t invent Domain kinds on InlineRef — that is EntityRef.</li>
       <li>Don’t use InlineRef for status or readiness — that is Badge.</li>
       <li>Don’t wrap InlineRef in a Button; the link (or tag) is the trigger.</li>
+      <li>Don’t embed Lucide (or other) lock SVGs — use <code>locked</code> and the Icon token.</li>
+      <li>
+        Don’t set both <code>unlinked</code> and <code>href</code> expecting a link; unlinked always
+        renders a <code>span</code>.
+      </li>
     </ul>
   }
 />
@@ -76,6 +89,18 @@ Omit `href` for a non-navigating mark.
 
 <Canvas of={InlineRefStories.PlainTag} />
 
+## Unlinked term
+
+Known vocabulary without a destination. Migration: eevenko.to `.unlinked-term` → `unlinked`.
+
+<Canvas of={InlineRefStories.Unlinked} />
+
+## Locked link
+
+Gated destination with a trailing lock. Migration: `.tooltip-ref-locked` + inline lock SVG → `locked`.
+
+<Canvas of={InlineRefStories.Locked} />
+
 ## In body copy
 
 <Canvas of={InlineRefStories.InBodyCopy} />
@@ -85,17 +110,23 @@ Omit `href` for a non-navigating mark.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `name` | `string` | — | Visible label. |
-| `href` | `string` | — | When set, renders as `<a>`. |
+| `href` | `string` | — | When set (and not `unlinked`), renders as `<a>`. |
+| `unlinked` | `boolean` | `false` | Known term, no destination (`span` + `--unlinked`). |
+| `locked` | `boolean` | `false` | Trailing lock Icon + visually hidden `lockedLabel`. |
+| `lockedLabel` | `string` | `'Locked'` | Accessible lock name; override when localized. |
 
 <ArgTypes of={InlineRefStories} />
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/inline-ref.css';
 import { renderInlineRef } from '@eevenkoto/html';
 
 renderInlineRef({ name: 'Cure Wounds', href: '/spells/cure-wounds' });
+renderInlineRef({ name: 'hurman', unlinked: true });
+renderInlineRef({ name: 'mystikko', href: '/classes/mystikko', locked: true, lockedLabel: 'Lukittu' });
 ```
 
-Related: [EntityRef](?path=/docs/domain-atoms-entityref--docs) · [Popover](?path=/docs/core-atoms-popover--docs) · [TooltipCard](?path=/docs/core-molecules-tooltipcard--docs)
+Related: [EntityRef](?path=/docs/domain-atoms-entityref--docs) · [Popover](?path=/docs/core-atoms-popover--docs) · [TooltipCard](?path=/docs/core-molecules-tooltipcard--docs) · [Icon](?path=/docs/core-atoms-icon--docs)

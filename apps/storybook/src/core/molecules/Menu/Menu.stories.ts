@@ -39,9 +39,9 @@ const worldbookEntries: MenuProps['entries'] = [
         expanded: true,
         children: [
           { id: 'species-index', label: 'Lajit', href: '#species' },
-          { id: 'human', label: 'Ihminen', href: '#human', selected: true },
-          { id: 'catfolk', label: 'Kissalainen', href: '#catfolk' },
-          { id: 'troll', label: 'Peikko', href: '#troll' },
+          { id: 'human', label: 'Ihminen', href: '#human', selected: true, status: 'success', statusLabel: 'Valmis' },
+          { id: 'catfolk', label: 'Kissalainen', href: '#catfolk', status: 'success', statusLabel: 'Valmis' },
+          { id: 'troll', label: 'Peikko', href: '#troll', status: 'caution', statusLabel: 'Vedos' },
         ],
       },
       {
@@ -49,9 +49,9 @@ const worldbookEntries: MenuProps['entries'] = [
         id: 'classes',
         label: 'Luokat',
         children: [
-          { id: 'barbarian', label: 'Hurjapää', href: '#barbarian' },
-          { id: 'rogue', label: 'Lurjus', href: '#rogue' },
-          { id: 'bard', label: 'Sensaatio', href: '#bard' },
+          { id: 'barbarian', label: 'Hurjapää', href: '#barbarian', status: 'success', statusLabel: 'Valmis' },
+          { id: 'rogue', label: 'Lurjus', href: '#rogue', locked: true, lockedLabel: 'Lukittu', status: 'caution', statusLabel: 'Vedos' },
+          { id: 'bard', label: 'Sensaatio', href: '#bard', status: 'success', statusLabel: 'Valmis' },
         ],
       },
     ],
@@ -79,6 +79,7 @@ const meta: Meta<MenuProps> = {
   },
   argTypes: {
     label: { control: 'text', description: 'Accessible name for the group.' },
+    embedded: { control: 'boolean', description: 'Flush transparent surface for a sidebar.' },
   },
   render: (args) => renderMenu(args),
 };
@@ -97,6 +98,15 @@ export const NestedNav: Story = {
   name: 'Nested nav',
   args: {
     label: 'Worldbook',
+    entries: worldbookEntries,
+  },
+};
+
+export const EmbeddedSidebar: Story = {
+  name: 'Embedded sidebar',
+  args: {
+    label: 'Sivustonavigaatio',
+    embedded: true,
     entries: worldbookEntries,
   },
 };

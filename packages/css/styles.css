@@ -54,7 +54,7 @@ body {
 @media print {
   html,
   body {
-    background: var(--eevenkoto-color-surface-canvas);
+    background: transparent;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }

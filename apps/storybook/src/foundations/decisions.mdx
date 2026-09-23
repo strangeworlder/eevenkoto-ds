@@ -10,13 +10,13 @@ Short ADRs for product scope. Component APIs live on each component’s docs pag
 
 Eevenkoto is a **TTRPG content design system** (statblocks, entity refs, ability scores) plus **portable core chrome** (Button, Field, Menu, table stack, typography). It is not a general application kit.
 
-**Shipped:** Core atoms/molecules listed in package READMEs; Domain EntityRef → AbilityScore → Statblock → Spellblock.
+**Shipped:** Core atoms/molecules listed in package READMEs (including StatusDot, Chip, Catalog, Menu `embedded` / `status` / `locked`); Domain EntityRef (including `class` and `creature`) → AbilityScore → Statblock → Spellblock.
 
 **Theming:** Light is the default. `[data-theme="dark"]` and `[data-surface-mode="dark"]` share the same Tier 2 remaps (Storybook toolbar). Contrast theme is not implemented.
 
 **Token-only (no component yet):** form checkbox/radio/switch, toast/banner containers, modal surface roles, breadcrumb-as-link tokens. Do not assume a component exists because a Tier 2 token is named.
 
-**Not in scope:** Dialog, Select, Toast, Pager, Tabs, date pickers, app shell. Popover is CSS chrome; the host app owns focus trapping and dialog behavior.
+**Not in scope:** Dialog, Select, Toast, Pager, Tabs, date pickers, app shell. Popover is CSS chrome; the host app owns focus trapping and dialog behavior. Compose class pages with the [Class entry recipe](?path=/docs/foundations-class-entry-recipe--docs) — no Classblock organism yet.
 
 ## Optional CSS peer
 

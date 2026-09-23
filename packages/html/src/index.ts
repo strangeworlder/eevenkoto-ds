@@ -4,6 +4,8 @@ export {
   type LinkButtonProps,
 } from './core/atoms/link-button/renderLinkButton';
 export { renderBadge, type BadgeProps } from './core/atoms/badge/renderBadge';
+export { renderStatusDot, type StatusDotProps } from './core/atoms/status-dot/renderStatusDot';
+export { renderChip, type ChipProps } from './core/atoms/chip/renderChip';
 export { renderHeading, type HeadingProps } from './core/atoms/heading/renderHeading';
 export { renderParagraph, type ParagraphProps } from './core/atoms/paragraph/renderParagraph';
 export { renderListItem, type ListItemProps } from './core/atoms/list-item/renderListItem';
@@ -33,6 +35,12 @@ export {
   type TooltipCardProps,
 } from './core/molecules/tooltip-card/renderTooltipCard';
 export { renderMenu, type MenuProps, type MenuEntry } from './core/molecules/menu/renderMenu';
+export {
+  renderCatalog,
+  renderCatalogTile,
+  type CatalogProps,
+  type CatalogTileProps,
+} from './core/molecules/catalog/renderCatalog';
 export { renderProse, type ProseProps } from './core/molecules/prose/renderProse';
 export { renderList, type ListProps } from './core/molecules/list/renderList';
 export {

@@ -19,7 +19,7 @@ import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
 ```
 
-Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `heading`, `paragraph`, `list`, `caption`, `frame`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `property`, `stat`, `flow`, `notice`, `field`, `segmented-control`, `card`, `tooltip-card`, `menu`, `prose`, `table`, `table-shell`. **Domain:** `entity-ref`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`, `spellblock`. AbilityScoreGroup has no dedicated sheet (uses ability-score).
+Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `status-dot`, `chip`, `heading`, `paragraph`, `list`, `caption`, `frame`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `property`, `stat`, `flow`, `notice`, `field`, `segmented-control`, `card`, `tooltip-card`, `menu`, `catalog`, `prose`, `table`, `table-shell`. **Domain:** `entity-ref`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`, `spellblock`. AbilityScoreGroup has no dedicated sheet (uses ability-score).
 
 `styles.css` pulls Inter/Outfit from Google Fonts.
 

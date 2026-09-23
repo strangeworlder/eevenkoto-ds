@@ -1,0 +1,114 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as StatusDotStories from './StatusDot.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={StatusDotStories} />
+
+# Status Dot
+
+An unlabeled **readiness pip**. Same `intent` set as [Badge](?path=/docs/core-atoms-badge--docs). Host alone is **neutral**. A ring (input-background) keeps the pip readable on a sunken sidebar.
+
+<Canvas of={StatusDotStories.Default} />
+
+```html
+<span class="eevenkoto-status-dot" role="img" aria-label="Ready"></span>
+```
+
+### Playground
+
+<Controls of={StatusDotStories.Default} />
+
+## Why to use
+
+Tree navigation and dense catalogs need a color + shape cue for draft vs ready without a word beside every row. StatusDot is that pip so products do not hide Badge labels or invent `.nav-valmius` CSS.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        Put a pip at the <strong>end</strong> of a{' '}
+        <a href="?path=/docs/core-molecules-menu--docs">Menu</a> item (<code>status</code> on the
+        entry).
+      </li>
+      <li>
+        Put a pip at the <strong>start</strong> of a{' '}
+        <a href="?path=/docs/core-molecules-catalog--docs">CatalogTile</a>.
+      </li>
+      <li>
+        Always pass <code>label</code> for assistive tech; localize it (<em>Valmis</em>,{' '}
+        <em>Vedos</em>).
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>
+        Don’t replace a labeled page-header chip (“Valmis”) with StatusDot — that is{' '}
+        <a href="?path=/docs/core-atoms-badge--docs">Badge</a> (<code>dot</code> + label).
+      </li>
+      <li>Don’t use StatusDot as a click target — that is Chip or Menu.</li>
+      <li>Don’t omit <code>label</code>; a pip without a name is silent to AT.</li>
+    </ul>
+  }
+/>
+
+## Intents
+
+<Canvas of={StatusDotStories.Intents} />
+
+## Migration (eevenko.to)
+
+| Site | Use instead |
+| --- | --- |
+| `.nav-valmius--valmis` | `status: 'success'` on Menu / CatalogTile |
+| `.nav-valmius--vedos` | `caution` |
+| `.nav-valmius--tyostossa` | `critical` |
+| `.nav-valmius--luonnos` | `admin` |
+| `.nav-valmius--virheellinen` | `neutral` |
+| Page-header “Valmis” | Badge `subtle` + `success` + `pill` + `dot` |
+
+<Canvas of={StatusDotStories.NavPips} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | — | Accessible name (`aria-label`). No visible text. |
+| `intent` | `'neutral' \| 'info' \| 'success' \| 'caution' \| 'critical' \| 'admin'` | `'neutral'` | Feedback fill. |
+
+<ArgTypes of={StatusDotStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/status-dot.css';
+import { renderStatusDot } from '@eevenkoto/html';
+
+renderStatusDot({ intent: 'success', label: 'Valmis' });
+```
+
+Related: [Badge](?path=/docs/core-atoms-badge--docs) · [Menu](?path=/docs/core-molecules-menu--docs) · [Catalog](?path=/docs/core-molecules-catalog--docs)

@@ -1,6 +1,8 @@
 export { Button, type ButtonProps, type ButtonIconName } from './core/atoms/Button';
 export { LinkButton, type LinkButtonProps } from './core/atoms/LinkButton';
 export { Badge, type BadgeProps } from './core/atoms/Badge';
+export { StatusDot, type StatusDotProps } from './core/atoms/StatusDot';
+export { Chip, type ChipProps } from './core/atoms/Chip';
 export { Heading, type HeadingProps, type HeadingLevel } from './core/atoms/Heading';
 export { Paragraph, type ParagraphProps } from './core/atoms/Paragraph';
 export { ListItem, type ListItemProps } from './core/atoms/ListItem';
@@ -20,6 +22,12 @@ export { SegmentedControl, type SegmentedControlProps } from './core/molecules/S
 export { Card, type CardProps } from './core/molecules/Card';
 export { TooltipCard, type TooltipCardProps } from './core/molecules/TooltipCard';
 export { Menu, type MenuProps, type MenuEntry } from './core/molecules/Menu';
+export {
+  Catalog,
+  CatalogTile,
+  type CatalogProps,
+  type CatalogTileProps,
+} from './core/molecules/Catalog';
 export { Prose } from './core/molecules/Prose';
 export { List, type ListProps } from './core/molecules/List';
 export { Property, type PropertyProps } from './core/atoms/Property';

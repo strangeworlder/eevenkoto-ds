@@ -43,6 +43,7 @@ Sectioned surface container with `__header`, `__body`, and `__footer`. Every sec
 | Thin portable bordered box (charts, tables, token panels) | **[Frame](?path=/docs/core-atoms-frame--docs)** |
 | Sectioned content with header / body / footer rhythm | **Card** |
 | Elevation or clickable summary tile | Card `--elevated` / `--interactive` |
+| Dense entity index (name + pip) | **[Catalog](?path=/docs/core-molecules-catalog--docs)** |
 | Status / gate / warning banner (intent-colored) | **[Notice](?path=/docs/core-molecules-notice--docs)** — not Card |
 
 ## Why to use
@@ -62,13 +63,17 @@ Item entries, paywall summaries, and other self-contained chunks need a surface 
       </li>
       <li>
         Use <code>interactive</code> only with a real link or button host so keyboard activation
-        works.
+        works (eevenko.to <code>.doc-card</code>).
+      </li>
+      <li>
+        Use <a href="?path=/docs/core-molecules-catalog--docs">Catalog</a> for dense entity indexes
+        (<code>.entity-item</code>), not Card.
       </li>
     </ul>
   }
   dont={
     <ul>
-      <li>Don’t use Card for dense charts or table shells — that is Frame / TableShell.</li>
+      <li>Don’t use Card for dense entity indexes — that is Catalog.</li>
       <li>Don’t use Card for status or gate banners — that is Notice.</li>
       <li>Don’t nest Cards for decoration alone.</li>
       <li>

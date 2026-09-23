@@ -9,7 +9,7 @@ const meta: Meta<BadgeProps> = {
     docs: {
       description: {
         component:
-          'A Badge is a compact status or metadata label. It consumes the feedback domain — not interactive chips (Chip comes later under control).',
+          'A Badge is a compact status or metadata label. Feedback domain — not Chip (control) or StatusDot (unlabeled pip).',
       },
     },
   },

@@ -6,28 +6,38 @@ import { renderToString } from 'vue/server-renderer';
 import {
   badgeClassNames,
   buttonClassNames,
+  catalogClassNames,
+  chipClassNames,
   fieldClassNames,
   headingClassNames,
   inputClassNames,
+  inlineRefClassNames,
   menuClassNames,
   popoverClassNames,
   spellblockClassNames,
   statblockClassNames,
+  statusDotClassNames,
 } from '@eevenkoto/core';
 import {
   renderBadge,
   renderButton,
+  renderCatalog,
+  renderChip,
   renderField,
   renderHeading,
   renderInput,
+  renderInlineRef,
   renderMenu,
   renderPopover,
   renderSpellblock,
   renderStatblock,
+  renderStatusDot,
 } from '@eevenkoto/html';
 import {
   Badge,
   Button,
+  Catalog,
+  Chip,
   Field,
   Heading,
   Input,
@@ -35,10 +45,13 @@ import {
   Popover,
   Spellblock,
   Statblock,
+  StatusDot,
 } from '@eevenkoto/react';
 import {
   Badge as VueBadge,
   Button as VueButton,
+  Catalog as VueCatalog,
+  Chip as VueChip,
   Field as VueField,
   Heading as VueHeading,
   Input as VueInput,
@@ -46,6 +59,7 @@ import {
   Popover as VuePopover,
   Spellblock as VueSpellblock,
   Statblock as VueStatblock,
+  StatusDot as VueStatusDot,
 } from '@eevenkoto/vue';
 
 const hostClass = (className: string) => className.split(/\s+/)[0];
@@ -77,6 +91,28 @@ describe('HTML matches Core class strings', () => {
 
   it('Menu', () => {
     expect(renderMenu({ entries: [{ kind: 'item', label: 'Home' }] })).toContain(menuClassNames());
+  });
+
+  it('StatusDot', () => {
+    expect(renderStatusDot({ label: 'Ready' })).toContain(statusDotClassNames());
+  });
+
+  it('Chip', () => {
+    expect(renderChip({ label: 'Seuraaja', selected: true })).toContain(
+      chipClassNames({ selected: true }),
+    );
+  });
+
+  it('Catalog', () => {
+    expect(
+      renderCatalog({ tiles: [{ name: 'Aavevalo', href: '#aavevalo' }] }),
+    ).toContain(catalogClassNames());
+  });
+
+  it('InlineRef locked', () => {
+    const markup = renderInlineRef({ name: 'mystikko', href: '#m', locked: true });
+    expect(markup).toContain(inlineRefClassNames({ locked: true }));
+    expect(markup).toContain('eevenkoto-inline-ref__lock');
   });
 
   it('Popover', () => {
@@ -133,6 +169,23 @@ describe('React className matches Core', () => {
       createElement(Menu, { entries: [{ kind: 'item', label: 'Home' }] }),
     );
     expect(html).toContain(menuClassNames());
+  });
+
+  it('StatusDot', () => {
+    const html = renderToStaticMarkup(createElement(StatusDot, { label: 'Ready' }));
+    expect(html).toContain(statusDotClassNames());
+  });
+
+  it('Chip', () => {
+    const html = renderToStaticMarkup(createElement(Chip, { label: 'Seuraaja', selected: true }));
+    expect(html).toContain(chipClassNames({ selected: true }));
+  });
+
+  it('Catalog', () => {
+    const html = renderToStaticMarkup(
+      createElement(Catalog, { tiles: [{ name: 'Aavevalo', href: '#aavevalo' }] }),
+    );
+    expect(html).toContain(catalogClassNames());
   });
 
   it('Popover', () => {
@@ -193,6 +246,21 @@ describe('Vue class matches Core (priority subset)', () => {
   it('Menu', async () => {
     const html = await vueHtml(VueMenu, { entries: [{ kind: 'item', label: 'Home' }] });
     expect(html).toContain(menuClassNames());
+  });
+
+  it('StatusDot', async () => {
+    const html = await vueHtml(VueStatusDot, { label: 'Ready' });
+    expect(html).toContain(statusDotClassNames());
+  });
+
+  it('Chip', async () => {
+    const html = await vueHtml(VueChip, { label: 'Seuraaja', selected: true });
+    expect(html).toContain(chipClassNames({ selected: true }));
+  });
+
+  it('Catalog', async () => {
+    const html = await vueHtml(VueCatalog, { tiles: [{ name: 'Aavevalo', href: '#aavevalo' }] });
+    expect(html).toContain(catalogClassNames());
   });
 
   it('Popover', async () => {

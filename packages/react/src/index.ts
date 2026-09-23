@@ -5,6 +5,8 @@ export {
   type LinkButtonProps,
 } from './core/atoms/LinkButton';
 export { Badge, type BadgeComponentProps, type BadgeProps } from './core/atoms/Badge';
+export { StatusDot, type StatusDotComponentProps, type StatusDotProps } from './core/atoms/StatusDot';
+export { Chip, type ChipComponentProps, type ChipProps } from './core/atoms/Chip';
 export { Heading, type HeadingComponentProps, type HeadingProps, type HeadingLevel } from './core/atoms/Heading';
 export { Paragraph, type ParagraphComponentProps, type ParagraphProps } from './core/atoms/Paragraph';
 export { ListItem, type ListItemComponentProps, type ListItemProps } from './core/atoms/ListItem';
@@ -51,6 +53,14 @@ export {
   type MenuProps,
   type MenuEntry,
 } from './core/molecules/Menu';
+export {
+  Catalog,
+  CatalogTile,
+  type CatalogComponentProps,
+  type CatalogTileComponentProps,
+  type CatalogProps,
+  type CatalogTileProps,
+} from './core/molecules/Catalog';
 export { Prose, type ProseComponentProps } from './core/molecules/Prose';
 export {
   List,

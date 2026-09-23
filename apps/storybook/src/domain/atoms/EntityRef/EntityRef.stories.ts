@@ -6,9 +6,11 @@ import { renderEntityRef, type EntityRefProps } from '@eevenkoto/html';
 const samples: { kind: NonNullable<EntityRefProps['kind']>; name: string }[] = [
   { kind: 'condition', name: 'Frightened' },
   { kind: 'mechanic', name: 'Advantage' },
-  { kind: 'classFeature', name: 'Sneak Attack' },
-  { kind: 'spell', name: 'Cure Wounds' },
+  { kind: 'classFeature', name: 'Hurma' },
+  { kind: 'class', name: 'Hurjapää' },
+  { kind: 'spell', name: 'Aavevalo' },
   { kind: 'item', name: 'Cloak of Elvenkind' },
+  { kind: 'creature', name: 'Haukka' },
 ];
 
 const meta: Meta<EntityRefProps> = {
@@ -25,10 +27,13 @@ const meta: Meta<EntityRefProps> = {
     name: { control: 'text', description: 'Visible entity name.' },
     kind: {
       control: 'select',
-      options: ['condition', 'mechanic', 'classFeature', 'spell', 'item'],
+      options: ['condition', 'mechanic', 'classFeature', 'class', 'spell', 'item', 'creature'],
       table: { defaultValue: { summary: 'item' } },
     },
-    href: { control: 'text', description: 'When set, renders as a link.' },
+    href: { control: 'text', description: 'When set, renders as a link (ignored if unlinked).' },
+    unlinked: { control: 'boolean' },
+    locked: { control: 'boolean' },
+    lockedLabel: { control: 'text' },
   },
   render: (args) => renderEntityRef(args),
 };
@@ -69,28 +74,54 @@ export const PlainTags: Story = {
     `<p>${samples.map((sample) => renderEntityRef(sample)).join(' ')}</p>`,
 };
 
+export const LockedClass: Story = {
+  name: 'Locked class (Aavevalo)',
+  args: {
+    kind: 'class',
+    name: 'mystikko',
+    href: '/pelaajahahmot/luokat/mystikko',
+    locked: true,
+    lockedLabel: 'Lukittu',
+  },
+};
+
+export const Creature: Story = {
+  name: 'Creature (Haukka)',
+  args: {
+    kind: 'creature',
+    name: 'Haukka',
+    href: '/pelinjohtajalle/vastustajat/haukka',
+  },
+};
+
 export const InBodyCopy: Story = {
   name: 'In body copy',
   render: () =>
-    `<p>On a failed save the target is ${renderEntityRef({
-      kind: 'condition',
-      name: 'Frightened',
-      href: '#frightened',
-    })} until the end of its next turn, and attacks against it have ${renderEntityRef({
-      kind: 'mechanic',
-      name: 'Advantage',
-      href: '#advantage',
-    })}. Spend a use of ${renderEntityRef({
-      kind: 'classFeature',
-      name: 'Sneak Attack',
-      href: '#sneak-attack',
-    })} or cast ${renderEntityRef({
+    `<p>${renderEntityRef({
       kind: 'spell',
-      name: 'Cure Wounds',
-      href: '#cure-wounds',
-    })} while wearing the ${renderEntityRef({
+      name: 'Aavevalo',
+      href: '#aavevalo',
+    })} lists ${renderEntityRef({
+      kind: 'class',
+      name: 'mystikko',
+      href: '#mystikko',
+      locked: true,
+      lockedLabel: 'Lukittu',
+    })} and ${renderEntityRef({
+      kind: 'class',
+      name: 'sensaatio',
+      href: '#sensaatio',
+    })}. A ${renderEntityRef({
+      kind: 'creature',
+      name: 'Haukka',
+      href: '#haukka',
+    })} uses ${renderEntityRef({
+      kind: 'classFeature',
+      name: 'Kynnet',
+      href: '#kynnet',
+    })}. Gear stays ${renderEntityRef({
       kind: 'item',
-      name: 'Cloak of Elvenkind',
-      href: '#cloak',
-    })}.</p>`,
+      name: 'tikari',
+      href: '#tikari',
+    })} — do not add a varuste kind.</p>`,
 };

@@ -1,0 +1,121 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as CatalogStories from './Catalog.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={CatalogStories} />
+
+# Catalog
+
+A **dense index grid** of linked tiles. Each [CatalogTile](#api-reference) is a raised hairline row (optional StatusDot + name + lock). The Catalog host is `repeat(auto-fill, minmax(12.5rem, 1fr))` — not a general layout kit.
+
+<Canvas of={CatalogStories.Default} />
+
+```html
+<ul class="eevenkoto-catalog">
+  <li>
+    <a class="eevenkoto-catalog-tile" href="/spells/aavevalo">Aavevalo</a>
+  </li>
+</ul>
+```
+
+### Playground
+
+<Controls of={CatalogStories.Default} />
+
+## Why to use
+
+Spell, creature, and culture indexes need compact linked rows in a wrapping grid. Card is too tall; List is a vertical stack; Menu is navigation chrome. Catalog is that index so eevenko.to can drop `.entity-grid` / `.entity-item`.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Entity or page indexes (spells, opponents, cultures).</li>
+      <li>
+        Use <a href="?path=/docs/core-molecules-card--docs">Card</a> <code>--interactive</code> for
+        sectioned teasers (category / title / meta — eevenko.to <code>.doc-card</code>).
+      </li>
+      <li>
+        Use <a href="?path=/docs/core-molecules-menu--docs">Menu</a> for the worldbook sidebar, not a
+        catalog of pages.
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use Catalog for a three-part teaser card — that is Card.</li>
+      <li>Don’t use Catalog for running prose lists — that is List / Prose.</li>
+      <li>Don’t invent a layout utility kit; Catalog’s grid is specific to these tiles.</li>
+    </ul>
+  }
+/>
+
+## Single tile
+
+<Canvas of={CatalogStories.SingleTile} />
+
+## Migration (eevenko.to)
+
+| Site | Use instead |
+| --- | --- |
+| `.entity-item` + `.entity-grid` | CatalogTile + Catalog |
+| `.doc-card` / `.doc-cards` | Card `--interactive` (keep Card) |
+
+## API reference
+
+### Catalog
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `tiles` | `CatalogTileProps[]` | — | Grid items. |
+| `label` | `string` | — | Accessible name for the list. |
+
+### CatalogTile
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Visible label. |
+| `href` | `string` | — | Destination (required). |
+| `status` | `BadgeIntent` | — | Leading StatusDot. |
+| `statusLabel` | `string` | `'Ready'` | AT name for the pip. |
+| `locked` | `boolean` | `false` | Trailing lock. |
+| `lockedLabel` | `string` | `'Locked'` | AT name for the lock. |
+
+<ArgTypes of={CatalogStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/catalog.css';
+import { renderCatalog } from '@eevenkoto/html';
+
+renderCatalog({
+  label: 'Loitsut',
+  tiles: [{ name: 'Aavevalo', href: '/spells/aavevalo', status: 'success', statusLabel: 'Valmis' }],
+});
+```
+
+Related: [Card](?path=/docs/core-molecules-card--docs) · [StatusDot](?path=/docs/core-atoms-statusdot--docs) · [List](?path=/docs/core-molecules-list--docs) · [Menu](?path=/docs/core-molecules-menu--docs)

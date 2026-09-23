@@ -69,6 +69,9 @@ Spellblock reuses **StatblockFeature** for scaling run-ins; there is no separate
 | **ListItem** | One content-list row (`li`) |
 | **List** | Stacked content items (`ul` / `ol`) — Core **molecule** (not PropertyList) |
 | **Stat** | Numeric display chip (`disk` / `arch` / `shield`) |
+| **StatusDot** | Unlabeled readiness pip (same intents as Badge) |
+| **Chip** | Interactive control chip (`selected`) |
+| **Catalog** | Dense index grid of CatalogTiles |
 | **Popover** | Raised floating panel chrome (CSS only; app owns open/position) |
 | **TooltipCard** | Header / body / footer chrome nested in Popover (or standalone) — not an in-page Card |
 | **Card** | In-page sectioned surface (`__header` / `__body` / `__footer`) |
@@ -82,8 +85,10 @@ Spellblock reuses **StatblockFeature** for scaling run-ins; there is no separate
 
 | Term | Meaning | Prop / type |
 | --- | --- | --- |
-| **EntityRef** | Domain specialization of InlineRef with closed kinds | `EntityRefProps` (`name`, `kind`, `href?`) |
-| **kind** | Closed EntityRef taxonomy (`condition`, `mechanic`, …) | `EntityRefKind` |
+| **EntityRef** | Domain specialization of InlineRef with closed kinds | `EntityRefProps` (`name`, `kind`, `href?`, `unlinked?`, `locked?`) |
+| **kind** | Closed EntityRef taxonomy (`condition`, `mechanic`, `classFeature`, `class`, `spell`, `item`, `creature`) | `EntityRefKind` |
+| **unlinked** | Known term with no page (InlineRef / EntityRef) | `unlinked` |
+| **locked** | Gated destination; trailing lock Icon | `locked`, `lockedLabel` |
 
 **Stat** (chip) and **Statblock** (entry) are different concepts that share a root word on purpose.
 
@@ -112,6 +117,8 @@ In markup, a Property `label` is the definition **term** (`dt`). The prop name s
 | LinkButton | `variant` | CTA hierarchy: `primary` / `secondary` (no ghost — in-prose links stay InlineRef) |
 | Badge | `variant` | Surface recipe: `subtle` / `solid` / `outline` |
 | Badge | `intent` | Feedback severity: `neutral` / `info` / `success` / `caution` / `critical` / `admin` |
+| StatusDot | `intent` | Same feedback set; unlabeled pip |
+| Chip | `selected` | Control selected / unselected |
 | Heading / Paragraph / Caption / List | `tone` | Content weight: `primary` / `secondary` |
 | List | `variant` | List kind: `unordered` / `ordered` |
 

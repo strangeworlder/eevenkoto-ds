@@ -5,6 +5,8 @@
    Host alone = neutral feedback bridges.
    ========================================================================== */
 
+@import url('./icon.css');
+
 .eevenkoto-inline-ref {
   --_eevenkoto-inline-ref-bg: var(
     --eevenkoto-inline-ref-bg,
@@ -86,6 +88,32 @@ a.eevenkoto-inline-ref:focus-visible {
 a.eevenkoto-inline-ref:focus-visible {
   outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
   outline-offset: 2px;
+}
+
+/* Unlinked: known term, no destination (not a link). */
+.eevenkoto-inline-ref--unlinked {
+  font-style: italic;
+  font-weight: var(--eevenkoto-font-weight-regular);
+  cursor: default;
+  text-decoration: underline dotted var(--_eevenkoto-inline-ref-underline);
+  text-underline-offset: 0.2em;
+}
+
+.eevenkoto-inline-ref--unlinked:hover,
+.eevenkoto-inline-ref--unlinked:focus-visible {
+  text-decoration-style: solid;
+}
+
+.eevenkoto-inline-ref__lock {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: 0.15em;
+  vertical-align: -0.1em;
+  line-height: 1;
+}
+
+.eevenkoto-inline-ref__lock-icon {
+  --eevenkoto-icon-size: 0.75em;
 }
 
 @media (forced-colors: active) {

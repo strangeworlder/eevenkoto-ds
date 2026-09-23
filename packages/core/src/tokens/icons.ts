@@ -10,6 +10,7 @@ export const ICON_NAMES = [
   'arrow',
   'plus',
   'lock',
+  'menu',
   'chevron-down',
   'chevron-right',
   'search',
@@ -23,7 +24,15 @@ export type IconName = (typeof ICON_NAMES)[number];
  * Control-safe subset for Button (and similar dense chrome).
  * Derived type keeps Button from re-listing names.
  */
-export const BUTTON_ICON_NAMES = ['star', 'check', 'arrow', 'plus'] as const;
+export const BUTTON_ICON_NAMES = [
+  'star',
+  'check',
+  'arrow',
+  'plus',
+  'lock',
+  'menu',
+  'search',
+] as const;
 
 export type ButtonIconName = (typeof BUTTON_ICON_NAMES)[number];
 
@@ -36,6 +45,7 @@ export const iconPaths: Record<IconName, string> = {
     'M8.22 2.97a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L11.44 8.75H2.75a.75.75 0 0 1 0-1.5h8.69L8.22 4.03a.75.75 0 0 1 0-1.06Z',
   plus: 'M8 3a.75.75 0 0 1 .75.75v3.5h3.5a.75.75 0 0 1 0 1.5h-3.5v3.5a.75.75 0 0 1-1.5 0v-3.5h-3.5a.75.75 0 0 1 0-1.5h3.5v-3.5A.75.75 0 0 1 8 3Z',
   lock: 'M8 1.5a3.25 3.25 0 0 0-3.25 3.25V6.5h1.75V4.75a1.5 1.5 0 0 1 3 0V6.5h1.75V4.75A3.25 3.25 0 0 0 8 1.5ZM3.75 7.5A1.25 1.25 0 0 0 2.5 8.75v4.5A1.25 1.25 0 0 0 3.75 14.5h8.5a1.25 1.25 0 0 0 1.25-1.25v-4.5A1.25 1.25 0 0 0 12.25 7.5h-8.5Z',
+  menu: 'M2.75 4a.75.75 0 0 1 .75-.75h9.5a.75.75 0 0 1 0 1.5H3.5A.75.75 0 0 1 2.75 4Zm0 4a.75.75 0 0 1 .75-.75h9.5a.75.75 0 0 1 0 1.5H3.5A.75.75 0 0 1 2.75 8Zm0 4a.75.75 0 0 1 .75-.75h9.5a.75.75 0 0 1 0 1.5H3.5A.75.75 0 0 1 2.75 12Z',
   'chevron-down':
     'M3.22 5.97a.75.75 0 0 1 1.06 0L8 9.69l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L3.22 7.03a.75.75 0 0 1 0-1.06Z',
   'chevron-right':

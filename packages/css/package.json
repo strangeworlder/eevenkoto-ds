@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/css",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Eevenkoto design system tokens and component CSS",
   "type": "module",
   "files": [
@@ -16,6 +16,8 @@
     "./button.css": "./core/atoms/button.css",
     "./link-button.css": "./core/atoms/link-button.css",
     "./badge.css": "./core/atoms/badge.css",
+    "./status-dot.css": "./core/atoms/status-dot.css",
+    "./chip.css": "./core/atoms/chip.css",
     "./heading.css": "./core/atoms/heading.css",
     "./paragraph.css": "./core/atoms/paragraph.css",
     "./list.css": "./core/atoms/list.css",
@@ -35,6 +37,7 @@
     "./card.css": "./core/molecules/card.css",
     "./tooltip-card.css": "./core/molecules/tooltip-card.css",
     "./menu.css": "./core/molecules/menu.css",
+    "./catalog.css": "./core/molecules/catalog.css",
     "./prose.css": "./core/molecules/prose.css",
     "./property.css": "./core/atoms/property.css",
     "./stat.css": "./core/atoms/stat.css",

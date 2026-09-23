@@ -36,8 +36,8 @@ import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 
 ### Core
 
-- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Frame`, `Heading`, `Icon`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Scroll`, `Stat`, `TableCell`
-- Molecules: `Card`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `SegmentedControl`, `Table`, `TooltipCard`
+- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Chip`, `Frame`, `Heading`, `Icon`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Scroll`, `Stat`, `StatusDot`, `TableCell`
+- Molecules: `Card`, `Catalog`, `CatalogTile`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `SegmentedControl`, `Table`, `TooltipCard`
 - Organisms: `TableShell`
 
 `Button` = in-page action. `LinkButton` = prominent URL CTA (`href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef`.

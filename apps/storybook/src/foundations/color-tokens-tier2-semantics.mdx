@@ -83,7 +83,7 @@ Examples:
 - Hue map (Tier 1 → intent): parchment→neutral, turquoise→info, green→success, orange→caution, crimson→critical, purple→admin. New hues may be **placeholders** until a designer finalizes them.
 - **Subtle fills are authored in Tier 2 with `color-mix(in oklch, var(--eevenkoto-color-*-state) …%, transparent)`** — never raw `oklch` inside component CSS (Badge, future banners/toasts).
 - `control` maintains the vocabulary for buttons and future chips/pills. High-urgency actions consume `--eevenkoto-color-control-destructive-*` (aliases to the critical/crimson trajectory when authored). Button authors always consume the `control` domain.
-- Badge (status) → `feedback` only. Chip (interactive filter) → `control` (ships later).
+- Badge (status) → `feedback` only. Chip (interactive filter) → `control`. StatusDot → `feedback` solid fills, unlabeled.
 
 #### Form Validation vs. Feedback
 

@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Badge
 
-A Badge is a compact **status or metadata** label. It consumes the Tier 2 **`feedback`** domain. Interactive filter chips belong to **`control`** and ship later as Chip (P1 = Badge now, Chip later).
+A Badge is a compact **status or metadata** label. It consumes the Tier 2 **`feedback`** domain. Interactive filter chips belong to **`control`** ([Chip](?path=/docs/core-atoms-chip--docs)). Unlabeled tree pips are [StatusDot](?path=/docs/core-atoms-statusdot--docs).
 
 <Canvas of={BadgeStories.Default} />
 
@@ -60,7 +60,8 @@ Status and taxonomy need a compact, scannable marker beside content — readines
   }
   dont={
     <ul>
-      <li>Don’t use Badge as a clickable filter — that is Chip (<code>control</code>), not yet shipped.</li>
+      <li>Don’t use Badge as a clickable filter — that is <a href="?path=/docs/core-atoms-chip--docs">Chip</a>.</li>
+      <li>Don’t use Badge without a visible label in a nav tree — that is <a href="?path=/docs/core-atoms-statusdot--docs">StatusDot</a>.</li>
       <li>Don’t invent local OKLCH in the component; finalize placeholder Tier 1 hues, then adjust Tier 2 mixes.</li>
       <li>Don’t put product-specific presets (<em>Guest</em>, <em>Spell</em>) into <code>@eevenkoto/core</code>.</li>
       <li>Don’t use ALL CAPS — sentence case + bold (P5).</li>

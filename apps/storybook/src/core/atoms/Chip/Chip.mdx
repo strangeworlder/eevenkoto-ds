@@ -1,0 +1,104 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ChipStories from './Chip.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={ChipStories} />
+
+# Chip
+
+An interactive **filter or role** chip. Consumes Tier 2 **`control`** (not feedback). Host alone is **unselected** + **md**. Selected is `--selected`. Renders as `<button>` or `<a href>`.
+
+<Canvas of={ChipStories.Default} />
+
+```html
+<button type="button" class="eevenkoto-chip">Seuraaja</button>
+```
+
+### Playground
+
+<Controls of={ChipStories.Default} />
+
+## Why to use
+
+Dev role switchers and small exclusive tags need a clickable chip that is not a Badge (feedback, non-interactive) and not a full Button. Chip is that control so eevenko.to can drop `.role-chip` / `.dev-chip`.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Toggleable filters or role presets the user can select.</li>
+      <li>Use <code>href</code> when the chip navigates (still a Chip, not LinkButton).</li>
+      <li>
+        Use <a href="?path=/docs/core-molecules-segmentedcontrol--docs">Segmented Control</a> when
+        the set is exclusive and always visible as one track (Full text ↔ SRD).
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>
+        Don’t use Chip for non-interactive readiness — that is{' '}
+        <a href="?path=/docs/core-atoms-badge--docs">Badge</a> or{' '}
+        <a href="?path=/docs/core-atoms-statusdot--docs">StatusDot</a>.
+      </li>
+      <li>Don’t paint Chip with feedback intents; selected uses control primary.</li>
+      <li>Don’t replace a hamburger or search control with Chip — that is Button icon-only.</li>
+    </ul>
+  }
+/>
+
+## Selected
+
+<Canvas of={ChipStories.Selected} />
+
+## Migration (eevenko.to)
+
+`.role-chip` / `.dev-chip` / `.dev-chip.active` → Chip / Chip `selected`.
+
+<Canvas of={ChipStories.RoleRow} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | — | Visible text. |
+| `selected` | `boolean` | `false` | Pressed / current. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Shared control ladder. |
+| `href` | `string` | — | When set, renders as `<a>`. |
+| `disabled` | `boolean` | `false` | Non-interactive (opaque disabled tokens). |
+
+<ArgTypes of={ChipStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/chip.css';
+import { renderChip } from '@eevenkoto/html';
+
+renderChip({ label: 'Seuraaja', selected: true, size: 'sm' });
+```
+
+Related: [Badge](?path=/docs/core-atoms-badge--docs) · [StatusDot](?path=/docs/core-atoms-statusdot--docs) · [SegmentedControl](?path=/docs/core-molecules-segmentedcontrol--docs) · [Button](?path=/docs/core-atoms-button--docs)

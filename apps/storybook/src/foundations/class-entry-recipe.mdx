@@ -1,0 +1,38 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Class entry recipe" />
+
+# Class entry recipe
+
+How to compose a **player class page** (Hurjapää and siblings) from shipped pieces. There is **no Classblock organism**. If this recipe is too easy to get wrong in product markup, consider a Domain organism later — do not invent Domain Heading variants.
+
+Also read: [PropertyList](?path=/docs/core-molecules-propertylist--docs) · [TableShell](?path=/docs/core-organisms-tableshell--docs) · [StatblockFeature](?path=/docs/domain-molecules-statblockfeature--docs) · [Prose](?path=/docs/core-molecules-prose--docs) · [Spellblock](?path=/docs/domain-organisms-spellblock--docs)
+
+## Why to use
+
+Class pages mix definitional stats, a level chart, and named features. Products that paint those as unlabeled paragraphs plus one-off CSS fight the Statblock/Spellblock stack. This recipe is the documented composition so eevenko.to can delete page-local class chrome.
+
+## When to use
+
+Use this recipe for class, background, species, or culture **entries**. Use [Spellblock](?path=/docs/domain-organisms-spellblock--docs) for spells and [Statblock](?path=/docs/domain-organisms-statblock--docs) for creatures. Use Catalog for indexes of those entries.
+
+## Outline
+
+Keep heading levels honest (H1 name → H2 sections → H3 features). Remap look on [Heading](?path=/docs/core-atoms-heading--docs) `runIn` for feature names, not by skipping tags.
+
+1. **Name** — page H1 (Prose / Heading). Optional [Badge](?path=/docs/core-atoms-badge--docs) for readiness (*Valmis*) in the page header, not in the H1.
+2. **Core (ydin)** — [PropertyList](?path=/docs/core-molecules-propertylist--docs) for hit dice, proficiencies, typical abilities. Do not dump unlabeled bold-lead paragraphs.
+3. **Level chart** — [Table](?path=/docs/core-molecules-table--docs) inside [TableShell](?path=/docs/core-organisms-tableshell--docs). Feature names in cells are [EntityRef](?path=/docs/domain-atoms-entityref--docs) `classFeature`.
+4. **Features** — one [StatblockFeature](?path=/docs/domain-molecules-statblockfeature--docs) per named feature (run-in name + description). Subclass / manifest groups are [StatblockSection](?path=/docs/domain-molecules-statblocksection--docs) titles (H2) wrapping features (H3).
+5. Wrap the article in **Prose + Flow**.
+
+## Do / Don’t
+
+- Do keep locale strings as data (Finnish names in the app).
+- Do use EntityRef `kind: 'class'` for the class name and `classFeature` for Hurma / Tyyli ja asenne.
+- Don’t invent a Classblock until this recipe fails in real pages.
+- Don’t restyle Heading in Domain CSS for “class chrome.”
+
+## Migration (eevenko.to)
+
+Hurjapää today: prose dumps for “Hurjapään ydin” + a table + h3 features. Replace the ydin block with PropertyList; keep TableShell; map each feature heading + following paragraphs to StatblockFeature.

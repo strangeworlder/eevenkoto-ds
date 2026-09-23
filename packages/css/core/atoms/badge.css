@@ -1,7 +1,7 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: BADGE (TIER 3)
    Status / metadata label. Consumes Tier 2 `feedback-*` only.
-   Interactive chips stay in `control` (Chip — later). Sentence case + bold.
+   Interactive chips stay in `control` ([Chip](?path=/docs/core-atoms-chip--docs)). Sentence case + bold.
    ========================================================================== */
 
 .eevenkoto-badge {

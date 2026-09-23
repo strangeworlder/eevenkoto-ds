@@ -62,6 +62,15 @@ Account menus, view switchers, and worldbook sidebars all need a compact vertica
       <li>
         Set <code>expanded</code> on a group when that branch should start open (current section).
       </li>
+      <li>
+        Set <code>embedded</code> when the menu sits in a sunken sidebar (transparent, no raised
+        panel). Leave the default raised host for Popover menus.
+      </li>
+      <li>
+        Pass <code>status</code> + <code>statusLabel</code> for a trailing{' '}
+        <a href="?path=/docs/core-atoms-statusdot--docs">StatusDot</a>; <code>locked</code> for a
+        lock Icon. Labels truncate with ellipsis.
+      </li>
     </ul>
   }
   dont={
@@ -78,6 +87,12 @@ Account menus, view switchers, and worldbook sidebars all need a compact vertica
 Branches nest arbitrarily. Root summaries use uppercase chrome; deeper summaries stay sentence case. Children indent with `--eevenkoto-menu-indent`.
 
 <Canvas of={MenuStories.NestedNav} />
+
+## Embedded sidebar
+
+Flush surface + status pips + a locked leaf. Migration: drop `.nav-valmius`, `.nav-lock-*`, `.nav-link-text` truncation, and a second nav BEM on top of Menu.
+
+<Canvas of={MenuStories.EmbeddedSidebar} />
 
 ## Items only
 
@@ -107,10 +122,16 @@ Branches nest arbitrarily. Root summaries use uppercase chrome; deeper summaries
 
 | Entry `kind` | Fields |
 | --- | --- |
-| `item` (default) | `id`, `label`, `href?`, `selected?`, `disabled?` |
+| `item` (default) | `id`, `label`, `href?`, `selected?`, `disabled?`, `locked?`, `lockedLabel?`, `status?`, `statusLabel?` |
 | `header` | `label` |
 | `separator` | — |
 | `group` | `id`, `label`, `expanded?`, `children: MenuEntry[]` |
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `entries` | `MenuEntry[]` | — | List data. |
+| `label` | `string` | — | Accessible name. |
+| `embedded` | `boolean` | `false` | Transparent flush surface. |
 
 <ArgTypes of={MenuStories} />
 

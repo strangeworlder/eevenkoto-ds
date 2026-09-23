@@ -81,6 +81,11 @@ const AUTHOR_SOURCES = [
     path: 'apps/storybook/src/foundations/print-columns.mdx',
     kind: 'mdx',
   },
+  {
+    title: 'Class entry recipe',
+    path: 'apps/storybook/src/foundations/class-entry-recipe.mdx',
+    kind: 'mdx',
+  },
 ];
 
 const SKIP_COMPONENT_MDX = new Set(['TypographySample.mdx']);

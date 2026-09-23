@@ -1,0 +1,104 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: CATALOG (TIER 3)
+   Dense linked index tiles + auto-fill grid. Not a sectioned Card.
+   Host `.eevenkoto-catalog-tile` = raised hairline row.
+   ========================================================================== */
+
+@import url('../atoms/status-dot.css');
+@import url('../atoms/icon.css');
+
+.eevenkoto-catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+  gap: var(--eevenkoto-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eevenkoto-catalog-tile {
+  --_eevenkoto-catalog-tile-bg: var(
+    --eevenkoto-catalog-tile-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-catalog-tile-text: var(
+    --eevenkoto-catalog-tile-text,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-catalog-tile-border-color: var(
+    --eevenkoto-catalog-tile-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+
+  display: flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
+  border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-catalog-tile-border-color);
+  border-radius: var(--eevenkoto-radius-sm);
+  background: var(--_eevenkoto-catalog-tile-bg);
+  color: var(--_eevenkoto-catalog-tile-text);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-body-sm);
+  line-height: var(--eevenkoto-line-height-body);
+  text-decoration: none;
+  transition:
+    background-color var(--eevenkoto-duration-3) var(--eevenkoto-ease-standard),
+    border-color var(--eevenkoto-duration-3) var(--eevenkoto-ease-standard),
+    color var(--eevenkoto-duration-3) var(--eevenkoto-ease-standard);
+}
+
+.eevenkoto-catalog-tile:hover {
+  --eevenkoto-catalog-tile-bg: var(--eevenkoto-color-surface-subtle);
+  --eevenkoto-catalog-tile-border-color: var(--eevenkoto-color-boundary-focus-outer);
+  --eevenkoto-catalog-tile-text: var(--eevenkoto-color-content-primary);
+}
+
+.eevenkoto-catalog-tile:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+.eevenkoto-catalog-tile__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eevenkoto-catalog-tile__lock {
+  --_eevenkoto-catalog-tile-lock-color: var(
+    --eevenkoto-catalog-tile-lock-color,
+    var(--eevenkoto-color-content-accent-strong)
+  );
+
+  flex-shrink: 0;
+  color: var(--_eevenkoto-catalog-tile-lock-color);
+}
+
+.eevenkoto-catalog-tile__lock .eevenkoto-icon {
+  --eevenkoto-icon-size: 0.75em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-catalog-tile {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-catalog-tile {
+    border-color: CanvasText;
+  }
+}
+
+@media print {
+  .eevenkoto-catalog-tile {
+    break-inside: avoid;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

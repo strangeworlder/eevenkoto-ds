@@ -3,12 +3,15 @@ import {
   menuClassNames,
   menuGroupClassNames,
   menuItemClassNames,
+  menuItemLabelClassNames,
   menuSummaryClassNames,
   type MenuEntry,
+  type MenuItemEntry,
   type MenuProps,
 } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { Icon } from '../atoms/Icon';
+import { StatusDot } from '../atoms/StatusDot';
 
 export type { MenuProps, MenuEntry };
 
@@ -16,6 +19,23 @@ export type MenuComponentProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'
   MenuProps & {
     onSelect?: (id: string) => void;
   };
+
+const itemExtras = (entry: MenuItemEntry): ReactNode => (
+  <>
+    <span className={menuItemLabelClassNames()}>{entry.label}</span>
+    {entry.locked ? (
+      <span className="eevenkoto-menu__lock">
+        <Icon name="lock" />
+        <span className="eevenkoto-visually-hidden">{entry.lockedLabel ?? 'Locked'}</span>
+      </span>
+    ) : null}
+    {entry.status ? (
+      <span className="eevenkoto-menu__status">
+        <StatusDot intent={entry.status} label={entry.statusLabel ?? 'Ready'} />
+      </span>
+    ) : null}
+  </>
+);
 
 const renderEntries = (
   entries: MenuEntry[],
@@ -45,14 +65,15 @@ const renderEntries = (
             <span className="eevenkoto-menu__chevron" aria-hidden="true">
               <Icon name="chevron-right" size="sm" />
             </span>
-            <span>{entry.label}</span>
+            <span className={menuItemLabelClassNames()}>{entry.label}</span>
           </summary>
           <div className={menuGroupClassNames()}>{renderEntries(entry.children, onSelect)}</div>
         </details>
       );
     }
 
-    const itemClasses = menuItemClassNames(entry.selected);
+    const itemClasses = menuItemClassNames({ selected: entry.selected, locked: entry.locked });
+    const lockedNoHref = Boolean(entry.locked && !entry.href);
 
     if (entry.href) {
       return (
@@ -60,9 +81,9 @@ const renderEntries = (
           key={entry.id}
           className={itemClasses}
           href={entry.href}
-          aria-disabled={entry.disabled ? true : undefined}
+          aria-disabled={entry.disabled || lockedNoHref ? true : undefined}
         >
-          {entry.label}
+          {itemExtras(entry)}
         </a>
       );
     }
@@ -72,10 +93,10 @@ const renderEntries = (
         key={entry.id}
         type="button"
         className={itemClasses}
-        disabled={entry.disabled}
+        disabled={entry.disabled || entry.locked}
         onClick={() => onSelect?.(entry.id)}
       >
-        {entry.label}
+        {itemExtras(entry)}
       </button>
     );
   });
@@ -83,11 +104,12 @@ const renderEntries = (
 export const Menu = ({
   entries,
   label,
+  embedded,
   className,
   onSelect,
   ...rest
 }: MenuComponentProps): ReactElement => {
-  const classes = [menuClassNames(), className].filter(Boolean).join(' ');
+  const classes = [menuClassNames({ embedded }), className].filter(Boolean).join(' ');
 
   return (
     <div className={classes} role="group" aria-label={label} {...rest}>

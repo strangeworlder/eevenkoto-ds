@@ -148,6 +148,17 @@ export const IconOnly: Story = {
   },
 };
 
+export const MenuToggle: Story = {
+  name: 'Menu toggle',
+  args: {
+    variant: 'ghost',
+    size: 'sm',
+    label: 'Avaa valikko',
+    icon: 'menu',
+    iconPosition: 'only',
+  },
+};
+
 export const IconCheck: Story = {
   args: {
     variant: 'secondary',

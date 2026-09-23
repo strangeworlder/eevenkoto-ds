@@ -30,7 +30,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 An **EntityRef** is an inline pointer to a rules entity (condition, spell, item, …). It **specializes** Core [InlineRef](?path=/docs/core-atoms-inlineref--docs): same chrome (`eevenkoto-inline-ref`), plus Domain `kind` modifiers. It lives in **Domain** because the kind set is product vocabulary. Host alone is **item** (neutral).
 
-In product copy the common form is a real link (`href`) — the same role as eevenkoto_web `.tooltip-ref`. Pair with [Popover](?path=/docs/core-atoms-popover--docs) + [TooltipCard](?path=/docs/core-molecules-tooltipcard--docs) for previews; the DS does not ship tooltip JS.
+In product copy the common form is a real link (`href`) — the same role as eevenko.to `.tooltip-ref`. Pair with [Popover](?path=/docs/core-atoms-popover--docs) + [TooltipCard](?path=/docs/core-molecules-tooltipcard--docs) for previews; the DS does not ship tooltip JS. Drop `.tooltip-ref` and `data-ref-tyyppi` color maps once kinds + InlineRef `locked` / `unlinked` are applied.
 
 <Canvas of={EntityRefStories.Default} />
 
@@ -71,6 +71,16 @@ Rules prose names other entities constantly. EntityRef marks those names with **
       <li>
         Use the closed <code>kind</code> set so ink and hover chip map to the right Tier 2 tuple.
       </li>
+      <li>
+        Use <code>kind: &apos;class&apos;</code> for class names (<em>Hurjapää</em>, <em>mystikko</em>) and{' '}
+        <code>classFeature</code> for features (<em>Hurma</em>). Use <code>creature</code> for
+        opponents (<em>Haukka</em>). Map gear (<em>tikari</em>, varuste/esine) to <code>item</code>
+        — do not add a Finnish kind.
+      </li>
+      <li>
+        Pass <code>locked</code> / <code>unlinked</code> from Core InlineRef instead of product lock
+        SVGs or <code>.unlinked-term</code>.
+      </li>
     </ul>
   }
   dont={
@@ -85,7 +95,12 @@ Rules prose names other entities constantly. EntityRef marks those names with **
       </li>
       <li>
         Don’t invent open-ended kinds in props. New kinds are a design decision (CSS +{' '}
-        <code>EntityRefKind</code>), not a free string.
+        <code>EntityRefKind</code>), not a free string. Don’t add <code>varuste</code> — that is{' '}
+        <code>item</code>.
+      </li>
+      <li>
+        Don’t keep a <code>.tooltip-ref</code> class that reassigns InlineRef bridges from{' '}
+        <code>data-ref-tyyppi</code>.
       </li>
       <li>
         Don’t wrap EntityRef in a Button. The trigger for entity tooltips is the link itself.
@@ -118,8 +133,10 @@ The kind set is **closed**. English API names; BEM modifiers are kebab-case.
 | `condition` | `--condition` | `feedback-caution` |
 | `mechanic` | `--mechanic` | `feedback-info` |
 | `classFeature` | `--class-feature` | `feedback-admin` |
+| `class` | `--class` | `feedback-info` fill; `feedback-admin` ink / border / underline |
 | `spell` | `--spell` | `feedback-info` fill; `control-primary` ink / border / underline |
-| `item` (default) | `--item` | `feedback-neutral` |
+| `item` (default) | `--item` | `feedback-neutral` (covers gear / varuste / esine) |
+| `creature` | `--creature` | `feedback-critical` (covers vastustaja / hirviöpiirre) |
 
 <Canvas of={EntityRefStories.Kinds} />
 
@@ -144,6 +161,25 @@ Omit `href` for a non-navigating mark (kind ink only). Prefer links when a page 
 
 <Canvas of={EntityRefStories.InBodyCopy} />
 
+## Locked class and creature
+
+Specimens from eevenko.to: gated class name on Aavevalo; opponent name.
+
+<Canvas of={EntityRefStories.LockedClass} />
+
+<Canvas of={EntityRefStories.Creature} />
+
+## Migration (eevenko.to)
+
+| Site | Use instead |
+| --- | --- |
+| `.tooltip-ref` + EntityRef classes | EntityRef host only |
+| `[data-ref-tyyppi=vastustaja]` / `hirviöpiirre` | `kind: 'creature'` |
+| `[data-ref-tyyppi=varuste]` / `esine` | `kind: 'item'` |
+| class name painted as `--class-feature` | `kind: 'class'` |
+| `.tooltip-ref-locked` + Lucide lock | `locked` (+ `lockedLabel`) |
+| `.unlinked-term` | `unlinked` on InlineRef / EntityRef |
+
 ## Anatomy
 
 | Part | Role |
@@ -167,7 +203,10 @@ See [Popover — Fixed on a link](?path=/docs/core-atoms-popover--docs#fixed-on-
 | --- | --- | --- | --- |
 | `name` | `string` | — | Visible entity name. |
 | `kind` | `EntityRefKind` | `'item'` | Closed kind set. |
-| `href` | `string` | — | When set, renders as `<a>`. |
+| `href` | `string` | — | When set (and not `unlinked`), renders as `<a>`. |
+| `unlinked` | `boolean` | `false` | Inherited from InlineRef. |
+| `locked` | `boolean` | `false` | Inherited from InlineRef. |
+| `lockedLabel` | `string` | `'Locked'` | Inherited from InlineRef. |
 
 <ArgTypes of={EntityRefStories} />
 
@@ -187,13 +226,13 @@ export type EntityRefKind =
   | 'condition'
   | 'mechanic'
   | 'classFeature'
+  | 'class'
   | 'spell'
-  | 'item';
+  | 'item'
+  | 'creature';
 
-export interface EntityRefProps {
+export interface EntityRefProps extends InlineRefProps {
   kind?: EntityRefKind;
-  name: string;
-  href?: string;
 }
 ```
 

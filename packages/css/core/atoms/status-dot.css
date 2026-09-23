@@ -1,0 +1,63 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: STATUS DOT (TIER 3)
+   Unlabeled readiness pip. Consumes Tier 2 feedback solid fills.
+   Host alone = neutral. Not a Badge with a hidden label.
+   ========================================================================== */
+
+.eevenkoto-status-dot {
+  --_eevenkoto-status-dot-fill: var(
+    --eevenkoto-status-dot-fill,
+    var(--eevenkoto-color-feedback-neutral-solid-background)
+  );
+  --_eevenkoto-status-dot-ring: var(
+    --eevenkoto-status-dot-ring,
+    var(--eevenkoto-color-form-input-background)
+  );
+  --_eevenkoto-status-dot-size: var(--eevenkoto-status-dot-size, 0.7rem);
+
+  display: inline-block;
+  box-sizing: border-box;
+  inline-size: var(--_eevenkoto-status-dot-size);
+  block-size: var(--_eevenkoto-status-dot-size);
+  flex-shrink: 0;
+  vertical-align: middle;
+  border-radius: var(--eevenkoto-radius-full);
+  background: var(--_eevenkoto-status-dot-fill);
+  box-shadow: 0 0 0 var(--eevenkoto-line-width-sm) var(--_eevenkoto-status-dot-ring);
+}
+
+.eevenkoto-status-dot--neutral {
+  --eevenkoto-status-dot-fill: var(--eevenkoto-color-feedback-neutral-solid-background);
+}
+
+.eevenkoto-status-dot--info {
+  --eevenkoto-status-dot-fill: var(--eevenkoto-color-feedback-info-solid-background);
+}
+
+.eevenkoto-status-dot--success {
+  --eevenkoto-status-dot-fill: var(--eevenkoto-color-feedback-success-solid-background);
+}
+
+.eevenkoto-status-dot--caution {
+  --eevenkoto-status-dot-fill: var(--eevenkoto-color-feedback-caution-solid-background);
+}
+
+.eevenkoto-status-dot--critical {
+  --eevenkoto-status-dot-fill: var(--eevenkoto-color-feedback-critical-solid-background);
+}
+
+.eevenkoto-status-dot--admin {
+  --eevenkoto-status-dot-fill: var(--eevenkoto-color-feedback-admin-solid-background);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-status-dot {
+    background: CanvasText;
+    box-shadow: 0 0 0 var(--eevenkoto-line-width-sm) Canvas;
+  }
+
+  .eevenkoto-status-dot--success,
+  .eevenkoto-status-dot--info {
+    background: Highlight;
+  }
+}

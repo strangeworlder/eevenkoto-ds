@@ -1,0 +1,118 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: CHIP (TIER 3)
+   Interactive filter / role chip. Consumes Tier 2 `control-*` (not feedback).
+   Host alone = unselected + md. Selected is opt-in `--selected`.
+   ========================================================================== */
+
+.eevenkoto-chip {
+  --_eevenkoto-chip-bg: var(
+    --eevenkoto-chip-bg,
+    var(--eevenkoto-color-control-secondary-background)
+  );
+  --_eevenkoto-chip-text: var(
+    --eevenkoto-chip-text,
+    var(--eevenkoto-color-control-secondary-text)
+  );
+  --_eevenkoto-chip-border-color: var(
+    --eevenkoto-chip-border-color,
+    var(--eevenkoto-color-control-secondary-border)
+  );
+  --_eevenkoto-chip-font-size: var(
+    --eevenkoto-chip-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-chip-pad-block: var(--eevenkoto-chip-pad-block, var(--eevenkoto-space-1));
+  --_eevenkoto-chip-pad-inline: var(--eevenkoto-chip-pad-inline, var(--eevenkoto-space-2));
+  --_eevenkoto-chip-radius: var(--eevenkoto-chip-radius, var(--eevenkoto-radius-sm));
+  --_eevenkoto-chip-border-width: var(
+    --eevenkoto-chip-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-chip-font-weight: var(
+    --eevenkoto-chip-font-weight,
+    var(--eevenkoto-font-weight-semibold)
+  );
+
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--_eevenkoto-chip-pad-block) var(--_eevenkoto-chip-pad-inline);
+  border: var(--_eevenkoto-chip-border-width) solid var(--_eevenkoto-chip-border-color);
+  border-radius: var(--_eevenkoto-chip-radius);
+  background: var(--_eevenkoto-chip-bg);
+  color: var(--_eevenkoto-chip-text);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--_eevenkoto-chip-font-size);
+  font-weight: var(--_eevenkoto-chip-font-weight);
+  line-height: var(--eevenkoto-line-height-tight);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--eevenkoto-duration-1) var(--eevenkoto-ease-standard),
+    border-color var(--eevenkoto-duration-1) var(--eevenkoto-ease-standard),
+    color var(--eevenkoto-duration-1) var(--eevenkoto-ease-standard);
+}
+
+.eevenkoto-chip:hover:not(:disabled):not([aria-disabled='true']):not(
+    .eevenkoto-chip--selected
+  ) {
+  --eevenkoto-chip-bg: var(--eevenkoto-color-control-secondary-background-hover);
+}
+
+.eevenkoto-chip:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+.eevenkoto-chip--selected {
+  --eevenkoto-chip-bg: var(--eevenkoto-color-control-primary-background);
+  --eevenkoto-chip-text: var(--eevenkoto-color-control-primary-text);
+  --eevenkoto-chip-border-color: var(--eevenkoto-color-control-primary-border);
+  --eevenkoto-chip-font-weight: var(--eevenkoto-font-weight-bold);
+}
+
+.eevenkoto-chip--selected:hover:not(:disabled):not([aria-disabled='true']) {
+  --eevenkoto-chip-bg: var(--eevenkoto-color-control-primary-background-hover);
+}
+
+.eevenkoto-chip:disabled,
+.eevenkoto-chip[aria-disabled='true'] {
+  cursor: not-allowed;
+  --eevenkoto-chip-bg: var(--eevenkoto-color-control-secondary-background-disabled);
+  --eevenkoto-chip-text: var(--eevenkoto-color-control-secondary-text-disabled);
+  --eevenkoto-chip-border-color: var(--eevenkoto-color-control-secondary-border-disabled);
+}
+
+.eevenkoto-chip--sm {
+  --eevenkoto-chip-font-size: var(--eevenkoto-font-size-control-sm);
+  --eevenkoto-chip-pad-block: var(--eevenkoto-space-1);
+  --eevenkoto-chip-pad-inline: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-chip--md {
+  --eevenkoto-chip-font-size: var(--eevenkoto-font-size-control-md);
+}
+
+.eevenkoto-chip--lg {
+  --eevenkoto-chip-font-size: var(--eevenkoto-font-size-control-lg);
+  --eevenkoto-chip-pad-inline: var(--eevenkoto-space-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-chip {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-chip {
+    border-color: ButtonText;
+  }
+
+  .eevenkoto-chip--selected {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}

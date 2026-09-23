@@ -30,6 +30,20 @@ export {
 } from './core/atoms/badge';
 
 export {
+  type StatusDotIntent,
+  type StatusDotProps,
+  type StatusDotClassNameProps,
+  statusDotClassNames,
+} from './core/atoms/statusDot';
+
+export {
+  type ChipSize,
+  type ChipProps,
+  type ChipClassNameProps,
+  chipClassNames,
+} from './core/atoms/chip';
+
+export {
   type HeadingLevel,
   type HeadingTone,
   type HeadingRunInLevel,
@@ -70,6 +84,8 @@ export {
   type InlineRefClassNameProps,
   inlineRefClassNames,
   inlineRefLabelClassNames,
+  inlineRefLockClassNames,
+  inlineRefLockIconClassNames,
 } from './core/atoms/inlineRef';
 
 export {
@@ -155,12 +171,23 @@ export {
   type MenuSeparatorEntry,
   type MenuGroupEntry,
   type MenuProps,
+  type MenuClassNameProps,
+  type MenuItemClassNameProps,
   menuClassNames,
   menuItemClassNames,
   menuBranchClassNames,
   menuSummaryClassNames,
   menuGroupClassNames,
+  menuItemLabelClassNames,
 } from './core/molecules/menu';
+
+export {
+  type CatalogTileProps,
+  type CatalogTileClassNameProps,
+  type CatalogProps,
+  catalogTileClassNames,
+  catalogClassNames,
+} from './core/molecules/catalog';
 
 export { proseClassNames } from './core/molecules/prose';
 
