@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
-import '@eevenkoto/css/table-cell.css';
 import '@eevenkoto/css/table.css';
 import { renderTable, type TableProps } from '@eevenkoto/html';
 

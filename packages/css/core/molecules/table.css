@@ -1,8 +1,11 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: TABLE (TIER 3)
    Molecule: real <table> with default | numeric | pair + stripe.
-   Consumes TableCell atom classes on th/td.
+   Rows and cells need no BEM: bare th / td under the host get the TableCell
+   recipe. Only kinds (--index / --numeric) stay opt-in classes.
    ========================================================================== */
+
+@import url('../atoms/table-cell.css');
 
 .eevenkoto-table {
   --_eevenkoto-table-bg: var(--eevenkoto-table-bg, var(--eevenkoto-color-surface-canvas));
@@ -47,7 +50,8 @@
   background-color: var(--_eevenkoto-table-bg);
 }
 
-.eevenkoto-table__caption {
+/* A caption is only valid inside a table, so the host styles it unclassed. */
+.eevenkoto-table > caption {
   caption-side: top;
   text-align: start;
   padding-block-end: var(--eevenkoto-space-3);
@@ -57,6 +61,7 @@
   line-height: var(--eevenkoto-line-height-body);
 }
 
+/* Columns default to auto width, so only the narrow kinds need a class. */
 .eevenkoto-table__col--index,
 .eevenkoto-table__col--numeric {
   width: 1%;
@@ -68,7 +73,7 @@
 
 /* --- Header band --- */
 
-.eevenkoto-table thead .eevenkoto-table-cell {
+.eevenkoto-table > thead > tr > :is(th, td) {
   background-color: var(--_eevenkoto-table-header-bg);
   color: var(--_eevenkoto-table-header-color);
   border-block-end: var(--_eevenkoto-table-header-border-width) solid
@@ -76,35 +81,35 @@
   vertical-align: bottom;
 }
 
-.eevenkoto-table thead .eevenkoto-table-cell:focus-visible {
+.eevenkoto-table > thead > tr > :is(th, td):focus-visible {
   outline: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-focus-outer);
   outline-offset: calc(-1 * var(--eevenkoto-line-width-md));
 }
 
 /* --- Stripe (host default = row; --stripe-row is an explicit alias; --stripe-none opts out) --- */
 
-.eevenkoto-table tbody tr:nth-child(even) .eevenkoto-table-cell,
-.eevenkoto-table--stripe-row tbody tr:nth-child(even) .eevenkoto-table-cell {
+.eevenkoto-table > tbody > tr:nth-child(even) > :is(th, td),
+.eevenkoto-table--stripe-row > tbody > tr:nth-child(even) > :is(th, td) {
   background-color: var(--_eevenkoto-table-stripe-bg);
 }
 
-.eevenkoto-table--stripe-column tbody tr:nth-child(even) .eevenkoto-table-cell {
+.eevenkoto-table--stripe-column > tbody > tr:nth-child(even) > :is(th, td) {
   background-color: transparent;
 }
 
-.eevenkoto-table--stripe-column tbody .eevenkoto-table-cell:nth-child(even) {
+.eevenkoto-table--stripe-column > tbody > tr > :is(th, td):nth-child(even) {
   background-color: var(--_eevenkoto-table-stripe-bg);
 }
 
-.eevenkoto-table--stripe-none tbody tr:nth-child(even) .eevenkoto-table-cell,
-.eevenkoto-table--stripe-none tbody .eevenkoto-table-cell:nth-child(even) {
+.eevenkoto-table--stripe-none > tbody > tr:nth-child(even) > :is(th, td),
+.eevenkoto-table--stripe-none > tbody > tr > :is(th, td):nth-child(even) {
   background-color: transparent;
 }
 
 /* --- Pair --- */
 
 .eevenkoto-table--pair .eevenkoto-table-cell--index,
-.eevenkoto-table--pair tbody th.eevenkoto-table-cell {
+.eevenkoto-table--pair > tbody > tr > th {
   white-space: nowrap;
   width: 1%;
   text-align: center;
@@ -112,21 +117,29 @@
   font-weight: var(--eevenkoto-font-weight-semibold);
 }
 
-.eevenkoto-table--pair .eevenkoto-table-cell--text {
+/* Text is the default kind, so match unclassed body cells as well. */
+.eevenkoto-table--pair .eevenkoto-table-cell--text,
+.eevenkoto-table--pair
+  > tbody
+  > tr
+  > td:not(.eevenkoto-table-cell--index, .eevenkoto-table-cell--numeric) {
   min-width: 16rem;
 }
 
 /* --- Numeric angled heads --- */
 
-.eevenkoto-table--numeric thead th.eevenkoto-table-cell--numeric {
+.eevenkoto-table--numeric > thead > tr > th.eevenkoto-table-cell--numeric {
   height: 9rem;
   max-width: 3.2rem;
   padding-inline: var(--eevenkoto-space-1);
   padding-block-end: var(--eevenkoto-space-2);
-  vertical-align: bottom;
 }
 
-.eevenkoto-table--numeric thead th.eevenkoto-table-cell--numeric .eevenkoto-table-cell__head-label {
+.eevenkoto-table--numeric
+  > thead
+  > tr
+  > th.eevenkoto-table-cell--numeric
+  .eevenkoto-table-cell__head-label {
   display: inline-block;
   transform: translate(0.55rem, 0) rotate(-45deg);
   transform-origin: bottom left;
@@ -134,11 +147,6 @@
   font-size: var(--eevenkoto-font-size-caption);
   font-weight: var(--eevenkoto-font-weight-bold);
   line-height: var(--eevenkoto-line-height-tight);
-}
-
-.eevenkoto-table--numeric thead th.eevenkoto-table-cell--index,
-.eevenkoto-table--numeric thead th.eevenkoto-table-cell--text {
-  vertical-align: bottom;
 }
 
 /* Column tracking highlight (numeric heads); covers common chart widths */
@@ -182,15 +190,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .eevenkoto-table--numeric thead th.eevenkoto-table-cell--numeric {
+  .eevenkoto-table--numeric > thead > tr > th.eevenkoto-table-cell--numeric {
     height: auto;
     max-width: none;
     padding-inline: var(--eevenkoto-space-2);
   }
 
   .eevenkoto-table--numeric
-    thead
-    th.eevenkoto-table-cell--numeric
+    > thead
+    > tr
+    > th.eevenkoto-table-cell--numeric
     .eevenkoto-table-cell__head-label {
     transform: none;
     white-space: normal;
@@ -199,16 +208,16 @@
 }
 
 @media (forced-colors: active) {
-  .eevenkoto-table thead .eevenkoto-table-cell {
+  .eevenkoto-table > thead > tr > :is(th, td) {
     border-block-end-color: CanvasText;
     forced-color-adjust: none;
     background-color: Canvas;
     color: CanvasText;
   }
 
-  .eevenkoto-table tbody tr:nth-child(even) .eevenkoto-table-cell,
-  .eevenkoto-table--stripe-row tbody tr:nth-child(even) .eevenkoto-table-cell,
-  .eevenkoto-table--stripe-column tbody .eevenkoto-table-cell:nth-child(even) {
+  .eevenkoto-table > tbody > tr:nth-child(even) > :is(th, td),
+  .eevenkoto-table--stripe-row > tbody > tr:nth-child(even) > :is(th, td),
+  .eevenkoto-table--stripe-column > tbody > tr > :is(th, td):nth-child(even) {
     background-color: Canvas;
   }
 }

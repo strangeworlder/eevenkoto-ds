@@ -17,6 +17,8 @@ import {
   spellblockClassNames,
   statblockClassNames,
   statusDotClassNames,
+  tableCellClassNames,
+  tableColClassNames,
 } from '@eevenkoto/core';
 import {
   renderBadge,
@@ -32,6 +34,8 @@ import {
   renderSpellblock,
   renderStatblock,
   renderStatusDot,
+  renderTable,
+  renderTableCell,
 } from '@eevenkoto/html';
 import {
   Badge,
@@ -46,6 +50,7 @@ import {
   Spellblock,
   Statblock,
   StatusDot,
+  Table,
 } from '@eevenkoto/react';
 import {
   Badge as VueBadge,
@@ -60,6 +65,7 @@ import {
   Spellblock as VueSpellblock,
   Statblock as VueStatblock,
   StatusDot as VueStatusDot,
+  Table as VueTable,
 } from '@eevenkoto/vue';
 
 const hostClass = (className: string) => className.split(/\s+/)[0];
@@ -90,7 +96,24 @@ describe('HTML matches Core class strings', () => {
   });
 
   it('Menu', () => {
-    expect(renderMenu({ entries: [{ kind: 'item', label: 'Home' }] })).toContain(menuClassNames());
+    const html = renderMenu({
+      label: 'Worldbook',
+      entries: [
+        {
+          kind: 'group',
+          id: 'species',
+          label: 'Lajit',
+          expanded: true,
+          children: [{ id: 'home', kind: 'item', label: 'Home', href: '#home', selected: true }],
+        },
+      ],
+    });
+    expect(html).toContain(menuClassNames());
+    expect(html).toContain('<nav');
+    expect(html).toContain('<ul>');
+    expect(html).toContain('<details');
+    expect(html).toContain('aria-current="page"');
+    expect(html).toContain('href="#home"');
   });
 
   it('StatusDot', () => {
@@ -166,9 +189,24 @@ describe('React className matches Core', () => {
 
   it('Menu', () => {
     const html = renderToStaticMarkup(
-      createElement(Menu, { entries: [{ kind: 'item', label: 'Home' }] }),
+      createElement(Menu, {
+        label: 'Worldbook',
+        entries: [
+          {
+            kind: 'group',
+            id: 'species',
+            label: 'Lajit',
+            expanded: true,
+            children: [{ id: 'home', kind: 'item', label: 'Home', href: '#home', selected: true }],
+          },
+        ],
+      }),
     );
     expect(html).toContain(menuClassNames());
+    expect(html).toContain('<nav');
+    expect(html).toContain('<ul>');
+    expect(html).toContain('<details');
+    expect(html).toContain('aria-current="page"');
   });
 
   it('StatusDot', () => {
@@ -244,8 +282,23 @@ describe('Vue class matches Core (priority subset)', () => {
   });
 
   it('Menu', async () => {
-    const html = await vueHtml(VueMenu, { entries: [{ kind: 'item', label: 'Home' }] });
+    const html = await vueHtml(VueMenu, {
+      label: 'Worldbook',
+      entries: [
+        {
+          kind: 'group',
+          id: 'species',
+          label: 'Lajit',
+          expanded: true,
+          children: [{ id: 'home', kind: 'item', label: 'Home', href: '#home', selected: true }],
+        },
+      ],
+    });
     expect(html).toContain(menuClassNames());
+    expect(html).toContain('<nav');
+    expect(html).toContain('<ul>');
+    expect(html).toContain('<details');
+    expect(html).toContain('aria-current="page"');
   });
 
   it('StatusDot', async () => {
@@ -285,6 +338,44 @@ describe('Vue class matches Core (priority subset)', () => {
   it('Spellblock', async () => {
     const html = await vueHtml(VueSpellblock, { name: 'Aavevalo', properties: [] });
     expect(html).toContain(hostClass(spellblockClassNames()));
+  });
+});
+
+describe('Table cells rely on the host instead of the cell base class', () => {
+  const columns = [
+    { key: 'level', header: 'Level', kind: 'index' as const },
+    { key: 'feature', header: 'Feature' },
+  ];
+  const rows = [['1', 'Spellcasting']];
+  const caption = 'Class progression';
+  const indexClass = tableCellClassNames({ kind: 'index', inTable: true });
+  /* Base classes without a modifier suffix — the parts Table no longer emits. */
+  const baseClass = /eevenkoto-table(-cell|__col)(?!--|__)/;
+
+  const expectHostScopedCells = (markup: string) => {
+    expect(markup).toContain('<td>Spellcasting</td>');
+    expect(markup).toContain(`<td class="${indexClass}">1</td>`);
+    expect(markup).toContain(`<caption>${caption}</caption>`);
+    expect(markup).toContain(`class="${tableColClassNames({ kind: 'index' })}"`);
+    expect(markup).not.toMatch(baseClass);
+  };
+
+  it('HTML', () => {
+    expectHostScopedCells(renderTable({ caption, columns, rows }));
+  });
+
+  it('React', () => {
+    expectHostScopedCells(renderToStaticMarkup(createElement(Table, { caption, columns, rows })));
+  });
+
+  it('Vue', async () => {
+    expectHostScopedCells(await vueHtml(VueTable, { caption, columns, rows }));
+  });
+
+  it('standalone TableCell keeps the atom class', () => {
+    expect(renderTableCell({ text: 'Spellcasting' })).toContain(
+      `class="${tableCellClassNames()}"`,
+    );
   });
 });
 

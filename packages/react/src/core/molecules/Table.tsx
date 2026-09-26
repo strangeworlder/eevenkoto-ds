@@ -1,5 +1,4 @@
 import {
-  tableCaptionClassNames,
   tableClassNames,
   tableColClassNames,
   type TableColumn,
@@ -27,11 +26,11 @@ export const Table = ({
 
   return (
     <table className={classes} {...rest}>
-      {caption ? <caption className={tableCaptionClassNames()}>{caption}</caption> : null}
+      {caption ? <caption>{caption}</caption> : null}
       {columns.length > 0 ? (
         <colgroup>
           {columns.map((col) => (
-            <col key={col.key} className={tableColClassNames({ kind: col.kind })} />
+            <col key={col.key} className={tableColClassNames({ kind: col.kind }) || undefined} />
           ))}
         </colgroup>
       ) : null}
@@ -45,6 +44,7 @@ export const Table = ({
                 <TableCell
                   key={col.key}
                   header
+                  inTable
                   scope="col"
                   kind={kind}
                   angled={angled}
@@ -68,6 +68,7 @@ export const Table = ({
                 <TableCell
                   key={col.key}
                   header={asRowHeader || undefined}
+                  inTable
                   scope={asRowHeader ? 'row' : undefined}
                   kind={asRowHeader ? 'index' : kind}
                 >

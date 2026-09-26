@@ -1,11 +1,15 @@
+export type CardTitleLevel = 2 | 3;
+
 export interface CardProps {
   /** Raises the surface with a depth shadow. Default: false */
   elevated?: boolean;
   /** Hover / focus affordance for clickable cards. Default: false */
   interactive?: boolean;
-  /** Visible section title in `__header`. Optional. */
+  /** Visible title in `<header>`. Optional. */
   title?: string;
-  /** Body copy in `__body`. Optional when using framework slots. */
+  /** Heading level for `title`. Default: 2 (teaser, not a page entry). */
+  titleLevel?: CardTitleLevel;
+  /** Body copy as a `<p>`. Optional when using framework slots. */
   body?: string;
 }
 

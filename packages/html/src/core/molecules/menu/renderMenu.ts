@@ -1,10 +1,7 @@
 import {
-  menuBranchClassNames,
   menuClassNames,
-  menuGroupClassNames,
   menuItemClassNames,
   menuItemLabelClassNames,
-  menuSummaryClassNames,
   type MenuEntry,
   type MenuItemEntry,
   type MenuProps,
@@ -15,12 +12,6 @@ import { escapeHtml } from '../../../utils/html';
 import template from './Menu.html';
 
 export type { MenuProps, MenuEntry };
-
-const chevron = (): string =>
-  `<span class="eevenkoto-menu__chevron" aria-hidden="true">${renderIcon({
-    name: 'chevron-right',
-    size: 'sm',
-  })}</span>`;
 
 const itemLock = (entry: MenuItemEntry): string => {
   if (!entry.locked) return '';
@@ -35,25 +26,32 @@ const itemStatus = (entry: MenuItemEntry): string => {
   })}</span>`;
 };
 
-const itemInner = (entry: MenuItemEntry): string =>
-  `<span class="${menuItemLabelClassNames()}">${escapeHtml(entry.label)}</span>${itemLock(entry)}${itemStatus(entry)}`;
+const itemInner = (entry: MenuItemEntry): string => {
+  const extras = Boolean(entry.locked || entry.status);
+  const label = extras
+    ? `<span class="${menuItemLabelClassNames()}">${escapeHtml(entry.label)}</span>`
+    : escapeHtml(entry.label);
+  return `${label}${itemLock(entry)}${itemStatus(entry)}`;
+};
+
+const wrapItem = (inner: string): string => `<li>${inner}</li>`;
 
 const renderEntry = (entry: MenuEntry): string => {
   if (entry.kind === 'separator') {
-    return '<hr class="eevenkoto-menu__separator" />';
+    return wrapItem('<hr />');
   }
 
   if (entry.kind === 'header') {
-    return `<p class="eevenkoto-menu__header">${escapeHtml(entry.label)}</p>`;
+    return wrapItem(`<p class="eevenkoto-menu__header">${escapeHtml(entry.label)}</p>`);
   }
 
   if (entry.kind === 'group') {
     const openAttr = entry.expanded ? ' open' : '';
     const children = entry.children.map((child) => renderEntry(child)).join('');
-    return `<details class="${menuBranchClassNames()}"${openAttr}>
-  <summary class="${menuSummaryClassNames()}">${chevron()}<span class="${menuItemLabelClassNames()}">${escapeHtml(entry.label)}</span></summary>
-  <div class="${menuGroupClassNames()}">${children}</div>
-</details>`;
+    return wrapItem(`<details${openAttr}>
+  <summary>${escapeHtml(entry.label)}</summary>
+  <ul>${children}</ul>
+</details>`);
   }
 
   const className = menuItemClassNames({ selected: entry.selected, locked: entry.locked });
@@ -62,11 +60,16 @@ const renderEntry = (entry: MenuEntry): string => {
 
   if (entry.href) {
     const disabledAttrs = entry.disabled || lockedNoHref ? ' aria-disabled="true"' : '';
-    return `<a class="${className}" href="${escapeHtml(entry.href)}"${disabledAttrs}>${inner}</a>`;
+    const currentAttr = entry.selected ? ' aria-current="page"' : '';
+    return wrapItem(
+      `<a class="${className}" href="${escapeHtml(entry.href)}"${currentAttr}${disabledAttrs}>${inner}</a>`,
+    );
   }
 
   const disabledAttr = entry.disabled || entry.locked ? ' disabled' : '';
-  return `<button type="button" class="${className}"${disabledAttr}>${inner}</button>`;
+  return wrapItem(
+    `<button type="button" class="${className}"${disabledAttr}>${inner}</button>`,
+  );
 };
 
 export const renderMenu = (args: MenuProps): string => {

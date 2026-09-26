@@ -38,10 +38,12 @@ Also read: [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-t
 | StatusDot | `<span class="eevenkoto-status-dot">` | neutral pip |
 | Chip | `<button class="eevenkoto-chip">` | unselected + md |
 | CatalogTile | `<a class="eevenkoto-catalog-tile" href="…">` | raised hairline row |
+| Menu | `<nav class="eevenkoto-menu">` + `ul` / `li` / `a` | raised panel; rows from descendant `a` / `button` / `summary`; current page via `aria-current="page"` (`--embedded` flush sidebar) |
+| Card | `<article class="eevenkoto-card">` + `header` / `p` / `footer` | flat raised surface; title look remapped on `header`; `--elevated` / `--interactive` opt-in |
 | Badge intent | `eevenkoto-badge eevenkoto-badge--success` | subtle + that intent |
 | Badge surface | `eevenkoto-badge eevenkoto-badge--solid` | solid + neutral |
-| Table | `<table class="eevenkoto-table">` | default variant + row stripe |
-| TableCell | `<td class="eevenkoto-table-cell">` | text kind |
+| Table | `<table class="eevenkoto-table">` + bare `tr` / `th` / `td` | default variant + row stripe; cells from host descendants (kinds via `--index` / `--numeric`) |
+| TableCell | `<td class="eevenkoto-table-cell">` | text kind — for cells outside a Table host |
 | Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` / `ul` / `ol` / `li` | same defaults as classed type |
 | Flow | Compose with Prose for bare-tag pair gaps | classed primitives always |
 

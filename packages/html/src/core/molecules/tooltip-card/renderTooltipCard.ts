@@ -2,6 +2,7 @@ import {
   tooltipCardBodyClassNames,
   tooltipCardClassNames,
   type TooltipCardProps as TooltipCardCoreProps,
+  type TooltipCardTitleLevel,
 } from '@eevenkoto/core';
 import { escapeHtml } from '../../../utils/html';
 import template from './TooltipCard.html';
@@ -15,20 +16,23 @@ export type TooltipCardProps = TooltipCardCoreProps & {
   footer?: string;
 };
 
+export type { TooltipCardTitleLevel };
+
 export const renderTooltipCard = (args: TooltipCardProps): string => {
-  const headerInner = args.header ?? (args.title ? escapeHtml(args.title) : '');
-  const header = headerInner
-    ? `<div class="eevenkoto-tooltip-card__header">${headerInner}</div>`
-    : '';
+  let header = '';
+  if (args.header) {
+    header = `<header>${args.header}</header>`;
+  } else if (args.title) {
+    const level: TooltipCardTitleLevel = args.titleLevel === 3 ? 3 : 2;
+    header = `<header><h${level}>${escapeHtml(args.title)}</h${level}></header>`;
+  }
 
   const bodyInner = `${args.body ? `<p>${escapeHtml(args.body)}</p>` : ''}${args.content ?? ''}`;
   const body = bodyInner
-    ? `<div class="${tooltipCardBodyClassNames(args.scrollBody)}">${bodyInner}</div>`
+    ? `<div class="${tooltipCardBodyClassNames()}">${bodyInner}</div>`
     : '';
 
-  const footer = args.footer
-    ? `<div class="eevenkoto-tooltip-card__footer">${args.footer}</div>`
-    : '';
+  const footer = args.footer ? `<footer>${args.footer}</footer>` : '';
 
   return template
     .replace('{{className}}', tooltipCardClassNames())

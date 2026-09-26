@@ -41,11 +41,17 @@ export {
   type SegmentedControlComponentProps,
   type SegmentedControlProps,
 } from './core/molecules/SegmentedControl';
-export { Card, type CardComponentProps, type CardProps } from './core/molecules/Card';
+export {
+  Card,
+  type CardComponentProps,
+  type CardProps,
+  type CardTitleLevel,
+} from './core/molecules/Card';
 export {
   TooltipCard,
   type TooltipCardComponentProps,
   type TooltipCardProps,
+  type TooltipCardTitleLevel,
 } from './core/molecules/TooltipCard';
 export {
   Menu,

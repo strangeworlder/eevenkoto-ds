@@ -28,9 +28,24 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Card
 
-Sectioned surface container with `__header`, `__body`, and `__footer`. Every section is optional. Host alone is a flat raised surface with hairline dividers and no interaction affordance.
+Self-contained **content** surface. The host is an `<article>` wrapping optional `<header>`, flow (`<p>`, …), and `<footer>`. The host class alone styles those tags — no region BEM is required for the default look. Host alone is a flat raised surface with hairline dividers and no interaction affordance.
 
 <Canvas of={CardStories.Default} />
+
+```html
+<article class="eevenkoto-card">
+  <header>
+    <h2>Cloak of Elvenkind</h2>
+  </header>
+  <p>
+    While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have
+    disadvantage.
+  </p>
+  <footer>Wondrous item, uncommon</footer>
+</article>
+```
+
+The title is a real heading (default **H2**). Card remaps the look on the header — do not compose the Heading atom. `__header` / `__body` / `__footer` remain optional aliases.
 
 ### Playground
 
@@ -48,13 +63,18 @@ Sectioned surface container with `__header`, `__body`, and `__footer`. Every sec
 
 ## Why to use
 
-Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned box so products do not invent one-off bordered panels for every teaser.
+Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned box so products do not invent one-off bordered panels for every teaser. Copy-paste HTML is a document (`article` + heading), not a div sandwich.
 
 ## When to use
 
 <DoDont
   do={
     <ul>
+      <li>
+        Author real <code>&lt;article&gt;</code> / <code>&lt;header&gt;</code> /{' '}
+        <code>&lt;h2&gt;</code> / <code>&lt;p&gt;</code> / <code>&lt;footer&gt;</code> (or pass{' '}
+        <code>title</code> / <code>body</code> / <code>footer</code> to <code>renderCard</code>).
+      </li>
       <li>Group related content that reads as one unit (item card, gate summary, teaser).</li>
       <li>Omit unused sections — body-only is still a valid Card.</li>
       <li>
@@ -62,8 +82,9 @@ Item entries, paywall summaries, and other self-contained chunks need a surface 
         summaries).
       </li>
       <li>
-        Use <code>interactive</code> only with a real link or button host so keyboard activation
-        works (eevenko.to <code>.doc-card</code>).
+        Keep the host as <code>&lt;article&gt;</code> and put <code>href</code> on an inner{' '}
+        <code>&lt;a&gt;</code> so <code>header</code> / <code>footer</code> stay scoped to the card
+        (eevenko.to <code>.doc-card</code>).
       </li>
       <li>
         Use <a href="?path=/docs/core-molecules-catalog--docs">Catalog</a> for dense entity indexes
@@ -77,8 +98,12 @@ Item entries, paywall summaries, and other self-contained chunks need a surface 
       <li>Don’t use Card for status or gate banners — that is Notice.</li>
       <li>Don’t nest Cards for decoration alone.</li>
       <li>
-        Don’t mark a Card interactive without an actionable host (<code>href</code> / button) —
-        hover alone is not enough.
+        Don’t swap the host to <code>&lt;a&gt;</code> — inner <code>header</code> /{' '}
+        <code>footer</code> would belong to the page, not the card.
+      </li>
+      <li>
+        Don’t mark a Card interactive without a real <code>href</code> (or button) — hover alone is
+        not enough.
       </li>
       <li>Don’t bake product layout or paywall copy into the Card API — keep strings as data.</li>
     </ul>
@@ -91,28 +116,61 @@ Item entries, paywall summaries, and other self-contained chunks need a surface 
 
 ## Interactive
 
+The host stays `<article>`. `renderCard({ href })` wraps the sections in an inner link and adds `--interactive`.
+
+```html
+<article class="eevenkoto-card eevenkoto-card--interactive">
+  <a href="#item">
+    <header>
+      <h2>Open the item entry</h2>
+    </header>
+    <p>Interactive cards gain hover, focus, and disabled affordances.</p>
+  </a>
+</article>
+```
+
 <Canvas of={CardStories.Interactive} />
 
 ## Body only
 
 <Canvas of={CardStories.BodyOnly} />
 
-## Usage
+## Anatomy
 
-```html
-<div class="eevenkoto-card">
-  <div class="eevenkoto-card__header">Cloak of Elvenkind</div>
-  <div class="eevenkoto-card__body"><p>Wisdom (Perception) checks have disadvantage.</p></div>
-  <div class="eevenkoto-card__footer">Wondrous item, uncommon</div>
-</div>
-```
+| Part | Role |
+| --- | --- |
+| Host | `<article class="eevenkoto-card">` |
+| Header | descendant `header` (optional `.eevenkoto-card__header`) |
+| Title | `h2` (or `h3` via `titleLevel`) inside `header` |
+| Body | flow siblings (`p`, …) — optional `.eevenkoto-card__body` grouping alias |
+| Footer | descendant `footer` (optional `.eevenkoto-card__footer`) |
+| Interactive | inner `a[href]` wrapping the sections; `--interactive` on the article |
+
+## Framework packages
+
+Hand-authored HTML is the reference. `renderCard` emits the same tags from `title` / `body` / `footer`.
 
 ```ts
 import '@eevenkoto/css/card.css';
 import { renderCard } from '@eevenkoto/html';
+
+renderCard({
+  title: 'Cloak of Elvenkind',
+  body: 'While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have disadvantage.',
+  footer: 'Wondrous item, uncommon',
+});
 ```
 
-Pair `--interactive` with a real link or button host so keyboard activation works; `aria-disabled="true"` carries the disabled recipe.
+```tsx
+import { Card } from '@eevenkoto/react';
+
+<Card title="Cloak of Elvenkind" footer="Wondrous item, uncommon">
+  While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have
+  disadvantage.
+</Card>
+```
+
+Pair `--interactive` with a real inner link so keyboard activation works; `aria-disabled="true"` on the article or the inner `a` carries the disabled recipe.
 
 ## API reference
 

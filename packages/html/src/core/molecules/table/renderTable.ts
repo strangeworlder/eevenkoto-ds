@@ -1,5 +1,4 @@
 import {
-  tableCaptionClassNames,
   tableClassNames,
   tableColClassNames,
   type TableColumn,
@@ -19,14 +18,15 @@ export const renderTable = (args: TableProps): string => {
   const columns = args.columns ?? [];
   const rows = args.rows ?? [];
 
-  const caption = args.caption
-    ? `<caption class="${tableCaptionClassNames()}">${escapeHtml(args.caption)}</caption>`
-    : '';
+  const caption = args.caption ? `<caption>${escapeHtml(args.caption)}</caption>` : '';
 
   const colgroup =
     columns.length > 0
       ? `<colgroup>${columns
-          .map((col) => `<col class="${tableColClassNames({ kind: col.kind })}" />`)
+          .map((col) => {
+            const colClass = tableColClassNames({ kind: col.kind });
+            return colClass ? `<col class="${colClass}" />` : '<col />';
+          })
           .join('')}</colgroup>`
       : '';
 
@@ -37,6 +37,7 @@ export const renderTable = (args: TableProps): string => {
       return renderTableCell({
         text: col.header,
         kind,
+        inTable: true,
         header: true,
         scope: 'col',
         angled,
@@ -59,6 +60,7 @@ export const renderTable = (args: TableProps): string => {
           return renderTableCell({
             text,
             kind: asRowHeader ? 'index' : kind,
+            inTable: true,
             header: asRowHeader,
             scope: asRowHeader ? 'row' : undefined,
           });

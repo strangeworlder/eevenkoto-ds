@@ -1,10 +1,7 @@
 import {
-  menuBranchClassNames,
   menuClassNames,
-  menuGroupClassNames,
   menuItemClassNames,
   menuItemLabelClassNames,
-  menuSummaryClassNames,
   type MenuEntry,
   type MenuItemEntry,
   type MenuProps,
@@ -15,8 +12,11 @@ import { StatusDot } from '../atoms/StatusDot';
 
 export type { MenuProps, MenuEntry };
 
-const itemChildren = (entry: MenuItemEntry): VNode[] => {
-  const nodes: VNode[] = [h('span', { class: menuItemLabelClassNames() }, entry.label)];
+const itemChildren = (entry: MenuItemEntry): (string | VNode)[] => {
+  const extras = Boolean(entry.locked || entry.status);
+  const nodes: (string | VNode)[] = extras
+    ? [h('span', { class: menuItemLabelClassNames() }, entry.label)]
+    : [entry.label];
   if (entry.locked) {
     nodes.push(
       h('span', { class: 'eevenkoto-menu__lock' }, [
@@ -41,64 +41,54 @@ const renderEntries = (
 ): VNode[] =>
   entries.map((entry, index) => {
     if (entry.kind === 'separator') {
-      return h('hr', { class: 'eevenkoto-menu__separator', key: `separator-${index}` });
+      return h('li', { key: `separator-${index}` }, [h('hr')]);
     }
 
     if (entry.kind === 'header') {
-      return h(
-        'p',
-        { class: 'eevenkoto-menu__header', key: `header-${entry.label}-${index}` },
-        entry.label,
-      );
+      return h('li', { key: `header-${entry.label}-${index}` }, [
+        h('p', { class: 'eevenkoto-menu__header' }, entry.label),
+      ]);
     }
 
     if (entry.kind === 'group') {
-      return h(
-        'details',
-        {
-          class: menuBranchClassNames(),
-          open: entry.expanded || undefined,
-          key: entry.id,
-        },
-        [
-          h('summary', { class: menuSummaryClassNames() }, [
-            h('span', { class: 'eevenkoto-menu__chevron', 'aria-hidden': 'true' }, [
-              h(Icon, { name: 'chevron-right', size: 'sm' }),
-            ]),
-            h('span', { class: menuItemLabelClassNames() }, entry.label),
-          ]),
-          h('div', { class: menuGroupClassNames() }, renderEntries(entry.children, onSelect)),
-        ],
-      );
+      return h('li', { key: entry.id }, [
+        h('details', { open: entry.expanded || undefined }, [
+          h('summary', entry.label),
+          h('ul', renderEntries(entry.children, onSelect)),
+        ]),
+      ]);
     }
 
     const itemClass = menuItemClassNames({ selected: entry.selected, locked: entry.locked });
     const lockedNoHref = Boolean(entry.locked && !entry.href);
 
     if (entry.href) {
-      return h(
-        'a',
-        {
-          class: itemClass,
-          href: entry.href,
-          'aria-disabled': entry.disabled || lockedNoHref ? 'true' : undefined,
-          key: entry.id,
-        },
-        itemChildren(entry),
-      );
+      return h('li', { key: entry.id }, [
+        h(
+          'a',
+          {
+            class: itemClass,
+            href: entry.href,
+            'aria-current': entry.selected ? 'page' : undefined,
+            'aria-disabled': entry.disabled || lockedNoHref ? 'true' : undefined,
+          },
+          itemChildren(entry),
+        ),
+      ]);
     }
 
-    return h(
-      'button',
-      {
-        type: 'button',
-        class: itemClass,
-        disabled: entry.disabled || entry.locked || undefined,
-        key: entry.id,
-        onClick: () => onSelect(entry.id),
-      },
-      itemChildren(entry),
-    );
+    return h('li', { key: entry.id }, [
+      h(
+        'button',
+        {
+          type: 'button',
+          class: itemClass,
+          disabled: entry.disabled || entry.locked || undefined,
+          onClick: () => onSelect(entry.id),
+        },
+        itemChildren(entry),
+      ),
+    ]);
   });
 
 export const Menu = defineComponent({
@@ -113,10 +103,8 @@ export const Menu = defineComponent({
     const className = computed(() => menuClassNames({ embedded: props.embedded }));
 
     return () =>
-      h(
-        'div',
-        { class: className.value, role: 'group', 'aria-label': props.label },
-        renderEntries(props.entries, (id) => emit('select', id)),
-      );
+      h('nav', { class: className.value, 'aria-label': props.label }, [
+        h('ul', renderEntries(props.entries, (id) => emit('select', id))),
+      ]);
   },
 });

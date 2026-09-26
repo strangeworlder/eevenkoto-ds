@@ -64,7 +64,10 @@
 .eevenkoto-catalog-tile__name {
   flex: 1 1 auto;
   min-width: 0;
-  overflow: hidden;
+  /* Global `text-box: trim-both` ends the box at the baseline, so clipping must stay
+     inline-only or truncation would shear descenders off the name. */
+  overflow-x: clip;
+  overflow-y: visible;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

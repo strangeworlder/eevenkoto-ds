@@ -7,11 +7,15 @@ export const TableCell = defineComponent({
     kind: { type: String as PropType<TableCellKind>, default: 'text' },
     header: { type: Boolean, default: false },
     angled: { type: Boolean, default: false },
+    /** Cell sits inside a `.eevenkoto-table` host, which already styles bare `th` / `td`. */
+    inTable: { type: Boolean, default: false },
     scope: { type: String as PropType<'col' | 'row'>, default: undefined },
     tabIndex: { type: Number, default: undefined },
   },
   setup(props, { slots }) {
-    const className = computed(() => tableCellClassNames({ kind: props.kind }));
+    const className = computed(() =>
+      tableCellClassNames({ kind: props.kind, inTable: props.inTable }),
+    );
 
     return () => {
       const kind = props.kind ?? 'text';
@@ -25,7 +29,8 @@ export const TableCell = defineComponent({
       return h(
         tag,
         {
-          class: className.value,
+          /* Vue renders class="" for an empty value, so drop the key instead. */
+          ...(className.value ? { class: className.value } : {}),
           scope: props.header ? props.scope : undefined,
           tabindex: props.tabIndex,
         },

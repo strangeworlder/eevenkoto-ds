@@ -32,6 +32,20 @@ Header / body / footer on a popover-like surface: `surface-raised` plus the two 
 
 <Canvas of={TooltipCardStories.Default} />
 
+```html
+<div class="eevenkoto-tooltip-card">
+  <header>
+    <h2>Cure Wounds</h2>
+  </header>
+  <div class="eevenkoto-tooltip-card__body">
+    <p>A creature you touch regains hit points.</p>
+  </div>
+  <footer><a href="/spells/cure-wounds">Avaa sivu →</a></footer>
+</div>
+```
+
+The host styles native `<header>` and `<footer>`, and the title is a real heading (default **H2**) remapped on the panel — do not compose the Heading atom. The body keeps a class because it is the scroll region: it caps itself and scrolls, so long copy never pushes the footer out of the panel. `__header` / `__footer` remain optional aliases.
+
 ### Playground
 
 <Controls of={TooltipCardStories.Default} />
@@ -58,7 +72,15 @@ Preview panels need a compact elevated surface with an optional title, scrollabl
   do={
     <ul>
       <li>Nest TooltipCard as a direct Popover child for entity / topic previews.</li>
-      <li>Use <code>scrollBody</code> when the body can exceed the max block size.</li>
+      <li>
+        Author real <code>&lt;header&gt;</code> / <code>&lt;h2&gt;</code> /{' '}
+        <code>&lt;footer&gt;</code> (or pass <code>title</code> / <code>footer</code> to{' '}
+        <code>renderTooltipCard</code>).
+      </li>
+      <li>
+        Raise <code>--eevenkoto-tooltip-card-body-max-block-size</code> when a panel should show
+        more before it scrolls.
+      </li>
       <li>Keep footer actions as data (e.g. “Avaa sivu”) — not baked into the molecule API.</li>
       <li>
         Pair with InlineRef (Core) or EntityRef (Domain) as the trigger — app owns open / position.
@@ -79,7 +101,7 @@ Preview panels need a compact elevated surface with an optional title, scrollabl
 
 <Canvas of={TooltipCardStories.ScrollingBody} />
 
-`scrollBody` composes Scroll on `__body` (`eevenkoto-scroll eevenkoto-scroll--y`) and caps it with `--eevenkoto-tooltip-card-body-max-block-size`, so the header and footer stay pinned.
+`__body` owns its own cap (`--eevenkoto-tooltip-card-body-max-block-size`) and scrolls past it, so the header and footer stay pinned. There is no opt-in prop and no [Scroll](?path=/docs/core-atoms-scroll--docs) import: a floating preview that grows without bound is never the behavior you want.
 
 ## Inside a Popover
 
@@ -87,19 +109,17 @@ Preview panels need a compact elevated surface with an optional title, scrollabl
 
 As a direct Popover child it drops its own border, radius, and shadow and zeroes the panel padding, so the two surfaces never double up.
 
-## Usage
+## Anatomy
 
-```html
-<div class="eevenkoto-tooltip-card">
-  <div class="eevenkoto-tooltip-card__header">Cure Wounds</div>
-  <div class="eevenkoto-tooltip-card__body eevenkoto-scroll eevenkoto-scroll--y">
-    <p>A creature you touch regains hit points.</p>
-  </div>
-  <div class="eevenkoto-tooltip-card__footer">
-    <a href="/spells/cure-wounds">Avaa sivu →</a>
-  </div>
-</div>
-```
+| Part | Role |
+| --- | --- |
+| Host | `<div class="eevenkoto-tooltip-card">` |
+| Header | descendant `header` (optional `.eevenkoto-tooltip-card__header`) |
+| Title | `h2` (or `h3` via `titleLevel`) inside `header` |
+| Body | `.eevenkoto-tooltip-card__body` — classed because it is the capped scroll region |
+| Footer | descendant `footer` (optional `.eevenkoto-tooltip-card__footer`) |
+
+## Usage
 
 ```ts
 import '@eevenkoto/css/tooltip-card.css';

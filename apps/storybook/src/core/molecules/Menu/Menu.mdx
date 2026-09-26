@@ -28,11 +28,22 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Menu
 
-Vertical **action or navigation** list. Entries are data: an `item`, a static `header`, a `separator`, or a nested **`group`** (disclosure branch). Items render as `<button>` by default and as `<a>` when `href` is set. Groups render as `<details>` / `<summary>` so multi-level expand works without app JS.
+Vertical **navigation** list. The host is a `<nav>` wrapping nested `<ul>` / `<li>` / `<a>`. Branches are native `<details>` / `<summary>`. The host class alone styles those tags — no item BEM is required for the default look. Current page uses `aria-current="page"`.
 
 <Canvas of={MenuStories.Default} />
 
-Hover and selection come from Tier 2 **`control`**; ink, group labels, and the disabled state come from **`content`**. Import `icon.css` whenever groups (chevrons) may render.
+```html
+<nav class="eevenkoto-menu" aria-label="Account">
+  <ul>
+    <li><a href="/profile">Profile</a></li>
+    <li><a href="/library" aria-current="page">My library</a></li>
+    <li><hr></li>
+    <li><a href="/sign-out">Sign out</a></li>
+  </ul>
+</nav>
+```
+
+Hover and selection come from Tier 2 **`control`**; ink, group labels, and the disabled state come from **`content`**. Disclosure chevrons are CSS on `summary` (no Icon). Import `icon.css` only when lock icons may render.
 
 ### Playground
 
@@ -40,7 +51,7 @@ Hover and selection come from Tier 2 **`control`**; ink, group labels, and the d
 
 ## Why to use
 
-Account menus, view switchers, and worldbook sidebars all need a compact vertical list of actions or destinations. Menu owns that chrome — flat rows for Popover menus, nested `group` branches for eevenko.to-style trees — without baking open/position or routing into the DS.
+Account menus, view switchers, and worldbook sidebars all need a compact vertical list of destinations. Menu owns that chrome — flat rows for Popover menus, nested `group` branches for eevenko.to-style trees — without baking open/position or routing into the DS. Copy-paste HTML navigates with no app JS.
 
 ## When to use
 
@@ -48,19 +59,26 @@ Account menus, view switchers, and worldbook sidebars all need a compact vertica
   do={
     <ul>
       <li>
+        Author real <code>&lt;a href&gt;</code> rows (or pass <code>href</code> to{' '}
+        <code>renderMenu</code>) so the menu works as a document.
+      </li>
+      <li>
         Use flat items (+ header/separator) for account and action menus inside{' '}
-        <a href="?path=/docs/core-atoms-popover--docs">Popover</a>.
+        <a href="?path=/docs/core-atoms-popover--docs">Popover</a>. Prefer links to profile,
+        billing, and sign-out URLs.
       </li>
       <li>
         Use nested <code>kind: 'group'</code> for multi-level nav (section → subsection → leaf
-        links), as on eevenko.to.
+        links), as on eevenko.to. Hand HTML is <code>&lt;li&gt;&lt;details&gt;</code> with a nested{' '}
+        <code>&lt;ul&gt;</code>.
       </li>
       <li>
         Put an overview page as the first child link when a section has both an index and children
         (e.g. “Lajit” link under the Lajit branch).
       </li>
       <li>
-        Set <code>expanded</code> on a group when that branch should start open (current section).
+        Set <code>expanded</code> on a group (or the <code>open</code> attribute on{' '}
+        <code>details</code>) when that branch should start open (current section).
       </li>
       <li>
         Set <code>embedded</code> when the menu sits in a sunken sidebar (transparent, no raised
@@ -75,8 +93,13 @@ Account menus, view switchers, and worldbook sidebars all need a compact vertica
   }
   dont={
     <ul>
-      <li>Don’t fake nesting with only <code>header</code> + visual indent — use <code>group</code>.</li>
-      <li>Don’t put role=&quot;menu&quot; + arrow-key behavior on the host unless the app also implements that contract (host ships <code>role=&quot;group&quot;</code>).</li>
+      <li>
+        Don’t default to inert <code>&lt;button&gt;</code> rows in HTML. Buttons are an escape hatch
+        for in-page commands with no URL.
+      </li>
+      <li>Don’t fake nesting with only <code>header</code> + visual indent — use <code>group</code> / <code>details</code>.</li>
+      <li>Don’t put role=&quot;menu&quot; + arrow-key behavior on the host unless the app also implements that contract (host is <code>&lt;nav&gt;</code>).</li>
+      <li>Don’t wrap Menu in a second <code>&lt;nav&gt;</code> — the host is already the landmark.</li>
       <li>Don’t use Menu for page body outlines — that is Heading + Flow / Prose.</li>
     </ul>
   }
@@ -86,6 +109,21 @@ Account menus, view switchers, and worldbook sidebars all need a compact vertica
 
 Branches nest arbitrarily. Root summaries use uppercase chrome; deeper summaries stay sentence case. Children indent with `--eevenkoto-menu-indent`.
 
+```html
+<nav class="eevenkoto-menu eevenkoto-menu--embedded" aria-label="Worldbook">
+  <ul>
+    <li>
+      <details open>
+        <summary>Lajit</summary>
+        <ul>
+          <li><a href="#human" aria-current="page">Ihminen</a></li>
+        </ul>
+      </details>
+    </li>
+  </ul>
+</nav>
+```
+
 <Canvas of={MenuStories.NestedNav} />
 
 ## Embedded sidebar
@@ -93,6 +131,12 @@ Branches nest arbitrarily. Root summaries use uppercase chrome; deeper summaries
 Flush surface + status pips + a locked leaf. Migration: drop `.nav-valmius`, `.nav-lock-*`, `.nav-link-text` truncation, and a second nav BEM on top of Menu.
 
 <Canvas of={MenuStories.EmbeddedSidebar} />
+
+## Locked items
+
+`locked` adds a trailing lock Icon named by `lockedLabel` (default “Locked”). Keep `href` when signing in still navigates somewhere — the row stays a link with `aria-disabled`; drop it and the row renders as a disabled button. The lock draws in `currentColor`, so it follows item ink through selection and the disabled state instead of pulling a separate accent.
+
+<Canvas of={MenuStories.LockedItems} />
 
 ## Items only
 
@@ -102,6 +146,12 @@ Flush surface + status pips + a locked leaf. Migration: drop `.nav-valmius`, `.n
 
 <Canvas of={MenuStories.Links} />
 
+## Action escape hatch
+
+Omit `href` only when the row is an in-page command with no destination. Framework wrappers fire `onSelect` / `@select` on that button. HTML-only consumers should prefer a URL.
+
+<Canvas of={MenuStories.ActionEscapeHatch} />
+
 ## Inside a Popover
 
 <Canvas of={MenuStories.InsidePopover} />
@@ -110,13 +160,15 @@ Flush surface + status pips + a locked leaf. Migration: drop `.nav-valmius`, `.n
 
 | Part | Role |
 | --- | --- |
-| Host | `.eevenkoto-menu` |
-| `__item` | Button or link row |
-| `__header` | Static group label (not expandable) |
-| `__separator` | Rule between clusters |
-| `__branch` | `<details>` nest |
-| `__summary` | Disclosure control (`__item` + chevron) |
-| `__group` | Indented children stack |
+| Host | `<nav class="eevenkoto-menu">` |
+| List | descendant `ul` / `li` (no extra class) |
+| Row | `a`, `button`, or `summary` (optional `.eevenkoto-menu__item`) |
+| Current page | `aria-current="page"` on the link |
+| `__header` | Static group label (`p` inside `li`) |
+| `hr` | Rule between clusters |
+| `details` | Nested branch |
+| `summary` | Disclosure control (CSS chevron) |
+| Nested `ul` | Indented children |
 
 ## API reference
 
@@ -130,16 +182,17 @@ Flush surface + status pips + a locked leaf. Migration: drop `.nav-valmius`, `.n
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `entries` | `MenuEntry[]` | — | List data. |
-| `label` | `string` | — | Accessible name. |
+| `label` | `string` | — | Accessible name (`aria-label` on `nav`). |
 | `embedded` | `boolean` | `false` | Transparent flush surface. |
 
 <ArgTypes of={MenuStories} />
 
 ## Framework packages
 
+Hand-authored HTML is the reference. `renderMenu` emits the same tags from `entries`.
+
 ```ts
 import '@eevenkoto/css/menu.css';
-import '@eevenkoto/css/icon.css';
 import { renderMenu } from '@eevenkoto/html';
 
 renderMenu({
@@ -165,4 +218,4 @@ import { Menu } from '@eevenkoto/react';
 <Menu label="Worldbook" entries={entries} />
 ```
 
-The host ships `role="group"`, not `role="menu"` — add menu semantics and arrow-key handling in the app only when you also implement the keyboard contract. Nested expand/collapse uses native `<details>`.
+The host is `<nav>`, not `role="menu"`. Add menu semantics and arrow-key handling in the app only when you also implement the keyboard contract. Nested expand/collapse uses native `<details>`.

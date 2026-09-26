@@ -38,6 +38,8 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 Host alone is the **text** kind (`min-width`, start-aligned). Add `--index` / `--numeric` only when needed; `--text` remains a valid alias.
 
+Inside a [Table](?path=/docs/core-molecules-table--docs) the base class is redundant — the host styles bare `th` / `td`, so `<td>Body cell</td>` is enough and only kinds need a class. Reach for `eevenkoto-table-cell` when the cell sits in a table that does **not** carry the host class. The framework `TableCell` takes `inTable` to switch between the two class strings; Table sets it for you.
+
 ### Playground
 
 <Controls of={TableCellStories.Default} />

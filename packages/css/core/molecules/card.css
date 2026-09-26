@@ -1,7 +1,8 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: CARD (TIER 3)
-   Sectioned surface container (header / body / footer). Frame stays the thin
-   bordered box; Card owns section rhythm and elevation.
+   Self-contained surface. Host is <article class="eevenkoto-card"> wrapping
+   native header / flow / footer. Hand-authored markup needs no region BEM.
+   Title look is remapped on the card — do not compose the Heading atom.
    Host alone = flat raised surface, no interaction affordance.
    ========================================================================== */
 
@@ -46,18 +47,30 @@
   text-decoration: none;
 }
 
+.eevenkoto-card > a {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.eevenkoto-card :where(header),
+.eevenkoto-card :where(footer),
 .eevenkoto-card__header,
 .eevenkoto-card__body,
 .eevenkoto-card__footer {
   box-sizing: border-box;
   min-width: 0;
-  padding: var(--_eevenkoto-card-pad-block) var(--_eevenkoto-card-pad-inline);
 }
 
+.eevenkoto-card :where(header),
 .eevenkoto-card__header {
   display: flex;
   align-items: center;
   gap: var(--_eevenkoto-card-gap);
+  padding: var(--_eevenkoto-card-pad-block) var(--_eevenkoto-card-pad-inline);
   font-family: var(--eevenkoto-font-serif);
   font-size: var(--eevenkoto-font-size-heading-4);
   font-weight: var(--eevenkoto-font-weight-semibold);
@@ -65,22 +78,83 @@
     var(--_eevenkoto-card-divider-color);
 }
 
+.eevenkoto-card :where(header) :is(h1, h2, h3, h4, h5, h6),
+.eevenkoto-card__header :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+.eevenkoto-card
+  > :not(header, footer, a, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer),
+.eevenkoto-card
+  > a
+  > :not(header, footer, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer),
+.eevenkoto-card__body {
+  padding-inline: var(--_eevenkoto-card-pad-inline);
+}
+
 .eevenkoto-card__body {
   display: flex;
   flex-direction: column;
   gap: var(--_eevenkoto-card-gap);
   flex: 1 1 auto;
+  padding-block: var(--_eevenkoto-card-pad-block);
 }
 
+.eevenkoto-card
+  > :not(header, footer, a, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer):first-child,
+.eevenkoto-card
+  > header
+  + :not(footer, a, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer),
+.eevenkoto-card
+  > a
+  > :not(header, footer, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer):first-child,
+.eevenkoto-card
+  > a
+  > header
+  + :not(footer, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer) {
+  padding-block-start: var(--_eevenkoto-card-pad-block);
+}
+
+.eevenkoto-card
+  > :not(header, footer, a, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer):last-child,
+.eevenkoto-card
+  > :not(header, footer, a, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer):has(+ footer),
+.eevenkoto-card
+  > a
+  > :not(header, footer, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer):last-child,
+.eevenkoto-card
+  > a
+  > :not(header, footer, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer):has(+ footer) {
+  padding-block-end: var(--_eevenkoto-card-pad-block);
+}
+
+.eevenkoto-card
+  > :not(header, footer, a, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer)
+  + :not(header, footer, a, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer),
+.eevenkoto-card
+  > a
+  > :not(header, footer, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer)
+  + :not(header, footer, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer) {
+  padding-block-start: var(--_eevenkoto-card-gap);
+}
+
+.eevenkoto-card > :is(p, h1, h2, h3, h4, h5, h6),
+.eevenkoto-card > a > :is(p, h1, h2, h3, h4, h5, h6),
 .eevenkoto-card__body > :is(p, h1, h2, h3, h4, h5, h6) {
   margin: 0;
 }
 
+.eevenkoto-card :where(footer),
 .eevenkoto-card__footer {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--_eevenkoto-card-gap);
+  padding: var(--_eevenkoto-card-pad-block) var(--_eevenkoto-card-pad-inline);
   color: var(--_eevenkoto-card-muted);
   font-size: var(--eevenkoto-font-size-body-sm);
   border-block-start: var(--_eevenkoto-card-border-width) solid
@@ -95,7 +169,7 @@
     0 0.4rem 1.2rem var(--eevenkoto-color-depth-shadow-penumbra);
 }
 
-/* --- INTERACTIVE (clickable card: link / button host) --- */
+/* --- INTERACTIVE (inner link / button host) --- */
 
 .eevenkoto-card--interactive {
   cursor: pointer;
@@ -104,17 +178,24 @@
     box-shadow 0.1s ease-in-out;
 }
 
-.eevenkoto-card--interactive:hover:not([aria-disabled='true']) {
+.eevenkoto-card--interactive:hover:not([aria-disabled='true']):not(:has(a[aria-disabled='true'])),
+.eevenkoto-card--interactive:has(a:hover:not([aria-disabled='true'])) {
   --eevenkoto-card-border-color: var(--eevenkoto-color-control-primary-background-hover);
   --eevenkoto-card-bg: var(--eevenkoto-color-control-secondary-background-hover);
 }
 
-.eevenkoto-card--interactive:focus-visible {
+.eevenkoto-card--interactive:focus-visible,
+.eevenkoto-card--interactive:has(a:focus-visible) {
   outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
   outline-offset: 2px;
 }
 
-.eevenkoto-card--interactive[aria-disabled='true'] {
+.eevenkoto-card--interactive a:focus-visible {
+  outline: none;
+}
+
+.eevenkoto-card--interactive[aria-disabled='true'],
+.eevenkoto-card--interactive:has(> a[aria-disabled='true']) {
   cursor: not-allowed;
   --eevenkoto-card-bg: var(--eevenkoto-color-control-secondary-background-disabled);
   --eevenkoto-card-text: var(--eevenkoto-color-content-disabled);
@@ -127,6 +208,8 @@
     box-shadow: none;
   }
 
+  .eevenkoto-card :where(header),
+  .eevenkoto-card :where(footer),
   .eevenkoto-card__header,
   .eevenkoto-card__footer {
     border-color: CanvasText;

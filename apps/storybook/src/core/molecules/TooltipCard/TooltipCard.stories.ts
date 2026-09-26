@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import '@eevenkoto/css/tooltip-card.css';
-import '@eevenkoto/css/scroll.css';
 import '@eevenkoto/css/popover.css';
 import '@eevenkoto/css/inline-ref.css';
 import { renderInlineRef, renderPopover, renderTooltipCard, type TooltipCardProps } from '@eevenkoto/html';
@@ -14,15 +13,19 @@ const meta: Meta<TooltipCardProps> = {
     docs: {
       description: {
         component:
-          'Header / body / footer on a popover-like surface. Standalone it is an elevated card; nested in Popover it drops its own chrome and fills the panel. Long copy composes Scroll on the body.',
+          'Header / body / footer on a popover-like surface. Standalone it is an elevated card; nested in Popover it drops its own chrome and fills the panel. The body caps itself and scrolls, so header and footer stay pinned.',
       },
     },
   },
   argTypes: {
-    title: { control: 'text', description: 'Header text.' },
+    title: { control: 'text', description: 'Header heading text.' },
+    titleLevel: {
+      control: { type: 'inline-radio' },
+      options: [2, 3],
+      description: 'Heading level for `title`. Default 2.',
+    },
     body: { control: 'text', description: 'Body copy.' },
     footer: { control: 'text', description: 'Footer HTML.' },
-    scrollBody: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
   },
   render: (args) => renderTooltipCard(args),
 };
@@ -43,7 +46,6 @@ export const ScrollingBody: Story = {
     title: 'Cure Wounds',
     body: longBody,
     footer: '1st-level evocation · Touch',
-    scrollBody: true,
   },
 };
 

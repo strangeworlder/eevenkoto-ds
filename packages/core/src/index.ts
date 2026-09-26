@@ -114,6 +114,7 @@ export {
 export {
   type TableCellKind,
   type TableCellProps,
+  type TableCellKindProps,
   type TableCellClassNameProps,
   tableCellClassNames,
   tableColClassNames,
@@ -155,11 +156,13 @@ export {
 export {
   type CardProps,
   type CardClassNameProps,
+  type CardTitleLevel,
   cardClassNames,
 } from './core/molecules/card';
 
 export {
   type TooltipCardProps,
+  type TooltipCardTitleLevel,
   tooltipCardClassNames,
   tooltipCardBodyClassNames,
 } from './core/molecules/tooltipCard';
@@ -226,7 +229,6 @@ export {
   type TableProps,
   type TableClassNameProps,
   tableClassNames,
-  tableCaptionClassNames,
 } from './core/molecules/table';
 
 export {

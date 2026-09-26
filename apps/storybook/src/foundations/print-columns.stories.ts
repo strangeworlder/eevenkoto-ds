@@ -10,7 +10,6 @@ import '@eevenkoto/css/entity-ref.css';
 import '@eevenkoto/css/frame.css';
 import '@eevenkoto/css/scroll.css';
 import '@eevenkoto/css/caption.css';
-import '@eevenkoto/css/table-cell.css';
 import '@eevenkoto/css/table.css';
 import '@eevenkoto/css/table-shell.css';
 import '@eevenkoto/css/heading.css';
@@ -360,7 +359,7 @@ const pageHtml = (): string => {
   });
 
   return `<div class="print-columns-lab">
-  <nav class="print-columns-lab__nav" aria-label="Lab chrome">${menu}</nav>
+  <div class="print-columns-lab__nav">${menu}</div>
   <div class="print-columns-lab__main">${notice}${articleHtml()}</div>
 </div>`;
 };

@@ -1,7 +1,8 @@
-import { cardClassNames, type CardProps } from '@eevenkoto/core';
+import { cardClassNames, type CardProps, type CardTitleLevel } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
+import { createElement } from 'react';
 
-export type { CardProps };
+export type { CardProps, CardTitleLevel };
 
 export type CardComponentProps = Omit<HTMLAttributes<HTMLElement>, 'title' | 'children'> &
   CardProps & {
@@ -11,7 +12,7 @@ export type CardComponentProps = Omit<HTMLAttributes<HTMLElement>, 'title' | 'ch
     footer?: ReactNode;
     /** Body content, rendered after `body`. */
     children?: ReactNode;
-    /** When set, the card renders as a link (pair with `interactive`). */
+    /** When set, wraps the card contents in a link (pair with `interactive`). */
     href?: string;
   };
 
@@ -19,6 +20,7 @@ export const Card = ({
   elevated,
   interactive,
   title,
+  titleLevel,
   body,
   header,
   footer,
@@ -27,37 +29,30 @@ export const Card = ({
   className,
   ...rest
 }: CardComponentProps): ReactElement => {
-  const classes = [cardClassNames({ elevated, interactive }), className]
+  const classes = [
+    cardClassNames({ elevated, interactive: interactive || Boolean(href) }),
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
-  const headerContent = header ?? title;
-  const hasBody = Boolean(body) || Boolean(children);
+  const level: CardTitleLevel = titleLevel === 3 ? 3 : 2;
+  const hasHeader = header != null || Boolean(title);
 
-  const content = (
+  const sections = (
     <>
-      {headerContent ? <div className="eevenkoto-card__header">{headerContent}</div> : null}
-      {hasBody ? (
-        <div className="eevenkoto-card__body">
-          {body ? <p>{body}</p> : null}
-          {children}
-        </div>
+      {hasHeader ? (
+        <header>{header ?? createElement(`h${level}`, null, title)}</header>
       ) : null}
-      {footer ? <div className="eevenkoto-card__footer">{footer}</div> : null}
+      {body ? <p>{body}</p> : null}
+      {children}
+      {footer ? <footer>{footer}</footer> : null}
     </>
   );
 
-  if (href) {
-    return (
-      <a className={classes} href={href} {...rest}>
-        {content}
-      </a>
-    );
-  }
-
   return (
-    <div className={classes} {...rest}>
-      {content}
-    </div>
+    <article className={classes} {...rest}>
+      {href ? <a href={href}>{sections}</a> : sections}
+    </article>
   );
 };

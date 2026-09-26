@@ -1,10 +1,7 @@
 import {
-  menuBranchClassNames,
   menuClassNames,
-  menuGroupClassNames,
   menuItemClassNames,
   menuItemLabelClassNames,
-  menuSummaryClassNames,
   type MenuEntry,
   type MenuItemEntry,
   type MenuProps,
@@ -15,27 +12,30 @@ import { StatusDot } from '../atoms/StatusDot';
 
 export type { MenuProps, MenuEntry };
 
-export type MenuComponentProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'> &
+export type MenuComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children'> &
   MenuProps & {
     onSelect?: (id: string) => void;
   };
 
-const itemExtras = (entry: MenuItemEntry): ReactNode => (
-  <>
-    <span className={menuItemLabelClassNames()}>{entry.label}</span>
-    {entry.locked ? (
-      <span className="eevenkoto-menu__lock">
-        <Icon name="lock" />
-        <span className="eevenkoto-visually-hidden">{entry.lockedLabel ?? 'Locked'}</span>
-      </span>
-    ) : null}
-    {entry.status ? (
-      <span className="eevenkoto-menu__status">
-        <StatusDot intent={entry.status} label={entry.statusLabel ?? 'Ready'} />
-      </span>
-    ) : null}
-  </>
-);
+const itemExtras = (entry: MenuItemEntry): ReactNode => {
+  const extras = Boolean(entry.locked || entry.status);
+  return (
+    <>
+      {extras ? <span className={menuItemLabelClassNames()}>{entry.label}</span> : entry.label}
+      {entry.locked ? (
+        <span className="eevenkoto-menu__lock">
+          <Icon name="lock" />
+          <span className="eevenkoto-visually-hidden">{entry.lockedLabel ?? 'Locked'}</span>
+        </span>
+      ) : null}
+      {entry.status ? (
+        <span className="eevenkoto-menu__status">
+          <StatusDot intent={entry.status} label={entry.statusLabel ?? 'Ready'} />
+        </span>
+      ) : null}
+    </>
+  );
+};
 
 const renderEntries = (
   entries: MenuEntry[],
@@ -43,32 +43,29 @@ const renderEntries = (
 ): ReactNode[] =>
   entries.map((entry, index) => {
     if (entry.kind === 'separator') {
-      return <hr key={`separator-${index}`} className="eevenkoto-menu__separator" />;
+      return (
+        <li key={`separator-${index}`}>
+          <hr />
+        </li>
+      );
     }
 
     if (entry.kind === 'header') {
       return (
-        <p key={`header-${entry.label}-${index}`} className="eevenkoto-menu__header">
-          {entry.label}
-        </p>
+        <li key={`header-${entry.label}-${index}`}>
+          <p className="eevenkoto-menu__header">{entry.label}</p>
+        </li>
       );
     }
 
     if (entry.kind === 'group') {
       return (
-        <details
-          key={entry.id}
-          className={menuBranchClassNames()}
-          open={entry.expanded || undefined}
-        >
-          <summary className={menuSummaryClassNames()}>
-            <span className="eevenkoto-menu__chevron" aria-hidden="true">
-              <Icon name="chevron-right" size="sm" />
-            </span>
-            <span className={menuItemLabelClassNames()}>{entry.label}</span>
-          </summary>
-          <div className={menuGroupClassNames()}>{renderEntries(entry.children, onSelect)}</div>
-        </details>
+        <li key={entry.id}>
+          <details open={entry.expanded || undefined}>
+            <summary>{entry.label}</summary>
+            <ul>{renderEntries(entry.children, onSelect)}</ul>
+          </details>
+        </li>
       );
     }
 
@@ -77,27 +74,30 @@ const renderEntries = (
 
     if (entry.href) {
       return (
-        <a
-          key={entry.id}
-          className={itemClasses}
-          href={entry.href}
-          aria-disabled={entry.disabled || lockedNoHref ? true : undefined}
-        >
-          {itemExtras(entry)}
-        </a>
+        <li key={entry.id}>
+          <a
+            className={itemClasses}
+            href={entry.href}
+            aria-current={entry.selected ? 'page' : undefined}
+            aria-disabled={entry.disabled || lockedNoHref ? true : undefined}
+          >
+            {itemExtras(entry)}
+          </a>
+        </li>
       );
     }
 
     return (
-      <button
-        key={entry.id}
-        type="button"
-        className={itemClasses}
-        disabled={entry.disabled || entry.locked}
-        onClick={() => onSelect?.(entry.id)}
-      >
-        {itemExtras(entry)}
-      </button>
+      <li key={entry.id}>
+        <button
+          type="button"
+          className={itemClasses}
+          disabled={entry.disabled || entry.locked}
+          onClick={() => onSelect?.(entry.id)}
+        >
+          {itemExtras(entry)}
+        </button>
+      </li>
     );
   });
 
@@ -112,8 +112,8 @@ export const Menu = ({
   const classes = [menuClassNames({ embedded }), className].filter(Boolean).join(' ');
 
   return (
-    <div className={classes} role="group" aria-label={label} {...rest}>
-      {renderEntries(entries, onSelect)}
-    </div>
+    <nav className={classes} aria-label={label} {...rest}>
+      <ul>{renderEntries(entries, onSelect)}</ul>
+    </nav>
   );
 };

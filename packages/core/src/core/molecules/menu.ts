@@ -2,7 +2,7 @@ import type { BadgeIntent } from '../atoms/badge';
 
 export interface MenuItemEntry {
   kind?: 'item';
-  /** Stable entry id (used for selection / activation). */
+  /** Stable entry id (React/Vue keys; `onSelect` for the button escape hatch). */
   id: string;
   /** Visible label. */
   label: string;
@@ -19,9 +19,12 @@ export interface MenuItemEntry {
   status?: BadgeIntent;
   /** Accessible name for the status pip. Default derived from intent in renderers. */
   statusLabel?: string;
-  /** When set, the item renders as a link. */
+  /**
+   * Destination URL. Navigation contract for HTML-first menus.
+   * Omit only for the in-page button escape hatch.
+   */
   href?: string;
-  /** Marks the current choice. */
+  /** Marks the current page. Renderers set `aria-current="page"` on links. */
   selected?: boolean;
 }
 
@@ -37,7 +40,7 @@ export interface MenuSeparatorEntry {
 
 /**
  * Nested branch (eevenko.to-style sidebar sections).
- * Renders as `<details>` / `<summary>`; children indent one level.
+ * Renders as `<details>` / `<summary>` with a nested `<ul>`; children indent one level.
  */
 export interface MenuGroupEntry {
   kind: 'group';
@@ -57,7 +60,7 @@ export type MenuEntry =
 
 export interface MenuProps {
   entries: MenuEntry[];
-  /** Accessible name for the menu. */
+  /** Accessible name for the nav landmark. */
   label?: string;
   /**
    * Transparent flush surface for a sunken sidebar.
@@ -75,6 +78,7 @@ export const menuClassNames = (props: MenuClassNameProps = {}): string =>
 
 export type MenuItemClassNameProps = Pick<MenuItemEntry, 'selected' | 'locked'>;
 
+/** Optional item BEM alias; CSS paints rows from `a` / `button` / `summary` under the host. */
 export const menuItemClassNames = (props: MenuItemClassNameProps = {}): string => {
   const selectedClass = props.selected ? ' eevenkoto-menu__item--selected' : '';
   const lockedClass = props.locked ? ' eevenkoto-menu__item--locked' : '';

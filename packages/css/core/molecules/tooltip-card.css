@@ -2,7 +2,9 @@
    EEVENKOTO DESIGN SYSTEM: TOOLTIP CARD (TIER 3)
    Header / body / footer on a popover-like surface. Standalone it is an
    elevated card; nested in Popover it drops its own chrome and fills the panel.
-   Long copy composes Scroll on `__body`.
+   Host styles native header / footer; the title look is remapped here, so a
+   real heading needs no Heading atom. The body is a classed region that owns
+   its own cap: long copy scrolls inside it while header and footer stay pinned.
    ========================================================================== */
 
 .eevenkoto-tooltip-card {
@@ -77,6 +79,8 @@
   line-height: var(--eevenkoto-line-height-body);
 }
 
+.eevenkoto-tooltip-card :where(header),
+.eevenkoto-tooltip-card :where(footer),
 .eevenkoto-tooltip-card__header,
 .eevenkoto-tooltip-card__body,
 .eevenkoto-tooltip-card__footer {
@@ -86,6 +90,7 @@
   padding: var(--_eevenkoto-tooltip-card-pad-block) var(--_eevenkoto-tooltip-card-pad-inline);
 }
 
+.eevenkoto-tooltip-card :where(header),
 .eevenkoto-tooltip-card__header {
   display: flex;
   align-items: center;
@@ -97,21 +102,29 @@
     var(--_eevenkoto-tooltip-card-border-color);
 }
 
+.eevenkoto-tooltip-card :where(header) :is(h1, h2, h3, h4, h5, h6),
+.eevenkoto-tooltip-card__header :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
 .eevenkoto-tooltip-card__body {
   display: flex;
   flex-direction: column;
   gap: var(--_eevenkoto-tooltip-card-gap);
+  max-block-size: var(--_eevenkoto-tooltip-card-body-max-block-size);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .eevenkoto-tooltip-card__body > :is(p, ul, ol) {
   margin: 0;
 }
 
-/* Composed with Scroll for long copy. */
-.eevenkoto-tooltip-card__body.eevenkoto-scroll {
-  --eevenkoto-scroll-max-block: var(--_eevenkoto-tooltip-card-body-max-block-size);
-}
-
+.eevenkoto-tooltip-card :where(footer),
 .eevenkoto-tooltip-card__footer {
   display: flex;
   flex-wrap: wrap;
@@ -136,10 +149,12 @@
   max-inline-size: none;
 }
 
+.eevenkoto-popover > .eevenkoto-tooltip-card > :where(header),
 .eevenkoto-popover > .eevenkoto-tooltip-card > .eevenkoto-tooltip-card__header {
   border-block-end-color: var(--_eevenkoto-tooltip-card-divider);
 }
 
+.eevenkoto-popover > .eevenkoto-tooltip-card > :where(footer),
 .eevenkoto-popover > .eevenkoto-tooltip-card > .eevenkoto-tooltip-card__footer {
   border-block-start-color: var(--_eevenkoto-tooltip-card-divider);
 }
@@ -150,6 +165,8 @@
     box-shadow: none;
   }
 
+  .eevenkoto-tooltip-card :where(header),
+  .eevenkoto-tooltip-card :where(footer),
   .eevenkoto-tooltip-card__header,
   .eevenkoto-tooltip-card__footer {
     border-color: CanvasText;

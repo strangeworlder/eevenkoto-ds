@@ -2,10 +2,12 @@ import {
   tooltipCardBodyClassNames,
   tooltipCardClassNames,
   type TooltipCardProps,
+  type TooltipCardTitleLevel,
 } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
+import { createElement } from 'react';
 
-export type { TooltipCardProps };
+export type { TooltipCardProps, TooltipCardTitleLevel };
 
 export type TooltipCardComponentProps = Omit<
   HTMLAttributes<HTMLDivElement>,
@@ -22,8 +24,8 @@ export type TooltipCardComponentProps = Omit<
 
 export const TooltipCard = ({
   title,
+  titleLevel,
   body,
-  scrollBody,
   header,
   footer,
   children,
@@ -31,21 +33,22 @@ export const TooltipCard = ({
   ...rest
 }: TooltipCardComponentProps): ReactElement => {
   const classes = [tooltipCardClassNames(), className].filter(Boolean).join(' ');
-  const headerContent = header ?? title;
+  const level: TooltipCardTitleLevel = titleLevel === 3 ? 3 : 2;
+  const hasHeader = header != null || Boolean(title);
   const hasBody = Boolean(body) || Boolean(children);
 
   return (
     <div className={classes} {...rest}>
-      {headerContent ? (
-        <div className="eevenkoto-tooltip-card__header">{headerContent}</div>
+      {hasHeader ? (
+        <header>{header ?? createElement(`h${level}`, null, title)}</header>
       ) : null}
       {hasBody ? (
-        <div className={tooltipCardBodyClassNames(scrollBody)}>
+        <div className={tooltipCardBodyClassNames()}>
           {body ? <p>{body}</p> : null}
           {children}
         </div>
       ) : null}
-      {footer ? <div className="eevenkoto-tooltip-card__footer">{footer}</div> : null}
+      {footer ? <footer>{footer}</footer> : null}
     </div>
   );
 };

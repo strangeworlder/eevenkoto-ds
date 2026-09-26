@@ -32,5 +32,3 @@ export const tableClassNames = (props: TableClassNameProps = {}): string => {
     stripe === 'row' ? '' : ` eevenkoto-table--stripe-${stripe}`;
   return `eevenkoto-table${variantClass}${stripeClass}`;
 };
-
-export const tableCaptionClassNames = (): string => 'eevenkoto-table__caption';

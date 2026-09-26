@@ -73,8 +73,8 @@ Spellblock reuses **StatblockFeature** for scaling run-ins; there is no separate
 | **Chip** | Interactive control chip (`selected`) |
 | **Catalog** | Dense index grid of CatalogTiles |
 | **Popover** | Raised floating panel chrome (CSS only; app owns open/position) |
-| **TooltipCard** | Header / body / footer chrome nested in Popover (or standalone) — not an in-page Card |
-| **Card** | In-page sectioned surface (`__header` / `__body` / `__footer`) |
+| **TooltipCard** | Header / body / footer chrome nested in Popover (or standalone) — native `header` / `footer`, self-capping scroll body; not an in-page Card |
+| **Card** | In-page sectioned surface (`article` + native `header` / flow / `footer`) |
 | **InlineRef** | Core inline reference chrome (`name`, optional `href`); Popover trigger in Core demos |
 | **Input** | Single-line **control chrome** only (fill / border / focus). Nest inside Field for forms. Uses `ariaLabel`, not `label`. |
 | **Field** | Form **row**: visible `label` + control slot + hint/error. Default choice for data entry. |

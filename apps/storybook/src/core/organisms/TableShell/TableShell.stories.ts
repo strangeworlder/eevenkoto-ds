@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/html-vite';
 import '@eevenkoto/css/frame.css';
 import '@eevenkoto/css/scroll.css';
 import '@eevenkoto/css/caption.css';
-import '@eevenkoto/css/table-cell.css';
 import '@eevenkoto/css/table.css';
 import '@eevenkoto/css/table-shell.css';
 import {

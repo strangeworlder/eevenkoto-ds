@@ -2,9 +2,62 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.7.0**.
+Published package version is **0.9.0**.
 
-## Unreleased
+## 0.9.0
+
+### Changed
+
+- Package versions **0.9.0**
+- **Card** — semantic markup: host is `<article>` wrapping native `<header>` / flow / `<footer>`, and `title` renders a real heading (`titleLevel`, default 2) whose look is remapped on the card. `href` no longer swaps the host to `<a>`; it wraps the sections in an inner link so `header` / `footer` stay scoped to the card. `__header` / `__body` / `__footer` remain optional aliases
+- **TooltipCard** — same pass for `<header>` / `<footer>` + real heading (`titleLevel`, default 2). The body stays `.eevenkoto-tooltip-card__body` because it is the scroll region
+- **Menu** — host is `<nav>` wrapping nested `<ul>` / `<li>` / `<a>` (or `<button>` only as an in-page escape hatch). Hand-authored links need no item BEM; current page is `aria-current="page"`. Nested branches are native `<details>` / `<summary>` with a CSS disclosure triangle (no Icon). The lock glyph tracks item ink (`currentColor`) through selected and disabled
+- **Table** — bare `caption` / `tr` / `th` / `td` under `.eevenkoto-table` get the recipe. Only non-default kinds stay opt-in (`--index`, `--numeric`). `tableCellClassNames({ inTable: true })` omits the base class for text cells
+- **TableShell** — sticky index stripe follows the Table host’s default row stripe, including tables that never set `--stripe-row`
+
+### Removed
+
+- **TooltipCard `scrollBody`** — the body now caps itself at `--eevenkoto-tooltip-card-body-max-block-size` and scrolls, so the panel never pushes its footer out. This drops the Scroll composition (`eevenkoto-scroll eevenkoto-scroll--y` merged onto `__body`, which also required a separate `@eevenkoto/css/scroll.css` import to work at all); `tooltipCardBodyClassNames()` now takes no argument
+- **`tableCaptionClassNames()`** — a caption is only valid inside a table, so the host styles an unclassed `<caption>`
+
+### Fixed
+
+- **Catalog** / **Menu** — name and label truncation clips on the inline axis only, so global `text-box: trim-both` no longer shears descenders
+
+## 0.8.1
+
+### Added
+
+- **Chip** (Core atom) — interactive filter or role control (`selected`, sm/md/lg). Host alone is unselected + md. Renders as `<button>` or `<a href>`. New `@eevenkoto/css/chip.css`
+- **StatusDot** (Core atom) — unlabeled readiness pip; same `intent` set as Badge. Host alone is neutral. New `@eevenkoto/css/status-dot.css`
+- **Catalog** (Core molecule) — dense index grid of linked CatalogTiles (optional StatusDot + name + lock). New `@eevenkoto/css/catalog.css`
+- **InlineRef `unlinked`** — known term with no destination (`<span>`, italic + dotted underline). **`locked`** — trailing lock glyph, may combine with `href` (`lockedLabel`, default Locked)
+- **Menu `embedded`** — transparent flush surface for a sunken sidebar. Items gain `locked` / `lockedLabel` and a trailing `status` StatusDot
+- **EntityRef** kinds **`class`** and **`creature`**. EntityRef now extends InlineRef, so `unlinked` and `locked` apply
+- Icon glyph **`menu`**. Button’s icon subset adds `lock`, `menu`, and `search`
+- Foundations **Class entry recipe** — class / background / species pages composed from PropertyList, TableShell, EntityRef, and StatblockFeature (no Classblock)
+
+### Changed
+
+- Package versions **0.8.1**
+- **`menuItemClassNames`** — argument is `{ selected, locked }` (was a `selected` boolean)
+- **Print** — `html` / `body` print background is transparent (0.8.0 painted the canvas color onto the sheet)
+
+### Fixed
+
+- **Storybook** — Vite no longer pre-bundles the workspace packages, so `npm run build` exports show up without a stale optimize-deps cache
+
+## 0.8.0
+
+### Added
+
+- **Print columns** — `@media print` restyles the same document into two snaking columns. Outermost Prose sets `columns: 2` / `column-fill: auto`; nested Prose does not open a second column context. No print route and no `eevenkoto-print-*` class. Foundations/Print columns
+- **`@page`** — A4, 18mm margin, with `print-color-adjust: exact` on `html` / `body`
+
+### Changed
+
+- Package versions **0.8.0**
+- **Print defaults** on existing hosts: direct-child `h1` / `h2` of Prose span both columns; Statblock, Spellblock, Card, and Notice use `break-inside: avoid`; TableShell and AbilityScoreGroup span and avoid a split; Scroll becomes `overflow: visible`; Menu, Popover, and TooltipCard are `display: none`
 
 ## 0.7.0
 

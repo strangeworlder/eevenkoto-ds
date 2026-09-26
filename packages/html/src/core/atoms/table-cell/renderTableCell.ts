@@ -17,7 +17,7 @@ export const renderTableCell = (args: TableCellProps): string => {
   const kind = args.kind ?? 'text';
   const header = Boolean(args.header);
   const tag = header ? 'th' : 'td';
-  const className = tableCellClassNames({ kind });
+  const className = tableCellClassNames({ kind, inTable: args.inTable });
   const angled = Boolean(args.angled) && header && kind === 'numeric';
 
   const attrParts: string[] = [];
@@ -35,7 +35,7 @@ export const renderTableCell = (args: TableCellProps): string => {
 
   return template
     .replaceAll('{{tag}}', tag)
-    .replace('{{className}}', className)
+    .replace('{{classAttr}}', className ? ` class="${className}"` : '')
     .replace('{{attrs}}', attrParts.join(''))
     .replace('{{content}}', content);
 };

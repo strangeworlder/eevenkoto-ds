@@ -1,8 +1,8 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: MENU (TIER 3)
-   Vertical action / navigation list. Flat items + nested `group` branches
-   (<details>) for multi-level nav (eevenko.to sidebar). Nest inside Popover
-   for compact dropdowns. Host alone = raised surface, no open/position JS.
+   Vertical navigation list. Host is <nav class="eevenkoto-menu"> wrapping
+   nested ul / li / a / details. Hand-authored links need no item BEM.
+   Buttons are an escape hatch. Nested expand uses native <details>.
    ========================================================================== */
 
 @import url('../atoms/icon.css');
@@ -51,16 +51,29 @@
     var(--eevenkoto-color-content-tertiary)
   );
 
-@import url('../atoms/icon.css');
-@import url('../atoms/status-dot.css');
+  box-sizing: border-box;
   margin: 0;
   padding: var(--_eevenkoto-menu-pad-block) 0;
-  list-style: none;
   background: var(--_eevenkoto-menu-bg);
   border-radius: var(--_eevenkoto-menu-radius);
   font-family: var(--eevenkoto-font-sans);
   font-size: var(--eevenkoto-font-size-control-md);
   line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eevenkoto-menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.eevenkoto-menu details > ul {
+  padding-inline-start: var(--_eevenkoto-menu-indent);
 }
 
 .eevenkoto-menu__header {
@@ -73,6 +86,7 @@
   letter-spacing: 0.04em;
 }
 
+.eevenkoto-menu hr,
 .eevenkoto-menu__separator {
   margin: var(--_eevenkoto-menu-pad-block) 0;
   border: 0;
@@ -80,6 +94,7 @@
     var(--_eevenkoto-menu-separator-color);
 }
 
+.eevenkoto-menu :is(a, button, summary),
 .eevenkoto-menu__item {
   --_eevenkoto-menu-item-font-weight: var(
     --eevenkoto-menu-item-font-weight,
@@ -109,17 +124,29 @@
   cursor: pointer;
 }
 
+.eevenkoto-menu :is(a, button):not(:has(.eevenkoto-menu__item-label, .eevenkoto-menu__lock, .eevenkoto-menu__status)) {
+  display: block;
+  overflow-x: clip;
+  overflow-y: visible;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eevenkoto-menu :is(a, button, summary):hover:not(:disabled):not([aria-disabled='true']),
 .eevenkoto-menu__item:hover:not(:disabled):not([aria-disabled='true']) {
   --_eevenkoto-menu-item-text: var(--eevenkoto-color-content-primary);
   --_eevenkoto-menu-item-text-shadow: none;
   background: var(--_eevenkoto-menu-item-bg-hover);
 }
 
+.eevenkoto-menu :is(a, button, summary):focus-visible,
 .eevenkoto-menu__item:focus-visible {
   outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
   outline-offset: -2px;
 }
 
+.eevenkoto-menu a[aria-current='page'],
+.eevenkoto-menu :is(a, button, summary).eevenkoto-menu__item--selected,
 .eevenkoto-menu__item--selected {
   background: var(--_eevenkoto-menu-item-selected-bg);
   --_eevenkoto-menu-item-text: var(--_eevenkoto-menu-item-selected-text);
@@ -127,6 +154,8 @@
   --_eevenkoto-menu-item-text-shadow: 0 0 2px var(--eevenkoto-color-depth-shadow-control-text);
 }
 
+.eevenkoto-menu :is(a, button, summary):disabled,
+.eevenkoto-menu :is(a, button, summary)[aria-disabled='true'],
 .eevenkoto-menu__item:disabled,
 .eevenkoto-menu__item[aria-disabled='true'] {
   cursor: not-allowed;
@@ -143,16 +172,17 @@
 .eevenkoto-menu__item-label {
   flex: 1 1 auto;
   min-width: 0;
-  overflow: hidden;
+  /* Global `text-box: trim-both` ends the box at the baseline, so clipping must stay
+     inline-only or truncation would shear descenders off the label. */
+  overflow-x: clip;
+  overflow-y: visible;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .eevenkoto-menu__lock {
-  --_eevenkoto-menu-lock-color: var(
-    --eevenkoto-menu-lock-color,
-    var(--eevenkoto-color-content-accent-strong)
-  );
+  /* Gating marker, not an accent: the lock tracks item ink through selected / disabled. */
+  --_eevenkoto-menu-lock-color: var(--eevenkoto-menu-lock-color, currentColor);
 
   flex-shrink: 0;
   color: var(--_eevenkoto-menu-lock-color);
@@ -169,68 +199,69 @@
 
 /* --- Nested branches (details / summary) --- */
 
-.eevenkoto-menu__branch {
-  display: flex;
-  flex-direction: column;
+.eevenkoto-menu details {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-.eevenkoto-menu__summary {
+.eevenkoto-menu summary {
   list-style: none;
   font-weight: var(--eevenkoto-font-weight-semibold);
 }
 
-.eevenkoto-menu__summary::-webkit-details-marker {
+.eevenkoto-menu summary::-webkit-details-marker {
   display: none;
 }
 
-.eevenkoto-menu__summary::marker {
+.eevenkoto-menu summary::marker {
   content: '';
 }
 
-.eevenkoto-menu__chevron {
+/* Border triangle, not a rotated square: reduced motion forces `transform: none`,
+   which would flatten a transform-built marker into a box. */
+.eevenkoto-menu summary::before {
+  content: '';
   flex-shrink: 0;
-  color: var(--_eevenkoto-menu-chevron);
-  transition: transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
+  display: block;
+  inline-size: 0;
+  block-size: 0;
+  border-block: 0.3em solid transparent;
+  border-inline-start: 0.4em solid var(--_eevenkoto-menu-chevron);
 }
 
-.eevenkoto-menu__branch[open] > .eevenkoto-menu__summary .eevenkoto-menu__chevron {
-  transform: rotate(90deg);
-}
-
-.eevenkoto-menu__group {
-  display: flex;
-  flex-direction: column;
-  padding-inline-start: var(--_eevenkoto-menu-indent);
+.eevenkoto-menu details[open] > summary::before {
+  border-block: 0;
+  border-inline: 0.3em solid transparent;
+  border-block-start: 0.4em solid var(--_eevenkoto-menu-chevron);
 }
 
 /* Root sections echo eevenko.to uppercase chrome; nested summaries stay sentence case. */
-.eevenkoto-menu > .eevenkoto-menu__branch > .eevenkoto-menu__summary {
+.eevenkoto-menu > ul > li > details > summary {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: var(--eevenkoto-font-size-caption);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .eevenkoto-menu__chevron {
-    transition: none;
-  }
-}
-
 @media (forced-colors: active) {
+  .eevenkoto-menu a[aria-current='page'],
   .eevenkoto-menu__item--selected {
     outline: 2px solid Highlight;
     outline-offset: -2px;
   }
 
+  .eevenkoto-menu hr,
   .eevenkoto-menu__separator {
     border-block-start-color: CanvasText;
   }
 
-  .eevenkoto-menu__chevron {
-    color: CanvasText;
+  /* Only the solid edge may take a system color; the other edges shape the triangle. */
+  .eevenkoto-menu summary::before {
+    border-inline-start-color: CanvasText;
+  }
+
+  .eevenkoto-menu details[open] > summary::before {
+    border-block-start-color: CanvasText;
   }
 }
 

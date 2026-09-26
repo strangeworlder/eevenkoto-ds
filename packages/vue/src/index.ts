@@ -19,8 +19,12 @@ export { Flow, type FlowProps, type FlowDensity } from './core/molecules/Flow';
 export { Notice, type NoticeProps } from './core/molecules/Notice';
 export { Field, type FieldProps } from './core/molecules/Field';
 export { SegmentedControl, type SegmentedControlProps } from './core/molecules/SegmentedControl';
-export { Card, type CardProps } from './core/molecules/Card';
-export { TooltipCard, type TooltipCardProps } from './core/molecules/TooltipCard';
+export { Card, type CardProps, type CardTitleLevel } from './core/molecules/Card';
+export {
+  TooltipCard,
+  type TooltipCardProps,
+  type TooltipCardTitleLevel,
+} from './core/molecules/TooltipCard';
 export { Menu, type MenuProps, type MenuEntry } from './core/molecules/Menu';
 export {
   Catalog,

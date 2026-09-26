@@ -7,11 +7,11 @@ import { renderMenu, renderPopover, type MenuProps } from '@eevenkoto/html';
 
 const accountEntries: MenuProps['entries'] = [
   { kind: 'header', label: 'Account' },
-  { id: 'profile', label: 'Profile' },
-  { id: 'library', label: 'My library', selected: true },
+  { id: 'profile', label: 'Profile', href: '#profile' },
+  { id: 'library', label: 'My library', href: '#library', selected: true },
   { kind: 'separator' },
-  { id: 'billing', label: 'Billing', disabled: true },
-  { id: 'sign-out', label: 'Sign out' },
+  { id: 'billing', label: 'Billing', href: '#billing', disabled: true },
+  { id: 'sign-out', label: 'Sign out', href: '#sign-out' },
 ];
 
 /** Nested sidebar pattern from eevenko.to (Pelaajahahmot → Lajit → leaves). */
@@ -48,6 +48,7 @@ const worldbookEntries: MenuProps['entries'] = [
         kind: 'group',
         id: 'classes',
         label: 'Luokat',
+        expanded: true,
         children: [
           { id: 'barbarian', label: 'Hurjapää', href: '#barbarian', status: 'success', statusLabel: 'Valmis' },
           { id: 'rogue', label: 'Lurjus', href: '#rogue', locked: true, lockedLabel: 'Lukittu', status: 'caution', statusLabel: 'Vedos' },
@@ -73,12 +74,12 @@ const meta: Meta<MenuProps> = {
     docs: {
       description: {
         component:
-          'Vertical action or navigation list: flat items plus nested `group` branches (<details>). Import icon.css when groups are present.',
+          'Vertical navigation list: <nav> + nested ul/li/a, with <details> branches. Import icon.css when lock icons are present.',
       },
     },
   },
   argTypes: {
-    label: { control: 'text', description: 'Accessible name for the group.' },
+    label: { control: 'text', description: 'Accessible name for the nav landmark.' },
     embedded: { control: 'boolean', description: 'Flush transparent surface for a sidebar.' },
   },
   render: (args) => renderMenu(args),
@@ -111,13 +112,42 @@ export const EmbeddedSidebar: Story = {
   },
 };
 
+export const LockedItems: Story = {
+  name: 'Locked items',
+  args: {
+    label: 'Luokat',
+    entries: [
+      { kind: 'header', label: 'Luokat' },
+      { id: 'barbarian', label: 'Hurjapää', href: '#barbarian' },
+      {
+        id: 'rogue',
+        label: 'Lurjus',
+        href: '#rogue',
+        locked: true,
+        lockedLabel: 'Lukittu',
+        status: 'caution',
+        statusLabel: 'Vedos',
+      },
+      { id: 'bard', label: 'Sensaatio', locked: true, lockedLabel: 'Lukittu' },
+      {
+        id: 'mystic',
+        label: 'Mystikko',
+        href: '#mystic',
+        locked: true,
+        lockedLabel: 'Lukittu',
+        selected: true,
+      },
+    ],
+  },
+};
+
 export const ItemsOnly: Story = {
   args: {
     label: 'View',
     entries: [
-      { id: 'text', label: 'Text' },
-      { id: 'srd', label: 'SRD' },
-      { id: 'raw', label: 'Raw markup' },
+      { id: 'text', label: 'Text', href: '#text' },
+      { id: 'srd', label: 'SRD', href: '#srd' },
+      { id: 'raw', label: 'Raw markup', href: '#raw' },
     ],
   },
 };
@@ -130,6 +160,17 @@ export const Links: Story = {
       { id: 'spells', label: 'Spells', href: '#spells' },
       { id: 'items', label: 'Items', href: '#items' },
       { id: 'monsters', label: 'Monsters', href: '#monsters' },
+    ],
+  },
+};
+
+export const ActionEscapeHatch: Story = {
+  name: 'Action escape hatch',
+  args: {
+    label: 'Session',
+    entries: [
+      { id: 'profile', label: 'Profile', href: '#profile' },
+      { id: 'sign-out', label: 'Sign out' },
     ],
   },
 };

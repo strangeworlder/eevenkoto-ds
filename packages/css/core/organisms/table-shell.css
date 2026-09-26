@@ -50,12 +50,13 @@
   background-color: var(--_eevenkoto-table-shell-index-bg);
 }
 
+/* Row stripe is the Table host default, so match it without --stripe-row too. */
 .eevenkoto-table-shell
   .eevenkoto-scroll
-  .eevenkoto-table--stripe-row
-  tbody
-  tr:nth-child(even)
-  .eevenkoto-table-cell--index {
+  .eevenkoto-table:not(.eevenkoto-table--stripe-none, .eevenkoto-table--stripe-column)
+  > tbody
+  > tr:nth-child(even)
+  > .eevenkoto-table-cell--index {
   background-color: var(--_eevenkoto-table-shell-index-stripe-bg);
 }
 

@@ -1,15 +1,15 @@
+export type TooltipCardTitleLevel = 2 | 3;
+
 export interface TooltipCardProps {
-  /** Visible section title in `__header`. Optional. */
+  /** Visible title in `<header>`. Optional. */
   title?: string;
+  /** Heading level for `title`. Default: 2 (preview panel, not a page entry). */
+  titleLevel?: TooltipCardTitleLevel;
   /** Body copy in `__body`. Optional when using framework slots. */
   body?: string;
-  /** Composes Scroll on `__body` so long copy stays inside the surface. */
-  scrollBody?: boolean;
 }
 
 export const tooltipCardClassNames = (): string => 'eevenkoto-tooltip-card';
 
-export const tooltipCardBodyClassNames = (scroll = false): string =>
-  scroll
-    ? 'eevenkoto-tooltip-card__body eevenkoto-scroll eevenkoto-scroll--y'
-    : 'eevenkoto-tooltip-card__body';
+/** The body caps itself at `--eevenkoto-tooltip-card-body-max-block-size` and scrolls. */
+export const tooltipCardBodyClassNames = (): string => 'eevenkoto-tooltip-card__body';

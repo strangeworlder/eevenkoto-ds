@@ -10,6 +10,8 @@ export type { TableCellKind, TableCellProps };
 type Shared = {
   kind?: TableCellKind;
   angled?: boolean;
+  /** Cell sits inside a `.eevenkoto-table` host, which already styles bare `th` / `td`. */
+  inTable?: boolean;
   children?: ReactNode;
   className?: string;
 };
@@ -28,11 +30,13 @@ export const TableCell = ({
   kind = 'text',
   header = false,
   angled = false,
+  inTable = false,
   children,
   className,
   ...rest
 }: TableCellComponentProps): ReactElement => {
-  const classes = [tableCellClassNames({ kind }), className].filter(Boolean).join(' ');
+  const classes =
+    [tableCellClassNames({ kind, inTable }), className].filter(Boolean).join(' ') || undefined;
   const content =
     angled && header && kind === 'numeric' ? (
       <span className="eevenkoto-table-cell__head-label">{children}</span>

@@ -8,17 +8,22 @@ const meta: Meta<CardProps> = {
     docs: {
       description: {
         component:
-          'Sectioned surface container: `__header`, `__body`, `__footer`. Frame stays the thin bordered box; Card owns section rhythm, dividers, and elevation.',
+          'Self-contained content surface: `article` + native `header` / flow / `footer`. Frame stays the thin bordered box; Card owns section rhythm, dividers, and elevation.',
       },
     },
   },
   argTypes: {
-    title: { control: 'text', description: 'Header text.' },
+    title: { control: 'text', description: 'Header heading text.' },
+    titleLevel: {
+      control: { type: 'inline-radio' },
+      options: [2, 3],
+      description: 'Heading level for `title`. Default 2.',
+    },
     body: { control: 'text', description: 'Body copy.' },
     footer: { control: 'text', description: 'Footer HTML.' },
     elevated: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
     interactive: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
-    href: { control: 'text', description: 'Renders the card as a link.' },
+    href: { control: 'text', description: 'Wraps the card contents in an inner link.' },
   },
   render: (args) => renderCard(args),
 };
@@ -46,7 +51,7 @@ export const Elevated: Story = {
 export const Interactive: Story = {
   args: {
     title: 'Open the item entry',
-    body: 'Interactive cards render as a link or button and gain hover, focus, and disabled affordances.',
+    body: 'Interactive cards keep the article host and wrap sections in a link, with hover, focus, and disabled affordances.',
     interactive: true,
     href: '#item',
   },

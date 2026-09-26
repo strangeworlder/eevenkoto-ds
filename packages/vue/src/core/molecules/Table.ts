@@ -1,5 +1,4 @@
 import {
-  tableCaptionClassNames,
   tableClassNames,
   tableColClassNames,
   type TableColumn,
@@ -31,18 +30,18 @@ export const Table = defineComponent({
       const columns = props.columns ?? [];
       const rows = props.rows ?? [];
 
-      const captionNode = props.caption
-        ? h('caption', { class: tableCaptionClassNames() }, props.caption)
-        : null;
+      const captionNode = props.caption ? h('caption', null, props.caption) : null;
 
       const colgroup =
         columns.length > 0
           ? h(
               'colgroup',
               null,
-              columns.map((col) =>
-                h('col', { key: col.key, class: tableColClassNames({ kind: col.kind }) }),
-              ),
+              columns.map((col) => {
+                const colClass = tableColClassNames({ kind: col.kind });
+                /* Vue renders class="" for an empty value, so drop the key instead. */
+                return h('col', { key: col.key, ...(colClass ? { class: colClass } : {}) });
+              }),
             )
           : null;
 
@@ -60,6 +59,7 @@ export const Table = defineComponent({
                     {
                       key: col.key,
                       header: true,
+                      inTable: true,
                       scope: 'col',
                       kind,
                       angled,
@@ -87,6 +87,7 @@ export const Table = defineComponent({
                 {
                   key: col.key,
                   header: asRowHeader,
+                  inTable: true,
                   scope: asRowHeader ? 'row' : undefined,
                   kind: asRowHeader ? 'index' : kind,
                 },

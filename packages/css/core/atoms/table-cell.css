@@ -1,9 +1,13 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: TABLE CELL (TIER 3)
    th/td atom — kinds index | numeric | text.
+   Inside a .eevenkoto-table host the base look comes from the bare th / td,
+   so only non-default kinds need a class. The zero-specificity host selector
+   keeps every --index / --numeric modifier winning over it.
    ========================================================================== */
 
-.eevenkoto-table-cell {
+.eevenkoto-table-cell,
+:where(.eevenkoto-table) > :where(thead, tbody, tfoot) > tr > :where(th, td) {
   --_eevenkoto-table-cell-color: var(
     --eevenkoto-table-cell-color,
     var(--eevenkoto-color-content-primary)
@@ -72,7 +76,8 @@
   min-width: 12rem;
 }
 
-th.eevenkoto-table-cell {
+th.eevenkoto-table-cell,
+:where(.eevenkoto-table) > :where(thead, tbody, tfoot) > tr > th {
   font-weight: var(--eevenkoto-font-weight-bold);
 }
 
@@ -83,7 +88,8 @@ th.eevenkoto-table-cell {
 }
 
 @media (forced-colors: active) {
-  .eevenkoto-table-cell {
+  .eevenkoto-table-cell,
+  :where(.eevenkoto-table) > :where(thead, tbody, tfoot) > tr > :where(th, td) {
     border-color: CanvasText;
   }
 }

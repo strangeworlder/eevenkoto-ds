@@ -32,7 +32,29 @@ Core **molecule** for real `<table>` charts. Composes [TableCell](?path=/docs/co
 
 <Canvas of={TableStories.Default} />
 
-Minimum markup is the host class: `<table class="eevenkoto-table">` is the **default** variant with **row** striping. Cells need `eevenkoto-table-cell` (kind defaults to text without `--text`). Opt out of stripes with `eevenkoto-table--stripe-none`.
+Minimum markup is the host class: `<table class="eevenkoto-table">` is the **default** variant with **row** striping. Everything that can only live inside a table — `caption`, `col`, `tr`, `th`, `td` — is styled from the host, so those tags stay bare. Cells get the [TableCell](?path=/docs/core-atoms-tablecell--docs) recipe with `text` as the default kind; add `eevenkoto-table-cell--index` / `--numeric` (and the matching `eevenkoto-table__col--*`) only for narrow columns. Opt out of stripes with `eevenkoto-table--stripe-none`.
+
+```html
+<table class="eevenkoto-table">
+  <caption>Class progression</caption>
+  <colgroup>
+    <col class="eevenkoto-table__col--index" />
+    <col />
+  </colgroup>
+  <thead>
+    <tr>
+      <th scope="col" class="eevenkoto-table-cell--index">Level</th>
+      <th scope="col">Feature</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="eevenkoto-table-cell--index">1</td>
+      <td>Spellcasting</td>
+    </tr>
+  </tbody>
+</table>
+```
 
 ### Playground
 
@@ -96,7 +118,6 @@ Pager is not shipped yet — put future Pager in the TableShell footer slot.
 ## Framework packages
 
 ```ts
-import '@eevenkoto/css/table-cell.css';
 import '@eevenkoto/css/table.css';
 import { renderTable } from '@eevenkoto/html';
 
@@ -115,7 +136,6 @@ renderTable({
 ```
 
 ```tsx
-import '@eevenkoto/css/table-cell.css';
 import '@eevenkoto/css/table.css';
 import { Table } from '@eevenkoto/react';
 
@@ -135,7 +155,6 @@ import { Table } from '@eevenkoto/react';
 
 ```vue
 <script setup>
-import '@eevenkoto/css/table-cell.css';
 import '@eevenkoto/css/table.css';
 import { Table } from '@eevenkoto/vue';
 
