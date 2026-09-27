@@ -5,7 +5,11 @@
    Host styles native header / footer; the title look is remapped here, so a
    real heading needs no Heading atom. The body is a classed region that owns
    its own cap: long copy scrolls inside it while header and footer stay pinned.
+   Body copy is Prose (bare p / ul / ol / li) — the class is on the body, and
+   this sheet imports prose.css so the panel does not depend on a page wrapper.
    ========================================================================== */
+
+@import url('./prose.css');
 
 .eevenkoto-tooltip-card {
   --_eevenkoto-tooltip-card-bg: var(
@@ -114,14 +118,14 @@
 .eevenkoto-tooltip-card__body {
   display: flex;
   flex-direction: column;
-  gap: var(--_eevenkoto-tooltip-card-gap);
   max-block-size: var(--_eevenkoto-tooltip-card-body-max-block-size);
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-.eevenkoto-tooltip-card__body > :is(p, ul, ol) {
-  margin: 0;
+/* Prose owns block rhythm. Last child must not leave a trailing margin inside the scrollport. */
+.eevenkoto-tooltip-card__body > :last-child {
+  margin-block-end: 0;
 }
 
 .eevenkoto-tooltip-card :where(footer),

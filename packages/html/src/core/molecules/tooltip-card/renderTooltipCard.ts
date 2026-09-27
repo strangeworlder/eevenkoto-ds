@@ -29,7 +29,7 @@ export const renderTooltipCard = (args: TooltipCardProps): string => {
 
   const bodyInner = `${args.body ? `<p>${escapeHtml(args.body)}</p>` : ''}${args.content ?? ''}`;
   const body = bodyInner
-    ? `<div class="${tooltipCardBodyClassNames()}">${bodyInner}</div>`
+    ? `<div class="${tooltipCardBodyClassNames()}" tabindex="0">${bodyInner}</div>`
     : '';
 
   const footer = args.footer ? `<footer>${args.footer}</footer>` : '';

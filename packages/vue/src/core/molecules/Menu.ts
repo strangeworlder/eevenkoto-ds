@@ -71,6 +71,7 @@ const renderEntries = (
             href: entry.href,
             'aria-current': entry.selected ? 'page' : undefined,
             'aria-disabled': entry.disabled || lockedNoHref ? 'true' : undefined,
+            tabindex: entry.disabled || lockedNoHref ? '-1' : undefined,
           },
           itemChildren(entry),
         ),

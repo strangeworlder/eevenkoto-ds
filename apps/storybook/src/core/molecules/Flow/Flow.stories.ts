@@ -22,7 +22,7 @@ const sampleContent = (): string =>
       tone: 'secondary',
       text: 'Paragraph-to-paragraph rhythm uses a dedicated flow gap.',
     }),
-    renderHeading({ level: 4, text: 'Next cluster' }),
+    renderHeading({ level: 3, text: 'Next cluster' }),
     renderParagraph({ text: 'Content → heading opens more air than heading → content.' }),
     renderCaption({ text: 'Caption sits close to the block it annotates.' }),
   ].join('');

@@ -33,7 +33,7 @@ export const TooltipCard = defineComponent({
       if (props.body) bodyChildren.push(h('p', props.body));
       if (slots.default) bodyChildren.push(slots.default());
       if (bodyChildren.length > 0) {
-        children.push(h('div', { class: bodyClassName.value }, bodyChildren));
+        children.push(h('div', { class: bodyClassName.value, tabindex: '0' }, bodyChildren));
       }
 
       if (slots.footer) {

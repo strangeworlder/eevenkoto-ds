@@ -11,5 +11,9 @@ export interface TooltipCardProps {
 
 export const tooltipCardClassNames = (): string => 'eevenkoto-tooltip-card';
 
-/** The body caps itself at `--eevenkoto-tooltip-card-body-max-block-size` and scrolls. */
-export const tooltipCardBodyClassNames = (): string => 'eevenkoto-tooltip-card__body';
+/**
+ * The body caps itself at `--eevenkoto-tooltip-card-body-max-block-size` and scrolls.
+ * `eevenkoto-prose` is required: bare `p` / `ul` / `ol` / `li` only get type styles under Prose.
+ */
+export const tooltipCardBodyClassNames = (): string =>
+  'eevenkoto-tooltip-card__body eevenkoto-prose';

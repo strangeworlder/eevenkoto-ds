@@ -43,7 +43,7 @@ export const TooltipCard = ({
         <header>{header ?? createElement(`h${level}`, null, title)}</header>
       ) : null}
       {hasBody ? (
-        <div className={tooltipCardBodyClassNames()}>
+        <div className={tooltipCardBodyClassNames()} tabIndex={0}>
           {body ? <p>{body}</p> : null}
           {children}
         </div>

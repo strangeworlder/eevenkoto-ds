@@ -27,7 +27,7 @@ export const Notice = ({
   const classes = [noticeClassNames({ intent, variant }), className].filter(Boolean).join(' ');
 
   return (
-    <aside className={classes} role={role} {...rest}>
+    <div className={classes} role={role} {...rest}>
       {icon ? (
         <span className="eevenkoto-notice__icon" aria-hidden="true">
           {icon}
@@ -39,6 +39,6 @@ export const Notice = ({
         {children}
         {actions ? <div className="eevenkoto-notice__actions">{actions}</div> : null}
       </div>
-    </aside>
+    </div>
   );
 };

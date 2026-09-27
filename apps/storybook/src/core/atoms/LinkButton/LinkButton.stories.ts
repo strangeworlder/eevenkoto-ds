@@ -1,5 +1,6 @@
 // apps/storybook/src/core/atoms/LinkButton/LinkButton.stories.ts
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { BUTTON_ICON_NAMES } from '@eevenkoto/core';
 import '@eevenkoto/css/link-button.css';
 import '@eevenkoto/css/icon.css';
@@ -102,6 +103,13 @@ export const Default: Story = {
     variant: 'primary',
     label: 'Start playing',
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const link = canvas.getByRole('link', { name: 'Start playing' });
+    link.addEventListener('click', (event) => event.preventDefault());
+    await userEvent.tab();
+    await expect(link).toHaveFocus();
+  },
 };
 
 export const Secondary: Story = {
@@ -133,6 +141,15 @@ export const Disabled: Story = {
     href: '#link-button',
     disabled: true,
     label: 'Coming soon',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const link = canvas.getByText('Coming soon');
+    await expect(link).toHaveAttribute('aria-disabled', 'true');
+    await expect(link).toHaveAttribute('tabindex', '-1');
+    await expect(link).not.toHaveAttribute('href');
+    await userEvent.tab();
+    await expect(link).not.toHaveFocus();
   },
 };
 

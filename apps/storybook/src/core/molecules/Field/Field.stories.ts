@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import type { FieldProps as FieldCoreProps } from '@eevenkoto/core';
 import '@eevenkoto/css/field.css';
 import '@eevenkoto/css/input.css';
@@ -86,6 +87,26 @@ export const WithError: Story = {
     error: 'Enter an email address that includes @.',
     value: 'gjør-not-an-email',
     type: 'email',
+  },
+};
+
+export const Keyboard: Story = {
+  args: {
+    label: 'Email',
+    htmlFor: 'field-email-keyboard',
+    error: 'Enter an email address that includes @.',
+    value: 'not-an-email',
+    type: 'email',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('textbox', { name: 'Email' });
+    await expect(input).toHaveAccessibleDescription('Enter an email address that includes @.');
+    await userEvent.tab();
+    await expect(input).toHaveFocus();
+    await userEvent.clear(input);
+    await userEvent.keyboard('ada@example.com');
+    await expect(input).toHaveValue('ada@example.com');
   },
 };
 

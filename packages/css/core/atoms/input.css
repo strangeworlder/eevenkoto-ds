@@ -91,7 +91,9 @@
   appearance: none;
 }
 
-.eevenkoto-input:hover:not(:has(.eevenkoto-input__field:disabled)) {
+.eevenkoto-input:hover:not(:has(.eevenkoto-input__field:disabled)):not(.eevenkoto-input--invalid):not(
+    :has(.eevenkoto-input__field[aria-invalid='true'])
+  ) {
   --eevenkoto-input-bg: var(--eevenkoto-color-form-input-background-hover);
 }
 

@@ -59,7 +59,8 @@ const renderEntry = (entry: MenuEntry): string => {
   const lockedNoHref = Boolean(entry.locked && !entry.href);
 
   if (entry.href) {
-    const disabledAttrs = entry.disabled || lockedNoHref ? ' aria-disabled="true"' : '';
+    const linkInactive = Boolean(entry.disabled || lockedNoHref);
+    const disabledAttrs = linkInactive ? ' aria-disabled="true" tabindex="-1"' : '';
     const currentAttr = entry.selected ? ' aria-current="page"' : '';
     return wrapItem(
       `<a class="${className}" href="${escapeHtml(entry.href)}"${currentAttr}${disabledAttrs}>${inner}</a>`,

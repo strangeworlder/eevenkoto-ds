@@ -55,11 +55,11 @@
   --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-critical-icon);
 }
 
-/* Spell keeps the info fill but takes its ink and stroke from the turquoise
-   control tuple, so it reads as arcane rather than informational chrome. */
+/* Spell keeps the info fill. Ink is the link color so it stays 4.5:1 on
+   parchment; the stroke stays on the turquoise control tuple. */
 .eevenkoto-entity-ref--spell {
   --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-info-background);
-  --eevenkoto-inline-ref-text: var(--eevenkoto-color-control-primary-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-link-default);
   --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-control-primary-border);
   --eevenkoto-inline-ref-underline: var(--eevenkoto-color-control-primary-icon);
 }

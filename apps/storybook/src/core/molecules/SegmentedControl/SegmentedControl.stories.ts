@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/segmented-control.css';
 import { renderSegmentedControl, type SegmentedControlProps } from '@eevenkoto/html';
@@ -79,6 +80,19 @@ export const Default: Story = {
     size: 'md',
     label: 'Document version',
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const text = canvas.getByRole('radio', { name: 'Text' });
+    const srd = canvas.getByRole('radio', { name: 'SRD' });
+    await userEvent.tab();
+    await expect(text).toHaveFocus();
+    await userEvent.keyboard('{ArrowRight}');
+    await expect(srd).toBeChecked();
+    await expect(srd).toHaveFocus();
+    await userEvent.keyboard('{ArrowLeft}');
+    await expect(text).toBeChecked();
+    await expect(text).toHaveFocus();
+  },
 };
 
 export const Links: Story = {
@@ -88,6 +102,18 @@ export const Links: Story = {
     options: linkOptions,
     selectedId: 'text',
     label: 'Document version',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const text = canvas.getByRole('link', { name: 'Text' });
+    const srd = canvas.getByRole('link', { name: 'SRD' });
+    text.addEventListener('click', (event) => event.preventDefault());
+    srd.addEventListener('click', (event) => event.preventDefault());
+    await expect(text).toHaveAttribute('aria-current', 'page');
+    await userEvent.tab();
+    await expect(text).toHaveFocus();
+    await userEvent.tab();
+    await expect(srd).toHaveFocus();
   },
 };
 

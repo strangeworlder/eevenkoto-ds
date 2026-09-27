@@ -4,6 +4,12 @@ All notable changes to the `@eevenkoto/*` packages are documented here.
 
 Published package version is **0.9.0**.
 
+## Unreleased
+
+### Changed
+
+- **TooltipCard body** — carries `eevenkoto-prose` (and `tooltip-card.css` imports `prose.css`) so bare `p` / `ul` / `ol` / `li` in a preview get type styles without a page-level Prose wrapper. Hand HTML must include both classes on the body
+
 ## 0.9.0
 
 ### Changed

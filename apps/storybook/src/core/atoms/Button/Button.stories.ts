@@ -1,5 +1,6 @@
 // apps/storybook/src/Button/Button.stories.ts
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { BUTTON_ICON_NAMES } from '@eevenkoto/core';
 import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/icon.css';
@@ -81,6 +82,19 @@ export const Default: Story = {
     variant: 'primary',
     label: 'Standard Button',
   },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: 'Standard Button' });
+    let activations = 0;
+    button.addEventListener('click', () => {
+      activations += 1;
+    });
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard(' ');
+    await expect(activations).toBe(2);
+  },
 };
 
 export const Secondary: Story = {
@@ -118,6 +132,19 @@ export const Disabled: Story = {
     variant: 'primary',
     disabled: true,
     label: 'Disabled Button',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: 'Disabled Button' });
+    let activations = 0;
+    button.addEventListener('click', () => {
+      activations += 1;
+    });
+    await expect(button).toBeDisabled();
+    await userEvent.tab();
+    await expect(button).not.toHaveFocus();
+    await userEvent.click(button);
+    await expect(activations).toBe(0);
   },
 };
 

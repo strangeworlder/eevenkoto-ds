@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import '@eevenkoto/css/input.css';
 import '@eevenkoto/css/icon.css';
 import { renderInput, type InputProps } from '@eevenkoto/html';
@@ -86,6 +87,23 @@ export const Invalid: Story = {
     value: 'gjør-not-an-email',
     type: 'email',
     invalid: true,
+  },
+};
+
+export const Keyboard: Story = {
+  args: {
+    id: 'keyboard-search',
+    ariaLabel: 'Search spells',
+    placeholder: 'Fireball',
+    search: true,
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('searchbox', { name: 'Search spells' });
+    await userEvent.tab();
+    await expect(input).toHaveFocus();
+    await userEvent.keyboard('Fire');
+    await expect(input).toHaveValue('Fire');
   },
 };
 

@@ -16,7 +16,7 @@ export const Scroll = ({
 }: ScrollComponentProps): ReactElement => {
   const classes = [scrollClassNames({ axis }), className].filter(Boolean).join(' ');
   return (
-    <div className={classes} {...rest}>
+    <div className={classes} tabIndex={0} {...rest}>
       {children}
     </div>
   );

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import '@eevenkoto/css/chip.css';
 import { renderChip, type ChipProps } from '@eevenkoto/html';
 
@@ -35,6 +36,28 @@ export const Selected: Story = {
   args: {
     label: 'Pelaaja',
     selected: true,
+  },
+};
+
+export const Keyboard: Story = {
+  render: () =>
+    `<p>${renderChip({ label: 'Seuraaja' })}${renderChip({
+      label: 'Pelaaja',
+      href: '#player',
+    })}${renderChip({ label: 'Lukittu', disabled: true })}</p>`,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button', { name: 'Seuraaja' });
+    const link = canvas.getByRole('link', { name: 'Pelaaja' });
+    const disabled = canvas.getByRole('button', { name: 'Lukittu' });
+    link.addEventListener('click', (event) => event.preventDefault());
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await userEvent.tab();
+    await expect(link).toHaveFocus();
+    await expect(disabled).toBeDisabled();
+    await userEvent.tab();
+    await expect(disabled).not.toHaveFocus();
   },
 };
 

@@ -43,7 +43,7 @@ export const Notice = defineComponent({
       }
       children.push(h('div', { class: 'eevenkoto-notice__content' }, contentChildren));
 
-      return h('aside', { class: className.value, role: props.role }, children);
+      return h('div', { class: className.value, role: props.role }, children);
     };
   },
 });

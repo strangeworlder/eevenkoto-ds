@@ -10,6 +10,6 @@ export const Scroll = defineComponent({
   },
   setup(props, { slots }) {
     const className = computed(() => scrollClassNames({ axis: props.axis }));
-    return () => h('div', { class: className.value }, slots.default?.());
+    return () => h('div', { class: className.value, tabindex: '0' }, slots.default?.());
   },
 });

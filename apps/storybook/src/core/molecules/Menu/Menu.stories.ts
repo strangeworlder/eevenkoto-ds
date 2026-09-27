@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import '@eevenkoto/css/menu.css';
 import '@eevenkoto/css/icon.css';
 import '@eevenkoto/css/popover.css';
@@ -172,6 +173,60 @@ export const ActionEscapeHatch: Story = {
       { id: 'profile', label: 'Profile', href: '#profile' },
       { id: 'sign-out', label: 'Sign out' },
     ],
+  },
+};
+
+export const Keyboard: Story = {
+  args: {
+    label: 'Worldbook',
+    entries: [
+      {
+        kind: 'group',
+        id: 'intro',
+        label: 'Johdanto',
+        children: [{ id: 'welcome', label: 'Tervetuloa', href: '#welcome' }],
+      },
+      {
+        kind: 'group',
+        id: 'rules',
+        label: 'Säännöt',
+        children: [{ id: 'combat', label: 'Taistelu', href: '#combat' }],
+      },
+      { id: 'billing', label: 'Billing', href: '#billing', disabled: true },
+      { id: 'bard', label: 'Sensaatio', locked: true, lockedLabel: 'Lukittu' },
+    ],
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const intro = canvas.getByText('Johdanto');
+    const rules = canvas.getByText('Säännöt');
+    await userEvent.tab();
+    await expect(intro).toHaveFocus();
+    await userEvent.keyboard('{Enter}');
+    // Chromium does not run the summary default action for an untrusted Enter.
+    if (!intro.closest('details')?.hasAttribute('open')) intro.click();
+    await expect(intro.closest('details')).toHaveAttribute('open');
+
+    const welcome = canvas.getByRole('link', { name: 'Tervetuloa' });
+    welcome.addEventListener('click', (event) => event.preventDefault());
+    await userEvent.tab();
+    await expect(welcome).toHaveFocus();
+
+    await userEvent.tab();
+    await expect(rules).toHaveFocus();
+    await userEvent.keyboard(' ');
+    if (!rules.closest('details')?.hasAttribute('open')) rules.click();
+    await expect(rules.closest('details')).toHaveAttribute('open');
+
+    const billing = canvas.getByRole('link', { name: 'Billing' });
+    billing.addEventListener('click', (event) => event.preventDefault());
+    await expect(billing).toHaveAttribute('aria-disabled', 'true');
+    await expect(billing).toHaveAttribute('tabindex', '-1');
+    await userEvent.tab();
+    await expect(billing).not.toHaveFocus();
+
+    const locked = canvas.getByRole('button', { name: /Sensaatio/ });
+    await expect(locked).toBeDisabled();
   },
 };
 

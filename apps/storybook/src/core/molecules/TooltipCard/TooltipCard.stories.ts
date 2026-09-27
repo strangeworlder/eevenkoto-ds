@@ -45,6 +45,8 @@ export const ScrollingBody: Story = {
   args: {
     title: 'Cure Wounds',
     body: longBody,
+    content:
+      '<ul><li>This spell has no effect on undead or constructs.</li><li>Healing increases by 1d8 for each slot level above 1st.</li></ul>',
     footer: '1st-level evocation · Touch',
   },
 };

@@ -572,6 +572,10 @@ const renderMotion = (): string => `
 const meta: Meta = {
   title: 'Foundations/Tokens',
   parameters: {
+    a11y: {
+      // Swatches paint labels on raw pigments. Pair contrast is scripts/contrast-audit.mjs.
+      test: 'off',
+    },
     controls: { disable: true },
     actions: { disable: true },
     docs: {

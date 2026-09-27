@@ -37,14 +37,17 @@ Header / body / footer on a popover-like surface: `surface-raised` plus the two 
   <header>
     <h2>Cure Wounds</h2>
   </header>
-  <div class="eevenkoto-tooltip-card__body">
+  <div class="eevenkoto-tooltip-card__body eevenkoto-prose">
     <p>A creature you touch regains hit points.</p>
+    <ul>
+      <li>This spell has no effect on undead or constructs.</li>
+    </ul>
   </div>
   <footer><a href="/spells/cure-wounds">Avaa sivu →</a></footer>
 </div>
 ```
 
-The host styles native `<header>` and `<footer>`, and the title is a real heading (default **H2**) remapped on the panel — do not compose the Heading atom. The body keeps a class because it is the scroll region: it caps itself and scrolls, so long copy never pushes the footer out of the panel. `__header` / `__footer` remain optional aliases.
+The host styles native `<header>` and `<footer>`, and the title is a real heading (default **H2**) remapped on the panel — do not compose the Heading atom. The body keeps a class because it is the scroll region: it caps itself and scrolls, so long copy never pushes the footer out of the panel. It also carries `eevenkoto-prose`, because bare `p` / `ul` / `ol` / `li` only get type styles under [Prose](?path=/docs/core-molecules-prose--docs). `tooltip-card.css` imports that sheet, so a preview does not depend on a page-level Prose wrapper. `__header` / `__footer` remain optional aliases.
 
 ### Playground
 
@@ -116,7 +119,7 @@ As a direct Popover child it drops its own border, radius, and shadow and zeroes
 | Host | `<div class="eevenkoto-tooltip-card">` |
 | Header | descendant `header` (optional `.eevenkoto-tooltip-card__header`) |
 | Title | `h2` (or `h3` via `titleLevel`) inside `header` |
-| Body | `.eevenkoto-tooltip-card__body` — classed because it is the capped scroll region |
+| Body | `.eevenkoto-tooltip-card__body.eevenkoto-prose` — capped scroll region; Prose so bare `p` / lists style |
 | Footer | descendant `footer` (optional `.eevenkoto-tooltip-card__footer`) |
 
 ## Usage

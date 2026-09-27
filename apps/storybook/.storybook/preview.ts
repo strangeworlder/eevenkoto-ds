@@ -30,6 +30,15 @@ const preview: Preview = {
   },
   decorators: [withTheme],
   parameters: {
+    a11y: {
+      test: 'error',
+    },
+    chromatic: {
+      modes: {
+        light: { theme: 'light' },
+        dark: { theme: 'dark' },
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
