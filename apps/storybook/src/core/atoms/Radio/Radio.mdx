@@ -1,0 +1,169 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as RadioStories from './Radio.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={RadioStories} />
+
+# Radio
+
+Accessible single-choice radio button consuming Tier 2 form tokens (`--eevenkoto-color-control-secondary-*`, `--eevenkoto-color-surface-sunken`). Renders a native `<input type="radio">` wrapped in a `<label class="eevenkoto-radio">`.
+
+<Canvas of={RadioStories.Default} />
+
+Host alone is **default** inline appearance, **md** size, enabled, and unchecked.
+
+### Playground
+
+<Controls of={RadioStories.Default} />
+
+## Why to use
+
+Mutually exclusive choices need clear affordance, keyboard arrow navigation, and flexible presentations ranging from compact inline options to rich trait cards or selection tiles.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use Radio for mutually exclusive options in a list or group.</li>
+      <li>Use <code>variant="card"</code> for descriptive options with secondary text and pricing.</li>
+      <li>Use <code>variant="tile"</code> for compact grid-aligned options (e.g. dice steps or category tags).</li>
+      <li>Group related options with <strong>RadioGroup</strong> to provide a shared <code>&lt;legend&gt;</code> and managed value state.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don't use Radio when multiple selections are allowed — use <strong>Checkbox</strong>.</li>
+      <li>Don't leave a radio button without a matching <code>name</code> attribute connecting it to its set.</li>
+    </ul>
+  }
+/>
+
+## Radio vs other form controls
+
+| User Task | Recommended Component | Why | When NOT to use Radio |
+| --- | --- | --- | --- |
+| **Pick 1 from 2–5 visible options** (e.g. Melee vs Ranged, Light/Medium/Heavy) | **Radio** / **RadioGroup** | Mutually exclusive. All options are visible simultaneously for instant scanning. | If user can select more than one, use **Checkbox** / **CheckboxGroup**. |
+| **Pick 1 from 6+ options** (e.g. 12 weapon classes, 20 spells) | **Select** | Compact dropdown. Prevents long lists from cluttering the viewport. | Don't use Radio when vertical space is limited and option count > 5. |
+| **Switch views, document tabs, or modes** (2–4 short choices) | **SegmentedControl** | Compact horizontal connected pill toolbar. Optimized for in-page views/tabs. | Not for detailed forms or options needing mechanics descriptions. |
+| **Independent on/off toggle** (e.g. "I accept rules") | **Checkbox** | Standard binary state. Radios should never be used alone without a counterpart. | Never use a single radio button as an on/off switch. |
+| **Numeric rank or quantity** (e.g. ranks 0–5) | **Stepper** | One-tap `+` / `−` adjustments with min/max bounds. | Don't create 6 radio buttons for numbers 0, 1, 2, 3, 4, 5. |
+
+### Choosing Radio variants: Default vs Card vs Tile
+
+- **Use default inline Radio** (`variant="default"`): For simple single-line options in standard vertical form lists without secondary copy.
+- **Use card Radio** (`variant="card"`): When options require **secondary descriptions**, **mechanics explanations**, or **price badges** (e.g. Melee vs Ranged weapon types with reach/range rules).
+- **Use tile Radio** (`variant="tile"`): For compact, categorical choices arranged in a multi-column grid (e.g. Armor categories: "Kevyt", "Keskiraskas", "Raskas" in a 3-column row, or dice tier pickers).
+
+## Card variant
+
+Card radios display with borders, hover elevation, and an active surface tint when selected.
+
+<Canvas of={RadioStories.CardVariant} />
+
+## Tile variant
+
+Compact tile appearance with centered content, suitable for grid layouts.
+
+<Canvas of={RadioStories.TileVariant} />
+
+## Minimum classes
+
+Host alone renders the default inline radio:
+
+```html
+<label class="eevenkoto-radio">
+  <input type="radio" name="example" value="opt" class="eevenkoto-radio__control" />
+  <span class="eevenkoto-radio__content">
+    <strong class="eevenkoto-radio__title">Label</strong>
+  </span>
+</label>
+```
+
+Add `eevenkoto-radio--card` or `eevenkoto-radio--tile` for variant layouts.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | **required** | Name of the radio button group. |
+| `value` | `string` | **required** | Value submitted when selected. |
+| `label` | `string` | **required** | Accessible visible label. |
+| `description` | `string` | — | Secondary descriptive copy. |
+| `badge` | `string` | — | Right-aligned badge or tag. |
+| `checked` | `boolean` | `false` | Checked state. |
+| `disabled` | `boolean` | `false` | Disabled state. |
+| `variant` | `'default' \| 'card' \| 'tile'` | `'default'` | Visual display variant. |
+| `size` | `'sm' \| 'md'` | `'md'` | Sizing scale. |
+
+<ArgTypes of={RadioStories} />
+
+## Framework packages
+
+```html
+<!-- HTML -->
+<label class="eevenkoto-radio eevenkoto-radio--card">
+  <input type="radio" name="weaponType" value="kantama" class="eevenkoto-radio__control" />
+  <span class="eevenkoto-radio__content">
+    <strong class="eevenkoto-radio__title">Kantama-ase</strong>
+    <span class="eevenkoto-radio__description">KET · Kantama 20/60 m</span>
+  </span>
+</label>
+```
+
+```tsx
+// React
+import { Radio } from '@eevenkoto/react';
+
+<Radio
+  name="weaponType"
+  value="kantama"
+  label="Kantama-ase"
+  description="KET · Kantama 20/60 m"
+  variant="card"
+  checked={val === 'kantama'}
+  onChange={(e) => setVal(e.target.value)}
+/>
+```
+
+```vue
+<!-- Vue -->
+<script setup>
+import { Radio } from '@eevenkoto/vue';
+const val = ref('kantama');
+</script>
+
+<template>
+  <Radio
+    name="weaponType"
+    value="kantama"
+    label="Kantama-ase"
+    description="KET · Kantama 20/60 m"
+    variant="card"
+    :checked="val === 'kantama'"
+    @change="val = 'kantama'"
+  />
+</template>
+```

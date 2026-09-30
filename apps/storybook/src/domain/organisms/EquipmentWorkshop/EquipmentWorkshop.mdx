@@ -1,0 +1,180 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as EquipmentWorkshopStories from './EquipmentWorkshop.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={EquipmentWorkshopStories} />
+
+# EquipmentWorkshop
+
+**EquipmentWorkshop** ("Varusteverstas") is an interactive craft organism that allows players and game masters to design customized weapons, armor, and shields. It features a responsive two-column layout: interactive configuration controls on the left, and a sticky live preview rendered by `EquipmentBlock` on the right.
+
+English code API (`EquipmentWorkshopProps`); Finnish game rules, default values, and presets live as data inside `@eevenkoto/core`.
+
+<Canvas of={EquipmentWorkshopStories.Default} />
+
+## Why to use
+
+Interactive weapon and armor crafters in TTRPG websites frequently degrade into unmaintainable, ad-hoc "Frankenstein" components with raw hex colors, hardcoded CSS, and mismatched form elements. EquipmentWorkshop solves this by:
+
+- **100% design system composition**: Reuses SegmentedControl, Input, Button, Badge, Chip, Notice, and EquipmentBlock.
+- **Pure rule-engine separation**: Math, dice ladder calculations, trait budgets, and presets reside in `@eevenkoto/core` (`calculateWeapon`, `calculateArmor`).
+- **Zero-runtime vanilla option**: SSR-friendly HTML markup with lightweight vanilla client-side interactivity (`initEquipmentWorkshop`), plus idiomatic React and Vue components.
+- **Copy-to-clipboard**: Formats the final weapon or armor into standard Markdown suitable for Discord, roll20, or character sheet notes.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use on equipment craft, shop, or workshop pages (e.g. <code>/varusteet/aseet_ja_haarniskat</code>).</li>
+      <li>Use <code>autoInitEquipmentWorkshops()</code> in Astro or static pages for zero-boilerplate activation.</li>
+      <li>Use the calculation engine from <code>@eevenkoto/core</code> if you need headless equipment math in your own tools.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don't build custom Frankenstein forms for weapon/armor crafting in consumer apps.</li>
+      <li>Don't inline color or spacing variables — consume Tier 2 tokens and component stylesheets.</li>
+      <li>Don't duplicate equipment rules math in application code.</li>
+    </ul>
+  }
+/>
+
+## Composition map
+
+| Scope | Layer | Piece | Role |
+| --- | --- | --- | --- |
+| Core | Atom | [Button](?path=/docs/core-atoms-button--docs) | Randomize name, steppers, preset actions |
+| Core | Atom | [Input](?path=/docs/core-atoms-input--docs) | Custom weapon/armor name entry |
+| Core | Atom | [Badge](?path=/docs/core-atoms-badge--docs) | Trait counters and budget limits |
+| Core | Molecule | [SegmentedControl](?path=/docs/core-molecules-segmentedcontrol--docs) | Mode switch (Aseet vs Haarniskat) |
+| Domain | Organism | [EquipmentBlock](?path=/docs/domain-organisms-equipmentblock--docs) | Live reactive item preview |
+| Domain | Organism | **EquipmentWorkshop** | Complete interactive workshop organism |
+
+## Anatomy
+
+```
+EquipmentWorkshop
+├── Header
+│   ├── Segmented Control (Weapons vs Armor)
+│   └── Preset Selector dropdown
+├── Body (responsive 2-column grid)
+│   ├── Controls Column
+│   │   ├── Name row (input + randomizer button)
+│   │   ├── Radio Grid (class, type)
+│   │   ├── Trait selections (checkboxes, steppers)
+│   │   └── Extra / Aether traits & Shield dropdown
+│   └── Preview Column (sticky)
+│       └── EquipmentBlock (live reactive update + copy button)
+└── Toast feedback ("Varustetiedot kopioitu leikepöydälle!")
+```
+
+## Accessibility
+
+- Mode switch uses standard `role="tablist"` or fieldset with radio inputs.
+- Option groupings use accessible legends and labels.
+- Stepper buttons provide clear `+` / `−` controls with accessible `disabled` states when budget limits are reached.
+- Clipboard toast uses `role="alert"` and `aria-live="polite"`.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `initialMode` | `'weapons' \| 'armor'` | `'weapons'` | Starting mode tab. |
+| `initialWeapon` | `WeaponSpec` | `DEFAULT_WEAPON_SPEC` | Initial weapon specification. |
+| `initialArmor` | `ArmorSpec` | `DEFAULT_ARMOR_SPEC` | Initial armor specification. |
+| `idSuffix` | `string` | `''` | Suffix to ensure unique input IDs when multiple workshops exist. |
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-equipment-workshop` | Organism root container |
+| `eevenkoto-equipment-workshop__header` | Mode navigation and preset selector row |
+| `eevenkoto-equipment-workshop__body` | Two-column responsive layout container |
+| `eevenkoto-equipment-workshop__controls` | Form controls container column |
+| `eevenkoto-equipment-workshop__preview` | Sticky live preview column |
+| `eevenkoto-equipment-workshop__radio-grid` | Responsive grid of radio selection cards |
+| `eevenkoto-equipment-workshop__stepper-grid` | Grid of numeric stepper incrementors |
+| `eevenkoto-equipment-workshop__toast` | Toast notification on copy |
+
+## Framework packages
+
+```bash
+npm install @eevenkoto/css @eevenkoto/html
+# or @eevenkoto/react / @eevenkoto/vue
+```
+
+### Vanilla HTML / Astro
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/equipment-block.css';
+import '@eevenkoto/css/equipment-workshop.css';
+import { renderEquipmentWorkshop } from '@eevenkoto/html';
+---
+
+<div set:html={renderEquipmentWorkshop()} />
+
+<script>
+  import { autoInitEquipmentWorkshops } from '@eevenkoto/html';
+  autoInitEquipmentWorkshops();
+</script>
+```
+
+### React
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/equipment-block.css';
+import '@eevenkoto/css/equipment-workshop.css';
+import { EquipmentWorkshop } from '@eevenkoto/react';
+
+export default function WorkshopPage() {
+  return <EquipmentWorkshop initialMode="weapons" />;
+}
+```
+
+### Vue
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/equipment-block.css';
+import '@eevenkoto/css/equipment-workshop.css';
+import { EquipmentWorkshop } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <EquipmentWorkshop initial-mode="weapons" />
+</template>
+```
+
+## Related
+
+- [EquipmentBlock](?path=/docs/domain-organisms-equipmentblock--docs) — Equipment card organism
+- [Statblock](?path=/docs/domain-organisms-statblock--docs) — Creature/entity entry card
+- [SegmentedControl](?path=/docs/core-molecules-segmentedcontrol--docs) — Mode switch

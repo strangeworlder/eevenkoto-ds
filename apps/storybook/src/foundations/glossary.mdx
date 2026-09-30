@@ -141,6 +141,26 @@ Never put `href` on Button or wrap a Button in an `<a>`. Pick by **what happens*
 
 LinkButton looks related to Button on purpose (marketing CTAs) but stays a link: end-scoop shape, hover translate, no visited purple. Button is for **doing**; LinkButton is for **going**.
 
+## Form controls chooser
+
+Pick the control based on **selection cardinality** (how many items can be chosen), **option count**, and **canvas space / scanning demand**.
+
+| User Task / Scenario | Recommended | Why | When NOT to use |
+| --- | --- | --- | --- |
+| **Independent on/off toggle** (e.g. "I accept rules", "Equipped") | **Checkbox** | Standard binary switch. | Do not use Radio for standalone toggles. |
+| **Multi-select from a list (0 to N)** (e.g. weapon traits, skills) | **CheckboxGroup** | Fieldset grouping checkboxes; supports budget `badge`. | If only ONE choice is allowed, use RadioGroup or Select. |
+| **Single choice from 2–5 visible options** (e.g. Melee vs Ranged) | **RadioGroup** | All options visible for rapid comparison and arrow navigation. | If there are 6+ options or space is tight, use Select. |
+| **Single choice from 6+ options** (e.g. 15 weapon classes, categories) | **Select** | Compact single-row height; mobile OS pickers; `<optgroup>`. | If options need instant visual comparison, use RadioGroup. |
+| **In-page view switcher or mode toggle** (2–4 items) | **SegmentedControl** | Horizontal connected pill toolbar for view modes. | Not for form surveys or options with mechanics copy. |
+| **Bounded small integer quantity or rank** (e.g. ranks 0–5, quantities 1–10) | **Stepper** | One-tap `+` / `−` adjustments with min/max bounds. | For large open-ended numbers (e.g. 500 gold), use Input. |
+| **Free-form text, search, or large numbers** | **Field + Input** | Standard text-box surface with label and error copy. | Do not use for choosing from a closed predefined list. |
+
+### Variant selection for Checkbox & Radio
+
+- **`default` (inline)**: Compact, standard checkbox / radio circle with adjacent label. Best for simple one-line items in forms and settings.
+- **`card`**: Rich card with title, optional description (mechanics copy), and optional badge (budget/tier). Best for item builders, spell selection, equipment loadouts.
+- **`tile` (Radio only)**: Compact symmetric card with centered label and optional icon. Best in a 2–3 column grid (`layout="grid"`) for mutually exclusive modes, dice selection, or armor categories.
+
 ## Type layers
 
 | Package | Canonical type name |

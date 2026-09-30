@@ -1,0 +1,346 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ImageStories from './Image.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={ImageStories} />
+
+# Image
+
+Responsive **editorial media element** for TTRPG rulebooks, campaign journals, handouts, and worldbuilding articles. Host alone is a **paragraph-wide block** image. Modifiers support spot illustrations that float left or right with running text wrapping around them.
+
+Consumes Tier 2 tokens for background (`--eevenkoto-color-surface-sunken`), boundary frame (`--eevenkoto-color-boundary-strong`), and caption typography (`--eevenkoto-font-size-caption`, `--eevenkoto-color-content-tertiary`).
+
+<Canvas of={ImageStories.Default} />
+
+```html
+<figure class="eevenkoto-image">
+  <img
+    class="eevenkoto-image__media"
+    src="/art/map.webp"
+    alt="Pohjolan laakson kartta"
+    width="800"
+    height="450"
+    loading="lazy"
+    decoding="async"
+  />
+</figure>
+```
+
+The host class alone is **paragraph-wide block** (`.eevenkoto-image`). `--block` remains a valid alias for framework bindings. Modifiers (`--float-left`, `--float-right`, `--framed`) are strictly opt-in.
+
+### Playground
+
+<Controls of={ImageStories.Default} />
+
+## Image vs Icon vs Avatar vs Frame
+
+| Need | Use | Why |
+| --- | --- | --- |
+| In-flow editorial illustration, spot art, map, or artifact plate | **Image** | Rich multi-color visual asset with aspect-ratio, float/block layout, and optional `<figcaption>`. |
+| Action glyph, control adornment, or inline status symbol | **[Icon](?path=/docs/core-atoms-icon--docs)** | Monochromatic SVG path token scaling with the control ladder (`sm` / `md` / `lg`) and tracking text ink (`currentColor`). |
+| Circular character / account portrait with fallback | **[Avatar](?path=/docs/core-atoms-avatar--docs)** | Specialized circle crop with fallback to a quiet parchment user glyph. |
+| Bordered surface container for tables or custom widgets | **[Frame](?path=/docs/core-atoms-frame--docs)** | Structural surface wrapper ("chart in a box") with no intrinsic media semantics. |
+
+### When to choose Icon vs Image
+
+- **Use [Icon](?path=/docs/core-atoms-icon--docs)** for UI affordances and functional symbols (e.g. search magnifying glass, lock indicator, chevron, heart, sword, coin). Icons are single-color SVG paths defined in `@eevenkoto/core` (`ICON_NAMES`) that inherit text color (`currentColor`) and sit inline with labels or inside controls.
+- **Use Image** for content artwork (paintings, sketches, cartography, monster spot art, weapon illustrations). Images are standalone raster or complex vector assets with their own colors, intrinsic proportions, and captioning needs.
+- **Do not embed raster images inside Icon**, and **do not use Image for simple interface buttons or pips**.
+
+## Why to use
+
+Narrative rules and sourcebooks depend on visual rhythm to break up dense rule columns. Using bare unstyled `<img>` tags often leads to layout shifts during loading, leaking floats that ruin subsequent headings, or cramped text ribbons on narrow screens.
+
+Image standardizes figure/caption semantics, ensures adjacent text starts flush with the top of floated spot art, automatically collapses floats in narrow containers using container queries, and gently softens high-contrast illustrations in dark mode.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use the default host for paragraph-wide scene illustrations, maps, and diagrams.</li>
+      <li>Use <code>layout="float-right"</code> or <code>layout="float-left"</code> for spot art, magic items, or creature vignettes embedded in narrative copy.</li>
+      <li>Always provide a descriptive <code>alt</code> text (or an explicit empty string <code>alt=""</code> if purely decorative).</li>
+      <li>Provide <code>width</code> and <code>height</code>, or <code>aspectRatio</code>, to eliminate Cumulative Layout Shift (CLS).</li>
+      <li>Pair with <code>caption</code> to render an accessible <code>&lt;figcaption&gt;</code> formatted with Eevenkoto caption typography.</li>
+      <li>Compose inside <code>.eevenkoto-prose.eevenkoto-flow</code> for automatic clearance and baseline alignment.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don’t use bare unstyled <code>&lt;img&gt;</code> tags inside content columns.</li>
+      <li>Don’t use Image for user/character profile avatars — use <a href="?path=/docs/core-atoms-avatar--docs">Avatar</a>.</li>
+      <li>Don’t use manual CSS floats or clearfix hacks — Image handles wrapping, responsive collapse, and heading clearance automatically.</li>
+      <li>Don’t force floated spot art inside narrow sidebars — Image will collapse them to block when container width is under 32rem.</li>
+      <li>Don’t duplicate the caption in the <code>alt</code> text.</li>
+    </ul>
+  }
+/>
+
+## Alt text vs Captions
+
+`alt` and `caption` serve distinct roles in accessible editorial design. Both are important, but they address different needs and must never be identical duplicates.
+
+| Attribute | Audience | Purpose | Rendering | Example |
+| --- | --- | --- | --- | --- |
+| **`alt`** | Assistive technology (screen readers) & failed loads | Describes what the image visually depicts | Hidden from sighted users; spoken by screen readers | `"Carved granite obelisk etched with glowing turquoise runes, standing at a crossroads"` |
+| **`caption`** | All readers (visible editorial context) | Provides figure numbering, lore, attribution, or instructions | Visible `<figcaption>` styled with caption typography | `"Kuva 3: Pohjolan tienviitta, pystytetty Kolmannen Liiton aikana."` |
+
+### Rules for Alt text (`alt`)
+
+1. **Informative artwork**: Describe the visual details that convey meaning or narrative context. Focus on what someone listening to the page needs to know:
+   ```html
+   <!-- GOOD: describes visual content -->
+   <figure class="eevenkoto-image">
+     <img
+       class="eevenkoto-image__media"
+       src="/art/potion.webp"
+       alt="Glass vial filled with shimmering violet liquid and sealed with gold wax"
+     />
+     <figcaption class="eevenkoto-image__caption eevenkoto-caption">
+       Kuva 2: Kirkkauden eliksiiri.
+     </figcaption>
+   </figure>
+   ```
+2. **Decorative artwork**: If an image is purely decorative mood art that duplicates information already fully explained in the adjacent paragraph, set `alt=""`:
+   ```html
+   <!-- Purely ambient mood art -->
+   <img class="eevenkoto-image__media" src="/art/divider-flourish.webp" alt="" />
+   ```
+   Screen readers will silently skip the image instead of announcing an unhelpful `"Image: divider flourish"`.
+3. **Never duplicate the caption verbatim**: If `alt` and `caption` contain identical text, screen readers announce the exact same sentence twice in a row:
+   ```html
+   <!-- BAD: screen reader reads "Kuva 1: Kartta. Kuva 1: Kartta." -->
+   <figure class="eevenkoto-image">
+     <img src="/map.webp" alt="Kuva 1: Kartta" />
+     <figcaption>Kuva 1: Kartta</figcaption>
+   </figure>
+
+   <!-- GOOD: alt describes the visual content; caption gives the editorial label -->
+   <figure class="eevenkoto-image">
+     <img
+       src="/map.webp"
+       alt="Topografinen kartta Pohjolan laaksosta ja sen kolmesta vartiotornista"
+     />
+     <figcaption class="eevenkoto-image__caption eevenkoto-caption">
+       Kuva 1: Tutkimusretken reittikartta vuodelta 1420.
+     </figcaption>
+   </figure>
+   ```
+
+### Rules for Captions (`caption`)
+
+- Use `caption` to provide **visible editorial metadata**: figure numbers ("Figure 1"), lore background, artist credits, or instructions on what details the reader should notice.
+- Captions automatically inherit Eevenkoto caption typography (`--eevenkoto-font-size-caption`, `--eevenkoto-color-content-tertiary`).
+- If no visible context or figure label is needed, omit `caption` entirely (the `<figcaption>` tag will not render).
+
+## Layout variants
+
+### Full width (Block)
+
+The default presentation. Spans the full inline width of the parent container or paragraph column.
+
+<Canvas of={ImageStories.Default} />
+
+### Float right (text wrap)
+
+Floats the illustration to the right with running prose wrapping around it. When placed inside `.eevenkoto-flow`, the adjacent paragraph automatically aligns flush with the top of the image (no unnatural top gap).
+
+<Canvas of={ImageStories.FloatRight} />
+
+### Float left (text wrap)
+
+Floats the illustration to the left with running prose wrapping around it.
+
+<Canvas of={ImageStories.FloatLeft} />
+
+## Captions and framing
+
+### With caption
+
+Pass `caption` to render a semantic `<figcaption>` beneath the media with metadata styling (`content-tertiary` color, caption font size, and body line height).
+
+<Canvas of={ImageStories.WithCaption} />
+
+### Framed
+
+Use `framed={true}` to wrap the illustration in a subtle boundary line matching Eevenkoto’s parchment/obsidian boundary tokens (`var(--eevenkoto-color-boundary-strong)`).
+
+<Canvas of={ImageStories.Framed} />
+
+## Modern image best practices
+
+### 1. Layout shift prevention (Zero CLS)
+
+When browsers load images without dimensions, content below jumps downward once the image dimensions become known. Image prevents Cumulative Layout Shift in two ways:
+- **Intrinsic HTML attributes**: Always pass `width` and `height` attributes to allow the browser to calculate the intrinsic aspect ratio immediately.
+- **CSS `aspect-ratio`**: Use `aspectRatio="16/9"`, `aspectRatio="4/3"`, or `aspectRatio="1/1"` to lock the proportions responsively before the bytes finish downloading.
+
+<Canvas of={ImageStories.AspectRatios} />
+
+### 2. Container queries vs Viewports
+
+Traditional responsive images rely on `@media` viewport queries. In TTRPG layouts with multi-column text (such as 2-column rulebook pages, deck cards, or drawer panels), the viewport may be wide (e.g. 1920px), but the column containing the image may only be 320px wide.
+
+Following the pattern established in [Statblock](?path=/docs/domain-organisms-statblock--docs) and [Spellblock](?path=/docs/domain-organisms-spellblock--docs), Image queries its parent container width:
+
+```css
+@container (max-width: 32rem) {
+  .eevenkoto-image--float-left,
+  .eevenkoto-image--float-right {
+    float: none;
+    inline-size: 100%;
+    margin-inline: 0;
+    margin-block-end: var(--eevenkoto-space-4);
+  }
+}
+```
+
+Whenever the container narrows below `32rem` (~512px), floated spot art automatically drops its float and renders full width, ensuring adjacent paragraphs are never squeezed into unreadable 2-word vertical ribbons.
+
+<Canvas of={ImageStories.ContainerCollapse} />
+
+### 3. Performance & Asynchronous decoding
+
+- `loading="lazy"`: Native lazy loading is enabled by default. Set `loading="eager"` and `fetchPriority="high"` only for above-the-fold hero banners to optimize Largest Contentful Paint (LCP).
+- `decoding="async"`: Default asynchronous decoding offloads image rasterization from the main UI thread so page scrolling remains silky smooth.
+
+### 4. Dark mode comfort
+
+In dark mode (`[data-theme="dark"]` / `[data-surface-mode="dark"]`), stark white illustration backgrounds or bright daytime photos can cause uncomfortable glare against obsidian backgrounds. Image applies a subtle automatic comfort filter:
+
+```css
+[data-theme="dark"] .eevenkoto-image__media,
+[data-surface-mode="dark"] .eevenkoto-image__media {
+  filter: brightness(0.92) contrast(1.04);
+}
+```
+
+### 5. Flow and Prose rhythm
+
+When placed inside `.eevenkoto-flow`:
+- **Top alignment**: The first paragraph immediately following a floated image has its top padding neutralized so text aligns flush with the top edge of the image.
+- **Heading clearance**: Any heading (`h1`–`h6`) following a floated image automatically enforces `clear: both`, guaranteeing that new sections or chapters never get trapped beside an unrelated float from a previous section.
+- **Prose integration**: Bare markdown images rendered inside `.eevenkoto-prose` automatically inherit fluid sizing safeguards (`max-inline-size: 100%; block-size: auto; display: block;`).
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `src` | `string` | — | Image asset URL. |
+| `alt` | `string` | — | Accessible description (empty string if decorative). |
+| `caption` | `string` | — | Optional figcaption copy. |
+| `layout` | `'block' \| 'float-left' \| 'float-right'` | `'block'` | Layout presentation and float wrapping mode. |
+| `framed` | `boolean` | `false` | Whether to render a bordered boundary frame. |
+| `width` | `number \| string` | — | Intrinsic width attribute (prevents CLS). |
+| `height` | `number \| string` | — | Intrinsic height attribute (prevents CLS). |
+| `aspectRatio` | `string` | — | CSS aspect ratio (e.g. `'16/9'`, `'4/3'`, `'1/1'`). |
+| `fit` | `'cover' \| 'contain' \| 'fill' \| 'scale-down' \| 'none'` | `'cover'` | Object-fit mode for media. |
+| `loading` | `'lazy' \| 'eager'` | `'lazy'` | Native browser loading strategy. |
+| `decoding` | `'async' \| 'sync' \| 'auto'` | `'async'` | Image decoding strategy. |
+| `fetchPriority` | `'high' \| 'low' \| 'auto'` | — | Priority hint for LCP scheduling. |
+| `srcSet` | `string` | — | Responsive srcset attribute. |
+| `sizes` | `string` | — | Responsive sizes attribute. |
+
+<ArgTypes of={ImageStories} />
+
+## Framework packages
+
+### HTML
+
+```ts
+import '@eevenkoto/css/image.css';
+import '@eevenkoto/css/caption.css';
+import { renderImage } from '@eevenkoto/html';
+
+// 1. Full paragraph-wide block
+renderImage({
+  src: '/art/arch-gate.webp',
+  alt: 'The Moon Gate at dusk',
+  width: 800,
+  height: 450,
+  aspectRatio: '16/9',
+  caption: 'Figure 1: The Moon Gate entrance.',
+});
+
+// 2. Spot illustration floated right with text wrap
+renderImage({
+  src: '/art/amulet.webp',
+  alt: 'Amulet of Warding',
+  layout: 'float-right',
+  framed: true,
+  width: 300,
+  height: 300,
+  caption: 'Found amulet artifact.',
+});
+```
+
+### React
+
+```tsx
+import '@eevenkoto/css/image.css';
+import { Image } from '@eevenkoto/react';
+
+// Paragraph-wide block
+<Image
+  src="/art/arch-gate.webp"
+  alt="The Moon Gate at dusk"
+  caption="Figure 1: The Moon Gate entrance."
+  layout="block"
+  width={800}
+  height={450}
+/>
+
+// Floated spot art
+<Image
+  src="/art/amulet.webp"
+  alt="Amulet of Warding"
+  layout="float-right"
+  framed
+  width={300}
+  height={300}
+/>
+```
+
+### Vue
+
+```vue
+<script setup>
+import '@eevenkoto/css/image.css';
+import { Image } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Image
+    src="/art/amulet.webp"
+    alt="Amulet of Warding"
+    layout="float-right"
+    framed
+    width="300"
+    height="300"
+    caption="Found amulet artifact."
+  />
+</template>
+```

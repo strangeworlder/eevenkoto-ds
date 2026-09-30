@@ -1,3 +1,5 @@
+import type { IconName } from '../../tokens/icons';
+
 export type SegmentedControlTone = 'primary' | 'secondary';
 export type SegmentedControlSize = 'sm' | 'md';
 /**
@@ -11,6 +13,8 @@ export interface SegmentedControlOption {
   id: string;
   /** Visible label. */
   label: string;
+  /** Optional icon rendered alongside the label. */
+  icon?: IconName;
   /** Required when `mode` is `links`. */
   href?: string;
   /** When true, option is non-interactive. */

@@ -97,7 +97,7 @@
 .eevenkoto-list :where(li) > .eevenkoto-list,
 .eevenkoto-prose :where(li) > :where(ul, ol) {
   --_eevenkoto-list-margin-block: 0;
-  --_eevenkoto-list-pad-inline-start: var(--eevenkoto-space-5);
+  --_eevenkoto-list-pad-inline-start: var(--eevenkoto-space-4);
   margin-block-start: var(--_eevenkoto-list-item-gap);
 }
 

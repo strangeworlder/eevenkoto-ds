@@ -1,0 +1,159 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SelectStories from './Select.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={SelectStories} />
+
+# Select
+
+Native dropdown picker wrapped in styled `.eevenkoto-select` chrome. Consumes Tier 2 **`form-input`** tokens: border, background, focus ring, invalid states, and an embedded SVG chevron arrow.
+
+<Canvas of={SelectStories.Default} />
+
+Host alone is **md** size, valid, and enabled.
+
+### Playground
+
+<Controls of={SelectStories.Default} />
+
+## Why to use
+
+Dropdown selection from a list of 5+ mutually exclusive choices without taking up vertical canvas space. Native `<select>` guarantees touch platform support (iOS / Android wheel pickers), keyboard typeahead, and full accessibility support out of the box.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use Select when space is limited and there are 5 or more options.</li>
+      <li>Use grouped options (<code>optgroup</code>) to organize large option sets into categories.</li>
+      <li>Wrap with <strong>Field</strong> for visible labels, hints, and error messaging in forms.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don't use Select for binary choices (Yes/No) — use <strong>Checkbox</strong> or <strong>RadioGroup</strong>.</li>
+      <li>Don't use Select when options should be scannable simultaneously — use <strong>RadioGroup</strong> or <strong>SegmentedControl</strong>.</li>
+    </ul>
+  }
+/>
+
+## Select vs other form controls
+
+| User Task | Recommended Component | Why | When NOT to use Select |
+| --- | --- | --- | --- |
+| **Pick 1 from 6+ choices** (e.g. Weapon class, 15 preset equipment items, languages) | **Select** | Compact single-line control. Native OS pickers on mobile devices. Supports `<optgroup>`. | If there are only 2–5 options, prefer **RadioGroup** so all options are visible. |
+| **Pick 1 from 2–5 visible choices** (e.g. Melee vs Ranged, Light/Medium/Heavy) | **RadioGroup** | Options are visible simultaneously without requiring an initial click/tap to open. | If canvas space is strictly constrained (e.g. dense table cells), Select is acceptable. |
+| **Switch views, tabs, or document versions** (2–4 short choices) | **SegmentedControl** | Horizontal connected pill layout designed for in-page mode switching. | Select is for form data collection, not layout switching. |
+| **Pick multiple items (0 to N)** | **CheckboxGroup** | Select is single-choice native dropdown in Eevenkoto. | Never use Select for multi-select. |
+| **Bounded numeric step** (e.g. ranks 0–5) | **Stepper** | One-tap `+` / `−` adjustments with min/max bounds. | Don't create dropdown lists for numbers 0 to 5. |
+
+### Decision Guide: Option count & canvas space
+
+1. **2–4 options**:
+   - For view/mode switching → **SegmentedControl**
+   - For form data entry → **RadioGroup** (all choices visible for comparison)
+2. **5–7 options**:
+   - If options have secondary mechanics descriptions → **RadioGroup `variant="card"`**
+   - If space is limited or options are simple strings → **Select**
+3. **8+ options**:
+   - Always choose **Select**. Use `optgroup` (via `options: [{ label: 'Group', options: [...] }]`) to organize large lists into scannable subcategories.
+
+## Grouped options
+
+Options can be nested into categories using option groups:
+
+<Canvas of={SelectStories.GroupedOptions} />
+
+## Minimum classes
+
+Host alone renders the default styled select wrapper:
+
+```html
+<div class="eevenkoto-select">
+  <select class="eevenkoto-select__control">
+    <option value="1">Yksi</option>
+    <option value="2">Kaksi</option>
+  </select>
+  <span class="eevenkoto-select__icon" aria-hidden="true">...</span>
+</div>
+```
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `options` | `Array<SelectOption \| SelectOptionGroup>` | `[]` | List of options or option groups. |
+| `value` | `string` | — | Current selected value. |
+| `placeholder` | `string` | — | Placeholder label for empty selection. |
+| `disabled` | `boolean` | `false` | Disabled state. |
+| `invalid` | `boolean` | `false` | Invalid validation state. |
+| `size` | `'sm' \| 'md'` | `'md'` | Sizing scale. |
+
+<ArgTypes of={SelectStories} />
+
+## Framework packages
+
+```html
+<!-- HTML -->
+<div class="eevenkoto-select">
+  <select class="eevenkoto-select__control">
+    <option value="crude">Karkea</option>
+    <option value="standard" selected>Tavallinen</option>
+  </select>
+</div>
+```
+
+```tsx
+// React
+import { Select } from '@eevenkoto/react';
+
+<Select
+  value={quality}
+  onChange={(e) => setQuality(e.target.value)}
+  options={[
+    { value: 'crude', label: 'Karkea' },
+    { value: 'standard', label: 'Tavallinen' },
+  ]}
+/>
+```
+
+```vue
+<!-- Vue -->
+<script setup>
+import { Select } from '@eevenkoto/vue';
+const quality = ref('standard');
+</script>
+
+<template>
+  <Select
+    v-model="quality"
+    :options="[
+      { value: 'crude', label: 'Karkea' },
+      { value: 'standard', label: 'Tavallinen' },
+    ]"
+  />
+</template>
+```

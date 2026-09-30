@@ -1,6 +1,6 @@
 # Eevenkoto design system
 
-Eevenkoto is a **TTRPG content design system with growing core chrome**. It is not a full application UI kit: Dialog, Select, Toast, Tabs, breadcrumbs, and app-shell patterns are **not shipped**. Some Tier 2 color roles (form checkboxes, toasts, modals) exist as **tokens only** so future components can land without renaming semantics.
+Eevenkoto is a **TTRPG content design system with growing core chrome**. It is not a full application UI kit: Dialog, Toast, Tabs, breadcrumbs, and app-shell patterns are **not shipped**. Some Tier 2 color roles (toasts, modals) exist as **tokens only** so future components can land without renaming semantics.
 
 Packages: `@eevenkoto/css` (appearance) → `@eevenkoto/core` (props + BEM classes) → `@eevenkoto/html` (reference markup) → `@eevenkoto/react` / `@eevenkoto/vue` (thin wrappers). CSS is an **optional peer** of the bindings — import `@eevenkoto/css` yourself or markup is unstyled.
 
@@ -28,9 +28,9 @@ import '@eevenkoto/css/button.css';
 
 | Status | Surfaces |
 | --- | --- |
-| **Shipped** | Typography, Flow/Prose/Frame/Scroll, Button/LinkButton/Icon, Badge/StatusDot/Chip/Notice, Field+Input, Menu, Catalog, Popover+TooltipCard, Card, table stack, Stat/Property/List, Avatar/InlineRef, Domain statblock stack |
-| **Token-only** | Checkbox/radio/switch, toast/banner fills, modal surface roles, breadcrumbs-as-link tokens |
-| **Not planned here** | Dialog, Select, Toast, Pager, Tabs, date pickers, app chrome |
+| **Shipped** | Typography, Flow/Prose/Frame/Scroll, Button/LinkButton/Icon, Badge/StatusDot/Chip/Notice, Field+Input/Select/Checkbox/Radio, CheckboxGroup/RadioGroup/Stepper, Menu, Catalog, Popover+TooltipCard, Card, table stack, Stat/Property/List, Avatar/InlineRef, Domain statblock & workshop stack |
+| **Token-only** | Toast/banner fills, modal surface roles, breadcrumbs-as-link tokens |
+| **Not planned here** | Dialog, Toast, Pager, Tabs, date pickers, app chrome |
 
 ## Scripts
 

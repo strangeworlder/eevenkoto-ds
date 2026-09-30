@@ -8,16 +8,31 @@ export { Paragraph, type ParagraphProps } from './core/atoms/Paragraph';
 export { ListItem, type ListItemProps } from './core/atoms/ListItem';
 export { Caption, type CaptionProps } from './core/atoms/Caption';
 export { Frame } from './core/atoms/Frame';
+export { Image, type ImageProps } from './core/atoms/Image';
 export { Scroll, type ScrollProps } from './core/atoms/Scroll';
 export { Icon, type IconProps, type IconName } from './core/atoms/Icon';
 export { Popover, type PopoverProps } from './core/atoms/Popover';
 export { InlineRef, type InlineRefProps } from './core/atoms/InlineRef';
 export { Avatar, type AvatarProps } from './core/atoms/Avatar';
 export { Input, type InputProps, type InputType } from './core/atoms/Input';
+export { Checkbox, type CheckboxProps } from './core/atoms/Checkbox';
+export { Radio, type RadioProps } from './core/atoms/Radio';
+export { Select, type SelectProps, type SelectOption, type SelectOptionGroup } from './core/atoms/Select';
 export { TableCell } from './core/atoms/TableCell';
 export { Flow, type FlowProps, type FlowDensity } from './core/molecules/Flow';
 export { Notice, type NoticeProps } from './core/molecules/Notice';
 export { Field, type FieldProps } from './core/molecules/Field';
+export {
+  CheckboxGroup,
+  type CheckboxGroupProps,
+  type CheckboxGroupItemProps,
+} from './core/molecules/CheckboxGroup';
+export {
+  RadioGroup,
+  type RadioGroupProps,
+  type RadioGroupOptionProps,
+} from './core/molecules/RadioGroup';
+export { Stepper, type StepperProps } from './core/molecules/Stepper';
 export { SegmentedControl, type SegmentedControlProps } from './core/molecules/SegmentedControl';
 export { Card, type CardProps, type CardTitleLevel } from './core/molecules/Card';
 export {
@@ -52,3 +67,10 @@ export { StatblockFeature, type StatblockFeatureProps } from './domain/molecules
 export { StatblockSection, type StatblockSectionProps } from './domain/molecules/StatblockSection';
 export { Statblock } from './domain/organisms/Statblock';
 export { Spellblock } from './domain/organisms/Spellblock';
+export { EquipmentBlock, type EquipmentBlockProps } from './domain/organisms/EquipmentBlock';
+export {
+  EquipmentWorkshop,
+  type EquipmentWorkshopProps,
+  DEFAULT_WEAPON_SPEC,
+  DEFAULT_ARMOR_SPEC,
+} from './domain/organisms/EquipmentWorkshop';

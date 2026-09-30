@@ -1,0 +1,162 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as CheckboxGroupStories from './CheckboxGroup.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={CheckboxGroupStories} />
+
+# CheckboxGroup
+
+Semantic grouping of multiple checkboxes inside an accessible `<fieldset>` with `<legend>`. Supports header badges (e.g. trait budgets), vertical stack and multi-column grid layouts, and validation feedback.
+
+<Canvas of={CheckboxGroupStories.Default} />
+
+Host alone renders a vertical stack of checkboxes with standard spacing.
+
+### Playground
+
+<Controls of={CheckboxGroupStories.Default} />
+
+## Why to use
+
+Lists of related checkboxes require an accessible group name for screen readers, visual alignment, and frequently need capacity tracking badges (such as "2 / 3 valittu" in equipment craft systems or character creators). CheckboxGroup standardizes this layout and accessibility pattern.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use CheckboxGroup whenever 2 or more checkboxes form a conceptual set.</li>
+      <li>Use the <code>badge</code> and <code>badgeIntent</code> props to display live counters or resource limits.</li>
+      <li>Use <code>layout="grid"</code> for compact multi-column card selectors.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don't group unrelated checkboxes under a single arbitrary fieldset.</li>
+      <li>Don't omit the <code>label</code> — use <code>legendVisuallyHidden</code> if the label is already evident from adjacent headings.</li>
+    </ul>
+  }
+/>
+
+## CheckboxGroup vs RadioGroup vs Field
+
+| Scenario | Recommended Component | Why |
+| --- | --- | --- |
+| **User can select 0, 1, or multiple items from a list** | **CheckboxGroup** | Fieldset grouping independent checkboxes. Supports budget badges (`badge="2 / 3 käytetty"`). |
+| **User must select exactly 1 item from 2–5 options** | **RadioGroup** | Mutually exclusive radio buttons with shared name. |
+| **User must select 1 item from 6+ options** | **Field + Select** | Compact dropdown. CheckboxGroup would take excessive vertical space. |
+| **Single text input or single control row** | **Field + Input** | Field provides label + input + message for single values. |
+
+### Layout chooser: Stack vs Grid
+
+- **`layout="stack"` (default)**: Use when options have multi-line `description` copy or varying heights (e.g. Weapon traits with extensive mechanics).
+- **`layout="grid"` with `columns={2}` or `{3}`**: Use when options are uniform cards with short text, allowing 2 or 3 items per row on wider viewports.
+
+## Header badge with limit indicator
+
+<Canvas of={CheckboxGroupStories.WithBadge} />
+
+When limits are exceeded, switch `badgeIntent="critical"` and provide an `error` message:
+
+<Canvas of={CheckboxGroupStories.BadgeLimitExceeded} />
+
+## Grid layout
+
+<Canvas of={CheckboxGroupStories.GridLayout} />
+
+## Minimum classes
+
+Host alone renders the default stack layout:
+
+```html
+<fieldset class="eevenkoto-checkbox-group eevenkoto-checkbox-group--stack">
+  <div class="eevenkoto-checkbox-group__header">
+    <legend class="eevenkoto-checkbox-group__legend">Ryhmän otsikko</legend>
+  </div>
+  <div class="eevenkoto-checkbox-group__list">
+    <!-- Checkboxes -->
+  </div>
+</fieldset>
+```
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | **required** | Group legend label. |
+| `legendVisuallyHidden` | `boolean` | `false` | Visually hide the legend while keeping it accessible. |
+| `layout` | `'stack' \| 'grid'` | `'stack'` | Arrangement of items. |
+| `columns` | `2 \| 3` | `2` | Column count when `layout="grid"`. |
+| `badge` | `string` | — | Header badge counter text. |
+| `badgeIntent` | `'neutral' \| 'critical'` | `'neutral'` | Color intent of the badge. |
+| `hint` | `string` | — | Explanatory helper text. |
+| `error` | `string` | — | Validation error text. |
+| `items` | `CheckboxGroupItemProps[]` | — | Declarative list of checkboxes. |
+
+<ArgTypes of={CheckboxGroupStories} />
+
+## Framework packages
+
+```html
+<!-- HTML -->
+<fieldset class="eevenkoto-checkbox-group eevenkoto-checkbox-group--stack">
+  <div class="eevenkoto-checkbox-group__header">
+    <legend class="eevenkoto-checkbox-group__legend">Piirteet</legend>
+    <span class="eevenkoto-badge eevenkoto-badge--solid eevenkoto-badge--neutral">1 / 2</span>
+  </div>
+  <div class="eevenkoto-checkbox-group__list">
+    <!-- renderCheckbox items -->
+  </div>
+</fieldset>
+```
+
+```tsx
+// React
+import { CheckboxGroup } from '@eevenkoto/react';
+
+<CheckboxGroup
+  label="Pääpiirteet"
+  badge="2 / 3 käytetty"
+  badgeIntent="neutral"
+  items={[
+    { label: 'Tarkkuus', checked: hasTarkkuus, onChange: toggleTarkkuus, variant: 'card' },
+    { label: 'Ulottuva', checked: hasUlottuva, onChange: toggleUlottuva, variant: 'card' },
+  ]}
+/>
+```
+
+```vue
+<!-- Vue -->
+<script setup>
+import { CheckboxGroup, Checkbox } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <CheckboxGroup label="Pääpiirteet" badge="2 / 3 käytetty">
+    <Checkbox label="Tarkkuus" variant="card" v-model:checked="hasTarkkuus" />
+    <Checkbox label="Ulottuva" variant="card" v-model:checked="hasUlottuva" />
+  </CheckboxGroup>
+</template>
+```

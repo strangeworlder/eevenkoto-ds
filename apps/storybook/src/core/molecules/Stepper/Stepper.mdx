@@ -1,0 +1,156 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as StepperStories from './Stepper.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={StepperStories} />
+
+# Stepper
+
+Accessible numeric step control with increment and decrement buttons, live region value readout, and optional trait description copy. Consumes Tier 2 **`control-secondary`** buttons and **`surface-canvas`** container styling.
+
+<Canvas of={StepperStories.Default} />
+
+Host alone is enabled with minimum 0 and default step 1.
+
+### Playground
+
+<Controls of={StepperStories.Default} />
+
+## Why to use
+
+TTRPG systems regularly feature bounded small integer increments (armor reinforcement ranks, damage bonus pips, inventory quantities). Free-form text fields often fail validation or require extra typing on mobile devices. Steppers provide fast one-tap adjustment and bound enforcement.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use Stepper for small integer values typically adjusted by 1 (e.g. ranks 0–5, quantities 1–20).</li>
+      <li>Use descriptions to explain what each increment grants in game mechanics (e.g. "+1 PL (+50 % hinta)").</li>
+      <li>Specify <code>min</code> and <code>max</code> to prevent illegal system states.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don't use Stepper for large arbitrary numbers (e.g. 5,000 gold pieces) — use <strong>Input</strong> with <code>type="number"</code>.</li>
+      <li>Don't use Stepper without a clear <code>label</code> identifying what is being adjusted.</li>
+    </ul>
+  }
+/>
+
+## Stepper vs other form controls
+
+| User Task | Recommended Component | Why | When NOT to use Stepper |
+| --- | --- | --- | --- |
+| **Bounded small integer (e.g. 0–5 ranks, 1–20 ammo/rations)** | **Stepper** | One-tap `+` / `−` adjustments with min/max enforcement. No mobile keyboard shifts or parsing errors. | If the number range is large (e.g. 0 to 1,000), Stepper requires too many clicks. |
+| **Open-ended or large numbers (e.g. 500 gold, weight in grams)** | **Input** (`type="number"`) | Fast direct typing on numeric keypad. | Don't use raw text inputs for ranks 0–3 where a user might accidentally type invalid numbers. |
+| **Discrete named tiers (e.g. "None", "Minor", "Major", "Supreme")** | **RadioGroup** (`variant="card"` or `tile`) | Discrete named stages with unique mechanics are clearer as radio options than numeric digits. | Stepper only displays numeric values. |
+| **Pick 1 from options** | **RadioGroup** / **Select** | Stepper is strictly for numeric increments, not categorical choices. | Never use Stepper to cycle through non-numeric options. |
+
+## With description
+
+<Canvas of={StepperStories.WithDescription} />
+
+## Minimum classes
+
+Host alone renders the complete row layout:
+
+```html
+<div class="eevenkoto-stepper">
+  <div class="eevenkoto-stepper__info">
+    <strong class="eevenkoto-stepper__label">Otsikko</strong>
+  </div>
+  <div class="eevenkoto-stepper__controls">
+    <button type="button" class="eevenkoto-button eevenkoto-button--secondary eevenkoto-button--sm eevenkoto-stepper__button" aria-label="Vähennä">−</button>
+    <span class="eevenkoto-stepper__value" role="status" aria-live="polite">0</span>
+    <button type="button" class="eevenkoto-button eevenkoto-button--secondary eevenkoto-button--sm eevenkoto-stepper__button" aria-label="Lisää">+</button>
+  </div>
+</div>
+```
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | **required** | Field identifier. |
+| `label` | `string` | **required** | Primary visible title. |
+| `description` | `string` | — | Optional mechanics explanation. |
+| `value` | `number` | `0` | Current numeric value. |
+| `min` | `number` | `0` | Minimum allowed value. |
+| `max` | `number` | `999` | Maximum allowed value. |
+| `step` | `number` | `1` | Increment / decrement step size. |
+| `disabled` | `boolean` | `false` | Disabled state. |
+
+<ArgTypes of={StepperStories} />
+
+## Framework packages
+
+```html
+<!-- HTML -->
+<div class="eevenkoto-stepper">
+  <div class="eevenkoto-stepper__info">
+    <strong class="eevenkoto-stepper__label">Vahvistettu</strong>
+  </div>
+  <div class="eevenkoto-stepper__controls">
+    <button type="button" class="eevenkoto-button eevenkoto-button--secondary eevenkoto-button--sm eevenkoto-stepper__button" aria-label="Vähennä">−</button>
+    <span class="eevenkoto-stepper__value" role="status" aria-live="polite">1</span>
+    <button type="button" class="eevenkoto-button eevenkoto-button--secondary eevenkoto-button--sm eevenkoto-stepper__button" aria-label="Lisää">+</button>
+  </div>
+</div>
+```
+
+```tsx
+// React
+import { Stepper } from '@eevenkoto/react';
+
+<Stepper
+  name="reinforce"
+  label="Vahvistettu"
+  description="+1 PL"
+  value={val}
+  min={0}
+  max={3}
+  onChange={setVal}
+/>
+```
+
+```vue
+<!-- Vue -->
+<script setup>
+import { Stepper } from '@eevenkoto/vue';
+const val = ref(1);
+</script>
+
+<template>
+  <Stepper
+    name="reinforce"
+    label="Vahvistettu"
+    description="+1 PL"
+    :min="0"
+    :max="3"
+    v-model:value="val"
+  />
+</template>
+```

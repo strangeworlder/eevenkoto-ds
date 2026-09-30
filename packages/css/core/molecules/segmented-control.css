@@ -126,9 +126,18 @@ a.eevenkoto-segmented-control__option {
 }
 
 .eevenkoto-segmented-control__label {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eevenkoto-space-1);
   line-height: 1;
   pointer-events: none;
+}
+
+.eevenkoto-segmented-control__label .eevenkoto-icon {
+  inline-size: 1.15em;
+  block-size: 1.15em;
+  flex-shrink: 0;
 }
 
 /* Visually hide native radio; keep it focusable via label */

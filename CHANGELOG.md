@@ -2,13 +2,39 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.9.0**.
+Published package version is **0.9.2**.
 
-## Unreleased
+## 0.9.2
+
+### Added
+
+- **Form controls (Core chrome)** — native form controls and compound fieldsets for interactive sheets and character/equipment builders:
+  - **Input** (Core atom) — single-line text input with leading/trailing icon slots, focus outline, invalid/disabled states, size variants (`sm`, `md`), and semantic `form-input-*` tokens. New `@eevenkoto/css/input.css`.
+  - **Select** (Core atom) — single-choice dropdown menu with chevron indicator, custom option/optgroup rendering, container alignment, and robust padding. New `@eevenkoto/css/select.css`.
+  - **Checkbox** (Core atom) — native checkbox wrapped with custom themed square checkmark indicator and opt-in card/tile variants (`variant="card"` / `variant="tile"`). New `@eevenkoto/css/checkbox.css`.
+  - **Radio** (Core atom) — native radio wrapped with custom themed circular indicator and opt-in card/tile variants. New `@eevenkoto/css/radio.css`.
+  - **CheckboxGroup** (Core molecule) — fieldset container for multiple checkboxes with accessible legend, optional badge count, helper message, and layout options (vertical stack, 2/3/4-column responsive grid). New `@eevenkoto/css/checkbox-group.css`.
+  - **RadioGroup** (Core molecule) — fieldset container for mutually exclusive choices with accessible legend, optional badge, helper message, and stack/grid layout. New `@eevenkoto/css/radio-group.css`.
+  - **Stepper** (Core molecule) — integer stepper control with increment/decrement buttons, label, and contextual description. New `@eevenkoto/css/stepper.css`.
+- **Icon tokens** — canonical glyph data tokens in `@eevenkoto/core` (`tokens/icons.ts`):
+  - Added `swords`, `sword`, `shield`, and `dice` to `ICON_NAMES`, `BUTTON_ICON_NAMES`, and `iconPaths`.
+- **SegmentedControl icons** — `SegmentedControlOption` accepts an optional `icon?: IconName` across Core, HTML, React, Vue, and CSS.
+- **Image** (Core atom) — responsive editorial media element. Host alone is full paragraph-wide block (`<figure class="eevenkoto-image">`). Modifiers support text-wrapping spot art (`layout="float-left"` / `layout="float-right"`) with container-responsive collapse (`@container (max-width: 32rem)`). Implements layout shift prevention with intrinsic `width` / `height` / `aspectRatio`, native `loading="lazy"` and `decoding="async"`, accessible `<figcaption>` with Eevenkoto caption typography, opt-in TTRPG boundary framing (`framed`), dark-mode comfort dimming, and vertical rhythm integration in `.eevenkoto-flow`. New `@eevenkoto/css/image.css`.
+- **EquipmentBlock** (Domain organism) — standardized TTRPG equipment presentation card analogous to `Statblock` and `Spellblock`. Renders item header plate, price badge, container-query responsive stat columns, damage kesto breakdown (base, bludgeoning, slashing, piercing), trait chips, rules/effects note list, validation warnings, and optional clipboard export button. New `@eevenkoto/css/equipment-block.css`.
+- **EquipmentWorkshop** (Domain organism) — interactive "Varusteverstas" craft organism replacing consumer-side Frankenstein implementations. Separates rules engine calculations and presets into pure `@eevenkoto/core` logic (`calculateWeapon`, `calculateArmor`), offers accessible form controls (presets, radio cards, steppers, checkboxes), live reactive `EquipmentBlock` preview, and one-click markdown clipboard export. Available as vanilla HTML/JS (`renderEquipmentWorkshop`, `autoInitEquipmentWorkshops`), React (`<EquipmentWorkshop />`), and Vue (`<EquipmentWorkshop />`). New `@eevenkoto/css/equipment-workshop.css`.
 
 ### Changed
 
-- **TooltipCard body** — carries `eevenkoto-prose` (and `tooltip-card.css` imports `prose.css`) so bare `p` / `ul` / `ol` / `li` in a preview get type styles without a page-level Prose wrapper. Hand HTML must include both classes on the body
+- **Package versions** — bumped to **0.9.2** across all published packages (`@eevenkoto/css`, `@eevenkoto/core`, `@eevenkoto/html`, `@eevenkoto/react`, `@eevenkoto/vue`).
+- **TypographySample** — expanded to showcase native inputs, selects, checkboxes, and radio buttons alongside heading, body, and caption typography.
+- **Flow & Prose container queries** — `.eevenkoto-flow` and `.eevenkoto-prose` declare `container-type: inline-size` so nested images and components respond to container widths rather than viewports.
+- **TooltipCard body** — carries `eevenkoto-prose` (and `tooltip-card.css` imports `prose.css`) so bare `p` / `ul` / `ol` / `li` in a preview get type styles without a page-level Prose wrapper.
+
+### Fixed
+
+- **Select padding** — fixed custom property resolution by replacing accidental non-scale space tokens with `--_eevenkoto-select-pad-inline-end` and explicit `padding-block` / `padding-inline-start`, restoring proper 12px text inset and vertical breathing room.
+- **Select icon ballooning** — constrained `.eevenkoto-select__icon` dimensions to prevent raw SVGs from expanding when stylesheets load asynchronously.
+- **Token consistency** — audited space tokens across all component stylesheets, eliminating references to non-scale custom properties (`--eevenkoto-space-5`, `--eevenkoto-space-1-5`).
 
 ## 0.9.0
 

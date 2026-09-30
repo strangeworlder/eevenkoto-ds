@@ -1,0 +1,104 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: CHECKBOX GROUP (TIER 3)
+   Semantic `<fieldset>` grouping related checkboxes with a `<legend>`,
+   optional header badge/slot, stack/grid layouts, and hint/error messages.
+   ========================================================================== */
+
+.eevenkoto-checkbox-group {
+  --_eevenkoto-checkbox-group-gap: var(
+    --eevenkoto-checkbox-group-gap,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-checkbox-group-legend-color: var(
+    --eevenkoto-checkbox-group-legend-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-checkbox-group-legend-size: var(
+    --eevenkoto-checkbox-group-legend-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-checkbox-group-message-color: var(
+    --eevenkoto-checkbox-group-message-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-checkbox-group-message-error: var(
+    --eevenkoto-checkbox-group-message-error,
+    var(--eevenkoto-color-form-input-message-invalid)
+  );
+
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+  font-family: var(--eevenkoto-font-sans);
+  text-box: normal;
+}
+
+.eevenkoto-checkbox-group__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  margin-block-end: var(--_eevenkoto-checkbox-group-gap);
+}
+
+.eevenkoto-checkbox-group__legend {
+  display: block;
+  padding: 0;
+  margin: 0;
+  font-size: var(--_eevenkoto-checkbox-group-legend-size);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  color: var(--_eevenkoto-checkbox-group-legend-color);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-checkbox-group__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-checkbox-group-gap);
+}
+
+/* --- GRID LAYOUT --- */
+
+.eevenkoto-checkbox-group--grid .eevenkoto-checkbox-group__list {
+  display: grid;
+  gap: var(--_eevenkoto-checkbox-group-gap);
+}
+
+.eevenkoto-checkbox-group--grid-2 .eevenkoto-checkbox-group__list {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.eevenkoto-checkbox-group--grid-3 .eevenkoto-checkbox-group__list {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 36rem) {
+  .eevenkoto-checkbox-group--grid-2 .eevenkoto-checkbox-group__list,
+  .eevenkoto-checkbox-group--grid-3 .eevenkoto-checkbox-group__list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- MESSAGE / HINT / ERROR --- */
+
+.eevenkoto-checkbox-group__message {
+  margin: 0;
+  margin-block-start: var(--_eevenkoto-checkbox-group-gap);
+  font-size: var(--eevenkoto-font-size-caption);
+  color: var(--_eevenkoto-checkbox-group-message-color);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-checkbox-group__message--error {
+  color: var(--_eevenkoto-checkbox-group-message-error);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-checkbox-group__message--error {
+    color: Highlight;
+  }
+}

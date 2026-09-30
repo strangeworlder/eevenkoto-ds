@@ -34,6 +34,7 @@
 
   display: block;
   min-width: 0;
+  container-type: inline-size;
 }
 
 /* Own the rhythm: neutralize primitive margins inside Flow. */
@@ -158,6 +159,21 @@
 .eevenkoto-flow > .eevenkoto-flow + .eevenkoto-flow,
 .eevenkoto-flow > * + .eevenkoto-flow {
   padding-block-start: var(--_eevenkoto-flow-gap-before-heading-macro);
+}
+
+/* Floated image → sibling content: start text flush with image top */
+.eevenkoto-flow > .eevenkoto-image--float-left + *,
+.eevenkoto-flow > .eevenkoto-image--float-right + * {
+  padding-block-start: 0;
+}
+
+/* Heading following floated content clears the float */
+.eevenkoto-flow > .eevenkoto-image--float-left + .eevenkoto-heading,
+.eevenkoto-flow > .eevenkoto-image--float-right + .eevenkoto-heading,
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-image--float-left + :where(h1, h2, h3, h4, h5, h6),
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-image--float-right + :where(h1, h2, h3, h4, h5, h6) {
+  clear: both;
+  padding-block-start: var(--_eevenkoto-flow-gap-before-heading);
 }
 
 /* --- Density modifiers --- */

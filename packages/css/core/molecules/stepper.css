@@ -1,0 +1,104 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: STEPPER (TIER 3)
+   Numeric increment/decrement counter control. Shows label and optional
+   description on the left, and − / value / + controls on the right.
+   Composes Button secondary sm.
+   ========================================================================== */
+
+.eevenkoto-stepper {
+  --_eevenkoto-stepper-bg: var(
+    --eevenkoto-stepper-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-stepper-text: var(
+    --eevenkoto-stepper-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-stepper-desc: var(
+    --eevenkoto-stepper-desc,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-stepper-border-color: var(
+    --eevenkoto-stepper-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-stepper-border-width: var(
+    --eevenkoto-stepper-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-stepper-radius: var(
+    --eevenkoto-stepper-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-stepper-pad-block: var(
+    --eevenkoto-stepper-pad-block,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-stepper-pad-inline: var(
+    --eevenkoto-stepper-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-stepper-gap: var(
+    --eevenkoto-stepper-gap,
+    var(--eevenkoto-space-2)
+  );
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: var(--_eevenkoto-stepper-pad-block) var(--_eevenkoto-stepper-pad-inline);
+  background: var(--_eevenkoto-stepper-bg);
+  border: var(--_eevenkoto-stepper-border-width) solid var(--_eevenkoto-stepper-border-color);
+  border-radius: var(--_eevenkoto-stepper-radius);
+  color: var(--_eevenkoto-stepper-text);
+  font-family: var(--eevenkoto-font-sans);
+  text-box: normal;
+}
+
+.eevenkoto-stepper__info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.eevenkoto-stepper__label {
+  font-size: var(--eevenkoto-font-size-control-md);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  color: var(--_eevenkoto-stepper-text);
+}
+
+.eevenkoto-stepper__description {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  color: var(--_eevenkoto-stepper-desc);
+}
+
+.eevenkoto-stepper__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--_eevenkoto-stepper-gap);
+  flex-shrink: 0;
+}
+
+.eevenkoto-stepper__value {
+  min-inline-size: 1.5rem;
+  text-align: center;
+  font-size: var(--eevenkoto-font-size-body-md);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  color: var(--_eevenkoto-stepper-text);
+}
+
+/* --- DISABLED --- */
+
+.eevenkoto-stepper--disabled {
+  --eevenkoto-stepper-bg: var(--eevenkoto-color-form-input-background-disabled);
+  --eevenkoto-stepper-text: var(--eevenkoto-color-form-input-text-disabled);
+  --eevenkoto-stepper-desc: var(--eevenkoto-color-form-input-text-disabled);
+  --eevenkoto-stepper-border-color: var(--eevenkoto-color-form-input-border-disabled);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-stepper {
+    border-color: CanvasText;
+  }
+}

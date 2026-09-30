@@ -7,6 +7,7 @@ import {
   type SegmentedControlProps,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType } from 'vue';
+import { Icon } from '../atoms/Icon';
 
 export type { SegmentedControlProps };
 
@@ -57,7 +58,15 @@ export const SegmentedControl = defineComponent({
                   if (option.disabled) event.preventDefault();
                 },
               },
-              h('span', { class: 'eevenkoto-segmented-control__label' }, option.label),
+              h('span', { class: 'eevenkoto-segmented-control__label' }, [
+                option.icon
+                  ? h(Icon, {
+                      name: option.icon,
+                      size: props.size === 'sm' ? 'sm' : 'md',
+                    })
+                  : null,
+                option.label,
+              ]),
             );
           }),
         );
@@ -93,7 +102,15 @@ export const SegmentedControl = defineComponent({
                 disabled: option.disabled,
                 onChange: () => emit('change', option.id),
               }),
-              h('span', { class: 'eevenkoto-segmented-control__label' }, option.label),
+              h('span', { class: 'eevenkoto-segmented-control__label' }, [
+                option.icon
+                  ? h(Icon, {
+                      name: option.icon,
+                      size: props.size === 'sm' ? 'sm' : 'md',
+                    })
+                  : null,
+                option.label,
+              ]),
             ],
           );
         }),

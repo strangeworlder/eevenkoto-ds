@@ -10,6 +10,7 @@ import {
   chipClassNames,
   fieldClassNames,
   headingClassNames,
+  imageClassNames,
   inputClassNames,
   inlineRefClassNames,
   menuClassNames,
@@ -19,6 +20,14 @@ import {
   statusDotClassNames,
   tableCellClassNames,
   tableColClassNames,
+  equipmentBlockClassNames,
+  equipmentWorkshopClassNames,
+  checkboxClassNames,
+  checkboxGroupClassNames,
+  radioClassNames,
+  radioGroupClassNames,
+  selectClassNames,
+  stepperClassNames,
 } from '@eevenkoto/core';
 import {
   renderBadge,
@@ -27,6 +36,7 @@ import {
   renderChip,
   renderField,
   renderHeading,
+  renderImage,
   renderInput,
   renderInlineRef,
   renderMenu,
@@ -36,6 +46,14 @@ import {
   renderStatusDot,
   renderTable,
   renderTableCell,
+  renderEquipmentBlock,
+  renderEquipmentWorkshop,
+  renderCheckbox,
+  renderCheckboxGroup,
+  renderRadio,
+  renderRadioGroup,
+  renderSelect,
+  renderStepper,
 } from '@eevenkoto/html';
 import {
   Badge,
@@ -44,6 +62,7 @@ import {
   Chip,
   Field,
   Heading,
+  Image,
   Input,
   Menu,
   Popover,
@@ -51,6 +70,14 @@ import {
   Statblock,
   StatusDot,
   Table,
+  EquipmentBlock,
+  EquipmentWorkshop,
+  Checkbox,
+  CheckboxGroup,
+  Radio,
+  RadioGroup,
+  Select,
+  Stepper,
 } from '@eevenkoto/react';
 import {
   Badge as VueBadge,
@@ -59,6 +86,7 @@ import {
   Chip as VueChip,
   Field as VueField,
   Heading as VueHeading,
+  Image as VueImage,
   Input as VueInput,
   Menu as VueMenu,
   Popover as VuePopover,
@@ -66,6 +94,14 @@ import {
   Statblock as VueStatblock,
   StatusDot as VueStatusDot,
   Table as VueTable,
+  EquipmentBlock as VueEquipmentBlock,
+  EquipmentWorkshop as VueEquipmentWorkshop,
+  Checkbox as VueCheckbox,
+  CheckboxGroup as VueCheckboxGroup,
+  Radio as VueRadio,
+  RadioGroup as VueRadioGroup,
+  Select as VueSelect,
+  Stepper as VueStepper,
 } from '@eevenkoto/vue';
 
 const hostClass = (className: string) => className.split(/\s+/)[0];
@@ -162,6 +198,136 @@ describe('HTML matches Core class strings', () => {
     const markup = renderSpellblock({ name: 'Aavevalo', properties: [], deck: true });
     expect(markup).toContain(spellblockClassNames({ deck: true }));
   });
+
+  it('EquipmentBlock', () => {
+    const markup = renderEquipmentBlock({ name: 'Miekka' });
+    expect(markup).toContain(equipmentBlockClassNames());
+  });
+
+  it('EquipmentWorkshop', () => {
+    const markup = renderEquipmentWorkshop();
+    expect(markup).toContain(equipmentWorkshopClassNames());
+  });
+
+  it('Image default block', () => {
+    const markup = renderImage({ src: '/img.png', alt: 'Test image' });
+    expect(markup).toContain(imageClassNames());
+    expect(markup).toContain('<figure class="eevenkoto-image"');
+    expect(markup).toContain('src="/img.png"');
+    expect(markup).toContain('alt="Test image"');
+    expect(markup).toContain('loading="lazy"');
+    expect(markup).toContain('decoding="async"');
+  });
+
+  it('Image layout and framed modifiers', () => {
+    const markup = renderImage({
+      src: '/img.png',
+      alt: 'Test',
+      layout: 'float-right',
+      framed: true,
+      caption: 'A caption',
+    });
+    expect(markup).toContain(imageClassNames({ layout: 'float-right', framed: true }));
+    expect(markup).toContain('eevenkoto-image--float-right');
+    expect(markup).toContain('eevenkoto-image--framed');
+    expect(markup).toContain('<figcaption class="eevenkoto-image__caption eevenkoto-caption">A caption</figcaption>');
+  });
+
+  it('Image float-left modifier', () => {
+    const markup = renderImage({ src: '/img.png', alt: 'Test', layout: 'float-left' });
+    expect(markup).toContain(imageClassNames({ layout: 'float-left' }));
+    expect(markup).toContain('eevenkoto-image--float-left');
+  });
+
+  it('Checkbox', () => {
+    const markup = renderCheckbox({ label: 'Accept terms', checked: true });
+    expect(markup).toContain(checkboxClassNames());
+    expect(markup).toContain('type="checkbox"');
+    expect(markup).toContain('checked');
+    expect(markup).toContain('Accept terms');
+  });
+
+  it('Checkbox card variant', () => {
+    const markup = renderCheckbox({ label: 'Option', variant: 'card' });
+    expect(markup).toContain(checkboxClassNames({ variant: 'card' }));
+    expect(markup).toContain('eevenkoto-checkbox--card');
+  });
+
+  it('Radio', () => {
+    const markup = renderRadio({ name: 'choice', value: 'opt1', label: 'Option 1', checked: true });
+    expect(markup).toContain(radioClassNames());
+    expect(markup).toContain('type="radio"');
+    expect(markup).toContain('value="opt1"');
+    expect(markup).toContain('Option 1');
+  });
+
+  it('Radio tile variant', () => {
+    const markup = renderRadio({ name: 'choice', value: 'opt2', label: 'Option 2', variant: 'tile' });
+    expect(markup).toContain(radioClassNames({ variant: 'tile' }));
+    expect(markup).toContain('eevenkoto-radio--tile');
+  });
+
+  it('Select', () => {
+    const markup = renderSelect({
+      ariaLabel: 'Choices',
+      options: [
+        { value: '1', label: 'One' },
+        { value: '2', label: 'Two' },
+      ],
+      value: '2',
+    });
+    expect(markup).toContain(selectClassNames());
+    expect(markup).toContain('<select');
+    expect(markup).toContain('value="1"');
+    expect(markup).toContain('value="2"');
+  });
+
+  it('CheckboxGroup', () => {
+    const markup = renderCheckboxGroup({
+      label: 'Permissions',
+      badge: '2 / 3',
+      items: [
+        { label: 'Read', checked: true },
+        { label: 'Write', checked: false },
+      ],
+    });
+    expect(markup).toContain(checkboxGroupClassNames());
+    expect(markup).toContain('<fieldset');
+    expect(markup).toContain('<legend');
+    expect(markup).toContain('Permissions');
+    expect(markup).toContain('2 / 3');
+  });
+
+  it('RadioGroup', () => {
+    const markup = renderRadioGroup({
+      name: 'status',
+      label: 'Status',
+      value: 'active',
+      options: [
+        { value: 'active', label: 'Active' },
+        { value: 'inactive', label: 'Inactive' },
+      ],
+    });
+    expect(markup).toContain(radioGroupClassNames());
+    expect(markup).toContain('<fieldset');
+    expect(markup).toContain('<legend');
+    expect(markup).toContain('Status');
+    expect(markup).toContain('Active');
+  });
+
+  it('Stepper', () => {
+    const markup = renderStepper({
+      name: 'quantity',
+      label: 'Quantity',
+      value: 3,
+      min: 0,
+      max: 10,
+    });
+    expect(markup).toContain(stepperClassNames());
+    expect(markup).toContain('class="eevenkoto-stepper__value"');
+    expect(markup).toContain('>3<');
+    expect(markup).toContain('Quantity');
+  });
 });
 
 describe('React className matches Core', () => {
@@ -251,6 +417,155 @@ describe('React className matches Core', () => {
     );
     expect(html).toContain(hostClass(spellblockClassNames()));
   });
+
+  it('EquipmentBlock', () => {
+    const html = renderToStaticMarkup(
+      createElement(EquipmentBlock, { name: 'Miekka' }),
+    );
+    expect(html).toContain(equipmentBlockClassNames());
+  });
+
+  it('EquipmentWorkshop', () => {
+    const html = renderToStaticMarkup(
+      createElement(EquipmentWorkshop),
+    );
+    expect(html).toContain(equipmentWorkshopClassNames());
+  });
+
+  it('Image', () => {
+    const html = renderToStaticMarkup(
+      createElement(Image, {
+        src: '/img.png',
+        alt: 'Test',
+        layout: 'float-left',
+        framed: true,
+        caption: 'A caption',
+      }),
+    );
+    expect(html).toContain(imageClassNames({ layout: 'float-left', framed: true }));
+    expect(html).toContain('eevenkoto-image--float-left');
+    expect(html).toContain('eevenkoto-image--framed');
+    expect(html).toContain('<figcaption class="eevenkoto-image__caption eevenkoto-caption">A caption</figcaption>');
+  });
+
+  it('Checkbox', () => {
+    const html = renderToStaticMarkup(
+      createElement(Checkbox, { label: 'Accept terms', checked: true, onChange: () => {} }),
+    );
+    expect(html).toContain(checkboxClassNames());
+    expect(html).toContain('type="checkbox"');
+    expect(html).toContain('checked');
+    expect(html).toContain('Accept terms');
+  });
+
+  it('Checkbox card variant', () => {
+    const html = renderToStaticMarkup(
+      createElement(Checkbox, { label: 'Option', variant: 'card', onChange: () => {} }),
+    );
+    expect(html).toContain(checkboxClassNames({ variant: 'card' }));
+    expect(html).toContain('eevenkoto-checkbox--card');
+  });
+
+  it('Radio', () => {
+    const html = renderToStaticMarkup(
+      createElement(Radio, {
+        name: 'choice',
+        value: 'opt1',
+        label: 'Option 1',
+        checked: true,
+        onChange: () => {},
+      }),
+    );
+    expect(html).toContain(radioClassNames());
+    expect(html).toContain('type="radio"');
+    expect(html).toContain('value="opt1"');
+    expect(html).toContain('Option 1');
+  });
+
+  it('Radio tile variant', () => {
+    const html = renderToStaticMarkup(
+      createElement(Radio, {
+        name: 'choice',
+        value: 'opt2',
+        label: 'Option 2',
+        variant: 'tile',
+        onChange: () => {},
+      }),
+    );
+    expect(html).toContain(radioClassNames({ variant: 'tile' }));
+    expect(html).toContain('eevenkoto-radio--tile');
+  });
+
+  it('Select', () => {
+    const html = renderToStaticMarkup(
+      createElement(Select, {
+        ariaLabel: 'Choices',
+        options: [
+          { value: '1', label: 'One' },
+          { value: '2', label: 'Two' },
+        ],
+        value: '2',
+        onChange: () => {},
+      }),
+    );
+    expect(html).toContain(selectClassNames());
+    expect(html).toContain('<select');
+    expect(html).toContain('value="1"');
+    expect(html).toContain('value="2"');
+  });
+
+  it('CheckboxGroup', () => {
+    const html = renderToStaticMarkup(
+      createElement(CheckboxGroup, {
+        label: 'Permissions',
+        badge: '2 / 3',
+        items: [
+          { label: 'Read', checked: true, onChange: () => {} },
+          { label: 'Write', checked: false, onChange: () => {} },
+        ],
+      }),
+    );
+    expect(html).toContain(checkboxGroupClassNames());
+    expect(html).toContain('<fieldset');
+    expect(html).toContain('<legend');
+    expect(html).toContain('Permissions');
+    expect(html).toContain('2 / 3');
+  });
+
+  it('RadioGroup', () => {
+    const html = renderToStaticMarkup(
+      createElement(RadioGroup, {
+        name: 'status',
+        label: 'Status',
+        value: 'active',
+        options: [
+          { value: 'active', label: 'Active' },
+          { value: 'inactive', label: 'Inactive' },
+        ],
+      }),
+    );
+    expect(html).toContain(radioGroupClassNames());
+    expect(html).toContain('<fieldset');
+    expect(html).toContain('<legend');
+    expect(html).toContain('Status');
+    expect(html).toContain('Active');
+  });
+
+  it('Stepper', () => {
+    const html = renderToStaticMarkup(
+      createElement(Stepper, {
+        name: 'quantity',
+        label: 'Quantity',
+        value: 3,
+        min: 0,
+        max: 10,
+      }),
+    );
+    expect(html).toContain(stepperClassNames());
+    expect(html).toContain('class="eevenkoto-stepper__value"');
+    expect(html).toContain('>3<');
+    expect(html).toContain('Quantity');
+  });
 });
 
 async function vueHtml(component: unknown, props: Record<string, unknown>, slots?: { default: () => unknown }) {
@@ -338,6 +653,120 @@ describe('Vue class matches Core (priority subset)', () => {
   it('Spellblock', async () => {
     const html = await vueHtml(VueSpellblock, { name: 'Aavevalo', properties: [] });
     expect(html).toContain(hostClass(spellblockClassNames()));
+  });
+
+  it('EquipmentBlock', async () => {
+    const html = await vueHtml(VueEquipmentBlock, { name: 'Miekka' });
+    expect(html).toContain(equipmentBlockClassNames());
+  });
+
+  it('EquipmentWorkshop', async () => {
+    const html = await vueHtml(VueEquipmentWorkshop);
+    expect(html).toContain(equipmentWorkshopClassNames());
+  });
+
+  it('Image', async () => {
+    const html = await vueHtml(VueImage, {
+      src: '/img.png',
+      alt: 'Test',
+      layout: 'float-right',
+      framed: true,
+      caption: 'A caption',
+    });
+    expect(html).toContain(imageClassNames({ layout: 'float-right', framed: true }));
+    expect(html).toContain('eevenkoto-image--float-right');
+    expect(html).toContain('eevenkoto-image--framed');
+    expect(html).toContain('<figcaption class="eevenkoto-image__caption eevenkoto-caption">A caption</figcaption>');
+  });
+
+  it('Checkbox', async () => {
+    const html = await vueHtml(VueCheckbox, { label: 'Accept terms', checked: true });
+    expect(html).toContain(checkboxClassNames());
+    expect(html).toContain('type="checkbox"');
+    expect(html).toContain('checked');
+    expect(html).toContain('Accept terms');
+  });
+
+  it('Checkbox card variant', async () => {
+    const html = await vueHtml(VueCheckbox, { label: 'Option', variant: 'card' });
+    expect(html).toContain(checkboxClassNames({ variant: 'card' }));
+    expect(html).toContain('eevenkoto-checkbox--card');
+  });
+
+  it('Radio', async () => {
+    const html = await vueHtml(VueRadio, { name: 'choice', value: 'opt1', label: 'Option 1', checked: true });
+    expect(html).toContain(radioClassNames());
+    expect(html).toContain('type="radio"');
+    expect(html).toContain('value="opt1"');
+    expect(html).toContain('Option 1');
+  });
+
+  it('Radio tile variant', async () => {
+    const html = await vueHtml(VueRadio, { name: 'choice', value: 'opt2', label: 'Option 2', variant: 'tile' });
+    expect(html).toContain(radioClassNames({ variant: 'tile' }));
+    expect(html).toContain('eevenkoto-radio--tile');
+  });
+
+  it('Select', async () => {
+    const html = await vueHtml(VueSelect, {
+      ariaLabel: 'Choices',
+      options: [
+        { value: '1', label: 'One' },
+        { value: '2', label: 'Two' },
+      ],
+      value: '2',
+    });
+    expect(html).toContain(selectClassNames());
+    expect(html).toContain('<select');
+    expect(html).toContain('value="1"');
+    expect(html).toContain('value="2"');
+  });
+
+  it('CheckboxGroup', async () => {
+    const html = await vueHtml(VueCheckboxGroup, {
+      label: 'Permissions',
+      badge: '2 / 3',
+      items: [
+        { label: 'Read', checked: true },
+        { label: 'Write', checked: false },
+      ],
+    });
+    expect(html).toContain(checkboxGroupClassNames());
+    expect(html).toContain('<fieldset');
+    expect(html).toContain('<legend');
+    expect(html).toContain('Permissions');
+    expect(html).toContain('2 / 3');
+  });
+
+  it('RadioGroup', async () => {
+    const html = await vueHtml(VueRadioGroup, {
+      name: 'status',
+      label: 'Status',
+      value: 'active',
+      options: [
+        { value: 'active', label: 'Active' },
+        { value: 'inactive', label: 'Inactive' },
+      ],
+    });
+    expect(html).toContain(radioGroupClassNames());
+    expect(html).toContain('<fieldset');
+    expect(html).toContain('<legend');
+    expect(html).toContain('Status');
+    expect(html).toContain('Active');
+  });
+
+  it('Stepper', async () => {
+    const html = await vueHtml(VueStepper, {
+      name: 'quantity',
+      label: 'Quantity',
+      value: 3,
+      min: 0,
+      max: 10,
+    });
+    expect(html).toContain(stepperClassNames());
+    expect(html).toContain('class="eevenkoto-stepper__value"');
+    expect(html).toContain('>3<');
+    expect(html).toContain('Quantity');
   });
 });
 

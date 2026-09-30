@@ -2,7 +2,7 @@
 
 Operating rules for agents and humans editing **this repository**. For installing and using published packages, feed Storybook’s [`/llms.txt`](http://localhost:6006/llms.txt) / [`/llms-full.txt`](http://localhost:6006/llms-full.txt) (generated from package READMEs, foundations MDX, and a short per-component index). Same files are written to the repo root by `npm run generate:llms`.
 
-**Product scope:** Eevenkoto is a **TTRPG content design system with growing core chrome**, not a full app kit. Dialog, Select, Toast, Tabs, and app shell are out of scope. Some Tier 2 roles (checkboxes, toasts, modals) are **token-only**. See root `README.md` and Storybook **Foundations/Decisions**.
+**Product scope:** Eevenkoto is a **TTRPG content design system with growing core chrome**, not a full app kit. Dialog, Toast, Tabs, and app shell are out of scope. Some Tier 2 roles (toasts, modals) are **token-only**. Core includes native form controls (Input, Select, Checkbox, Radio, CheckboxGroup, RadioGroup, Stepper). See root `README.md` and Storybook **Foundations/Decisions**.
 
 ## Repo map
 

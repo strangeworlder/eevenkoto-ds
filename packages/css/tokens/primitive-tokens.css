@@ -44,9 +44,6 @@
   --eevenkoto-color-parchment-text-subtle:        oklch(0.50 0.025 85);
   --eevenkoto-color-parchment-tint-disabled:      oklch(1 0 85);
   --eevenkoto-color-parchment-tint-disabled-deep: oklch(0 0 85);
-  /* Mid control fill: light enough for body ink at 4.5:1, dark enough for a canvas focus gap at 3:1. */
-  --eevenkoto-color-parchment-control:            oklch(0.60 0.04 85);
-  --eevenkoto-color-parchment-control-hover:      oklch(0.59 0.045 85);
 
   /* Obsidian — dark elevation (additive). Hue ~240; L steps 0.14 / 0.18 / 0.23. */
   --eevenkoto-color-obsidian-background:         oklch(0.14 0.01 240);

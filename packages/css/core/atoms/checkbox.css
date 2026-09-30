@@ -1,0 +1,333 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: CHECKBOX (TIER 3)
+   Binary selection control. Host is the wrapper `<label>` containing the custom
+   checkbox control and label/description content.
+   Supports default row layout and `--card` selectable card container.
+   Consumes Tier 2 tokens only. Host alone = md, default row, enabled.
+   ========================================================================== */
+
+.eevenkoto-checkbox {
+  --_eevenkoto-checkbox-bg: var(
+    --eevenkoto-checkbox-bg,
+    transparent
+  );
+  --_eevenkoto-checkbox-text: var(
+    --eevenkoto-checkbox-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-checkbox-desc-color: var(
+    --eevenkoto-checkbox-desc-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-checkbox-border-color: var(
+    --eevenkoto-checkbox-border-color,
+    transparent
+  );
+  --_eevenkoto-checkbox-border-width: var(
+    --eevenkoto-checkbox-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-checkbox-radius: var(
+    --eevenkoto-checkbox-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-checkbox-pad-block: var(
+    --eevenkoto-checkbox-pad-block,
+    var(--eevenkoto-space-1)
+  );
+  --_eevenkoto-checkbox-pad-inline: var(
+    --eevenkoto-checkbox-pad-inline,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-checkbox-gap: var(
+    --eevenkoto-checkbox-gap,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-checkbox-control-size: var(
+    --eevenkoto-checkbox-control-size,
+    1.8rem
+  );
+  --_eevenkoto-checkbox-control-bg: var(
+    --eevenkoto-checkbox-control-bg,
+    var(--eevenkoto-color-form-input-background)
+  );
+  --_eevenkoto-checkbox-control-bg-hover: var(
+    --eevenkoto-checkbox-control-bg-hover,
+    var(--eevenkoto-color-form-input-background-hover)
+  );
+  --_eevenkoto-checkbox-control-border: var(
+    --eevenkoto-checkbox-control-border,
+    var(--eevenkoto-color-form-input-border)
+  );
+  --_eevenkoto-checkbox-control-border-hover: var(
+    --eevenkoto-checkbox-control-border-hover,
+    var(--eevenkoto-color-form-input-border-focus)
+  );
+  --_eevenkoto-checkbox-control-border-width: var(
+    --eevenkoto-checkbox-control-border-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-checkbox-control-radius: var(
+    --eevenkoto-checkbox-control-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-checkbox-checked-bg: var(
+    --eevenkoto-checkbox-checked-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-checkbox-checked-border: var(
+    --eevenkoto-checkbox-checked-border,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-checkbox-checked-mark: var(
+    --eevenkoto-checkbox-checked-mark,
+    var(--eevenkoto-color-control-primary-text)
+  );
+  --_eevenkoto-checkbox-focus-ring-outer: var(
+    --eevenkoto-checkbox-focus-ring-outer,
+    var(--eevenkoto-color-boundary-focus-outer)
+  );
+  --_eevenkoto-checkbox-focus-ring-inner: var(
+    --eevenkoto-checkbox-focus-ring-inner,
+    var(--eevenkoto-color-boundary-focus-inner)
+  );
+  --_eevenkoto-checkbox-disabled-bg: var(
+    --eevenkoto-checkbox-disabled-bg,
+    var(--eevenkoto-color-form-input-background-disabled)
+  );
+  --_eevenkoto-checkbox-disabled-border: var(
+    --eevenkoto-checkbox-disabled-border,
+    var(--eevenkoto-color-form-input-border-disabled)
+  );
+  --_eevenkoto-checkbox-disabled-mark: var(
+    --eevenkoto-checkbox-disabled-mark,
+    var(--eevenkoto-color-form-input-text-disabled)
+  );
+  --_eevenkoto-checkbox-invalid-border: var(
+    --eevenkoto-checkbox-invalid-border,
+    var(--eevenkoto-color-form-input-border-invalid)
+  );
+
+  display: flex;
+  align-items: center;
+  gap: var(--_eevenkoto-checkbox-gap);
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--_eevenkoto-checkbox-pad-block) var(--_eevenkoto-checkbox-pad-inline);
+  background: var(--_eevenkoto-checkbox-bg);
+  border: var(--_eevenkoto-checkbox-border-width) solid var(--_eevenkoto-checkbox-border-color);
+  border-radius: var(--_eevenkoto-checkbox-radius);
+  color: var(--_eevenkoto-checkbox-text);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-control-md);
+  line-height: var(--eevenkoto-line-height-body);
+  cursor: pointer;
+  user-select: none;
+  text-box: normal;
+  transition: background var(--eevenkoto-transition-fast),
+    border-color var(--eevenkoto-transition-fast);
+}
+
+.eevenkoto-checkbox--card,
+.eevenkoto-checkbox:has(.eevenkoto-checkbox__description) {
+  align-items: flex-start;
+}
+
+.eevenkoto-checkbox__control {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-content: center;
+  margin: 0;
+  inline-size: var(--_eevenkoto-checkbox-control-size);
+  block-size: var(--_eevenkoto-checkbox-control-size);
+  flex-shrink: 0;
+  cursor: pointer;
+  background-color: var(--_eevenkoto-checkbox-control-bg);
+  border: var(--_eevenkoto-checkbox-control-border-width) solid var(--_eevenkoto-checkbox-control-border);
+  border-radius: var(--_eevenkoto-checkbox-control-radius);
+  transition: background-color var(--eevenkoto-transition-fast),
+    border-color var(--eevenkoto-transition-fast),
+    box-shadow var(--eevenkoto-transition-fast);
+}
+
+.eevenkoto-checkbox--card .eevenkoto-checkbox__control,
+.eevenkoto-checkbox:has(.eevenkoto-checkbox__description) .eevenkoto-checkbox__control {
+  margin-block-start: 0.2rem;
+}
+
+.eevenkoto-checkbox:hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled) .eevenkoto-checkbox__control {
+  background-color: var(--_eevenkoto-checkbox-control-bg-hover);
+  border-color: var(--_eevenkoto-checkbox-control-border-hover);
+}
+
+.eevenkoto-checkbox__control:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--_eevenkoto-checkbox-focus-ring-inner),
+    0 0 0 4px var(--_eevenkoto-checkbox-focus-ring-outer);
+}
+
+.eevenkoto-checkbox__control:checked {
+  background-color: var(--_eevenkoto-checkbox-checked-bg);
+  border-color: var(--_eevenkoto-checkbox-checked-border);
+}
+
+.eevenkoto-checkbox__control::after {
+  content: '';
+  display: block;
+  inline-size: 0.45rem;
+  block-size: 0.85rem;
+  border: solid var(--_eevenkoto-checkbox-checked-mark);
+  border-width: 0 0.2rem 0.2rem 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform var(--eevenkoto-transition-fast);
+  margin-block-start: -0.15rem;
+}
+
+.eevenkoto-checkbox__control:checked::after {
+  transform: rotate(45deg) scale(1);
+}
+
+.eevenkoto-checkbox__control:indeterminate {
+  background-color: var(--_eevenkoto-checkbox-checked-bg);
+  border-color: var(--_eevenkoto-checkbox-checked-border);
+}
+
+.eevenkoto-checkbox__control:indeterminate::after {
+  inline-size: 0.8rem;
+  block-size: 0;
+  border: solid var(--_eevenkoto-checkbox-checked-mark);
+  border-width: 0 0 0.2rem 0;
+  transform: rotate(0deg) scale(1);
+  margin-block-start: 0;
+}
+
+.eevenkoto-checkbox__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-1);
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  text-box: normal;
+}
+
+.eevenkoto-checkbox__title {
+  margin: 0;
+  font-size: var(--eevenkoto-font-size-control-md);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  line-height: var(--eevenkoto-line-height-body);
+  color: var(--_eevenkoto-checkbox-text);
+  text-box: normal;
+}
+
+.eevenkoto-checkbox__description {
+  margin: 0;
+  font-size: var(--eevenkoto-font-size-control-sm);
+  line-height: var(--eevenkoto-line-height-body);
+  color: var(--_eevenkoto-checkbox-desc-color);
+  text-box: normal;
+}
+
+.eevenkoto-checkbox__badge {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* --- CARD VARIANT --- */
+
+.eevenkoto-checkbox--card {
+  --eevenkoto-checkbox-bg: var(--eevenkoto-color-surface-sunken);
+  --eevenkoto-checkbox-border-color: var(--eevenkoto-color-boundary-subtle);
+  --eevenkoto-checkbox-pad-block: var(--eevenkoto-space-2);
+  --eevenkoto-checkbox-pad-inline: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-checkbox--card:hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled) {
+  --eevenkoto-checkbox-bg: var(--eevenkoto-color-surface-raised);
+  --eevenkoto-checkbox-border-color: var(--eevenkoto-color-boundary-focus-outer);
+}
+
+.eevenkoto-checkbox--card:has(:checked) {
+  --eevenkoto-checkbox-border-color: var(--eevenkoto-color-control-primary-background);
+}
+
+/* --- SIZES --- */
+
+.eevenkoto-checkbox--sm {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  --eevenkoto-checkbox-gap: var(--eevenkoto-space-2);
+  --eevenkoto-checkbox-control-size: 1.5rem;
+}
+
+.eevenkoto-checkbox--sm .eevenkoto-checkbox__control::after {
+  inline-size: 0.35rem;
+  block-size: 0.7rem;
+  margin-block-start: -0.1rem;
+}
+
+.eevenkoto-checkbox--sm .eevenkoto-checkbox__title {
+  font-size: var(--eevenkoto-font-size-control-sm);
+}
+
+.eevenkoto-checkbox--sm .eevenkoto-checkbox__description {
+  font-size: var(--eevenkoto-font-size-caption);
+}
+
+.eevenkoto-checkbox--md {
+  font-size: var(--eevenkoto-font-size-control-md);
+}
+
+/* --- INVALID --- */
+
+.eevenkoto-checkbox--invalid,
+.eevenkoto-checkbox:has(.eevenkoto-checkbox__control[aria-invalid='true']) {
+  --eevenkoto-checkbox-border-color: var(--eevenkoto-color-form-input-border-invalid);
+  --eevenkoto-checkbox-text: var(--eevenkoto-color-form-input-text-invalid);
+}
+
+.eevenkoto-checkbox--invalid .eevenkoto-checkbox__control,
+.eevenkoto-checkbox__control[aria-invalid='true'] {
+  border-color: var(--_eevenkoto-checkbox-invalid-border);
+}
+
+/* --- DISABLED --- */
+
+.eevenkoto-checkbox--disabled,
+.eevenkoto-checkbox:has(:disabled) {
+  --eevenkoto-checkbox-bg: var(--eevenkoto-color-form-input-background-disabled);
+  --eevenkoto-checkbox-text: var(--eevenkoto-color-form-input-text-disabled);
+  --eevenkoto-checkbox-desc-color: var(--eevenkoto-color-form-input-text-disabled);
+  --eevenkoto-checkbox-border-color: var(--eevenkoto-color-form-input-border-disabled);
+  cursor: not-allowed;
+}
+
+.eevenkoto-checkbox--disabled .eevenkoto-checkbox__control,
+.eevenkoto-checkbox__control:disabled {
+  cursor: not-allowed;
+  background-color: var(--_eevenkoto-checkbox-disabled-bg);
+  border-color: var(--_eevenkoto-checkbox-disabled-border);
+}
+
+.eevenkoto-checkbox--disabled .eevenkoto-checkbox__control:checked::after,
+.eevenkoto-checkbox__control:disabled:checked::after {
+  border-color: var(--_eevenkoto-checkbox-disabled-mark);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-checkbox--card {
+    border-color: CanvasText;
+  }
+
+  .eevenkoto-checkbox--invalid {
+    border-color: Highlight;
+  }
+
+  .eevenkoto-checkbox__control:checked {
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+
+  .eevenkoto-checkbox__control:checked::after {
+    border-color: HighlightText;
+  }
+}

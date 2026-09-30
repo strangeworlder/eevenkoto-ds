@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/css",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Eevenkoto design system tokens and component CSS",
   "type": "module",
   "files": [
@@ -23,6 +23,7 @@
     "./list.css": "./core/atoms/list.css",
     "./caption.css": "./core/atoms/caption.css",
     "./frame.css": "./core/atoms/frame.css",
+    "./image.css": "./core/atoms/image.css",
     "./scroll.css": "./core/atoms/scroll.css",
     "./table-cell.css": "./core/atoms/table-cell.css",
     "./icon.css": "./core/atoms/icon.css",
@@ -30,9 +31,15 @@
     "./inline-ref.css": "./core/atoms/inline-ref.css",
     "./avatar.css": "./core/atoms/avatar.css",
     "./input.css": "./core/atoms/input.css",
+    "./checkbox.css": "./core/atoms/checkbox.css",
+    "./radio.css": "./core/atoms/radio.css",
+    "./select.css": "./core/atoms/select.css",
     "./flow.css": "./core/molecules/flow.css",
     "./notice.css": "./core/molecules/notice.css",
     "./field.css": "./core/molecules/field.css",
+    "./checkbox-group.css": "./core/molecules/checkbox-group.css",
+    "./radio-group.css": "./core/molecules/radio-group.css",
+    "./stepper.css": "./core/molecules/stepper.css",
     "./segmented-control.css": "./core/molecules/segmented-control.css",
     "./card.css": "./core/molecules/card.css",
     "./tooltip-card.css": "./core/molecules/tooltip-card.css",
@@ -48,7 +55,9 @@
     "./statblock-feature.css": "./domain/molecules/statblock-feature.css",
     "./statblock-section.css": "./domain/molecules/statblock-section.css",
     "./statblock.css": "./domain/organisms/statblock.css",
-    "./spellblock.css": "./domain/organisms/spellblock.css"
+    "./spellblock.css": "./domain/organisms/spellblock.css",
+    "./equipment-block.css": "./domain/organisms/equipment-block.css",
+    "./equipment-workshop.css": "./domain/organisms/equipment-workshop.css"
   },
   "license": "ISC",
   "publishConfig": {

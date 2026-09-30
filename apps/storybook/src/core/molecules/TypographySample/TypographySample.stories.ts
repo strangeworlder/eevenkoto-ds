@@ -5,13 +5,25 @@ import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
 import '@eevenkoto/css/list.css';
 import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/field.css';
+import '@eevenkoto/css/input.css';
+import '@eevenkoto/css/checkbox.css';
+import '@eevenkoto/css/checkbox-group.css';
+import '@eevenkoto/css/radio.css';
+import '@eevenkoto/css/radio-group.css';
+import '@eevenkoto/css/badge.css';
 import './typography-sample.css';
 import {
   renderCaption,
+  renderCheckbox,
+  renderCheckboxGroup,
+  renderField,
   renderFlow,
   renderHeading,
+  renderInput,
   renderList,
   renderParagraph,
+  renderRadioGroup,
 } from '@eevenkoto/html';
 
 const renderSample = (): string => {
@@ -19,7 +31,7 @@ const renderSample = (): string => {
     content: [
       renderParagraph({
         size: 'lg',
-        text: 'A composed specimen of Heading, Paragraph, List, and Caption — the multi-axis hierarchy in a reading flow, not a token grid.',
+        text: 'A composed specimen of Heading, Paragraph, List, Caption, and Form Controls — the multi-axis hierarchy in a reading flow, not a token grid.',
       }),
       renderCaption({ text: 'Specimen · Foundations / Typography sample' }),
     ].join(''),
@@ -86,6 +98,78 @@ const renderSample = (): string => {
     ].join(''),
   });
 
+  const forms = renderFlow({
+    content: [
+      renderHeading({ level: 2, text: 'Form controls in document rhythm' }),
+      renderParagraph({
+        text: 'Inputs, checkboxes, and radio buttons adhere to the same type scales and spacing cadence as running text. Form labels, descriptive captions, and control sizing harmonize with the surrounding document.',
+      }),
+      renderField({
+        id: 'expedition-lead',
+        label: 'Expedition lead name',
+        hint: 'Logged in the canyon registry under archive protocol 4.',
+        control: renderInput({
+          id: 'expedition-lead',
+          value: 'Archivist Sula',
+          placeholder: 'Full name and title',
+        }),
+      }),
+      renderCheckboxGroup({
+        label: 'Field checklist & protocols',
+        badge: '2 / 3 vahvistettu',
+        badgeIntent: 'neutral',
+        hint: 'Review safety criteria before descending below the mist line.',
+        items: [
+          {
+            id: 'chk-harness',
+            label: 'Anchor harness inspected',
+            description: 'Double-checked load-bearing carabiners and piton integrity.',
+            variant: 'card',
+            checked: true,
+          },
+          {
+            id: 'chk-beacon',
+            label: 'Aether beacon synchronized',
+            description: 'Transmitting telemetry to the canyon rim outpost.',
+            variant: 'card',
+            checked: true,
+          },
+          {
+            id: 'chk-rations',
+            label: 'Emergency rations sealed',
+            description: 'Three-day iron rations packed in waterproof casing.',
+            variant: 'card',
+            checked: false,
+          },
+        ],
+      }),
+      renderRadioGroup({
+        name: 'descent-route',
+        label: 'Descent route',
+        value: 'chimney',
+        variant: 'card',
+        hint: 'Choose traversal route according to current canyon weather conditions.',
+        options: [
+          {
+            value: 'ridge',
+            label: 'North Ridge (windward)',
+            description: 'Wide footpath (4 h descent). Exposed to updrafts.',
+          },
+          {
+            value: 'chimney',
+            label: 'Chimney Chute (sheltered)',
+            description: 'Rope-assisted vertical descent (45 min). Protected from wind.',
+          },
+        ],
+      }),
+      renderCheckbox({
+        id: 'confirm-terms',
+        label: 'Acknowledge canyon survey regulations and environmental preservation pact',
+        checked: true,
+      }),
+    ].join(''),
+  });
+
   return `
     <article class="eevenkoto-typography-sample">
       ${renderFlow({
@@ -95,6 +179,7 @@ const renderSample = (): string => {
           macro,
           meso,
           micro,
+          forms,
         ].join(''),
       })}
     </article>
@@ -109,7 +194,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Reading-flow specimen composing Flow, Heading, Paragraph, List, and Caption under the multi-axis type hierarchy.',
+          'Reading-flow specimen composing Flow, Heading, Paragraph, List, Caption, and Form Controls (Input, Checkbox, Radio) under the multi-axis type hierarchy.',
       },
     },
   },

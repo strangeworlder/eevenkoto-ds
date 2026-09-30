@@ -1,0 +1,339 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: EQUIPMENT BLOCK (TIER 3)
+   Equipment entry organism for weapons, armor, and gear.
+   Banded presentation card following the tactical parchment aesthetic
+   shared with Statblock and Spellblock.
+   ========================================================================== */
+
+.eevenkoto-equipment-block {
+  --_eevenkoto-equipment-block-noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");
+  --_eevenkoto-equipment-block-bg: var(
+    --eevenkoto-equipment-block-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-equipment-block-plate-bg: var(
+    --eevenkoto-equipment-block-plate-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-equipment-block-stat-bg: var(
+    --eevenkoto-equipment-block-stat-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-equipment-block-tag-bg: var(
+    --eevenkoto-equipment-block-tag-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-equipment-block-text: var(
+    --eevenkoto-equipment-block-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-equipment-block-muted: var(
+    --eevenkoto-equipment-block-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-equipment-block-border-color: var(
+    --eevenkoto-equipment-block-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-equipment-block-border-width: var(
+    --eevenkoto-equipment-block-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-equipment-block-accent-rule-color: var(
+    --eevenkoto-equipment-block-accent-rule-color,
+    var(--eevenkoto-color-content-accent)
+  );
+  --_eevenkoto-equipment-block-accent-rule-width: var(
+    --eevenkoto-equipment-block-accent-rule-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-equipment-block-radius: var(
+    --eevenkoto-equipment-block-radius,
+    var(--eevenkoto-radius-md)
+  );
+  --_eevenkoto-equipment-block-shadow: var(
+    --eevenkoto-equipment-block-shadow,
+    1px 1px 3px var(--eevenkoto-color-depth-shadow-umbra)
+  );
+  --_eevenkoto-equipment-block-pad-block: var(
+    --eevenkoto-equipment-block-pad-block,
+    var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-equipment-block-pad-inline: var(
+    --eevenkoto-equipment-block-pad-inline,
+    var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-equipment-block-gap: var(
+    --eevenkoto-equipment-block-gap,
+    var(--eevenkoto-space-3)
+  );
+
+  container-type: inline-size;
+  container-name: eevenkoto-equipment-block;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0;
+
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-body-md);
+  line-height: var(--eevenkoto-line-height-body);
+
+  color: var(--_eevenkoto-equipment-block-text);
+  background: var(--_eevenkoto-equipment-block-bg);
+  border: var(--_eevenkoto-equipment-block-border-width) solid
+    var(--_eevenkoto-equipment-block-border-color);
+  border-radius: var(--_eevenkoto-equipment-block-radius);
+  corner-shape: scoop;
+  box-shadow: var(--_eevenkoto-equipment-block-shadow);
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+/* --- TITLE PLATE: Name, Category, Price --- */
+
+.eevenkoto-equipment-block__plate {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--eevenkoto-space-3);
+  box-sizing: border-box;
+  padding: var(--_eevenkoto-equipment-block-pad-block) var(--_eevenkoto-equipment-block-pad-inline);
+  background:
+    var(--_eevenkoto-equipment-block-noise),
+    var(--_eevenkoto-equipment-block-plate-bg);
+  border-block-end: var(--_eevenkoto-equipment-block-accent-rule-width) solid
+    var(--_eevenkoto-equipment-block-accent-rule-color);
+}
+
+.eevenkoto-equipment-block__heading-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-1);
+  min-width: 0;
+}
+
+.eevenkoto-equipment-block__heading-group > .eevenkoto-heading {
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-2);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
+  --eevenkoto-heading-margin-block: 0;
+  --eevenkoto-heading-padding: 0;
+  --eevenkoto-heading-border-block-end: none;
+
+  text-wrap: balance;
+  hyphens: auto;
+}
+
+.eevenkoto-equipment-block__category {
+  margin-block: 0;
+  font-size: var(--eevenkoto-font-size-control-sm);
+  color: var(--_eevenkoto-equipment-block-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.eevenkoto-equipment-block__price {
+  flex-shrink: 0;
+}
+
+/* --- STATS BAND: Primary metrics grid --- */
+
+.eevenkoto-equipment-block__stats {
+  box-sizing: border-box;
+  padding: var(--_eevenkoto-equipment-block-pad-block) var(--_eevenkoto-equipment-block-pad-inline)
+    var(--eevenkoto-space-2);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--eevenkoto-space-1-5);
+}
+
+.eevenkoto-equipment-block__stat-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--eevenkoto-space-2);
+  padding: var(--eevenkoto-space-1-5) var(--eevenkoto-space-3);
+  background: var(--_eevenkoto-equipment-block-stat-bg);
+  border: var(--_eevenkoto-equipment-block-border-width) solid
+    var(--_eevenkoto-equipment-block-border-color);
+  border-radius: var(--eevenkoto-radius-sm);
+  min-width: 0;
+  text-box: normal;
+}
+
+.eevenkoto-equipment-block__stat-label {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  color: var(--_eevenkoto-equipment-block-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: var(--eevenkoto-line-height-body);
+  flex-shrink: 0;
+  text-box: normal;
+}
+
+.eevenkoto-equipment-block__stat-value {
+  font-size: var(--eevenkoto-font-size-control-md);
+  font-weight: 700;
+  color: var(--_eevenkoto-equipment-block-text);
+  line-height: var(--eevenkoto-line-height-body);
+  text-align: end;
+  overflow-wrap: break-word;
+  text-box: normal;
+}
+
+/* Medium container: 2 columns × 2 rows with vertical label/value cards */
+@container eevenkoto-equipment-block (min-width: 26rem) {
+  .eevenkoto-equipment-block__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--eevenkoto-space-2);
+  }
+
+  .eevenkoto-equipment-block__stat-item {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--eevenkoto-space-1);
+    padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
+  }
+
+  .eevenkoto-equipment-block__stat-value {
+    font-size: var(--eevenkoto-font-size-body-md);
+    text-align: start;
+  }
+}
+
+/* Wide container: 4 columns across */
+@container eevenkoto-equipment-block (min-width: 44rem) {
+  .eevenkoto-equipment-block__stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Ultra-compact container fallback */
+@container eevenkoto-equipment-block (max-width: 18rem) {
+  .eevenkoto-equipment-block__stat-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .eevenkoto-equipment-block__stat-value {
+    text-align: start;
+  }
+}
+
+/* --- KESTO BREAKDOWN BAND --- */
+
+.eevenkoto-equipment-block__kesto {
+  box-sizing: border-box;
+  margin: var(--eevenkoto-space-1) var(--_eevenkoto-equipment-block-pad-inline);
+  padding: var(--eevenkoto-space-3);
+  background: var(--_eevenkoto-equipment-block-stat-bg);
+  border: var(--_eevenkoto-equipment-block-border-width) solid
+    var(--_eevenkoto-equipment-block-border-color);
+  border-radius: var(--eevenkoto-radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-equipment-block__kesto-title {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  font-weight: 700;
+  color: var(--_eevenkoto-equipment-block-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.eevenkoto-equipment-block__kesto-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-equipment-block__kesto-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-1);
+  padding: 2px var(--eevenkoto-space-2);
+  background: var(--_eevenkoto-equipment-block-tag-bg);
+  border: var(--_eevenkoto-equipment-block-border-width) solid
+    var(--_eevenkoto-equipment-block-border-color);
+  border-radius: var(--eevenkoto-radius-sm);
+  font-size: var(--eevenkoto-font-size-control-sm);
+  color: var(--_eevenkoto-equipment-block-muted);
+}
+
+.eevenkoto-equipment-block__kesto-tag strong {
+  color: var(--_eevenkoto-equipment-block-text);
+}
+
+/* --- SECTIONS: Traits, Notes, Warnings --- */
+
+.eevenkoto-equipment-block__section {
+  box-sizing: border-box;
+  padding: var(--eevenkoto-space-2) var(--_eevenkoto-equipment-block-pad-inline);
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-equipment-block__section-title {
+  margin: 0;
+  font-size: var(--eevenkoto-font-size-control-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--_eevenkoto-equipment-block-muted);
+}
+
+.eevenkoto-equipment-block__traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--eevenkoto-space-1);
+}
+
+.eevenkoto-equipment-block__empty-traits {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  font-style: italic;
+  color: var(--_eevenkoto-equipment-block-muted);
+}
+
+.eevenkoto-equipment-block__notes {
+  margin: 0;
+  padding-inline-start: var(--eevenkoto-space-4);
+  font-size: var(--eevenkoto-font-size-control-sm);
+  color: var(--_eevenkoto-equipment-block-text);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-equipment-block__notes li {
+  margin-block-end: var(--eevenkoto-space-1);
+}
+
+.eevenkoto-equipment-block__notes li:last-child {
+  margin-block-end: 0;
+}
+
+.eevenkoto-equipment-block__notice {
+  box-sizing: border-box;
+  margin: var(--eevenkoto-space-2) var(--_eevenkoto-equipment-block-pad-inline);
+}
+
+/* --- FOOTER: Actions --- */
+
+.eevenkoto-equipment-block__footer {
+  box-sizing: border-box;
+  padding: var(--eevenkoto-space-3) var(--_eevenkoto-equipment-block-pad-inline)
+    var(--_eevenkoto-equipment-block-pad-block);
+  margin-block-start: auto;
+}
+
+@media print {
+  .eevenkoto-equipment-block {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}

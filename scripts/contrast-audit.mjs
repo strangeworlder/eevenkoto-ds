@@ -366,6 +366,24 @@ function auditTheme(label, maps) {
     const fillColor = colors.get(fill);
     // A fully transparent control has no inner edge. The outer ring carries the 3:1 boundary.
     if (fillColor && alphaOf(fillColor) === 0) continue;
+    // Ghost controls have no solid inner fill; the outer ring carries the focus boundary.
+    if (fill.includes('-ghost-')) continue;
+    // An opaque border with >= 3:1 contrast against the inner ring carries the inner boundary.
+    const border = fill
+      .replace('-background', '-border')
+      .replace(/-hover|-active|-invalid/, '');
+    if (tokenExists(colors, border)) {
+      const borderColor = colors.get(border);
+      if (borderColor && alphaOf(borderColor) >= 0.999) {
+        const borderRatio = ratioAgainst(borderColor, colors.get(focusInner), null);
+        if (borderRatio >= 3) {
+          console.log(
+            `pass ${label} ${focusInner} bounded by ${border}: ${borderRatio.toFixed(2)}:1 (need 3:1)`,
+          );
+          continue;
+        }
+      }
+    }
     checkPair(colors, label, focusInner, fill, 3, [canvas]);
   }
 

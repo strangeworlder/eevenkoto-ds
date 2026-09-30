@@ -4,6 +4,7 @@ import {
   segmentedControlOptionClassNames,
   type SegmentedControlProps,
 } from '@eevenkoto/core';
+import { renderIcon } from '../../atoms/icon/renderIcon';
 import { escapeHtml } from '../../../utils/html';
 import template from './SegmentedControl.html';
 
@@ -14,6 +15,7 @@ export const renderSegmentedControl = (args: SegmentedControlProps): string => {
   const className = segmentedControlClassNames(args);
   const label = args.label ? escapeHtml(args.label) : '';
   const hostTone = args.tone;
+  const iconSize = args.size === 'sm' ? 'sm' : 'md';
 
   if (mode === 'links') {
     const labelAttr = label ? ` aria-label="${label}"` : '';
@@ -25,7 +27,8 @@ export const renderSegmentedControl = (args: SegmentedControlProps): string => {
         const currentAttr = selected ? ' aria-current="page"' : '';
         const disabledClass = option.disabled ? ' aria-disabled="true" tabindex="-1"' : '';
         const optionClass = segmentedControlOptionClassNames({ tone, selected });
-        return `<a class="${optionClass}" href="${href}"${currentAttr}${disabledClass}><span class="eevenkoto-segmented-control__label">${escapeHtml(option.label)}</span></a>`;
+        const iconMarkup = option.icon ? renderIcon({ name: option.icon, size: iconSize }) : '';
+        return `<a class="${optionClass}" href="${href}"${currentAttr}${disabledClass}><span class="eevenkoto-segmented-control__label">${iconMarkup}${escapeHtml(option.label)}</span></a>`;
       })
       .join('');
 
@@ -50,12 +53,13 @@ export const renderSegmentedControl = (args: SegmentedControlProps): string => {
         const checkedAttr = selected ? ' checked' : '';
         const disabledAttr = option.disabled ? ' disabled' : '';
         const id = escapeHtml(`${name}-${option.id}`);
-        return `<label class="${optionClass}" for="${id}"><input class="eevenkoto-segmented-control__input" type="radio" id="${id}" name="${name}" value="${escapeHtml(option.id)}"${checkedAttr}${disabledAttr} /><span class="eevenkoto-segmented-control__label">${escapeHtml(option.label)}</span></label>`;
+        const iconMarkup = option.icon ? renderIcon({ name: option.icon, size: iconSize }) : '';
+        return `<label class="${optionClass}" for="${id}"><input class="eevenkoto-segmented-control__input" type="radio" id="${id}" name="${name}" value="${escapeHtml(option.id)}"${checkedAttr}${disabledAttr} /><span class="eevenkoto-segmented-control__label">${iconMarkup}${escapeHtml(option.label)}</span></label>`;
       })
       .join('');
 
-  return template
-    .replace('{{hostOpen}}', `<fieldset class="${className}">`)
-    .replace('{{hostClose}}', '</fieldset>')
-    .replace('{{content}}', content);
+    return template
+      .replace('{{hostOpen}}', `<fieldset class="${className}">`)
+      .replace('{{hostClose}}', '</fieldset>')
+      .replace('{{content}}', content);
 };

@@ -1,0 +1,104 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: RADIO GROUP (TIER 3)
+   Semantic `<fieldset>` grouping related radio options with a `<legend>`,
+   optional header badge/slot, stack/grid layouts, and hint/error messages.
+   ========================================================================== */
+
+.eevenkoto-radio-group {
+  --_eevenkoto-radio-group-gap: var(
+    --eevenkoto-radio-group-gap,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-radio-group-legend-color: var(
+    --eevenkoto-radio-group-legend-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-radio-group-legend-size: var(
+    --eevenkoto-radio-group-legend-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-radio-group-message-color: var(
+    --eevenkoto-radio-group-message-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-radio-group-message-error: var(
+    --eevenkoto-radio-group-message-error,
+    var(--eevenkoto-color-form-input-message-invalid)
+  );
+
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+  font-family: var(--eevenkoto-font-sans);
+  text-box: normal;
+}
+
+.eevenkoto-radio-group__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  margin-block-end: var(--_eevenkoto-radio-group-gap);
+}
+
+.eevenkoto-radio-group__legend {
+  display: block;
+  padding: 0;
+  margin: 0;
+  font-size: var(--_eevenkoto-radio-group-legend-size);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  color: var(--_eevenkoto-radio-group-legend-color);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-radio-group__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-radio-group-gap);
+}
+
+/* --- GRID LAYOUT --- */
+
+.eevenkoto-radio-group--grid .eevenkoto-radio-group__list {
+  display: grid;
+  gap: var(--_eevenkoto-radio-group-gap);
+}
+
+.eevenkoto-radio-group--grid-2 .eevenkoto-radio-group__list {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.eevenkoto-radio-group--grid-3 .eevenkoto-radio-group__list {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 36rem) {
+  .eevenkoto-radio-group--grid-2 .eevenkoto-radio-group__list,
+  .eevenkoto-radio-group--grid-3 .eevenkoto-radio-group__list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- MESSAGE / HINT / ERROR --- */
+
+.eevenkoto-radio-group__message {
+  margin: 0;
+  margin-block-start: var(--_eevenkoto-radio-group-gap);
+  font-size: var(--eevenkoto-font-size-caption);
+  color: var(--_eevenkoto-radio-group-message-color);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-radio-group__message--error {
+  color: var(--_eevenkoto-radio-group-message-error);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-radio-group__message--error {
+    color: Highlight;
+  }
+}

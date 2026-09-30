@@ -1,0 +1,208 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as EquipmentBlockStories from './EquipmentBlock.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={EquipmentBlockStories} />
+
+# EquipmentBlock
+
+**EquipmentBlock** is the presentation card organism for TTRPG weapons, armor, and gear. Analogous to `Statblock` and `Spellblock`, it frames item header, price badge, key stat columns, damage kesto breakdown, trait chips, rules/effects, and an optional copy-to-clipboard action.
+
+English code API (`EquipmentBlockProps`); Finnish (or localized) copy is passed as **product data**.
+
+<Canvas of={EquipmentBlockStories.Weapon} />
+
+## Why to use
+
+Rules and compendium pages need a standardized, accessible display card for equipment:
+
+- **Consistent parchment card styling** matching Statblock and Spellblock.
+- **Structured damage kesto** breakdowns (base, bludgeoning, slashing, piercing) for armor and shields.
+- **Container-query responsive grid** adapting seamlessly between narrow sidebar callouts and wide full-page catalogs.
+- **Accessible copy-to-clipboard** hook for character sheet exports.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use for presenting individual weapons, armor, shields, or equipment in rules catalogs and compendiums.</li>
+      <li>Use as the live preview card inside interactive crafters or workshops (such as <code>EquipmentWorkshop</code>).</li>
+      <li>Pass Finnish game terminology as props and data.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don't build one-off Frankenstein cards with arbitrary ad-hoc tables and inline styles.</li>
+      <li>Don't hardcode rule math or Finnish strings in CSS or component class names.</li>
+      <li>Don't use generic Card when an equipment entity with stats, kesto, and traits is being rendered.</li>
+    </ul>
+  }
+/>
+
+## Composition map
+
+| Scope | Layer | Piece | Role |
+| --- | --- | --- | --- |
+| Core | Atom | [Heading](?path=/docs/core-atoms-heading--docs) | Item title (`h1` or `h2`) |
+| Core | Atom | [Caption](?path=/docs/core-atoms-caption--docs) | Category and classification subtitle |
+| Core | Atom | [Badge](?path=/docs/core-atoms-badge--docs) | Price indicator badge (`solid` `neutral`) |
+| Core | Atom | [Chip](?path=/docs/core-atoms-chip--docs) | Trait pills |
+| Core | Atom | [Button](?path=/docs/core-atoms-button--docs) | Copy-to-clipboard button |
+| Core | Molecule | [Notice](?path=/docs/core-molecules-notice--docs) | Budget or validation warnings |
+| Domain | Organism | **EquipmentBlock** | Unified equipment presentation card |
+
+## Anatomy
+
+```
+EquipmentBlock
+├── Plate (header)
+│   ├── Heading Group: Title (H1/H2) + Category (Caption)
+│   └── Price (Badge)
+├── Stats Grid (2-4 stat pairs: damage, ability, reach/range, hands, PL, speed)
+├── Kesto Breakdown (optional: base, murskaus, viilto, pisto)
+├── Traits Section (Chip pills or empty placeholder)
+├── Notes & Effects (bullet list)
+├── Notice (validation/warning alert, if any)
+└── Footer (copy button, optional)
+```
+
+## Accessibility
+
+- Maintains a clean document heading outline (**H1** by default, customizable to **H2** via `nameLevel: 2` for embeds).
+- Real HTML list elements (`<ul>`, `<li>`) for rules notes.
+- Stat pairs use clear label-value association.
+- Notice blocks declare `role="alert"`.
+- Buttons are native `<button type="button">` with visible focus rings.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Equipment name. |
+| `nameLevel` | `1 \| 2` | `1` | Heading level for the name (use `2` when embedded). |
+| `category` | `string` | — | Category/type line (e.g. `Sota-ase · Lähitaistelu`). |
+| `price` | `string` | — | Price string formatted with currency (e.g. `20 kr`). |
+| `stats` | `EquipmentStatItem[]` | — | Array of `{ label, value }` stat pairs. |
+| `kesto` | `EquipmentKestoBreakdown` | — | Optional damage resistance breakdown. |
+| `traits` | `string[]` | — | Array of trait names displayed as chips. |
+| `emptyTraitsText` | `string` | `'Ei erikoispiirteitä'` | Placeholder when no traits are selected. |
+| `traitsTitle` | `string` | `'Valitut piirteet'` | Title for traits section. |
+| `notesTitle` | `string` | `'Säännöt & vaikutukset'` | Title for notes section. |
+| `notes` | `string[]` | — | Rules and special effects paragraphs. |
+| `warnings` | `string[]` | — | Validation or budget warning messages. |
+| `copyText` | `string` | — | Text to copy to clipboard. |
+| `copyLabel` | `string` | `'Kopioi hahmolomakkeelle'` | Label for the copy button. |
+| `showCopyButton` | `boolean` | `false` | Whether to show the copy button in footer. |
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-equipment-block` | Host card container (`article`) |
+| `eevenkoto-equipment-block__plate` | Card header containing title and price |
+| `eevenkoto-equipment-block__stats` | Container-query grid for item stat pairs |
+| `eevenkoto-equipment-block__kesto` | Kesto box with breakdown tags |
+| `eevenkoto-equipment-block__section` | Section block (traits, notes) |
+| `eevenkoto-equipment-block__traits` | Flex wrap container for trait chips |
+| `eevenkoto-equipment-block__notes` | Bullet list of rule notes |
+| `eevenkoto-equipment-block__notice` | Alert container for warnings |
+| `eevenkoto-equipment-block__footer` | Footer container for actions |
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-equipment-block-bg` | Card background color |
+| `--eevenkoto-equipment-block-border-color` | Card border color |
+| `--eevenkoto-equipment-block-pad` | Card internal padding |
+
+## Framework packages
+
+```bash
+npm install @eevenkoto/css @eevenkoto/html
+# or @eevenkoto/react / @eevenkoto/vue
+```
+
+### HTML
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/equipment-block.css';
+import { renderEquipmentBlock } from '@eevenkoto/html';
+
+const html = renderEquipmentBlock({
+  name: 'Miekka',
+  category: 'Sota-ase · Lähitaistelu',
+  price: '20 kr',
+  stats: [{ label: 'Vahinko', value: '1n8 viiltovahinko' }],
+  traits: ['Viiltävä'],
+});
+```
+
+### React
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/equipment-block.css';
+import { EquipmentBlock } from '@eevenkoto/react';
+
+<EquipmentBlock
+  name="Miekka"
+  category="Sota-ase · Lähitaistelu"
+  price="20 kr"
+  stats={[{ label: 'Vahinko', value: '1n8 viiltovahinko' }]}
+  traits={['Viiltävä']}
+/>
+```
+
+### Vue
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/equipment-block.css';
+import { EquipmentBlock } from '@eevenkoto/vue';
+
+const stats = [{ label: 'Vahinko', value: '1n8 viiltovahinko' }];
+const traits = ['Viiltävä'];
+</script>
+
+<template>
+  <EquipmentBlock
+    name="Miekka"
+    category="Sota-ase · Lähitaistelu"
+    price="20 kr"
+    :stats="stats"
+    :traits="traits"
+  />
+</template>
+```
+
+## Related
+
+- [EquipmentWorkshop](?path=/docs/domain-organisms-equipmentworkshop--docs) — Interactive crafter organism
+- [Statblock](?path=/docs/domain-organisms-statblock--docs) — Creature/entity entry card
+- [Spellblock](?path=/docs/domain-organisms-spellblock--docs) — Spell entry card

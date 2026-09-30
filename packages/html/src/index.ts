@@ -11,12 +11,16 @@ export { renderParagraph, type ParagraphProps } from './core/atoms/paragraph/ren
 export { renderListItem, type ListItemProps } from './core/atoms/list-item/renderListItem';
 export { renderCaption, type CaptionProps } from './core/atoms/caption/renderCaption';
 export { renderFrame, type FrameProps } from './core/atoms/frame/renderFrame';
+export { renderImage, type ImageProps } from './core/atoms/image/renderImage';
 export { renderScroll, type ScrollProps } from './core/atoms/scroll/renderScroll';
 export { renderIcon, type IconProps } from './core/atoms/icon/renderIcon';
 export { renderPopover, type PopoverProps } from './core/atoms/popover/renderPopover';
 export { renderInlineRef, type InlineRefProps } from './core/atoms/inline-ref/renderInlineRef';
 export { renderAvatar, type AvatarProps } from './core/atoms/avatar/renderAvatar';
 export { renderInput, type InputProps } from './core/atoms/input/renderInput';
+export { renderCheckbox, type CheckboxProps } from './core/atoms/checkbox/renderCheckbox';
+export { renderRadio, type RadioProps } from './core/atoms/radio/renderRadio';
+export { renderSelect, type SelectProps } from './core/atoms/select/renderSelect';
 export {
   renderTableCell,
   type TableCellKind,
@@ -25,6 +29,9 @@ export {
 export { renderFlow, type FlowProps, type FlowDensity } from './core/molecules/flow/renderFlow';
 export { renderNotice, type NoticeProps } from './core/molecules/notice/renderNotice';
 export { renderField, type FieldProps } from './core/molecules/field/renderField';
+export { renderCheckboxGroup, type CheckboxGroupProps } from './core/molecules/checkbox-group/renderCheckboxGroup';
+export { renderRadioGroup, type RadioGroupProps } from './core/molecules/radio-group/renderRadioGroup';
+export { renderStepper, type StepperProps } from './core/molecules/stepper/renderStepper';
 export {
   renderSegmentedControl,
   type SegmentedControlProps,
@@ -94,4 +101,20 @@ export {
   type SpellblockProps,
   type SpellblockNameLevel,
 } from './domain/organisms/spellblock/renderSpellblock';
+export {
+  renderEquipmentBlock,
+  type EquipmentBlockProps,
+  type EquipmentBlockNameLevel,
+} from './domain/organisms/equipment-block/renderEquipmentBlock';
+export {
+  renderEquipmentWorkshop,
+  type EquipmentWorkshopProps,
+  DEFAULT_WEAPON_SPEC,
+  DEFAULT_ARMOR_SPEC,
+} from './domain/organisms/equipment-workshop/renderEquipmentWorkshop';
+export {
+  initEquipmentWorkshop,
+  autoInitEquipmentWorkshops,
+  type EquipmentWorkshopInitOptions,
+} from './domain/organisms/equipment-workshop/initEquipmentWorkshop';
 export { escapeHtml, sanitizeInlineHtml, slugifyId } from './utils/html';

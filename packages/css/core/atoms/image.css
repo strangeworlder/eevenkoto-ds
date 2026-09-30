@@ -1,0 +1,147 @@
+/* packages/css/core/atoms/image.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: IMAGE (TIER 3)
+   Responsive editorial media element with figure / figcaption semantics.
+   Host alone = full paragraph-wide block. Modifiers for editorial floats.
+   ========================================================================== */
+
+.eevenkoto-image {
+  --_eevenkoto-image-bg: var(
+    --eevenkoto-image-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-image-border-color: var(
+    --eevenkoto-image-border-color,
+    var(--eevenkoto-color-boundary-strong)
+  );
+  --_eevenkoto-image-border-width: var(
+    --eevenkoto-image-border-width,
+    0
+  );
+  --_eevenkoto-image-radius: var(
+    --eevenkoto-image-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-image-float-width: var(
+    --eevenkoto-image-float-width,
+    45%
+  );
+  --_eevenkoto-image-caption-color: var(
+    --eevenkoto-image-caption-color,
+    var(--eevenkoto-color-content-tertiary)
+  );
+  --_eevenkoto-image-aspect-ratio: var(
+    --eevenkoto-image-aspect-ratio,
+    auto
+  );
+  --_eevenkoto-image-object-fit: var(
+    --eevenkoto-image-object-fit,
+    cover
+  );
+
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  margin-inline: 0;
+  margin-block: 0;
+  padding: 0;
+}
+
+.eevenkoto-image__media {
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: var(--_eevenkoto-image-aspect-ratio);
+  object-fit: var(--_eevenkoto-image-object-fit);
+  background-color: var(--_eevenkoto-image-bg);
+  border: var(--_eevenkoto-image-border-width) solid var(--_eevenkoto-image-border-color);
+  border-radius: var(--_eevenkoto-image-radius);
+}
+
+.eevenkoto-image__caption {
+  margin-block-start: var(--eevenkoto-space-2);
+  margin-block-end: 0;
+  margin-inline: 0;
+  color: var(--_eevenkoto-image-caption-color);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-caption);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+/* --- LAYOUT MODIFIERS --- */
+
+.eevenkoto-image--block {
+  /* Explicit default alias */
+  float: none;
+  inline-size: 100%;
+}
+
+.eevenkoto-image--float-left {
+  float: left;
+  inline-size: var(--_eevenkoto-image-float-width);
+  margin-inline-end: var(--eevenkoto-space-4);
+  margin-inline-start: 0;
+  margin-block-end: var(--eevenkoto-space-3);
+  margin-block-start: 0;
+}
+
+.eevenkoto-image--float-right {
+  float: right;
+  inline-size: var(--_eevenkoto-image-float-width);
+  margin-inline-start: var(--eevenkoto-space-4);
+  margin-inline-end: 0;
+  margin-block-end: var(--eevenkoto-space-3);
+  margin-block-start: 0;
+}
+
+/* --- CONTAINER-RESPONSIVE COLLAPSE --- */
+/* When container width is too narrow for comfortable text wrapping, collapse float to block */
+@container (max-width: 32rem) {
+  .eevenkoto-image--float-left,
+  .eevenkoto-image--float-right {
+    float: none;
+    inline-size: 100%;
+    margin-inline: 0;
+    margin-block-end: var(--eevenkoto-space-4);
+  }
+}
+
+@media (max-width: 32rem) {
+  .eevenkoto-image--float-left,
+  .eevenkoto-image--float-right {
+    float: none;
+    inline-size: 100%;
+    margin-inline: 0;
+    margin-block-end: var(--eevenkoto-space-4);
+  }
+}
+
+/* --- FRAMED MODIFIER --- */
+
+.eevenkoto-image--framed {
+  --eevenkoto-image-border-width: var(--eevenkoto-line-width-sm);
+  --eevenkoto-image-border-color: var(--eevenkoto-color-boundary-strong);
+}
+
+/* --- DARK MODE COMFORT --- */
+
+[data-theme="dark"] .eevenkoto-image__media,
+[data-surface-mode="dark"] .eevenkoto-image__media {
+  filter: brightness(0.92) contrast(1.04);
+}
+
+/* --- HIGH CONTRAST & PRINT --- */
+
+@media (forced-colors: active) {
+  .eevenkoto-image--framed .eevenkoto-image__media {
+    border-color: CanvasText;
+  }
+}
+
+@media print {
+  .eevenkoto-image {
+    break-inside: avoid;
+  }
+}

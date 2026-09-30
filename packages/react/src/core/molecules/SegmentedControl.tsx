@@ -5,6 +5,7 @@ import {
   type SegmentedControlProps,
 } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement } from 'react';
+import { Icon } from '../atoms/Icon';
 
 export type { SegmentedControlProps };
 
@@ -52,7 +53,12 @@ export const SegmentedControl = ({
               tabIndex={option.disabled ? -1 : undefined}
               onClick={option.disabled ? (event) => event.preventDefault() : undefined}
             >
-              <span className="eevenkoto-segmented-control__label">{option.label}</span>
+              <span className="eevenkoto-segmented-control__label">
+                {option.icon ? (
+                  <Icon name={option.icon} size={size === 'sm' ? 'sm' : 'md'} />
+                ) : null}
+                {option.label}
+              </span>
             </a>
           );
         })}
@@ -86,7 +92,12 @@ export const SegmentedControl = ({
               disabled={option.disabled}
               onChange={() => onChange?.(option.id)}
             />
-            <span className="eevenkoto-segmented-control__label">{option.label}</span>
+            <span className="eevenkoto-segmented-control__label">
+              {option.icon ? (
+                <Icon name={option.icon} size={size === 'sm' ? 'sm' : 'md'} />
+              ) : null}
+              {option.label}
+            </span>
           </label>
         );
       })}

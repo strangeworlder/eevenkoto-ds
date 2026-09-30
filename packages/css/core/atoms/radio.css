@@ -1,0 +1,345 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: RADIO (TIER 3)
+   Single selection control. Host is the wrapper `<label>` containing the native
+   radio input and label/description content.
+   Supports default row layout, `--card`, and `--tile` selection blocks.
+   Consumes Tier 2 tokens only. Host alone = md, default row, enabled.
+   ========================================================================== */
+
+.eevenkoto-radio {
+  --_eevenkoto-radio-bg: var(
+    --eevenkoto-radio-bg,
+    transparent
+  );
+  --_eevenkoto-radio-text: var(
+    --eevenkoto-radio-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-radio-desc-color: var(
+    --eevenkoto-radio-desc-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-radio-border-color: var(
+    --eevenkoto-radio-border-color,
+    transparent
+  );
+  --_eevenkoto-radio-border-width: var(
+    --eevenkoto-radio-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-radio-radius: var(
+    --eevenkoto-radio-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-radio-pad-block: var(
+    --eevenkoto-radio-pad-block,
+    var(--eevenkoto-space-1)
+  );
+  --_eevenkoto-radio-pad-inline: var(
+    --eevenkoto-radio-pad-inline,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-radio-gap: var(
+    --eevenkoto-radio-gap,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-radio-control-size: var(
+    --eevenkoto-radio-control-size,
+    1.8rem
+  );
+  --_eevenkoto-radio-control-bg: var(
+    --eevenkoto-radio-control-bg,
+    var(--eevenkoto-color-form-input-background)
+  );
+  --_eevenkoto-radio-control-bg-hover: var(
+    --eevenkoto-radio-control-bg-hover,
+    var(--eevenkoto-color-form-input-background-hover)
+  );
+  --_eevenkoto-radio-control-border: var(
+    --eevenkoto-radio-control-border,
+    var(--eevenkoto-color-form-input-border)
+  );
+  --_eevenkoto-radio-control-border-hover: var(
+    --eevenkoto-radio-control-border-hover,
+    var(--eevenkoto-color-form-input-border-focus)
+  );
+  --_eevenkoto-radio-control-border-width: var(
+    --eevenkoto-radio-control-border-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-radio-checked-border: var(
+    --eevenkoto-radio-checked-border,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-radio-checked-dot: var(
+    --eevenkoto-radio-checked-dot,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-radio-focus-ring-outer: var(
+    --eevenkoto-radio-focus-ring-outer,
+    var(--eevenkoto-color-boundary-focus-outer)
+  );
+  --_eevenkoto-radio-focus-ring-inner: var(
+    --eevenkoto-radio-focus-ring-inner,
+    var(--eevenkoto-color-boundary-focus-inner)
+  );
+  --_eevenkoto-radio-disabled-bg: var(
+    --eevenkoto-radio-disabled-bg,
+    var(--eevenkoto-color-form-input-background-disabled)
+  );
+  --_eevenkoto-radio-disabled-border: var(
+    --eevenkoto-radio-disabled-border,
+    var(--eevenkoto-color-form-input-border-disabled)
+  );
+  --_eevenkoto-radio-disabled-dot: var(
+    --eevenkoto-radio-disabled-dot,
+    var(--eevenkoto-color-form-input-text-disabled)
+  );
+  --_eevenkoto-radio-invalid-border: var(
+    --eevenkoto-radio-invalid-border,
+    var(--eevenkoto-color-form-input-border-invalid)
+  );
+
+  display: flex;
+  align-items: center;
+  gap: var(--_eevenkoto-radio-gap);
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--_eevenkoto-radio-pad-block) var(--_eevenkoto-radio-pad-inline);
+  background: var(--_eevenkoto-radio-bg);
+  border: var(--_eevenkoto-radio-border-width) solid var(--_eevenkoto-radio-border-color);
+  border-radius: var(--_eevenkoto-radio-radius);
+  color: var(--_eevenkoto-radio-text);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-control-md);
+  line-height: var(--eevenkoto-line-height-body);
+  cursor: pointer;
+  user-select: none;
+  text-box: normal;
+  transition: background var(--eevenkoto-transition-fast),
+    border-color var(--eevenkoto-transition-fast);
+}
+
+.eevenkoto-radio--card,
+.eevenkoto-radio:has(.eevenkoto-radio__description) {
+  align-items: flex-start;
+}
+
+.eevenkoto-radio__control {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-content: center;
+  margin: 0;
+  inline-size: var(--_eevenkoto-radio-control-size);
+  block-size: var(--_eevenkoto-radio-control-size);
+  flex-shrink: 0;
+  cursor: pointer;
+  background-color: var(--_eevenkoto-radio-control-bg);
+  border: var(--_eevenkoto-radio-control-border-width) solid var(--_eevenkoto-radio-control-border);
+  border-radius: var(--eevenkoto-radius-full);
+  transition: background-color var(--eevenkoto-transition-fast),
+    border-color var(--eevenkoto-transition-fast),
+    box-shadow var(--eevenkoto-transition-fast);
+}
+
+.eevenkoto-radio--card .eevenkoto-radio__control,
+.eevenkoto-radio:has(.eevenkoto-radio__description) .eevenkoto-radio__control {
+  margin-block-start: 0.2rem;
+}
+
+.eevenkoto-radio:hover:not(:has(:disabled)):not(.eevenkoto-radio--disabled) .eevenkoto-radio__control {
+  background-color: var(--_eevenkoto-radio-control-bg-hover);
+  border-color: var(--_eevenkoto-radio-control-border-hover);
+}
+
+.eevenkoto-radio__control:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--_eevenkoto-radio-focus-ring-inner),
+    0 0 0 4px var(--_eevenkoto-radio-focus-ring-outer);
+}
+
+.eevenkoto-radio__control:checked {
+  border-color: var(--_eevenkoto-radio-checked-border);
+}
+
+.eevenkoto-radio__control::after {
+  content: '';
+  display: block;
+  inline-size: 0.8rem;
+  block-size: 0.8rem;
+  border-radius: var(--eevenkoto-radius-full);
+  background-color: var(--_eevenkoto-radio-checked-dot);
+  transform: scale(0);
+  transition: transform var(--eevenkoto-transition-fast);
+}
+
+.eevenkoto-radio__control:checked::after {
+  transform: scale(1);
+}
+
+.eevenkoto-radio__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-1);
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  text-box: normal;
+}
+
+.eevenkoto-radio__title {
+  margin: 0;
+  font-size: var(--eevenkoto-font-size-control-md);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  line-height: var(--eevenkoto-line-height-body);
+  color: var(--_eevenkoto-radio-text);
+  text-box: normal;
+}
+
+.eevenkoto-radio__description {
+  margin: 0;
+  font-size: var(--eevenkoto-font-size-control-sm);
+  line-height: var(--eevenkoto-line-height-body);
+  color: var(--_eevenkoto-radio-desc-color);
+  text-box: normal;
+}
+
+.eevenkoto-radio__badge {
+  flex-shrink: 0;
+  align-self: center;
+}
+
+/* --- CARD VARIANT --- */
+
+.eevenkoto-radio--card {
+  --eevenkoto-radio-bg: var(--eevenkoto-color-surface-sunken);
+  --eevenkoto-radio-border-color: var(--eevenkoto-color-boundary-subtle);
+  --eevenkoto-radio-pad-block: var(--eevenkoto-space-2);
+  --eevenkoto-radio-pad-inline: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-radio--card:hover:not(:has(:disabled)):not(.eevenkoto-radio--disabled) {
+  --eevenkoto-radio-bg: var(--eevenkoto-color-surface-raised);
+  --eevenkoto-radio-border-color: var(--eevenkoto-color-boundary-focus-outer);
+}
+
+.eevenkoto-radio--card:has(:checked) {
+  --eevenkoto-radio-border-color: var(--eevenkoto-color-control-primary-background);
+}
+
+/* --- TILE VARIANT (control hidden, card-like selection block) --- */
+
+.eevenkoto-radio--tile {
+  --eevenkoto-radio-bg: var(--eevenkoto-color-surface-sunken);
+  --eevenkoto-radio-border-color: var(--eevenkoto-color-boundary-subtle);
+  --eevenkoto-radio-pad-block: var(--eevenkoto-space-3);
+  --eevenkoto-radio-pad-inline: var(--eevenkoto-space-3);
+  block-size: 100%;
+  position: relative;
+}
+
+.eevenkoto-radio--tile .eevenkoto-radio__control {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.eevenkoto-radio--tile .eevenkoto-radio__content {
+  gap: var(--eevenkoto-space-1);
+}
+
+.eevenkoto-radio--tile .eevenkoto-radio__title {
+  font-size: var(--eevenkoto-font-size-control-md);
+  font-weight: var(--eevenkoto-font-weight-bold);
+}
+
+.eevenkoto-radio--tile:hover:not(:has(:disabled)):not(.eevenkoto-radio--disabled) {
+  --eevenkoto-radio-bg: var(--eevenkoto-color-surface-raised);
+  --eevenkoto-radio-border-color: var(--eevenkoto-color-boundary-focus-outer);
+}
+
+.eevenkoto-radio--tile:has(:checked) {
+  --eevenkoto-radio-bg: var(--eevenkoto-color-surface-raised);
+  --eevenkoto-radio-border-color: var(--eevenkoto-color-control-primary-background);
+  box-shadow: 0 0 0 1px var(--_eevenkoto-radio-border-color);
+}
+
+/* --- SIZES --- */
+
+.eevenkoto-radio--sm {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  --eevenkoto-radio-gap: var(--eevenkoto-space-2);
+  --eevenkoto-radio-control-size: 1.5rem;
+}
+
+.eevenkoto-radio--sm .eevenkoto-radio__control::after {
+  inline-size: 0.65rem;
+  block-size: 0.65rem;
+}
+
+.eevenkoto-radio--sm .eevenkoto-radio__title {
+  font-size: var(--eevenkoto-font-size-control-sm);
+}
+
+.eevenkoto-radio--sm .eevenkoto-radio__description {
+  font-size: var(--eevenkoto-font-size-caption);
+}
+
+.eevenkoto-radio--md {
+  font-size: var(--eevenkoto-font-size-control-md);
+}
+
+/* --- INVALID --- */
+
+.eevenkoto-radio--invalid,
+.eevenkoto-radio:has(.eevenkoto-radio__control[aria-invalid='true']) {
+  --eevenkoto-radio-border-color: var(--eevenkoto-color-form-input-border-invalid);
+  --eevenkoto-radio-text: var(--eevenkoto-color-form-input-text-invalid);
+}
+
+.eevenkoto-radio--invalid .eevenkoto-radio__control,
+.eevenkoto-radio__control[aria-invalid='true'] {
+  border-color: var(--_eevenkoto-radio-invalid-border);
+}
+
+/* --- DISABLED --- */
+
+.eevenkoto-radio--disabled,
+.eevenkoto-radio:has(:disabled) {
+  --eevenkoto-radio-bg: var(--eevenkoto-color-form-input-background-disabled);
+  --eevenkoto-radio-text: var(--eevenkoto-color-form-input-text-disabled);
+  --eevenkoto-radio-desc-color: var(--eevenkoto-color-form-input-text-disabled);
+  --eevenkoto-radio-border-color: var(--eevenkoto-color-form-input-border-disabled);
+  cursor: not-allowed;
+}
+
+.eevenkoto-radio--disabled .eevenkoto-radio__control,
+.eevenkoto-radio:has(:disabled) .eevenkoto-radio__control {
+  cursor: not-allowed;
+  background-color: var(--_eevenkoto-radio-disabled-bg);
+  border-color: var(--_eevenkoto-radio-disabled-border);
+}
+
+.eevenkoto-radio--disabled .eevenkoto-radio__control:checked::after,
+.eevenkoto-radio__control:disabled:checked::after {
+  background-color: var(--_eevenkoto-radio-disabled-dot);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-radio--card,
+  .eevenkoto-radio--tile {
+    border-color: CanvasText;
+  }
+
+  .eevenkoto-radio--invalid {
+    border-color: Highlight;
+  }
+
+  .eevenkoto-radio__control:checked {
+    border-color: Highlight;
+  }
+
+  .eevenkoto-radio__control:checked::after {
+    background-color: Highlight;
+  }
+}

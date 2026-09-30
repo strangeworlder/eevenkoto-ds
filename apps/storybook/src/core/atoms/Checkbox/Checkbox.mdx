@@ -1,0 +1,159 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+Accessible checkbox control consuming Tier 2 form and control tokens (`--eevenkoto-color-control-secondary-*`, `--eevenkoto-color-surface-sunken`). Renders a native `<input type="checkbox">` wrapped in a `<label class="eevenkoto-checkbox">`.
+
+<Canvas of={CheckboxStories.Default} />
+
+Host alone is **default** inline appearance, **md** size, enabled, and unchecked.
+
+### Playground
+
+<Controls of={CheckboxStories.Default} />
+
+## Why to use
+
+Form controls in TTRPG toolchains (character builders, equipment customizers, feature selectors) need clear visual states for selection, multi-line descriptions, and selectable card layouts without losing native keyboard and assistive technology ergonomics.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use Checkbox for binary independent choices or multi-select lists.</li>
+      <li>Use <code>variant="card"</code> for rich selectable panels with titles, descriptions, and price badges.</li>
+      <li>Group related checkboxes with <strong>CheckboxGroup</strong> to provide a shared <code>&lt;legend&gt;</code> and validation messaging.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don't use Checkbox when only one option can be selected from a set — use <strong>Radio</strong> or <strong>RadioGroup</strong>.</li>
+      <li>Don't replace Checkbox with non-interactive Badges or Chips for selectable state.</li>
+    </ul>
+  }
+/>
+
+## Checkbox vs other form controls
+
+| User Task | Recommended Component | Why | When NOT to use Checkbox |
+| --- | --- | --- | --- |
+| **Independent on/off toggle** (e.g. "I accept rules", "Show homebrew") | **Checkbox** (standalone) | Standard binary switch. Does not affect any other selection. | If user must choose between mutually exclusive alternatives, use **Radio**. |
+| **Select any number of options (0 to N)** (e.g. weapon traits, skill proficiencies) | **CheckboxGroup** (wrapping Checkbox) | Multi-select fieldset with shared legend and optional budget counter (`badge`). | If only ONE option can be active at a time, use **RadioGroup** or **Select**. |
+| **Select 1 option from 2–5 visible choices** (e.g. Melee vs Ranged) | **Radio** / **RadioGroup** | Mutually exclusive. Native arrow-key navigation. | Never use Checkbox for mutually exclusive states. |
+| **Select 1 option from 6+ choices** (e.g. Weapon class, 15 items) | **Select** | Compact dropdown. Keeps dialogs and forms scannable without huge vertical lists. | Checkbox is for multi-select, not single selection from lists. |
+| **Adjust numeric rank or count** (e.g. +1…+3 armor reinforcement) | **Stepper** | One-tap `+` / `−` adjustments with min/max bounds. | Don't stack multiple checkboxes (e.g. 3 boxes for rank 3) — use Stepper. |
+
+### Choosing Checkbox variants: Default vs Card
+
+- **Use default inline Checkbox** (`variant="default"`): For simple single-line choices without descriptive prose (e.g. "Remember my choice", dense lists of 10+ inventory items or skills in a sidebar).
+- **Use card Checkbox** (`variant="card"`): Whenever the option contains **secondary mechanics prose** (`description`), **price / budget badges** (`badge`), or is part of a rich configuration panel like the Varusteverstas / EquipmentWorkshop. The bordered card provides a large tap target and clear checked tint.
+
+## Card variant
+
+Card checkboxes provide a larger clickable surface area, subtle borders, and background tint when checked. Ideal for feature and trait pickers.
+
+<Canvas of={CheckboxStories.CardVariant} />
+
+## With description and badge
+
+<Canvas of={CheckboxStories.WithBadge} />
+
+## Minimum classes
+
+Host alone renders the default inline checkbox:
+
+```html
+<label class="eevenkoto-checkbox">
+  <input type="checkbox" class="eevenkoto-checkbox__control" />
+  <span class="eevenkoto-checkbox__content">
+    <strong class="eevenkoto-checkbox__title">Label</strong>
+  </span>
+</label>
+```
+
+Add `eevenkoto-checkbox--card` for card layout.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | **required** | Accessible label text. |
+| `description` | `string` | — | Optional secondary descriptive text. |
+| `badge` | `string` | — | Optional badge or price label on the right. |
+| `checked` | `boolean` | `false` | Checked state. |
+| `disabled` | `boolean` | `false` | Disabled interaction. |
+| `invalid` | `boolean` | `false` | Invalid validation state. |
+| `variant` | `'default' \| 'card'` | `'default'` | Visual display variant. |
+| `size` | `'sm' \| 'md'` | `'md'` | Sizing scale. |
+
+<ArgTypes of={CheckboxStories} />
+
+## Framework packages
+
+```html
+<!-- HTML -->
+<label class="eevenkoto-checkbox eevenkoto-checkbox--card">
+  <input type="checkbox" class="eevenkoto-checkbox__control" value="tarkkuus" />
+  <span class="eevenkoto-checkbox__content">
+    <strong class="eevenkoto-checkbox__title">Tarkkuus</strong>
+    <span class="eevenkoto-checkbox__description">Käytä KET tai VOI.</span>
+  </span>
+</label>
+```
+
+```tsx
+// React
+import { Checkbox } from '@eevenkoto/react';
+
+<Checkbox
+  label="Tarkkuus"
+  description="Käytä KET tai VOI."
+  variant="card"
+  checked={isChecked}
+  onChange={(e) => setIsChecked(e.target.checked)}
+/>
+```
+
+```vue
+<!-- Vue -->
+<script setup>
+import { Checkbox } from '@eevenkoto/vue';
+const checked = ref(false);
+</script>
+
+<template>
+  <Checkbox
+    label="Tarkkuus"
+    description="Käytä KET tai VOI."
+    variant="card"
+    v-model:checked="checked"
+  />
+</template>
+```

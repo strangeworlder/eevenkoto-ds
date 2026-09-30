@@ -1,0 +1,177 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: SELECT (TIER 3)
+   Single-choice dropdown menu field. Host is the wrapper (border, fill, focus ring)
+   containing the native `<select>` element and a chevron icon slot.
+   Consumes Tier 2 `form-input-*` only. Host alone = md, valid, enabled.
+   ========================================================================== */
+
+.eevenkoto-select {
+  --_eevenkoto-select-bg: var(
+    --eevenkoto-select-bg,
+    var(--eevenkoto-color-form-input-background)
+  );
+  --_eevenkoto-select-text: var(
+    --eevenkoto-select-text,
+    var(--eevenkoto-color-form-input-text)
+  );
+  --_eevenkoto-select-border-color: var(
+    --eevenkoto-select-border-color,
+    var(--eevenkoto-color-form-input-border)
+  );
+  --_eevenkoto-select-border-width: var(
+    --eevenkoto-select-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-select-radius: var(
+    --eevenkoto-select-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-select-pad-block: var(
+    --eevenkoto-select-pad-block,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-select-pad-inline: var(
+    --eevenkoto-select-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-select-pad-inline-end: var(
+    --eevenkoto-select-pad-inline-end,
+    calc(var(--_eevenkoto-select-pad-inline) + var(--eevenkoto-space-6))
+  );
+  --_eevenkoto-select-font-size: var(
+    --eevenkoto-select-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-select-icon: var(
+    --eevenkoto-select-icon,
+    var(--eevenkoto-color-content-secondary)
+  );
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 0;
+  background: var(--_eevenkoto-select-bg);
+  border: var(--_eevenkoto-select-border-width) solid var(--_eevenkoto-select-border-color);
+  border-radius: var(--_eevenkoto-select-radius);
+  color: var(--_eevenkoto-select-text);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--_eevenkoto-select-font-size);
+  line-height: var(--eevenkoto-line-height-body);
+  text-box: normal;
+  transition: background var(--eevenkoto-transition-fast),
+    border-color var(--eevenkoto-transition-fast);
+}
+
+.eevenkoto-select__field {
+  appearance: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding-block: var(--_eevenkoto-select-pad-block);
+  padding-inline-start: var(--_eevenkoto-select-pad-inline);
+  padding-inline-end: var(--_eevenkoto-select-pad-inline-end);
+  padding: var(--_eevenkoto-select-pad-block) var(--_eevenkoto-select-pad-inline-end)
+    var(--_eevenkoto-select-pad-block) var(--_eevenkoto-select-pad-inline);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  text-box: normal;
+}
+
+.eevenkoto-select__field:focus {
+  outline: none;
+}
+
+.eevenkoto-select__icon {
+  position: absolute;
+  right: var(--_eevenkoto-select-pad-inline);
+  inline-size: var(--eevenkoto-space-4);
+  block-size: var(--eevenkoto-space-4);
+  color: var(--_eevenkoto-select-icon);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eevenkoto-select__icon .eevenkoto-icon {
+  inline-size: var(--eevenkoto-space-4);
+  block-size: var(--eevenkoto-space-4);
+}
+
+.eevenkoto-select--sm .eevenkoto-select__icon,
+.eevenkoto-select--sm .eevenkoto-select__icon .eevenkoto-icon {
+  inline-size: var(--eevenkoto-space-3);
+  block-size: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-select:hover:not(:has(.eevenkoto-select__field:disabled)):not(.eevenkoto-select--invalid):not(
+    :has(.eevenkoto-select__field[aria-invalid='true'])
+  ) {
+  --eevenkoto-select-bg: var(--eevenkoto-color-form-input-background-hover);
+}
+
+.eevenkoto-select:focus-within {
+  --eevenkoto-select-border-color: var(--eevenkoto-color-form-input-border-focus);
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--eevenkoto-color-boundary-focus-inner);
+}
+
+/* --- SIZES (sm | md) --- */
+
+.eevenkoto-select--sm {
+  --eevenkoto-select-pad-block: var(--eevenkoto-space-1);
+  --eevenkoto-select-pad-inline: var(--eevenkoto-space-2);
+  --eevenkoto-select-pad-inline-end: calc(var(--eevenkoto-space-2) + var(--eevenkoto-space-4));
+  --eevenkoto-select-font-size: var(--eevenkoto-font-size-control-sm);
+}
+
+.eevenkoto-select--md {
+  --eevenkoto-select-pad-block: var(--eevenkoto-space-2);
+  --eevenkoto-select-pad-inline: var(--eevenkoto-space-3);
+  --eevenkoto-select-pad-inline-end: calc(var(--eevenkoto-space-3) + var(--eevenkoto-space-6));
+  --eevenkoto-select-font-size: var(--eevenkoto-font-size-control-md);
+}
+
+/* --- INVALID --- */
+
+.eevenkoto-select--invalid,
+.eevenkoto-select:has(.eevenkoto-select__field[aria-invalid='true']) {
+  --eevenkoto-select-bg: var(--eevenkoto-color-form-input-background-invalid);
+  --eevenkoto-select-text: var(--eevenkoto-color-form-input-text-invalid);
+  --eevenkoto-select-border-color: var(--eevenkoto-color-form-input-border-invalid);
+  --eevenkoto-select-border-width: var(--eevenkoto-line-width-md);
+  --eevenkoto-select-icon: var(--eevenkoto-color-form-input-message-invalid);
+}
+
+/* --- DISABLED (opaque tuples; no opacity) --- */
+
+.eevenkoto-select:has(.eevenkoto-select__field:disabled),
+.eevenkoto-select--disabled {
+  --eevenkoto-select-bg: var(--eevenkoto-color-form-input-background-disabled);
+  --eevenkoto-select-text: var(--eevenkoto-color-form-input-text-disabled);
+  --eevenkoto-select-border-color: var(--eevenkoto-color-form-input-border-disabled);
+  --eevenkoto-select-icon: var(--eevenkoto-color-form-input-text-disabled);
+}
+
+.eevenkoto-select__field:disabled {
+  cursor: not-allowed;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-select {
+    border-color: CanvasText;
+  }
+
+  .eevenkoto-select--invalid {
+    border-color: Highlight;
+  }
+}

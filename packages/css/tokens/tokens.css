@@ -80,7 +80,11 @@
 
   /* --- Controls: secondary --- */
   --eevenkoto-color-control-secondary-background: var(--eevenkoto-color-parchment-background-element);
-  --eevenkoto-color-control-secondary-background-hover: var(--eevenkoto-color-parchment-control-hover);
+  --eevenkoto-color-control-secondary-background-hover: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-background-element) 80%,
+    var(--eevenkoto-color-gold-state) 20%
+  );
   --eevenkoto-color-control-secondary-text: var(--eevenkoto-color-parchment-text);
   --eevenkoto-color-control-secondary-border: var(--eevenkoto-color-parchment-border);
   --eevenkoto-color-control-secondary-icon: var(--eevenkoto-color-parchment-text);
@@ -107,7 +111,11 @@
 
   /* --- Controls: ghost --- */
   --eevenkoto-color-control-ghost-background: transparent;
-  --eevenkoto-color-control-ghost-background-hover: var(--eevenkoto-color-parchment-control);
+  --eevenkoto-color-control-ghost-background-hover: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-background) 80%,
+    var(--eevenkoto-color-parchment-primary) 20%
+  );
   --eevenkoto-color-control-ghost-text: var(--eevenkoto-color-turquoise-ink);
   --eevenkoto-color-control-ghost-border: transparent;
   --eevenkoto-color-control-ghost-icon: var(--eevenkoto-color-turquoise-ink);
@@ -252,10 +260,10 @@
   );
 
   /* --- Form inputs & validation --- */
-  --eevenkoto-color-form-input-background: var(--eevenkoto-color-parchment-control);
+  --eevenkoto-color-form-input-background: var(--eevenkoto-color-parchment-background-bright);
   --eevenkoto-color-form-input-text: var(--eevenkoto-color-parchment-text);
   --eevenkoto-color-form-input-border: var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-form-input-background-hover: var(--eevenkoto-color-parchment-control-hover);
+  --eevenkoto-color-form-input-background-hover: var(--eevenkoto-color-parchment-background);
   --eevenkoto-color-form-input-border-focus: var(--eevenkoto-color-boundary-focus-outer);
   --eevenkoto-color-form-input-background-invalid: var(--eevenkoto-color-crimson-state);
   --eevenkoto-color-form-input-text-invalid: var(--eevenkoto-color-crimson-text);
