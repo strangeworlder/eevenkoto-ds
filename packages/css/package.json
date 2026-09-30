@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/css",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Eevenkoto design system tokens and component CSS",
   "type": "module",
   "files": [

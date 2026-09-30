@@ -111,10 +111,10 @@ export const InteractiveWeaponWorkshop: Story = {
         <div style="display: flex; justify-content: space-between; align-items: center; inline-size: 100%;">
           ${renderSegmentedControl({
             name: 'demo-mode',
-            value: 'weapons',
+            selectedId: 'weapons',
             options: [
-              { value: 'weapons', label: 'Aseet' },
-              { value: 'armor', label: 'Haarniskat' },
+              { id: 'weapons', label: 'Aseet' },
+              { id: 'armor', label: 'Haarniskat' },
             ],
           })}
           <div style="display: flex; align-items: center; gap: 0.5rem;">

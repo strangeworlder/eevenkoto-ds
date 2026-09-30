@@ -2,7 +2,16 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.9.3**.
+Published package version is **0.9.4**.
+
+## 0.9.4
+
+### Fixed
+
+- **SegmentedControl HTML renderer**:
+  - `renderSegmentedControl` handles options with `id` and `value` aliases defensively, preventing `TypeError` if options omit an explicit `id`.
+- **Storybook workspace linking**:
+  - Cleaned up stale nested `@eevenkoto` dependencies in `apps/storybook`, ensuring full alignment with local workspace exports.
 
 ## 0.9.3
 

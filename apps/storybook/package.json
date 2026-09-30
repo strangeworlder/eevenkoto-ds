@@ -9,9 +9,9 @@
     "build-storybook": "npm run generate:llms && storybook build"
   },
   "dependencies": {
-    "@eevenkoto/core": "0.9.2",
-    "@eevenkoto/css": "0.9.2",
-    "@eevenkoto/html": "0.9.2"
+    "@eevenkoto/core": "*",
+    "@eevenkoto/css": "*",
+    "@eevenkoto/html": "*"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "latest",
