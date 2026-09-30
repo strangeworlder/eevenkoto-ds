@@ -12,7 +12,7 @@ import {
   ARMOR_PRESETS,
   type WeaponSpec,
   type ArmorSpec,
-} from '@eevenkoto/core';
+} from '../apps/storybook/src/domain/organisms/EquipmentWorkshop/equipmentRules';
 
 describe('Equipment calculation engine', () => {
   describe('Weapon calculation', () => {

@@ -1,0 +1,195 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: TOAST (TIER 3)
+   Transient floating feedback notification atom. Consumes Tier 2 `surface-raised`
+   and `feedback-*` tokens. Host alone = subtle + neutral + visible + inline.
+   ========================================================================== */
+
+.eevenkoto-toast {
+  --_eevenkoto-toast-bg: var(
+    --eevenkoto-toast-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-toast-text: var(
+    --eevenkoto-toast-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-toast-border-color: var(
+    --eevenkoto-toast-border-color,
+    var(--eevenkoto-color-boundary-strong)
+  );
+  --_eevenkoto-toast-border-width: var(
+    --eevenkoto-toast-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-toast-radius: var(
+    --eevenkoto-toast-radius,
+    var(--eevenkoto-radius-md)
+  );
+  --_eevenkoto-toast-icon: var(
+    --eevenkoto-toast-icon,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-toast-pad-block: var(
+    --eevenkoto-toast-pad-block,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-toast-pad-inline: var(
+    --eevenkoto-toast-pad-inline,
+    var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-toast-gap: var(
+    --eevenkoto-toast-gap,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-toast-font-size: var(
+    --eevenkoto-toast-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-toast-box-shadow: var(
+    --eevenkoto-toast-box-shadow,
+    0 4px 12px var(--eevenkoto-color-depth-shadow-penumbra)
+  );
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_eevenkoto-toast-gap);
+  box-sizing: border-box;
+  padding: var(--_eevenkoto-toast-pad-block) var(--_eevenkoto-toast-pad-inline);
+  background: var(--_eevenkoto-toast-bg);
+  color: var(--_eevenkoto-toast-text);
+  border: var(--_eevenkoto-toast-border-width) solid var(--_eevenkoto-toast-border-color);
+  border-radius: var(--_eevenkoto-toast-radius);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--_eevenkoto-toast-font-size);
+  font-weight: 600;
+  line-height: var(--eevenkoto-line-height-tight);
+  box-shadow: var(--_eevenkoto-toast-box-shadow);
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--eevenkoto-transition-fast),
+    transform var(--eevenkoto-transition-fast);
+  text-box: normal;
+}
+
+.eevenkoto-toast__icon,
+.eevenkoto-toast .eevenkoto-icon {
+  inline-size: 1.25em;
+  block-size: 1.25em;
+  flex-shrink: 0;
+  color: var(--_eevenkoto-toast-icon);
+}
+
+.eevenkoto-toast__text {
+  flex: 1 1 auto;
+}
+
+/* --- STATE: HIDDEN / VISIBLE --- */
+
+.eevenkoto-toast--hidden {
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+.eevenkoto-toast--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- PLACEMENT MODIFIERS --- */
+
+.eevenkoto-toast--fixed-bottom-right {
+  position: fixed;
+  bottom: var(--eevenkoto-space-6);
+  right: var(--eevenkoto-space-6);
+  z-index: 9999;
+}
+
+.eevenkoto-toast--fixed-bottom-center {
+  position: fixed;
+  bottom: var(--eevenkoto-space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+}
+
+.eevenkoto-toast--fixed-bottom-center.eevenkoto-toast--hidden {
+  transform: translateX(-50%) translateY(12px);
+}
+
+/* --- INTENTS (SUBTLE DEFAULT) --- */
+
+.eevenkoto-toast--neutral {
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-boundary-strong);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-content-secondary);
+}
+
+.eevenkoto-toast--info {
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-info-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-info-icon);
+}
+
+.eevenkoto-toast--success {
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-success-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-success-icon);
+}
+
+.eevenkoto-toast--caution {
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-caution-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-caution-icon);
+}
+
+.eevenkoto-toast--critical {
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-critical-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-critical-icon);
+}
+
+.eevenkoto-toast--admin {
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-admin-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-admin-icon);
+}
+
+/* --- SOLID VARIANT --- */
+
+.eevenkoto-toast--solid,
+.eevenkoto-toast--solid.eevenkoto-toast--neutral {
+  --eevenkoto-toast-bg: var(--eevenkoto-color-feedback-neutral-solid-background);
+  --eevenkoto-toast-text: var(--eevenkoto-color-feedback-neutral-solid-text);
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-neutral-solid-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-neutral-solid-icon);
+}
+
+.eevenkoto-toast--solid.eevenkoto-toast--info {
+  --eevenkoto-toast-bg: var(--eevenkoto-color-feedback-info-solid-background);
+  --eevenkoto-toast-text: var(--eevenkoto-color-feedback-info-solid-text);
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-info-solid-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-info-solid-icon);
+}
+
+.eevenkoto-toast--solid.eevenkoto-toast--success {
+  --eevenkoto-toast-bg: var(--eevenkoto-color-feedback-success-solid-background);
+  --eevenkoto-toast-text: var(--eevenkoto-color-feedback-success-solid-text);
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-success-solid-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-success-solid-icon);
+}
+
+.eevenkoto-toast--solid.eevenkoto-toast--caution {
+  --eevenkoto-toast-bg: var(--eevenkoto-color-feedback-caution-solid-background);
+  --eevenkoto-toast-text: var(--eevenkoto-color-feedback-caution-solid-text);
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-caution-solid-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-caution-solid-icon);
+}
+
+.eevenkoto-toast--solid.eevenkoto-toast--critical {
+  --eevenkoto-toast-bg: var(--eevenkoto-color-feedback-critical-solid-background);
+  --eevenkoto-toast-text: var(--eevenkoto-color-feedback-critical-solid-text);
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-critical-solid-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-critical-solid-icon);
+}
+
+.eevenkoto-toast--solid.eevenkoto-toast--admin {
+  --eevenkoto-toast-bg: var(--eevenkoto-color-feedback-admin-solid-background);
+  --eevenkoto-toast-text: var(--eevenkoto-color-feedback-admin-solid-text);
+  --eevenkoto-toast-border-color: var(--eevenkoto-color-feedback-admin-solid-border);
+  --eevenkoto-toast-icon: var(--eevenkoto-color-feedback-admin-solid-icon);
+}

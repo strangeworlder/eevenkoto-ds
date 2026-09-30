@@ -28,6 +28,7 @@ import {
   radioGroupClassNames,
   selectClassNames,
   stepperClassNames,
+  toastClassNames,
 } from '@eevenkoto/core';
 import {
   renderBadge,
@@ -54,6 +55,7 @@ import {
   renderRadioGroup,
   renderSelect,
   renderStepper,
+  renderToast,
 } from '@eevenkoto/html';
 import {
   Badge,
@@ -78,6 +80,7 @@ import {
   RadioGroup,
   Select,
   Stepper,
+  Toast,
 } from '@eevenkoto/react';
 import {
   Badge as VueBadge,
@@ -102,6 +105,7 @@ import {
   RadioGroup as VueRadioGroup,
   Select as VueSelect,
   Stepper as VueStepper,
+  Toast as VueToast,
 } from '@eevenkoto/vue';
 
 const hostClass = (className: string) => className.split(/\s+/)[0];
@@ -205,8 +209,18 @@ describe('HTML matches Core class strings', () => {
   });
 
   it('EquipmentWorkshop', () => {
-    const markup = renderEquipmentWorkshop();
+    const markup = renderEquipmentWorkshop({
+      header: '<h1>Verstas</h1>',
+      controls: '<form>Ohjaimet</form>',
+      preview: '<aside>Esikatselu</aside>',
+    });
     expect(markup).toContain(equipmentWorkshopClassNames());
+    expect(markup).toContain('class="eevenkoto-equipment-workshop__header"');
+    expect(markup).toContain('class="eevenkoto-equipment-workshop__controls"');
+    expect(markup).toContain('class="eevenkoto-equipment-workshop__preview"');
+    expect(markup).toContain('<h1>Verstas</h1>');
+    expect(markup).toContain('Ohjaimet');
+    expect(markup).toContain('Esikatselu');
   });
 
   it('Image default block', () => {
@@ -328,6 +342,20 @@ describe('HTML matches Core class strings', () => {
     expect(markup).toContain('>3<');
     expect(markup).toContain('Quantity');
   });
+
+  it('Toast', () => {
+    const markup = renderToast({
+      text: 'Saved',
+      intent: 'success',
+      placement: 'fixed-bottom-right',
+    });
+    expect(markup).toContain(
+      toastClassNames({ intent: 'success', placement: 'fixed-bottom-right' }),
+    );
+    expect(markup).toContain('role="status"');
+    expect(markup).toContain('aria-live="polite"');
+    expect(markup).toContain('Saved');
+  });
 });
 
 describe('React className matches Core', () => {
@@ -427,9 +455,22 @@ describe('React className matches Core', () => {
 
   it('EquipmentWorkshop', () => {
     const html = renderToStaticMarkup(
-      createElement(EquipmentWorkshop),
+      createElement(
+        EquipmentWorkshop,
+        {
+          header: createElement('h1', null, 'Verstas'),
+          preview: createElement('aside', null, 'Esikatselu'),
+        },
+        createElement('form', null, 'Ohjaimet'),
+      ),
     );
     expect(html).toContain(equipmentWorkshopClassNames());
+    expect(html).toContain('class="eevenkoto-equipment-workshop__header"');
+    expect(html).toContain('class="eevenkoto-equipment-workshop__controls"');
+    expect(html).toContain('class="eevenkoto-equipment-workshop__preview"');
+    expect(html).toContain('<h1>Verstas</h1>');
+    expect(html).toContain('Ohjaimet');
+    expect(html).toContain('Esikatselu');
   });
 
   it('Image', () => {
@@ -566,6 +607,22 @@ describe('React className matches Core', () => {
     expect(html).toContain('>3<');
     expect(html).toContain('Quantity');
   });
+
+  it('Toast', () => {
+    const html = renderToStaticMarkup(
+      createElement(Toast, {
+        text: 'Saved',
+        intent: 'critical',
+        placement: 'fixed-bottom-center',
+      }),
+    );
+    expect(html).toContain(
+      toastClassNames({ intent: 'critical', placement: 'fixed-bottom-center' }),
+    );
+    expect(html).toContain('role="alert"');
+    expect(html).toContain('aria-live="assertive"');
+    expect(html).toContain('Saved');
+  });
 });
 
 async function vueHtml(component: unknown, props: Record<string, unknown>, slots?: { default: () => unknown }) {
@@ -661,8 +718,22 @@ describe('Vue class matches Core (priority subset)', () => {
   });
 
   it('EquipmentWorkshop', async () => {
-    const html = await vueHtml(VueEquipmentWorkshop);
+    const html = await vueHtml(
+      VueEquipmentWorkshop,
+      {},
+      {
+        header: () => h('h1', 'Verstas'),
+        controls: () => h('form', 'Ohjaimet'),
+        preview: () => h('aside', 'Esikatselu'),
+      },
+    );
     expect(html).toContain(equipmentWorkshopClassNames());
+    expect(html).toContain('class="eevenkoto-equipment-workshop__header"');
+    expect(html).toContain('class="eevenkoto-equipment-workshop__controls"');
+    expect(html).toContain('class="eevenkoto-equipment-workshop__preview"');
+    expect(html).toContain('<h1>Verstas</h1>');
+    expect(html).toContain('Ohjaimet');
+    expect(html).toContain('Esikatselu');
   });
 
   it('Image', async () => {
@@ -767,6 +838,20 @@ describe('Vue class matches Core (priority subset)', () => {
     expect(html).toContain('class="eevenkoto-stepper__value"');
     expect(html).toContain('>3<');
     expect(html).toContain('Quantity');
+  });
+
+  it('Toast', async () => {
+    const html = await vueHtml(VueToast, {
+      text: 'Saved',
+      intent: 'info',
+      placement: 'inline',
+    });
+    expect(html).toContain(
+      toastClassNames({ intent: 'info', placement: 'inline' }),
+    );
+    expect(html).toContain('role="status"');
+    expect(html).toContain('aria-live="polite"');
+    expect(html).toContain('Saved');
   });
 });
 

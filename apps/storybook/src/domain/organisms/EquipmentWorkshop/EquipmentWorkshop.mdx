@@ -28,153 +28,75 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # EquipmentWorkshop
 
-**EquipmentWorkshop** ("Varusteverstas") is an interactive craft organism that allows players and game masters to design customized weapons, armor, and shields. It features a responsive two-column layout: interactive configuration controls on the left, and a sticky live preview rendered by `EquipmentBlock` on the right.
+**EquipmentWorkshop** ("Varusteverstas") on **layout-runko (chassis)** varusteiden, aseiden ja haarniskojen muokkaukseen ja rakentamiseen.
 
-English code API (`EquipmentWorkshopProps`); Finnish game rules, default values, and presets live as data inside `@eevenkoto/core`.
+Design System tarjoaa responsiivisen 2-palstaisen asettelun (ohjaimet vasemmalla, sticky `EquipmentBlock`-esikatselu oikealla, valinnainen header ylhäällä) sekä käyttöliittymän peruskomponentit. Kuluttajasovellus vastaa omasta sääntömoottoristaan, laskentakaavoistaan ja lomaketilastaan.
 
-<Canvas of={EquipmentWorkshopStories.Default} />
+<Canvas of={EquipmentWorkshopStories.Chassis} />
 
-## Why to use
+## Arkkitehtuuri ja vastuujaot
 
-Interactive weapon and armor crafters in TTRPG websites frequently degrade into unmaintainable, ad-hoc "Frankenstein" components with raw hex colors, hardcoded CSS, and mismatched form elements. EquipmentWorkshop solves this by:
+> **Huomio:** V0.9.3 myötä Design System ei enää sisällä kovakoodattua pelimekaniikkaa (`calculateWeapon`, `calculateArmor`). Sääntömoottorin referenssikoodi ja migraatio-ohje löytyvät repositorion dokumentaatiosta: [`docs/migration-equipment-workshop-chassis.md`](https://github.com/strangeworlder/eevenkoto-ds/blob/main/docs/migration-equipment-workshop-chassis.md).
 
-- **100% design system composition**: Reuses SegmentedControl, Input, Button, Badge, Chip, Notice, and EquipmentBlock.
-- **Pure rule-engine separation**: Math, dice ladder calculations, trait budgets, and presets reside in `@eevenkoto/core` (`calculateWeapon`, `calculateArmor`).
-- **Zero-runtime vanilla option**: SSR-friendly HTML markup with lightweight vanilla client-side interactivity (`initEquipmentWorkshop`), plus idiomatic React and Vue components.
-- **Copy-to-clipboard**: Formats the final weapon or armor into standard Markdown suitable for Discord, roll20, or character sheet notes.
+| Osa-alue | Vastuutaho | Kuvaus |
+|---|---|---|
+| **Layout Chassis** | Design System | `EquipmentWorkshop` tarjoaa 2-palstaisen grid-asettelun, responsiivisen mobiilitaiton ja ohjainten ryhmittelytyylit. |
+| **Lomakeohjaimet** | Design System | `Input`, `Select`, `Stepper`, `RadioGroup`, `CheckboxGroup`, `SegmentedControl`, `Button`, `Toast`. |
+| **Esityskortti** | Design System | `EquipmentBlock` esittää lasketut arvot, piirteet, hinnat ja kopiointinapin. |
+| **Sääntömoottori & Tila** | Kuluttajasovellus | Pelimekaaniset kaavat, pistebudjettien validointi, esiasetukset ja reaktiivinen tila. |
 
-## When to use
+## Interaktiivinen esimerkkikytkentä
+
+Alla oleva tarina demonstroi, miten kuluttajasovellus kytkee omat sääntönsä ja tilansa `EquipmentWorkshop`-runkoon:
+
+<Canvas of={EquipmentWorkshopStories.InteractiveWeaponWorkshop} />
+
+## Milloin käyttää
 
 <DoDont
   do={
     <ul>
-      <li>Use on equipment craft, shop, or workshop pages (e.g. <code>/varusteet/aseet_ja_haarniskat</code>).</li>
-      <li>Use <code>autoInitEquipmentWorkshops()</code> in Astro or static pages for zero-boilerplate activation.</li>
-      <li>Use the calculation engine from <code>@eevenkoto/core</code> if you need headless equipment math in your own tools.</li>
+      <li>Käytä <code>EquipmentWorkshop</code>-runkoa varuste- ja esinepajoissa yhdessä <code>EquipmentBlock</code>in kanssa.</li>
+      <li>Sijoita lomakeohjaimet <code>controls</code>-slottiin / lapsikomponenteiksi ja esikatselu <code>preview</code>-slottiin.</li>
+      <li>Hyödynnä valmiita tyyliluokkia (kuten <code>.eevenkoto-equipment-workshop__control-group</code>).</li>
     </ul>
   }
   dont={
     <ul>
-      <li>Don't build custom Frankenstein forms for weapon/armor crafting in consumer apps.</li>
-      <li>Don't inline color or spacing variables — consume Tier 2 tokens and component stylesheets.</li>
-      <li>Don't duplicate equipment rules math in application code.</li>
+      <li>Älä rakenna omia ad-hoc flex/grid -virityksiä verstasnäkymille.</li>
+      <li>Älä kovakoodaa sovelluskohtaisia sääntökaavoja osaksi Design System -pakettia.</li>
     </ul>
   }
 />
 
-## Composition map
+## API-referenssi
 
-| Scope | Layer | Piece | Role |
+| Prop | Tyyppi | Oletus | Kuvaus |
 | --- | --- | --- | --- |
-| Core | Atom | [Button](?path=/docs/core-atoms-button--docs) | Randomize name, steppers, preset actions |
-| Core | Atom | [Input](?path=/docs/core-atoms-input--docs) | Custom weapon/armor name entry |
-| Core | Atom | [Badge](?path=/docs/core-atoms-badge--docs) | Trait counters and budget limits |
-| Core | Molecule | [SegmentedControl](?path=/docs/core-molecules-segmentedcontrol--docs) | Mode switch (Aseet vs Haarniskat) |
-| Domain | Organism | [EquipmentBlock](?path=/docs/domain-organisms-equipmentblock--docs) | Live reactive item preview |
-| Domain | Organism | **EquipmentWorkshop** | Complete interactive workshop organism |
+| `header` | `ReactNode \| string` | — | Yläpalkin sisältö (otsikko, tilakytkin, esiasetusvalitsin). |
+| `controls` | `ReactNode \| string` | — | Vasemman palstan ohjainlomake (tai lapsikomponentit). |
+| `preview` | `ReactNode \| string` | — | Oikean palstan esikatselu (tyypillisesti `EquipmentBlock`). |
+| `idSuffix` | `string` | — | Valinnainen elementti-id:n tarkenne. |
 
-## Anatomy
+### Apuluokat (CSS)
 
-```
-EquipmentWorkshop
-├── Header
-│   ├── Segmented Control (Weapons vs Armor)
-│   └── Preset Selector dropdown
-├── Body (responsive 2-column grid)
-│   ├── Controls Column
-│   │   ├── Name row (input + randomizer button)
-│   │   ├── Radio Grid (class, type)
-│   │   ├── Trait selections (checkboxes, steppers)
-│   │   └── Extra / Aether traits & Shield dropdown
-│   └── Preview Column (sticky)
-│       └── EquipmentBlock (live reactive update + copy button)
-└── Toast feedback ("Varustetiedot kopioitu leikepöydälle!")
-```
-
-## Accessibility
-
-- Mode switch uses standard `role="tablist"` or fieldset with radio inputs.
-- Option groupings use accessible legends and labels.
-- Stepper buttons provide clear `+` / `−` controls with accessible `disabled` states when budget limits are reached.
-- Clipboard toast uses `role="alert"` and `aria-live="polite"`.
-
-## API reference
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `initialMode` | `'weapons' \| 'armor'` | `'weapons'` | Starting mode tab. |
-| `initialWeapon` | `WeaponSpec` | `DEFAULT_WEAPON_SPEC` | Initial weapon specification. |
-| `initialArmor` | `ArmorSpec` | `DEFAULT_ARMOR_SPEC` | Initial armor specification. |
-| `idSuffix` | `string` | `''` | Suffix to ensure unique input IDs when multiple workshops exist. |
-
-### CSS classes
-
-| Class | Role |
+| Luokka | Rooli |
 | --- | --- |
-| `eevenkoto-equipment-workshop` | Organism root container |
-| `eevenkoto-equipment-workshop__header` | Mode navigation and preset selector row |
-| `eevenkoto-equipment-workshop__body` | Two-column responsive layout container |
-| `eevenkoto-equipment-workshop__controls` | Form controls container column |
-| `eevenkoto-equipment-workshop__preview` | Sticky live preview column |
-| `eevenkoto-equipment-workshop__radio-grid` | Responsive grid of radio selection cards |
-| `eevenkoto-equipment-workshop__stepper-grid` | Grid of numeric stepper incrementors |
-| `eevenkoto-equipment-workshop__toast` | Toast notification on copy |
+| `eevenkoto-equipment-workshop` | Rungon pääastia |
+| `eevenkoto-equipment-workshop__header` | Yläpalkki |
+| `eevenkoto-equipment-workshop__body` | Responsiivinen 2-palstainen grid |
+| `eevenkoto-equipment-workshop__controls` | Ohjainsarake |
+| `eevenkoto-equipment-workshop__preview` | Sticky esikatselusarake |
+| `eevenkoto-equipment-workshop__control-group` | Ohjainryhmän pystysuora asettelu |
+| `eevenkoto-equipment-workshop__group-label` | Ohjainryhmän otsikkoteksti |
+| `eevenkoto-equipment-workshop__group-hint` | Ohjainryhmän vinkkiteksti |
+| `eevenkoto-equipment-workshop__name-row` | Nimen ja arpomisnäppäimen rivi |
+| `eevenkoto-equipment-workshop__stepper-grid` | Stepper-ohjainten pino/grid |
 
-## Framework packages
+## Liittyvät komponentit
 
-```bash
-npm install @eevenkoto/css @eevenkoto/html
-# or @eevenkoto/react / @eevenkoto/vue
-```
-
-### Vanilla HTML / Astro
-
-```astro
----
-import '@eevenkoto/css/styles.css';
-import '@eevenkoto/css/equipment-block.css';
-import '@eevenkoto/css/equipment-workshop.css';
-import { renderEquipmentWorkshop } from '@eevenkoto/html';
----
-
-<div set:html={renderEquipmentWorkshop()} />
-
-<script>
-  import { autoInitEquipmentWorkshops } from '@eevenkoto/html';
-  autoInitEquipmentWorkshops();
-</script>
-```
-
-### React
-
-```tsx
-import '@eevenkoto/css/styles.css';
-import '@eevenkoto/css/equipment-block.css';
-import '@eevenkoto/css/equipment-workshop.css';
-import { EquipmentWorkshop } from '@eevenkoto/react';
-
-export default function WorkshopPage() {
-  return <EquipmentWorkshop initialMode="weapons" />;
-}
-```
-
-### Vue
-
-```vue
-<script setup>
-import '@eevenkoto/css/styles.css';
-import '@eevenkoto/css/equipment-block.css';
-import '@eevenkoto/css/equipment-workshop.css';
-import { EquipmentWorkshop } from '@eevenkoto/vue';
-</script>
-
-<template>
-  <EquipmentWorkshop initial-mode="weapons" />
-</template>
-```
-
-## Related
-
-- [EquipmentBlock](?path=/docs/domain-organisms-equipmentblock--docs) — Equipment card organism
-- [Statblock](?path=/docs/domain-organisms-statblock--docs) — Creature/entity entry card
-- [SegmentedControl](?path=/docs/core-molecules-segmentedcontrol--docs) — Mode switch
+- [EquipmentBlock](?path=/docs/domain-organisms-equipmentblock--docs) — Varusteen tietokortti
+- [Toast](?path=/docs/core-atoms-toast--docs) — Palauteilmoitus (esim. leikepöytäkopiointi)
+- [Stepper](?path=/docs/core-molecules-stepper--docs) — Lukumäärän ja pisteiden säätö
+- [RadioGroup](?path=/docs/core-molecules-radiogroup--docs) — Valintaryhmät
+- [CheckboxGroup](?path=/docs/core-molecules-checkboxgroup--docs) — Monivalintaryhmät

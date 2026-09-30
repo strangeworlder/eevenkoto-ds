@@ -55,7 +55,7 @@ import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
 ```
 
-Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `status-dot`, `chip`, `heading`, `paragraph`, `list`, `caption`, `frame`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `checkbox`, `radio`, `select`, `checkbox-group`, `radio-group`, `stepper`, `property`, `stat`, `flow`, `notice`, `field`, `segmented-control`, `card`, `tooltip-card`, `menu`, `catalog`, `prose`, `table`, `table-shell`. **Domain:** `entity-ref`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`, `spellblock`, `equipment-block`, `equipment-workshop`. AbilityScoreGroup has no dedicated sheet (uses ability-score).
+Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `status-dot`, `chip`, `heading`, `paragraph`, `list`, `caption`, `frame`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `checkbox`, `radio`, `select`, `toast`, `checkbox-group`, `radio-group`, `stepper`, `property`, `stat`, `flow`, `notice`, `field`, `segmented-control`, `card`, `tooltip-card`, `menu`, `catalog`, `prose`, `table`, `table-shell`. **Domain:** `entity-ref`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`, `spellblock`, `equipment-block`, `equipment-workshop`. AbilityScoreGroup has no dedicated sheet (uses ability-score).
 
 `styles.css` pulls Inter/Outfit from Google Fonts.
 
@@ -2351,13 +2351,13 @@ Short ADRs for product scope. Component APIs live on each component’s docs pag
 
 Eevenkoto is a **TTRPG content design system** (statblocks, entity refs, ability scores) plus **portable core chrome** (Button, Field, Menu, table stack, typography). It is not a general application kit.
 
-**Shipped:** Core atoms/molecules listed in package READMEs (including StatusDot, Chip, Catalog, Menu `embedded` / `status` / `locked`, Input, Select, Checkbox, Radio, CheckboxGroup, RadioGroup, Stepper); Domain EntityRef (including `class` and `creature`) → AbilityScore → Statblock → Spellblock → EquipmentWorkshop.
+**Shipped:** Core atoms/molecules listed in package READMEs (including StatusDot, Chip, Toast, Catalog, Menu `embedded` / `status` / `locked`, Input, Select, Checkbox, Radio, CheckboxGroup, RadioGroup, Stepper); Domain EntityRef (including `class` and `creature`) → AbilityScore → Statblock → Spellblock → EquipmentWorkshop.
 
 **Theming:** Light is the default. `[data-theme="dark"]` and `[data-surface-mode="dark"]` share the same Tier 2 remaps (Storybook toolbar). Contrast theme is not implemented.
 
-**Token-only (no component yet):** toast/banner containers, modal surface roles, breadcrumb-as-link tokens. Do not assume a component exists because a Tier 2 token is named.
+**Token-only (no component yet):** modal surface roles, breadcrumb-as-link tokens. Do not assume a component exists because a Tier 2 token is named.
 
-**Not in scope:** Dialog, Toast, Pager, Tabs, date pickers, app shell. Popover is CSS chrome; the host app owns focus trapping and dialog behavior. Compose class pages with the [Class entry recipe](/?path=/docs/foundations-class-entry-recipe--docs) — no Classblock organism yet.
+**Not in scope:** Dialog, Pager, Tabs, date pickers, app shell. Popover is CSS chrome; the host app owns focus trapping and dialog behavior. Toast is a pure presentation atom (`.eevenkoto-toast`, accessible `status`/`alert` role, placement, and transitions); full runtime queueing and portal management remain the host app's domain. Compose class pages with the [Class entry recipe](/?path=/docs/foundations-class-entry-recipe--docs) — no Classblock organism yet.
 
 ## Optional CSS peer
 
@@ -2787,6 +2787,23 @@ _Source: `apps\storybook\src\core\atoms\StatusDot\StatusDot.mdx` · [Storybook](
 
 _Source: `apps\storybook\src\core\atoms\TableCell\TableCell.mdx` · [Storybook](/?path=/docs/core-atoms-tablecell-tablecell--docs)_
 
+### Toast
+
+_Source: `apps\storybook\src\core\atoms\Toast\Toast.mdx` · [Storybook](/?path=/docs/core-atoms-toast-toast--docs)_
+
+**Why:** Interactive tools, workshops, and content authoring flows require immediate, unobtrusive confirmation after actions like copying to clipboard, auto-saving, or toggling state. Toast encapsulates the visual presentation, icon mapping, accessible ARIA roles, and motion transitions without coupling you to a complex singleton runtime.
+
+**When:** Use for transient success, status updates, or brief non-blocking warnings (e.g., &ldquo;Kopioitu leikepöydälle!&rdquo;).       Let intent automatically select appropriate icons and ARIA attributes (status vs alert).       Pair with placement="fixed-bottom-right" or fixed-bottom-center" when anchoring to viewport edge.       Use visible={'{false}'} / --hidden to smoothly transition out.        }   dont={            Don&rsquo;t use Toast for critical errors requiring explicit user confirmation — use a permanent Notice or dialog instead.       Don&rsquo;t put interactive links or action buttons inside a Toast; toasts are transient and disappear quickly.       Don&rsquo;t overload toasts with paragraphs of text; keep them to a single concise sentence.        } />
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `text` | `string` | — | Toast message content. |
+| `intent` | `'neutral' \| 'info' \| 'success' \| 'caution' \| 'critical' \| 'admin'` | `'neutral'` | Semantic feedback intent and default icon. |
+| `variant` | `'subtle' \| 'solid'` | `'subtle'` | Fill intensity variant. |
+| `placement` | `'inline' \| 'fixed-bottom-right' \| 'fixed-bottom-center'` | `'inline'` | Positioning strategy. |
+| `visible` | `boolean` | `true` | Visibility state for entry/exit transitions. |
+| `icon` | `IconName \| false` | *intent default* | Optional icon override, or `false` to omit icon. |
+
 ### Card
 
 _Source: `apps\storybook\src\core\molecules\Card\Card.mdx` · [Storybook](/?path=/docs/core-molecules-card-card--docs)_
@@ -3081,17 +3098,6 @@ _Source: `apps\storybook\src\domain\organisms\EquipmentBlock\EquipmentBlock.mdx`
 ### EquipmentWorkshop
 
 _Source: `apps\storybook\src\domain\organisms\EquipmentWorkshop\EquipmentWorkshop.mdx` · [Storybook](/?path=/docs/domain-organisms-equipmentworkshop-equipmentworkshop--docs)_
-
-**Why:** Interactive weapon and armor crafters in TTRPG websites frequently degrade into unmaintainable, ad-hoc "Frankenstein" components with raw hex colors, hardcoded CSS, and mismatched form elements. EquipmentWorkshop solves this by:
-
-**When:** Use on equipment craft, shop, or workshop pages (e.g. /varusteet/aseet_ja_haarniskat).       Use autoInitEquipmentWorkshops() in Astro or static pages for zero-boilerplate activation.       Use the calculation engine from @eevenkoto/core if you need headless equipment math in your own tools.        }   dont={            Don't build custom Frankenstein forms for weapon/armor crafting in consumer apps.       Don't inline color or spacing variables — consume Tier 2 tokens and component stylesheets.       Don't duplicate equipment rules math in application code.        } />
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `initialMode` | `'weapons' \| 'armor'` | `'weapons'` | Starting mode tab. |
-| `initialWeapon` | `WeaponSpec` | `DEFAULT_WEAPON_SPEC` | Initial weapon specification. |
-| `initialArmor` | `ArmorSpec` | `DEFAULT_ARMOR_SPEC` | Initial armor specification. |
-| `idSuffix` | `string` | `''` | Suffix to ensure unique input IDs when multiple workshops exist. |
 
 ### Spellblock
 

@@ -18,6 +18,7 @@ export { Input, type InputProps, type InputType } from './core/atoms/Input';
 export { Checkbox, type CheckboxProps } from './core/atoms/Checkbox';
 export { Radio, type RadioProps } from './core/atoms/Radio';
 export { Select, type SelectProps, type SelectOption, type SelectOptionGroup } from './core/atoms/Select';
+export { Toast, type ToastProps } from './core/atoms/Toast';
 export { TableCell } from './core/atoms/TableCell';
 export { Flow, type FlowProps, type FlowDensity } from './core/molecules/Flow';
 export { Notice, type NoticeProps } from './core/molecules/Notice';
@@ -71,6 +72,4 @@ export { EquipmentBlock, type EquipmentBlockProps } from './domain/organisms/Equ
 export {
   EquipmentWorkshop,
   type EquipmentWorkshopProps,
-  DEFAULT_WEAPON_SPEC,
-  DEFAULT_ARMOR_SPEC,
 } from './domain/organisms/EquipmentWorkshop';

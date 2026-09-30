@@ -66,18 +66,6 @@
     --eevenkoto-equipment-workshop-disabled-text,
     var(--eevenkoto-color-content-disabled)
   );
-  --_eevenkoto-equipment-workshop-toast-bg: var(
-    --eevenkoto-equipment-workshop-toast-bg,
-    var(--eevenkoto-color-surface-inverted)
-  );
-  --_eevenkoto-equipment-workshop-toast-text: var(
-    --eevenkoto-equipment-workshop-toast-text,
-    var(--eevenkoto-color-content-inverted)
-  );
-  --_eevenkoto-equipment-workshop-toast-shadow: var(
-    --eevenkoto-equipment-workshop-toast-shadow,
-    0 8px 24px var(--eevenkoto-color-depth-shadow-umbra)
-  );
 
   display: flex;
   flex-direction: column;
@@ -227,41 +215,4 @@
   position: sticky;
   top: var(--eevenkoto-space-4);
   align-self: start;
-}
-
-/* --- FEEDBACK TOAST --- */
-
-.eevenkoto-equipment-workshop__toast {
-  position: fixed;
-  bottom: var(--eevenkoto-space-6);
-  right: var(--eevenkoto-space-6);
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--eevenkoto-space-2);
-  padding: var(--eevenkoto-space-3) var(--eevenkoto-space-4);
-  background: var(--_eevenkoto-equipment-workshop-toast-bg);
-  color: var(--_eevenkoto-equipment-workshop-toast-text);
-  border: var(--_eevenkoto-equipment-workshop-border-width) solid
-    var(--_eevenkoto-equipment-workshop-accent);
-  border-radius: var(--eevenkoto-radius-md);
-  font-size: var(--eevenkoto-font-size-control-md);
-  font-weight: 600;
-  box-shadow: var(--_eevenkoto-equipment-workshop-toast-shadow);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all var(--eevenkoto-transition-fast);
-  pointer-events: none;
-  z-index: 9999;
-}
-
-.eevenkoto-equipment-workshop__toast .eevenkoto-icon {
-  inline-size: 1.25em;
-  block-size: 1.25em;
-  flex-shrink: 0;
-}
-
-.eevenkoto-equipment-workshop__toast--visible {
-  opacity: 1;
-  transform: translateY(0);
 }

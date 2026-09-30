@@ -46,6 +46,11 @@ export {
   type SelectOptionGroup,
 } from './core/atoms/Select';
 export {
+  Toast,
+  type ToastComponentProps,
+  type ToastProps,
+} from './core/atoms/Toast';
+export {
   TableCell,
   type TableCellComponentProps,
   type TableCellKind,
@@ -174,6 +179,4 @@ export {
 export {
   EquipmentWorkshop,
   type EquipmentWorkshopComponentProps,
-  DEFAULT_WEAPON_SPEC,
-  DEFAULT_ARMOR_SPEC,
 } from './domain/organisms/EquipmentWorkshop';

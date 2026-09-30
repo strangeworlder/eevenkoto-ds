@@ -2,7 +2,25 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.9.2**.
+Published package version is **0.9.3**.
+
+## 0.9.3
+
+### Added
+
+- **Toast** (Core atom) — transient floating feedback notification atom.
+  - Implements Tier 3 private bridge scoping (`--_eevenkoto-toast-*`), subtle and solid variants, 6 semantic feedback intents (`neutral`, `info`, `success`, `caution`, `critical`, `admin`), placement modifiers (`inline`, `fixed-bottom-right`, `fixed-bottom-center`), and entry/exit motion transitions.
+  - Accessible semantics: automatically resolves `role="status"` and `aria-live="polite"` (or `role="alert"` and `aria-live="assertive"` for critical alerts).
+  - Available across all layers: `@eevenkoto/css/toast.css`, `@eevenkoto/core`, `@eevenkoto/html` (`renderToast`), `@eevenkoto/react` (`<Toast />`), and `@eevenkoto/vue` (`<Toast />`).
+
+### Changed
+
+- **EquipmentWorkshop chassis refactor (Architectural Separation of Concerns)**:
+  - Pelkistettiin `EquipmentWorkshop` puhtaaksi esitys- ja layout-rungoksi (chassis). Design System tarjoaa responsiivisen 2-palstaisen asettelun, ohjainten ryhmittelytyylit ja sticky esikatselupalkin, mutta **ei** enää kovakoodattua pelimekaniikkaa tai sisäistä sovellustilaa.
+  - `EquipmentWorkshop` ottaa vastaan puhtaat slotit / propositiot (`header`, `controls`, `preview`) HTML:ssä, Reactissa ja Vuoessa.
+  - **Pelimekaaniset laskentakaavat siirretty pois Design System -paketeista:** `calculateWeapon`, `calculateArmor`, `stepDice`, `DICE_LADDER`, `WEAPON_PRESETS`, `ARMOR_PRESETS` ja satunnaisnimigeneraattorit on poistettu `@eevenkoto/core`-paketista. Kuluttajasovellukset omistavat jatkossa omat sääntönsä ja tilanhallintansa.
+  - **Migraatio-ohjeistus:** Katso yksityiskohtaiset ohjeet ja täydellinen sääntömoottorin referenssikoodi tiedostosta [`docs/migration-equipment-workshop-chassis.md`](docs/migration-equipment-workshop-chassis.md) sekä Storybookin dokumentaatiosta ([`EquipmentWorkshop`](http://localhost:6006/?path=/docs/domain-organisms-equipmentworkshop--docs)).
+  - Työkalun referenssitoteutus säilyy Storybookissa (`apps/storybook/src/domain/organisms/EquipmentWorkshop/equipmentRules.ts`).
 
 ## 0.9.2
 

@@ -1,0 +1,159 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ToastStories from './Toast.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={ToastStories} />
+
+# Toast
+
+A lightweight, accessible **floating feedback notification** atom. Host alone is **subtle**, **neutral**, **inline**, and **visible**.
+
+<Canvas of={ToastStories.Default} />
+
+```html
+<div class="eevenkoto-toast" role="status" aria-live="polite">
+  <span class="eevenkoto-toast__icon" aria-hidden="true">
+    <svg class="eevenkoto-icon" ...></svg>
+  </span>
+  <span class="eevenkoto-toast__text">Asetukset tallennettu onnistuneesti.</span>
+</div>
+```
+
+### Playground
+
+<Controls of={ToastStories.Default} />
+
+## Why to use
+
+Interactive tools, workshops, and content authoring flows require immediate, unobtrusive confirmation after actions like copying to clipboard, auto-saving, or toggling state. Toast encapsulates the visual presentation, icon mapping, accessible ARIA roles, and motion transitions without coupling you to a complex singleton runtime.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use for transient success, status updates, or brief non-blocking warnings (e.g., &ldquo;Kopioitu leikepöydälle!&rdquo;).</li>
+      <li>Let <code>intent</code> automatically select appropriate icons and ARIA attributes (<code>status</code> vs <code>alert</code>).</li>
+      <li>Pair with <code>placement="fixed-bottom-right"</code> or <code>fixed-bottom-center"</code> when anchoring to viewport edge.</li>
+      <li>Use <code>visible={'{false}'}</code> / <code>--hidden</code> to smoothly transition out.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don&rsquo;t use Toast for critical errors requiring explicit user confirmation — use a permanent <a href="?path=/docs/core-molecules-notice--docs">Notice</a> or dialog instead.</li>
+      <li>Don&rsquo;t put interactive links or action buttons inside a Toast; toasts are transient and disappear quickly.</li>
+      <li>Don&rsquo;t overload toasts with paragraphs of text; keep them to a single concise sentence.</li>
+    </ul>
+  }
+/>
+
+## Intents (Subtle)
+
+Subtle toasts use raised surfaces with semantic border accents and icon fills. Suitable for most background feedback.
+
+<Canvas of={ToastStories.Intents} />
+
+## Intents (Solid)
+
+Solid toasts use saturated semantic backgrounds. Best reserved for high-contrast alerts or important notifications.
+
+<Canvas of={ToastStories.Solid} />
+
+## Fixed Placement
+
+Toasts can be rendered inline or anchored using viewport placement modifiers:
+- `fixed-bottom-right`: standard desktop desktop floating toast.
+- `fixed-bottom-center`: mobile-friendly bottom banner placement.
+
+<Canvas of={ToastStories.FixedPlacement} />
+
+## Architecture & State Management
+
+Eevenkoto is a content design system, not an opinionated full-stack application framework:
+- The **Toast atom** is strictly a presentation and accessibility component (`role="status"` / `role="alert"`).
+- Dismiss timers, queueing, stacking, and portal mounting are managed by the host application or organism (such as `EquipmentWorkshop`).
+- Use CSS class `.eevenkoto-toast--hidden` (or `visible={false}`) to trigger the slide-and-fade exit transition.
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `text` | `string` | — | Toast message content. |
+| `intent` | `'neutral' \| 'info' \| 'success' \| 'caution' \| 'critical' \| 'admin'` | `'neutral'` | Semantic feedback intent and default icon. |
+| `variant` | `'subtle' \| 'solid'` | `'subtle'` | Fill intensity variant. |
+| `placement` | `'inline' \| 'fixed-bottom-right' \| 'fixed-bottom-center'` | `'inline'` | Positioning strategy. |
+| `visible` | `boolean` | `true` | Visibility state for entry/exit transitions. |
+| `icon` | `IconName \| false` | *intent default* | Optional icon override, or `false` to omit icon. |
+
+<ArgTypes of={ToastStories} />
+
+## Framework packages
+
+### HTML
+```ts
+import '@eevenkoto/css/toast.css';
+import '@eevenkoto/css/icon.css';
+import { renderToast } from '@eevenkoto/html';
+
+const html = renderToast({
+  text: 'Varustetiedot kopioitu!',
+  intent: 'success',
+  placement: 'fixed-bottom-right',
+});
+```
+
+### React
+```tsx
+import '@eevenkoto/css/toast.css';
+import '@eevenkoto/css/icon.css';
+import { Toast } from '@eevenkoto/react';
+
+<Toast
+  text="Varustetiedot kopioitu!"
+  intent="success"
+  placement="fixed-bottom-right"
+  visible={showToast}
+/>
+```
+
+### Vue
+```html
+<script setup>
+import '@eevenkoto/css/toast.css';
+import '@eevenkoto/css/icon.css';
+import { Toast } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Toast
+    text="Varustetiedot kopioitu!"
+    intent="success"
+    placement="fixed-bottom-right"
+    :visible="showToast"
+  />
+</template>
+```
+
+Related: [Notice](?path=/docs/core-molecules-notice--docs) · [Badge](?path=/docs/core-atoms-badge--docs) · [Button](?path=/docs/core-atoms-button--docs)
