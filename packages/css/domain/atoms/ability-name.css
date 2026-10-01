@@ -1,0 +1,50 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: ABILITY NAME (TIER 3, DOMAIN)
+   Domain atom for RPG ability names. Displays full name by default and
+   collapses to 3-letter ALLCAPS abbreviation when space is constrained.
+   ========================================================================== */
+
+.eevenkoto-ability-name {
+  --_eevenkoto-ability-name-text: var(
+    --eevenkoto-ability-name-text,
+    inherit
+  );
+
+  display: inline;
+  color: var(--_eevenkoto-ability-name-text);
+}
+
+.eevenkoto-ability-name__full {
+  display: inline;
+  white-space: nowrap;
+}
+
+.eevenkoto-ability-name__short {
+  display: none;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+
+/* --- EXPLICIT DISPLAY MODIFIERS --- */
+
+.eevenkoto-ability-name--short .eevenkoto-ability-name__full {
+  display: none;
+}
+
+.eevenkoto-ability-name--short .eevenkoto-ability-name__short {
+  display: inline;
+}
+
+.eevenkoto-ability-name--full .eevenkoto-ability-name__full {
+  display: inline;
+}
+
+.eevenkoto-ability-name--full .eevenkoto-ability-name__short {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-ability-name {
+    color: CanvasText;
+  }
+}

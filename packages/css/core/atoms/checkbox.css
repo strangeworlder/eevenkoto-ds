@@ -75,9 +75,17 @@
     --eevenkoto-checkbox-checked-bg,
     var(--eevenkoto-color-control-primary-background)
   );
+  --_eevenkoto-checkbox-checked-bg-hover: var(
+    --eevenkoto-checkbox-checked-bg-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
   --_eevenkoto-checkbox-checked-border: var(
     --eevenkoto-checkbox-checked-border,
     var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-checkbox-checked-border-hover: var(
+    --eevenkoto-checkbox-checked-border-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
   );
   --_eevenkoto-checkbox-checked-mark: var(
     --eevenkoto-checkbox-checked-mark,
@@ -156,7 +164,9 @@
   margin-block-start: 0.2rem;
 }
 
-.eevenkoto-checkbox:hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled) .eevenkoto-checkbox__control {
+.eevenkoto-checkbox:hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled)
+  .eevenkoto-checkbox__control:not(:checked):not(:indeterminate),
+.eevenkoto-checkbox__control:hover:not(:disabled):not(:checked):not(:indeterminate) {
   background-color: var(--_eevenkoto-checkbox-control-bg-hover);
   border-color: var(--_eevenkoto-checkbox-control-border-hover);
 }
@@ -170,6 +180,13 @@
 .eevenkoto-checkbox__control:checked {
   background-color: var(--_eevenkoto-checkbox-checked-bg);
   border-color: var(--_eevenkoto-checkbox-checked-border);
+}
+
+.eevenkoto-checkbox:hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled)
+  .eevenkoto-checkbox__control:checked,
+.eevenkoto-checkbox__control:hover:not(:disabled):checked {
+  background-color: var(--_eevenkoto-checkbox-checked-bg-hover);
+  border-color: var(--_eevenkoto-checkbox-checked-border-hover);
 }
 
 .eevenkoto-checkbox__control::after {
@@ -191,6 +208,13 @@
 .eevenkoto-checkbox__control:indeterminate {
   background-color: var(--_eevenkoto-checkbox-checked-bg);
   border-color: var(--_eevenkoto-checkbox-checked-border);
+}
+
+.eevenkoto-checkbox:hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled)
+  .eevenkoto-checkbox__control:indeterminate,
+.eevenkoto-checkbox__control:hover:not(:disabled):indeterminate {
+  background-color: var(--_eevenkoto-checkbox-checked-bg-hover);
+  border-color: var(--_eevenkoto-checkbox-checked-border-hover);
 }
 
 .eevenkoto-checkbox__control:indeterminate::after {
@@ -242,13 +266,20 @@
   --eevenkoto-checkbox-pad-inline: var(--eevenkoto-space-3);
 }
 
-.eevenkoto-checkbox--card:hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled) {
+.eevenkoto-checkbox--card:hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled):not(:has(:checked)):not(:has(:indeterminate)) {
   --eevenkoto-checkbox-bg: var(--eevenkoto-color-surface-raised);
   --eevenkoto-checkbox-border-color: var(--eevenkoto-color-boundary-focus-outer);
 }
 
-.eevenkoto-checkbox--card:has(:checked) {
+.eevenkoto-checkbox--card:has(:checked),
+.eevenkoto-checkbox--card:has(:indeterminate) {
   --eevenkoto-checkbox-border-color: var(--eevenkoto-color-control-primary-background);
+}
+
+.eevenkoto-checkbox--card:has(:checked):hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled),
+.eevenkoto-checkbox--card:has(:indeterminate):hover:not(:has(:disabled)):not(.eevenkoto-checkbox--disabled) {
+  --eevenkoto-checkbox-bg: var(--eevenkoto-color-surface-raised);
+  --eevenkoto-checkbox-border-color: var(--eevenkoto-color-control-primary-background-hover);
 }
 
 /* --- SIZES --- */
@@ -322,12 +353,14 @@
     border-color: Highlight;
   }
 
-  .eevenkoto-checkbox__control:checked {
+  .eevenkoto-checkbox__control:checked,
+  .eevenkoto-checkbox__control:indeterminate {
     background-color: Highlight;
     border-color: Highlight;
   }
 
-  .eevenkoto-checkbox__control:checked::after {
+  .eevenkoto-checkbox__control:checked::after,
+  .eevenkoto-checkbox__control:indeterminate::after {
     border-color: HighlightText;
   }
 }

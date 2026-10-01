@@ -339,6 +339,13 @@ export {
 } from './domain/atoms/entityRef';
 
 export {
+  type AbilityNameProps,
+  type AbilityNameClassNameProps,
+  abbreviateAbility,
+  abilityNameClassNames,
+} from './domain/atoms/abilityName';
+
+export {
   type AbilityScoreProps,
   abilityScoreClassNames,
 } from './domain/molecules/abilityScore';
@@ -376,6 +383,7 @@ export {
   type EquipmentBlockProps,
   type EquipmentBlockNameLevel,
   type EquipmentStatItem,
+  type EquipmentStatSubItem,
   type EquipmentKestoBreakdown,
   equipmentBlockClassNames,
 } from './domain/organisms/equipmentBlock';

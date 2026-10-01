@@ -19,6 +19,22 @@
     --eevenkoto-equipment-block-stat-bg,
     var(--eevenkoto-color-surface-sunken)
   );
+  --_eevenkoto-equipment-block-stat-emphasis-bg: var(
+    --eevenkoto-equipment-block-stat-emphasis-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-equipment-block-stat-emphasis-border: var(
+    --eevenkoto-equipment-block-stat-emphasis-border,
+    var(--eevenkoto-color-content-accent)
+  );
+  --_eevenkoto-equipment-block-stat-emphasis-indicator: var(
+    --eevenkoto-equipment-block-stat-emphasis-indicator,
+    var(--eevenkoto-color-content-accent-strong)
+  );
+  --_eevenkoto-equipment-block-stat-emphasis-text: var(
+    --eevenkoto-equipment-block-stat-emphasis-text,
+    var(--eevenkoto-color-content-accent-strong)
+  );
   --_eevenkoto-equipment-block-tag-bg: var(
     --eevenkoto-equipment-block-tag-bg,
     var(--eevenkoto-color-surface-raised)
@@ -164,6 +180,14 @@
   text-box: normal;
 }
 
+/* Primary emphasis (Puolustus / Vahinko) */
+.eevenkoto-equipment-block__stat-item--emphasis {
+  border-color: var(--_eevenkoto-equipment-block-stat-emphasis-border);
+  border-inline-start-width: var(--eevenkoto-line-width-lg);
+  border-inline-start-color: var(--_eevenkoto-equipment-block-stat-emphasis-indicator);
+  background: var(--_eevenkoto-equipment-block-stat-emphasis-bg);
+}
+
 .eevenkoto-equipment-block__stat-label {
   font-size: var(--eevenkoto-font-size-control-sm);
   color: var(--_eevenkoto-equipment-block-muted);
@@ -176,7 +200,7 @@
 
 .eevenkoto-equipment-block__stat-value {
   font-size: var(--eevenkoto-font-size-control-md);
-  font-weight: 700;
+  font-weight: var(--eevenkoto-font-weight-bold);
   color: var(--_eevenkoto-equipment-block-text);
   line-height: var(--eevenkoto-line-height-body);
   text-align: end;
@@ -184,11 +208,59 @@
   text-box: normal;
 }
 
-/* Medium container: 2 columns × 2 rows with vertical label/value cards */
-@container eevenkoto-equipment-block (min-width: 26rem) {
+.eevenkoto-equipment-block__stat-item--emphasis .eevenkoto-equipment-block__stat-value {
+  font-size: var(--eevenkoto-font-size-heading-3);
+  color: var(--_eevenkoto-equipment-block-stat-emphasis-text);
+}
+
+/* Sub-value underneath main value (e.g. damage type under damage die) */
+.eevenkoto-equipment-block__stat-subvalue {
+  display: block;
+  font-size: var(--eevenkoto-font-size-control-sm);
+  font-weight: var(--eevenkoto-font-weight-regular);
+  color: var(--_eevenkoto-equipment-block-muted);
+  line-height: var(--eevenkoto-line-height-body);
+  text-transform: lowercase;
+}
+
+/* Split sub-items (e.g. Reach & Throw in the same card) */
+.eevenkoto-equipment-block__stat-item--split {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--eevenkoto-space-1);
+}
+
+.eevenkoto-equipment-block__stat-subitem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-equipment-block__stat-subitem .eevenkoto-equipment-block__stat-label {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  color: var(--_eevenkoto-equipment-block-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.eevenkoto-equipment-block__stat-subitem .eevenkoto-equipment-block__stat-value {
+  font-size: var(--eevenkoto-font-size-control-md);
+  font-weight: var(--eevenkoto-font-weight-bold);
+}
+
+/* Medium container: 2 columns (emphasized stat spans full top row) */
+@container eevenkoto-equipment-block (min-width: 24rem) {
   .eevenkoto-equipment-block__stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--eevenkoto-space-2);
+  }
+
+  .eevenkoto-equipment-block__stat-item--emphasis {
+    grid-column: span 2;
   }
 
   .eevenkoto-equipment-block__stat-item {
@@ -203,12 +275,37 @@
     font-size: var(--eevenkoto-font-size-body-md);
     text-align: start;
   }
+
+  .eevenkoto-equipment-block__stat-item--emphasis .eevenkoto-equipment-block__stat-value {
+    font-size: var(--eevenkoto-font-size-heading-3);
+  }
+
+  .eevenkoto-equipment-block__stat-subitem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
 }
 
-/* Wide container: 4 columns across */
-@container eevenkoto-equipment-block (min-width: 44rem) {
+/* Wide container: 3 columns across in a single row */
+@container eevenkoto-equipment-block (min-width: 34rem) {
   .eevenkoto-equipment-block__stats {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .eevenkoto-equipment-block__stat-item--emphasis {
+    grid-column: auto;
+  }
+}
+
+/* Collapse multiple abilities to 3-letter ALLCAPS when card width is constrained */
+@container eevenkoto-equipment-block (max-width: 44rem) {
+  :has(.eevenkoto-ability-name ~ .eevenkoto-ability-name) .eevenkoto-ability-name__full {
+    display: none;
+  }
+
+  :has(.eevenkoto-ability-name ~ .eevenkoto-ability-name) .eevenkoto-ability-name__short {
+    display: inline;
   }
 }
 
@@ -221,6 +318,14 @@
 
   .eevenkoto-equipment-block__stat-value {
     text-align: start;
+  }
+
+  .eevenkoto-ability-name__full {
+    display: none;
+  }
+
+  .eevenkoto-ability-name__short {
+    display: inline;
   }
 }
 

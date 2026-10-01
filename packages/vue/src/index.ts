@@ -61,6 +61,7 @@ export {
   type TableVariant,
 } from './core/molecules/Table';
 export { TableShell } from './core/organisms/TableShell';
+export { AbilityName, type AbilityNameProps } from './domain/atoms/AbilityName';
 export { EntityRef, type EntityRefProps, type EntityRefKind } from './domain/atoms/EntityRef';
 export { AbilityScore, type AbilityScoreProps } from './domain/molecules/AbilityScore';
 export { AbilityScoreGroup } from './domain/organisms/AbilityScoreGroup';

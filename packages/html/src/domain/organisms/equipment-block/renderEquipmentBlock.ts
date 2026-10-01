@@ -10,6 +10,7 @@ import {
   type EquipmentBlockProps,
 } from '@eevenkoto/core';
 import { escapeHtml, sanitizeInlineHtml } from '../../../utils/html';
+import { renderAbilityName } from '../../atoms/ability-name/renderAbilityName';
 import template from './EquipmentBlock.html';
 
 export type { EquipmentBlockProps, EquipmentBlockNameLevel };
@@ -43,13 +44,55 @@ export const renderEquipmentBlock = (args: EquipmentBlockProps): string => {
   // Stats band
   if (args.stats?.length) {
     const statItems = args.stats
-      .map(
-        (st) =>
-          `<div class="eevenkoto-equipment-block__stat-item">` +
-          `<span class="eevenkoto-equipment-block__stat-label">${escapeHtml(st.label)}</span>` +
-          `<strong class="eevenkoto-equipment-block__stat-value">${escapeHtml(st.value)}</strong>` +
-          `</div>`,
-      )
+      .map((st) => {
+        const itemClasses = ['eevenkoto-equipment-block__stat-item'];
+        if (st.emphasis) {
+          itemClasses.push('eevenkoto-equipment-block__stat-item--emphasis');
+        }
+        if (st.subItems?.length) {
+          itemClasses.push('eevenkoto-equipment-block__stat-item--split');
+          const subItemMarkup = st.subItems
+            .map(
+              (sub) =>
+                `<div class="eevenkoto-equipment-block__stat-subitem">` +
+                `<span class="eevenkoto-equipment-block__stat-label">${escapeHtml(sub.label)}</span>` +
+                `<strong class="eevenkoto-equipment-block__stat-value">${escapeHtml(sub.value)}</strong>` +
+                `</div>`,
+            )
+            .join('');
+          return `<div class="${itemClasses.join(' ')}">${subItemMarkup}</div>`;
+        }
+
+        let valueContent = '';
+        if (st.abilities?.length) {
+          valueContent = st.abilities
+            .map((ab) => renderAbilityName({ name: ab }))
+            .join(' tai ');
+        } else if (st.label?.toLowerCase().startsWith('omin') && st.value) {
+          if (st.value.includes(' tai ')) {
+            valueContent = st.value
+              .split(' tai ')
+              .map((ab) => renderAbilityName({ name: ab.trim() }))
+              .join(' tai ');
+          } else {
+            valueContent = renderAbilityName({ name: st.value.trim() });
+          }
+        } else {
+          valueContent = escapeHtml(st.value || '');
+        }
+
+        const subValueMarkup = st.subValue
+          ? `<span class="eevenkoto-equipment-block__stat-subvalue">${escapeHtml(st.subValue)}</span>`
+          : '';
+
+        return (
+          `<div class="${itemClasses.join(' ')}">` +
+          `<span class="eevenkoto-equipment-block__stat-label">${escapeHtml(st.label || '')}</span>` +
+          `<strong class="eevenkoto-equipment-block__stat-value">${valueContent}</strong>` +
+          subValueMarkup +
+          `</div>`
+        );
+      })
       .join('');
     parts.push(`<div class="eevenkoto-equipment-block__stats">${statItems}</div>`);
   }

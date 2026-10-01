@@ -22,6 +22,7 @@ import {
   tableColClassNames,
   equipmentBlockClassNames,
   equipmentWorkshopClassNames,
+  abilityNameClassNames,
   checkboxClassNames,
   checkboxGroupClassNames,
   radioClassNames,
@@ -49,6 +50,7 @@ import {
   renderTableCell,
   renderEquipmentBlock,
   renderEquipmentWorkshop,
+  renderAbilityName,
   renderCheckbox,
   renderCheckboxGroup,
   renderRadio,
@@ -74,6 +76,7 @@ import {
   Table,
   EquipmentBlock,
   EquipmentWorkshop,
+  AbilityName,
   Checkbox,
   CheckboxGroup,
   Radio,
@@ -99,6 +102,7 @@ import {
   Table as VueTable,
   EquipmentBlock as VueEquipmentBlock,
   EquipmentWorkshop as VueEquipmentWorkshop,
+  AbilityName as VueAbilityName,
   Checkbox as VueCheckbox,
   CheckboxGroup as VueCheckboxGroup,
   Radio as VueRadio,
@@ -206,6 +210,41 @@ describe('HTML matches Core class strings', () => {
   it('EquipmentBlock', () => {
     const markup = renderEquipmentBlock({ name: 'Miekka' });
     expect(markup).toContain(equipmentBlockClassNames());
+  });
+
+  it('AbilityName', () => {
+    const markup = renderAbilityName({ name: 'Voimakkuus' });
+    expect(markup).toContain(abilityNameClassNames());
+    expect(markup).toContain('aria-label="Voimakkuus"');
+    expect(markup).toContain('eevenkoto-ability-name__full');
+    expect(markup).toContain('eevenkoto-ability-name__short');
+    expect(markup).toContain('VOI');
+  });
+
+  it('EquipmentBlock with 3-box enhanced stats', () => {
+    const markup = renderEquipmentBlock({
+      name: 'Miekka',
+      stats: [
+        { label: 'Vahinko', value: '1n8', subValue: 'viilto', emphasis: true },
+        { label: 'Omin.', abilities: ['Voimakkuus', 'Ketteryys'] },
+        {
+          label: 'Ulottuvuus & heitto',
+          subItems: [
+            { label: 'Ulottuvuus', value: '2 m' },
+            { label: 'Heitto', value: '4/10 m' },
+          ],
+        },
+      ],
+    });
+    expect(markup).toContain('eevenkoto-equipment-block__stat-item--emphasis');
+    expect(markup).toContain('eevenkoto-equipment-block__stat-subvalue');
+    expect(markup).toContain('viilto');
+    expect(markup).toContain('eevenkoto-ability-name');
+    expect(markup).toContain('VOI');
+    expect(markup).toContain('KET');
+    expect(markup).toContain('eevenkoto-equipment-block__stat-item--split');
+    expect(markup).toContain('Ulottuvuus');
+    expect(markup).toContain('Heitto');
   });
 
   it('EquipmentWorkshop', () => {
@@ -451,6 +490,41 @@ describe('React className matches Core', () => {
       createElement(EquipmentBlock, { name: 'Miekka' }),
     );
     expect(html).toContain(equipmentBlockClassNames());
+  });
+
+  it('AbilityName', () => {
+    const html = renderToStaticMarkup(
+      createElement(AbilityName, { name: 'Voimakkuus' }),
+    );
+    expect(html).toContain(abilityNameClassNames());
+    expect(html).toContain('aria-label="Voimakkuus"');
+    expect(html).toContain('VOI');
+  });
+
+  it('EquipmentBlock with 3-box enhanced stats (React)', () => {
+    const html = renderToStaticMarkup(
+      createElement(EquipmentBlock, {
+        name: 'Miekka',
+        stats: [
+          { label: 'Vahinko', value: '1n8', subValue: 'viilto', emphasis: true },
+          { label: 'Omin.', abilities: ['Voimakkuus', 'Ketteryys'] },
+          {
+            label: 'Ulottuvuus & heitto',
+            subItems: [
+              { label: 'Ulottuvuus', value: '2 m' },
+              { label: 'Heitto', value: '4/10 m' },
+            ],
+          },
+        ],
+      }),
+    );
+    expect(html).toContain('eevenkoto-equipment-block__stat-item--emphasis');
+    expect(html).toContain('eevenkoto-equipment-block__stat-subvalue');
+    expect(html).toContain('viilto');
+    expect(html).toContain('eevenkoto-ability-name');
+    expect(html).toContain('VOI');
+    expect(html).toContain('KET');
+    expect(html).toContain('eevenkoto-equipment-block__stat-item--split');
   });
 
   it('EquipmentWorkshop', () => {
@@ -715,6 +789,37 @@ describe('Vue class matches Core (priority subset)', () => {
   it('EquipmentBlock', async () => {
     const html = await vueHtml(VueEquipmentBlock, { name: 'Miekka' });
     expect(html).toContain(equipmentBlockClassNames());
+  });
+
+  it('AbilityName', async () => {
+    const html = await vueHtml(VueAbilityName, { name: 'Voimakkuus' });
+    expect(html).toContain(abilityNameClassNames());
+    expect(html).toContain('aria-label="Voimakkuus"');
+    expect(html).toContain('VOI');
+  });
+
+  it('EquipmentBlock with 3-box enhanced stats (Vue)', async () => {
+    const html = await vueHtml(VueEquipmentBlock, {
+      name: 'Miekka',
+      stats: [
+        { label: 'Vahinko', value: '1n8', subValue: 'viilto', emphasis: true },
+        { label: 'Omin.', abilities: ['Voimakkuus', 'Ketteryys'] },
+        {
+          label: 'Ulottuvuus & heitto',
+          subItems: [
+            { label: 'Ulottuvuus', value: '2 m' },
+            { label: 'Heitto', value: '4/10 m' },
+          ],
+        },
+      ],
+    });
+    expect(html).toContain('eevenkoto-equipment-block__stat-item--emphasis');
+    expect(html).toContain('eevenkoto-equipment-block__stat-subvalue');
+    expect(html).toContain('viilto');
+    expect(html).toContain('eevenkoto-ability-name');
+    expect(html).toContain('VOI');
+    expect(html).toContain('KET');
+    expect(html).toContain('eevenkoto-equipment-block__stat-item--split');
   });
 
   it('EquipmentWorkshop', async () => {

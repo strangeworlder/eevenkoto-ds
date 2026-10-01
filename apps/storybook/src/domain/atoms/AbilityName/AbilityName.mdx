@@ -1,0 +1,85 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as AbilityNameStories from './AbilityName.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={AbilityNameStories} />
+
+# AbilityName
+
+**AbilityName** is the domain atom for RPG ability names (Voimakkuus, Ketteryys, Sitkeys, Älykkyys, Viisaus, Karisma). It renders the full ability name when space permits, and automatically collapses to a 3-letter ALLCAPS abbreviation (e.g. `VOI`, `KET`) when space is constrained.
+
+Multiple abilities can be composed together with standard conjunctions:
+```html
+<AbilityName>Voimakkuus</AbilityName> tai <AbilityName>Ketteryys</AbilityName>
+```
+
+<Canvas of={AbilityNameStories.Default} />
+
+## Why to use
+
+Rules text and equipment blocks frequently reference abilities in constrained spaces (such as weapon stat cards or compact tables):
+- **Full readability by default:** Displays the full Finnish name (`Voimakkuus`) whenever space permits.
+- **Graceful degradation:** When space is cramped (e.g. in multi-column weapon stat cards or mobile screens), collapses automatically to the standard 3-letter abbreviation (`VOI`).
+- **Accessible:** Always provides the unabbreviated name in `aria-label`, so assistive technology reads the full ability name regardless of visual abbreviation.
+
+## Composition
+
+<Canvas of={AbilityNameStories.ComposedMultiple} />
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>Use for presenting ability references in equipment cards, stat blocks, or rules text.</li>
+      <li>Compose multiple abilities with conjunctions like <code>tai</code> or <code>/</code>.</li>
+      <li>Let responsive CSS handle abbreviation whenever possible.</li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>Don't wrap entire phrases like "Voimakkuus tai Ketteryys" in a single AbilityName atom. Wrap each ability individually.</li>
+      <li>Don't hardcode fixed abbreviations in content markup without an accessible full-name fallback.</li>
+    </ul>
+  }
+/>
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Full ability name (e.g. `Voimakkuus`). |
+| `short` | `string` | `3-letter ALLCAPS` | Optional custom abbreviation override. |
+| `variant` | `'auto' \| 'full' \| 'short'` | `'auto'` | Force full or short display, or let container queries respond automatically. |
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-ability-name` | Host container (`span`) |
+| `eevenkoto-ability-name__full` | Full name text container |
+| `eevenkoto-ability-name__short` | 3-letter uppercase abbreviation container |
+| `eevenkoto-ability-name--short` | Modifier forcing short display |
+| `eevenkoto-ability-name--full` | Modifier forcing full display |

@@ -72,6 +72,7 @@ Rules and compendium pages need a standardized, accessible display card for equi
 | Core | Atom | [Chip](?path=/docs/core-atoms-chip--docs) | Trait pills |
 | Core | Atom | [Button](?path=/docs/core-atoms-button--docs) | Copy-to-clipboard button |
 | Core | Molecule | [Notice](?path=/docs/core-molecules-notice--docs) | Budget or validation warnings |
+| Domain | Atom | [AbilityName](?path=/docs/domain-atoms-abilityname--docs) | RPG ability name with responsive collapse |
 | Domain | Organism | **EquipmentBlock** | Unified equipment presentation card |
 
 ## Anatomy
@@ -81,7 +82,7 @@ EquipmentBlock
 ├── Plate (header)
 │   ├── Heading Group: Title (H1/H2) + Category (Caption)
 │   └── Price (Badge)
-├── Stats Grid (2-4 stat pairs: damage, ability, reach/range, hands, PL, speed)
+├── Stats Grid (3 primary cards: damage/defense with emphasis, ability, reach & throw / range / speed)
 ├── Kesto Breakdown (optional: base, murskaus, viilto, pisto)
 ├── Traits Section (Chip pills or empty placeholder)
 ├── Notes & Effects (bullet list)
@@ -93,7 +94,7 @@ EquipmentBlock
 
 - Maintains a clean document heading outline (**H1** by default, customizable to **H2** via `nameLevel: 2` for embeds).
 - Real HTML list elements (`<ul>`, `<li>`) for rules notes.
-- Stat pairs use clear label-value association.
+- Stat pairs use clear label-value association; AbilityName maintains full names in `aria-label`.
 - Notice blocks declare `role="alert"`.
 - Buttons are native `<button type="button">` with visible focus rings.
 
@@ -105,7 +106,7 @@ EquipmentBlock
 | `nameLevel` | `1 \| 2` | `1` | Heading level for the name (use `2` when embedded). |
 | `category` | `string` | — | Category/type line (e.g. `Sota-ase · Lähitaistelu`). |
 | `price` | `string` | — | Price string formatted with currency (e.g. `20 kr`). |
-| `stats` | `EquipmentStatItem[]` | — | Array of `{ label, value }` stat pairs. |
+| `stats` | `EquipmentStatItem[]` | — | Array of stat items (supports `emphasis`, `subValue`, `subItems`, `abilities`). |
 | `kesto` | `EquipmentKestoBreakdown` | — | Optional damage resistance breakdown. |
 | `traits` | `string[]` | — | Array of trait names displayed as chips. |
 | `emptyTraitsText` | `string` | `'Ei erikoispiirteitä'` | Placeholder when no traits are selected. |

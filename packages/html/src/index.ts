@@ -73,6 +73,10 @@ export {
   type TableShellProps,
 } from './core/organisms/table-shell/renderTableShell';
 export {
+  renderAbilityName,
+  type AbilityNameProps,
+} from './domain/atoms/ability-name/renderAbilityName';
+export {
   renderEntityRef,
   type EntityRefProps,
 } from './domain/atoms/entity-ref/renderEntityRef';

@@ -166,7 +166,11 @@ describe('Equipment calculation engine', () => {
       const props = weaponToEquipmentBlockProps(res, true);
       expect(props.name).toBe(spec.name);
       expect(props.category).toBeDefined();
-      expect(props.stats?.length).toBeGreaterThan(0);
+      expect(props.stats?.length).toBe(3);
+      expect(props.stats?.[0].emphasis).toBe(true);
+      expect(props.stats?.[0].subValue).toBeDefined();
+      expect(props.stats?.[1].label).toBe('Omin.');
+      expect(props.stats?.[2].subItems?.length).toBe(2);
       expect(props.copyText).toBeDefined();
     });
 
@@ -175,6 +179,12 @@ describe('Equipment calculation engine', () => {
       const res = calculateArmor(spec);
       const props = armorToEquipmentBlockProps(res, true);
       expect(props.name).toBe(spec.name);
+      expect(props.stats?.length).toBe(3);
+      expect(props.stats?.[0].emphasis).toBe(true);
+      expect(props.stats?.[1].label).toBe('Nopeus');
+      expect(props.stats?.[2].label).toBe('Hiipiminen');
+      expect(props.stats?.some((s) => s.label === 'Kilpi')).toBe(false);
+      expect(props.stats?.some((s) => s.label === 'Nopeusvaikutus')).toBe(false);
       expect(props.kesto).toBeDefined();
       expect(props.kesto?.base).toBe(res.kestoBase);
       expect(props.copyText).toBeDefined();

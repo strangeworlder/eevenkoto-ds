@@ -136,6 +136,11 @@ export {
 } from './core/molecules/Table';
 export { TableShell, type TableShellComponentProps } from './core/organisms/TableShell';
 export {
+  AbilityName,
+  type AbilityNameComponentProps,
+  type AbilityNameProps,
+} from './domain/atoms/AbilityName';
+export {
   EntityRef,
   type EntityRefComponentProps,
   type EntityRefProps,

@@ -78,10 +78,15 @@ export const Chassis: Story = {
       category: 'Sota-ase · Lähitaistelu',
       price: '25 kr',
       stats: [
-        { label: 'Vahinko', value: '1n8 viiltovahinko' },
-        { label: 'Ominaisuus', value: 'Voimakkuus' },
-        { label: 'Ulottuvuus', value: '2 m' },
-        { label: 'Käyttö', value: '1 käsi' },
+        { label: 'Vahinko', value: '1n8', subValue: 'viilto', emphasis: true },
+        { label: 'Omin.', abilities: ['Voimakkuus'] },
+        {
+          label: 'Ulottuvuus & heitto',
+          subItems: [
+            { label: 'Ulottuvuus', value: '2 m' },
+            { label: 'Heitto', value: '4/10 m' },
+          ],
+        },
       ],
       traits: ['Viiltävä', 'Ulottuva'],
       notes: ['Kriittinen osuma: normaali.'],

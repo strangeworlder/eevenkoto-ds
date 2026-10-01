@@ -9,7 +9,8 @@ import {
   type EquipmentBlockProps,
   type EquipmentBlockNameLevel,
 } from '@eevenkoto/core';
-import type { HTMLAttributes, ReactElement } from 'react';
+import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
+import { AbilityName } from '../atoms/AbilityName';
 
 export type EquipmentBlockComponentProps = Omit<
   HTMLAttributes<HTMLElement>,
@@ -73,12 +74,60 @@ export const EquipmentBlock = ({
 
       {stats?.length ? (
         <div className="eevenkoto-equipment-block__stats">
-          {stats.map((st, i) => (
-            <div key={i} className="eevenkoto-equipment-block__stat-item">
-              <span className="eevenkoto-equipment-block__stat-label">{st.label}</span>
-              <strong className="eevenkoto-equipment-block__stat-value">{st.value}</strong>
-            </div>
-          ))}
+          {stats.map((st, i) => {
+            const itemClasses = [
+              'eevenkoto-equipment-block__stat-item',
+              st.emphasis && 'eevenkoto-equipment-block__stat-item--emphasis',
+              st.subItems?.length && 'eevenkoto-equipment-block__stat-item--split',
+            ]
+              .filter(Boolean)
+              .join(' ');
+
+            if (st.subItems?.length) {
+              return (
+                <div key={i} className={itemClasses}>
+                  {st.subItems.map((sub, j) => (
+                    <div key={j} className="eevenkoto-equipment-block__stat-subitem">
+                      <span className="eevenkoto-equipment-block__stat-label">{sub.label}</span>
+                      <strong className="eevenkoto-equipment-block__stat-value">{sub.value}</strong>
+                    </div>
+                  ))}
+                </div>
+              );
+            }
+
+            let valueContent: ReactNode = st.value;
+            if (st.abilities?.length) {
+              valueContent = st.abilities.map((ab, idx) => (
+                <span key={idx}>
+                  {idx > 0 ? ' tai ' : null}
+                  <AbilityName name={ab} />
+                </span>
+              ));
+            } else if (st.label?.toLowerCase().startsWith('omin') && typeof st.value === 'string') {
+              if (st.value.includes(' tai ')) {
+                const parts = st.value.split(' tai ');
+                valueContent = parts.map((ab, idx) => (
+                  <span key={idx}>
+                    {idx > 0 ? ' tai ' : null}
+                    <AbilityName name={ab.trim()} />
+                  </span>
+                ));
+              } else {
+                valueContent = <AbilityName name={st.value.trim()} />;
+              }
+            }
+
+            return (
+              <div key={i} className={itemClasses}>
+                <span className="eevenkoto-equipment-block__stat-label">{st.label}</span>
+                <strong className="eevenkoto-equipment-block__stat-value">{valueContent}</strong>
+                {st.subValue ? (
+                  <span className="eevenkoto-equipment-block__stat-subvalue">{st.subValue}</span>
+                ) : null}
+              </div>
+            );
+          })}
         </div>
       ) : null}
 

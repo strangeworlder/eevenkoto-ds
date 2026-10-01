@@ -12,6 +12,7 @@ import {
   type EquipmentKestoBreakdown,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNode } from 'vue';
+import { AbilityName } from '../atoms/AbilityName';
 
 export type { EquipmentBlockProps };
 
@@ -77,12 +78,59 @@ export const EquipmentBlock = defineComponent({
 
       // 2. Stats Row
       if (props.stats?.length) {
-        const statItems = props.stats.map((st) =>
-          h('div', { class: 'eevenkoto-equipment-block__stat-item' }, [
-            h('span', { class: 'eevenkoto-equipment-block__stat-label' }, st.label),
-            h('strong', { class: 'eevenkoto-equipment-block__stat-value' }, String(st.value)),
-          ]),
-        );
+        const statItems = props.stats.map((st) => {
+          const itemClasses = [
+            'eevenkoto-equipment-block__stat-item',
+            st.emphasis && 'eevenkoto-equipment-block__stat-item--emphasis',
+            st.subItems?.length && 'eevenkoto-equipment-block__stat-item--split',
+          ]
+            .filter(Boolean)
+            .join(' ');
+
+          if (st.subItems?.length) {
+            const subNodes = st.subItems.map((sub) =>
+              h('div', { class: 'eevenkoto-equipment-block__stat-subitem' }, [
+                h('span', { class: 'eevenkoto-equipment-block__stat-label' }, sub.label),
+                h('strong', { class: 'eevenkoto-equipment-block__stat-value' }, String(sub.value)),
+              ]),
+            );
+            return h('div', { class: itemClasses }, subNodes);
+          }
+
+          let valueNode: (string | VNode)[] | string | VNode = String(st.value ?? '');
+          if (st.abilities?.length) {
+            const nodes: (string | VNode)[] = [];
+            st.abilities.forEach((ab, idx) => {
+              if (idx > 0) nodes.push(' tai ');
+              nodes.push(h(AbilityName, { name: ab }));
+            });
+            valueNode = nodes;
+          } else if (st.label?.toLowerCase().startsWith('omin') && typeof st.value === 'string') {
+            if (st.value.includes(' tai ')) {
+              const nodes: (string | VNode)[] = [];
+              st.value.split(' tai ').forEach((ab, idx) => {
+                if (idx > 0) nodes.push(' tai ');
+                nodes.push(h(AbilityName, { name: ab.trim() }));
+              });
+              valueNode = nodes;
+            } else {
+              valueNode = h(AbilityName, { name: st.value.trim() });
+            }
+          }
+
+          const cardChildren: VNode[] = [
+            h('span', { class: 'eevenkoto-equipment-block__stat-label' }, st.label ?? ''),
+            h('strong', { class: 'eevenkoto-equipment-block__stat-value' }, valueNode),
+          ];
+
+          if (st.subValue) {
+            cardChildren.push(
+              h('span', { class: 'eevenkoto-equipment-block__stat-subvalue' }, st.subValue),
+            );
+          }
+
+          return h('div', { class: itemClasses }, cardChildren);
+        });
         children.push(h('div', { class: 'eevenkoto-equipment-block__stats' }, statItems));
       }
 

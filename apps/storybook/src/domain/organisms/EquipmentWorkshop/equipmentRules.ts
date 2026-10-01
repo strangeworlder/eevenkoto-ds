@@ -588,13 +588,30 @@ export const weaponToEquipmentBlockProps = (
     kantama: 'Kantama-ase',
   };
 
+  const damageTypeShort = res.damageType.replace('vahinko', '').trim();
+  const damageDie = res.finalDamage.replace(` ${res.damageType}`, '').trim();
+
   const stats: EquipmentStatItem[] = [
-    { label: 'Vahinko', value: res.finalDamage },
-    { label: 'Ominaisuus', value: res.ability },
+    {
+      label: 'Vahinko',
+      value: damageDie,
+      subValue: damageTypeShort,
+      emphasis: true,
+    },
+    {
+      label: 'Omin.',
+      value: res.ability,
+      abilities: res.ability.split(' tai ').map((s) => s.trim()),
+    },
     res.weaponType === 'kantama'
       ? { label: 'Kantama', value: res.range }
-      : { label: 'Ulottuvuus & heitto', value: `${res.reach} (${res.range})` },
-    { label: 'Käyttö', value: res.hands },
+      : {
+          label: 'Ulottuvuus & heitto',
+          subItems: [
+            { label: 'Ulottuvuus', value: res.reach },
+            { label: 'Heitto', value: res.range.replace(' (heitto)', '') },
+          ],
+        },
   ];
 
   const notes = [...res.notes, `Kriittinen osuma: ${res.critInfo}`];
@@ -627,15 +644,9 @@ export const armorToEquipmentBlockProps = (
   };
 
   const stats: EquipmentStatItem[] = [
-    { label: 'Puolustus (PL)', value: res.totalDefense },
-    { label: 'Nopeusvaikutus', value: res.speedPenalty },
+    { label: 'Puolustus (PL)', value: res.totalDefense, emphasis: true },
+    { label: 'Nopeus', value: res.speedPenalty },
     { label: 'Hiipiminen', value: res.stealthPenalty ? 'Haitta' : 'Normaali' },
-    {
-      label: 'Kilpi',
-      value: res.shieldInfo
-        ? `${res.shieldInfo.type === 'perinteinen' ? 'Perinteinen' : 'Moderni'} (+${res.shieldInfo.defenseBonus} PL)`
-        : 'Ei kilpeä',
-    },
   ];
 
   const notes = [...res.specialBenefits];

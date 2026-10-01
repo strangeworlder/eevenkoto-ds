@@ -3,9 +3,24 @@ import type { HeadingLevel } from '../../core/atoms/heading';
 /** Heading levels allowed for the equipment name (embed-safe). */
 export type EquipmentBlockNameLevel = Extract<HeadingLevel, 1 | 2>;
 
-export interface EquipmentStatItem {
+export interface EquipmentStatSubItem {
   label: string;
   value: string;
+}
+
+export interface EquipmentStatItem {
+  /** Primary label for the stat card (e.g. "Vahinko", "Omin.", "Nopeus", "Kantama"). */
+  label?: string;
+  /** Primary stat value (e.g. "1n8", "15", "Haitta"). */
+  value?: string;
+  /** Secondary detail under the value (e.g. damage type "viilto" under "1n8"). */
+  subValue?: string;
+  /** Visual emphasis for key primary metrics (Puolustus / Vahinko). */
+  emphasis?: boolean;
+  /** Multiple sub-items inside the same box (e.g. separate Ulottuvuus and Heitto metrics). */
+  subItems?: EquipmentStatSubItem[];
+  /** Ability names when rendering AbilityName atom(s) inside this stat. */
+  abilities?: string[];
 }
 
 export interface EquipmentKestoBreakdown {

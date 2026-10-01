@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/css",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "Eevenkoto design system tokens and component CSS",
   "type": "module",
   "files": [
@@ -51,6 +51,7 @@
     "./stat.css": "./core/atoms/stat.css",
     "./table.css": "./core/molecules/table.css",
     "./table-shell.css": "./core/organisms/table-shell.css",
+    "./ability-name.css": "./domain/atoms/ability-name.css",
     "./entity-ref.css": "./domain/atoms/entity-ref.css",
     "./ability-score.css": "./domain/molecules/ability-score.css",
     "./statblock-feature.css": "./domain/molecules/statblock-feature.css",

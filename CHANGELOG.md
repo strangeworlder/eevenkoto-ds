@@ -2,7 +2,31 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.9.4**.
+Published package version is **0.9.5**.
+
+## 0.9.5
+
+### Added
+
+- **AbilityName** (Domain atom) — dynamic TTRPG ability/attribute abbreviation atom.
+  - Automatically renders the full ability title (`Voimakkuus`, `Ketteryys`, `Mieli`, `Karisma`, `Käsityö`, `Sisu` jne.) when container space permits, and responsively collapses to a standardized 3-letter uppercase abbreviation (`VOI`, `KET`, `MIE`, `KAR`, `KÄS`, `SIS`) via container queries (`@container (max-width: 9rem)`) or explicit abbreviation prop.
+  - Composable for multi-ability attributes (e.g. `<AbilityName>Voimakkuus</AbilityName> tai <AbilityName>Ketteryys</AbilityName>`).
+  - Implements Tier 3 private bridge scoping (`--_eevenkoto-ability-name-*`), font-variant uppercase styling, and clean typographic alignment.
+  - Available across all layers: `@eevenkoto/css/ability-name.css`, `@eevenkoto/core` (`AbilityNameProps`, `abbreviateAbility()`, `abilityNameClassNames()`), `@eevenkoto/html` (`renderAbilityName`), `@eevenkoto/react` (`<AbilityName />`), and `@eevenkoto/vue` (`<AbilityName />`).
+
+### Changed
+
+- **EquipmentBlock stat row redesign (Arvorivin uudistus)**:
+  - **3-column stat grid**: Replaced the 4-box layout with a focused, streamlined 3-box presentation for both weapons and armor.
+  - **Visual stat emphasis (`emphasis?: boolean`)**: Highlights primary combat metrics (`Puolustus` on armor, `Vahinko` on weapons) using subtle theme tinting, prominent border highlight, and enlarged heading typography. Container query layout spans emphasized stat across the full top row on medium-width cards.
+  - **Secondary sub-value (`subValue?: string`)**: Supports displaying secondary metadata under the primary stat value (e.g., damage type `"Viiltävä"` below damage die `"1n8"` in smaller, muted type).
+  - **Split sub-items (`subItems?: EquipmentStatSubItem[]`)**: Displays paired metrics within a single stat box sharing a 2-column sub-grid with mini-headers (e.g., `Ulottuvuus` and `Heitto` grouped in weapons, or single `Kantama` for ranged weapons).
+  - **Label & schema cleanup**:
+    - Armor: Shortened label `"Nopeusvaikutus"` -> `"Nopeus"`. Removed `"Kilpi"` (Shield) box.
+    - Weapon: Shortened label `"Ominaisuus"` -> `"Omin."`. Removed `"Käyttö"` (Hands) box.
+    - Added structured `abilities: string[]` and `abilityMode?: 'auto' | 'full' | 'short'` to `EquipmentStatItem` for automatic `AbilityName` composition.
+  - **Responsive container query**: Modernized container query breakpoints (`@container (min-width: 32rem)` -> 3-col grid, `@container (min-width: 20rem)` -> 2-col with emphasized item spanning 2 columns, base -> 1-col stack).
+  - **Migration guide**: Katso yksityiskohtaiset migraatio-ohjeet tiedostosta [`docs/migration-equipment-block-stat-row.md`](docs/migration-equipment-block-stat-row.md).
 
 ## 0.9.4
 
