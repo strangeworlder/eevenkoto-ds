@@ -39,7 +39,7 @@
   );
   --_eevenkoto-heading-margin-block: var(
     --eevenkoto-heading-margin-block,
-    var(--eevenkoto-space-6) 0 var(--eevenkoto-space-3)
+    var(--eevenkoto-space-6) var(--eevenkoto-space-3)
   );
   --_eevenkoto-heading-padding: var(--eevenkoto-heading-padding, 0);
   --_eevenkoto-heading-background: var(--eevenkoto-heading-background, transparent);
@@ -73,59 +73,50 @@
   --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
 }
 
-/* --- MACRO: H1 / H2 — size jump + structural rule + generous space --- */
+/* --- TAG INFERENCE (placed before --1..--6 so hN + --M overrides in both directions) --- */
 
 :where(h1).eevenkoto-heading,
-.eevenkoto-heading--1,
 .eevenkoto-prose :where(h1) {
   --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-1);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
-  --eevenkoto-heading-margin-block: var(--eevenkoto-space-8) 0 var(--eevenkoto-space-6);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-8) var(--eevenkoto-space-6);
   --eevenkoto-heading-padding: 0 0 var(--eevenkoto-space-3);
   --eevenkoto-heading-border-block-end: var(--eevenkoto-line-width-lg) solid var(--eevenkoto-color-boundary-strong);
 }
 
 :where(h2).eevenkoto-heading,
-.eevenkoto-heading--2,
 .eevenkoto-prose :where(h2) {
   --eevenkoto-heading-color: var(--eevenkoto-color-content-accent);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-2);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
-  --eevenkoto-heading-margin-block: var(--eevenkoto-space-8) 0 var(--eevenkoto-space-4);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-8) var(--eevenkoto-space-4);
   --eevenkoto-heading-padding: 0 0 var(--eevenkoto-space-2);
   --eevenkoto-heading-border-block-end: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-subtle);
 }
 
-/* --- MESO: H3 / H4 — weight + modest size; no tint bands --- */
-
 :where(h3).eevenkoto-heading,
-.eevenkoto-heading--3,
 .eevenkoto-prose :where(h3) {
   --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-3);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
-  --eevenkoto-heading-margin-block: var(--eevenkoto-space-6) 0 var(--eevenkoto-space-2);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-6) var(--eevenkoto-space-2);
 }
 
 :where(h4).eevenkoto-heading,
-.eevenkoto-heading--4,
 .eevenkoto-prose :where(h4) {
   --eevenkoto-heading-color: var(--eevenkoto-color-content-accent);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-4);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-sans);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-semibold);
   --eevenkoto-heading-line-height: var(--eevenkoto-line-height-body);
-  --eevenkoto-heading-margin-block: var(--eevenkoto-space-4) 0 var(--eevenkoto-space-2);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-4) var(--eevenkoto-space-2);
 }
 
-/* --- MICRO: H5 / H6 — case + sunken band (H5, lg) / bold italic + run-in (H6, md) --- */
-
 :where(h5).eevenkoto-heading,
-.eevenkoto-heading--5,
 .eevenkoto-prose :where(h5) {
   --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-5);
@@ -134,7 +125,7 @@
   --eevenkoto-heading-font-variant-caps: all-small-caps;
   --eevenkoto-heading-letter-spacing: 0.06em;
   --eevenkoto-heading-line-height: var(--eevenkoto-line-height-body);
-  --eevenkoto-heading-margin-block: var(--eevenkoto-space-4) 0 var(--eevenkoto-space-2);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-4) var(--eevenkoto-space-2);
   /* Bleed X matches pad-inline so label text stays on the content edge
      while the sunken band breaks out: margin -X, width 100% + 2X. */
   --eevenkoto-heading-pad-inline: var(--eevenkoto-space-3);
@@ -149,7 +140,6 @@
 }
 
 :where(h6).eevenkoto-heading,
-.eevenkoto-heading--6,
 .eevenkoto-prose :where(h6) {
   --eevenkoto-heading-color: var(--eevenkoto-color-content-accent);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-6);
@@ -157,7 +147,129 @@
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
   --eevenkoto-heading-font-style: italic;
   --eevenkoto-heading-line-height: var(--eevenkoto-line-height-body);
-  --eevenkoto-heading-margin-block: var(--eevenkoto-space-3) 0 var(--eevenkoto-space-1);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-3) var(--eevenkoto-space-1);
+}
+
+/* --- EXPLICIT LEVEL MODIFIERS (override any semantic h1..h6 tag cleanly) --- */
+
+/* MACRO: H1 / H2 — size jump + structural rule + generous space */
+.eevenkoto-heading--1 {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-1);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
+  --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
+  --eevenkoto-heading-font-style: normal;
+  --eevenkoto-heading-font-variant-caps: normal;
+  --eevenkoto-heading-letter-spacing: normal;
+  --eevenkoto-heading-line-height: var(--eevenkoto-line-height-tight);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-8) var(--eevenkoto-space-6);
+  --eevenkoto-heading-padding: 0 0 var(--eevenkoto-space-3);
+  --eevenkoto-heading-background: transparent;
+  --eevenkoto-heading-radius: 0;
+  --eevenkoto-heading-border-block-end: var(--eevenkoto-line-width-lg) solid var(--eevenkoto-color-boundary-strong);
+
+  margin-inline: 0;
+  width: auto;
+}
+
+.eevenkoto-heading--2 {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-accent);
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-2);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
+  --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
+  --eevenkoto-heading-font-style: normal;
+  --eevenkoto-heading-font-variant-caps: normal;
+  --eevenkoto-heading-letter-spacing: normal;
+  --eevenkoto-heading-line-height: var(--eevenkoto-line-height-tight);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-8) var(--eevenkoto-space-4);
+  --eevenkoto-heading-padding: 0 0 var(--eevenkoto-space-2);
+  --eevenkoto-heading-background: transparent;
+  --eevenkoto-heading-radius: 0;
+  --eevenkoto-heading-border-block-end: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-subtle);
+
+  margin-inline: 0;
+  width: auto;
+}
+
+/* MESO: H3 / H4 — weight + modest size; no tint bands or bottom rules */
+.eevenkoto-heading--3 {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-3);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
+  --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
+  --eevenkoto-heading-font-style: normal;
+  --eevenkoto-heading-font-variant-caps: normal;
+  --eevenkoto-heading-letter-spacing: normal;
+  --eevenkoto-heading-line-height: var(--eevenkoto-line-height-tight);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-6) var(--eevenkoto-space-2);
+  --eevenkoto-heading-padding: 0;
+  --eevenkoto-heading-background: transparent;
+  --eevenkoto-heading-radius: 0;
+  --eevenkoto-heading-border-block-end: none;
+
+  margin-inline: 0;
+  width: auto;
+}
+
+.eevenkoto-heading--4 {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-accent);
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-4);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-sans);
+  --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-semibold);
+  --eevenkoto-heading-font-style: normal;
+  --eevenkoto-heading-font-variant-caps: normal;
+  --eevenkoto-heading-letter-spacing: normal;
+  --eevenkoto-heading-line-height: var(--eevenkoto-line-height-body);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-4) var(--eevenkoto-space-2);
+  --eevenkoto-heading-padding: 0;
+  --eevenkoto-heading-background: transparent;
+  --eevenkoto-heading-radius: 0;
+  --eevenkoto-heading-border-block-end: none;
+
+  margin-inline: 0;
+  width: auto;
+}
+
+/* MICRO: H5 / H6 — case + sunken band (H5) / bold italic + run-in (H6) */
+.eevenkoto-heading--5 {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-5);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-sans);
+  --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
+  --eevenkoto-heading-font-style: normal;
+  --eevenkoto-heading-font-variant-caps: all-small-caps;
+  --eevenkoto-heading-letter-spacing: 0.06em;
+  --eevenkoto-heading-line-height: var(--eevenkoto-line-height-body);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-4) var(--eevenkoto-space-2);
+  --eevenkoto-heading-pad-inline: var(--eevenkoto-space-3);
+  --eevenkoto-heading-bleed: var(--eevenkoto-heading-pad-inline);
+  --eevenkoto-heading-padding: var(--eevenkoto-space-2) var(--eevenkoto-heading-pad-inline);
+  --eevenkoto-heading-background: var(--eevenkoto-color-surface-sunken);
+  --eevenkoto-heading-radius: var(--eevenkoto-radius-sm);
+  --eevenkoto-heading-border-block-end: none;
+
+  margin-inline: calc(-1 * var(--eevenkoto-heading-bleed));
+  width: calc(100% + 2 * var(--eevenkoto-heading-bleed));
+  max-width: none;
+}
+
+.eevenkoto-heading--6 {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-accent);
+  --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-6);
+  --eevenkoto-heading-font-family: var(--eevenkoto-font-sans);
+  --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
+  --eevenkoto-heading-font-style: italic;
+  --eevenkoto-heading-font-variant-caps: normal;
+  --eevenkoto-heading-letter-spacing: normal;
+  --eevenkoto-heading-line-height: var(--eevenkoto-line-height-body);
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-3) var(--eevenkoto-space-1);
+  --eevenkoto-heading-padding: 0;
+  --eevenkoto-heading-background: transparent;
+  --eevenkoto-heading-radius: 0;
+  --eevenkoto-heading-border-block-end: none;
+
+  margin-inline: 0;
+  width: auto;
 }
 
 .eevenkoto-heading--secondary {

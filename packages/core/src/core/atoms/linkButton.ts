@@ -2,7 +2,7 @@ import type { ButtonIconName } from '../../tokens/icons';
 
 export type { ButtonIconName };
 
-export type LinkButtonVariant = 'primary' | 'secondary';
+export type LinkButtonVariant = 'primary' | 'secondary' | 'ghost';
 /** Shared size ladder across controls and type primitives: sm | md | lg */
 export type LinkButtonSize = 'sm' | 'md' | 'lg';
 export type LinkButtonIconPosition = 'left' | 'right';
@@ -15,6 +15,8 @@ export interface LinkButtonProps {
   label: string;
   /** Default: md */
   size?: LinkButtonSize;
+  /** Stretch control across 100% of container inline-size. */
+  fullWidth?: boolean;
   /**
    * Inert CTA without `href`, with `aria-disabled` (anchors have no `disabled`).
    * Prefer omitting the control instead.
@@ -32,7 +34,7 @@ export interface LinkButtonProps {
 /** Props that affect LinkButton BEM class names (excludes href/label/disabled). */
 export type LinkButtonClassNameProps = Pick<
   LinkButtonProps,
-  'variant' | 'size' | 'icon' | 'iconPosition'
+  'variant' | 'size' | 'fullWidth' | 'icon' | 'iconPosition'
 >;
 
 export const resolveLinkButtonIconPosition = (
@@ -58,11 +60,12 @@ export const linkButtonClassNames = (props: LinkButtonClassNameProps = {}): stri
   const variant = props.variant ?? 'primary';
   const size = props.size ?? 'md';
   const iconPosition = resolveLinkButtonIconPosition(props);
-  const iconClasses = [
+  const extraClasses = [
+    props.fullWidth ? 'eevenkoto-link-button--full-width' : '',
     iconPosition ? `eevenkoto-link-button--icon-${iconPosition}` : '',
     props.icon === 'arrow' ? 'eevenkoto-link-button--icon-arrow' : '',
   ]
     .filter(Boolean)
     .join(' ');
-  return `eevenkoto-link-button eevenkoto-link-button--${variant} eevenkoto-link-button--${size}${iconClasses ? ` ${iconClasses}` : ''}`;
+  return `eevenkoto-link-button eevenkoto-link-button--${variant} eevenkoto-link-button--${size}${extraClasses ? ` ${extraClasses}` : ''}`;
 };

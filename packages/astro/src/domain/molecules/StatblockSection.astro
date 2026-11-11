@@ -1,0 +1,40 @@
+---
+import {
+  headingClassNames,
+  statblockSectionClassNames,
+  type StatblockSectionProps,
+} from '@eevenkoto/core';
+import StatblockFeature from './StatblockFeature.astro';
+
+export interface Props extends StatblockSectionProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  title,
+  titleLevel = 2,
+  bodyHtml,
+  features,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [statblockSectionClassNames(), classProp, className].filter(Boolean).join(' ');
+const TitleTag = titleLevel === 3 ? 'h3' : 'h2';
+---
+<section class={classes} {...rest}>
+  <TitleTag class={headingClassNames({ level: 2 })}>{title}</TitleTag>
+  {bodyHtml ? <Fragment set:html={bodyHtml} /> : null}
+  {features?.map((feature) => (
+    <StatblockFeature
+      name={feature.name}
+      description={feature.description}
+      descriptionHtml={feature.descriptionHtml}
+      level={feature.level}
+    />
+  ))}
+  <slot />
+</section>

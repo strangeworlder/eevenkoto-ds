@@ -22,13 +22,19 @@ export const renderStatblock = (args: StatblockProps): string => {
     `<h${nameLevel} class="${headingClassNames({ level: nameLevel })}">${escapeHtml(args.name)}</h${nameLevel}>`,
   );
 
-  if (args.flavor) {
+  if (args.flavorHtml) {
+    parts.push(`<p class="${paragraphClassNames({ size: 'md' })}">${args.flavorHtml}</p>`);
+  } else if (args.flavor) {
     parts.push(
       `<p class="${paragraphClassNames({ size: 'md' })}">${escapeHtml(args.flavor)}</p>`,
     );
   }
 
-  if (args.typeLine) {
+  if (args.typeLineHtml) {
+    parts.push(
+      `<p class="${captionClassNames()} eevenkoto-statblock__type">${args.typeLineHtml}</p>`,
+    );
+  } else if (args.typeLine) {
     parts.push(
       `<p class="${captionClassNames()} eevenkoto-statblock__type">${escapeHtml(args.typeLine)}</p>`,
     );
@@ -44,6 +50,10 @@ export const renderStatblock = (args: StatblockProps): string => {
 
   for (const section of args.sections ?? []) {
     parts.push(renderStatblockSection(section));
+  }
+
+  if (args.bodyHtml) {
+    parts.push(args.bodyHtml);
   }
 
   return template

@@ -31,9 +31,14 @@ export interface SelectProps {
   options?: SelectOption[];
   /** Grouped options with <optgroup>. */
   groups?: SelectOptionGroup[];
+  /** Stretch control to fill its container width (`inline-size: 100%`). */
+  fullWidth?: boolean;
 }
 
-export type SelectClassNameProps = Pick<SelectProps, 'size' | 'invalid' | 'disabled'>;
+export type SelectClassNameProps = Pick<
+  SelectProps,
+  'size' | 'invalid' | 'disabled' | 'fullWidth'
+>;
 
 export const selectClassNames = (props: SelectClassNameProps = {}): string => {
   const size = props.size ?? 'md';
@@ -42,6 +47,7 @@ export const selectClassNames = (props: SelectClassNameProps = {}): string => {
     `eevenkoto-select--${size}`,
     props.invalid ? 'eevenkoto-select--invalid' : '',
     props.disabled ? 'eevenkoto-select--disabled' : '',
+    props.fullWidth ? 'eevenkoto-select--full-width' : '',
   ]
     .filter(Boolean)
     .join(' ');

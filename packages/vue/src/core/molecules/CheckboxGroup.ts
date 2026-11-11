@@ -25,6 +25,7 @@ export const CheckboxGroup = defineComponent({
   props: {
     label: { type: String, required: true },
     legendVisuallyHidden: { type: Boolean, default: false },
+    hideLegend: { type: Boolean, default: undefined },
     name: { type: String, default: undefined },
     layout: { type: String as PropType<CheckboxGroupLayout>, default: undefined },
     columns: { type: Number as PropType<CheckboxGroupColumns>, default: undefined },
@@ -46,24 +47,22 @@ export const CheckboxGroup = defineComponent({
     );
 
     return () => {
-      const headerChildren: VNodeChild[] = [
-        h(
-          'legend',
-          { class: checkboxGroupLegendClassNames(props.legendVisuallyHidden) },
-          props.label,
-        ),
-      ];
+      const isLegendHidden = Boolean(props.hideLegend ?? props.legendVisuallyHidden);
+      const legendNode = h(
+        'legend',
+        { class: checkboxGroupLegendClassNames(isLegendHidden) },
+        props.label,
+      );
 
+      let badgeNode: VNodeChild = null;
       if (slots.badge) {
-        headerChildren.push(slots.badge());
+        badgeNode = slots.badge();
       } else if (props.badge) {
-        headerChildren.push(
-          h(Badge, {
-            label: props.badge,
-            intent: props.badgeIntent ?? 'neutral',
-            variant: 'solid',
-          }),
-        );
+        badgeNode = h(Badge, {
+          label: props.badge,
+          intent: props.badgeIntent ?? 'neutral',
+          variant: 'solid',
+        });
       }
 
       const listChildren: VNodeChild[] = [];
@@ -83,7 +82,9 @@ export const CheckboxGroup = defineComponent({
       }
 
       const children: VNodeChild[] = [
-        h('div', { class: checkboxGroupHeaderClassNames() }, headerChildren),
+        isLegendHidden && !badgeNode
+          ? legendNode
+          : h('div', { class: checkboxGroupHeaderClassNames() }, [legendNode, badgeNode]),
         h('div', { class: checkboxGroupListClassNames() }, listChildren),
       ];
 

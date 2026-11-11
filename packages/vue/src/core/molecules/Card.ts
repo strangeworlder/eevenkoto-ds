@@ -3,6 +3,8 @@ import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vu
 
 export type { CardProps, CardTitleLevel };
 
+const BLOCK_TAG_RE = /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i;
+
 export const Card = defineComponent({
   name: 'EevenkotoCard',
   props: {
@@ -11,6 +13,7 @@ export const Card = defineComponent({
     title: { type: String, default: undefined },
     titleLevel: { type: Number as PropType<CardTitleLevel>, default: 2 },
     body: { type: String, default: undefined },
+    bodyHtml: { type: String, default: undefined },
     href: { type: String, default: undefined },
   },
   setup(props, { slots }) {
@@ -31,7 +34,15 @@ export const Card = defineComponent({
         children.push(h('header', [h(`h${level}`, props.title)]));
       }
 
-      if (props.body) children.push(h('p', props.body));
+      if (props.bodyHtml) {
+        children.push(
+          BLOCK_TAG_RE.test(props.bodyHtml)
+            ? h('div', { class: 'eevenkoto-card__body', innerHTML: props.bodyHtml })
+            : h('p', { innerHTML: props.bodyHtml }),
+        );
+      } else if (props.body) {
+        children.push(h('p', props.body));
+      }
       if (slots.default) children.push(slots.default());
 
       if (slots.footer) {

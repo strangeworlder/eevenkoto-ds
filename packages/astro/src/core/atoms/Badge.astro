@@ -1,0 +1,16 @@
+---
+import { badgeClassNames, type BadgeProps } from '@eevenkoto/core';
+
+export interface Props extends Omit<BadgeProps, 'label'> {
+  label?: string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { label, variant, size, shape, intent, class: classProp, className, ...rest } = Astro.props;
+const classes = [badgeClassNames({ variant, size, shape, intent }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<span class={classes} {...rest}>{label}<slot /></span>

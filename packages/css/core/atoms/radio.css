@@ -263,6 +263,11 @@
   box-shadow: 0 0 0 1px var(--_eevenkoto-radio-border-color);
 }
 
+.eevenkoto-radio--tile:has(.eevenkoto-radio__control:focus-visible) {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
 /* --- SIZES --- */
 
 .eevenkoto-radio--sm {

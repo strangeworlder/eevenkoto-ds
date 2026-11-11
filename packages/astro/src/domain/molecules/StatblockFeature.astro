@@ -1,0 +1,39 @@
+---
+import {
+  headingClassNames,
+  paragraphClassNames,
+  statblockFeatureClassNames,
+  type StatblockFeatureProps,
+} from '@eevenkoto/core';
+import { sanitizeInlineHtml } from '@eevenkoto/html';
+
+export interface Props extends StatblockFeatureProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  name,
+  description,
+  descriptionHtml,
+  level = 3,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [statblockFeatureClassNames(), classProp, className].filter(Boolean).join(' ');
+const NameTag = level === 2 ? 'h2' : level === 6 ? 'h6' : 'h3';
+const hasDefaultSlot = Astro.slots.has('default');
+const descMarkup =
+  descriptionHtml !== undefined ? descriptionHtml : sanitizeInlineHtml(description ?? '');
+---
+<div class={classes} {...rest}>
+  <NameTag class={headingClassNames({ level, runIn: true })}>{name}</NameTag>
+  {hasDefaultSlot ? (
+    <p class={paragraphClassNames({ size: 'md' })}><slot /></p>
+  ) : (
+    <p class={paragraphClassNames({ size: 'md' })} set:html={descMarkup} />
+  )}
+</div>

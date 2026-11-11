@@ -87,6 +87,13 @@
   line-height: inherit;
 }
 
+.eevenkoto-card :where(header) .eevenkoto-caption,
+.eevenkoto-card__header .eevenkoto-caption,
+.eevenkoto-card :where(footer) .eevenkoto-caption,
+.eevenkoto-card__footer .eevenkoto-caption {
+  --eevenkoto-caption-margin-block: 0;
+}
+
 .eevenkoto-card
   > :not(header, footer, a, .eevenkoto-card__header, .eevenkoto-card__body, .eevenkoto-card__footer),
 .eevenkoto-card
@@ -142,9 +149,11 @@
   padding-block-start: var(--_eevenkoto-card-gap);
 }
 
-.eevenkoto-card > :is(p, h1, h2, h3, h4, h5, h6),
-.eevenkoto-card > a > :is(p, h1, h2, h3, h4, h5, h6),
-.eevenkoto-card__body > :is(p, h1, h2, h3, h4, h5, h6) {
+.eevenkoto-card > :is(p, ul, ol, h1, h2, h3, h4, h5, h6, .eevenkoto-list, .eevenkoto-caption),
+.eevenkoto-card > a > :is(p, ul, ol, h1, h2, h3, h4, h5, h6, .eevenkoto-list, .eevenkoto-caption),
+.eevenkoto-card__body > :is(p, ul, ol, h1, h2, h3, h4, h5, h6, .eevenkoto-list, .eevenkoto-caption),
+.eevenkoto-card :where(footer) > :is(p, .eevenkoto-caption),
+.eevenkoto-card__footer > :is(p, .eevenkoto-caption) {
   margin: 0;
 }
 

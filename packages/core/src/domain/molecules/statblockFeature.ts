@@ -13,12 +13,16 @@ export interface StatblockFeatureProps {
    */
   level?: StatblockFeatureLevel;
   /**
-   * Body copy after the run-in name.
-   * HTML renderer: plain text or a small allowlist of inline tags
-   * (`em`, `strong`, `i`, `b`, `br`) — sanitized before insert.
-   * React/Vue: prefer framework nodes; string props stay text.
+   * Body copy after the run-in name. Optional when `descriptionHtml` is set.
+   * HTML renderer allows a sanitized inline tag set (`em`, `strong`, `i`, `b`,
+   * `code`, `br`, `a`, `span`, and `.eevenkoto-icon` SVGs).
    */
-  description: string;
+  description?: string;
+  /**
+   * Trusted pre-rendered inline HTML after the run-in name (e.g. from a Markdown
+   * compiler). Takes precedence over `description`.
+   */
+  descriptionHtml?: string;
 }
 
 export const statblockFeatureClassNames = (): string => 'eevenkoto-statblock-feature';

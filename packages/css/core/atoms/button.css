@@ -375,6 +375,12 @@
   --eevenkoto-button-font-size: var(--eevenkoto-font-size-control-lg);
 }
 
+.eevenkoto-button--full-width {
+  display: block;
+  inline-size: 100%;
+  text-align: center;
+}
+
 /* --- ICONS (compose Icon atom; size to 1em so glyphs track button type) --- */
 
 .eevenkoto-button .eevenkoto-icon {

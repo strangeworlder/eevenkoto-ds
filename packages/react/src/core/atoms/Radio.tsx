@@ -8,6 +8,7 @@ import {
   type RadioProps,
 } from '@eevenkoto/core';
 import type { InputHTMLAttributes, ReactElement, ReactNode } from 'react';
+import { Badge } from './Badge';
 
 export type { RadioProps };
 
@@ -72,7 +73,9 @@ export const Radio = ({
       {badgeSlot ? (
         <span className={radioBadgeClassNames()}>{badgeSlot}</span>
       ) : badge ? (
-        <span className={radioBadgeClassNames()}>{badge}</span>
+        <span className={radioBadgeClassNames()}>
+          <Badge label={badge} size="sm" />
+        </span>
       ) : null}
     </label>
   );

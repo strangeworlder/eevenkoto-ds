@@ -10,11 +10,13 @@ export interface CheckboxGroupProps {
   label: string;
   /** Visually hides the legend (still accessible to assistive technologies). */
   legendVisuallyHidden?: boolean;
+  /** Alias for `legendVisuallyHidden`. */
+  hideLegend?: boolean;
   /** Shared name for child checkboxes when applicable. */
   name?: string;
-  /** Layout direction: 'stack' (vertical list) or 'grid'. Default: 'stack'. */
+  /** Layout direction: 'stack' (vertical list) or 'grid'. Default: 'stack' (or 'grid' when `columns` is set). */
   layout?: CheckboxGroupLayout;
-  /** Number of columns when layout is 'grid'. Default: 2. */
+  /** Number of columns when layout is 'grid' (infers `layout: 'grid'` when set). Default: 2. */
   columns?: CheckboxGroupColumns;
   /** Optional secondary hint below the legend or group. */
   hint?: string;
@@ -31,20 +33,16 @@ export interface CheckboxGroupProps {
 export type CheckboxGroupClassNameProps = Pick<CheckboxGroupProps, 'layout' | 'columns'>;
 
 export const checkboxGroupClassNames = (props: CheckboxGroupClassNameProps = {}): string => {
-  const layout = props.layout ?? 'stack';
-  const colClass = props.columns ? `eevenkoto-checkbox-group--grid-${props.columns}` : '';
-  return [
-    'eevenkoto-checkbox-group',
-    `eevenkoto-checkbox-group--${layout}`,
-    layout === 'grid' && colClass ? colClass : '',
-  ]
+  const layout = props.layout ?? (props.columns ? 'grid' : 'stack');
+  const colClass = layout === 'grid' ? `eevenkoto-checkbox-group--grid-${props.columns ?? 2}` : '';
+  return ['eevenkoto-checkbox-group', `eevenkoto-checkbox-group--${layout}`, colClass]
     .filter(Boolean)
     .join(' ');
 };
 
 export const checkboxGroupLegendClassNames = (visuallyHidden = false): string =>
   visuallyHidden
-    ? 'eevenkoto-checkbox-group__legend eevenkoto-u-visually-hidden'
+    ? 'eevenkoto-checkbox-group__legend eevenkoto-visually-hidden'
     : 'eevenkoto-checkbox-group__legend';
 
 export const checkboxGroupHeaderClassNames = (): string => 'eevenkoto-checkbox-group__header';

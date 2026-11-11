@@ -1,0 +1,45 @@
+---
+import {
+  tableShellClassNames,
+  tableShellFooterClassNames,
+  type ScrollAxis,
+} from '@eevenkoto/core';
+import Frame from '../atoms/Frame.astro';
+import Scroll from '../atoms/Scroll.astro';
+
+export interface Props {
+  frame?: boolean;
+  scroll?: boolean;
+  scrollAxis?: ScrollAxis;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  frame = true,
+  scroll = true,
+  scrollAxis = 'x',
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [tableShellClassNames(), classProp, className].filter(Boolean).join(' ');
+const bodyHtml = await Astro.slots.render('default');
+const hasFooterSlot = Astro.slots.has('footer');
+---
+<div class={classes} {...rest}>
+  {frame && scroll ? (
+    <Frame><Scroll axis={scrollAxis}><Fragment set:html={bodyHtml} /></Scroll></Frame>
+  ) : frame ? (
+    <Frame><Fragment set:html={bodyHtml} /></Frame>
+  ) : scroll ? (
+    <Scroll axis={scrollAxis}><Fragment set:html={bodyHtml} /></Scroll>
+  ) : (
+    <Fragment set:html={bodyHtml} />
+  )}
+  {hasFooterSlot ? (
+    <div class={tableShellFooterClassNames()}><slot name="footer" /></div>
+  ) : null}
+</div>

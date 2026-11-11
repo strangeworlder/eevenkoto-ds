@@ -16,8 +16,13 @@ export const PropertyList = defineComponent({
       h(
         'dl',
         { class: className.value },
-        props.items.map((item) =>
-          h(Property, { label: item.label, value: item.value, key: `${item.label}-${item.value}` }),
+        props.items.map((item, index) =>
+          h(Property, {
+            label: item.label,
+            value: item.value,
+            valueHtml: item.valueHtml,
+            key: `${item.label}-${index}`,
+          }),
         ),
       );
   },

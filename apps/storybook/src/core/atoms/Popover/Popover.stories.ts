@@ -28,12 +28,25 @@ const meta: Meta<PopoverProps> = {
     content: { control: 'text', description: 'Panel contents (HTML).' },
     placement: {
       control: 'select',
-      options: ['top', 'bottom', 'left', 'right'],
+      options: [
+        'top',
+        'top-start',
+        'top-end',
+        'bottom',
+        'bottom-start',
+        'bottom-end',
+        'left',
+        'right',
+      ],
       table: { defaultValue: { summary: 'bottom' } },
     },
     arrow: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
     fixed: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
     open: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
+    matchTriggerWidth: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
     label: { control: 'text' },
     role: {
       control: 'select',

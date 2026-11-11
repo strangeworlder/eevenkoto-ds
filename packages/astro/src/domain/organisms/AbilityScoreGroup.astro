@@ -1,0 +1,27 @@
+---
+import { abilityScoreGroupClassNames, type AbilityScoreProps } from '@eevenkoto/core';
+import AbilityScore from '../molecules/AbilityScore.astro';
+
+export interface Props {
+  abilities: AbilityScoreProps[];
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { abilities, class: classProp, className, ...rest } = Astro.props;
+const classes = [abilityScoreGroupClassNames(), classProp, className].filter(Boolean).join(' ');
+const hasHeaderSlot = Astro.slots.has('header');
+const hasFooterSlot = Astro.slots.has('footer');
+---
+<div class={classes} {...rest}>
+  {hasHeaderSlot ? (
+    <div class="eevenkoto-ability-score-group__header"><slot name="header" /></div>
+  ) : null}
+  <div class="eevenkoto-ability-score-group__grid">
+    {abilities.map((ability) => <AbilityScore {...ability} />)}
+  </div>
+  {hasFooterSlot ? (
+    <div class="eevenkoto-ability-score-group__footer"><slot name="footer" /></div>
+  ) : null}
+</div>

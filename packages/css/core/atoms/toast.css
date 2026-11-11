@@ -86,14 +86,17 @@
 
 /* --- STATE: HIDDEN / VISIBLE --- */
 
+.eevenkoto-toast[hidden] {
+  display: none;
+}
+
 .eevenkoto-toast--hidden {
-  opacity: 0;
-  transform: translateY(var(--eevenkoto-space-3));
-  pointer-events: none;
+  display: none;
 }
 
 .eevenkoto-toast--visible {
   opacity: 1;
+  visibility: visible;
   transform: translateY(0);
 }
 
@@ -114,8 +117,20 @@
   z-index: 9999;
 }
 
+.eevenkoto-toast--fixed-bottom-right.eevenkoto-toast--hidden {
+  display: inline-flex;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(var(--eevenkoto-space-3));
+  pointer-events: none;
+}
+
 .eevenkoto-toast--fixed-bottom-center.eevenkoto-toast--hidden {
+  display: inline-flex;
+  opacity: 0;
+  visibility: hidden;
   transform: translateX(-50%) translateY(var(--eevenkoto-space-3));
+  pointer-events: none;
 }
 
 /* --- INTENTS (SUBTLE DEFAULT) --- */

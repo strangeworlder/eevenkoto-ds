@@ -95,6 +95,7 @@ export {
 } from './core/molecules/TooltipCard';
 export {
   Menu,
+  type MenuAttributes,
   type MenuComponentProps,
   type MenuProps,
   type MenuEntry,
@@ -136,6 +137,11 @@ export {
   type TableVariant,
 } from './core/molecules/Table';
 export { TableShell, type TableShellComponentProps } from './core/organisms/TableShell';
+export {
+  Workshop,
+  type WorkshopComponentProps,
+  type WorkshopProps,
+} from './core/organisms/Workshop';
 export {
   AbilityName,
   type AbilityNameComponentProps,

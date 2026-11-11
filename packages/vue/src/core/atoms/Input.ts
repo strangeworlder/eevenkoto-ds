@@ -5,6 +5,7 @@ import {
   type InputType,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vue';
+import { Icon } from './Icon';
 
 export type { InputProps, InputType };
 
@@ -22,17 +23,31 @@ export const Input = defineComponent({
     disabled: { type: Boolean, default: false },
     invalid: { type: Boolean, default: false },
     search: { type: Boolean, default: false },
+    fullWidth: { type: Boolean, default: false },
   },
   emits: ['update:value'],
   setup(props, { emit, slots }) {
     const className = computed(() =>
-      inputClassNames({ size: props.size, invalid: props.invalid, search: props.search }),
+      inputClassNames({
+        size: props.size,
+        invalid: props.invalid,
+        search: props.search,
+        fullWidth: props.fullWidth,
+      }),
     );
 
     return () => {
       const children: VNodeChild[] = [];
       if (slots.icon) {
         children.push(h('span', { class: 'eevenkoto-input__icon' }, slots.icon()));
+      } else if (props.search) {
+        children.push(
+          h(
+            'span',
+            { class: 'eevenkoto-input__icon' },
+            h(Icon, { name: 'search', size: props.size === 'sm' ? 'sm' : 'md' }),
+          ),
+        );
       }
 
       children.push(

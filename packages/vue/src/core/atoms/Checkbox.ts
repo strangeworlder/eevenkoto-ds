@@ -10,6 +10,7 @@ import {
   type CheckboxVariant,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vue';
+import { Badge } from './Badge';
 
 export type { CheckboxProps };
 
@@ -22,7 +23,8 @@ export const Checkbox = defineComponent({
     label: { type: String, required: true },
     description: { type: String, default: undefined },
     badge: { type: String, default: undefined },
-    checked: { type: Boolean, default: false },
+    checked: { type: Boolean, default: undefined },
+    defaultChecked: { type: Boolean, default: undefined },
     disabled: { type: Boolean, default: false },
     variant: { type: String as PropType<CheckboxVariant>, default: undefined },
     card: { type: Boolean, default: false },
@@ -61,7 +63,7 @@ export const Checkbox = defineComponent({
           id: props.id,
           name: props.name,
           value: props.value,
-          checked: props.checked,
+          checked: Boolean(props.checked ?? props.defaultChecked),
           disabled: props.disabled || undefined,
           'aria-label': props.ariaLabel,
           'aria-describedby': props.ariaDescribedBy,
@@ -78,7 +80,13 @@ export const Checkbox = defineComponent({
       if (slots.badge) {
         children.push(h('span', { class: checkboxBadgeClassNames() }, slots.badge()));
       } else if (props.badge) {
-        children.push(h('span', { class: checkboxBadgeClassNames() }, props.badge));
+        children.push(
+          h(
+            'span',
+            { class: checkboxBadgeClassNames() },
+            h(Badge, { label: props.badge, size: 'sm' }),
+          ),
+        );
       }
 
       return h('label', { class: className.value }, children);

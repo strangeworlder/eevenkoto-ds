@@ -1,0 +1,15 @@
+---
+import { captionClassNames, type CaptionProps } from '@eevenkoto/core';
+
+export interface Props extends Omit<CaptionProps, 'text'> {
+  text?: string;
+  as?: 'p' | 'span' | 'figcaption';
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { text, tone, as: Tag = 'p', class: classProp, className, ...rest } = Astro.props;
+const classes = [captionClassNames({ tone }), classProp, className].filter(Boolean).join(' ');
+---
+<Tag class={classes} {...rest}>{text}<slot /></Tag>

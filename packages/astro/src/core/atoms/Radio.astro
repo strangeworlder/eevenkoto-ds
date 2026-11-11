@@ -1,0 +1,73 @@
+---
+import {
+  radioBadgeClassNames,
+  radioClassNames,
+  radioContentClassNames,
+  radioControlClassNames,
+  radioDescriptionClassNames,
+  radioTitleClassNames,
+  type RadioProps,
+} from '@eevenkoto/core';
+import Badge from './Badge.astro';
+
+export interface Props extends RadioProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  name,
+  value,
+  label,
+  description,
+  badge,
+  checked,
+  defaultChecked,
+  disabled,
+  variant,
+  card,
+  invalid,
+  size,
+  ariaLabel,
+  ariaDescribedBy,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  radioClassNames({ variant, card, size, invalid, disabled }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+const isChecked = checked ?? defaultChecked;
+const hasBadgeSlot = Astro.slots.has('badge');
+---
+<label class={classes}>
+  <input
+    type="radio"
+    id={id}
+    name={name}
+    value={value}
+    checked={isChecked || undefined}
+    disabled={disabled || undefined}
+    aria-invalid={invalid ? 'true' : undefined}
+    aria-label={ariaLabel}
+    aria-describedby={ariaDescribedBy}
+    class={radioControlClassNames()}
+    {...rest}
+  />
+  <span class={radioContentClassNames()}>
+    <strong class={radioTitleClassNames()}>{label}<slot /></strong>
+    {description ? <span class={radioDescriptionClassNames()}>{description}</span> : null}
+  </span>
+  {hasBadgeSlot ? (
+    <span class={radioBadgeClassNames()}><slot name="badge" /></span>
+  ) : badge ? (
+    <span class={radioBadgeClassNames()}><Badge label={badge} size="sm" /></span>
+  ) : null}
+</label>

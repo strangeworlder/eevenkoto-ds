@@ -1,0 +1,29 @@
+---
+import {
+  fieldClassNames,
+  fieldControlClassNames,
+  fieldLabelClassNames,
+  fieldMessageClassNames,
+  resolveFieldMessageId,
+  type FieldProps,
+} from '@eevenkoto/core';
+
+export interface Props extends FieldProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { label, htmlFor, hint, error, messageId, class: classProp, className, ...rest } = Astro.props;
+const classes = [fieldClassNames(), classProp, className].filter(Boolean).join(' ');
+const resolvedMessageId = resolveFieldMessageId({ htmlFor, messageId });
+const hasError = Boolean(error);
+const messageText = hasError ? error : hint;
+---
+<div class={classes} {...rest}>
+  <label class={fieldLabelClassNames()} for={htmlFor}>{label}</label>
+  <div class={fieldControlClassNames()}><slot /></div>
+  {messageText && resolvedMessageId ? (
+    <p class={fieldMessageClassNames(hasError)} id={resolvedMessageId}>{messageText}</p>
+  ) : null}
+</div>

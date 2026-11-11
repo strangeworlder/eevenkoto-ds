@@ -1,0 +1,26 @@
+---
+import {
+  abbreviateAbility,
+  abilityNameClassNames,
+  type AbilityNameProps,
+} from '@eevenkoto/core';
+
+export interface Props extends Omit<AbilityNameProps, 'name'> {
+  name?: string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { name, short, variant, class: classProp, className, ...rest } = Astro.props;
+const slotText =
+  !name && Astro.slots.has('default')
+    ? (await Astro.slots.render('default')).replace(/<[^>]*>/g, '').trim()
+    : '';
+const fullText = name || slotText || '';
+const shortText = short || (fullText ? abbreviateAbility(fullText) : '');
+const hostClasses = [abilityNameClassNames({ variant }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<span class={hostClasses} {...rest}><span class="eevenkoto-ability-name__full">{fullText}</span><span class="eevenkoto-ability-name__short" aria-hidden="true">{shortText}</span></span>

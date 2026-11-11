@@ -1,0 +1,36 @@
+---
+import {
+  tooltipCardBodyClassNames,
+  tooltipCardClassNames,
+  type TooltipCardProps,
+  type TooltipCardTitleLevel,
+} from '@eevenkoto/core';
+
+export interface Props extends TooltipCardProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { title, titleLevel, body, class: classProp, className, ...rest } = Astro.props;
+const classes = [tooltipCardClassNames(), classProp, className].filter(Boolean).join(' ');
+const level: TooltipCardTitleLevel = titleLevel === 3 ? 3 : 2;
+const TitleTag = level === 3 ? 'h3' : 'h2';
+const hasHeaderSlot = Astro.slots.has('header');
+const hasFooterSlot = Astro.slots.has('footer');
+const hasDefaultSlot = Astro.slots.has('default');
+const hasHeader = hasHeaderSlot || Boolean(title);
+const hasBody = Boolean(body) || hasDefaultSlot;
+---
+<div class={classes} {...rest}>
+  {hasHeader ? (
+    <header>{hasHeaderSlot ? <slot name="header" /> : <TitleTag>{title}</TitleTag>}</header>
+  ) : null}
+  {hasBody ? (
+    <div class={tooltipCardBodyClassNames()} tabindex="0">
+      {body ? <p>{body}</p> : null}
+      <slot />
+    </div>
+  ) : null}
+  {hasFooterSlot ? <footer><slot name="footer" /></footer> : null}
+</div>

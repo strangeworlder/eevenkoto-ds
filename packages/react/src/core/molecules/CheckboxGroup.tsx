@@ -27,6 +27,7 @@ export type CheckboxGroupComponentProps = Omit<
 export const CheckboxGroup = ({
   label,
   legendVisuallyHidden,
+  hideLegend,
   name,
   layout,
   columns,
@@ -44,21 +45,28 @@ export const CheckboxGroup = ({
     .filter(Boolean)
     .join(' ');
 
+  const isLegendHidden = Boolean(hideLegend ?? legendVisuallyHidden);
+  const badgeNode = badgeSlot ? (
+    badgeSlot
+  ) : badge ? (
+    <Badge label={badge} intent={badgeIntent ?? 'neutral'} variant="solid" />
+  ) : null;
+
   const hasError = Boolean(error);
   const messageText = hasError ? error : hint;
 
   return (
     <fieldset className={classes} {...rest}>
-      <div className={checkboxGroupHeaderClassNames()}>
-        <legend className={checkboxGroupLegendClassNames(legendVisuallyHidden)}>
-          {label}
-        </legend>
-        {badgeSlot ? (
-          badgeSlot
-        ) : badge ? (
-          <Badge label={badge} intent={badgeIntent ?? 'neutral'} variant="solid" />
-        ) : null}
-      </div>
+      {isLegendHidden && !badgeNode ? (
+        <legend className={checkboxGroupLegendClassNames(true)}>{label}</legend>
+      ) : (
+        <div className={checkboxGroupHeaderClassNames()}>
+          <legend className={checkboxGroupLegendClassNames(isLegendHidden)}>
+            {label}
+          </legend>
+          {badgeNode}
+        </div>
+      )}
       <div className={checkboxGroupListClassNames()}>
         {children
           ? children

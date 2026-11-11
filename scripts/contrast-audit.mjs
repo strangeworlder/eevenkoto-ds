@@ -329,6 +329,30 @@ function auditTheme(label, maps) {
   );
   checkPair(
     colors,
+    `${label} [entity-ref--culture]`,
+    '--eevenkoto-color-feedback-success-text',
+    '--eevenkoto-color-feedback-success-background',
+    4.5,
+    SURFACES,
+  );
+  checkPair(
+    colors,
+    `${label} [entity-ref--background]`,
+    '--eevenkoto-color-feedback-neutral-text',
+    '--eevenkoto-color-feedback-neutral-background',
+    4.5,
+    SURFACES,
+  );
+  checkPair(
+    colors,
+    `${label} [entity-ref--ability]`,
+    '--eevenkoto-color-feedback-info-text',
+    '--eevenkoto-color-feedback-info-background',
+    4.5,
+    SURFACES,
+  );
+  checkPair(
+    colors,
     `${label} [segmented-control--secondary]`,
     '--eevenkoto-color-control-secondary-text',
     '--eevenkoto-color-control-secondary-background-hover',

@@ -1,0 +1,20 @@
+---
+import { menuClassNames, type MenuProps } from '@eevenkoto/core';
+import MenuEntries from './_MenuEntries.astro';
+
+export interface Props extends Partial<MenuProps> {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { entries = [], label, size, embedded, class: classProp, className, ...rest } = Astro.props;
+const classes = [menuClassNames({ embedded, size }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const hasDefaultSlot = Astro.slots.has('default');
+---
+<nav class={classes} aria-label={label} {...rest}>
+  {entries.length > 0 ? <MenuEntries entries={entries} /> : null}
+  {hasDefaultSlot ? <slot /> : null}
+</nav>

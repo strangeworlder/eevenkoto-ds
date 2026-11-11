@@ -10,39 +10,49 @@ import {
 } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { AbilityScoreGroup } from './AbilityScoreGroup';
+import type { PropertyItemNode } from '../../core/atoms/Property';
 import { PropertyList } from '../../core/molecules/PropertyList';
 import { StatblockSection } from '../molecules/StatblockSection';
 
 export type StatblockFeatureNode = {
   name: string;
-  description: ReactNode;
+  description?: ReactNode;
+  descriptionHtml?: string;
 };
 
 export type StatblockSectionNode = {
   title: string;
-  features: StatblockFeatureNode[];
+  titleLevel?: 2 | 3;
+  bodyHtml?: string;
+  features?: StatblockFeatureNode[];
 };
 
 export type StatblockComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children'> & {
   name: string;
   nameLevel?: StatblockNameLevel;
   flavor?: string;
+  flavorHtml?: string;
   typeLine?: string;
-  vitals: PropertyItem[];
+  typeLineHtml?: string;
+  vitals: PropertyItemNode[] | PropertyItem[];
   abilities: AbilityScoreProps[];
-  details: PropertyItem[];
+  details: PropertyItemNode[] | PropertyItem[];
   sections?: StatblockSectionNode[] | StatblockSectionProps[];
+  bodyHtml?: string;
 };
 
 export const Statblock = ({
   name,
   nameLevel = 1,
   flavor,
+  flavorHtml,
   typeLine,
+  typeLineHtml,
   vitals,
   abilities,
   details,
   sections,
+  bodyHtml,
   className,
   ...rest
 }: StatblockComponentProps): ReactElement => {
@@ -53,8 +63,20 @@ export const Statblock = ({
   return (
     <article className={classes} {...rest}>
       <NameTag className={headingClassNames({ level })}>{name}</NameTag>
-      {flavor ? <p className={paragraphClassNames({ size: 'md' })}>{flavor}</p> : null}
-      {typeLine ? (
+      {flavorHtml ? (
+        <p
+          className={paragraphClassNames({ size: 'md' })}
+          dangerouslySetInnerHTML={{ __html: flavorHtml }}
+        />
+      ) : flavor ? (
+        <p className={paragraphClassNames({ size: 'md' })}>{flavor}</p>
+      ) : null}
+      {typeLineHtml ? (
+        <p
+          className={`${captionClassNames()} eevenkoto-statblock__type`}
+          dangerouslySetInnerHTML={{ __html: typeLineHtml }}
+        />
+      ) : typeLine ? (
         <p className={`${captionClassNames()} eevenkoto-statblock__type`}>{typeLine}</p>
       ) : null}
       <AbilityScoreGroup
@@ -66,9 +88,12 @@ export const Statblock = ({
         <StatblockSection
           key={section.title}
           title={section.title}
+          titleLevel={section.titleLevel}
+          bodyHtml={section.bodyHtml}
           features={section.features}
         />
       ))}
+      {bodyHtml ? <div dangerouslySetInnerHTML={{ __html: bodyHtml }} /> : null}
     </article>
   );
 };

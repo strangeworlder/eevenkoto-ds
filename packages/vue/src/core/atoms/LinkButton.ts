@@ -17,6 +17,7 @@ export const LinkButton = defineComponent({
     variant: { type: String as PropType<LinkButtonProps['variant']>, default: undefined },
     label: { type: String, required: true },
     size: { type: String as PropType<LinkButtonProps['size']>, default: undefined },
+    fullWidth: { type: Boolean, default: false },
     disabled: { type: Boolean, default: false },
     icon: { type: String as PropType<ButtonIconName>, default: undefined },
     iconPosition: {
@@ -31,6 +32,7 @@ export const LinkButton = defineComponent({
       linkButtonClassNames({
         variant: props.variant,
         size: props.size,
+        fullWidth: props.fullWidth,
         icon: props.icon,
         iconPosition: props.iconPosition,
       }),

@@ -13,6 +13,7 @@ export const Popover = defineComponent({
     arrow: { type: Boolean, default: false },
     fixed: { type: Boolean, default: false },
     open: { type: Boolean, default: false },
+    matchTriggerWidth: { type: Boolean, default: false },
     label: { type: String, default: undefined },
     role: {
       type: String as PropType<'dialog' | 'tooltip' | 'note' | 'group'>,
@@ -25,6 +26,7 @@ export const Popover = defineComponent({
         placement: props.placement,
         fixed: props.fixed,
         open: props.open,
+        matchTriggerWidth: props.matchTriggerWidth,
       }),
     );
 

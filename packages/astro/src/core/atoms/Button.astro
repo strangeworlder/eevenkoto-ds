@@ -1,0 +1,49 @@
+---
+import {
+  buttonClassNames,
+  resolveButtonIconPosition,
+  type ButtonProps,
+} from '@eevenkoto/core';
+import Icon from './Icon.astro';
+
+export interface Props extends Omit<ButtonProps, 'label'> {
+  label?: string;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant,
+  label,
+  size,
+  disabled,
+  icon,
+  iconPosition,
+  fullWidth,
+  type = 'button',
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const resolvedPosition = resolveButtonIconPosition({ icon, iconPosition });
+const classes = [
+  buttonClassNames({ variant, size, icon, iconPosition, fullWidth }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+const ariaLabel =
+  (rest['aria-label'] as string | undefined) ??
+  (icon && resolvedPosition === 'only' ? label : undefined);
+---
+<button
+  type={type}
+  class={classes}
+  disabled={disabled || undefined}
+  aria-label={ariaLabel}
+  {...rest}
+>{icon && resolvedPosition === 'left' ? <Icon name={icon} /> : null}{resolvedPosition !== 'only' ? label : null}<slot />{icon && resolvedPosition === 'right' ? <Icon name={icon} /> : null}{icon && resolvedPosition === 'only' ? <Icon name={icon} /> : null}</button>

@@ -1,0 +1,67 @@
+---
+import {
+  checkboxGroupClassNames,
+  checkboxGroupHeaderClassNames,
+  checkboxGroupLegendClassNames,
+  checkboxGroupListClassNames,
+  checkboxGroupMessageClassNames,
+  type CheckboxGroupProps,
+} from '@eevenkoto/core';
+import Badge from '../atoms/Badge.astro';
+import Checkbox from '../atoms/Checkbox.astro';
+
+export interface Props extends CheckboxGroupProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  label,
+  legendVisuallyHidden,
+  hideLegend,
+  name,
+  layout,
+  columns,
+  hint,
+  error,
+  badge,
+  badgeIntent,
+  items,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [checkboxGroupClassNames({ layout, columns }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const isLegendHidden = Boolean(hideLegend ?? legendVisuallyHidden);
+const hasBadgeSlot = Astro.slots.has('badge');
+const hasBadge = hasBadgeSlot || Boolean(badge);
+const hasDefaultSlot = Astro.slots.has('default');
+const hasError = Boolean(error);
+const messageText = hasError ? error : hint;
+---
+<fieldset class={classes} {...rest}>
+  {isLegendHidden && !hasBadge ? (
+    <legend class={checkboxGroupLegendClassNames(true)}>{label}</legend>
+  ) : (
+    <div class={checkboxGroupHeaderClassNames()}>
+      <legend class={checkboxGroupLegendClassNames(isLegendHidden)}>{label}</legend>
+      {hasBadgeSlot ? (
+        <slot name="badge" />
+      ) : badge ? (
+        <Badge label={badge} intent={badgeIntent ?? 'neutral'} variant="solid" />
+      ) : null}
+    </div>
+  )}
+  <div class={checkboxGroupListClassNames()}>
+    {hasDefaultSlot
+      ? <slot />
+      : items?.map((item) => <Checkbox {...item} name={item.name ?? name} />)}
+  </div>
+  {messageText ? (
+    <p class={checkboxGroupMessageClassNames(hasError)}>{messageText}</p>
+  ) : null}
+</fieldset>

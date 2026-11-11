@@ -9,33 +9,46 @@ import { StatblockFeature } from './StatblockFeature';
 
 export type StatblockSectionFeatureNode = {
   name: string;
-  description: ReactNode;
+  description?: ReactNode;
+  descriptionHtml?: string;
+  level?: 2 | 3 | 6;
 };
 
 export type StatblockSectionComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children'> & {
   title: string;
-  features: StatblockSectionFeatureNode[] | StatblockFeatureProps[];
+  titleLevel?: 2 | 3;
+  bodyHtml?: string;
+  features?: StatblockSectionFeatureNode[] | StatblockFeatureProps[];
+  children?: ReactNode;
 };
 
 export type { StatblockSectionProps };
 
 export const StatblockSection = ({
   title,
+  titleLevel = 2,
+  bodyHtml,
   features,
+  children,
   className,
   ...rest
 }: StatblockSectionComponentProps): ReactElement => {
   const classes = [statblockSectionClassNames(), className].filter(Boolean).join(' ');
+  const TitleTag = titleLevel === 3 ? 'h3' : 'h2';
   return (
     <section className={classes} {...rest}>
-      <h2 className={headingClassNames({ level: 2 })}>{title}</h2>
-      {features.map((feature) => (
+      <TitleTag className={headingClassNames({ level: 2 })}>{title}</TitleTag>
+      {bodyHtml ? <div dangerouslySetInnerHTML={{ __html: bodyHtml }} /> : null}
+      {features?.map((feature) => (
         <StatblockFeature
           key={feature.name}
           name={feature.name}
           description={feature.description}
+          descriptionHtml={feature.descriptionHtml}
+          level={feature.level}
         />
       ))}
+      {children}
     </section>
   );
 };

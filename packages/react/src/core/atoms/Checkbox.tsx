@@ -8,6 +8,7 @@ import {
   type CheckboxProps,
 } from '@eevenkoto/core';
 import type { InputHTMLAttributes, ReactElement, ReactNode } from 'react';
+import { Badge } from './Badge';
 
 export type { CheckboxProps };
 
@@ -72,7 +73,9 @@ export const Checkbox = ({
       {badgeSlot ? (
         <span className={checkboxBadgeClassNames()}>{badgeSlot}</span>
       ) : badge ? (
-        <span className={checkboxBadgeClassNames()}>{badge}</span>
+        <span className={checkboxBadgeClassNames()}>
+          <Badge label={badge} size="sm" />
+        </span>
       ) : null}
     </label>
   );

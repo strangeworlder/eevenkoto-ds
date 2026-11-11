@@ -16,12 +16,15 @@ export type CardComponentProps = Omit<HTMLAttributes<HTMLElement>, 'title' | 'ch
     href?: string;
   };
 
+const BLOCK_TAG_RE = /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i;
+
 export const Card = ({
   elevated,
   interactive,
   title,
   titleLevel,
   body,
+  bodyHtml,
   header,
   footer,
   children,
@@ -44,7 +47,15 @@ export const Card = ({
       {hasHeader ? (
         <header>{header ?? createElement(`h${level}`, null, title)}</header>
       ) : null}
-      {body ? <p>{body}</p> : null}
+      {bodyHtml ? (
+        BLOCK_TAG_RE.test(bodyHtml) ? (
+          <div className="eevenkoto-card__body" dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+        ) : (
+          <p dangerouslySetInnerHTML={{ __html: bodyHtml }} />
+        )
+      ) : body ? (
+        <p>{body}</p>
+      ) : null}
       {children}
       {footer ? <footer>{footer}</footer> : null}
     </>

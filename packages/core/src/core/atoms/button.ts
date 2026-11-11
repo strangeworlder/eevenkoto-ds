@@ -18,10 +18,15 @@ export interface ButtonProps {
   icon?: ButtonIconName;
   /** Where the icon sits relative to the label. Defaults to left when icon is set. */
   iconPosition?: ButtonIconPosition;
+  /** Stretch button to fill its container width (`inline-size: 100%`). */
+  fullWidth?: boolean;
 }
 
 /** Props that affect Button BEM class names (excludes label/disabled content). */
-export type ButtonClassNameProps = Pick<ButtonProps, 'variant' | 'size' | 'icon' | 'iconPosition'>;
+export type ButtonClassNameProps = Pick<
+  ButtonProps,
+  'variant' | 'size' | 'icon' | 'iconPosition' | 'fullWidth'
+>;
 
 export const resolveButtonIconPosition = (
   props: Pick<ButtonProps, 'icon' | 'iconPosition'>,
@@ -35,5 +40,6 @@ export const buttonClassNames = (props: ButtonClassNameProps = {}): string => {
   const size = props.size ?? 'md';
   const iconPosition = resolveButtonIconPosition(props);
   const iconClass = iconPosition ? ` eevenkoto-button--icon-${iconPosition}` : '';
-  return `eevenkoto-button eevenkoto-button--${variant} eevenkoto-button--${size}${iconClass}`;
+  const widthClass = props.fullWidth ? ' eevenkoto-button--full-width' : '';
+  return `eevenkoto-button eevenkoto-button--${variant} eevenkoto-button--${size}${iconClass}${widthClass}`;
 };

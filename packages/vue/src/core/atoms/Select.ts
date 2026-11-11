@@ -33,6 +33,7 @@ export const Select = defineComponent({
       type: Array as PropType<SelectOptionGroup[]>,
       default: undefined,
     },
+    fullWidth: { type: Boolean, default: false },
   },
   emits: ['update:value', 'change'],
   setup(props, { emit, slots }) {
@@ -41,49 +42,62 @@ export const Select = defineComponent({
         size: props.size,
         invalid: props.invalid,
         disabled: props.disabled,
+        fullWidth: props.fullWidth,
       }),
     );
 
     return () => {
+      const selectedValue = props.value ?? props.defaultValue;
       const optionElements: VNodeChild[] = [];
 
       if (props.placeholder) {
         optionElements.push(
-          h('option', { value: '', disabled: true, selected: !props.value }, props.placeholder),
+          h(
+            'option',
+            {
+              value: '',
+              disabled: true,
+              selected: selectedValue === undefined || selectedValue === '',
+            },
+            props.placeholder,
+          ),
         );
       }
 
       if (slots.default) {
         optionElements.push(slots.default());
-      } else if (props.groups && props.groups.length > 0) {
-        props.groups.forEach((group) => {
-          const groupOptions = group.options.map((opt) =>
-            h(
-              'option',
-              {
-                value: opt.value,
-                disabled: opt.disabled || undefined,
-                selected: opt.value === props.value,
-              },
-              opt.label,
-            ),
-          );
-          optionElements.push(h('optgroup', { label: group.label }, groupOptions));
-        });
-      } else if (props.options && props.options.length > 0) {
-        props.options.forEach((opt) => {
-          optionElements.push(
-            h(
-              'option',
-              {
-                value: opt.value,
-                disabled: opt.disabled || undefined,
-                selected: opt.value === props.value,
-              },
-              opt.label,
-            ),
-          );
-        });
+      } else {
+        if (props.options && props.options.length > 0) {
+          props.options.forEach((opt) => {
+            optionElements.push(
+              h(
+                'option',
+                {
+                  value: opt.value,
+                  disabled: opt.disabled || undefined,
+                  selected: selectedValue !== undefined && opt.value === selectedValue,
+                },
+                opt.label,
+              ),
+            );
+          });
+        }
+        if (props.groups && props.groups.length > 0) {
+          props.groups.forEach((group) => {
+            const groupOptions = group.options.map((opt) =>
+              h(
+                'option',
+                {
+                  value: opt.value,
+                  disabled: opt.disabled || undefined,
+                  selected: selectedValue !== undefined && opt.value === selectedValue,
+                },
+                opt.label,
+              ),
+            );
+            optionElements.push(h('optgroup', { label: group.label }, groupOptions));
+          });
+        }
       }
 
       const selectEl = h(
@@ -92,7 +106,7 @@ export const Select = defineComponent({
           class: selectFieldClassNames(),
           id: props.id,
           name: props.name,
-          value: props.value,
+          value: selectedValue,
           disabled: props.disabled || undefined,
           'aria-label': props.ariaLabel,
           'aria-describedby': props.describedBy,

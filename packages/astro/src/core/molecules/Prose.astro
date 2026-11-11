@@ -1,0 +1,13 @@
+---
+import { proseClassNames } from '@eevenkoto/core';
+
+export interface Props {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { class: classProp, className, ...rest } = Astro.props;
+const classes = [proseClassNames(), classProp, className].filter(Boolean).join(' ');
+---
+<div class={classes} {...rest}><slot /></div>

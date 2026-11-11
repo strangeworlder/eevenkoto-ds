@@ -1,0 +1,35 @@
+---
+import {
+  equipmentWorkshopClassNames,
+  type EquipmentWorkshopProps,
+} from '@eevenkoto/core';
+
+export interface Props extends Omit<EquipmentWorkshopProps, 'header' | 'controls' | 'preview'> {
+  id?: string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { id, idSuffix, class: classProp, className, ...rest } = Astro.props;
+const classes = [equipmentWorkshopClassNames(), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const elementId = id ?? (idSuffix ? `equipment-workshop${idSuffix}` : undefined);
+const hasHeaderSlot = Astro.slots.has('header');
+const hasControlsSlot = Astro.slots.has('controls');
+const hasPreviewSlot = Astro.slots.has('preview');
+---
+<div class={classes} id={elementId} data-eevenkoto-equipment-workshop {...rest}>
+  {hasHeaderSlot ? (
+    <div class="eevenkoto-equipment-workshop__header"><slot name="header" /></div>
+  ) : null}
+  <div class="eevenkoto-equipment-workshop__body">
+    <div class="eevenkoto-equipment-workshop__controls">
+      {hasControlsSlot ? <slot name="controls" /> : <slot />}
+    </div>
+    {hasPreviewSlot ? (
+      <div class="eevenkoto-equipment-workshop__preview"><slot name="preview" /></div>
+    ) : null}
+  </div>
+</div>

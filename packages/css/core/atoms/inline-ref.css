@@ -126,3 +126,20 @@ a.eevenkoto-inline-ref:focus-visible {
     color: LinkText;
   }
 }
+
+@media print {
+  .eevenkoto-inline-ref,
+  a.eevenkoto-inline-ref,
+  .eevenkoto-inline-ref--unlinked {
+    background: transparent;
+    border-color: transparent;
+    color: inherit;
+    text-decoration: none;
+    padding: 0;
+    margin-inline: 0;
+  }
+
+  .eevenkoto-inline-ref__lock {
+    display: none;
+  }
+}

@@ -19,11 +19,14 @@ export const Statblock = defineComponent({
     name: { type: String, required: true },
     nameLevel: { type: Number as PropType<StatblockNameLevel>, default: 1 },
     flavor: { type: String, default: undefined },
+    flavorHtml: { type: String, default: undefined },
     typeLine: { type: String, default: undefined },
+    typeLineHtml: { type: String, default: undefined },
     vitals: { type: Array as PropType<PropertyItem[]>, required: true },
     abilities: { type: Array as PropType<AbilityScoreProps[]>, required: true },
     details: { type: Array as PropType<PropertyItem[]>, required: true },
     sections: { type: Array as PropType<StatblockSectionProps[]>, default: undefined },
+    bodyHtml: { type: String, default: undefined },
   },
   setup(props) {
     const className = computed(() => statblockClassNames());
@@ -34,11 +37,22 @@ export const Statblock = defineComponent({
         h(`h${level}`, { class: headingClassNames({ level }) }, props.name),
       ];
 
-      if (props.flavor) {
+      if (props.flavorHtml) {
+        children.push(
+          h('p', { class: paragraphClassNames({ size: 'md' }), innerHTML: props.flavorHtml }),
+        );
+      } else if (props.flavor) {
         children.push(h('p', { class: paragraphClassNames({ size: 'md' }) }, props.flavor));
       }
 
-      if (props.typeLine) {
+      if (props.typeLineHtml) {
+        children.push(
+          h('p', {
+            class: `${captionClassNames()} eevenkoto-statblock__type`,
+            innerHTML: props.typeLineHtml,
+          }),
+        );
+      } else if (props.typeLine) {
         children.push(
           h('p', { class: `${captionClassNames()} eevenkoto-statblock__type` }, props.typeLine),
         );
@@ -59,10 +73,16 @@ export const Statblock = defineComponent({
         children.push(
           h(StatblockSection, {
             title: section.title,
+            titleLevel: section.titleLevel,
+            bodyHtml: section.bodyHtml,
             features: section.features,
             key: section.title,
           }),
         );
+      }
+
+      if (props.bodyHtml) {
+        children.push(h('div', { innerHTML: props.bodyHtml }));
       }
 
       return h('article', { class: className.value }, children);

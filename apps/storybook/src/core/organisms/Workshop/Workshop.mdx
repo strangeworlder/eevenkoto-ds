@@ -1,0 +1,36 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as WorkshopStories from './Workshop.stories';
+
+<Meta of={WorkshopStories} />
+
+# Workshop
+
+Core 2-column workbench organism (`eevenkoto-workshop`) with an optional header bar, form/stepper control stack, and a sticky live preview pane.
+
+<Canvas of={WorkshopStories.Default} />
+
+### Playground
+
+<Controls of={WorkshopStories.Default} />
+
+## Why to use
+
+Interactive TTRPG generators (Creature, Encounter, Magic Item, and Equipment builders) share the same two-pane ergonomics: form controls on the inline-start side and a sticky live statblock/card preview on the inline-end side that collapses to a single column below `56rem`.
+
+## When to use
+
+Use `Workshop` whenever a tool pairs structured form/stepper controls with a live output sheet. Customize the controls track width via `controlsWidth` or `--eevenkoto-workshop-controls-width` (for example `minmax(0, 1fr)` for 50/50 columns or `24rem` for a fixed rail). Domain `EquipmentWorkshop` remains supported as a domain-specific alias.
+
+<Canvas of={WorkshopStories.EqualColumns} />
+
+## API reference
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `header` | `string \| ReactNode` | — | Optional top toolbar (mode switcher, presets, actions) |
+| `controls` | `string \| ReactNode` | — | Left-hand form/control column (or default slot/children) |
+| `preview` | `string \| ReactNode` | — | Sticky right-hand live output sheet |
+| `controlsWidth` | `string` | `minmax(0, 1.35fr)` | Sets `--eevenkoto-workshop-controls-width` |
+| `label` | `string` | — | Adds `role="region"` + `aria-label` |
+
+<ArgTypes of={WorkshopStories} />

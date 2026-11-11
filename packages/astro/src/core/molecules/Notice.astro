@@ -1,0 +1,73 @@
+---
+import {
+  ICON_NAMES,
+  defaultNoticeIcon,
+  noticeClassNames,
+  resolveNoticeRole,
+  type IconName,
+  type NoticeProps,
+  type NoticeRole,
+} from '@eevenkoto/core';
+import Icon from '../atoms/Icon.astro';
+
+export interface Props extends Omit<NoticeProps, 'icon'> {
+  icon?: IconName | false;
+  role?: NoticeRole;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  intent,
+  variant,
+  title,
+  body,
+  bodyHtml,
+  icon,
+  role,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [noticeClassNames({ intent, variant }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const resolvedRole = resolveNoticeRole(intent, role);
+const hasIconSlot = Astro.slots.has('icon');
+const hasActionsSlot = Astro.slots.has('actions');
+const showIcon = icon !== false;
+const resolvedIconName: IconName | null =
+  !showIcon || hasIconSlot
+    ? null
+    : typeof icon === 'string' && (ICON_NAMES as readonly string[]).includes(icon)
+      ? (icon as IconName)
+      : defaultNoticeIcon(intent);
+const isBlockHtml = bodyHtml
+  ? /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i.test(bodyHtml)
+  : false;
+---
+<div class={classes} role={resolvedRole} {...rest}>
+  {showIcon && (hasIconSlot || resolvedIconName) ? (
+    <span class="eevenkoto-notice__icon" aria-hidden="true">
+      {hasIconSlot ? <slot name="icon" /> : resolvedIconName ? <Icon name={resolvedIconName} /> : null}
+    </span>
+  ) : null}
+  <div class="eevenkoto-notice__content">
+    {title ? <p class="eevenkoto-notice__title">{title}</p> : null}
+    {bodyHtml ? (
+      isBlockHtml ? (
+        <div class="eevenkoto-notice__body" set:html={bodyHtml} />
+      ) : (
+        <p class="eevenkoto-notice__body" set:html={bodyHtml} />
+      )
+    ) : body ? (
+      <p class="eevenkoto-notice__body">{body}</p>
+    ) : null}
+    <slot />
+    {hasActionsSlot ? (
+      <div class="eevenkoto-notice__actions"><slot name="actions" /></div>
+    ) : null}
+  </div>
+</div>

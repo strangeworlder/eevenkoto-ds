@@ -11,6 +11,11 @@ export interface CardProps {
   titleLevel?: CardTitleLevel;
   /** Body copy as a `<p>`. Optional when using framework slots. */
   body?: string;
+  /**
+   * Trusted pre-rendered HTML for card body copy (e.g. inline cross-references or
+   * Markdown output). Wrapped in `<p>` unless it already begins with a block tag.
+   */
+  bodyHtml?: string;
 }
 
 export type CardClassNameProps = Pick<CardProps, 'elevated' | 'interactive'>;

@@ -26,10 +26,10 @@ const meta: Meta<LinkButtonProps> = {
     },
     variant: {
       control: 'select',
-      options: ['primary', 'secondary'],
-      description: 'Visual hierarchy of the CTA. No ghost — use InlineRef for in-prose links.',
+      options: ['primary', 'secondary', 'ghost'],
+      description: 'Visual hierarchy of the CTA (primary, secondary, or ghost). Use InlineRef for in-prose links.',
       table: {
-        type: { summary: "'primary' | 'secondary'" },
+        type: { summary: "'primary' | 'secondary' | 'ghost'" },
         defaultValue: { summary: 'primary' },
       },
     },
@@ -90,6 +90,14 @@ const meta: Meta<LinkButtonProps> = {
         type: { summary: 'string' },
       },
     },
+    fullWidth: {
+      control: 'boolean',
+      description: 'Stretches the CTA across its container (`inline-size: 100%`).',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
   },
   render: (args) => renderLinkButton(args),
 };
@@ -117,6 +125,16 @@ export const Secondary: Story = {
     href: '#link-button',
     variant: 'secondary',
     label: 'Read the rules',
+  },
+};
+
+export const Ghost: Story = {
+  args: {
+    href: '#link-button',
+    variant: 'ghost',
+    label: 'Back to catalog',
+    icon: 'arrow',
+    iconPosition: 'left',
   },
 };
 

@@ -21,6 +21,7 @@ export const RadioGroup = defineComponent({
     name: { type: String, required: true },
     label: { type: String, required: true },
     legendVisuallyHidden: { type: Boolean, default: false },
+    hideLegend: { type: Boolean, default: undefined },
     value: { type: String, default: undefined },
     defaultValue: { type: String, default: undefined },
     layout: { type: String as PropType<RadioGroupLayout>, default: undefined },
@@ -45,24 +46,22 @@ export const RadioGroup = defineComponent({
     );
 
     return () => {
-      const headerChildren: VNodeChild[] = [
-        h(
-          'legend',
-          { class: radioGroupLegendClassNames(props.legendVisuallyHidden) },
-          props.label,
-        ),
-      ];
+      const isLegendHidden = Boolean(props.hideLegend ?? props.legendVisuallyHidden);
+      const legendNode = h(
+        'legend',
+        { class: radioGroupLegendClassNames(isLegendHidden) },
+        props.label,
+      );
 
+      let badgeNode: VNodeChild = null;
       if (slots.badge) {
-        headerChildren.push(slots.badge());
+        badgeNode = slots.badge();
       } else if (props.badge) {
-        headerChildren.push(
-          h(Badge, {
-            label: props.badge,
-            intent: props.badgeIntent ?? 'neutral',
-            variant: 'solid',
-          }),
-        );
+        badgeNode = h(Badge, {
+          label: props.badge,
+          intent: props.badgeIntent ?? 'neutral',
+          variant: 'solid',
+        });
       }
 
       const listChildren: VNodeChild[] = [];
@@ -93,7 +92,9 @@ export const RadioGroup = defineComponent({
       }
 
       const children: VNodeChild[] = [
-        h('div', { class: radioGroupHeaderClassNames() }, headerChildren),
+        isLegendHidden && !badgeNode
+          ? legendNode
+          : h('div', { class: radioGroupHeaderClassNames() }, [legendNode, badgeNode]),
         h('div', { class: radioGroupListClassNames() }, listChildren),
       ];
 

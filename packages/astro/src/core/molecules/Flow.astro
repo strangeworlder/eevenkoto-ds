@@ -1,0 +1,13 @@
+---
+import { flowClassNames, type FlowProps } from '@eevenkoto/core';
+
+export interface Props extends FlowProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { density, class: classProp, className, ...rest } = Astro.props;
+const classes = [flowClassNames({ density }), classProp, className].filter(Boolean).join(' ');
+---
+<div class={classes} {...rest}><slot /></div>

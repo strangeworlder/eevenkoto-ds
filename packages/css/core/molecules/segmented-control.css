@@ -243,6 +243,15 @@ a.eevenkoto-segmented-control__option {
   --eevenkoto-segmented-control-pad-inline: var(--eevenkoto-space-3);
 }
 
+.eevenkoto-segmented-control--full-width {
+  display: flex;
+  inline-size: 100%;
+}
+
+.eevenkoto-segmented-control--full-width .eevenkoto-segmented-control__option {
+  flex: 1 1 0;
+}
+
 /* Mode classes (--radios / --links) are emitted for hooks; selection is child-driven. */
 
 @media (forced-colors: active) {

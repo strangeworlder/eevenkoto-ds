@@ -10,6 +10,7 @@ import {
   type RadioVariant,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vue';
+import { Badge } from './Badge';
 
 export type { RadioProps };
 
@@ -22,7 +23,8 @@ export const Radio = defineComponent({
     label: { type: String, required: true },
     description: { type: String, default: undefined },
     badge: { type: String, default: undefined },
-    checked: { type: Boolean, default: false },
+    checked: { type: Boolean, default: undefined },
+    defaultChecked: { type: Boolean, default: undefined },
     disabled: { type: Boolean, default: false },
     variant: { type: String as PropType<RadioVariant>, default: undefined },
     card: { type: Boolean, default: false },
@@ -61,7 +63,7 @@ export const Radio = defineComponent({
           id: props.id,
           name: props.name,
           value: props.value,
-          checked: props.checked,
+          checked: Boolean(props.checked ?? props.defaultChecked),
           disabled: props.disabled || undefined,
           'aria-label': props.ariaLabel,
           'aria-describedby': props.ariaDescribedBy,
@@ -77,7 +79,13 @@ export const Radio = defineComponent({
       if (slots.badge) {
         children.push(h('span', { class: radioBadgeClassNames() }, slots.badge()));
       } else if (props.badge) {
-        children.push(h('span', { class: radioBadgeClassNames() }, props.badge));
+        children.push(
+          h(
+            'span',
+            { class: radioBadgeClassNames() },
+            h(Badge, { label: props.badge, size: 'sm' }),
+          ),
+        );
       }
 
       return h('label', { class: className.value }, children);

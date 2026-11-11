@@ -48,9 +48,14 @@ export interface SegmentedControlProps {
   size?: SegmentedControlSize;
   /** Accessible name (fieldset legend / nav aria-label). */
   label?: string;
+  /** Stretch control track and options across available inline space (`inline-size: 100%`). */
+  fullWidth?: boolean;
 }
 
-export type SegmentedControlClassNameProps = Pick<SegmentedControlProps, 'size' | 'mode'>;
+export type SegmentedControlClassNameProps = Pick<
+  SegmentedControlProps,
+  'size' | 'mode' | 'fullWidth'
+>;
 
 export const segmentedControlClassNames = (
   props: SegmentedControlClassNameProps = {},
@@ -61,7 +66,10 @@ export const segmentedControlClassNames = (
     'eevenkoto-segmented-control',
     `eevenkoto-segmented-control--${size}`,
     `eevenkoto-segmented-control--${mode}`,
-  ].join(' ');
+    props.fullWidth ? 'eevenkoto-segmented-control--full-width' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 };
 
 export type SegmentedControlOptionClassNameProps = {

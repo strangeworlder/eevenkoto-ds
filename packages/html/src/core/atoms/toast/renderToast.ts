@@ -14,7 +14,7 @@ export const renderToast = (args: ToastProps = {}): string => {
   const className = toastClassNames(args);
   const { role, ariaLive } = resolveToastAria(args.intent);
 
-  const iconName = args.icon ?? defaultToastIcon(args.intent);
+  const iconName = args.icon === false ? null : (args.icon ?? defaultToastIcon(args.intent));
   const iconMarkup = iconName
     ? `<span class="eevenkoto-toast__icon" aria-hidden="true">${renderIcon({ name: iconName })}</span>`
     : '';

@@ -1,0 +1,62 @@
+---
+import {
+  toastClassNames,
+  defaultToastIcon,
+  resolveToastAria,
+  type ToastProps,
+} from '@eevenkoto/core';
+import Icon from './Icon.astro';
+
+export interface Props extends ToastProps {
+  role?: string;
+  'aria-live'?: 'polite' | 'assertive' | 'off';
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  text,
+  intent,
+  variant,
+  icon,
+  visible = true,
+  hidden,
+  placement,
+  role: userRole,
+  'aria-live': userAriaLive,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  toastClassNames({ intent, variant, visible, hidden, placement }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+const defaultAria = resolveToastAria(intent);
+const iconName = icon === false ? null : (icon ?? defaultToastIcon(intent));
+const hasIconSlot = Astro.slots.has('icon');
+const hasDefaultSlot = Astro.slots.has('default');
+---
+<div
+  class={classes}
+  role={userRole ?? defaultAria.role}
+  aria-live={userAriaLive ?? defaultAria.ariaLive}
+  hidden={hidden || undefined}
+  {...rest}
+>
+  {hasIconSlot ? (
+    <span class="eevenkoto-toast__icon" aria-hidden="true"><slot name="icon" /></span>
+  ) : iconName ? (
+    <span class="eevenkoto-toast__icon" aria-hidden="true"><Icon name={iconName} /></span>
+  ) : null}
+  {hasDefaultSlot ? (
+    <span class="eevenkoto-toast__text"><slot /></span>
+  ) : text ? (
+    <span class="eevenkoto-toast__text">{text}</span>
+  ) : null}
+</div>

@@ -33,15 +33,18 @@ export const renderSelect = (args: SelectProps): string => {
 
   if (args.children) {
     optionsHtml += args.children;
-  } else if (args.groups && args.groups.length > 0) {
-    optionsHtml += args.groups
-      .map(
-        (group) =>
-          `<optgroup label="${escapeHtml(group.label)}">${group.options.map(renderOptionTag).join('')}</optgroup>`,
-      )
-      .join('');
-  } else if (args.options && args.options.length > 0) {
-    optionsHtml += args.options.map(renderOptionTag).join('');
+  } else {
+    if (args.options && args.options.length > 0) {
+      optionsHtml += args.options.map(renderOptionTag).join('');
+    }
+    if (args.groups && args.groups.length > 0) {
+      optionsHtml += args.groups
+        .map(
+          (group) =>
+            `<optgroup label="${escapeHtml(group.label)}">${group.options.map(renderOptionTag).join('')}</optgroup>`,
+        )
+        .join('');
+    }
   }
 
   const attrs = [

@@ -2,7 +2,50 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.10.0**.
+Published package version is **0.11.0**.
+
+## 0.11.0
+
+> **Consuming site upgrade instructions:** See [`docs/migration-token-architecture-and-a11y.md`](docs/migration-token-architecture-and-a11y.md#8-upgrading-to-0110-astro-package-ergonomics--0101-bug-fixes) for the step-by-step rollout checklist and which local CSS workarounds and `.astro` wrappers can now be removed.
+
+### Added
+
+- **Official `@eevenkoto/astro` package (`packages/astro`)**:
+  - Ships all **52 Core & Domain components** as native `.astro` wrappers mirroring `@eevenkoto/core` and `@eevenkoto/html` 1:1 with Astro slot support (`header`, `footer`, `controls`, `preview`, `badge`, `actions`, `icon`, and default slots), recursive `<Menu>`, tight inline markup on inline atoms (`Button`, `LinkButton`, `Badge`, `Chip`, `InlineRef`, `EntityRef`, `AbilityName`, `Stat`), and TypeScript declarations (`index.d.ts`).
+- **Expanded `ICON_NAMES` (`@eevenkoto/core`)**:
+  - Added `close`, `copy`, `refresh`, `reroll`, `logout`, `mail`, `info`, and `warning` to `ICON_NAMES`, `BUTTON_ICON_NAMES`, and `iconPaths` (23 canonical 24×24 stroke glyphs total).
+- **`LinkButton` `'ghost'` variant**:
+  - Added `'ghost'` to `LinkButtonVariant` across `@eevenkoto/css` (`link-button.css`), `@eevenkoto/core`, `@eevenkoto/html`, `@eevenkoto/react`, `@eevenkoto/vue`, and `@eevenkoto/astro`, matching `Button` parity.
+- **Core `Workshop` organism (`@eevenkoto/css/workshop.css`)**:
+  - Generalized 2-column generator/builder chassis (`.eevenkoto-workshop`, `--eevenkoto-workshop-controls-width` defaulting to `minmax(0, 1.35fr)`, sticky `1fr` preview column, control-group styling) across CSS, Core, HTML (`renderWorkshop`), React (`<Workshop />`), Vue (`<Workshop />`), and Astro (`<Workshop />`). Domain `EquipmentWorkshop` remains 100% backwards-compatible.
+- **Expanded `EntityRefKind` (`@eevenkoto/core`, `@eevenkoto/css/entity-ref.css`)**:
+  - Added `'species' | 'culture' | 'background' | 'feat' | 'ability'` (12 entity kinds total), all verified against WCAG AA across light and dark modes on all 4 surfaces.
+- **Rich inline & block `*Html` slots + expanded `sanitizeInlineHtml` (`@eevenkoto/html`)**:
+  - `sanitizeInlineHtml` now preserves DS `EntityRef` and `InlineRef` output (`<a href="...">`, `<span class="...">`, `data-*`, and `.eevenkoto-icon` `<svg><path /></svg>`) while stripping unsafe URL schemes (`javascript:`), event handlers, and unknown tags.
+  - Added opt-in `*Html` props across Core, HTML, React, Vue, and Astro: `Property` / `PropertyList` (`valueHtml`), `Card` (`bodyHtml`), `Notice` (`bodyHtml`), `StatblockFeature` (`descriptionHtml`), `StatblockSection` (`bodyHtml`), `Statblock` (`flavorHtml`, `typeLineHtml`, `bodyHtml`), and `Spellblock` (`typeLineHtml`, `paragraphsHtml`, `bodyHtml`).
+- **Component & layout ergonomics**:
+  - **`Popover`**: Added edge placements `'top-start' | 'top-end' | 'bottom-start' | 'bottom-end'`, `matchTriggerWidth?: boolean` (`.eevenkoto-popover--match-trigger-width`), default `z-index: 100`, and placed `.eevenkoto-popover--fixed` after placement modifiers so `position: fixed` is never overridden.
+  - **`fullWidth` prop**: Added `fullWidth?: boolean` (`--full-width`) to `Button`, `LinkButton`, `Input`, `Select`, and `SegmentedControl`, and updated `field.css` so `.eevenkoto-field__control > .eevenkoto-select` stretches to `100%` alongside `.eevenkoto-input`.
+  - **`Menu` recursion & `attributes`**: Added `attributes?: MenuAttributes` (`Record<string, string | boolean | undefined>`) on menu items, groups, headers, and separators across Core, HTML, React, Vue, and Astro, plus single-line Markdown-safe `<details>` rendering in `renderMenu`.
+  - **`Notice` icon & ARIA parity with `Toast`**: `Notice` now accepts `icon?: IconName | false` (defaulting automatically from `intent`: `info` → `'info'`, `success` → `'check'`, `caution`/`critical` → `'warning'`) and defaults `role="alert"` on both `critical` and `caution` intents (`role="status"` otherwise).
+  - **Print polish (`inline-ref.css`)**: `.eevenkoto-inline-ref__lock` is hidden in `@media print` so printed statblocks and rule sheets omit paywall lock icons.
+
+### Fixed
+
+- **Invalid 3-value `margin-block` shorthands (`@eevenkoto/css`)**:
+  - Fixed 3-value `margin-block` declarations (invalid at computed-value time in CSS Logical Properties) to valid 2-value `block-start block-end` shorthands across `heading.css`, `paragraph.css`, `caption.css`, `list.css`, and `statblock-section.css`.
+- **`Heading` tag-inference specificity order (`heading.css`)**:
+  - Moved `:where(h1..h6).eevenkoto-heading` and `.eevenkoto-prose :where(h1..h6)` rules *before* explicit `.eevenkoto-heading--1..6` modifiers (and explicitly reset `--eevenkoto-heading-padding: 0; --eevenkoto-heading-border-block-end: none;` on `--3..--6`) so `<h3 class="eevenkoto-heading eevenkoto-heading--2">` and `<h2 class="eevenkoto-heading eevenkoto-heading--3">` both work as documented.
+- **`CheckboxGroup` & `RadioGroup` visually-hidden legend, orphan header gap, and grid inference**:
+  - Fixed `checkboxGroupLegendClassNames(true)` and `radioGroupLegendClassNames(true)` to emit `.eevenkoto-visually-hidden` (instead of stale `.eevenkoto-u-visually-hidden`).
+  - Added `hideLegend?: boolean` alias alongside `legendVisuallyHidden`, omitted the `.eevenkoto-{checkbox,radio}-group__header` wrapper when the legend is hidden and no `badge` is present (plus `:has(> .eevenkoto-visually-hidden:only-child)` CSS guard), and inferred `layout: 'grid'` automatically whenever `columns > 1`.
+- **Component CSS / HTML mismatches**:
+  - `renderCheckbox` and `renderRadio` now render `badge` strings via `renderBadge({ label, size: 'sm' })` (matching `checkbox.css` / `radio.css` and React/Vue).
+  - `Select` (`renderSelect`, React, Vue, Astro) now renders top-level `options` and `<optgroup>` `groups` together instead of mutually exclusively.
+  - `Toast` (`toast.css`) sets `display: none` on `.eevenkoto-toast--inline.eevenkoto-toast--hidden` so hidden inline toasts reserve zero layout height.
+  - Added organism child margin resets in `statblock.css` (`> .eevenkoto-heading--2`), `spellblock.css` (`> .eevenkoto-list` and `li > .eevenkoto-paragraph`), and `card.css` (`header .eevenkoto-caption`).
+  - Compiler-friendly `@eevenkoto/html` templates: stripped leading `<!-- ... -->` comments and trailing newlines from all `.html` templates so `render*` outputs embed cleanly in Markdown and Astro `set:html`.
+  - Fixed stale `--eevenkoto-font-size-ui-*` mentions in `@eevenkoto/css/README.md` and `docs/migration-token-architecture-and-a11y.md` (`font-size-control-*` and `font-size-caption`).
 
 ## 0.10.0
 

@@ -15,15 +15,21 @@ export interface SpellblockProps {
   nameLevel?: SpellblockNameLevel;
   /** Italic level / school line on the title plate. Ritual tags belong here. */
   typeLine?: string;
+  /** Trusted pre-rendered inline HTML for the type line. Takes precedence over `typeLine`. */
+  typeLineHtml?: string;
   /** Optional catalog rail (classes / lists that grant the spell). */
   classes?: PropertyItem[];
   /** Casting time, range, components, duration — the boxed stat band. */
   properties: PropertyItem[];
   /**
    * Effect prose, one entry per paragraph.
-   * HTML renderer sanitizes a small inline allowlist per paragraph.
+   * HTML renderer sanitizes a safe inline allowlist per paragraph.
    */
   paragraphs?: string[];
+  /** Trusted pre-rendered inline HTML paragraphs (one `<p>` per entry). */
+  paragraphsHtml?: string[];
+  /** Trusted pre-rendered block HTML for `__body` (e.g. compiled Markdown with `<p>`, `<ul>`, tables). */
+  bodyHtml?: string;
   /** Scaling entries (higher-level slots, cantrip upgrade) — H3 run-ins. */
   features?: StatblockFeatureProps[];
   /** Compact card for deck grids. Default `false`. */

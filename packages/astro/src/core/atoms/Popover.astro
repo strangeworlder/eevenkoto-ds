@@ -1,0 +1,41 @@
+---
+import { popoverClassNames, type PopoverProps } from '@eevenkoto/core';
+
+export interface Props extends PopoverProps {
+  role?: 'dialog' | 'tooltip' | 'note' | 'group';
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  placement,
+  arrow,
+  fixed,
+  open,
+  matchTriggerWidth,
+  label,
+  role,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  popoverClassNames({ placement, fixed, open, matchTriggerWidth }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+<div
+  class={classes}
+  role={role}
+  aria-label={label}
+  data-open={fixed && open ? 'true' : undefined}
+  {...rest}
+>
+  <slot />
+  {arrow ? <span class="eevenkoto-popover__arrow" /> : null}
+</div>

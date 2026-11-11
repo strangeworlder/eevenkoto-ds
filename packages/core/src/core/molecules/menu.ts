@@ -3,6 +3,9 @@ import type { BadgeIntent } from '../atoms/badge';
 
 export type MenuSize = 'sm' | 'md';
 
+/** Safe HTML/data/ARIA attributes forwarded onto rendered menu elements. */
+export type MenuAttributes = Record<string, string | boolean | undefined>;
+
 export interface MenuItemEntry {
   kind?: 'item';
   /** Stable entry id (React/Vue keys; `onSelect` for the button escape hatch). */
@@ -31,21 +34,29 @@ export interface MenuItemEntry {
   href?: string;
   /** Marks the current page. Renderers set `aria-current="page"` on links. */
   selected?: boolean;
+  /** Extra HTML attributes (`data-*`, `aria-*`, `target`, `rel`, etc.) applied to the rendered item control. */
+  attributes?: MenuAttributes;
 }
 
 export interface MenuHeaderEntry {
   kind: 'header';
+  id?: string;
   /** Visible group label. */
   label: string;
+  /** Extra HTML attributes applied to the header element. */
+  attributes?: MenuAttributes;
 }
 
 export interface MenuSeparatorEntry {
   kind: 'separator';
+  id?: string;
+  /** Extra HTML attributes applied to the separator `<hr>`. */
+  attributes?: MenuAttributes;
 }
 
 /**
  * Nested branch (eevenko.to-style sidebar sections).
- * Renders as `<details>` / `<summary>` with a nested `<ul>`; children indent one level.
+ * Renders as `<details>` / `<summary>` with a nested `<ul>`; supports arbitrary nesting depth.
  */
 export interface MenuGroupEntry {
   kind: 'group';
@@ -57,6 +68,8 @@ export interface MenuGroupEntry {
   /** Start open (`details` open attribute). Default: false */
   expanded?: boolean;
   children: MenuEntry[];
+  /** Extra HTML attributes (`data-*`, `aria-*`, etc.) applied to the `<details>` branch. */
+  attributes?: MenuAttributes;
 }
 
 export type MenuEntry =

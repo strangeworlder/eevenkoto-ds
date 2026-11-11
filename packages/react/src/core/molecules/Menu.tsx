@@ -3,6 +3,7 @@ import {
   menuIconClassNames,
   menuItemClassNames,
   menuItemLabelClassNames,
+  type MenuAttributes,
   type MenuEntry,
   type MenuGroupEntry,
   type MenuItemEntry,
@@ -13,12 +14,34 @@ import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { Icon } from '../atoms/Icon';
 import { StatusDot } from '../atoms/StatusDot';
 
-export type { MenuProps, MenuEntry, MenuSize };
+export type { MenuAttributes, MenuProps, MenuEntry, MenuSize };
 
 export type MenuComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children'> &
   MenuProps & {
     onSelect?: (id: string) => void;
   };
+
+const SAFE_ATTR_NAME_RE = /^[a-zA-Z_:][a-zA-Z0-9_.:-]*$/;
+
+const normalizeAttributes = (
+  attrs?: MenuAttributes,
+  omitClass = false,
+): Record<string, string | boolean> | undefined => {
+  if (!attrs) return undefined;
+  const out: Record<string, string | boolean> = {};
+  for (const [name, value] of Object.entries(attrs)) {
+    if (value === undefined || value === false) continue;
+    if (omitClass && (name === 'class' || name === 'className')) continue;
+    if (!SAFE_ATTR_NAME_RE.test(name) || /^on/i.test(name)) continue;
+    out[name] = value === true && name.startsWith('data-') ? '' : value;
+  }
+  return out;
+};
+
+const mergeClass = (base: string, attrs?: MenuAttributes): string => {
+  const extra = typeof attrs?.class === 'string' ? attrs.class.trim() : '';
+  return extra ? `${base} ${extra}` : base;
+};
 
 const itemExtras = (entry: MenuItemEntry): ReactNode => {
   const extras = Boolean(entry.icon || entry.locked || entry.status);
@@ -64,16 +87,21 @@ const renderEntries = (
   entries.map((entry, index) => {
     if (entry.kind === 'separator') {
       return (
-        <li key={`separator-${index}`}>
-          <hr />
+        <li key={entry.id ?? `separator-${index}`}>
+          <hr {...normalizeAttributes(entry.attributes)} />
         </li>
       );
     }
 
     if (entry.kind === 'header') {
       return (
-        <li key={`header-${entry.label}-${index}`}>
-          <p className="eevenkoto-menu__header">{entry.label}</p>
+        <li key={entry.id ?? `header-${entry.label}-${index}`}>
+          <p
+            className={mergeClass('eevenkoto-menu__header', entry.attributes)}
+            {...normalizeAttributes(entry.attributes, true)}
+          >
+            {entry.label}
+          </p>
         </li>
       );
     }
@@ -81,7 +109,10 @@ const renderEntries = (
     if (entry.kind === 'group') {
       return (
         <li key={entry.id}>
-          <details open={entry.expanded || undefined}>
+          <details
+            open={entry.expanded || undefined}
+            {...normalizeAttributes(entry.attributes)}
+          >
             <summary>{groupSummaryInner(entry)}</summary>
             <ul>{renderEntries(entry.children, onSelect)}</ul>
           </details>
@@ -89,13 +120,17 @@ const renderEntries = (
       );
     }
 
-    const itemClasses = menuItemClassNames({ selected: entry.selected, locked: entry.locked });
+    const itemClasses = mergeClass(
+      menuItemClassNames({ selected: entry.selected, locked: entry.locked }),
+      entry.attributes,
+    );
     const lockedNoHref = Boolean(entry.locked && !entry.href);
 
     if (entry.href) {
       return (
         <li key={entry.id}>
           <a
+            {...normalizeAttributes(entry.attributes, true)}
             className={itemClasses}
             href={entry.href}
             aria-current={entry.selected ? 'page' : undefined}
@@ -111,6 +146,7 @@ const renderEntries = (
     return (
       <li key={entry.id}>
         <button
+          {...normalizeAttributes(entry.attributes, true)}
           type="button"
           className={itemClasses}
           disabled={entry.disabled || entry.locked}

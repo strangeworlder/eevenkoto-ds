@@ -1,0 +1,53 @@
+---
+import {
+  linkButtonClassNames,
+  resolveLinkButtonIconPosition,
+  resolveLinkButtonRel,
+  type LinkButtonProps,
+} from '@eevenkoto/core';
+import Icon from './Icon.astro';
+
+export interface Props extends Omit<LinkButtonProps, 'label'> {
+  label?: string;
+  tabindex?: number | string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  href,
+  variant,
+  label,
+  size,
+  fullWidth,
+  disabled,
+  icon,
+  iconPosition,
+  target,
+  rel,
+  tabindex,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const resolvedPosition = resolveLinkButtonIconPosition({ icon, iconPosition });
+const resolvedRel = resolveLinkButtonRel({ target, rel });
+const classes = [
+  linkButtonClassNames({ variant, size, fullWidth, icon, iconPosition }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+---
+<a
+  {...rest}
+  class={classes}
+  href={disabled ? undefined : href}
+  target={disabled ? undefined : target}
+  rel={disabled ? undefined : resolvedRel}
+  aria-disabled={disabled ? 'true' : undefined}
+  tabindex={disabled ? -1 : tabindex}
+>{icon && resolvedPosition === 'left' ? <Icon name={icon} /> : null}{label}<slot />{icon && resolvedPosition === 'right' ? <Icon name={icon} /> : null}</a>

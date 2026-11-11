@@ -4,6 +4,7 @@ import {
   type CheckboxProps,
 } from '@eevenkoto/core';
 import { escapeHtml } from '../../../utils/html';
+import { renderBadge } from '../badge/renderBadge';
 import template from './Checkbox.html';
 
 export type { CheckboxProps };
@@ -29,7 +30,7 @@ export const renderCheckbox = (args: CheckboxProps): string => {
     : '';
 
   const badgeHtml = args.badge
-    ? `<span class="eevenkoto-checkbox__badge">${escapeHtml(args.badge)}</span>`
+    ? `<span class="eevenkoto-checkbox__badge">${renderBadge({ label: args.badge, size: 'sm' })}</span>`
     : '';
 
   return template
@@ -37,5 +38,6 @@ export const renderCheckbox = (args: CheckboxProps): string => {
     .replace('{{control}}', `<input${attrs} />`)
     .replace('{{title}}', escapeHtml(args.label))
     .replace('{{description}}', descHtml)
-    .replace('{{badge}}', badgeHtml);
+    .replace('{{badge}}', badgeHtml)
+    .trim();
 };

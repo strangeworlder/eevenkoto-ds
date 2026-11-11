@@ -189,6 +189,15 @@
   text-wrap: pretty;
 }
 
+.eevenkoto-spellblock__body > .eevenkoto-list,
+.eevenkoto-spellblock__footer .eevenkoto-list {
+  --eevenkoto-list-margin-block: 0;
+}
+
+.eevenkoto-spellblock .eevenkoto-list :where(li) > .eevenkoto-paragraph {
+  --eevenkoto-paragraph-margin-block: 0;
+}
+
 /* --- FOOTER: scaling run-ins ("At Higher Levels") --- */
 
 .eevenkoto-spellblock__footer {
@@ -226,6 +235,11 @@
 .eevenkoto-spellblock--deck .eevenkoto-spellblock__body > .eevenkoto-paragraph,
 .eevenkoto-spellblock--deck .eevenkoto-spellblock__footer .eevenkoto-paragraph {
   --eevenkoto-paragraph-font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__body > .eevenkoto-list,
+.eevenkoto-spellblock--deck .eevenkoto-spellblock__footer .eevenkoto-list {
+  --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-sm);
 }
 
 .eevenkoto-spellblock--deck .eevenkoto-spellblock__footer .eevenkoto-heading--run-in {

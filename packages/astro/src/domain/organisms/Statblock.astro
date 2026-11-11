@@ -1,0 +1,67 @@
+---
+import {
+  captionClassNames,
+  headingClassNames,
+  paragraphClassNames,
+  statblockClassNames,
+  type StatblockNameLevel,
+  type StatblockProps,
+} from '@eevenkoto/core';
+import PropertyList from '../../core/molecules/PropertyList.astro';
+import StatblockSection from '../molecules/StatblockSection.astro';
+import AbilityScoreGroup from './AbilityScoreGroup.astro';
+
+export interface Props extends StatblockProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  name,
+  nameLevel = 1,
+  flavor,
+  flavorHtml,
+  typeLine,
+  typeLineHtml,
+  vitals,
+  abilities,
+  details,
+  sections,
+  bodyHtml,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [statblockClassNames(), classProp, className].filter(Boolean).join(' ');
+const level: StatblockNameLevel = nameLevel === 2 ? 2 : 1;
+const NameTag = level === 2 ? 'h2' : 'h1';
+---
+<article class={classes} {...rest}>
+  <NameTag class={headingClassNames({ level })}>{name}</NameTag>
+  {flavorHtml ? (
+    <p class={paragraphClassNames({ size: 'md' })} set:html={flavorHtml} />
+  ) : flavor ? (
+    <p class={paragraphClassNames({ size: 'md' })}>{flavor}</p>
+  ) : null}
+  {typeLineHtml ? (
+    <p class={`${captionClassNames()} eevenkoto-statblock__type`} set:html={typeLineHtml} />
+  ) : typeLine ? (
+    <p class={`${captionClassNames()} eevenkoto-statblock__type`}>{typeLine}</p>
+  ) : null}
+  <AbilityScoreGroup abilities={abilities}>
+    <PropertyList slot="header" items={vitals} />
+    <PropertyList slot="footer" items={details} />
+  </AbilityScoreGroup>
+  {sections?.map((section) => (
+    <StatblockSection
+      title={section.title}
+      titleLevel={section.titleLevel}
+      bodyHtml={section.bodyHtml}
+      features={section.features}
+    />
+  ))}
+  {bodyHtml ? <Fragment set:html={bodyHtml} /> : null}
+  <slot />
+</article>

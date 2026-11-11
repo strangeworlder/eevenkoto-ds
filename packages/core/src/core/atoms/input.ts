@@ -26,9 +26,14 @@ export interface InputProps {
   invalid?: boolean;
   /** Composes the search recipe (leading icon slot). */
   search?: boolean;
+  /** Stretch control to fill its container width (`inline-size: 100%`). */
+  fullWidth?: boolean;
 }
 
-export type InputClassNameProps = Pick<InputProps, 'size' | 'invalid' | 'search'>;
+export type InputClassNameProps = Pick<
+  InputProps,
+  'size' | 'invalid' | 'search' | 'fullWidth'
+>;
 
 export const inputClassNames = (props: InputClassNameProps = {}): string => {
   const size = props.size ?? 'md';
@@ -37,6 +42,7 @@ export const inputClassNames = (props: InputClassNameProps = {}): string => {
     `eevenkoto-input--${size}`,
     props.search ? 'eevenkoto-input--search' : '',
     props.invalid ? 'eevenkoto-input--invalid' : '',
+    props.fullWidth ? 'eevenkoto-input--full-width' : '',
   ]
     .filter(Boolean)
     .join(' ');

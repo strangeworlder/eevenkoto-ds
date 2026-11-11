@@ -1,0 +1,16 @@
+---
+import { paragraphClassNames, type ParagraphProps } from '@eevenkoto/core';
+
+export interface Props extends Omit<ParagraphProps, 'text'> {
+  text?: string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { text, size, tone, class: classProp, className, ...rest } = Astro.props;
+const classes = [paragraphClassNames({ size, tone }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<p class={classes} {...rest}>{text}<slot /></p>

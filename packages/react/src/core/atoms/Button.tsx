@@ -22,12 +22,16 @@ export const Button = ({
   disabled,
   icon,
   iconPosition,
+  fullWidth,
   className,
   type = 'button',
   ...rest
 }: ButtonComponentProps): ReactElement => {
   const resolvedPosition = resolveButtonIconPosition({ icon, iconPosition });
-  const classes = [buttonClassNames({ variant, size, icon, iconPosition }), className]
+  const classes = [
+    buttonClassNames({ variant, size, icon, iconPosition, fullWidth }),
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 

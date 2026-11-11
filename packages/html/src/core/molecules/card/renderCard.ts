@@ -22,6 +22,8 @@ export type { CardTitleLevel };
 const titleTag = (level: CardTitleLevel | undefined): CardTitleLevel =>
   level === 3 ? 3 : 2;
 
+const BLOCK_TAG_RE = /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i;
+
 export const renderCard = (args: CardProps): string => {
   const className = cardClassNames({
     elevated: args.elevated,
@@ -36,7 +38,14 @@ export const renderCard = (args: CardProps): string => {
     header = `<header><h${level}>${escapeHtml(args.title)}</h${level}></header>`;
   }
 
-  const body = `${args.body ? `<p>${escapeHtml(args.body)}</p>` : ''}${args.content ?? ''}`;
+  const richBody = args.bodyHtml
+    ? BLOCK_TAG_RE.test(args.bodyHtml)
+      ? args.bodyHtml
+      : `<p>${args.bodyHtml}</p>`
+    : args.body
+      ? `<p>${escapeHtml(args.body)}</p>`
+      : '';
+  const body = `${richBody}${args.content ?? ''}`;
   const footer = args.footer ? `<footer>${args.footer}</footer>` : '';
   const inner = `${header}${body}${footer}`;
   const hrefAttr = args.href ? escapeHtml(args.href) : '';

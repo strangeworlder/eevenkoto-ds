@@ -12,13 +12,15 @@ export interface RadioGroupProps {
   label: string;
   /** Visually hides the legend (still accessible to assistive technologies). */
   legendVisuallyHidden?: boolean;
+  /** Alias for `legendVisuallyHidden`. */
+  hideLegend?: boolean;
   /** Currently selected value (controlled). */
   value?: string;
   /** Default selected value (uncontrolled). */
   defaultValue?: string;
-  /** Layout direction: 'stack' (vertical list) or 'grid'. Default: 'stack'. */
+  /** Layout direction: 'stack' (vertical list) or 'grid'. Default: 'stack' (or 'grid' when `columns` is set). */
   layout?: RadioGroupLayout;
-  /** Number of columns when layout is 'grid'. Default: 2. */
+  /** Number of columns when layout is 'grid' (infers `layout: 'grid'` when set). Default: 2. */
   columns?: RadioGroupColumns;
   /** Shared variant for all options ('default', 'card', or 'tile'). */
   variant?: RadioProps['variant'];
@@ -37,20 +39,16 @@ export interface RadioGroupProps {
 export type RadioGroupClassNameProps = Pick<RadioGroupProps, 'layout' | 'columns'>;
 
 export const radioGroupClassNames = (props: RadioGroupClassNameProps = {}): string => {
-  const layout = props.layout ?? 'stack';
-  const colClass = props.columns ? `eevenkoto-radio-group--grid-${props.columns}` : '';
-  return [
-    'eevenkoto-radio-group',
-    `eevenkoto-radio-group--${layout}`,
-    layout === 'grid' && colClass ? colClass : '',
-  ]
+  const layout = props.layout ?? (props.columns ? 'grid' : 'stack');
+  const colClass = layout === 'grid' ? `eevenkoto-radio-group--grid-${props.columns ?? 2}` : '';
+  return ['eevenkoto-radio-group', `eevenkoto-radio-group--${layout}`, colClass]
     .filter(Boolean)
     .join(' ');
 };
 
 export const radioGroupLegendClassNames = (visuallyHidden = false): string =>
   visuallyHidden
-    ? 'eevenkoto-radio-group__legend eevenkoto-u-visually-hidden'
+    ? 'eevenkoto-radio-group__legend eevenkoto-visually-hidden'
     : 'eevenkoto-radio-group__legend';
 
 export const radioGroupHeaderClassNames = (): string => 'eevenkoto-radio-group__header';

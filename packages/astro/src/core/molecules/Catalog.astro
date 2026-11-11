@@ -1,0 +1,19 @@
+---
+import { catalogClassNames, type CatalogProps } from '@eevenkoto/core';
+import CatalogTile from './CatalogTile.astro';
+
+export interface Props extends Partial<CatalogProps> {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { tiles = [], label, class: classProp, className, ...rest } = Astro.props;
+const classes = [catalogClassNames(), classProp, className].filter(Boolean).join(' ');
+---
+<ul class={classes} aria-label={label} {...rest}>
+  {tiles.map((tile) => (
+    <li><CatalogTile {...tile} /></li>
+  ))}
+  <slot />
+</ul>

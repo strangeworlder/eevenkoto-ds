@@ -15,12 +15,16 @@ export const Popover = ({
   arrow,
   fixed,
   open,
+  matchTriggerWidth,
   label,
   children,
   className,
   ...rest
 }: PopoverComponentProps): ReactElement => {
-  const classes = [popoverClassNames({ placement, fixed, open }), className]
+  const classes = [
+    popoverClassNames({ placement, fixed, open, matchTriggerWidth }),
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 

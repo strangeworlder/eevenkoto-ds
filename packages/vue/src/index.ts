@@ -41,7 +41,13 @@ export {
   type TooltipCardProps,
   type TooltipCardTitleLevel,
 } from './core/molecules/TooltipCard';
-export { Menu, type MenuProps, type MenuEntry, type MenuSize } from './core/molecules/Menu';
+export {
+  Menu,
+  type MenuAttributes,
+  type MenuProps,
+  type MenuEntry,
+  type MenuSize,
+} from './core/molecules/Menu';
 export {
   Catalog,
   CatalogTile,
@@ -61,6 +67,7 @@ export {
   type TableVariant,
 } from './core/molecules/Table';
 export { TableShell } from './core/organisms/TableShell';
+export { Workshop, type WorkshopProps } from './core/organisms/Workshop';
 export { AbilityName, type AbilityNameProps } from './domain/atoms/AbilityName';
 export { EntityRef, type EntityRefProps, type EntityRefKind } from './domain/atoms/EntityRef';
 export { AbilityScore, type AbilityScoreProps } from './domain/molecules/AbilityScore';

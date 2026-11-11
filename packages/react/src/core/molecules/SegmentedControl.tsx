@@ -26,11 +26,15 @@ export const SegmentedControl = ({
   tone,
   size,
   label,
+  fullWidth,
   className,
   onChange,
   ...rest
 }: SegmentedControlComponentProps): ReactElement => {
-  const classes = [segmentedControlClassNames({ size, mode }), className]
+  const classes = [
+    segmentedControlClassNames({ size, mode, fullWidth }),
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 

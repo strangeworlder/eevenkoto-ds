@@ -17,12 +17,12 @@
   min-width: 0;
 }
 
-.eevenkoto-statblock-section > .eevenkoto-heading--2 {
+.eevenkoto-statblock-section > .eevenkoto-heading {
   --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-3);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
-  --eevenkoto-heading-margin-block: var(--eevenkoto-space-2) 0 0;
+  --eevenkoto-heading-margin-block: var(--eevenkoto-space-2) 0;
   --eevenkoto-heading-padding: 0;
   --eevenkoto-heading-border-block-end: none;
 }

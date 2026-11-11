@@ -1,5 +1,6 @@
 import {
   checkboxGroupClassNames,
+  checkboxGroupHeaderClassNames,
   checkboxGroupLegendClassNames,
   checkboxGroupMessageClassNames,
   type CheckboxGroupProps as CheckboxGroupCoreProps,
@@ -26,6 +27,9 @@ export const renderCheckboxGroup = (args: CheckboxGroupProps): string => {
         )
         .join('');
 
+  const isLegendHidden = Boolean(args.hideLegend ?? args.legendVisuallyHidden);
+  const legendHtml = `<legend class="${checkboxGroupLegendClassNames(isLegendHidden)}">${escapeHtml(args.label)}</legend>`;
+
   const badgeHtml = args.badge
     ? renderBadge({
         label: args.badge,
@@ -33,6 +37,11 @@ export const renderCheckboxGroup = (args: CheckboxGroupProps): string => {
         variant: 'solid',
       })
     : '';
+
+  const headerHtml =
+    isLegendHidden && !badgeHtml
+      ? legendHtml
+      : `<div class="${checkboxGroupHeaderClassNames()}">${legendHtml}${badgeHtml}</div>`;
 
   const hasError = Boolean(args.error);
   const messageText = hasError ? args.error : args.hint;
@@ -42,12 +51,8 @@ export const renderCheckboxGroup = (args: CheckboxGroupProps): string => {
 
   return template
     .replace('{{className}}', checkboxGroupClassNames(args))
-    .replace(
-      '{{legendClassName}}',
-      checkboxGroupLegendClassNames(args.legendVisuallyHidden),
-    )
-    .replace('{{legend}}', escapeHtml(args.label))
-    .replace('{{badge}}', badgeHtml)
+    .replace('{{header}}', headerHtml)
     .replace('{{items}}', itemsHtml)
-    .replace('{{message}}', messageHtml);
+    .replace('{{message}}', messageHtml)
+    .trim();
 };

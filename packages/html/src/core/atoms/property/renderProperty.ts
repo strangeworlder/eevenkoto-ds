@@ -9,8 +9,9 @@ import propertyTemplate from './Property.html';
 export type { PropertyItem, PropertyProps };
 
 export const renderProperty = (args: PropertyProps): string => {
+  const valueMarkup = args.valueHtml ?? escapeHtml(args.value ?? '');
   return propertyTemplate
     .replace('{{className}}', propertyClassNames())
     .replace('{{label}}', escapeHtml(args.label))
-    .replace('{{value}}', escapeHtml(args.value));
+    .replace('{{value}}', valueMarkup);
 };

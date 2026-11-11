@@ -9,7 +9,8 @@ import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 
 export type StatblockFeatureComponentProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'> & {
   name: string;
-  description: ReactNode;
+  description?: ReactNode;
+  descriptionHtml?: string;
   level?: StatblockFeatureLevel;
 };
 
@@ -18,6 +19,7 @@ export type { StatblockFeatureProps, StatblockFeatureLevel };
 export const StatblockFeature = ({
   name,
   description,
+  descriptionHtml,
   level = 3,
   className,
   ...rest
@@ -27,7 +29,14 @@ export const StatblockFeature = ({
   return (
     <div className={classes} {...rest}>
       <NameTag className={headingClassNames({ level, runIn: true })}>{name}</NameTag>
-      <p className={paragraphClassNames({ size: 'md' })}>{description}</p>
+      {description === undefined && descriptionHtml !== undefined ? (
+        <p
+          className={paragraphClassNames({ size: 'md' })}
+          dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+        />
+      ) : (
+        <p className={paragraphClassNames({ size: 'md' })}>{description}</p>
+      )}
     </div>
   );
 };

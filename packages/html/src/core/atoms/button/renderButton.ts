@@ -4,6 +4,7 @@ import {
   type ButtonIconName,
   type ButtonProps,
 } from '@eevenkoto/core';
+import { escapeHtml } from '../../../utils/html';
 import { renderIcon } from '../icon/renderIcon';
 import template from './Button.html';
 
@@ -12,8 +13,9 @@ export type { ButtonIconName, ButtonProps };
 export const renderButton = (args: ButtonProps): string => {
   const iconPosition = resolveButtonIconPosition(args);
   const className = buttonClassNames(args);
+  const safeLabel = escapeHtml(args.label);
 
-  let content = args.label;
+  let content = safeLabel;
   let ariaLabel = '';
 
   if (args.icon && iconPosition) {
@@ -21,12 +23,12 @@ export const renderButton = (args: ButtonProps): string => {
     const iconMarkup = renderIcon({ name: args.icon });
 
     if (iconPosition === 'left') {
-      content = `${iconMarkup}${args.label}`;
+      content = `${iconMarkup}${safeLabel}`;
     } else if (iconPosition === 'right') {
-      content = `${args.label}${iconMarkup}`;
+      content = `${safeLabel}${iconMarkup}`;
     } else if (iconPosition === 'only') {
       content = iconMarkup;
-      ariaLabel = ` aria-label="${args.label}"`;
+      ariaLabel = ` aria-label="${safeLabel}"`;
     }
   }
 

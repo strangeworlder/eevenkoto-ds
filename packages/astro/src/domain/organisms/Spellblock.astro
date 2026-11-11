@@ -1,0 +1,90 @@
+---
+import {
+  captionClassNames,
+  headingClassNames,
+  paragraphClassNames,
+  spellblockClassNames,
+  type SpellblockNameLevel,
+  type SpellblockProps,
+  type StatblockFeatureLevel,
+} from '@eevenkoto/core';
+import { sanitizeInlineHtml } from '@eevenkoto/html';
+import PropertyList from '../../core/molecules/PropertyList.astro';
+import StatblockFeature from '../molecules/StatblockFeature.astro';
+
+export interface Props extends SpellblockProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  name,
+  nameLevel = 1,
+  typeLine,
+  typeLineHtml,
+  classes,
+  properties = [],
+  paragraphs,
+  paragraphsHtml,
+  bodyHtml,
+  features,
+  deck,
+  lang,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const hostClasses = [spellblockClassNames({ deck }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const level: SpellblockNameLevel = nameLevel === 2 ? 2 : 1;
+const NameTag = level === 2 ? 'h2' : 'h1';
+const featureLevel: StatblockFeatureLevel = level === 2 ? 3 : 2;
+const hasDefaultSlot = Astro.slots.has('default');
+const hasBody = Boolean(
+  paragraphsHtml?.length || paragraphs?.length || bodyHtml || hasDefaultSlot,
+);
+---
+<article class={hostClasses} lang={lang} {...rest}>
+  <div class="eevenkoto-spellblock__plate">
+    <NameTag class={headingClassNames({ level })}>{name}</NameTag>
+    {typeLineHtml ? (
+      <p class={`${captionClassNames()} eevenkoto-spellblock__type`} set:html={typeLineHtml} />
+    ) : typeLine ? (
+      <p class={`${captionClassNames()} eevenkoto-spellblock__type`}>{typeLine}</p>
+    ) : null}
+    {classes?.length ? <PropertyList items={classes} /> : null}
+  </div>
+  {properties.length ? (
+    <div class="eevenkoto-spellblock__stats">
+      <PropertyList items={properties} />
+    </div>
+  ) : null}
+  {hasBody ? (
+    <div class="eevenkoto-spellblock__body">
+      {paragraphsHtml?.length
+        ? paragraphsHtml.map((html) => (
+            <p class={paragraphClassNames({ size: 'md' })} set:html={html} />
+          ))
+        : paragraphs?.map((text) => (
+            <p class={paragraphClassNames({ size: 'md' })} set:html={sanitizeInlineHtml(text)} />
+          ))}
+      {bodyHtml ? <Fragment set:html={bodyHtml} /> : null}
+      <slot />
+    </div>
+  ) : null}
+  {features?.length ? (
+    <div class="eevenkoto-spellblock__footer">
+      {features.map((feature) => (
+        <StatblockFeature
+          name={feature.name}
+          description={feature.description}
+          descriptionHtml={feature.descriptionHtml}
+          level={featureLevel}
+        />
+      ))}
+    </div>
+  ) : null}
+</article>

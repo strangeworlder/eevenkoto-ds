@@ -1,0 +1,31 @@
+---
+import { tableCellClassNames, type TableCellKind } from '@eevenkoto/core';
+
+export interface Props {
+  kind?: TableCellKind;
+  header?: boolean;
+  angled?: boolean;
+  inTable?: boolean;
+  scope?: 'col' | 'row' | 'colgroup' | 'rowgroup';
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  kind = 'text',
+  header = false,
+  angled = false,
+  inTable = false,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes =
+  [tableCellClassNames({ kind, inTable }), classProp, className].filter(Boolean).join(' ') ||
+  undefined;
+const Tag = header ? 'th' : 'td';
+const wrapHeadLabel = angled && header && kind === 'numeric';
+---
+<Tag class={classes} {...rest}>{wrapHeadLabel ? <span class="eevenkoto-table-cell__head-label"><slot /></span> : <slot />}</Tag>

@@ -1,0 +1,87 @@
+---
+import {
+  tableClassNames,
+  tableColClassNames,
+  type TableColumn,
+  type TableProps,
+} from '@eevenkoto/core';
+import TableCell from '../atoms/TableCell.astro';
+
+export interface Props extends Omit<TableProps, 'columns' | 'rows'> {
+  columns?: TableColumn[];
+  rows?: string[][];
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant = 'default',
+  stripe = 'row',
+  caption,
+  columns = [],
+  rows = [],
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [tableClassNames({ variant, stripe }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const hasDefaultSlot = Astro.slots.has('default');
+---
+<table class={classes} {...rest}>
+  {caption ? <caption>{caption}</caption> : null}
+  {hasDefaultSlot ? (
+    <slot />
+  ) : (
+    <>
+      {columns.length > 0 ? (
+        <colgroup>
+          {columns.map((col) => (
+            <col class={tableColClassNames({ kind: col.kind }) || undefined} />
+          ))}
+        </colgroup>
+      ) : null}
+      {columns.length > 0 ? (
+        <thead>
+          <tr>
+            {columns.map((col) => {
+              const kind = col.kind ?? 'text';
+              const angled = variant === 'numeric' && kind === 'numeric';
+              return (
+                <TableCell
+                  header
+                  inTable
+                  scope="col"
+                  kind={kind}
+                  angled={angled}
+                  tabindex={angled ? 0 : undefined}
+                >{col.header}</TableCell>
+              );
+            })}
+          </tr>
+        </thead>
+      ) : null}
+      <tbody>
+        {rows.map((row) => (
+          <tr>
+            {columns.map((col, index) => {
+              const kind = col.kind ?? 'text';
+              const asRowHeader = variant === 'pair' && index === 0;
+              return (
+                <TableCell
+                  header={asRowHeader || undefined}
+                  inTable
+                  scope={asRowHeader ? 'row' : undefined}
+                  kind={asRowHeader ? 'index' : kind}
+                >{row[index] ?? ''}</TableCell>
+              );
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </>
+  )}
+</table>

@@ -1,0 +1,182 @@
+---
+import {
+  badgeClassNames,
+  buttonClassNames,
+  captionClassNames,
+  chipClassNames,
+  equipmentBlockClassNames,
+  headingClassNames,
+  noticeClassNames,
+  type EquipmentBlockNameLevel,
+  type EquipmentBlockProps,
+} from '@eevenkoto/core';
+import { sanitizeInlineHtml } from '@eevenkoto/html';
+import AbilityName from '../atoms/AbilityName.astro';
+
+export interface Props extends EquipmentBlockProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  name,
+  nameLevel = 1,
+  category,
+  price,
+  stats,
+  kesto,
+  traits,
+  emptyTraitsText = 'Ei erikoispiirteitä',
+  traitsTitle = 'Valitut piirteet',
+  notesTitle = 'Säännöt & vaikutukset',
+  notes,
+  warnings,
+  copyText,
+  copyLabel = 'Kopioi hahmolomakkeelle',
+  showCopyButton = false,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const hostClasses = [equipmentBlockClassNames(), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const level: EquipmentBlockNameLevel = nameLevel === 2 ? 2 : 1;
+const NameTag = level === 2 ? 'h2' : 'h1';
+const SectionTag = level === 2 ? 'h3' : 'h2';
+---
+<article class={hostClasses} {...rest}>
+  <div class="eevenkoto-equipment-block__plate">
+    <div class="eevenkoto-equipment-block__heading-group">
+      <NameTag class={headingClassNames({ level })}>{name}</NameTag>
+      {category ? (
+        <p class={`${captionClassNames()} eevenkoto-equipment-block__category`}>{category}</p>
+      ) : null}
+    </div>
+    {price ? (
+      <div class="eevenkoto-equipment-block__price">
+        <span class={badgeClassNames({ variant: 'solid', intent: 'neutral' })}>{price}</span>
+      </div>
+    ) : null}
+  </div>
+
+  {stats?.length ? (
+    <div class="eevenkoto-equipment-block__stats">
+      {stats.map((st) => {
+        const itemClasses = [
+          'eevenkoto-equipment-block__stat-item',
+          st.emphasis && 'eevenkoto-equipment-block__stat-item--emphasis',
+          st.subItems?.length && 'eevenkoto-equipment-block__stat-item--split',
+        ]
+          .filter(Boolean)
+          .join(' ');
+
+        if (st.subItems?.length) {
+          return (
+            <div class={itemClasses}>
+              {st.subItems.map((sub) => (
+                <div class="eevenkoto-equipment-block__stat-subitem">
+                  <span class="eevenkoto-equipment-block__stat-label">{sub.label}</span>
+                  <strong class="eevenkoto-equipment-block__stat-value">{sub.value}</strong>
+                </div>
+              ))}
+            </div>
+          );
+        }
+
+        const resolvedAbilities: string[] | null = st.abilities?.length
+          ? st.abilities
+          : st.label?.toLowerCase().startsWith('omin') && typeof st.value === 'string' && st.value
+            ? st.value.split(' tai ').map((ab) => ab.trim())
+            : null;
+
+        return (
+          <div class={itemClasses}>
+            <span class="eevenkoto-equipment-block__stat-label">{st.label}</span>
+            <strong class="eevenkoto-equipment-block__stat-value">
+              {resolvedAbilities
+                ? resolvedAbilities.map((ab, idx) => (
+                    <>
+                      {idx > 0 ? ' tai ' : ''}
+                      <AbilityName name={ab} />
+                    </>
+                  ))
+                : st.value}
+            </strong>
+            {st.subValue ? (
+              <span class="eevenkoto-equipment-block__stat-subvalue">{st.subValue}</span>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  ) : null}
+
+  {kesto ? (
+    <div class="eevenkoto-equipment-block__kesto">
+      <span class="eevenkoto-equipment-block__kesto-title">
+        {kesto.title || 'Vahingon kesto'}
+      </span>
+      <div class="eevenkoto-equipment-block__kesto-tags">
+        <span class="eevenkoto-equipment-block__kesto-tag">
+          {kesto.labels?.base || 'Perus'}: <strong>{kesto.base}</strong>
+        </span>
+        {kesto.bludgeoning !== undefined ? (
+          <span class="eevenkoto-equipment-block__kesto-tag">
+            {kesto.labels?.bludgeoning || 'Murskaus'}: <strong>{kesto.bludgeoning}</strong>
+          </span>
+        ) : null}
+        {kesto.slashing !== undefined ? (
+          <span class="eevenkoto-equipment-block__kesto-tag">
+            {kesto.labels?.slashing || 'Viilto'}: <strong>{kesto.slashing}</strong>
+          </span>
+        ) : null}
+        {kesto.piercing !== undefined ? (
+          <span class="eevenkoto-equipment-block__kesto-tag">
+            {kesto.labels?.piercing || 'Pisto'}: <strong>{kesto.piercing}</strong>
+          </span>
+        ) : null}
+      </div>
+    </div>
+  ) : null}
+
+  <div class="eevenkoto-equipment-block__section">
+    <SectionTag class="eevenkoto-equipment-block__section-title">{traitsTitle}</SectionTag>
+    <div class="eevenkoto-equipment-block__traits">
+      {traits?.length ? (
+        traits.map((tr) => <span class={chipClassNames()}>{tr}</span>)
+      ) : (
+        <span class="eevenkoto-equipment-block__empty-traits">{emptyTraitsText}</span>
+      )}
+    </div>
+  </div>
+
+  {notes?.length ? (
+    <div class="eevenkoto-equipment-block__section">
+      <SectionTag class="eevenkoto-equipment-block__section-title">{notesTitle}</SectionTag>
+      <ul class="eevenkoto-list eevenkoto-equipment-block__notes">
+        {notes.map((note) => <li set:html={sanitizeInlineHtml(note)} />)}
+      </ul>
+    </div>
+  ) : null}
+
+  {warnings?.length ? (
+    <div class="eevenkoto-equipment-block__notice">
+      <div class={noticeClassNames({ intent: 'caution' })} role="alert">
+        {warnings.map((w) => <div>{w}</div>)}
+      </div>
+    </div>
+  ) : null}
+
+  {showCopyButton ? (
+    <div class="eevenkoto-equipment-block__footer">
+      <button
+        type="button"
+        class={`${buttonClassNames({ variant: 'primary', size: 'md' })} eevenkoto-equipment-block__copy-btn`}
+        data-copy-text={copyText}
+      >{copyLabel}</button>
+    </div>
+  ) : null}
+</article>

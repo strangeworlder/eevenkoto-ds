@@ -1,0 +1,24 @@
+---
+import {
+  propertyListClassNames,
+  type PropertyItem,
+  type PropertyListProps,
+} from '@eevenkoto/core';
+import Property from '../atoms/Property.astro';
+
+export interface Props extends Omit<PropertyListProps, 'items'> {
+  items?: PropertyItem[];
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { items, class: classProp, className, ...rest } = Astro.props;
+const classes = [propertyListClassNames(), classProp, className].filter(Boolean).join(' ');
+---
+<dl class={classes} {...rest}>
+  {items?.map((item) => (
+    <Property label={item.label} value={item.value} valueHtml={item.valueHtml} />
+  ))}
+  <slot />
+</dl>

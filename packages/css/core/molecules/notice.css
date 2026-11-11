@@ -89,6 +89,14 @@
   color: var(--_eevenkoto-notice-text);
 }
 
+.eevenkoto-notice__body > :is(p, ul, ol, dl) {
+  margin: 0;
+}
+
+.eevenkoto-notice__body > :is(p, ul, ol, dl) + :is(p, ul, ol, dl) {
+  margin-block-start: var(--eevenkoto-space-2);
+}
+
 .eevenkoto-notice__actions {
   display: flex;
   flex-wrap: wrap;

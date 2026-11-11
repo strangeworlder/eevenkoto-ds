@@ -16,8 +16,12 @@ export interface StatblockProps {
   nameLevel?: StatblockNameLevel;
   /** Optional flavor paragraph. */
   flavor?: string;
+  /** Trusted pre-rendered inline HTML for the flavor paragraph. Takes precedence over `flavor`. */
+  flavorHtml?: string;
   /** Optional italic type line (size / type). */
   typeLine?: string;
+  /** Trusted pre-rendered inline HTML for the type line. Takes precedence over `typeLine`. */
+  typeLineHtml?: string;
   /** Combat vitals — rendered in the ability group header slot. */
   vitals: PropertyItem[];
   /** Ability columns. */
@@ -26,6 +30,8 @@ export interface StatblockProps {
   details: PropertyItem[];
   /** Named sections (Actions, Reactions, …). */
   sections?: StatblockSectionProps[];
+  /** Trusted pre-rendered HTML appended after the ability sandwich / sections. */
+  bodyHtml?: string;
 }
 
 export const statblockClassNames = (): string => 'eevenkoto-statblock';

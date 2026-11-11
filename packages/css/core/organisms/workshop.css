@@ -1,0 +1,208 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: WORKSHOP (TIER 3)
+   Interactive 2-column workbench layout organism (header bar, form/stepper
+   control groups, and sticky live preview column).
+   Customize column split via `--eevenkoto-workshop-controls-width`.
+   ========================================================================== */
+
+.eevenkoto-workshop {
+  --_eevenkoto-workshop-bg: var(
+    --eevenkoto-workshop-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-workshop-text: var(
+    --eevenkoto-workshop-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-workshop-muted: var(
+    --eevenkoto-workshop-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-workshop-border-color: var(
+    --eevenkoto-workshop-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-workshop-border-width: var(
+    --eevenkoto-workshop-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-workshop-radius: var(
+    --eevenkoto-workshop-radius,
+    var(--eevenkoto-radius-md)
+  );
+  --_eevenkoto-workshop-pad: var(
+    --eevenkoto-workshop-pad,
+    var(--eevenkoto-space-6)
+  );
+  --_eevenkoto-workshop-gap: var(
+    --eevenkoto-workshop-gap,
+    var(--eevenkoto-space-6)
+  );
+  --_eevenkoto-workshop-item-bg: var(
+    --eevenkoto-workshop-item-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-workshop-controls-width: var(
+    --eevenkoto-workshop-controls-width,
+    minmax(0, 1.35fr)
+  );
+  --_eevenkoto-workshop-preview-width: var(
+    --eevenkoto-workshop-preview-width,
+    minmax(0, 1fr)
+  );
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-block: var(--eevenkoto-space-6);
+  padding: var(--_eevenkoto-workshop-pad);
+  background: var(--_eevenkoto-workshop-bg);
+  border: var(--_eevenkoto-workshop-border-width) solid
+    var(--_eevenkoto-workshop-border-color);
+  border-radius: var(--_eevenkoto-workshop-radius);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-body-md);
+  line-height: var(--eevenkoto-line-height-body);
+  color: var(--_eevenkoto-workshop-text);
+  position: relative;
+}
+
+/* --- HEADER BAR --- */
+
+.eevenkoto-workshop__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--eevenkoto-space-4);
+  padding-block-end: var(--eevenkoto-space-4);
+  margin-block-end: var(--eevenkoto-space-6);
+  border-block-end: var(--_eevenkoto-workshop-border-width) solid
+    var(--_eevenkoto-workshop-border-color);
+}
+
+.eevenkoto-workshop__mode-nav {
+  display: flex;
+  align-items: center;
+}
+
+.eevenkoto-workshop__preset-group {
+  display: flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-workshop__preset-label {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  color: var(--_eevenkoto-workshop-muted);
+}
+
+.eevenkoto-workshop__preset-select {
+  min-inline-size: 14rem;
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
+  background: var(--_eevenkoto-workshop-item-bg);
+  color: var(--_eevenkoto-workshop-text);
+  border: var(--_eevenkoto-workshop-border-width) solid
+    var(--_eevenkoto-workshop-border-color);
+  border-radius: var(--eevenkoto-radius-sm);
+  font-family: inherit;
+  font-size: var(--eevenkoto-font-size-control-sm);
+  cursor: pointer;
+}
+
+.eevenkoto-workshop__preset-select:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--eevenkoto-color-boundary-focus-inner);
+}
+
+/* --- BODY GRID --- */
+
+.eevenkoto-workshop__body {
+  display: grid;
+  grid-template-columns: var(--_eevenkoto-workshop-controls-width) var(
+      --_eevenkoto-workshop-preview-width
+    );
+  gap: var(--_eevenkoto-workshop-gap);
+  align-items: start;
+}
+
+.eevenkoto-workshop__body:not(:has(> .eevenkoto-workshop__preview)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (max-width: 56rem) {
+  .eevenkoto-workshop__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --- CONTROLS COLUMN --- */
+
+.eevenkoto-workshop__controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-4);
+  min-width: 0;
+}
+
+.eevenkoto-workshop__panel {
+  display: none;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-4);
+}
+
+.eevenkoto-workshop__panel--active,
+.eevenkoto-workshop__panel[data-active='true'] {
+  display: flex;
+}
+
+.eevenkoto-workshop__control-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-workshop__group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-workshop__group-label {
+  font-size: var(--eevenkoto-font-size-control-md);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  color: var(--_eevenkoto-workshop-text);
+}
+
+.eevenkoto-workshop__group-hint {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  color: var(--_eevenkoto-workshop-muted);
+}
+
+.eevenkoto-workshop__name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-workshop__name-row > .eevenkoto-input {
+  flex: 1;
+}
+
+.eevenkoto-workshop__stepper-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-2);
+}
+
+/* --- PREVIEW COLUMN --- */
+
+.eevenkoto-workshop__preview {
+  position: sticky;
+  top: var(--eevenkoto-space-4);
+  align-self: start;
+  min-width: 0;
+}

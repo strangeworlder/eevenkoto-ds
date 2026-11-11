@@ -1,0 +1,77 @@
+---
+import { cardClassNames, type CardProps, type CardTitleLevel } from '@eevenkoto/core';
+
+export interface Props extends CardProps {
+  href?: string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  elevated,
+  interactive,
+  title,
+  titleLevel,
+  body,
+  bodyHtml,
+  href,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  cardClassNames({ elevated, interactive: interactive || Boolean(href) }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+
+const level: CardTitleLevel = titleLevel === 3 ? 3 : 2;
+const HeadingTag = level === 3 ? 'h3' : 'h2';
+const hasHeaderSlot = Astro.slots.has('header');
+const hasFooterSlot = Astro.slots.has('footer');
+const hasHeader = hasHeaderSlot || Boolean(title);
+const isBlockHtml = bodyHtml
+  ? /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i.test(bodyHtml)
+  : false;
+---
+<article class={classes} {...rest}>
+  {href ? (
+    <a href={href}>
+      {hasHeader ? (
+        <header>{hasHeaderSlot ? <slot name="header" /> : <HeadingTag>{title}</HeadingTag>}</header>
+      ) : null}
+      {bodyHtml ? (
+        isBlockHtml ? (
+          <div class="eevenkoto-card__body" set:html={bodyHtml} />
+        ) : (
+          <p set:html={bodyHtml} />
+        )
+      ) : body ? (
+        <p>{body}</p>
+      ) : null}
+      <slot />
+      {hasFooterSlot ? <footer><slot name="footer" /></footer> : null}
+    </a>
+  ) : (
+    <>
+      {hasHeader ? (
+        <header>{hasHeaderSlot ? <slot name="header" /> : <HeadingTag>{title}</HeadingTag>}</header>
+      ) : null}
+      {bodyHtml ? (
+        isBlockHtml ? (
+          <div class="eevenkoto-card__body" set:html={bodyHtml} />
+        ) : (
+          <p set:html={bodyHtml} />
+        )
+      ) : body ? (
+        <p>{body}</p>
+      ) : null}
+      <slot />
+      {hasFooterSlot ? <footer><slot name="footer" /></footer> : null}
+    </>
+  )}
+</article>

@@ -1,0 +1,15 @@
+---
+import { statusDotClassNames, type StatusDotProps } from '@eevenkoto/core';
+
+export interface Props extends StatusDotProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { intent, label, class: classProp, className, ...rest } = Astro.props;
+const classes = [statusDotClassNames({ intent }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<span class={classes} role="img" aria-label={label} {...rest} />

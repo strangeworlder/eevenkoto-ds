@@ -1,0 +1,85 @@
+---
+import {
+  stepperButtonClassNames,
+  stepperClassNames,
+  stepperControlsClassNames,
+  stepperDescriptionClassNames,
+  stepperInfoClassNames,
+  stepperLabelClassNames,
+  stepperValueClassNames,
+  type StepperProps,
+} from '@eevenkoto/core';
+import Button from '../atoms/Button.astro';
+
+export interface Props extends StepperProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  name,
+  label,
+  description,
+  value,
+  min = 0,
+  max,
+  disabled,
+  decreaseAriaLabel = 'Vähennä',
+  increaseAriaLabel = 'Lisää',
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [stepperClassNames({ disabled }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const isDecreaseDisabled = Boolean(disabled || value <= min);
+const isIncreaseDisabled = Boolean(disabled || (max !== undefined && value >= max));
+---
+<div
+  class={classes}
+  id={id}
+  role="group"
+  aria-disabled={disabled ? 'true' : undefined}
+  {...rest}
+>
+  <div class={stepperInfoClassNames()}>
+    <strong class={stepperLabelClassNames()}>{label}</strong>
+    {description ? <span class={stepperDescriptionClassNames()}>{description}</span> : null}
+  </div>
+  <div class={stepperControlsClassNames()}>
+    <Button
+      type="button"
+      variant="secondary"
+      size="sm"
+      class={stepperButtonClassNames()}
+      label="−"
+      aria-label={decreaseAriaLabel}
+      data-role="stepper-btn"
+      data-dir="-1"
+      data-field={name}
+      disabled={isDecreaseDisabled}
+    />
+    <span
+      class={stepperValueClassNames()}
+      role="status"
+      aria-live="polite"
+      data-stepper-val={name}
+    >{value}</span>
+    <Button
+      type="button"
+      variant="secondary"
+      size="sm"
+      class={stepperButtonClassNames()}
+      label="+"
+      aria-label={increaseAriaLabel}
+      data-role="stepper-btn"
+      data-dir="1"
+      data-field={name}
+      disabled={isIncreaseDisabled}
+    />
+  </div>
+</div>

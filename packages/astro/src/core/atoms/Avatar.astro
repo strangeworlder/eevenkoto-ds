@@ -1,0 +1,23 @@
+---
+import { avatarClassNames, type AvatarProps } from '@eevenkoto/core';
+import Icon from './Icon.astro';
+
+export interface Props extends AvatarProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { name, src, size, class: classProp, className, ...rest } = Astro.props;
+const classes = [avatarClassNames({ size }), classProp, className].filter(Boolean).join(' ');
+---
+<span
+  class={classes}
+  role={src ? undefined : 'img'}
+  aria-label={src ? undefined : name}
+  {...rest}
+>{src ? (
+  <img class="eevenkoto-avatar__image" src={src} alt={name} />
+) : (
+  <span class="eevenkoto-avatar__placeholder" aria-hidden="true"><Icon name="user" size={size ?? 'md'} /></span>
+)}</span>

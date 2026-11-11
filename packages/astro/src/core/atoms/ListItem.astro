@@ -1,0 +1,13 @@
+---
+import type { ListItemProps } from '@eevenkoto/core';
+
+export interface Props extends Partial<ListItemProps> {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { text, class: classProp, className, ...rest } = Astro.props;
+const classes = [classProp, className].filter(Boolean).join(' ') || undefined;
+---
+<li class={classes} {...rest}>{text}<slot /></li>

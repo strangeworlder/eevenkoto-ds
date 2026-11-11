@@ -42,7 +42,13 @@ export {
   renderTooltipCard,
   type TooltipCardProps,
 } from './core/molecules/tooltip-card/renderTooltipCard';
-export { renderMenu, type MenuProps, type MenuEntry, type MenuSize } from './core/molecules/menu/renderMenu';
+export {
+  renderMenu,
+  type MenuAttributes,
+  type MenuProps,
+  type MenuEntry,
+  type MenuSize,
+} from './core/molecules/menu/renderMenu';
 export {
   renderCatalog,
   renderCatalogTile,
@@ -72,6 +78,10 @@ export {
   renderTableShell,
   type TableShellProps,
 } from './core/organisms/table-shell/renderTableShell';
+export {
+  renderWorkshop,
+  type WorkshopProps,
+} from './core/organisms/workshop/renderWorkshop';
 export {
   renderAbilityName,
   type AbilityNameProps,

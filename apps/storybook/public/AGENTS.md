@@ -11,7 +11,7 @@ Operating rules for agents and humans editing **this repository**. For installin
 | `packages/css` | Tokens, base styles, Core/Domain component CSS (appearance SoT) |
 | `packages/core` | Shared prop types + `*ClassNames()` helpers (no DOM) |
 | `packages/html` | Canonical vanilla `render*` markup |
-| `packages/react` / `packages/vue` | Thin wrappers over the same classes |
+| `packages/react` / `packages/vue` / `packages/astro` | Thin wrappers over the same classes |
 | `apps/storybook` | Docs and live catalogs |
 
 ## Source of truth (when authoring)
@@ -19,7 +19,7 @@ Operating rules for agents and humans editing **this repository**. For installin
 1. **CSS** defines appearance (`packages/css`).
 2. **Core** defines the public prop contract and BEM class assembly.
 3. **HTML** is the reference markup (Storybook canvases).
-4. **React / Vue** only map props → the same class strings and elements.
+4. **React / Vue / Astro** only map props → the same class strings and elements.
 
 ## Tokens
 

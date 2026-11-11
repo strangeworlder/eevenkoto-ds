@@ -1,0 +1,63 @@
+---
+import { imageClassNames, type ImageProps } from '@eevenkoto/core';
+
+export interface Props extends ImageProps {
+  style?: string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  src,
+  alt,
+  caption,
+  layout,
+  framed,
+  width,
+  height,
+  aspectRatio,
+  fit,
+  loading = 'lazy',
+  decoding = 'async',
+  fetchPriority,
+  srcSet,
+  sizes,
+  style,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [imageClassNames({ layout, framed }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+
+const styleParts = [
+  style,
+  aspectRatio ? `--eevenkoto-image-aspect-ratio: ${aspectRatio}` : '',
+  fit ? `--eevenkoto-image-object-fit: ${fit}` : '',
+]
+  .filter(Boolean)
+  .join('; ');
+const hasCaptionSlot = Astro.slots.has('caption');
+---
+<figure class={classes} style={styleParts || undefined} {...rest}>
+  <img
+    class="eevenkoto-image__media"
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchPriority}
+    srcset={srcSet}
+    sizes={sizes}
+  />
+  {hasCaptionSlot ? (
+    <figcaption class="eevenkoto-image__caption eevenkoto-caption"><slot name="caption" /></figcaption>
+  ) : caption != null ? (
+    <figcaption class="eevenkoto-image__caption eevenkoto-caption">{caption}</figcaption>
+  ) : null}
+</figure>

@@ -34,7 +34,7 @@ Set `data-theme="light"` (default) or `data-theme="dark"` on `<html>` (or `<body
 
 ## Consume / never
 
-**Consume** Tier 2 semantic colors (`--eevenkoto-color-surface-*`, `content-*`, `content-accent` for small gold text, `control-*`, `feedback-*`, `form-input-*` including `form-input-placeholder`, `link-*`) and single-tier metrics (`--eevenkoto-space-*`, `--eevenkoto-font-size-heading-*` / `body-*` / `ui-*` / `control-*`, `--eevenkoto-font-weight-regular` / `semibold` / `bold`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-1`…`4`, `--eevenkoto-ease-standard` / `ease-in-out`).
+**Consume** Tier 2 semantic colors (`--eevenkoto-color-surface-*`, `content-*`, `content-accent` for small gold text, `control-*`, `feedback-*`, `form-input-*` including `form-input-placeholder`, `link-*`) and single-tier metrics (`--eevenkoto-space-*`, `--eevenkoto-font-size-heading-*` / `body-*` / `control-*` / `caption`, `--eevenkoto-font-weight-regular` / `semibold` / `bold`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-1`…`4`, `--eevenkoto-ease-standard` / `ease-in-out`).
 
 **Customize components** via public `--eevenkoto-<component>-*` variables only (for example `--eevenkoto-button-bg`, `--eevenkoto-card-bg`, `--eevenkoto-prose-link-color`). Bare `<a href>` inside `.eevenkoto-prose` are styled automatically with `link-*` tokens.
 

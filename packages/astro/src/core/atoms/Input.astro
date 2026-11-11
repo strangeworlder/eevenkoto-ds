@@ -1,0 +1,61 @@
+---
+import {
+  inputClassNames,
+  inputFieldClassNames,
+  type InputProps,
+} from '@eevenkoto/core';
+import Icon from './Icon.astro';
+
+export interface Props extends InputProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  name,
+  type,
+  value,
+  placeholder,
+  size,
+  ariaLabel,
+  describedBy,
+  disabled,
+  invalid,
+  search,
+  fullWidth,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  inputClassNames({ size, invalid, search, fullWidth }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+const hasIconSlot = Astro.slots.has('icon');
+---
+<span class={classes}>
+  {hasIconSlot ? (
+    <span class="eevenkoto-input__icon"><slot name="icon" /></span>
+  ) : search ? (
+    <span class="eevenkoto-input__icon"><Icon name="search" size={size === 'sm' ? 'sm' : 'md'} /></span>
+  ) : null}
+  <input
+    class={inputFieldClassNames()}
+    id={id}
+    name={name}
+    type={type ?? (search ? 'search' : 'text')}
+    value={value}
+    placeholder={placeholder}
+    aria-label={ariaLabel}
+    aria-describedby={describedBy}
+    aria-invalid={invalid ? 'true' : undefined}
+    disabled={disabled || undefined}
+    {...rest}
+  />
+</span>

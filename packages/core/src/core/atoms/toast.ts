@@ -12,24 +12,26 @@ export interface ToastProps {
   intent?: ToastIntent;
   /** Surface recipe (subtle raised surface or solid colored fill). Default: subtle */
   variant?: ToastVariant;
-  /** Optional icon glyph token. Default: inferred from intent (check for success/neutral). */
-  icon?: IconName;
+  /** Optional icon glyph token, or `false` to omit the icon. Default: inferred from intent. */
+  icon?: IconName | false;
   /** When false, emits --hidden modifier (controlling fade/slide exit). Default: true */
   visible?: boolean;
+  /** Alias for `visible: false`. When true, emits --hidden modifier. */
+  hidden?: boolean;
   /** Placement mode: inline (default), fixed-bottom-right, fixed-bottom-center. */
   placement?: ToastPlacement;
 }
 
 export type ToastClassNameProps = Pick<
   ToastProps,
-  'intent' | 'variant' | 'placement' | 'visible'
+  'intent' | 'variant' | 'placement' | 'visible' | 'hidden'
 >;
 
 export const toastClassNames = (props: ToastClassNameProps = {}): string => {
   const intent = props.intent ?? 'neutral';
   const variant = props.variant ?? 'subtle';
   const placement = props.placement ?? 'inline';
-  const isVisible = props.visible !== false;
+  const isVisible = !props.hidden && props.visible !== false;
 
   return [
     'eevenkoto-toast',
@@ -48,11 +50,12 @@ export const defaultToastIcon = (intent: ToastIntent = 'neutral'): IconName => {
     case 'success':
       return 'check';
     case 'info':
+      return 'info';
     case 'admin':
       return 'star';
     case 'caution':
     case 'critical':
-      return 'shield';
+      return 'warning';
     default:
       return 'check';
   }

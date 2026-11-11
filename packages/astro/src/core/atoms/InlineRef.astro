@@ -1,0 +1,37 @@
+---
+import {
+  inlineRefClassNames,
+  inlineRefLabelClassNames,
+  inlineRefLockClassNames,
+  inlineRefLockIconClassNames,
+  type InlineRefProps,
+} from '@eevenkoto/core';
+import Icon from './Icon.astro';
+
+export interface Props extends Omit<InlineRefProps, 'name'> {
+  name?: string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  name,
+  href,
+  unlinked,
+  locked,
+  lockedLabel = 'Locked',
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [inlineRefClassNames({ unlinked, locked }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+{!unlinked && href ? (
+  <a class={classes} href={href} {...rest}><span class={inlineRefLabelClassNames()}>{name}<slot /></span>{locked ? <span class={inlineRefLockClassNames()}><Icon name="lock" class={inlineRefLockIconClassNames()} /><span class="eevenkoto-visually-hidden">{lockedLabel}</span></span> : null}</a>
+) : (
+  <span class={classes} {...rest}><span class={inlineRefLabelClassNames()}>{name}<slot /></span>{locked ? <span class={inlineRefLockClassNames()}><Icon name="lock" class={inlineRefLockIconClassNames()} /><span class="eevenkoto-visually-hidden">{lockedLabel}</span></span> : null}</span>
+)}

@@ -1,0 +1,78 @@
+---
+import {
+  resolveSegmentedControlOptionTone,
+  segmentedControlClassNames,
+  segmentedControlOptionClassNames,
+  type SegmentedControlProps,
+} from '@eevenkoto/core';
+import Icon from '../atoms/Icon.astro';
+
+export interface Props extends SegmentedControlProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  options,
+  selectedId,
+  mode = 'radios',
+  name = 'eevenkoto-segmented',
+  tone,
+  size,
+  label,
+  fullWidth,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  segmentedControlClassNames({ size, mode, fullWidth }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+const iconSize = size === 'sm' ? 'sm' : 'md';
+---
+{mode === 'links' ? (
+  <nav class={classes} aria-label={label} {...rest}>
+    {options.map((option) => {
+      const selected = option.id === selectedId;
+      const optionTone = resolveSegmentedControlOptionTone(option.tone, tone);
+      return (
+        <a
+          class={segmentedControlOptionClassNames({ tone: optionTone, selected })}
+          href={option.href ?? '#'}
+          aria-current={selected ? 'page' : undefined}
+          aria-disabled={option.disabled ? 'true' : undefined}
+          tabindex={option.disabled ? -1 : undefined}
+        ><span class="eevenkoto-segmented-control__label">{option.icon ? <Icon name={option.icon} size={iconSize} /> : null}{option.label}</span></a>
+      );
+    })}
+  </nav>
+) : (
+  <fieldset class={classes} {...rest}>
+    {label ? <legend class="eevenkoto-visually-hidden">{label}</legend> : null}
+    {options.map((option) => {
+      const selected = option.id === selectedId;
+      const optionTone = resolveSegmentedControlOptionTone(option.tone, tone);
+      const inputId = `${name}-${option.id}`;
+      return (
+        <label
+          class={segmentedControlOptionClassNames({ tone: optionTone, selected: false })}
+          for={inputId}
+        ><input
+          class="eevenkoto-segmented-control__input"
+          type="radio"
+          id={inputId}
+          name={name}
+          value={option.id}
+          checked={selected || undefined}
+          disabled={option.disabled || undefined}
+        /><span class="eevenkoto-segmented-control__label">{option.icon ? <Icon name={option.icon} size={iconSize} /> : null}{option.label}</span></label>
+      );
+    })}
+  </fieldset>
+)}

@@ -1,0 +1,20 @@
+---
+import { listClassNames, type ListProps } from '@eevenkoto/core';
+import ListItem from '../atoms/ListItem.astro';
+
+export interface Props extends Partial<ListProps> {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { items = [], variant, size, tone, class: classProp, className, ...rest } = Astro.props;
+const classes = [listClassNames({ variant, size, tone }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const Tag = (variant ?? 'unordered') === 'ordered' ? 'ol' : 'ul';
+---
+<Tag class={classes} {...rest}>
+  {items.map((item) => <ListItem text={item.text} />)}
+  <slot />
+</Tag>

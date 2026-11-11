@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import '@eevenkoto/css/icon.css';
 import '@eevenkoto/css/notice.css';
 import { renderNotice, type NoticeProps } from '@eevenkoto/html';
 

@@ -22,12 +22,13 @@
   font-style: italic;
 }
 
-.eevenkoto-statblock > .eevenkoto-heading--1 {
-  margin-block-end: 0;
+.eevenkoto-statblock > .eevenkoto-heading {
+  --eevenkoto-heading-margin-block: 0;
 }
 
 .eevenkoto-statblock > .eevenkoto-paragraph,
-.eevenkoto-statblock > .eevenkoto-caption {
+.eevenkoto-statblock > .eevenkoto-caption,
+.eevenkoto-statblock > .eevenkoto-list {
   margin-block: 0;
 }
 

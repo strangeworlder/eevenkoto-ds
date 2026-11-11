@@ -13,6 +13,7 @@ Eevenkoto ships as separate npm packages so CSS stays framework-free and each ru
 | `@eevenkoto/html` | Canonical vanilla API — HTML templates + `render*` |
 | `@eevenkoto/react` | Thin React wrappers over the same classes |
 | `@eevenkoto/vue` | Thin Vue wrappers over the same classes |
+| `@eevenkoto/astro` | Thin Astro `.astro` wrappers with native slots over the same classes |
 
 Source folders inside each package follow **Core vs Domain** and **Atoms / Molecules / Organisms** (see [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs) and [Glossary](?path=/docs/foundations-glossary--docs)). Root barrels keep a stable public API.
 
@@ -21,9 +22,9 @@ Source folders inside each package follow **Core vs Domain** and **Atoms / Molec
 1. **CSS** defines appearance (`@eevenkoto/css`).
 2. **Core package** defines the public prop contract and BEM class assembly (`@eevenkoto/core`).
 3. **HTML** is the reference markup implementation used by this Storybook.
-4. **React / Vue** only map props → the same class strings and elements (Flow uses children / default slot instead of a `content` string).
+4. **React / Vue / Astro** only map props → the same class strings and elements (Flow uses children / default slot instead of a `content` string).
 
-`@eevenkoto/css` is an **optional peer** of html/react/vue: bindings assemble classes without injecting styles. Import CSS in the host app or the UI is unstyled.
+`@eevenkoto/css` is an **optional peer** of html/react/vue/astro: bindings assemble classes without injecting styles. Import CSS in the host app or the UI is unstyled.
 
 Import styles explicitly in the host app:
 

@@ -21,6 +21,7 @@ export const Button = defineComponent({
       type: String as PropType<ButtonProps['iconPosition']>,
       default: undefined,
     },
+    fullWidth: { type: Boolean, default: false },
   },
   setup(props) {
     const className = computed(() =>
@@ -29,6 +30,7 @@ export const Button = defineComponent({
         size: props.size,
         icon: props.icon,
         iconPosition: props.iconPosition,
+        fullWidth: props.fullWidth,
       }),
     );
 

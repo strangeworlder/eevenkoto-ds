@@ -28,6 +28,7 @@ export const RadioGroup = ({
   name,
   label,
   legendVisuallyHidden,
+  hideLegend,
   value,
   defaultValue,
   layout,
@@ -48,21 +49,28 @@ export const RadioGroup = ({
     .filter(Boolean)
     .join(' ');
 
+  const isLegendHidden = Boolean(hideLegend ?? legendVisuallyHidden);
+  const badgeNode = badgeSlot ? (
+    badgeSlot
+  ) : badge ? (
+    <Badge label={badge} intent={badgeIntent ?? 'neutral'} variant="solid" />
+  ) : null;
+
   const hasError = Boolean(error);
   const messageText = hasError ? error : hint;
 
   return (
     <fieldset className={classes} {...rest}>
-      <div className={radioGroupHeaderClassNames()}>
-        <legend className={radioGroupLegendClassNames(legendVisuallyHidden)}>
-          {label}
-        </legend>
-        {badgeSlot ? (
-          badgeSlot
-        ) : badge ? (
-          <Badge label={badge} intent={badgeIntent ?? 'neutral'} variant="solid" />
-        ) : null}
-      </div>
+      {isLegendHidden && !badgeNode ? (
+        <legend className={radioGroupLegendClassNames(true)}>{label}</legend>
+      ) : (
+        <div className={radioGroupHeaderClassNames()}>
+          <legend className={radioGroupLegendClassNames(isLegendHidden)}>
+            {label}
+          </legend>
+          {badgeNode}
+        </div>
+      )}
       <div className={radioGroupListClassNames()}>
         {children
           ? children

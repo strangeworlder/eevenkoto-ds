@@ -1,0 +1,71 @@
+---
+import {
+  workshopBodyClassNames,
+  workshopClassNames,
+  workshopControlsClassNames,
+  workshopHeaderClassNames,
+  workshopPreviewClassNames,
+  type WorkshopProps,
+} from '@eevenkoto/core';
+
+export interface Props extends Omit<WorkshopProps, 'header' | 'controls' | 'preview'> {
+  role?: string;
+  style?: string | Record<string, string | number | undefined>;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  idSuffix,
+  label,
+  controlsWidth,
+  role,
+  style,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [workshopClassNames(), classProp, className].filter(Boolean).join(' ');
+const elementId = id ?? (idSuffix ? `workshop${idSuffix}` : undefined);
+const resolvedRole = role ?? (label ? 'region' : undefined);
+
+let mergedStyle = style;
+if (controlsWidth) {
+  if (typeof style === 'string') {
+    mergedStyle = `--eevenkoto-workshop-controls-width: ${controlsWidth}; ${style}`;
+  } else {
+    mergedStyle = {
+      ...(style ?? {}),
+      '--eevenkoto-workshop-controls-width': controlsWidth,
+    };
+  }
+}
+
+const hasHeaderSlot = Astro.slots.has('header');
+const hasControlsSlot = Astro.slots.has('controls');
+const hasPreviewSlot = Astro.slots.has('preview');
+---
+<div
+  class={classes}
+  id={elementId}
+  role={resolvedRole}
+  aria-label={label}
+  style={mergedStyle}
+  data-eevenkoto-workshop
+  {...rest}
+>
+  {hasHeaderSlot ? (
+    <div class={workshopHeaderClassNames()}><slot name="header" /></div>
+  ) : null}
+  <div class={workshopBodyClassNames()}>
+    <div class={workshopControlsClassNames()}>
+      {hasControlsSlot ? <slot name="controls" /> : <slot />}
+    </div>
+    {hasPreviewSlot ? (
+      <div class={workshopPreviewClassNames()}><slot name="preview" /></div>
+    ) : null}
+  </div>
+</div>

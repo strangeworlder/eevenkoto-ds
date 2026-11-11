@@ -1,0 +1,78 @@
+---
+import {
+  radioGroupClassNames,
+  radioGroupHeaderClassNames,
+  radioGroupLegendClassNames,
+  radioGroupListClassNames,
+  radioGroupMessageClassNames,
+  type RadioGroupProps,
+} from '@eevenkoto/core';
+import Badge from '../atoms/Badge.astro';
+import Radio from '../atoms/Radio.astro';
+
+export interface Props extends RadioGroupProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  name,
+  label,
+  legendVisuallyHidden,
+  hideLegend,
+  value,
+  defaultValue,
+  layout,
+  columns,
+  variant,
+  hint,
+  error,
+  badge,
+  badgeIntent,
+  options,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [radioGroupClassNames({ layout, columns }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const isLegendHidden = Boolean(hideLegend ?? legendVisuallyHidden);
+const hasBadgeSlot = Astro.slots.has('badge');
+const hasBadge = hasBadgeSlot || Boolean(badge);
+const hasDefaultSlot = Astro.slots.has('default');
+const hasError = Boolean(error);
+const messageText = hasError ? error : hint;
+const selectedVal = value ?? defaultValue;
+---
+<fieldset class={classes} {...rest}>
+  {isLegendHidden && !hasBadge ? (
+    <legend class={radioGroupLegendClassNames(true)}>{label}</legend>
+  ) : (
+    <div class={radioGroupHeaderClassNames()}>
+      <legend class={radioGroupLegendClassNames(isLegendHidden)}>{label}</legend>
+      {hasBadgeSlot ? (
+        <slot name="badge" />
+      ) : badge ? (
+        <Badge label={badge} intent={badgeIntent ?? 'neutral'} variant="solid" />
+      ) : null}
+    </div>
+  )}
+  <div class={radioGroupListClassNames()}>
+    {hasDefaultSlot
+      ? <slot />
+      : options?.map((opt) => (
+          <Radio
+            {...opt}
+            name={name}
+            variant={opt.variant ?? variant}
+            checked={selectedVal !== undefined ? opt.value === selectedVal : opt.checked ?? opt.defaultChecked}
+          />
+        ))}
+  </div>
+  {messageText ? (
+    <p class={radioGroupMessageClassNames(hasError)}>{messageText}</p>
+  ) : null}
+</fieldset>

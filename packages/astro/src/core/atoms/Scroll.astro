@@ -1,0 +1,14 @@
+---
+import { scrollClassNames, type ScrollProps } from '@eevenkoto/core';
+
+export interface Props extends ScrollProps {
+  tabindex?: number | string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { axis, tabindex = 0, class: classProp, className, ...rest } = Astro.props;
+const classes = [scrollClassNames({ axis }), classProp, className].filter(Boolean).join(' ');
+---
+<div class={classes} tabindex={tabindex} {...rest}><slot /></div>

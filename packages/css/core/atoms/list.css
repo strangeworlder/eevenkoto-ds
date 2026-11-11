@@ -35,7 +35,7 @@
   );
   --_eevenkoto-list-margin-block: var(
     --eevenkoto-list-margin-block,
-    0 0 var(--eevenkoto-space-4)
+    0 var(--eevenkoto-space-4)
   );
   --_eevenkoto-list-pad-inline-start: var(
     --eevenkoto-list-pad-inline-start,

@@ -1,0 +1,16 @@
+---
+import { statClassNames, type StatProps } from '@eevenkoto/core';
+
+export interface Props extends Omit<StatProps, 'value'> {
+  value?: string | number;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { value, shape, size, emphasis, class: classProp, className, ...rest } = Astro.props;
+const classes = [statClassNames({ shape, size, emphasis }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<span class={classes} {...rest}>{value}<slot /></span>

@@ -13,10 +13,11 @@ export const StatblockFeature = defineComponent({
   name: 'EevenkotoStatblockFeature',
   props: {
     name: { type: String, required: true },
-    description: { type: String, required: true },
+    description: { type: String, default: undefined },
+    descriptionHtml: { type: String, default: undefined },
     level: { type: Number as PropType<StatblockFeatureLevel>, default: 3 },
   },
-  setup(props) {
+  setup(props, { slots }) {
     const className = computed(() => statblockFeatureClassNames());
 
     return () =>
@@ -26,7 +27,14 @@ export const StatblockFeature = defineComponent({
           { class: headingClassNames({ level: props.level, runIn: true }) },
           props.name,
         ),
-        h('p', { class: paragraphClassNames({ size: 'md' }) }, props.description),
+        slots.default
+          ? h('p', { class: paragraphClassNames({ size: 'md' }) }, slots.default())
+          : props.descriptionHtml !== undefined
+            ? h('p', {
+                class: paragraphClassNames({ size: 'md' }),
+                innerHTML: props.descriptionHtml,
+              })
+            : h('p', { class: paragraphClassNames({ size: 'md' }) }, props.description ?? ''),
       ]);
   },
 });

@@ -1,5 +1,6 @@
 import {
   radioGroupClassNames,
+  radioGroupHeaderClassNames,
   radioGroupLegendClassNames,
   radioGroupMessageClassNames,
   type RadioGroupProps as RadioGroupCoreProps,
@@ -30,6 +31,9 @@ export const renderRadioGroup = (args: RadioGroupProps): string => {
         )
         .join('');
 
+  const isLegendHidden = Boolean(args.hideLegend ?? args.legendVisuallyHidden);
+  const legendHtml = `<legend class="${radioGroupLegendClassNames(isLegendHidden)}">${escapeHtml(args.label)}</legend>`;
+
   const badgeHtml = args.badge
     ? renderBadge({
         label: args.badge,
@@ -37,6 +41,11 @@ export const renderRadioGroup = (args: RadioGroupProps): string => {
         variant: 'solid',
       })
     : '';
+
+  const headerHtml =
+    isLegendHidden && !badgeHtml
+      ? legendHtml
+      : `<div class="${radioGroupHeaderClassNames()}">${legendHtml}${badgeHtml}</div>`;
 
   const hasError = Boolean(args.error);
   const messageText = hasError ? args.error : args.hint;
@@ -46,12 +55,8 @@ export const renderRadioGroup = (args: RadioGroupProps): string => {
 
   return template
     .replace('{{className}}', radioGroupClassNames(args))
-    .replace(
-      '{{legendClassName}}',
-      radioGroupLegendClassNames(args.legendVisuallyHidden),
-    )
-    .replace('{{legend}}', escapeHtml(args.label))
-    .replace('{{badge}}', badgeHtml)
+    .replace('{{header}}', headerHtml)
     .replace('{{items}}', itemsHtml)
-    .replace('{{message}}', messageHtml);
+    .replace('{{message}}', messageHtml)
+    .trim();
 };

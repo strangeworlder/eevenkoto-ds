@@ -23,6 +23,7 @@ const USE_SOURCES = [
   { title: '@eevenkoto/css', path: 'packages/css/README.md', kind: 'md' },
   { title: '@eevenkoto/react', path: 'packages/react/README.md', kind: 'md' },
   { title: '@eevenkoto/vue', path: 'packages/vue/README.md', kind: 'md' },
+  { title: '@eevenkoto/astro', path: 'packages/astro/README.md', kind: 'md' },
   { title: '@eevenkoto/html', path: 'packages/html/README.md', kind: 'md' },
   { title: '@eevenkoto/core', path: 'packages/core/README.md', kind: 'md' },
   { title: 'Packages', path: 'apps/storybook/src/foundations/packages.mdx', kind: 'mdx' },

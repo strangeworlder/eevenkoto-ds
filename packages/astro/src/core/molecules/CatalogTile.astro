@@ -1,0 +1,37 @@
+---
+import { catalogTileClassNames, type CatalogTileProps } from '@eevenkoto/core';
+import Icon from '../atoms/Icon.astro';
+import StatusDot from '../atoms/StatusDot.astro';
+
+export interface Props extends CatalogTileProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  name,
+  href,
+  status,
+  statusLabel = 'Ready',
+  locked,
+  lockedLabel = 'Locked',
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [catalogTileClassNames({ locked }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<a class={classes} href={href} {...rest}>
+  {status ? <StatusDot intent={status} label={statusLabel} /> : null}
+  <span class="eevenkoto-catalog-tile__name">{name}<slot /></span>
+  {locked ? (
+    <span class="eevenkoto-catalog-tile__lock">
+      <Icon name="lock" />
+      <span class="eevenkoto-visually-hidden">{lockedLabel}</span>
+    </span>
+  ) : null}
+</a>

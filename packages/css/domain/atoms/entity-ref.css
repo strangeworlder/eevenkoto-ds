@@ -63,3 +63,39 @@
   --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-control-primary-border);
   --eevenkoto-inline-ref-underline: var(--eevenkoto-color-control-primary-icon);
 }
+
+/* Player-character heritage & build kinds */
+.eevenkoto-entity-ref--species {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-success-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-success-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-success-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-success-icon);
+}
+
+.eevenkoto-entity-ref--culture {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-success-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-success-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-control-primary-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-control-primary-icon);
+}
+
+.eevenkoto-entity-ref--background {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-neutral-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-neutral-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-caution-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-caution-icon);
+}
+
+.eevenkoto-entity-ref--feat {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-admin-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-admin-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-admin-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-admin-icon);
+}
+
+.eevenkoto-entity-ref--ability {
+  --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-info-background);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-info-text);
+  --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-feedback-admin-border);
+  --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-admin-icon);
+}

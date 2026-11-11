@@ -16,7 +16,8 @@ export const renderStatblockFeature = (args: StatblockFeatureProps): string => {
     level,
     runIn: true,
   })}">${escapeHtml(args.name)}</h${level}>`;
-  const body = `<p class="${paragraphClassNames({ size: 'md' })}">${sanitizeInlineHtml(args.description)}</p>`;
+  const descMarkup = args.descriptionHtml ?? sanitizeInlineHtml(args.description ?? '');
+  const body = `<p class="${paragraphClassNames({ size: 'md' })}">${descMarkup}</p>`;
 
   return template
     .replace('{{className}}', statblockFeatureClassNames())

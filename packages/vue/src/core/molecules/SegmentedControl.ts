@@ -24,6 +24,7 @@ export const SegmentedControl = defineComponent({
     tone: { type: String as PropType<SegmentedControlProps['tone']>, default: undefined },
     size: { type: String as PropType<SegmentedControlProps['size']>, default: undefined },
     label: { type: String, default: undefined },
+    fullWidth: { type: Boolean, default: false },
   },
   emits: ['change'],
   setup(props, { emit }) {
@@ -31,6 +32,7 @@ export const SegmentedControl = defineComponent({
       segmentedControlClassNames({
         size: props.size,
         mode: props.mode,
+        fullWidth: props.fullWidth,
       }),
     );
 

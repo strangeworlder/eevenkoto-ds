@@ -140,6 +140,11 @@
   --eevenkoto-select-font-size: var(--eevenkoto-font-size-control-md);
 }
 
+.eevenkoto-select--full-width {
+  display: flex;
+  inline-size: 100%;
+}
+
 /* --- INVALID --- */
 
 .eevenkoto-select--invalid,

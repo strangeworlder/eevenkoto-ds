@@ -5,6 +5,8 @@
    Composes SegmentedControl, Input, Button, Badge, Notice, and EquipmentBlock.
    ========================================================================== */
 
+@import url('../../core/organisms/workshop.css');
+
 .eevenkoto-equipment-workshop {
   --_eevenkoto-equipment-workshop-bg: var(
     --eevenkoto-equipment-workshop-bg,
@@ -41,6 +43,14 @@
   --_eevenkoto-equipment-workshop-item-bg: var(
     --eevenkoto-equipment-workshop-item-bg,
     var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-equipment-workshop-controls-width: var(
+    --eevenkoto-equipment-workshop-controls-width,
+    var(--eevenkoto-workshop-controls-width, minmax(0, 1.35fr))
+  );
+  --_eevenkoto-equipment-workshop-preview-width: var(
+    --eevenkoto-equipment-workshop-preview-width,
+    var(--eevenkoto-workshop-preview-width, minmax(0, 1fr))
   );
 
   display: flex;
@@ -113,14 +123,20 @@
 
 .eevenkoto-equipment-workshop__body {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: var(--_eevenkoto-equipment-workshop-controls-width) var(
+      --_eevenkoto-equipment-workshop-preview-width
+    );
   gap: var(--_eevenkoto-equipment-workshop-gap);
   align-items: start;
 }
 
+.eevenkoto-equipment-workshop__body:not(:has(> .eevenkoto-equipment-workshop__preview)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 @media (max-width: 56rem) {
   .eevenkoto-equipment-workshop__body {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

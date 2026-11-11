@@ -20,6 +20,7 @@ export const Toast = ({
   variant,
   icon,
   visible = true,
+  hidden,
   placement,
   className,
   children,
@@ -27,18 +28,22 @@ export const Toast = ({
   'aria-live': userAriaLive,
   ...rest
 }: ToastComponentProps): ReactElement => {
-  const classes = [toastClassNames({ intent, variant, visible, placement }), className]
+  const classes = [
+    toastClassNames({ intent, variant, visible, hidden, placement }),
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
   const defaultAria = resolveToastAria(intent);
-  const iconName = icon ?? defaultToastIcon(intent);
+  const iconName = icon === false ? null : (icon ?? defaultToastIcon(intent));
 
   return (
     <div
       className={classes}
       role={userRole ?? defaultAria.role}
       aria-live={userAriaLive ?? defaultAria.ariaLive}
+      hidden={hidden}
       {...rest}
     >
       {iconName ? (

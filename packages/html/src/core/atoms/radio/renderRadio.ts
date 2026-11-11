@@ -4,6 +4,7 @@ import {
   type RadioProps,
 } from '@eevenkoto/core';
 import { escapeHtml } from '../../../utils/html';
+import { renderBadge } from '../badge/renderBadge';
 import template from './Radio.html';
 
 export type { RadioProps };
@@ -29,7 +30,7 @@ export const renderRadio = (args: RadioProps): string => {
     : '';
 
   const badgeHtml = args.badge
-    ? `<span class="eevenkoto-radio__badge">${escapeHtml(args.badge)}</span>`
+    ? `<span class="eevenkoto-radio__badge">${renderBadge({ label: args.badge, size: 'sm' })}</span>`
     : '';
 
   return template
@@ -37,5 +38,6 @@ export const renderRadio = (args: RadioProps): string => {
     .replace('{{control}}', `<input${attrs} />`)
     .replace('{{title}}', escapeHtml(args.label))
     .replace('{{description}}', descHtml)
-    .replace('{{badge}}', badgeHtml);
+    .replace('{{badge}}', badgeHtml)
+    .trim();
 };

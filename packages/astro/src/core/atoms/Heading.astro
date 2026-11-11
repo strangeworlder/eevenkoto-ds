@@ -1,0 +1,26 @@
+---
+import { headingClassNames, type HeadingLevel, type HeadingProps } from '@eevenkoto/core';
+
+export interface Props extends Omit<HeadingProps, 'text'> {
+  text?: string;
+  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { level, text, tone, runIn, as, class: classProp, className, ...rest } = Astro.props;
+const headingTags: Record<HeadingLevel, 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'> = {
+  1: 'h1',
+  2: 'h2',
+  3: 'h3',
+  4: 'h4',
+  5: 'h5',
+  6: 'h6',
+};
+const Tag = as ?? headingTags[level];
+const classes = [headingClassNames({ level, tone, runIn }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<Tag class={classes} {...rest}>{text}<slot /></Tag>

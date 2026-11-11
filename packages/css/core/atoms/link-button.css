@@ -164,10 +164,12 @@
 /* --- DEFAULT / PRIMARY ---
    Host alone is primary + md + end-scoop. --primary is an explicit alias. */
 
-.eevenkoto-link-button:hover:not([aria-disabled="true"]):not(.eevenkoto-link-button--secondary),
+.eevenkoto-link-button:hover:not([aria-disabled="true"]):not(
+    .eevenkoto-link-button--secondary
+  ):not(.eevenkoto-link-button--ghost),
 .eevenkoto-link-button:focus-visible:not([aria-disabled="true"]):not(
     .eevenkoto-link-button--secondary
-  ) {
+  ):not(.eevenkoto-link-button--ghost) {
   --eevenkoto-link-button-bg: var(
     --eevenkoto-link-button-bg-hover,
     var(--eevenkoto-color-control-primary-background-hover)
@@ -196,15 +198,19 @@
 
 .eevenkoto-link-button:dir(rtl):hover:not([aria-disabled="true"]):not(
     .eevenkoto-link-button--secondary
-  ) {
+  ):not(.eevenkoto-link-button--ghost) {
   transform: translateX(calc(-1 * var(--_eevenkoto-link-button-nudge)));
 }
 
-.eevenkoto-link-button:hover:not([aria-disabled="true"]):not(.eevenkoto-link-button--secondary) {
+.eevenkoto-link-button:hover:not([aria-disabled="true"]):not(
+    .eevenkoto-link-button--secondary
+  ):not(.eevenkoto-link-button--ghost) {
   transform: translateX(var(--_eevenkoto-link-button-nudge));
 }
 
-.eevenkoto-link-button:active:not([aria-disabled="true"]):not(.eevenkoto-link-button--secondary) {
+.eevenkoto-link-button:active:not([aria-disabled="true"]):not(
+    .eevenkoto-link-button--secondary
+  ):not(.eevenkoto-link-button--ghost) {
   --eevenkoto-link-button-bg: var(
     --eevenkoto-link-button-bg-active,
     var(--eevenkoto-color-control-primary-background-active)
@@ -214,7 +220,7 @@
 
 .eevenkoto-link-button:dir(rtl):active:not([aria-disabled="true"]):not(
     .eevenkoto-link-button--secondary
-  ) {
+  ):not(.eevenkoto-link-button--ghost) {
   transform: translateX(calc(var(--_eevenkoto-link-button-nudge) * -1.25));
 }
 
@@ -300,6 +306,55 @@
   transform: translateX(calc(var(--_eevenkoto-link-button-nudge) * -1.25));
 }
 
+/* --- VARIANT: GHOST --- */
+
+.eevenkoto-link-button--ghost {
+  --eevenkoto-link-button-bg: var(--eevenkoto-color-control-ghost-background);
+  --eevenkoto-link-button-text: var(--eevenkoto-color-control-ghost-text);
+  --eevenkoto-link-button-border-color: var(--eevenkoto-color-control-ghost-border);
+  --eevenkoto-link-button-icon: var(--eevenkoto-color-control-ghost-icon);
+  --eevenkoto-link-button-gradient-start: var(--eevenkoto-color-control-ghost-background);
+  --eevenkoto-link-button-gradient-middle: var(--eevenkoto-color-control-ghost-background);
+  --eevenkoto-link-button-gradient-end: var(--eevenkoto-color-control-ghost-background);
+  --eevenkoto-link-button-text-shadow: none;
+  --eevenkoto-link-button-box-shadow: none;
+}
+
+.eevenkoto-link-button--ghost:hover:not([aria-disabled="true"]),
+.eevenkoto-link-button--ghost:focus-visible:not([aria-disabled="true"]) {
+  --eevenkoto-link-button-bg: var(
+    --eevenkoto-link-button-bg-hover,
+    var(--eevenkoto-color-control-ghost-background-hover)
+  );
+  --eevenkoto-link-button-border-color: var(
+    --eevenkoto-link-button-border-color-hover,
+    var(--eevenkoto-color-control-ghost-background-hover)
+  );
+  --eevenkoto-link-button-gradient-start: transparent;
+  --eevenkoto-link-button-gradient-middle: transparent;
+  --eevenkoto-link-button-gradient-end: transparent;
+}
+
+.eevenkoto-link-button--ghost:hover:not([aria-disabled="true"]) {
+  transform: translateX(var(--_eevenkoto-link-button-nudge));
+}
+
+.eevenkoto-link-button--ghost:dir(rtl):hover:not([aria-disabled="true"]) {
+  transform: translateX(calc(-1 * var(--_eevenkoto-link-button-nudge)));
+}
+
+.eevenkoto-link-button--ghost:active:not([aria-disabled="true"]) {
+  --eevenkoto-link-button-bg: var(
+    --eevenkoto-link-button-bg-active,
+    var(--eevenkoto-color-control-ghost-background-hover)
+  );
+  transform: translateX(calc(var(--_eevenkoto-link-button-nudge) * 1.25));
+}
+
+.eevenkoto-link-button--ghost:dir(rtl):active:not([aria-disabled="true"]) {
+  transform: translateX(calc(var(--_eevenkoto-link-button-nudge) * -1.25));
+}
+
 /* --- DISABLED (opaque tuples; no opacity). Prefer omitting the CTA. --- */
 
 .eevenkoto-link-button[aria-disabled="true"] {
@@ -350,6 +405,28 @@
   --eevenkoto-link-button-gradient-end: var(--eevenkoto-link-button-bg);
 }
 
+.eevenkoto-link-button--ghost[aria-disabled="true"] {
+  --eevenkoto-link-button-bg: var(
+    --eevenkoto-link-button-bg-disabled,
+    var(--eevenkoto-color-control-ghost-background-disabled)
+  );
+  --eevenkoto-link-button-text: var(
+    --eevenkoto-link-button-text-disabled,
+    var(--eevenkoto-color-control-ghost-text-disabled)
+  );
+  --eevenkoto-link-button-border-color: var(
+    --eevenkoto-link-button-border-color-disabled,
+    var(--eevenkoto-color-control-ghost-border-disabled)
+  );
+  --eevenkoto-link-button-icon: var(
+    --eevenkoto-link-button-icon-disabled,
+    var(--eevenkoto-color-control-ghost-icon-disabled)
+  );
+  --eevenkoto-link-button-gradient-start: transparent;
+  --eevenkoto-link-button-gradient-middle: transparent;
+  --eevenkoto-link-button-gradient-end: transparent;
+}
+
 /* --- FOCUS (dual-halo); compose with brand elevation when present --- */
 
 .eevenkoto-link-button:focus-visible {
@@ -378,6 +455,12 @@
   --eevenkoto-link-button-pad-block: var(--eevenkoto-space-4);
   --eevenkoto-link-button-pad-inline: var(--eevenkoto-space-8);
   --eevenkoto-link-button-font-size: var(--eevenkoto-font-size-control-lg);
+}
+
+.eevenkoto-link-button--full-width {
+  display: block;
+  inline-size: 100%;
+  text-align: center;
 }
 
 /* --- ICONS (compose Icon atom; size to 1em so glyphs track type) --- */

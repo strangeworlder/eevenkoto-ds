@@ -9,6 +9,7 @@ When Storybook is running, this file is also served at `/llms-full.txt`.
 - `packages/css/README.md`
 - `packages/react/README.md`
 - `packages/vue/README.md`
+- `packages/astro/README.md`
 - `packages/html/README.md`
 - `packages/core/README.md`
 - `apps/storybook/src/foundations/packages.mdx`
@@ -71,7 +72,7 @@ Set `data-theme="light"` (default) or `data-theme="dark"` on `<html>` (or `<body
 
 ## Consume / never
 
-**Consume** Tier 2 semantic colors (`--eevenkoto-color-surface-*`, `content-*`, `content-accent` for small gold text, `control-*`, `feedback-*`, `form-input-*` including `form-input-placeholder`, `link-*`) and single-tier metrics (`--eevenkoto-space-*`, `--eevenkoto-font-size-heading-*` / `body-*` / `ui-*` / `control-*`, `--eevenkoto-font-weight-regular` / `semibold` / `bold`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-1`…`4`, `--eevenkoto-ease-standard` / `ease-in-out`).
+**Consume** Tier 2 semantic colors (`--eevenkoto-color-surface-*`, `content-*`, `content-accent` for small gold text, `control-*`, `feedback-*`, `form-input-*` including `form-input-placeholder`, `link-*`) and single-tier metrics (`--eevenkoto-space-*`, `--eevenkoto-font-size-heading-*` / `body-*` / `control-*` / `caption`, `--eevenkoto-font-weight-regular` / `semibold` / `bold`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-1`…`4`, `--eevenkoto-ease-standard` / `ease-in-out`).
 
 **Customize components** via public `--eevenkoto-<component>-*` variables only (for example `--eevenkoto-button-bg`, `--eevenkoto-card-bg`, `--eevenkoto-prose-link-color`). Bare `<a href>` inside `.eevenkoto-prose` are styled automatically with `link-*` tokens.
 
@@ -224,6 +225,48 @@ import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 - Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
+## @eevenkoto/astro
+
+_Source: `packages/astro/README.md`_
+
+# `@eevenkoto/astro`
+
+Official **Astro** component wrappers for the Eevenkoto design system (`^4.0.0 || ^5.0.0 || ^6.0.0`), mirroring `@eevenkoto/core` and `@eevenkoto/html` 1:1 with native Astro `<slot />` composition.
+
+Pair with **`@eevenkoto/css`** — components ship **zero bundled CSS**.
+
+## Install
+
+```bash
+npm install @eevenkoto/astro @eevenkoto/css
+```
+
+## Usage
+
+Import `@eevenkoto/css/styles.css` plus the component stylesheets you need in your Astro layout or page, then import components from `@eevenkoto/astro`:
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/card.css';
+import '@eevenkoto/css/button.css';
+import '@eevenkoto/css/icon.css';
+import { Card, Button } from '@eevenkoto/astro';
+---
+
+<Card title="Aavevalo">
+  <p>Luo haalea lyhty pimeään käytävään.</p>
+  <Button slot="footer" variant="secondary" icon="copy" label="Kopioi" />
+</Card>
+```
+
+### Named slots & pre-rendered inline HTML
+
+Components accept both native Astro slots (`default`, `header`, `footer`, `icon`, `badge`, `actions`, `meta`, `controls`, `preview`) and sanitized `*Html` props (`bodyHtml`, `descriptionHtml`, `valueHtml`, `paragraphsHtml`, `flavorHtml`, `typeLineHtml`) for Markdown/rehype build pipelines that pre-render `EntityRef` / `InlineRef` links.
+
+### Recursive `<Menu>` & `attributes`
+
+`<Menu>` supports arbitrary-depth `MenuGroupEntry` nesting via `<Astro.self />` and forwards `attributes?: Record<string, string | boolean | undefined>` (`data-*`, `aria-*`, etc.) onto rendered menu controls and `<details>` branches for client-side tree filtering.
 ## @eevenkoto/html
 
 _Source: `packages/html/README.md`_
@@ -334,6 +377,7 @@ Eevenkoto ships as separate npm packages so CSS stays framework-free and each ru
 | `@eevenkoto/html` | Canonical vanilla API — HTML templates + `render*` |
 | `@eevenkoto/react` | Thin React wrappers over the same classes |
 | `@eevenkoto/vue` | Thin Vue wrappers over the same classes |
+| `@eevenkoto/astro` | Thin Astro `.astro` wrappers with native slots over the same classes |
 
 Source folders inside each package follow **Core vs Domain** and **Atoms / Molecules / Organisms** (see [Component taxonomy](/?path=/docs/foundations-component-taxonomy--docs) and [Glossary](/?path=/docs/foundations-glossary--docs)). Root barrels keep a stable public API.
 
@@ -342,9 +386,9 @@ Source folders inside each package follow **Core vs Domain** and **Atoms / Molec
 1. **CSS** defines appearance (`@eevenkoto/css`).
 2. **Core package** defines the public prop contract and BEM class assembly (`@eevenkoto/core`).
 3. **HTML** is the reference markup implementation used by this Storybook.
-4. **React / Vue** only map props → the same class strings and elements (Flow uses children / default slot instead of a `content` string).
+4. **React / Vue / Astro** only map props → the same class strings and elements (Flow uses children / default slot instead of a `content` string).
 
-`@eevenkoto/css` is an **optional peer** of html/react/vue: bindings assemble classes without injecting styles. Import CSS in the host app or the UI is unstyled.
+`@eevenkoto/css` is an **optional peer** of html/react/vue/astro: bindings assemble classes without injecting styles. Import CSS in the host app or the UI is unstyled.
 
 Import styles explicitly in the host app:
 
@@ -640,7 +684,7 @@ Every match in site code should be replaced:
 | `--eevenkoto-color-turquoise-*` | `--eevenkoto-color-control-primary-*`, `--eevenkoto-color-link-*`, `--eevenkoto-color-boundary-focus-outer` |
 | `--eevenkoto-color-gold-*` | `--eevenkoto-color-content-accent` (for text `< 24px` / `< 18.66px` bold) or decorative borders only |
 | `--eevenkoto-color-{green,orange,crimson,purple}-*` | `--eevenkoto-color-feedback-{success,caution,critical,admin,info,neutral}-*`, `--eevenkoto-color-control-destructive-*`, `--eevenkoto-color-form-input-*-invalid` |
-| `--eevenkoto-font-size-{xs..3xl}` | `--eevenkoto-font-size-heading-{1..6}`, `body-{lg,md,sm}`, `ui-{md,sm,xs}`, `control-{sm,md,lg}` |
+| `--eevenkoto-font-size-{xs..3xl}` | `--eevenkoto-font-size-heading-{1..6}`, `body-{lg,md,sm}`, `control-{sm,md,lg}`, `caption` |
 | `opacity: 0.5` on disabled controls | Component `disabled` prop, or opaque `--eevenkoto-color-control-*-disabled` / `form-input-*-disabled` / `content-disabled` tokens |
 
 ---
@@ -779,14 +823,14 @@ Root `.eevenkoto-stepper` now renders `role="group"` and, when `disabled` is tru
 
 **Site action:** No prop changes if using `@eevenkoto/html`, `@eevenkoto/react`, or `@eevenkoto/vue`. If hand-rendering `.eevenkoto-stepper` markup, add `role="group"` (and `aria-disabled="true"` when `--disabled` is active) to the root `<div class="eevenkoto-stepper">`.
 
-### 7.4 `Select` — Grouped Options Prop (`groups`, not `options`)
+### 7.4 `Select` — Grouped Options Prop (`groups` + optional top-level `options`)
 
-When rendering `<optgroup>` groups in `Select`, pass them via `groups` (not `options`):
+When rendering `<optgroup>` groups in `Select`, pass them via `groups`. As of `0.11.0`, you can also pass top-level `options` alongside `groups` (for example a `"Kaikki"` reset option rendered above the `<optgroup>`s):
 
 ```tsx
-// Correct:
 <Select
   id="shield"
+  options={[{ value: 'all', label: 'Kaikki suojat' }]}
   groups={[
     {
       label: 'Kevyet suojat',
@@ -796,13 +840,75 @@ When rendering `<optgroup>` groups in `Select`, pass them via `groups` (not `opt
 />
 ```
 
-Flat option arrays continue to use `options={[{ value, label }]}`.
-
 ### 7.5 Minimum-Class Host Defaults (`Stat`, `Badge`, `StatusDot`)
 
 If the site applies raw BEM classes without `*ClassNames()` helpers:
 - `.eevenkoto-stat` alone now renders `disk` + `md` (`4rem`, `border-radius: var(--eevenkoto-radius-full)`), matching `StatProps` defaults. Pass `eevenkoto-stat--sm` or `eevenkoto-stat--arch` / `--shield` when smaller or non-disk shapes are wanted.
 - `.eevenkoto-badge` dot indicator defaults to `0.4em` (matching `--md`), and `.eevenkoto-status-dot` ring defaults to `surface-canvas`.
+
+---
+
+## 8. Upgrading to `0.11.0` (Astro Package, Ergonomics & `0.10.1` Bug Fixes)
+
+When upgrading `eevenkoto_web` and `eevenkoto_teksti` from `0.10.0` to `0.11.0`, apply these four cleanup steps:
+
+### 8.1 Delete `0.10.0` Bridge Overrides from Site `eevenkoto-ds.css`
+
+All `0.10.0` rollout bugs are now fixed upstream in `@eevenkoto/css`, `@eevenkoto/core`, and `@eevenkoto/html`. Remove any local bridge CSS for:
+
+1. **2-value `margin-block` fixes** on `.eevenkoto-heading`, `.eevenkoto-paragraph`, `.eevenkoto-caption`, `.eevenkoto-list`, and `.eevenkoto-statblock-section`.
+2. **`h3.eevenkoto-heading--2` specificity workarounds** (`heading.css` now places `:where(h1..h6).eevenkoto-heading` before `.eevenkoto-heading--1..6` and resets padding/border on `--3..--6`).
+3. **`.eevenkoto-u-visually-hidden` aliases and empty `CheckboxGroup` / `RadioGroup` header gap rules** (`checkboxGroupLegendClassNames(true)` and `radioGroupLegendClassNames(true)` emit `.eevenkoto-visually-hidden`, `hideLegend` omits `__header` when no `badge` is passed, and `columns > 1` automatically infers `layout: 'grid'`).
+4. **Inline hidden `Toast` (`display: none`)**, **organism child margin resets** (`statblock > .eevenkoto-heading--2`, `spellblock > .eevenkoto-list`, `card header .eevenkoto-caption`), **`.eevenkoto-field__control > .eevenkoto-select` width**, **`Popover` `z-index` / `--fixed` cascade overrides**, and **`@media print` `.eevenkoto-inline-ref__lock` hiding**.
+
+### 8.2 Replace Local `.astro` Wrappers with `@eevenkoto/astro`
+
+Install `@eevenkoto/astro` alongside `@eevenkoto/css`:
+
+```bash
+npm install @eevenkoto/astro @eevenkoto/css
+```
+
+Replace local `src/components/*.astro` boilerplate imports with `@eevenkoto/astro`:
+
+```astro
+---
+import {
+  Button,
+  LinkButton,
+  Card,
+  Menu,
+  Notice,
+  Popover,
+  Workshop,
+  Statblock,
+  Spellblock,
+  EntityRef,
+} from '@eevenkoto/astro';
+---
+```
+
+### 8.3 Adopt Compiler-Friendly HTML & Rich `*Html` Slots in Markdown Pipelines
+
+- **Zero leading comments or trailing newlines:** All `render*` functions in `@eevenkoto/html` (including single-line `<details>` in `renderMenu`) now emit clean HTML without leading `<!-- ... -->` comments or trailing `\n`, safe to embed directly inside Markdown compilers (`eevenkoto_teksti`) and Astro `set:html`.
+- **`sanitizeInlineHtml` preserves `EntityRef` / `InlineRef`:** `sanitizeInlineHtml` now keeps `<a href="...">`, `<span class="...">`, `data-*`, and `.eevenkoto-icon` `<svg><path /></svg>` intact while stripping `javascript:` URLs and event handlers.
+- **Explicit `*Html` props across all bindings (`HTML`, `React`, `Vue`, `Astro`):**
+  - `Property` / `PropertyList`: `valueHtml`
+  - `Card` & `Notice`: `bodyHtml`
+  - `StatblockFeature`: `descriptionHtml`
+  - `StatblockSection`: `bodyHtml`
+  - `Statblock`: `flavorHtml`, `typeLineHtml`, `bodyHtml`
+  - `Spellblock`: `typeLineHtml`, `paragraphsHtml`, `bodyHtml`
+
+### 8.4 New Ergonomics, Icons, Variants & Core `Workshop`
+
+- **New icons in `ICON_NAMES` / `BUTTON_ICON_NAMES`:** `close`, `copy`, `refresh`, `reroll`, `logout`, `mail`, `info`, `warning`.
+- **`LinkButton` `'ghost'` variant & `fullWidth`:** `<LinkButton variant="ghost" href="/..." />`, plus `fullWidth` on `Button`, `LinkButton`, `Input`, `Select`, and `SegmentedControl`.
+- **`Popover` edge alignments & trigger width:** `placement="bottom-start" | "bottom-end" | "top-start" | "top-end"` and `matchTriggerWidth`.
+- **`Menu` recursion & pass-through `attributes`:** Arbitrary `data-*` / `aria-*` attributes (`attributes={{ 'data-filter-tags': 'arcane' }}`) on items, groups, headers, and separators at any nesting depth.
+- **Expanded `EntityRefKind`:** Added `'species' | 'culture' | 'background' | 'feat' | 'ability'`.
+- **`Notice` defaults:** Automatically renders intent icons (`icon={false}` to opt out) and defaults `role="alert"` on `critical` and `caution`.
+- **Core `Workshop` (`@eevenkoto/css/workshop.css`):** Use `<Workshop label="..." controlsWidth="24rem">` for non-equipment generators (NPCs, encounters, spells, character builders); `<EquipmentWorkshop>` remains supported for existing equipment pages.
 
 # Authoring foundations
 
@@ -2718,7 +2824,7 @@ Short Why/When plus the first API table from each Storybook MDX. Full docs stay 
 
 ### Avatar
 
-_Source: `apps\storybook\src\core\atoms\Avatar\Avatar.mdx` · [Storybook](/?path=/docs/core-atoms-avatar-avatar--docs)_
+_Source: `apps/storybook/src/core/atoms/Avatar/Avatar.mdx` · [Storybook](/?path=/docs/core-atoms-avatar-avatar--docs)_
 
 **Why:** Rules and roster UIs need a compact face mark for a character or account without inventing ad-hoc circles. Avatar is that portrait shell — image or quiet parchment placeholder — sized on the shared sm/md/lg ladder.
 
@@ -2732,7 +2838,7 @@ _Source: `apps\storybook\src\core\atoms\Avatar\Avatar.mdx` · [Storybook](/?path
 
 ### Badge
 
-_Source: `apps\storybook\src\core\atoms\Badge\Badge.mdx` · [Storybook](/?path=/docs/core-atoms-badge-badge--docs)_
+_Source: `apps/storybook/src/core/atoms/Badge/Badge.mdx` · [Storybook](/?path=/docs/core-atoms-badge-badge--docs)_
 
 **Why:** Status and taxonomy need a compact, scannable marker beside content — readiness, severity, membership — without looking like a click target. Badge is that non-interactive chip so metadata stays visible without competing with Buttons or filters.
 
@@ -2749,7 +2855,7 @@ _Source: `apps\storybook\src\core\atoms\Badge\Badge.mdx` · [Storybook](/?path=/
 
 ### Button
 
-_Source: `apps\storybook\src\core\atoms\Button\Button.mdx` · [Storybook](/?path=/docs/core-atoms-button-button--docs)_
+_Source: `apps/storybook/src/core/atoms/Button/Button.mdx` · [Storybook](/?path=/docs/core-atoms-button-button--docs)_
 
 **Why:** Buttons execute actions in the interface: submitting a form, opening a dialog, cancelling an operation, or performing add/remove actions. They stand out from surrounding content and guide attention to the most important actions.
 
@@ -2766,7 +2872,7 @@ _Source: `apps\storybook\src\core\atoms\Button\Button.mdx` · [Storybook](/?path
 
 ### Caption
 
-_Source: `apps\storybook\src\core\atoms\Caption\Caption.mdx` · [Storybook](/?path=/docs/core-atoms-caption-caption--docs)_
+_Source: `apps/storybook/src/core/atoms/Caption/Caption.mdx` · [Storybook](/?path=/docs/core-atoms-caption-caption--docs)_
 
 **Why:** Captions keep timestamps, helper hints, and field metadata visually quieter than body copy — smaller type and tertiary ink — without inventing a one-off rem or gray.
 
@@ -2774,7 +2880,7 @@ _Source: `apps\storybook\src\core\atoms\Caption\Caption.mdx` · [Storybook](/?pa
 
 ### Checkbox
 
-_Source: `apps\storybook\src\core\atoms\Checkbox\Checkbox.mdx` · [Storybook](/?path=/docs/core-atoms-checkbox-checkbox--docs)_
+_Source: `apps/storybook/src/core/atoms/Checkbox/Checkbox.mdx` · [Storybook](/?path=/docs/core-atoms-checkbox-checkbox--docs)_
 
 **Why:** Form controls in TTRPG toolchains (character builders, equipment customizers, feature selectors) need clear visual states for selection, multi-line descriptions, and selectable card layouts without losing native keyboard and assistive technology ergonomics.
 
@@ -2793,7 +2899,7 @@ _Source: `apps\storybook\src\core\atoms\Checkbox\Checkbox.mdx` · [Storybook](/?
 
 ### Chip
 
-_Source: `apps\storybook\src\core\atoms\Chip\Chip.mdx` · [Storybook](/?path=/docs/core-atoms-chip-chip--docs)_
+_Source: `apps/storybook/src/core/atoms/Chip/Chip.mdx` · [Storybook](/?path=/docs/core-atoms-chip-chip--docs)_
 
 **Why:** Dev role switchers and small exclusive tags need a clickable chip that is not a Badge (feedback, non-interactive) and not a full Button. Chip is that control so eevenko.to can drop `.role-chip` / `.dev-chip`.
 
@@ -2809,7 +2915,7 @@ _Source: `apps\storybook\src\core\atoms\Chip\Chip.mdx` · [Storybook](/?path=/do
 
 ### Frame
 
-_Source: `apps\storybook\src\core\atoms\Frame\Frame.mdx` · [Storybook](/?path=/docs/core-atoms-frame-frame--docs)_
+_Source: `apps/storybook/src/core/atoms/Frame/Frame.mdx` · [Storybook](/?path=/docs/core-atoms-frame-frame--docs)_
 
 **Why:** Dense charts and token boards need a portable bordered panel so they read as contained rulebook surfaces instead of bleeding into the page canvas. Frame is that host — TableShell uses it by default, and other panels can reuse the same border without a one-off box.
 
@@ -2817,7 +2923,7 @@ _Source: `apps\storybook\src\core\atoms\Frame\Frame.mdx` · [Storybook](/?path=/
 
 ### Heading
 
-_Source: `apps\storybook\src\core\atoms\Heading\Heading.mdx` · [Storybook](/?path=/docs/core-atoms-heading-heading--docs)_
+_Source: `apps/storybook/src/core/atoms/Heading/Heading.mdx` · [Storybook](/?path=/docs/core-atoms-heading-heading--docs)_
 
 **Why:** Pages need a scannable outline readers and assistive tech can trust. Heading gives six structured levels — size, weight, family, case, posture, and light rules — so titles stay consistent without faking hierarchy with bold Paragraphs or skipped levels for looks alone.
 
@@ -2825,7 +2931,7 @@ _Source: `apps\storybook\src\core\atoms\Heading\Heading.mdx` · [Storybook](/?pa
 
 ### Icon
 
-_Source: `apps\storybook\src\core\atoms\Icon\Icon.mdx` · [Storybook](/?path=/docs/core-atoms-icon-icon--docs)_
+_Source: `apps/storybook/src/core/atoms/Icon/Icon.mdx` · [Storybook](/?path=/docs/core-atoms-icon-icon--docs)_
 
 **Why:** Chrome needs the same glyphs in Button, adornments, and product UI without each consumer pasting SVG path strings. Icon is the shared renderer (size ladder + `currentColor`); the name inventory stays in core tokens so the catalog has one source of truth.
 
@@ -2839,7 +2945,7 @@ _Source: `apps\storybook\src\core\atoms\Icon\Icon.mdx` · [Storybook](/?path=/do
 
 ### Image
 
-_Source: `apps\storybook\src\core\atoms\Image\Image.mdx` · [Storybook](/?path=/docs/core-atoms-image-image--docs)_
+_Source: `apps/storybook/src/core/atoms/Image/Image.mdx` · [Storybook](/?path=/docs/core-atoms-image-image--docs)_
 
 **Why:** Narrative rules and sourcebooks depend on visual rhythm to break up dense rule columns. Using bare unstyled `` tags often leads to layout shifts during loading, leaking floats that ruin subsequent headings, or cramped text ribbons on narrow screens.
 
@@ -2860,7 +2966,7 @@ _Source: `apps\storybook\src\core\atoms\Image\Image.mdx` · [Storybook](/?path=/
 
 ### Inline Ref
 
-_Source: `apps\storybook\src\core\atoms\InlineRef\InlineRef.mdx` · [Storybook](/?path=/docs/core-atoms-inlineref-inlineref--docs)_
+_Source: `apps/storybook/src/core/atoms/InlineRef/InlineRef.mdx` · [Storybook](/?path=/docs/core-atoms-inlineref-inlineref--docs)_
 
 **Why:** Body copy often points at another page, a previewable term, a name that has no page yet, or a destination the reader cannot open. InlineRef is that mark without Button chrome, Badge status, or product vocabulary — so Core Popover triggers stay Core and eevenko.to can drop `.unlinked-term` / `.tooltip-ref-locked`.
 
@@ -2876,7 +2982,7 @@ _Source: `apps\storybook\src\core\atoms\InlineRef\InlineRef.mdx` · [Storybook](
 
 ### Input
 
-_Source: `apps\storybook\src\core\atoms\Input\Input.mdx` · [Storybook](/?path=/docs/core-atoms-input-input--docs)_
+_Source: `apps/storybook/src/core/atoms/Input/Input.mdx` · [Storybook](/?path=/docs/core-atoms-input-input--docs)_
 
 **Why:** Every product form should not invent its own text-box surface. Input owns fill, border, focus, and invalid chrome once; Field (or equivalent host markup) owns the labeling contract around it.
 
@@ -2893,7 +2999,7 @@ _Source: `apps\storybook\src\core\atoms\Input\Input.mdx` · [Storybook](/?path=/
 
 ### LinkButton
 
-_Source: `apps\storybook\src\core\atoms\LinkButton\LinkButton.mdx` · [Storybook](/?path=/docs/core-atoms-linkbutton-linkbutton--docs)_
+_Source: `apps/storybook/src/core/atoms/LinkButton/LinkButton.mdx` · [Storybook](/?path=/docs/core-atoms-linkbutton-linkbutton--docs)_
 
 **Why:** Call-to-action navigation needs a control that *looks* like a button so it can compete with surrounding chrome, but it must remain a link: it has a destination, can be opened in a new tab, and participates in the browser’s link model. Putting `href` on Button (or wrapping Button in an anchor) mixes those roles.
 
@@ -2913,7 +3019,7 @@ _Source: `apps\storybook\src\core\atoms\LinkButton\LinkButton.mdx` · [Storybook
 
 ### Paragraph
 
-_Source: `apps\storybook\src\core\atoms\Paragraph\Paragraph.mdx` · [Storybook](/?path=/docs/core-atoms-paragraph-paragraph--docs)_
+_Source: `apps/storybook/src/core/atoms/Paragraph/Paragraph.mdx` · [Storybook](/?path=/docs/core-atoms-paragraph-paragraph--docs)_
 
 **Why:** Consistent body type keeps reading rhythm stable across pages and themes. Semantic sizes let density or theme remaps change roles without renaming the rem ladder.
 
@@ -2921,7 +3027,7 @@ _Source: `apps\storybook\src\core\atoms\Paragraph\Paragraph.mdx` · [Storybook](
 
 ### Popover
 
-_Source: `apps\storybook\src\core\atoms\Popover\Popover.mdx` · [Storybook](/?path=/docs/core-atoms-popover-popover--docs)_
+_Source: `apps/storybook/src/core/atoms/Popover/Popover.mdx` · [Storybook](/?path=/docs/core-atoms-popover-popover--docs)_
 
 **Why:** Short-lived secondary content — entity previews, compact help, a small menu shell — needs an elevated surface next to a trigger without the weight of a dialog. Popover is that chrome; the app still owns show/hide, focus, and collision.
 
@@ -2939,7 +3045,7 @@ _Source: `apps\storybook\src\core\atoms\Popover\Popover.mdx` · [Storybook](/?pa
 
 ### Property
 
-_Source: `apps\storybook\src\core\atoms\Property\Property.mdx` · [Storybook](/?path=/docs/core-atoms-property-property--docs)_
+_Source: `apps/storybook/src/core/atoms/Property/Property.mdx` · [Storybook](/?path=/docs/core-atoms-property-property--docs)_
 
 **Why:** Pair a definition term with its value without inventing a new layout. The atom keeps `dt`/`dd` semantics so assistive tech reads the association.
 
@@ -2947,7 +3053,7 @@ _Source: `apps\storybook\src\core\atoms\Property\Property.mdx` · [Storybook](/?
 
 ### Radio
 
-_Source: `apps\storybook\src\core\atoms\Radio\Radio.mdx` · [Storybook](/?path=/docs/core-atoms-radio-radio--docs)_
+_Source: `apps/storybook/src/core/atoms/Radio/Radio.mdx` · [Storybook](/?path=/docs/core-atoms-radio-radio--docs)_
 
 **Why:** Mutually exclusive choices need clear affordance, keyboard arrow navigation, and flexible presentations ranging from compact inline options to rich trait cards or selection tiles.
 
@@ -2967,7 +3073,7 @@ _Source: `apps\storybook\src\core\atoms\Radio\Radio.mdx` · [Storybook](/?path=/
 
 ### Scroll
 
-_Source: `apps\storybook\src\core\atoms\Scroll\Scroll.mdx` · [Storybook](/?path=/docs/core-atoms-scroll-scroll--docs)_
+_Source: `apps/storybook/src/core/atoms/Scroll/Scroll.mdx` · [Storybook](/?path=/docs/core-atoms-scroll-scroll--docs)_
 
 **Why:** Wide tables and tall panels overflow the frame. Scroll owns the overflow axis (and sticky cues when composed) so hosts like TableShell do not invent one-off `overflow` CSS per layout.
 
@@ -2975,7 +3081,7 @@ _Source: `apps\storybook\src\core\atoms\Scroll\Scroll.mdx` · [Storybook](/?path
 
 ### Select
 
-_Source: `apps\storybook\src\core\atoms\Select\Select.mdx` · [Storybook](/?path=/docs/core-atoms-select-select--docs)_
+_Source: `apps/storybook/src/core/atoms/Select/Select.mdx` · [Storybook](/?path=/docs/core-atoms-select-select--docs)_
 
 **Why:** Dropdown selection from a list of 5+ mutually exclusive choices without taking up vertical canvas space. Native `` guarantees touch platform support (iOS / Android wheel pickers), keyboard typeahead, and full accessibility support out of the box.
 
@@ -2992,7 +3098,7 @@ _Source: `apps\storybook\src\core\atoms\Select\Select.mdx` · [Storybook](/?path
 
 ### Stat
 
-_Source: `apps\storybook\src\core\atoms\Stat\Stat.mdx` · [Storybook](/?path=/docs/core-atoms-stat-stat--docs)_
+_Source: `apps/storybook/src/core/atoms/Stat/Stat.mdx` · [Storybook](/?path=/docs/core-atoms-stat-stat--docs)_
 
 **Why:** Ability math needs scannable glyphs with distinctive silhouettes. Stat encodes that geometry once so AbilityScore can compose three chips without one-off CSS per cell.
 
@@ -3007,7 +3113,7 @@ _Source: `apps\storybook\src\core\atoms\Stat\Stat.mdx` · [Storybook](/?path=/do
 
 ### Status Dot
 
-_Source: `apps\storybook\src\core\atoms\StatusDot\StatusDot.mdx` · [Storybook](/?path=/docs/core-atoms-statusdot-statusdot--docs)_
+_Source: `apps/storybook/src/core/atoms/StatusDot/StatusDot.mdx` · [Storybook](/?path=/docs/core-atoms-statusdot-statusdot--docs)_
 
 **Why:** Tree navigation and dense catalogs need a color + shape cue for draft vs ready without a word beside every row. StatusDot is that pip so products do not hide Badge labels or invent `.nav-valmius` CSS.
 
@@ -3020,11 +3126,11 @@ _Source: `apps\storybook\src\core\atoms\StatusDot\StatusDot.mdx` · [Storybook](
 
 ### TableCell
 
-_Source: `apps\storybook\src\core\atoms\TableCell\TableCell.mdx` · [Storybook](/?path=/docs/core-atoms-tablecell-tablecell--docs)_
+_Source: `apps/storybook/src/core/atoms/TableCell/TableCell.mdx` · [Storybook](/?path=/docs/core-atoms-tablecell-tablecell--docs)_
 
 ### Toast
 
-_Source: `apps\storybook\src\core\atoms\Toast\Toast.mdx` · [Storybook](/?path=/docs/core-atoms-toast-toast--docs)_
+_Source: `apps/storybook/src/core/atoms/Toast/Toast.mdx` · [Storybook](/?path=/docs/core-atoms-toast-toast--docs)_
 
 **Why:** Interactive tools, workshops, and content authoring flows require immediate, unobtrusive confirmation after actions like copying to clipboard, auto-saving, or toggling state. Toast encapsulates the visual presentation, icon mapping, accessible ARIA roles, and motion transitions without coupling you to a complex singleton runtime.
 
@@ -3041,7 +3147,7 @@ _Source: `apps\storybook\src\core\atoms\Toast\Toast.mdx` · [Storybook](/?path=/
 
 ### Card
 
-_Source: `apps\storybook\src\core\molecules\Card\Card.mdx` · [Storybook](/?path=/docs/core-molecules-card-card--docs)_
+_Source: `apps/storybook/src/core/molecules/Card/Card.mdx` · [Storybook](/?path=/docs/core-molecules-card-card--docs)_
 
 **Why:** Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned box so products do not invent one-off bordered panels for every teaser. Copy-paste HTML is a document (`article` + heading), not a div sandwich.
 
@@ -3049,7 +3155,7 @@ _Source: `apps\storybook\src\core\molecules\Card\Card.mdx` · [Storybook](/?path
 
 ### Catalog
 
-_Source: `apps\storybook\src\core\molecules\Catalog\Catalog.mdx` · [Storybook](/?path=/docs/core-molecules-catalog-catalog--docs)_
+_Source: `apps/storybook/src/core/molecules/Catalog/Catalog.mdx` · [Storybook](/?path=/docs/core-molecules-catalog-catalog--docs)_
 
 **Why:** Spell, creature, and culture indexes need compact linked rows in a wrapping grid. Card is too tall; List is a vertical stack; Menu is navigation chrome. Catalog is that index so eevenko.to can drop `.entity-grid` / `.entity-item`.
 
@@ -3062,7 +3168,7 @@ _Source: `apps\storybook\src\core\molecules\Catalog\Catalog.mdx` · [Storybook](
 
 ### CheckboxGroup
 
-_Source: `apps\storybook\src\core\molecules\CheckboxGroup\CheckboxGroup.mdx` · [Storybook](/?path=/docs/core-molecules-checkboxgroup-checkboxgroup--docs)_
+_Source: `apps/storybook/src/core/molecules/CheckboxGroup/CheckboxGroup.mdx` · [Storybook](/?path=/docs/core-molecules-checkboxgroup-checkboxgroup--docs)_
 
 **Why:** Lists of related checkboxes require an accessible group name for screen readers, visual alignment, and frequently need capacity tracking badges (such as "2 / 3 valittu" in equipment craft systems or character creators). CheckboxGroup standardizes this layout and accessibility pattern.
 
@@ -3082,7 +3188,7 @@ _Source: `apps\storybook\src\core\molecules\CheckboxGroup\CheckboxGroup.mdx` · 
 
 ### Field
 
-_Source: `apps\storybook\src\core\molecules\Field\Field.mdx` · [Storybook](/?path=/docs/core-molecules-field-field--docs)_
+_Source: `apps/storybook/src/core/molecules/Field/Field.mdx` · [Storybook](/?path=/docs/core-molecules-field-field--docs)_
 
 **Why:** Form controls fail WCAG when the name is only a placeholder, or when invalid state is red chrome with no words. Field owns the visible label and the hint/error message so that contract stays consistent — Input stays control chrome, not a half-built form row.
 
@@ -3099,7 +3205,7 @@ _Source: `apps\storybook\src\core\molecules\Field\Field.mdx` · [Storybook](/?pa
 
 ### Flow
 
-_Source: `apps\storybook\src\core\molecules\Flow\Flow.mdx` · [Storybook](/?path=/docs/core-molecules-flow-flow--docs)_
+_Source: `apps/storybook/src/core/molecules/Flow/Flow.mdx` · [Storybook](/?path=/docs/core-molecules-flow-flow--docs)_
 
 **Why:** Type primitives need default margins for standalone stories, but those margins **stack** in compositions — especially with global `text-box` trim removing half-leading. Flow owns the gaps instead.
 
@@ -3107,7 +3213,7 @@ _Source: `apps\storybook\src\core\molecules\Flow\Flow.mdx` · [Storybook](/?path
 
 ### List
 
-_Source: `apps\storybook\src\core\molecules\List\List.mdx` · [Storybook](/?path=/docs/core-molecules-list-list--docs)_
+_Source: `apps/storybook/src/core/molecules/List/List.mdx` · [Storybook](/?path=/docs/core-molecules-list-list--docs)_
 
 **Why:** Reading content often needs bulleted or numbered steps. Real `ul` / `ol` / `li` keep semantics honest for assistive tech and let Prose style bare CMS tags the same way as classed Lists.
 
@@ -3123,7 +3229,7 @@ _Source: `apps\storybook\src\core\molecules\List\List.mdx` · [Storybook](/?path
 
 ### Menu
 
-_Source: `apps\storybook\src\core\molecules\Menu\Menu.mdx` · [Storybook](/?path=/docs/core-molecules-menu-menu--docs)_
+_Source: `apps/storybook/src/core/molecules/Menu/Menu.mdx` · [Storybook](/?path=/docs/core-molecules-menu-menu--docs)_
 
 **Why:** Account menus, view switchers, and worldbook sidebars all need a compact vertical list of destinations. Menu owns that chrome — flat rows for standalone plaques and [Popover](/?path=/docs/core-atoms-popover--docs) menus, nested `group` branches for eevenko.to-style trees — without baking open/position or routing into the DS. Copy-paste HTML navigates with no app JS.
 
@@ -3138,7 +3244,7 @@ _Source: `apps\storybook\src\core\molecules\Menu\Menu.mdx` · [Storybook](/?path
 
 ### Notice
 
-_Source: `apps\storybook\src\core\molecules\Notice\Notice.mdx` · [Storybook](/?path=/docs/core-molecules-notice-notice--docs)_
+_Source: `apps/storybook/src/core/molecules/Notice/Notice.mdx` · [Storybook](/?path=/docs/core-molecules-notice-notice--docs)_
 
 **Why:** Readers need a scannable block that signals status — locked section, success, caution — with the same intent language as Badge, but as a banner rather than a chip. Notice owns that feedback surface so products do not paint Card or Paragraph in feedback colors.
 
@@ -3146,7 +3252,7 @@ _Source: `apps\storybook\src\core\molecules\Notice\Notice.mdx` · [Storybook](/?
 
 ### PropertyList
 
-_Source: `apps\storybook\src\core\molecules\PropertyList\PropertyList.mdx` · [Storybook](/?path=/docs/core-molecules-propertylist-propertylist--docs)_
+_Source: `apps/storybook/src/core/molecules/PropertyList/PropertyList.mdx` · [Storybook](/?path=/docs/core-molecules-propertylist-propertylist--docs)_
 
 **Why:** Combat vitals, skills, senses, languages, and challenge lines are definitional metadata. A real `dl` exposes that relationship to assistive tech and keeps Statblock rails honest — no bold Paragraph + `` scaffolding.
 
@@ -3160,7 +3266,7 @@ _Source: `apps\storybook\src\core\molecules\PropertyList\PropertyList.mdx` · [S
 
 ### Prose
 
-_Source: `apps\storybook\src\core\molecules\Prose\Prose.mdx` · [Storybook](/?path=/docs/core-molecules-prose-prose--docs)_
+_Source: `apps/storybook/src/core/molecules/Prose/Prose.mdx` · [Storybook](/?path=/docs/core-molecules-prose-prose--docs)_
 
 **Why:** CMS HTML, markdown, and editorial content often ship tags without DS classes. Prose opts those tags into the type system without restyling every `h1`/`p`/`ul` in the document.
 
@@ -3168,7 +3274,7 @@ _Source: `apps\storybook\src\core\molecules\Prose\Prose.mdx` · [Storybook](/?pa
 
 ### RadioGroup
 
-_Source: `apps\storybook\src\core\molecules\RadioGroup\RadioGroup.mdx` · [Storybook](/?path=/docs/core-molecules-radiogroup-radiogroup--docs)_
+_Source: `apps/storybook/src/core/molecules/RadioGroup/RadioGroup.mdx` · [Storybook](/?path=/docs/core-molecules-radiogroup-radiogroup--docs)_
 
 **Why:** Groups of mutually exclusive choices need an accessible group name for screen readers, keyboard arrow navigation between options, and layout options for cards with rich descriptions or compact grid tiles.
 
@@ -3189,7 +3295,7 @@ _Source: `apps\storybook\src\core\molecules\RadioGroup\RadioGroup.mdx` · [Story
 
 ### Segmented Control
 
-_Source: `apps\storybook\src\core\molecules\SegmentedControl\SegmentedControl.mdx` · [Storybook](/?path=/docs/core-molecules-segmentedcontrol-segmentedcontrol--docs)_
+_Source: `apps/storybook/src/core/molecules/SegmentedControl/SegmentedControl.mdx` · [Storybook](/?path=/docs/core-molecules-segmentedcontrol-segmentedcontrol--docs)_
 
 **Why:** Mutually exclusive short options often need to stay visible as a compact track — not hidden in a select or scattered as separate Buttons. Segmented Control is that exclusive-choice chrome for in-page radios or navigational link sets.
 
@@ -3197,7 +3303,7 @@ _Source: `apps\storybook\src\core\molecules\SegmentedControl\SegmentedControl.md
 
 ### Stepper
 
-_Source: `apps\storybook\src\core\molecules\Stepper\Stepper.mdx` · [Storybook](/?path=/docs/core-molecules-stepper-stepper--docs)_
+_Source: `apps/storybook/src/core/molecules/Stepper/Stepper.mdx` · [Storybook](/?path=/docs/core-molecules-stepper-stepper--docs)_
 
 **Why:** TTRPG systems regularly feature bounded small integer increments (armor reinforcement ranks, damage bonus pips, inventory quantities). Free-form text fields often fail validation or require extra typing on mobile devices. Steppers provide fast one-tap adjustment and bound enforcement.
 
@@ -3216,11 +3322,11 @@ _Source: `apps\storybook\src\core\molecules\Stepper\Stepper.mdx` · [Storybook](
 
 ### Table
 
-_Source: `apps\storybook\src\core\molecules\Table\Table.mdx` · [Storybook](/?path=/docs/core-molecules-table-table--docs)_
+_Source: `apps/storybook/src/core/molecules/Table/Table.mdx` · [Storybook](/?path=/docs/core-molecules-table-table--docs)_
 
 ### Tooltip Card
 
-_Source: `apps\storybook\src\core\molecules\TooltipCard\TooltipCard.mdx` · [Storybook](/?path=/docs/core-molecules-tooltipcard-tooltipcard--docs)_
+_Source: `apps/storybook/src/core/molecules/TooltipCard/TooltipCard.mdx` · [Storybook](/?path=/docs/core-molecules-tooltipcard-tooltipcard--docs)_
 
 **Why:** Preview panels need a compact elevated surface with an optional title, scrollable body, and footer link — without inventing a one-off panel or overloading page [Card](/?path=/docs/core-molecules-card--docs). TooltipCard is that chrome; Popover owns placement.
 
@@ -3228,11 +3334,27 @@ _Source: `apps\storybook\src\core\molecules\TooltipCard\TooltipCard.mdx` · [Sto
 
 ### TableShell
 
-_Source: `apps\storybook\src\core\organisms\TableShell\TableShell.mdx` · [Storybook](/?path=/docs/core-organisms-tableshell-tableshell--docs)_
+_Source: `apps/storybook/src/core/organisms/TableShell/TableShell.mdx` · [Storybook](/?path=/docs/core-organisms-tableshell-tableshell--docs)_
+
+### Workshop
+
+_Source: `apps/storybook/src/core/organisms/Workshop/Workshop.mdx` · [Storybook](/?path=/docs/core-organisms-workshop-workshop--docs)_
+
+**Why:** Interactive TTRPG generators (Creature, Encounter, Magic Item, and Equipment builders) share the same two-pane ergonomics: form controls on the inline-start side and a sticky live statblock/card preview on the inline-end side that collapses to a single column below `56rem`.
+
+**When:** Use `Workshop` whenever a tool pairs structured form/stepper controls with a live output sheet. Customize the controls track width via `controlsWidth` or `--eevenkoto-workshop-controls-width` (for example `minmax(0, 1fr)` for 50/50 columns or `24rem` for a fixed rail). Domain `EquipmentWorkshop` remains supported as a domain-specific alias.
+
+| Prop | Type | Default | Notes |
+| --- | --- | --- | --- |
+| `header` | `string \| ReactNode` | — | Optional top toolbar (mode switcher, presets, actions) |
+| `controls` | `string \| ReactNode` | — | Left-hand form/control column (or default slot/children) |
+| `preview` | `string \| ReactNode` | — | Sticky right-hand live output sheet |
+| `controlsWidth` | `string` | `minmax(0, 1.35fr)` | Sets `--eevenkoto-workshop-controls-width` |
+| `label` | `string` | — | Adds `role="region"` + `aria-label` |
 
 ### AbilityName
 
-_Source: `apps\storybook\src\domain\atoms\AbilityName\AbilityName.mdx` · [Storybook](/?path=/docs/domain-atoms-abilityname-abilityname--docs)_
+_Source: `apps/storybook/src/domain/atoms/AbilityName/AbilityName.mdx` · [Storybook](/?path=/docs/domain-atoms-abilityname-abilityname--docs)_
 
 **Why:** Rules text and equipment blocks frequently reference abilities in constrained spaces (such as weapon stat cards or compact tables): - **Full readability by default:** Displays the full Finnish name (`Voimakkuus`) whenever space permits. - **Graceful degradation:** When space is cramped (e.g. in multi-column weapon stat cards or mobile screens), collapses automatically to the standard 3-letter abbreviation (`VOI`). - **Accessible:** Keeps the unabbreviated name in the accessibility tree via visually-hidden text while marking the 3-letter abbreviation `aria-hidden="true"`, so assistive technology reads the full ability name without prohibited ARIA attributes on generic inline spans.
 
@@ -3246,7 +3368,7 @@ _Source: `apps\storybook\src\domain\atoms\AbilityName\AbilityName.mdx` · [Story
 
 ### Entity Ref
 
-_Source: `apps\storybook\src\domain\atoms\EntityRef\EntityRef.mdx` · [Storybook](/?path=/docs/domain-atoms-entityref-entityref--docs)_
+_Source: `apps/storybook/src/domain/atoms/EntityRef/EntityRef.mdx` · [Storybook](/?path=/docs/domain-atoms-entityref-entityref--docs)_
 
 **Why:** Rules prose names other entities constantly. EntityRef marks those names with **kind-colored** ink so readers can tell a referenced term from ordinary words — without Badge chrome or a Button. Prefer bare [InlineRef](/?path=/docs/core-atoms-inlineref--docs) when you do not need a closed kind.
 
@@ -3263,7 +3385,7 @@ _Source: `apps\storybook\src\domain\atoms\EntityRef\EntityRef.mdx` · [Storybook
 
 ### AbilityScore
 
-_Source: `apps\storybook\src\domain\molecules\AbilityScore\AbilityScore.mdx` · [Storybook](/?path=/docs/domain-molecules-abilityscore-abilityscore--docs)_
+_Source: `apps/storybook/src/domain/molecules/AbilityScore/AbilityScore.mdx` · [Storybook](/?path=/docs/domain-molecules-abilityscore-abilityscore--docs)_
 
 **Why:** Ability columns are decorative and positional (orbiting chips), but still need accessible terms for score / modifier / save. AbilityScore owns that column AT contract.
 
@@ -3284,7 +3406,7 @@ _Source: `apps\storybook\src\domain\molecules\AbilityScore\AbilityScore.mdx` · 
 
 ### StatblockFeature
 
-_Source: `apps\storybook\src\domain\molecules\StatblockFeature\StatblockFeature.mdx` · [Storybook](/?path=/docs/domain-molecules-statblockfeature-statblockfeature--docs)_
+_Source: `apps/storybook/src/domain/molecules/StatblockFeature/StatblockFeature.mdx` · [Storybook](/?path=/docs/domain-molecules-statblockfeature-statblockfeature--docs)_
 
 **Why:** Feature names should participate in the document outline without orphaning a full-width heading above a one-line mechanic. Run-in H3 keeps the name on the same line as the body while remaining a real heading.
 
@@ -3298,7 +3420,7 @@ _Source: `apps\storybook\src\domain\molecules\StatblockFeature\StatblockFeature.
 
 ### StatblockSection
 
-_Source: `apps\storybook\src\domain\molecules\StatblockSection\StatblockSection.mdx` · [Storybook](/?path=/docs/domain-molecules-statblocksection-statblocksection--docs)_
+_Source: `apps/storybook/src/domain/molecules/StatblockSection/StatblockSection.mdx` · [Storybook](/?path=/docs/domain-molecules-statblocksection-statblocksection--docs)_
 
 **Why:** Grouping features under a real H2 keeps the outline contiguous under the creature H1 and gives a clear landmark for Actions, Reactions, Legendary Actions, and similar clusters.
 
@@ -3311,7 +3433,7 @@ _Source: `apps\storybook\src\domain\molecules\StatblockSection\StatblockSection.
 
 ### AbilityScoreGroup
 
-_Source: `apps\storybook\src\domain\organisms\AbilityScoreGroup\AbilityScoreGroup.mdx` · [Storybook](/?path=/docs/domain-organisms-abilityscoregroup-abilityscoregroup--docs)_
+_Source: `apps/storybook/src/domain/organisms/AbilityScoreGroup/AbilityScoreGroup.mdx` · [Storybook](/?path=/docs/domain-organisms-abilityscoregroup-abilityscoregroup--docs)_
 
 **Why:** Ability grids need a panel, noise surface, scoop corners, and a container query. AbilityScore owns one column; AbilityScoreGroup owns the sandwich layout.
 
@@ -3325,7 +3447,7 @@ _Source: `apps\storybook\src\domain\organisms\AbilityScoreGroup\AbilityScoreGrou
 
 ### EquipmentBlock
 
-_Source: `apps\storybook\src\domain\organisms\EquipmentBlock\EquipmentBlock.mdx` · [Storybook](/?path=/docs/domain-organisms-equipmentblock-equipmentblock--docs)_
+_Source: `apps/storybook/src/domain/organisms/EquipmentBlock/EquipmentBlock.mdx` · [Storybook](/?path=/docs/domain-organisms-equipmentblock-equipmentblock--docs)_
 
 **Why:** Rules and compendium pages need a standardized, accessible display card for equipment:
 
@@ -3346,11 +3468,11 @@ _Source: `apps\storybook\src\domain\organisms\EquipmentBlock\EquipmentBlock.mdx`
 
 ### EquipmentWorkshop
 
-_Source: `apps\storybook\src\domain\organisms\EquipmentWorkshop\EquipmentWorkshop.mdx` · [Storybook](/?path=/docs/domain-organisms-equipmentworkshop-equipmentworkshop--docs)_
+_Source: `apps/storybook/src/domain/organisms/EquipmentWorkshop/EquipmentWorkshop.mdx` · [Storybook](/?path=/docs/domain-organisms-equipmentworkshop-equipmentworkshop--docs)_
 
 ### Spellblock
 
-_Source: `apps\storybook\src\domain\organisms\Spellblock\Spellblock.mdx` · [Storybook](/?path=/docs/domain-organisms-spellblock-spellblock--docs)_
+_Source: `apps/storybook/src/domain/organisms/Spellblock/Spellblock.mdx` · [Storybook](/?path=/docs/domain-organisms-spellblock-spellblock--docs)_
 
 **Why:** Spell pages need the same structure a printed spell has: find the school line, then Range and Duration, then read the effect. Spellblock gives you one organism that:
 
@@ -3370,7 +3492,7 @@ _Source: `apps\storybook\src\domain\organisms\Spellblock\Spellblock.mdx` · [Sto
 
 ### Statblock
 
-_Source: `apps\storybook\src\domain\organisms\Statblock\Statblock.mdx` · [Storybook](/?path=/docs/domain-organisms-statblock-statblock--docs)_
+_Source: `apps/storybook/src/domain/organisms/Statblock/Statblock.mdx` · [Storybook](/?path=/docs/domain-organisms-statblock-statblock--docs)_
 
 **Why:** Rules pages need a stable, accessible structure for NPC and monster entries. Statblock gives you one organism that:
 

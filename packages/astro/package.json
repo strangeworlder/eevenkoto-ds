@@ -1,0 +1,45 @@
+{
+  "name": "@eevenkoto/astro",
+  "version": "0.11.0",
+  "description": "Eevenkoto Astro component wrappers",
+  "type": "module",
+  "files": [
+    "src"
+  ],
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "astro": "./src/index.js",
+      "import": "./src/index.js",
+      "default": "./src/index.js"
+    },
+    "./*": "./src/*"
+  },
+  "keywords": [
+    "astro",
+    "astro-component",
+    "withastro",
+    "design-system",
+    "ttrpg",
+    "eevenkoto"
+  ],
+  "dependencies": {
+    "@eevenkoto/core": "0.11.0",
+    "@eevenkoto/html": "0.11.0"
+  },
+  "peerDependencies": {
+    "@eevenkoto/css": "0.11.0",
+    "astro": "^4.0.0 || ^5.0.0 || ^6.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@eevenkoto/css": {
+      "optional": true
+    }
+  },
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  }
+}

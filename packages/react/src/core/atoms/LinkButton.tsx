@@ -21,6 +21,7 @@ export const LinkButton = ({
   variant,
   label,
   size,
+  fullWidth,
   disabled,
   icon,
   iconPosition,
@@ -31,7 +32,10 @@ export const LinkButton = ({
 }: LinkButtonComponentProps): ReactElement => {
   const resolvedPosition = resolveLinkButtonIconPosition({ icon, iconPosition });
   const resolvedRel = resolveLinkButtonRel({ target, rel });
-  const classes = [linkButtonClassNames({ variant, size, icon, iconPosition }), className]
+  const classes = [
+    linkButtonClassNames({ variant, size, fullWidth, icon, iconPosition }),
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 

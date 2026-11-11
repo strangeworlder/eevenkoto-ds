@@ -18,9 +18,12 @@ export const Spellblock = defineComponent({
     name: { type: String, required: true },
     nameLevel: { type: Number as PropType<SpellblockNameLevel>, default: 1 },
     typeLine: { type: String, default: undefined },
+    typeLineHtml: { type: String, default: undefined },
     classes: { type: Array as PropType<PropertyItem[]>, default: undefined },
     properties: { type: Array as PropType<PropertyItem[]>, required: true },
     paragraphs: { type: Array as PropType<string[]>, default: undefined },
+    paragraphsHtml: { type: Array as PropType<string[]>, default: undefined },
+    bodyHtml: { type: String, default: undefined },
     features: { type: Array as PropType<StatblockFeatureProps[]>, default: undefined },
     deck: { type: Boolean, default: false },
   },
@@ -35,7 +38,14 @@ export const Spellblock = defineComponent({
         h(`h${level}`, { class: headingClassNames({ level }) }, props.name),
       ];
 
-      if (props.typeLine) {
+      if (props.typeLineHtml) {
+        plate.push(
+          h('p', {
+            class: `${captionClassNames()} eevenkoto-spellblock__type`,
+            innerHTML: props.typeLineHtml,
+          }),
+        );
+      } else if (props.typeLine) {
         plate.push(
           h(
             'p',
@@ -59,16 +69,25 @@ export const Spellblock = defineComponent({
         );
       }
 
-      if (props.paragraphs?.length) {
-        bands.push(
-          h(
-            'div',
-            { class: 'eevenkoto-spellblock__body' },
-            props.paragraphs.map((text) =>
-              h('p', { class: paragraphClassNames({ size: 'md' }) }, text),
-            ),
+      const bodyNodes: VNode[] = [];
+      if (props.paragraphsHtml?.length) {
+        bodyNodes.push(
+          ...props.paragraphsHtml.map((html, index) =>
+            h('p', { key: index, class: paragraphClassNames({ size: 'md' }), innerHTML: html }),
           ),
         );
+      } else if (props.paragraphs?.length) {
+        bodyNodes.push(
+          ...props.paragraphs.map((text, index) =>
+            h('p', { key: index, class: paragraphClassNames({ size: 'md' }) }, text),
+          ),
+        );
+      }
+      if (props.bodyHtml) {
+        bodyNodes.push(h('div', { innerHTML: props.bodyHtml }));
+      }
+      if (bodyNodes.length) {
+        bands.push(h('div', { class: 'eevenkoto-spellblock__body' }, bodyNodes));
       }
 
       if (props.features?.length) {
@@ -82,6 +101,7 @@ export const Spellblock = defineComponent({
               h(StatblockFeature, {
                 name: feature.name,
                 description: feature.description,
+                descriptionHtml: feature.descriptionHtml,
                 level: featureLevel,
                 key: feature.name,
               }),

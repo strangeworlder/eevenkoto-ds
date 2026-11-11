@@ -1,31 +1,62 @@
-import { noticeClassNames, type NoticeProps as NoticeCoreProps } from '@eevenkoto/core';
+import {
+  ICON_NAMES,
+  defaultNoticeIcon,
+  noticeClassNames,
+  resolveNoticeRole,
+  type IconName,
+  type NoticeProps as NoticeCoreProps,
+  type NoticeRole,
+} from '@eevenkoto/core';
+import { renderIcon } from '../../atoms/icon/renderIcon';
 import { escapeHtml } from '../../../utils/html';
 import template from './Notice.html';
 
-export type NoticeProps = NoticeCoreProps & {
-  /** Optional icon HTML (decorative). */
-  icon?: string;
+export type NoticeProps = Omit<NoticeCoreProps, 'icon'> & {
+  /**
+   * Optional icon name (`IconName`), `false` to omit the icon, or legacy raw
+   * decorative SVG HTML string. Defaults automatically from `intent`.
+   */
+  icon?: IconName | false | string;
   /** Optional actions HTML (buttons/links). */
   actions?: string;
-  /** ARIA role. Default: status */
-  role?: 'status' | 'alert' | 'note' | 'region';
 };
+
+export type { NoticeRole };
+
+const BLOCK_TAG_RE = /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i;
 
 export const renderNotice = (args: NoticeProps): string => {
   const className = noticeClassNames(args);
-  const role = args.role ?? 'status';
+  const role = resolveNoticeRole(args.intent, args.role);
   const roleAttr = ` role="${role}"`;
 
-  const icon = args.icon
-    ? `<span class="eevenkoto-notice__icon" aria-hidden="true">${args.icon}</span>`
+  let iconInner = '';
+  if (args.icon === false) {
+    iconInner = '';
+  } else if (typeof args.icon === 'string') {
+    if ((ICON_NAMES as readonly string[]).includes(args.icon)) {
+      iconInner = renderIcon({ name: args.icon as IconName });
+    } else {
+      iconInner = args.icon;
+    }
+  } else {
+    iconInner = renderIcon({ name: defaultNoticeIcon(args.intent) });
+  }
+
+  const icon = iconInner
+    ? `<span class="eevenkoto-notice__icon" aria-hidden="true">${iconInner}</span>`
     : '';
 
   const title = args.title
     ? `<p class="eevenkoto-notice__title">${escapeHtml(args.title)}</p>`
     : '';
-  const body = args.body
-    ? `<p class="eevenkoto-notice__body">${escapeHtml(args.body)}</p>`
-    : '';
+  const body = args.bodyHtml
+    ? BLOCK_TAG_RE.test(args.bodyHtml)
+      ? `<div class="eevenkoto-notice__body">${args.bodyHtml}</div>`
+      : `<p class="eevenkoto-notice__body">${args.bodyHtml}</p>`
+    : args.body
+      ? `<p class="eevenkoto-notice__body">${escapeHtml(args.body)}</p>`
+      : '';
   const actions = args.actions
     ? `<div class="eevenkoto-notice__actions">${args.actions}</div>`
     : '';

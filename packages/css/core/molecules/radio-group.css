@@ -36,7 +36,11 @@
   margin-block-end: var(--_eevenkoto-radio-group-gap);
 }
 
-.eevenkoto-radio-group__legend {
+.eevenkoto-radio-group__header:has(> .eevenkoto-visually-hidden:only-child) {
+  margin-block-end: 0;
+}
+
+.eevenkoto-radio-group__legend:not(.eevenkoto-visually-hidden) {
   display: block;
   padding: 0;
   margin: 0;

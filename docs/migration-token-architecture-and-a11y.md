@@ -37,7 +37,7 @@ Every match in site code should be replaced:
 | `--eevenkoto-color-turquoise-*` | `--eevenkoto-color-control-primary-*`, `--eevenkoto-color-link-*`, `--eevenkoto-color-boundary-focus-outer` |
 | `--eevenkoto-color-gold-*` | `--eevenkoto-color-content-accent` (for text `< 24px` / `< 18.66px` bold) or decorative borders only |
 | `--eevenkoto-color-{green,orange,crimson,purple}-*` | `--eevenkoto-color-feedback-{success,caution,critical,admin,info,neutral}-*`, `--eevenkoto-color-control-destructive-*`, `--eevenkoto-color-form-input-*-invalid` |
-| `--eevenkoto-font-size-{xs..3xl}` | `--eevenkoto-font-size-heading-{1..6}`, `body-{lg,md,sm}`, `ui-{md,sm,xs}`, `control-{sm,md,lg}` |
+| `--eevenkoto-font-size-{xs..3xl}` | `--eevenkoto-font-size-heading-{1..6}`, `body-{lg,md,sm}`, `control-{sm,md,lg}`, `caption` |
 | `opacity: 0.5` on disabled controls | Component `disabled` prop, or opaque `--eevenkoto-color-control-*-disabled` / `form-input-*-disabled` / `content-disabled` tokens |
 
 ---
@@ -176,14 +176,14 @@ Root `.eevenkoto-stepper` now renders `role="group"` and, when `disabled` is tru
 
 **Site action:** No prop changes if using `@eevenkoto/html`, `@eevenkoto/react`, or `@eevenkoto/vue`. If hand-rendering `.eevenkoto-stepper` markup, add `role="group"` (and `aria-disabled="true"` when `--disabled` is active) to the root `<div class="eevenkoto-stepper">`.
 
-### 7.4 `Select` — Grouped Options Prop (`groups`, not `options`)
+### 7.4 `Select` — Grouped Options Prop (`groups` + optional top-level `options`)
 
-When rendering `<optgroup>` groups in `Select`, pass them via `groups` (not `options`):
+When rendering `<optgroup>` groups in `Select`, pass them via `groups`. As of `0.11.0`, you can also pass top-level `options` alongside `groups` (for example a `"Kaikki"` reset option rendered above the `<optgroup>`s):
 
 ```tsx
-// Correct:
 <Select
   id="shield"
+  options={[{ value: 'all', label: 'Kaikki suojat' }]}
   groups={[
     {
       label: 'Kevyet suojat',
@@ -193,10 +193,73 @@ When rendering `<optgroup>` groups in `Select`, pass them via `groups` (not `opt
 />
 ```
 
-Flat option arrays continue to use `options={[{ value, label }]}`.
-
 ### 7.5 Minimum-Class Host Defaults (`Stat`, `Badge`, `StatusDot`)
 
 If the site applies raw BEM classes without `*ClassNames()` helpers:
 - `.eevenkoto-stat` alone now renders `disk` + `md` (`4rem`, `border-radius: var(--eevenkoto-radius-full)`), matching `StatProps` defaults. Pass `eevenkoto-stat--sm` or `eevenkoto-stat--arch` / `--shield` when smaller or non-disk shapes are wanted.
 - `.eevenkoto-badge` dot indicator defaults to `0.4em` (matching `--md`), and `.eevenkoto-status-dot` ring defaults to `surface-canvas`.
+
+---
+
+## 8. Upgrading to `0.11.0` (Astro Package, Ergonomics & `0.10.1` Bug Fixes)
+
+When upgrading `eevenkoto_web` and `eevenkoto_teksti` from `0.10.0` to `0.11.0`, apply these four cleanup steps:
+
+### 8.1 Delete `0.10.0` Bridge Overrides from Site `eevenkoto-ds.css`
+
+All `0.10.0` rollout bugs are now fixed upstream in `@eevenkoto/css`, `@eevenkoto/core`, and `@eevenkoto/html`. Remove any local bridge CSS for:
+
+1. **2-value `margin-block` fixes** on `.eevenkoto-heading`, `.eevenkoto-paragraph`, `.eevenkoto-caption`, `.eevenkoto-list`, and `.eevenkoto-statblock-section`.
+2. **`h3.eevenkoto-heading--2` specificity workarounds** (`heading.css` now places `:where(h1..h6).eevenkoto-heading` before `.eevenkoto-heading--1..6` and resets padding/border on `--3..--6`).
+3. **`.eevenkoto-u-visually-hidden` aliases and empty `CheckboxGroup` / `RadioGroup` header gap rules** (`checkboxGroupLegendClassNames(true)` and `radioGroupLegendClassNames(true)` emit `.eevenkoto-visually-hidden`, `hideLegend` omits `__header` when no `badge` is passed, and `columns > 1` automatically infers `layout: 'grid'`).
+4. **Inline hidden `Toast` (`display: none`)**, **organism child margin resets** (`statblock > .eevenkoto-heading--2`, `spellblock > .eevenkoto-list`, `card header .eevenkoto-caption`), **`.eevenkoto-field__control > .eevenkoto-select` width**, **`Popover` `z-index` / `--fixed` cascade overrides**, and **`@media print` `.eevenkoto-inline-ref__lock` hiding**.
+
+### 8.2 Replace Local `.astro` Wrappers with `@eevenkoto/astro`
+
+Install `@eevenkoto/astro` alongside `@eevenkoto/css`:
+
+```bash
+npm install @eevenkoto/astro @eevenkoto/css
+```
+
+Replace local `src/components/*.astro` boilerplate imports with `@eevenkoto/astro`:
+
+```astro
+---
+import {
+  Button,
+  LinkButton,
+  Card,
+  Menu,
+  Notice,
+  Popover,
+  Workshop,
+  Statblock,
+  Spellblock,
+  EntityRef,
+} from '@eevenkoto/astro';
+---
+```
+
+### 8.3 Adopt Compiler-Friendly HTML & Rich `*Html` Slots in Markdown Pipelines
+
+- **Zero leading comments or trailing newlines:** All `render*` functions in `@eevenkoto/html` (including single-line `<details>` in `renderMenu`) now emit clean HTML without leading `<!-- ... -->` comments or trailing `\n`, safe to embed directly inside Markdown compilers (`eevenkoto_teksti`) and Astro `set:html`.
+- **`sanitizeInlineHtml` preserves `EntityRef` / `InlineRef`:** `sanitizeInlineHtml` now keeps `<a href="...">`, `<span class="...">`, `data-*`, and `.eevenkoto-icon` `<svg><path /></svg>` intact while stripping `javascript:` URLs and event handlers.
+- **Explicit `*Html` props across all bindings (`HTML`, `React`, `Vue`, `Astro`):**
+  - `Property` / `PropertyList`: `valueHtml`
+  - `Card` & `Notice`: `bodyHtml`
+  - `StatblockFeature`: `descriptionHtml`
+  - `StatblockSection`: `bodyHtml`
+  - `Statblock`: `flavorHtml`, `typeLineHtml`, `bodyHtml`
+  - `Spellblock`: `typeLineHtml`, `paragraphsHtml`, `bodyHtml`
+
+### 8.4 New Ergonomics, Icons, Variants & Core `Workshop`
+
+- **New icons in `ICON_NAMES` / `BUTTON_ICON_NAMES`:** `close`, `copy`, `refresh`, `reroll`, `logout`, `mail`, `info`, `warning`.
+- **`LinkButton` `'ghost'` variant & `fullWidth`:** `<LinkButton variant="ghost" href="/..." />`, plus `fullWidth` on `Button`, `LinkButton`, `Input`, `Select`, and `SegmentedControl`.
+- **`Popover` edge alignments & trigger width:** `placement="bottom-start" | "bottom-end" | "top-start" | "top-end"` and `matchTriggerWidth`.
+- **`Menu` recursion & pass-through `attributes`:** Arbitrary `data-*` / `aria-*` attributes (`attributes={{ 'data-filter-tags': 'arcane' }}`) on items, groups, headers, and separators at any nesting depth.
+- **Expanded `EntityRefKind`:** Added `'species' | 'culture' | 'background' | 'feat' | 'ability'`.
+- **`Notice` defaults:** Automatically renders intent icons (`icon={false}` to opt out) and defaults `role="alert"` on `critical` and `caution`.
+- **Core `Workshop` (`@eevenkoto/css/workshop.css`):** Use `<Workshop label="..." controlsWidth="24rem">` for non-equipment generators (NPCs, encounters, spells, character builders); `<EquipmentWorkshop>` remains supported for existing equipment pages.
+

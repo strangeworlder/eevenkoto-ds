@@ -33,12 +33,16 @@ export const Select = ({
   describedBy,
   options,
   groups,
+  fullWidth,
   icon,
   className,
   children,
   ...rest
 }: SelectComponentProps): ReactElement => {
-  const classes = [selectClassNames({ size, invalid, disabled }), className]
+  const classes = [
+    selectClassNames({ size, invalid, disabled, fullWidth }),
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -49,7 +53,9 @@ export const Select = ({
         id={id}
         name={name}
         value={value}
-        defaultValue={defaultValue}
+        defaultValue={
+          defaultValue ?? (value === undefined && placeholder ? '' : undefined)
+        }
         disabled={disabled}
         aria-invalid={invalid ? true : undefined}
         aria-label={ariaLabel}
@@ -61,23 +67,26 @@ export const Select = ({
             {placeholder}
           </option>
         ) : null}
-        {children
-          ? children
-          : groups && groups.length > 0
-            ? groups.map((group) => (
-                <optgroup key={group.label} label={group.label}>
-                  {group.options.map((opt) => (
-                    <option key={opt.value} value={opt.value} disabled={opt.disabled}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </optgroup>
-              ))
-            : options?.map((opt) => (
-                <option key={opt.value} value={opt.value} disabled={opt.disabled}>
-                  {opt.label}
-                </option>
-              ))}
+        {children ? (
+          children
+        ) : (
+          <>
+            {options?.map((opt) => (
+              <option key={opt.value} value={opt.value} disabled={opt.disabled}>
+                {opt.label}
+              </option>
+            ))}
+            {groups?.map((group) => (
+              <optgroup key={group.label} label={group.label}>
+                {group.options.map((opt) => (
+                  <option key={opt.value} value={opt.value} disabled={opt.disabled}>
+                    {opt.label}
+                  </option>
+                ))}
+              </optgroup>
+            ))}
+          </>
+        )}
       </select>
       <span className={selectIconClassNames()} aria-hidden="true">
         {icon ?? <Icon name="chevron-down" size={size === 'sm' ? 'sm' : 'md'} />}

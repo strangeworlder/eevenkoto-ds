@@ -10,10 +10,12 @@ import template from './StatblockSection.html';
 export type { StatblockSectionProps };
 
 export const renderStatblockSection = (args: StatblockSectionProps): string => {
-  const title = `<h2 class="${headingClassNames({ level: 2 })}">${escapeHtml(args.title)}</h2>`;
-  const features = args.features.map((feature) => renderStatblockFeature(feature)).join('');
+  const tagLevel = args.titleLevel === 3 ? 3 : 2;
+  const title = `<h${tagLevel} class="${headingClassNames({ level: 2 })}">${escapeHtml(args.title)}</h${tagLevel}>`;
+  const intro = args.bodyHtml ?? '';
+  const features = (args.features ?? []).map((feature) => renderStatblockFeature(feature)).join('');
 
   return template
     .replace('{{className}}', statblockSectionClassNames())
-    .replace('{{content}}', `${title}${features}`);
+    .replace('{{content}}', `${title}${intro}${features}`);
 };

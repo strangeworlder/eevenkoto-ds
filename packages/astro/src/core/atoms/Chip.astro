@@ -1,0 +1,30 @@
+---
+import { chipClassNames, type ChipProps } from '@eevenkoto/core';
+
+export interface Props extends Omit<ChipProps, 'label'> {
+  label?: string;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { label, selected, size, href, disabled, class: classProp, className, ...rest } = Astro.props;
+const classes = [chipClassNames({ selected, size }), classProp, className].filter(Boolean).join(' ');
+---
+{href ? (
+  <a
+    class={classes}
+    href={disabled ? undefined : href}
+    aria-disabled={disabled ? 'true' : undefined}
+    aria-pressed={selected ? 'true' : undefined}
+    {...rest}
+  >{label}<slot /></a>
+) : (
+  <button
+    type="button"
+    class={classes}
+    disabled={disabled || undefined}
+    aria-pressed={selected ? 'true' : undefined}
+    {...rest}
+  >{label}<slot /></button>
+)}

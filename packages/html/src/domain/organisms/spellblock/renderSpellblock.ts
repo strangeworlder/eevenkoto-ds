@@ -21,7 +21,11 @@ export const renderSpellblock = (args: SpellblockProps): string => {
     `<h${nameLevel} class="${headingClassNames({ level: nameLevel })}">${escapeHtml(args.name)}</h${nameLevel}>`,
   ];
 
-  if (args.typeLine) {
+  if (args.typeLineHtml) {
+    plate.push(
+      `<p class="${captionClassNames()} eevenkoto-spellblock__type">${args.typeLineHtml}</p>`,
+    );
+  } else if (args.typeLine) {
     plate.push(
       `<p class="${captionClassNames()} eevenkoto-spellblock__type">${escapeHtml(args.typeLine)}</p>`,
     );
@@ -41,14 +45,26 @@ export const renderSpellblock = (args: SpellblockProps): string => {
     );
   }
 
-  if (args.paragraphs?.length) {
-    const paragraphs = args.paragraphs
-      .map(
+  const bodyParts: string[] = [];
+  if (args.paragraphsHtml?.length) {
+    bodyParts.push(
+      ...args.paragraphsHtml.map(
+        (html) => `<p class="${paragraphClassNames({ size: 'md' })}">${html}</p>`,
+      ),
+    );
+  } else if (args.paragraphs?.length) {
+    bodyParts.push(
+      ...args.paragraphs.map(
         (text) =>
           `<p class="${paragraphClassNames({ size: 'md' })}">${sanitizeInlineHtml(text)}</p>`,
-      )
-      .join('');
-    bands.push(`<div class="eevenkoto-spellblock__body">${paragraphs}</div>`);
+      ),
+    );
+  }
+  if (args.bodyHtml) {
+    bodyParts.push(args.bodyHtml);
+  }
+  if (bodyParts.length) {
+    bands.push(`<div class="eevenkoto-spellblock__body">${bodyParts.join('')}</div>`);
   }
 
   if (args.features?.length) {

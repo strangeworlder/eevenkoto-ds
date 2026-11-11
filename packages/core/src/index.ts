@@ -181,9 +181,12 @@ export { type FlowDensity, type FlowProps, flowClassNames } from './core/molecul
 export {
   type NoticeIntent,
   type NoticeVariant,
+  type NoticeRole,
   type NoticeProps,
   type NoticeClassNameProps,
   noticeClassNames,
+  defaultNoticeIcon,
+  resolveNoticeRole,
 } from './core/molecules/notice';
 
 export {
@@ -263,6 +266,7 @@ export {
 
 export {
   type MenuSize,
+  type MenuAttributes,
   type MenuEntry,
   type MenuItemEntry,
   type MenuHeaderEntry,
@@ -331,6 +335,19 @@ export {
   tableShellClassNames,
   tableShellFooterClassNames,
 } from './core/organisms/tableShell';
+
+export {
+  type WorkshopProps,
+  workshopClassNames,
+  workshopHeaderClassNames,
+  workshopBodyClassNames,
+  workshopControlsClassNames,
+  workshopPreviewClassNames,
+  workshopControlGroupClassNames,
+  workshopGroupHeaderClassNames,
+  workshopGroupLabelClassNames,
+  workshopGroupHintClassNames,
+} from './core/organisms/workshop';
 
 export {
   type EntityRefKind,

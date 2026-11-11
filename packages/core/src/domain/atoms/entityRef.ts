@@ -10,6 +10,11 @@ export type EntityRefKind =
   | 'mechanic'
   | 'classFeature'
   | 'class'
+  | 'species'
+  | 'culture'
+  | 'background'
+  | 'feat'
+  | 'ability'
   | 'spell'
   | 'item'
   | 'creature';
@@ -27,6 +32,11 @@ export const ENTITY_REF_MODIFIERS: Record<EntityRefKind, string> = {
   mechanic: 'mechanic',
   classFeature: 'class-feature',
   class: 'class',
+  species: 'species',
+  culture: 'culture',
+  background: 'background',
+  feat: 'feat',
+  ability: 'ability',
   spell: 'spell',
   item: 'item',
   creature: 'creature',

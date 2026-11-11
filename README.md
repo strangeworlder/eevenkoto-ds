@@ -2,13 +2,13 @@
 
 Eevenkoto is a **TTRPG content design system with growing core chrome**. It is not a full application UI kit: Dialog, Tabs, breadcrumbs, and app-shell patterns are **not shipped**. Some Tier 2 color roles (modals, destructive controls) exist as **tokens only** so future or app-local patterns can consume stable semantics.
 
-Packages: `@eevenkoto/css` (appearance) → `@eevenkoto/core` (props + BEM classes) → `@eevenkoto/html` (reference markup) → `@eevenkoto/react` / `@eevenkoto/vue` (thin wrappers). CSS is an **optional peer** of the bindings — import `@eevenkoto/css` yourself or markup is unstyled.
+Packages: `@eevenkoto/css` (appearance) → `@eevenkoto/core` (props + BEM classes) → `@eevenkoto/html` (reference markup) → `@eevenkoto/react` / `@eevenkoto/vue` / `@eevenkoto/astro` (thin wrappers). CSS is an **optional peer** of the bindings — import `@eevenkoto/css` yourself or markup is unstyled.
 
 ## Install
 
 ```bash
 npm install @eevenkoto/css @eevenkoto/html
-# or @eevenkoto/react / @eevenkoto/vue
+# or @eevenkoto/react / @eevenkoto/vue / @eevenkoto/astro
 ```
 
 ```ts

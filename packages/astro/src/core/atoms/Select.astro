@@ -1,0 +1,94 @@
+---
+import {
+  selectClassNames,
+  selectFieldClassNames,
+  selectIconClassNames,
+  type SelectProps,
+} from '@eevenkoto/core';
+import Icon from './Icon.astro';
+
+export interface Props extends SelectProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  name,
+  value,
+  defaultValue,
+  size,
+  disabled,
+  invalid,
+  placeholder,
+  ariaLabel,
+  describedBy,
+  options,
+  groups,
+  fullWidth,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [
+  selectClassNames({ size, invalid, disabled, fullWidth }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+const selectedValue = value ?? defaultValue;
+const hasDefaultSlot = Astro.slots.has('default');
+const hasIconSlot = Astro.slots.has('icon');
+---
+<span class={classes}>
+  <select
+    class={selectFieldClassNames()}
+    id={id}
+    name={name}
+    disabled={disabled || undefined}
+    aria-invalid={invalid ? 'true' : undefined}
+    aria-label={ariaLabel}
+    aria-describedby={describedBy}
+    {...rest}
+  >
+    {placeholder ? (
+      <option value="" disabled selected={selectedValue === undefined || selectedValue === '' || undefined}>
+        {placeholder}
+      </option>
+    ) : null}
+    {hasDefaultSlot ? (
+      <slot />
+    ) : (
+      <>
+        {options?.map((opt) => (
+          <option
+            value={opt.value}
+            disabled={opt.disabled || undefined}
+            selected={(selectedValue !== undefined && opt.value === selectedValue) || undefined}
+          >
+            {opt.label}
+          </option>
+        ))}
+        {groups?.map((group) => (
+          <optgroup label={group.label}>
+            {group.options.map((opt) => (
+              <option
+                value={opt.value}
+                disabled={opt.disabled || undefined}
+                selected={(selectedValue !== undefined && opt.value === selectedValue) || undefined}
+              >
+                {opt.label}
+              </option>
+            ))}
+          </optgroup>
+        ))}
+      </>
+    )}
+  </select>
+  <span class={selectIconClassNames()} aria-hidden="true">
+    {hasIconSlot ? <slot name="icon" /> : <Icon name="chevron-down" size={size === 'sm' ? 'sm' : 'md'} />}
+  </span>
+</span>
