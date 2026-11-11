@@ -28,6 +28,11 @@ const USE_SOURCES = [
   { title: 'Packages', path: 'apps/storybook/src/foundations/packages.mdx', kind: 'mdx' },
   { title: 'Tokens', path: 'apps/storybook/src/tokens/Tokens.mdx', kind: 'mdx' },
   { title: 'Typography', path: 'apps/storybook/src/foundations/typography.mdx', kind: 'mdx' },
+  {
+    title: 'Upgrading & Consumer Migration Guide',
+    path: 'docs/migration-token-architecture-and-a11y.md',
+    kind: 'md',
+  },
 ];
 
 const AUTHOR_SOURCES = [
@@ -245,8 +250,8 @@ function buildLlmsTxt() {
 
 ## Using the system
 
-- [llms-full.txt](/llms-full.txt): generated one-shot body (package READMEs + Tokens + Typography + Packages)
-- [@eevenkoto/css README](/?path=/docs/foundations-packages--docs): install narrative also in Packages docs
+- [llms-full.txt](/llms-full.txt): generated one-shot body (package READMEs + Tokens + Typography + Packages + Upgrading & Consumer Migration Guide)
+- [@eevenkoto/css README](/?path=/docs/foundations-packages--docs): install narrative, theming, and consume/never rules
 - [Tokens catalog](/?path=/docs/foundations-tokens--docs): live swatches in Storybook
 - [Typography](/?path=/docs/foundations-typography--docs): semantic type roles
 

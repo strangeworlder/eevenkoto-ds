@@ -27,7 +27,7 @@ export const AbilityName = ({
     .join(' ');
 
   return (
-    <span className={hostClasses} aria-label={fullText} {...rest}>
+    <span className={hostClasses} {...rest}>
       <span className="eevenkoto-ability-name__full">{fullText}</span>
       <span className="eevenkoto-ability-name__short" aria-hidden="true">
         {shortText}

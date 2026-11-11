@@ -236,10 +236,9 @@ describe('HTML matches Core class strings', () => {
   it('AbilityName', () => {
     const markup = renderAbilityName({ name: 'Voimakkuus' });
     expect(markup).toContain(abilityNameClassNames());
-    expect(markup).toContain('aria-label="Voimakkuus"');
-    expect(markup).toContain('eevenkoto-ability-name__full');
-    expect(markup).toContain('eevenkoto-ability-name__short');
-    expect(markup).toContain('VOI');
+    expect(markup).not.toContain('aria-label=');
+    expect(markup).toContain('eevenkoto-ability-name__full">Voimakkuus</span>');
+    expect(markup).toContain('eevenkoto-ability-name__short" aria-hidden="true">VOI</span>');
   });
 
   it('EquipmentBlock with 3-box enhanced stats', () => {
@@ -541,7 +540,7 @@ describe('React className matches Core', () => {
       createElement(AbilityName, { name: 'Voimakkuus' }),
     );
     expect(html).toContain(abilityNameClassNames());
-    expect(html).toContain('aria-label="Voimakkuus"');
+    expect(html).not.toContain('aria-label=');
     expect(html).toContain('VOI');
   });
 
@@ -859,7 +858,7 @@ describe('Vue class matches Core (priority subset)', () => {
   it('AbilityName', async () => {
     const html = await vueHtml(VueAbilityName, { name: 'Voimakkuus' });
     expect(html).toContain(abilityNameClassNames());
-    expect(html).toContain('aria-label="Voimakkuus"');
+    expect(html).not.toContain('aria-label=');
     expect(html).toContain('VOI');
   });
 
@@ -1093,5 +1092,39 @@ describe('Spellblock heading outline never skips a level', () => {
     const html = await vueHtml(VueSpellblock, spell);
     expect(html).toContain(runIn(2));
     expect(html).not.toContain('<h3');
+  });
+});
+
+describe('EquipmentBlock heading outline never skips a level', () => {
+  const item = {
+    name: 'Miekka',
+    traits: ['Viiltävä'],
+    notes: ['Tasapainoinen teräsase.'],
+  };
+
+  it('HTML: H1 name → H2 sections', () => {
+    const markup = renderEquipmentBlock(item);
+    expect(markup).toContain('<h1');
+    expect(markup).toContain('<h2 class="eevenkoto-equipment-block__section-title">');
+    expect(markup).not.toContain('<h4');
+  });
+
+  it('HTML: nameLevel 2 pushes sections to H3', () => {
+    const markup = renderEquipmentBlock({ ...item, nameLevel: 2 });
+    expect(markup).toContain('<h2');
+    expect(markup).toContain('<h3 class="eevenkoto-equipment-block__section-title">');
+    expect(markup).not.toContain('<h4');
+  });
+
+  it('React: H1 name → H2 sections', () => {
+    const html = renderToStaticMarkup(createElement(EquipmentBlock, item));
+    expect(html).toContain('<h2 class="eevenkoto-equipment-block__section-title">');
+    expect(html).not.toContain('<h4');
+  });
+
+  it('Vue: H1 name → H2 sections', async () => {
+    const html = await vueHtml(VueEquipmentBlock, item);
+    expect(html).toContain('<h2 class="eevenkoto-equipment-block__section-title">');
+    expect(html).not.toContain('<h4');
   });
 });

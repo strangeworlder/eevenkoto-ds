@@ -95,10 +95,19 @@ export const Stepper = defineComponent({
         }),
       ];
 
-      return h('div', { class: className.value, id: props.id }, [
-        h('div', { class: stepperInfoClassNames() }, infoChildren),
-        h('div', { class: stepperControlsClassNames() }, controlsChildren),
-      ]);
+      return h(
+        'div',
+        {
+          class: className.value,
+          id: props.id,
+          role: 'group',
+          'aria-disabled': props.disabled ? 'true' : undefined,
+        },
+        [
+          h('div', { class: stepperInfoClassNames() }, infoChildren),
+          h('div', { class: stepperControlsClassNames() }, controlsChildren),
+        ],
+      );
     };
   },
 });

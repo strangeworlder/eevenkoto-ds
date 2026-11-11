@@ -25,13 +25,13 @@ document.body.innerHTML = renderButton({
 
 `@eevenkoto/css` is an **optional peer** — import it in the host or markup is unstyled.
 
-**Core atoms:** `renderButton`, `renderLinkButton`, `renderBadge`, `renderStatusDot`, `renderChip`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderCaption`, `renderFrame`, `renderScroll`, `renderIcon`, `renderPopover`, `renderInlineRef`, `renderAvatar`, `renderInput`, `renderTableCell`, `renderProperty`, `renderStat`.
+**Core atoms:** `renderAvatar`, `renderBadge`, `renderButton`, `renderCaption`, `renderCheckbox`, `renderChip`, `renderFrame`, `renderHeading`, `renderIcon`, `renderImage`, `renderInlineRef`, `renderInput`, `renderLinkButton`, `renderListItem`, `renderParagraph`, `renderPopover`, `renderProperty`, `renderRadio`, `renderScroll`, `renderSelect`, `renderStat`, `renderStatusDot`, `renderTableCell`, `renderToast`.
 
-**Core molecules / organism:** `renderFlow`, `renderNotice`, `renderField`, `renderSegmentedControl`, `renderCard`, `renderTooltipCard`, `renderMenu`, `renderCatalog`, `renderCatalogTile`, `renderProse`, `renderList`, `renderPropertyList`, `renderTable`, `renderTableShell`.
+**Core molecules / organism:** `renderCard`, `renderCatalog`, `renderCatalogTile`, `renderCheckboxGroup`, `renderField`, `renderFlow`, `renderList`, `renderMenu`, `renderNotice`, `renderProse`, `renderPropertyList`, `renderRadioGroup`, `renderSegmentedControl`, `renderStepper`, `renderTable`, `renderTooltipCard`, `renderTableShell`.
 
-**Domain:** `renderEntityRef`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`, `renderSpellblock`.
+**Domain:** `renderAbilityName`, `renderEntityRef`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`, `renderSpellblock`, `renderEquipmentBlock`, `renderEquipmentWorkshop`.
 
-`renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
+`renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead. When `renderEquipmentBlock` renders `abilities` (or you call `renderAbilityName` directly), import `@eevenkoto/css/ability-name.css` alongside `@eevenkoto/css/equipment-block.css`.
 
 Class names and prop types come from `@eevenkoto/core`.
 
@@ -39,8 +39,9 @@ Class names and prop types come from `@eevenkoto/core`.
 
 ## Related
 
-- `@eevenkoto/css` — styles (consume / never rules live there)
+- `@eevenkoto/css` — styles (consume / never rules and theming live there)
 - `@eevenkoto/core` — shared contract
 - `@eevenkoto/react` / `@eevenkoto/vue` — framework wrappers over the same classes
+- Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

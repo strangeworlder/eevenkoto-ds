@@ -14,6 +14,7 @@ When Storybook is running, this file is also served at `/llms-full.txt`.
 - `apps/storybook/src/foundations/packages.mdx`
 - `apps/storybook/src/tokens/Tokens.mdx`
 - `apps/storybook/src/foundations/typography.mdx`
+- `docs/migration-token-architecture-and-a11y.md`
 - `apps/storybook/src/foundations/color-tokens-architecture.mdx`
 - `apps/storybook/src/foundations/color-tokens-tier1-primitives.mdx`
 - `apps/storybook/src/foundations/color-tokens-tier2-semantics.mdx`
@@ -55,22 +56,28 @@ import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
 ```
 
-Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `status-dot`, `chip`, `heading`, `paragraph`, `list`, `caption`, `frame`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `checkbox`, `radio`, `select`, `toast`, `checkbox-group`, `radio-group`, `stepper`, `property`, `stat`, `flow`, `notice`, `field`, `segmented-control`, `card`, `tooltip-card`, `menu`, `catalog`, `prose`, `table`, `table-shell`. **Domain:** `entity-ref`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`, `spellblock`, `equipment-block`, `equipment-workshop`. AbilityScoreGroup has no dedicated sheet (uses ability-score).
+Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `status-dot`, `chip`, `heading`, `paragraph`, `list`, `caption`, `frame`, `image`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `checkbox`, `radio`, `select`, `toast`, `checkbox-group`, `radio-group`, `stepper`, `property`, `stat`, `flow`, `notice`, `field`, `segmented-control`, `card`, `tooltip-card`, `menu`, `catalog`, `prose`, `table`, `table-shell`. **Domain:** `ability-name`, `entity-ref`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`, `spellblock`, `equipment-block`, `equipment-workshop`. AbilityScoreGroup has no dedicated sheet (uses `ability-score`). When `EquipmentBlock` renders ability stats (`abilities`), also import `@eevenkoto/css/ability-name.css`.
 
 `styles.css` pulls Inter/Outfit from Google Fonts.
 
 Also available:
 
-- `@eevenkoto/css/tokens.css` — Tier 2 semantics (+ Tier 1 primitives)
-- `@eevenkoto/css/primitive-tokens.css` — Tier 1 only (**do not import in apps**; internal mapping layer)
+- `@eevenkoto/css/tokens.css` — Tier 2 semantics + single-tier metrics (+ Tier 1 primitives)
+- `@eevenkoto/css/primitive-tokens.css` — Tier 1 only (**never import in apps**; internal mapping layer)
+
+## Theming & dark mode
+
+Set `data-theme="light"` (default) or `data-theme="dark"` on `<html>` (or `<body>`), or `data-surface-mode="dark"` on a local dark container. All Tier 2 color roles (`surface-*`, `content-*`, `control-*`, `feedback-*`, `form-input-*`, `link-*`) remap automatically — do not maintain manual dark-mode overrides for individual semantic tokens.
 
 ## Consume / never
 
-**Consume** Tier 2 semantic colors (`--eevenkoto-color-surface-*`, `content-*`, `control-*`, …) and metrics (`--eevenkoto-space-*`, `--eevenkoto-font-size-heading-*` / `body-*` / `control-*`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`).
+**Consume** Tier 2 semantic colors (`--eevenkoto-color-surface-*`, `content-*`, `content-accent` for small gold text, `control-*`, `feedback-*`, `form-input-*` including `form-input-placeholder`, `link-*`) and single-tier metrics (`--eevenkoto-space-*`, `--eevenkoto-font-size-heading-*` / `body-*` / `ui-*` / `control-*`, `--eevenkoto-font-weight-regular` / `semibold` / `bold`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-1`…`4`, `--eevenkoto-ease-standard` / `ease-in-out`).
 
-**Never** reference hue primitives (`--eevenkoto-color-turquoise-*`, `parchment-*`, `gold-*`, …), rem ladder steps (`--eevenkoto-font-size-xs`…`3xl`), or raw `oklch()` / hex in app or component stylesheets.
+**Customize components** via public `--eevenkoto-<component>-*` variables only (for example `--eevenkoto-button-bg`, `--eevenkoto-card-bg`, `--eevenkoto-prose-link-color`). Bare `<a href>` inside `.eevenkoto-prose` are styled automatically with `link-*` tokens.
 
-For agents: when Storybook is running, feed `http://localhost:6006/llms.txt` or `/llms-full.txt` (generated from this README and foundations MDX via `npm run generate:llms`). Contributors editing this package: see root `AGENTS.md`.
+**Never** reference hue primitives (`--eevenkoto-color-turquoise-*`, `parchment-*`, `obsidian-*`, `gold-*`, `green-*`, `orange-*`, `crimson-*`, `purple-*`), rem ladder steps (`--eevenkoto-font-size-2xs`…`3xl`), private `--_eevenkoto-*` bridges, `opacity` for disabled UI, or raw `oklch()` / hex in app or component stylesheets.
+
+For agents & site upgrades: feed Storybook `http://localhost:6006/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`), and see `docs/migration-token-architecture-and-a11y.md` when upgrading a consuming site. Contributors editing this package: see root `AGENTS.md`.
 
 ## Markup
 
@@ -131,25 +138,26 @@ export function Example() {
 
 ### Core
 
-- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Chip`, `Frame`, `Heading`, `Icon`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Scroll`, `Stat`, `StatusDot`, `TableCell`
-- Molecules: `Card`, `Catalog`, `CatalogTile`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `SegmentedControl`, `Table`, `TooltipCard`
+- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Checkbox`, `Chip`, `Frame`, `Heading`, `Icon`, `Image`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Radio`, `Scroll`, `Select`, `Stat`, `StatusDot`, `TableCell`, `Toast`
+- Molecules: `Card`, `Catalog`, `CatalogTile`, `CheckboxGroup`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `RadioGroup`, `SegmentedControl`, `Stepper`, `Table`, `TooltipCard`
 - Organisms: `TableShell`
 
 `Button` = in-page action. `LinkButton` = prominent URL CTA (`href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef`.
 
 ### Domain
 
-- Atoms: `EntityRef`
+- Atoms: `AbilityName`, `EntityRef`
 - Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
-- Organisms: `AbilityScoreGroup`, `Statblock`, `Spellblock`
+- Organisms: `AbilityScoreGroup`, `EquipmentBlock`, `EquipmentWorkshop`, `Spellblock`, `Statblock`
 
-`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`.
+`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`. When `EquipmentBlock` renders `abilities` (or you render `AbilityName` directly), also import `@eevenkoto/css/ability-name.css`.
 
 ## Related
 
-- `@eevenkoto/css` — styles (required for appearance; consume / never rules live there)
+- `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
 - `@eevenkoto/html` — reference vanilla renderers
 - `@eevenkoto/vue` — Vue equivalents
+- Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
 ## @eevenkoto/vue
@@ -194,25 +202,26 @@ import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 
 ### Core
 
-- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Chip`, `Frame`, `Heading`, `Icon`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Scroll`, `Stat`, `StatusDot`, `TableCell`
-- Molecules: `Card`, `Catalog`, `CatalogTile`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `SegmentedControl`, `Table`, `TooltipCard`
+- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Checkbox`, `Chip`, `Frame`, `Heading`, `Icon`, `Image`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Radio`, `Scroll`, `Select`, `Stat`, `StatusDot`, `TableCell`, `Toast`
+- Molecules: `Card`, `Catalog`, `CatalogTile`, `CheckboxGroup`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `RadioGroup`, `SegmentedControl`, `Stepper`, `Table`, `TooltipCard`
 - Organisms: `TableShell`
 
 `Button` = in-page action. `LinkButton` = prominent URL CTA (`href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef`.
 
 ### Domain
 
-- Atoms: `EntityRef`
+- Atoms: `AbilityName`, `EntityRef`
 - Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
-- Organisms: `AbilityScoreGroup`, `Statblock`, `Spellblock`
+- Organisms: `AbilityScoreGroup`, `EquipmentBlock`, `EquipmentWorkshop`, `Spellblock`, `Statblock`
 
-`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use the default slot (not a `content` string like `@eevenkoto/html`). `AbilityScoreGroup` / `TableShell` also expose named slots (`header` / `footer`). Compose Prose with Flow for bare-tag reading content. CamelCase props become kebab-case in templates (`typeLine` → `type-line`).
+`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use the default slot (not a `content` string like `@eevenkoto/html`). `AbilityScoreGroup` / `TableShell` also expose named slots (`header` / `footer`). Compose Prose with Flow for bare-tag reading content. When `EquipmentBlock` renders `abilities` (or you render `AbilityName` directly), also import `@eevenkoto/css/ability-name.css`. CamelCase props become kebab-case in templates (`typeLine` → `type-line`).
 
 ## Related
 
-- `@eevenkoto/css` — styles (required for appearance; consume / never rules live there)
+- `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
 - `@eevenkoto/html` — reference vanilla renderers
 - `@eevenkoto/react` — React equivalents
+- Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
 ## @eevenkoto/html
@@ -246,13 +255,13 @@ document.body.innerHTML = renderButton({
 
 `@eevenkoto/css` is an **optional peer** — import it in the host or markup is unstyled.
 
-**Core atoms:** `renderButton`, `renderLinkButton`, `renderBadge`, `renderStatusDot`, `renderChip`, `renderHeading`, `renderParagraph`, `renderListItem`, `renderCaption`, `renderFrame`, `renderScroll`, `renderIcon`, `renderPopover`, `renderInlineRef`, `renderAvatar`, `renderInput`, `renderTableCell`, `renderProperty`, `renderStat`.
+**Core atoms:** `renderAvatar`, `renderBadge`, `renderButton`, `renderCaption`, `renderCheckbox`, `renderChip`, `renderFrame`, `renderHeading`, `renderIcon`, `renderImage`, `renderInlineRef`, `renderInput`, `renderLinkButton`, `renderListItem`, `renderParagraph`, `renderPopover`, `renderProperty`, `renderRadio`, `renderScroll`, `renderSelect`, `renderStat`, `renderStatusDot`, `renderTableCell`, `renderToast`.
 
-**Core molecules / organism:** `renderFlow`, `renderNotice`, `renderField`, `renderSegmentedControl`, `renderCard`, `renderTooltipCard`, `renderMenu`, `renderCatalog`, `renderCatalogTile`, `renderProse`, `renderList`, `renderPropertyList`, `renderTable`, `renderTableShell`.
+**Core molecules / organism:** `renderCard`, `renderCatalog`, `renderCatalogTile`, `renderCheckboxGroup`, `renderField`, `renderFlow`, `renderList`, `renderMenu`, `renderNotice`, `renderProse`, `renderPropertyList`, `renderRadioGroup`, `renderSegmentedControl`, `renderStepper`, `renderTable`, `renderTooltipCard`, `renderTableShell`.
 
-**Domain:** `renderEntityRef`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`, `renderSpellblock`.
+**Domain:** `renderAbilityName`, `renderEntityRef`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`, `renderSpellblock`, `renderEquipmentBlock`, `renderEquipmentWorkshop`.
 
-`renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead.
+`renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead. When `renderEquipmentBlock` renders `abilities` (or you call `renderAbilityName` directly), import `@eevenkoto/css/ability-name.css` alongside `@eevenkoto/css/equipment-block.css`.
 
 Class names and prop types come from `@eevenkoto/core`.
 
@@ -260,9 +269,10 @@ Class names and prop types come from `@eevenkoto/core`.
 
 ## Related
 
-- `@eevenkoto/css` — styles (consume / never rules live there)
+- `@eevenkoto/css` — styles (consume / never rules and theming live there)
 - `@eevenkoto/core` — shared contract
 - `@eevenkoto/react` / `@eevenkoto/vue` — framework wrappers over the same classes
+- Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
 ## @eevenkoto/core
@@ -296,7 +306,7 @@ const className = buttonClassNames({
 // "eevenkoto-button eevenkoto-button--primary eevenkoto-button--sm eevenkoto-button--icon-left"
 ```
 
-Helpers include `buttonClassNames`, `linkButtonClassNames`, `badgeClassNames`, `statusDotClassNames`, `chipClassNames`, `headingClassNames`, `iconClassNames`, `inputClassNames`, `fieldClassNames`, `menuClassNames`, `catalogClassNames`, `popoverClassNames`, `noticeClassNames`, `cardClassNames`, plus Domain helpers (`entityRefClassNames`, `abilityScoreClassNames`, `statblockClassNames`, `spellblockClassNames`, …). Full export list: `src/index.ts`.
+Helpers include `buttonClassNames`, `linkButtonClassNames`, `badgeClassNames`, `statusDotClassNames`, `chipClassNames`, `headingClassNames`, `iconClassNames`, `imageClassNames`, `inputClassNames`, `selectClassNames`, `checkboxClassNames`, `radioClassNames`, `stepperClassNames`, `toastClassNames`, `fieldClassNames`, `menuClassNames`, `catalogClassNames`, `popoverClassNames`, `noticeClassNames`, `cardClassNames`, plus Domain helpers (`abilityNameClassNames`, `entityRefClassNames`, `abilityScoreClassNames`, `statblockClassNames`, `spellblockClassNames`, `equipmentBlockClassNames`, `equipmentWorkshopClassNames`, …). Full export list: `src/index.ts`.
 
 Pair with `@eevenkoto/css` for styling.
 
@@ -306,6 +316,7 @@ Pair with `@eevenkoto/css` for styling.
 
 - `@eevenkoto/css` — tokens and component styles (consume / never rules live there)
 - `@eevenkoto/html` / `@eevenkoto/react` / `@eevenkoto/vue` — markup bindings
+- Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
 ## Packages
@@ -353,6 +364,12 @@ Component docs briefly show HTML, React, and Vue usage under **Framework package
 
 Do **not** put `href` on Button or wrap Button in an anchor. Same-site pages with a real URL still use LinkButton. Import `@eevenkoto/css/link-button.css` separately from `button.css`. Full chooser: [Glossary — Button vs LinkButton vs InlineRef](/?path=/docs/foundations-glossary--docs#button-vs-linkbutton-vs-inlineref).
 
+## Theming & upgrading in consuming apps
+
+- **Theme switching:** Set `data-theme="light"` or `data-theme="dark"` on `<html>` (or scope a dark region with `data-surface-mode="dark"`). `@eevenkoto/css/styles.css` includes `tokens.css`, which flips all Tier 2 semantic color tokens automatically (`color-scheme: light` / `dark`) — no host-app dark-mode CSS patches are needed.
+- **Tokens & overrides:** Consume Tier 2 tokens (`--eevenkoto-color-*`, `--eevenkoto-font-size-*`, `--eevenkoto-font-weight-*`, `--eevenkoto-space-*`, `--eevenkoto-radius-*`, `--eevenkoto-duration-*`, `--eevenkoto-ease-*`) — never import `primitive-tokens.css` or set private `--_eevenkoto-*` component bridges. Customize components via public `--eevenkoto-<component>-*` variables (see [Tier 3 — Component scoping](/?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)).
+- **Upgrading an existing site:** Follow the repo’s `docs/migration-token-architecture-and-a11y.md` and `CHANGELOG.md` (also bundled into `/llms-full.txt` under **Upgrading & Consumer Migration Guide** for coding agents).
+
 ## Authoring new components
 
 Decide Core vs Domain and atom → molecule → organism first ([Component taxonomy](/?path=/docs/foundations-component-taxonomy--docs)). Host classes must ship usable defaults without modifier classes ([Minimum-class defaults](/?path=/docs/foundations-minimum-class-defaults--docs)). For multi-piece Domain UIs, see [Authoring composed components](/?path=/docs/foundations-authoring-composed-components--docs) — hierarchy, honest outlines, emphasis/contrast, package checklist, and HTML trust boundaries.
@@ -395,7 +412,7 @@ These are the **consumable** color tokens (Tier 2) currently defined in `tokens.
 
 ## Typography
 
-Font families, line heights, and **semantic font sizes** (Tier 2). The rem ladder (`sm`…`3xl`) and weights live in Tier 1 — same rule as color: components consume roles, not scale steps. See [Foundations → Typography](/?path=/docs/foundations-typography--docs).
+Font families, weights, line heights, and **semantic font sizes** live in `tokens.css` (Tier 2). The raw rem ladder (`xs`…`3xl`) lives in `primitive-tokens.css` (Tier 1) — same rule as color: components consume semantic roles, never raw scale steps. See [Foundations → Typography](/?path=/docs/foundations-typography--docs).
 
 ## Spacing
 
@@ -452,14 +469,14 @@ Typography in Eevenkoto follows the same tier discipline as color: raw optical v
 
 ```
 ┌────────────────────────────────────────────────────────┐
-│  Tier 1: Type scale (primitive-tokens.css)               │
-│  --eevenkoto-font-size-sm … 3xl, font-weight-*         │
+│  Tier 1: Type scale (primitive-tokens.css)             │
+│  --eevenkoto-font-size-xs … 3xl                        │
 └──────────────────────────┬─────────────────────────────┘
                            │ Mapped to roles
                            ▼
 ┌────────────────────────────────────────────────────────┐
-│  Tier 2: Semantic type (tokens.css)                    │
-│  heading-*, body-*, caption, control-*                 │
+│  Tier 2: Semantic type & single-tier weights (tokens.css)│
+│  heading-*, body-*, caption, control-*, font-weight-*  │
 └──────────────────────────┬─────────────────────────────┘
                            │ Consumed by primitives / components
                            ▼
@@ -473,18 +490,18 @@ Typography in Eevenkoto follows the same tier discipline as color: raw optical v
 
 | Token | Face | Use |
 | --- | --- | --- |
-| `--eevenkoto-font-sans` | Inter | Body, UI controls, meso/micro headings |
+| `--eevenkoto-font-sans` | Inter | Body, UI controls, H4–H6 headings |
 | `--eevenkoto-font-serif` | Outfit | Macro + H3 display headings |
 
 ## Heading hierarchy (multi-axis)
 
-Six levels are grouped into three visual tiers. **Do not rely on size alone** — micro levels match body size and differentiate via case, posture, and placement.
+Six levels are grouped into three visual tiers. **Do not rely on size alone** — lower levels differentiate via family, case, posture, accent ink, and statblock banding.
 
 | Visual tier | Levels | Primary tools |
 | --- | --- | --- |
-| **Macro** | H1, H2 | Size jump, bottom rule, generous space-before |
-| **Meso** | H3, H4 | Modest size + weight; H4 near body; no tint bands |
-| **Micro** | H5, H6 | Same size as `body-md`; small caps (H5); bold italic / run-in (H6) |
+| **Macro** | H1, H2 | Outfit serif, distinct size jump (`3xl`, `2xl`), bottom rule; H2 uses `content-accent` |
+| **Meso** | H3, H4 | H3 Outfit serif (`lg`, `content-primary`); H4 Inter sans semibold (`md`, `content-accent`) |
+| **Micro / Statblock** | H5, H6 | H5 Inter sans bold `all-small-caps` (`lg`) on a full-bleed `surface-sunken` band; H6 Inter sans bold italic (`md` = `body-md`, `content-accent`) / run-in |
 
 Details and examples live on [Heading](/?path=/docs/core-atoms-heading--docs).
 
@@ -492,7 +509,7 @@ Details and examples live on [Heading](/?path=/docs/core-atoms-heading--docs).
 
 ### Tier 1 (scale)
 
-Sparse rem steps in `primitive-tokens.css`: `sm` → `3xl`. These answer “how large is this optical step?” **Never reference Tier 1 sizes from component stylesheets.**
+Sparse rem steps in `primitive-tokens.css`: `xs` → `3xl`. These answer “how large is this optical step?” **Never reference Tier 1 sizes from component stylesheets.**
 
 ### Tier 2 (semantic)
 
@@ -500,10 +517,10 @@ Role aliases in `tokens.css`. Grammar: `--eevenkoto-font-size-[role]-[variant]`.
 
 | Role | Tokens | Typical consumer |
 | --- | --- | --- |
-| `heading` | `heading-1` … `heading-6` | Heading primitive (`4`/`5` → lg; `6` → body-md) |
-| `body` | `body-sm`, `body-md`, `body-lg` | Paragraph, List, document `body` |
-| `caption` | `caption` | Caption primitive |
-| `control` | `control-sm`, `control-md`, `control-lg` | Button, Badge, Chip |
+| `heading` | `heading-1` … `heading-6` | Heading primitive (`1`→3xl, `2`→2xl, `3`→lg, `4`→md, `5`→lg, `6`→md) |
+| `body` | `body-sm`, `body-md`, `body-lg`, `body-xl` | Paragraph, List, Stat (`lg`), document `body` |
+| `caption` | `caption` | Caption primitive, Field hint/error |
+| `control` | `control-sm`, `control-md`, `control-lg` | Button, Badge, Chip, Input, Select |
 
 ### Component size props (`sm | md | lg`)
 
@@ -531,7 +548,7 @@ Themes or density modes can remap a role without renaming the rem ladder.
 
 ## Weights
 
-Tier 1 weights (loaded with the faces):
+Single-tier face weights in `tokens.css` (consumed directly by components and layouts):
 
 | Token | Value |
 | --- | --- |
@@ -550,11 +567,13 @@ Italic bold is loaded for Inter so H6 can use bold italic posture.
 
 ## Content color
 
-Pair type with `--eevenkoto-color-content-primary`, `--eevenkoto-color-content-secondary`, `--eevenkoto-color-content-tertiary`, or `--eevenkoto-color-content-disabled` — never hue primitives.
+Pair type with `--eevenkoto-color-content-*` semantic tokens — never hue primitives.
 
 | Role | Token | Typical component |
 | --- | --- | --- |
-| Body / titles | `content-primary` | Paragraph (default), Heading |
+| Body / titles | `content-primary` | Paragraph (default), Heading (H1, H3, H5) |
+| Section & feature accents | `content-accent` | Heading (H2, H4, H6), StatblockFeature, AbilityScore label |
+| High-emphasis chrome | `content-accent-strong` | Proficient Stat shield, EquipmentBlock emphasis value |
 | De-emphasized body | `content-secondary` | Paragraph `--secondary` |
 | Metadata / helpers | `content-tertiary` | Caption (default), Field hint |
 
@@ -571,13 +590,219 @@ Pair type with `--eevenkoto-color-content-primary`, `--eevenkoto-color-content-s
 
 - Prefer **Heading** for section structure; do not fake titles with bold Paragraph.
 - Use **one `h1` per view**; do not skip levels only for visual size.
-- Differentiate **H5/H6 with posture and case**, not a size below body.
-- Limit structural rules/tints to **macro** headings (H1/H2).
+- Differentiate **H5/H6 with posture, case, and banding**, never a size smaller than `body-md`.
+- Limit bottom rules to **macro** headings (H1/H2) and sunken section bands to **H5**.
 - Use **Caption** for metadata and helper copy — not for main body text.
 - Do not use **Paragraph `sm` + secondary** as a Caption substitute — size and ink roles differ.
 - Button label size comes from **`control-*`**, not `body-*`.
 
 See the [Tokens → Typography](/?path=/docs/foundations-tokens--docs) story for live specimens.
+## Upgrading & Consumer Migration Guide
+
+_Source: `docs/migration-token-architecture-and-a11y.md`_
+
+# Migration & Consumer Upgrade Guide: Token Architecture, Contrast & Accessibility Overhaul
+
+This guide explains what changed in the post-`0.9.5` token, contrast, Tier 3 scoping, and accessibility overhaul, and gives a step-by-step checklist for updating any site or application that consumes `@eevenkoto/css`, `@eevenkoto/core`, `@eevenkoto/html`, `@eevenkoto/react`, or `@eevenkoto/vue`.
+
+---
+
+## Quick Upgrade Checklist (Run in Consuming Site)
+
+Work through these 7 checks when bumping `@eevenkoto/*` in the consuming site:
+
+1. **Search site CSS for Tier 1 primitive leaks, raw colors, and `opacity` disabled hacks** (see [Section 1](#1-audit-site-css-for-banned-tokens--raw-literals)).
+2. **Replace any nonexistent legacy token names** copied from older CSS (see [Section 2](#2-replace-removed--phantom-token-names)).
+3. **Adopt new & updated Tier 2 tokens** (`--eevenkoto-color-form-input-placeholder`, `--eevenkoto-color-content-accent`, single-tier `--eevenkoto-font-weight-*`, subtle wash invalid inputs; see [Section 3](#3-new--updated-tier-2-tokens-to-adopt)).
+4. **Delete obsolete site workarounds** for dark-mode tokens and `.eevenkoto-prose a` inline links (see [Section 4](#4-remove-obsolete-site-workarounds-dark-mode--prose-links)).
+5. **Verify component CSS customization uses public `--eevenkoto-<component>-*` hooks only** — never private `--_eevenkoto-*` bridges (see [Section 5](#5-component-customization-rules-public-vs-private-variables)).
+6. **Confirm per-component CSS imports** include `@eevenkoto/css/ability-name.css` and all form/feedback sheets used on the site (see [Section 6](#6-verify-per-component-css-imports)).
+7. **Update component props, heading levels, and test selectors** for `EquipmentBlock`, `AbilityName`, `Stepper`, and `Select` (see [Section 7](#7-component-markup-prop--selector-changes)).
+
+---
+
+## 1. Audit Site CSS for Banned Tokens & Raw Literals
+
+Consuming sites must **only** import `@eevenkoto/css/styles.css` (or `@eevenkoto/css/tokens.css`) and consume **Tier 2 semantic tokens** and metrics. Never import `@eevenkoto/css/primitive-tokens.css` in app code.
+
+Run this search across the consuming site's `.css`, `.scss`, `.tsx`, `.vue`, and `.astro` files:
+
+```bash
+grep -rnE "primitive-tokens\.css|--eevenkoto-color-(turquoise|parchment|obsidian|gold|green|orange|crimson|purple)-|--eevenkoto-font-size-(2xs|xs|sm|md|lg|xl|2xl|3xl)\b|--_eevenkoto-" src/
+```
+
+Every match in site code should be replaced:
+
+| Never use in site CSS | Use instead (Tier 2 semantic token) |
+| --- | --- |
+| `@eevenkoto/css/primitive-tokens.css` | `@eevenkoto/css/styles.css` (or `@eevenkoto/css/tokens.css`) |
+| `--eevenkoto-color-parchment-*` / `obsidian-*` | `--eevenkoto-color-surface-{canvas,subtle,sunken,raised}`, `--eevenkoto-color-content-{primary,secondary,tertiary,disabled}`, `--eevenkoto-color-boundary-{subtle,strong}` |
+| `--eevenkoto-color-turquoise-*` | `--eevenkoto-color-control-primary-*`, `--eevenkoto-color-link-*`, `--eevenkoto-color-boundary-focus-outer` |
+| `--eevenkoto-color-gold-*` | `--eevenkoto-color-content-accent` (for text `< 24px` / `< 18.66px` bold) or decorative borders only |
+| `--eevenkoto-color-{green,orange,crimson,purple}-*` | `--eevenkoto-color-feedback-{success,caution,critical,admin,info,neutral}-*`, `--eevenkoto-color-control-destructive-*`, `--eevenkoto-color-form-input-*-invalid` |
+| `--eevenkoto-font-size-{xs..3xl}` | `--eevenkoto-font-size-heading-{1..6}`, `body-{lg,md,sm}`, `ui-{md,sm,xs}`, `control-{sm,md,lg}` |
+| `opacity: 0.5` on disabled controls | Component `disabled` prop, or opaque `--eevenkoto-color-control-*-disabled` / `form-input-*-disabled` / `content-disabled` tokens |
+
+---
+
+## 2. Replace Removed / Phantom Token Names
+
+Several component stylesheets previously referenced unshipped token names that silently fell back or resolved to `initial`. If the consuming site copied any of these names into its own CSS, replace them:
+
+```bash
+grep -rnE "--eevenkoto-(duration-fast|easing-standard|font-weight-medium|space-(xs|sm|md|lg)|radius-base|font-variant-caps)" src/
+```
+
+| Broken / Nonexistent Name | Canonical Replacement |
+| --- | --- |
+| `--eevenkoto-duration-fast` | `--eevenkoto-duration-2` (`150ms`; scale is `duration-1` `50ms` … `duration-4` `200ms`) |
+| `--eevenkoto-easing-standard` | `--eevenkoto-ease-standard` (or `--eevenkoto-ease-in-out`) |
+| `--eevenkoto-font-weight-medium` | `--eevenkoto-font-weight-semibold` (`600`; weights are `regular` `400`, `semibold` `600`, `bold` `700`) |
+| `--eevenkoto-space-xs` / `-sm` / `-md` | Numeric scale: `--eevenkoto-space-0-5` (`0.2rem`), `--eevenkoto-space-1` (`0.4rem`), `--eevenkoto-space-2` (`0.8rem`), `--eevenkoto-space-3` (`1.2rem`), `--eevenkoto-space-4` (`1.6rem`), etc. |
+| `--eevenkoto-radius-base` | `--eevenkoto-radius-md` (scale is `none`, `sm`, `md`, `lg`, `xl`, `full`) |
+| `--eevenkoto-font-variant-caps` | Literal CSS `font-variant-caps: all-small-caps` |
+
+---
+
+## 3. New & Updated Tier 2 Tokens to Adopt
+
+- **Input & search placeholders — `--eevenkoto-color-form-input-placeholder`:**
+  `Input` and `Select` now consume `--eevenkoto-color-form-input-placeholder` (`>= 5.79:1` contrast in light and dark modes). Use it on any custom `<textarea>` or custom search input `::placeholder` on the site instead of `content-tertiary` or reduced `opacity`.
+- **Readable gold accent ink — `--eevenkoto-color-content-accent`:**
+  Small gold text (`< 24px` regular / `< 18.66px` bold) must use `--eevenkoto-color-content-accent` (`5.77:1` light, `9.55:1` dark). `Heading` (H2, H4, H6) and `StatblockFeature` now use `content-accent` automatically.
+- **Readable `content-tertiary` on sunken wells:**
+  `--eevenkoto-color-content-tertiary` (`Caption` default) now clears `4.85:1` even inside `surface-sunken` blocks and tables.
+- **High-contrast invalid form fields:**
+  `--eevenkoto-color-form-input-background-invalid` and `--eevenkoto-color-form-input-text-invalid` now render a subtle crimson wash with high-contrast dark/light ink (`8.72:1` light, `17.57:1` dark) rather than an inverted solid crimson fill. Always pair `invalid` inputs/selects with visible error copy (`Field` `error` + `messageId` + control `describedBy`) styled with `--eevenkoto-color-form-input-message-invalid`.
+- **Single-tier font weights in `tokens.css`:**
+  `--eevenkoto-font-weight-regular` (`400`), `--eevenkoto-font-weight-semibold` (`600`), and `--eevenkoto-font-weight-bold` (`700`) are now defined directly in `tokens.css` as single-tier metrics.
+- **Canonical disclosure masks (`--eevenkoto-icon-mask-chevron-right` / `chevron-down`):**
+  Available in `tokens.css` for CSS `mask-image` disclosure indicators (used by `Menu`). For DOM icons, continue using `@eevenkoto/core` `ICON_NAMES` / `<Icon />`.
+
+---
+
+## 4. Remove Obsolete Site Workarounds (Dark Mode & Prose Links)
+
+1. **Dark mode (`[data-theme="dark"]` / `[data-surface-mode="dark"]`):**
+   Set `data-theme="light"` or `data-theme="dark"` on `<html>` (or `data-surface-mode="dark"` on a local dark container). `tokens.css` now remaps **all** Tier 2 tokens in dark mode, including:
+   - `--eevenkoto-color-content-disabled`
+   - `--eevenkoto-color-control-primary-background-hover` and `-active`
+   - `--eevenkoto-color-control-destructive-*`
+   - `--eevenkoto-color-feedback-info-icon`
+   - `--eevenkoto-color-link-default`, `link-hover`, `link-visited`, and `link-underline`
+   - `SegmentedControl` `tone="secondary"` selected segment contrast (`17.29:1`)
+   - `EntityRef` `kind="spell"` (`feedback-info-text`, `6.99:1`+ on all surfaces)
+
+   **Action:** Delete any custom `[data-theme="dark"]` CSS patches the site previously maintained for these states.
+
+2. **Bare inline links inside `<Prose>` (`.eevenkoto-prose`):**
+   `prose.css` now styles bare `<a:not([class])>` inside `.eevenkoto-prose` with `--eevenkoto-color-link-default`, `link-hover`, `link-visited` (privacy-safe `:visited:not(:hover)`), `link-underline`, and dual-halo `:focus-visible` outlines.
+   - Keep using **bare `<a href="...">`** inside `<Prose>` for normal editorial hyperlinks.
+   - Use **`InlineRef`** for in-prose rule/glossary references, **`EntityRef`** for typed TTRPG entities (`item`, `condition`, `mechanic`, `classFeature`, `class`, `creature`, `spell`), **`LinkButton`** for prominent URL CTAs, and **`Button`** for `<button>` actions.
+
+   **Action:** Remove custom `.eevenkoto-prose a` link color/underline rules from site stylesheets unless intentionally overriding `--eevenkoto-prose-link-color` / `--eevenkoto-prose-link-hover-color` / `--eevenkoto-prose-link-underline`.
+
+---
+
+## 5. Component Customization Rules (Public vs Private Variables)
+
+- **Only set public `--eevenkoto-<component>-*` custom properties** on a host class or wrapper when customizing a component.
+- **Never set or read private `--_eevenkoto-*` variables.** State-suffixed private variables (`--_*-hover`, `--_*-invalid`, `--_*-error`, etc.) in `Checkbox`, `Radio`, `Field`, `CheckboxGroup`, `RadioGroup`, `List`, and `EquipmentWorkshop` were refactored into stateless bridges.
+- **`Button` & `LinkButton` custom backgrounds:** `--eevenkoto-button-bg` and `--eevenkoto-link-button-bg` now update both the solid fallback `background-color` and the P3 bevel gradient automatically — if the site previously added `background-image: none` just to make `--eevenkoto-button-bg` visible, you can remove `background-image: none`.
+- **`SegmentedControl` `tone="secondary"`:** No longer clobbers host-level `--eevenkoto-segmented-*` overrides on the base selector.
+
+---
+
+## 6. Verify Per-Component CSS Imports
+
+`@eevenkoto/css` does **not** bundle all components into `styles.css`. Import `@eevenkoto/css/styles.css` once at the app root, plus the flat stylesheet for every component rendered on the page:
+
+```ts
+// Always once at app entry:
+import '@eevenkoto/css/styles.css';
+
+// Import each component sheet your page/route uses:
+import '@eevenkoto/css/ability-name.css'; // REQUIRED whenever AbilityName or EquipmentBlock with `abilities` is rendered!
+import '@eevenkoto/css/equipment-block.css';
+import '@eevenkoto/css/equipment-workshop.css';
+import '@eevenkoto/css/input.css';
+import '@eevenkoto/css/select.css';
+import '@eevenkoto/css/checkbox.css';
+import '@eevenkoto/css/checkbox-group.css';
+import '@eevenkoto/css/radio.css';
+import '@eevenkoto/css/radio-group.css';
+import '@eevenkoto/css/stepper.css';
+import '@eevenkoto/css/toast.css';
+import '@eevenkoto/css/image.css';
+```
+
+> **Important for `AbilityName` & `EquipmentBlock`:** When abbreviated (`variant="short"` or inside narrow container queries), `AbilityName` visually hides `.eevenkoto-ability-name__full` via CSS clipping so screen readers still read the full ability name. If `@eevenkoto/css/ability-name.css` is missing on a standalone `AbilityName`, both full and short spans will appear inline.
+
+---
+
+## 7. Component Markup, Prop & Selector Changes
+
+Check these four components in the consuming site (especially if the site writes raw HTML, CSS child tag selectors, or DOM/snapshot tests):
+
+### 7.1 `EquipmentBlock` — Sequential Section Headings (`h2` / `h3` instead of `h4`)
+
+Section titles (`Valitut piirteet`, `Säännöt & vaikutukset`) previously hardcoded `<h4 class="eevenkoto-equipment-block__section-title">`, skipping heading levels (`h1` → `h4`) and failing WCAG / `axe-core` `heading-order`.
+
+- When `nameLevel` is `1` (default, standalone item page): renders `<h1>` item name → `<h2>` section titles.
+- When `nameLevel` is `2` (embedded inside a page that already has an `<h1>`, such as a compendium list or `EquipmentWorkshop` page with a page `<h1>`): renders `<h2>` item name → `<h3>` section titles.
+
+**Site actions:**
+1. Pass `nameLevel={2}` (or `:name-level="2"` in Vue / `nameLevel: 2` in HTML) whenever `EquipmentBlock` is rendered underneath an existing page `<h1>` (for example inside the site's `EquipmentWorkshop` page if the page header uses `<h1>`).
+2. Replace any site CSS or test selector targeting `.eevenkoto-equipment-block h4` with `.eevenkoto-equipment-block__section-title`.
+
+### 7.2 `AbilityName` — Valid Inline Accessibility (No `aria-label` on `<span>`)
+
+WAI-ARIA 1.2 prohibits `aria-label` on generic `<span>` elements (`axe-core` `aria-prohibited-attr`), and `display: none` previously hid `.eevenkoto-ability-name__full` from screen readers when collapsed.
+
+- Root `<span class="eevenkoto-ability-name">` **no longer emits `aria-label`**.
+- `.eevenkoto-ability-name__full` stays in the accessibility tree via visually-hidden CSS clipping when collapsed, while `.eevenkoto-ability-name__short` keeps `aria-hidden="true"`.
+
+**Site actions:**
+1. Props (`name`, `short`, `variant`) are unchanged across HTML, React, and Vue.
+2. If the site hand-renders `.eevenkoto-ability-name` HTML without `@eevenkoto/html` / `react` / `vue`, remove `aria-label` from the outer `<span>`:
+   ```html
+   <span class="eevenkoto-ability-name">
+     <span class="eevenkoto-ability-name__full">Voimakkuus</span>
+     <span class="eevenkoto-ability-name__short" aria-hidden="true">VOI</span>
+   </span>
+   ```
+3. Update any test asserting `[aria-label]` on `.eevenkoto-ability-name`.
+
+### 7.3 `Stepper` — WAI-ARIA Group & Disabled Semantics
+
+Root `.eevenkoto-stepper` now renders `role="group"` and, when `disabled` is true, `aria-disabled="true"` across HTML (`renderStepper`), React (`<Stepper />`), and Vue (`<Stepper />`) so assistive technology and `axe-core` recognize the entire composite control as disabled.
+
+**Site action:** No prop changes if using `@eevenkoto/html`, `@eevenkoto/react`, or `@eevenkoto/vue`. If hand-rendering `.eevenkoto-stepper` markup, add `role="group"` (and `aria-disabled="true"` when `--disabled` is active) to the root `<div class="eevenkoto-stepper">`.
+
+### 7.4 `Select` — Grouped Options Prop (`groups`, not `options`)
+
+When rendering `<optgroup>` groups in `Select`, pass them via `groups` (not `options`):
+
+```tsx
+// Correct:
+<Select
+  id="shield"
+  groups={[
+    {
+      label: 'Kevyet suojat',
+      options: [{ value: 'buckler', label: 'Pikkukilpi (+1 PL)' }],
+    },
+  ]}
+/>
+```
+
+Flat option arrays continue to use `options={[{ value, label }]}`.
+
+### 7.5 Minimum-Class Host Defaults (`Stat`, `Badge`, `StatusDot`)
+
+If the site applies raw BEM classes without `*ClassNames()` helpers:
+- `.eevenkoto-stat` alone now renders `disk` + `md` (`4rem`, `border-radius: var(--eevenkoto-radius-full)`), matching `StatProps` defaults. Pass `eevenkoto-stat--sm` or `eevenkoto-stat--arch` / `--shield` when smaller or non-disk shapes are wanted.
+- `.eevenkoto-badge` dot indicator defaults to `0.4em` (matching `--md`), and `.eevenkoto-status-dot` ring defaults to `surface-canvas`.
 
 # Authoring foundations
 
@@ -773,39 +998,40 @@ Primitives are authored strictly within this functional taxonomy:
 | `background` | Broad structural canvases (page root, large panes). | `background-subtle`, `background-element` |
 | `state` | Interactive mechanics and active states. | `state-hover`, `state-active` |
 | `border` | Boundary definitions, separators, and outlines. | `border-subtle` |
-| `primary` | High-impact, punchy focal points, icons, and hero elements. | `primary-hover`, `primary-strong` |
-| `text` | Readable content calibrated for typography. | `text-muted`, `text-shadow` |
-| `tint` | Atmospheric washes and disabled mix partners (C=0 endpoints). | `tint-cool`, `tint-deep`, `tint-disabled`, `tint-disabled-deep` |
+| `primary` | High-impact, punchy focal points, icons, and hero elements. | `primary-hover`, `primary-strong`, `primary-deep` |
+| `text` / `ink` / `link` | Readable typography, subtle-surface inks, and inline link stops. | `text-muted`, `text-subtle`, `text-shadow`, `link-hover`, `*-on-dark` |
+| `tint` | Atmospheric washes and opaque achromatic disabled mix partners (`C=0`). | `tint-cool`, `tint-deep`, `tint-disabled`, `tint-disabled-deep` |
 | `shadow` | Hue-tinted elevation / brand shadow pigments (composed at Tier 2). | — |
 
 ```css
 /* Example: Primitives for Turquoise & Parchment */
 :root {
   /* Turquoise */
-  --eevenkoto-color-turquoise-state:          oklch(0.50 0.28 180);
-  --eevenkoto-color-turquoise-state-hover:    oklch(0.30 0.22 170);
-  --eevenkoto-color-turquoise-border-subtle:  oklch(0.10 0.22 180 / 20%);
-  --eevenkoto-color-turquoise-primary:        oklch(0.85 0.24 165);
-  --eevenkoto-color-turquoise-primary-hover:  oklch(0.70 0.28 180);
-  --eevenkoto-color-turquoise-text:           oklch(0.98 0.01 190);
-  --eevenkoto-color-turquoise-tint-cool:      oklch(0.98 0.015 202);
-  --eevenkoto-color-turquoise-tint-deep:      oklch(0.18 0.22 162);
-  /* Disabled mix partners: mode endpoints (C=0, A=0). Tier 2 picks light vs deep. */
-  --eevenkoto-color-turquoise-tint-disabled:      oklch(1 0 180 / 0%);
-  --eevenkoto-color-turquoise-tint-disabled-deep: oklch(0 0 180 / 0%);
-  --eevenkoto-color-turquoise-shadow:         oklch(0.15 0.25 192 / 25%);
-  --eevenkoto-color-turquoise-text-shadow:    oklch(0.12 0.20 192);
+  --eevenkoto-color-turquoise-state:              oklch(0.46 0.28 180);
+  --eevenkoto-color-turquoise-state-hover:        oklch(0.30 0.22 170);
+  --eevenkoto-color-turquoise-border-subtle:      oklch(0.10 0.22 180 / 20%);
+  --eevenkoto-color-turquoise-primary:            oklch(0.85 0.24 165);
+  --eevenkoto-color-turquoise-primary-hover:      oklch(0.70 0.28 180);
+  --eevenkoto-color-turquoise-text:               oklch(0.98 0.01 190);
+  --eevenkoto-color-turquoise-tint-cool:          oklch(0.98 0.015 202);
+  --eevenkoto-color-turquoise-tint-deep:          oklch(0.18 0.22 162);
+  /* Disabled mix partners: opaque achromatic endpoints (C=0). Tier 2 picks light vs deep. */
+  --eevenkoto-color-turquoise-tint-disabled:      oklch(1 0 180);
+  --eevenkoto-color-turquoise-tint-disabled-deep: oklch(0 0 180);
+  --eevenkoto-color-turquoise-shadow:             oklch(0.15 0.25 192 / 25%);
+  --eevenkoto-color-turquoise-text-shadow:        oklch(0.12 0.20 192);
 
   /* Parchment */
   --eevenkoto-color-parchment-background:         oklch(0.96 0.02 90);
-  --eevenkoto-color-parchment-background-subtle:  oklch(0.97 0.014 90);
+  --eevenkoto-color-parchment-background-subtle:  oklch(0.93 0.01 100);
   --eevenkoto-color-parchment-background-element: oklch(0.90 0.04 85);
   --eevenkoto-color-parchment-border:             oklch(0.50 0.18 80);
   --eevenkoto-color-parchment-primary:            oklch(0.40 0.10 80);
-  --eevenkoto-color-parchment-text:               oklch(0.18 0.02 85);
+  --eevenkoto-color-parchment-text:               oklch(0.15 0.025 85);
   --eevenkoto-color-parchment-text-muted:         oklch(0.35 0.04 85);
-  --eevenkoto-color-parchment-tint-disabled:      oklch(1 0 85 / 0%);
-  --eevenkoto-color-parchment-tint-disabled-deep: oklch(0 0 85 / 0%);
+  --eevenkoto-color-parchment-text-subtle:        oklch(0.48 0.025 85);
+  --eevenkoto-color-parchment-tint-disabled:      oklch(1 0 85);
+  --eevenkoto-color-parchment-tint-disabled-deep: oklch(0 0 85);
 }
 ```
 
@@ -954,7 +1180,7 @@ Form components consume only the `form` domain.
 - Platform keywords: `transparent` and `currentColor`
 - CSS system color keywords for Windows High Contrast Mode (`Canvas`, `CanvasText`, `ButtonBorder`, `Highlight`, `HighlightText`, `LinkText`)
 
-**Planned enforcement:** Stylelint should fail CI if raw color strings appear in `tokens.css` (not wired yet). If an intent requires an unvetted color stop, it must be added to Tier 1 via the primitive review process.
+**CI enforcement:** Stylelint (`eevenkoto/no-raw-color-literals` and `eevenkoto/constrain-tier2-color-mix`) fails CI if raw color strings or hue×hue mixes appear in `tokens.css`. If an intent requires an unvetted color stop, it must be added to Tier 1 via the primitive review process.
 
 ### 3.1a Prefer aliases — constrain `color-mix`
 
@@ -995,7 +1221,6 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 ```css
 --eevenkoto-color-[domain]-[variant]-background:  /* Container fill */
 --eevenkoto-color-[domain]-[variant]-text:        /* Primary text (>= 4.5:1) */
---eevenkoto-color-[domain]-[variant]-text-subtle: /* Secondary text (>= 3.0:1) */
 --eevenkoto-color-[domain]-[variant]-border:      /* Boundary stroke */
 ```
 
@@ -1018,7 +1243,7 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 );
 ```
 
-**Planned enforcement:** AST linting should require every token ending in `-background` to have a co-located `-text` sibling within the same selector (not wired yet).
+**CI enforcement:** `eevenkoto/require-text-tuple` and `eevenkoto/require-disabled-tuple` enforce co-located `-text` and `-disabled` tuples in `tokens.css`.
 
 ### 3.3 Ban on `-inverse` Tokens (Scoped Context Theming)
 
@@ -1026,44 +1251,51 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 
 **Rationale:** Adding `-inverse` creates an explosion of parallel tokens when dark containers host complex children (inputs, tables, tooltips).
 
-**Implementation:** Apply Scoped Context Theming using `[data-surface-mode="dark"]`. The cascade rebinds the standard tokens locally:
+**Implementation:** Apply Scoped Context Theming using `[data-surface-mode="dark"]` paired with `[data-theme="dark"]`. The cascade rebinds the standard tokens locally:
 
 ```css
-/* Inverted surface container rebinds standard tokens locally */
+/* Dark theme and scoped dark islands share the exact same Tier 2 block */
+[data-theme="dark"],
 [data-surface-mode="dark"] {
   --eevenkoto-color-surface-canvas:  var(--eevenkoto-color-obsidian-background);
   --eevenkoto-color-content-primary: var(--eevenkoto-color-obsidian-text);
-  --eevenkoto-color-link-default:    var(--eevenkoto-color-turquoise-primary);
-  --eevenkoto-color-boundary-subtle: var(--eevenkoto-color-obsidian-border-subtle);
+  --eevenkoto-color-link-default:    var(--eevenkoto-color-turquoise-link-on-dark);
+  --eevenkoto-color-boundary-subtle: color-mix(
+    in oklch,
+    var(--eevenkoto-color-obsidian-border) 45%,
+    transparent
+  );
 }
 ```
 
-**Planned enforcement:** AST linting should reject any token name containing the substring `-inverse` (not wired yet).
+**CI enforcement:** `eevenkoto/no-inverse-token` rejects any token name containing `-inverse`.
 
 ### 3.4 Contrast & Polarity Standards
 
-Token pairings must pass two automated CI checks:
+**Automated CI gate — WCAG 2.1/2.2 AA (sRGB Relative Luminance Y):**
 
-**WCAG 2.1/2.2 AA (sRGB Relative Luminance Y):**
+`scripts/contrast-audit.mjs` and Playwright `axe-core` browser tests enforce:
 
-- Normal text: ≥ 4.5:1
-- Large text & non-text UI components: ≥ 3.0:1
+- Normal text (`content-primary`, `content-secondary`, `content-tertiary`, `content-accent`, `content-accent-strong`, control text, feedback text, form text/placeholder/invalid message, inline links): **≥ 4.5:1** across all 4 surfaces (`canvas`, `subtle`, `sunken`, `raised`).
+- Non-text UI boundaries, icons, disabled tuples, contained borderless button edges, link-vs-body text separation, and dual focus halos: **≥ 3.0:1**.
 
-**APCA Directional Lightness (L<sup>c</sup>):**
+**Design-review calibration — APCA Directional Lightness (L<sup>c</sup>):**
 
-- Dark text on light background (positive polarity): L<sup>c</sup> ≥ +75
-- Light text on dark background (negative polarity): L<sup>c</sup> ≥ −60 (prevents halation fatigue)
-- Non-text graphics & boundaries: |L<sup>c</sup>| ≥ 45
+When tuning new Tier 1 stops with a designer, calibrate polarity to prevent dark-mode halation fatigue:
+
+- Dark text on light background (positive polarity): target L<sup>c</sup> ≥ +75
+- Light text on dark background (negative polarity): target L<sup>c</sup> ≥ −60
+- Non-text graphics & boundaries: target |L<sup>c</sup>| ≥ 45
 
 #### Contrast Requirements by Element Type
 
-- **Contained Controls (Buttons):** Internal contrast between background and text must meet ≥ 4.5:1.
-- **Inline Links:** Must meet ≥ 4.5:1 against the ambient surface and ≥ 3.0:1 against adjacent body text.
-- **Form Controls:** Checkbox/radio tracks and input borders must meet ≥ 3.0:1 non-text contrast against the canvas.
+- **Contained Controls (Buttons):** Internal contrast between background and text must meet ≥ 4.5:1, and borderless contained fills (`primary`, `destructive`) must clear ≥ 3.0:1 against `surface-canvas`.
+- **Inline Links:** Must meet ≥ 4.5:1 against every surface (`canvas`, `subtle`, `sunken`, `raised`) and ≥ 3.0:1 against adjacent body text (`content-primary`).
+- **Form Controls:** Input borders, checkbox/radio borders, and invalid borders must meet ≥ 3.0:1 non-text contrast across all surfaces; `form-input-placeholder` clears ≥ 4.5:1 on input fills and sunken wells.
 - **Dual-Boundary Focus Indicators:** A single focus ring cannot guarantee contrast against both an arbitrary control fill and an unknown outer canvas. Tier 2 defines a two-part halo:
   - `--eevenkoto-color-boundary-focus-outer`: Contrasts against the surrounding canvas (≥ 3.0:1).
   - `--eevenkoto-color-boundary-focus-inner`: Contrasts against the component's inner fill (≥ 3.0:1).
-- **Multi-Canvas Surface Rule:** Because typography renders across multiple elevation steps, `--eevenkoto-color-content-primary` must clear WCAG AA (≥ 4.5:1) against `--eevenkoto-color-surface-canvas`, `--eevenkoto-color-surface-subtle`, and `--eevenkoto-color-surface-sunken`.
+- **Multi-Canvas Surface Rule:** Because typography and subtle badges/notices render across multiple elevation steps, content roles and composited feedback fills must clear WCAG AA (≥ 4.5:1) against `--eevenkoto-color-surface-canvas`, `--eevenkoto-color-surface-subtle`, `--eevenkoto-color-surface-sunken`, and `--eevenkoto-color-surface-raised`.
 
 ### 3.5 Elevation & Depth Mechanics
 
@@ -1084,18 +1316,19 @@ Token pairings must pass two automated CI checks:
 
 **Dark Mode (Additive Elevation):** Black shadows are invisible against dark canvas. Elevation is communicated by stepping lightness (L) upward:
 
-- Canvas Root: obsidian wash (L ≈ 0.14)
-- Raised Surface (Cards, Rows): obsidian subtle (L ≈ 0.18)
-- Sunken Surface (Inputs, Wells): obsidian base (L ≈ 0.10)
+- Sunken Surface (Wells): `obsidian-background-sunken` (L = 0.11)
+- Canvas Root: `obsidian-background` (L = 0.14)
+- Subtle Band (Stripes, Hover): `obsidian-background-subtle` (L = 0.18)
+- Raised Surface (Cards, Inputs, Popovers): `obsidian-background-raised` (L = 0.23)
 
 ## Canonical Semantic Token Definitions
 
-Illustrative excerpts for `tokens.css`. Theme switching occurs only in this layer.
+Illustrative excerpts from `packages/css/tokens/tokens.css`. Theme switching occurs only in this layer.
 
 ```css
 /* ==========================================================================
    TIER 2: SEMANTIC TOKENS (tokens.css)
-   Exclusively references Tier 1 primitives or oklch color-mix expressions.
+   Aliases Tier 1 primitives or constrained oklch color-mix fades/disabled stops.
    ========================================================================== */
 
 :root {
@@ -1122,14 +1355,19 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
   --eevenkoto-color-content-tertiary:      var(--eevenkoto-color-parchment-text-subtle);
   --eevenkoto-color-content-accent:        var(--eevenkoto-color-parchment-primary);
   --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-deep);
-  --eevenkoto-color-content-disabled:      var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-content-disabled:      color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
 
   /* 3. TYPOGRAPHIC LINKS */
-  --eevenkoto-color-link-default:          var(--eevenkoto-color-turquoise-state);
-  --eevenkoto-color-link-hover:            var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-link-default:          var(--eevenkoto-color-turquoise-link);
+  --eevenkoto-color-link-hover:            var(--eevenkoto-color-turquoise-link-hover);
+  --eevenkoto-color-link-visited:          var(--eevenkoto-color-purple-link);
   --eevenkoto-color-link-underline:        color-mix(
     in oklch,
-    var(--eevenkoto-color-link-default) 40%,
+    var(--eevenkoto-color-turquoise-link) 40%,
     transparent
   );
 
@@ -1140,37 +1378,34 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
     transparent
   );
   --eevenkoto-color-boundary-strong:       var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-boundary-focus-outer:  var(--eevenkoto-color-gold-primary);
+  --eevenkoto-color-boundary-focus-outer:  var(--eevenkoto-color-gold-primary-strong);
   --eevenkoto-color-boundary-focus-inner:  var(--eevenkoto-color-surface-canvas);
 
   /* 5. CONTROLS: PRIMARY ACTION */
-  --eevenkoto-color-control-primary-background:          var(--eevenkoto-color-turquoise-state);
-  --eevenkoto-color-control-primary-background-hover:    var(--eevenkoto-color-turquoise-state-hover);
-  --eevenkoto-color-control-primary-background-active:   var(--eevenkoto-color-turquoise-state-hover);
-  --eevenkoto-color-control-primary-text:                var(--eevenkoto-color-turquoise-text);
-  --eevenkoto-color-control-primary-border:              transparent;
-
-  --eevenkoto-color-control-primary-background-disabled: var(--eevenkoto-color-parchment-background-element);
-  --eevenkoto-color-control-primary-text-disabled:       var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-control-primary-border-disabled:     transparent;
+  --eevenkoto-color-control-primary-background:        var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-control-primary-background-hover:  var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-control-primary-background-active: var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-control-primary-text:              var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-control-primary-border:            var(--eevenkoto-color-turquoise-border-subtle);
 
   /* 6. CONTROLS: DESTRUCTIVE ACTION */
-  --eevenkoto-color-control-destructive-background:          var(--eevenkoto-color-crimson-state);
-  --eevenkoto-color-control-destructive-background-hover:    var(--eevenkoto-color-crimson-state-hover);
-  --eevenkoto-color-control-destructive-text:                var(--eevenkoto-color-crimson-text);
-  --eevenkoto-color-control-destructive-border:              transparent;
+  --eevenkoto-color-control-destructive-background:       var(--eevenkoto-color-crimson-state);
+  --eevenkoto-color-control-destructive-background-hover: var(--eevenkoto-color-crimson-state-hover);
+  --eevenkoto-color-control-destructive-text:             var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-control-destructive-border:           transparent;
 
   /* 7. FORM INPUTS & VALIDATION TUPLE */
-  --eevenkoto-color-form-input-background:         var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-form-input-background:         var(--eevenkoto-color-parchment-background-bright);
   --eevenkoto-color-form-input-text:               var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-form-input-placeholder:        var(--eevenkoto-color-parchment-text-muted);
   --eevenkoto-color-form-input-border:             var(--eevenkoto-color-parchment-border);
 
   --eevenkoto-color-form-input-background-invalid: var(--eevenkoto-color-crimson-tint-cool);
-  --eevenkoto-color-form-input-text-invalid:       var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-form-input-text-invalid:       var(--eevenkoto-color-crimson-ink);
   --eevenkoto-color-form-input-border-invalid:     var(--eevenkoto-color-crimson-state);
-  --eevenkoto-color-form-input-message-invalid:    var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-form-input-message-invalid:    var(--eevenkoto-color-crimson-state);
 
-  /* 8. FEEDBACK CONTAINERS — subtle via color-mix; solid via state + on-fill text */
+  /* 8. FEEDBACK CONTAINERS — subtle via transparent fade; ink via dedicated Tier 1 stop */
   --eevenkoto-color-feedback-caution-background: color-mix(
     in oklch,
     var(--eevenkoto-color-orange-state) 16%,
@@ -1181,11 +1416,7 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
     var(--eevenkoto-color-orange-state) 30%,
     transparent
   );
-  --eevenkoto-color-feedback-caution-text: color-mix(
-    in oklch,
-    var(--eevenkoto-color-orange-state) 65%,
-    var(--eevenkoto-color-parchment-text)
-  );
+  --eevenkoto-color-feedback-caution-text: var(--eevenkoto-color-orange-ink);
 
   --eevenkoto-color-feedback-critical-background: color-mix(
     in oklch,
@@ -1197,45 +1428,47 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
     var(--eevenkoto-color-crimson-state) 28%,
     transparent
   );
-  --eevenkoto-color-feedback-critical-text: color-mix(
-    in oklch,
-    var(--eevenkoto-color-crimson-state) 70%,
-    var(--eevenkoto-color-parchment-text)
-  );
+  --eevenkoto-color-feedback-critical-text: var(--eevenkoto-color-crimson-ink);
 }
 
 /* ==========================================================================
-   DARK THEME OVERRIDES ([data-theme="dark"])
+   DARK THEME OVERRIDES ([data-theme="dark"], [data-surface-mode="dark"])
    ========================================================================== */
-[data-theme="dark"] {
+[data-theme="dark"],
+[data-surface-mode="dark"] {
   --eevenkoto-color-surface-canvas:   var(--eevenkoto-color-obsidian-background);
-  --eevenkoto-color-surface-sunken:   var(--eevenkoto-color-obsidian-background-element);
-  --eevenkoto-color-surface-raised:   var(--eevenkoto-color-obsidian-background-subtle);
+  --eevenkoto-color-surface-subtle:   var(--eevenkoto-color-obsidian-background-subtle);
+  --eevenkoto-color-surface-sunken:   var(--eevenkoto-color-obsidian-background-sunken);
+  --eevenkoto-color-surface-raised:   var(--eevenkoto-color-obsidian-background-raised);
 
-  --eevenkoto-color-content-primary:  var(--eevenkoto-color-obsidian-text);
+  --eevenkoto-color-content-primary:   var(--eevenkoto-color-obsidian-text);
   --eevenkoto-color-content-secondary: var(--eevenkoto-color-obsidian-text-muted);
+  --eevenkoto-color-content-accent:    var(--eevenkoto-color-gold-primary);
 
-  --eevenkoto-color-link-default:     var(--eevenkoto-color-turquoise-primary);
-  --eevenkoto-color-link-hover:       var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-link-default:      var(--eevenkoto-color-turquoise-link-on-dark);
+  --eevenkoto-color-link-hover:        var(--eevenkoto-color-turquoise-link-hover-on-dark);
+  --eevenkoto-color-link-visited:      var(--eevenkoto-color-purple-link-on-dark);
 
-  --eevenkoto-color-control-primary-background:       var(--eevenkoto-color-turquoise-primary);
-  --eevenkoto-color-control-primary-background-hover: var(--eevenkoto-color-turquoise-primary-hover);
-  --eevenkoto-color-control-primary-text:             var(--eevenkoto-color-turquoise-tint-deep);
+  --eevenkoto-color-control-primary-background:       var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-control-primary-background-hover: var(--eevenkoto-color-turquoise-state-hover-on-dark);
+  --eevenkoto-color-control-primary-text:             var(--eevenkoto-color-turquoise-text);
 }
 ```
 
 ## CI enforcement
 
-These Stylelint rules and contrast checks run in `npm run lint:css`, `npm run contrast`, and `npm run ci`.
+These Stylelint rules, token parity tests, and contrast checks run in `npm run lint:css`, `npm run contrast`, `npm run test`, and `npm run ci`.
 
 | Check | Behavior |
 | --- | --- |
-| Zero Raw Literals | Rejects raw color formats in `tokens.css`. Allowed: primitive `var()`, constrained `color-mix(in oklch, …)` recipes (fades / disabled endpoints — see §3.1a), platform keywords, system colors. |
-| Mandatory Text Tuples | Requires any selector declaring a `-background` property to include a matching `-text` property, unless annotated with `/* stylelint-disable-next-line eevenkoto/require-text-tuple */`. |
-| Mandatory Disabled Tuples | Requires interactive variants with `-background-disabled` to also declare `-text-disabled` and `-border-disabled`. |
-| Banned `-inverse` Names | Scans for `-inverse` in token names and fails the build. Use scoped context containers instead. |
-| Semantic contrast tuples | Light and dark. Content on every surface, control text and icons (default, hover, active, disabled), feedback subtle and solid text and icons, form text, invalid message, input borders, links, and both focus halos at the ratios in §3.4. Translucent fills are composited before the ratio is measured. Subtle feedback borders and `boundary-subtle` are reported, not gated. |
-| Tier Isolation | Rejects any occurrence of Tier 1 primitive leakage patterns in `packages/css/core/` and `packages/css/domain/`. |
+| Zero Raw Literals (`eevenkoto/no-raw-color-literals`) | Rejects raw color formats in `tokens.css`, component CSS, and Storybook CSS. |
+| Constrained Tier 2 Mixes (`eevenkoto/constrain-tier2-color-mix`) | Rejects `color-mix()` in `tokens.css` unless interpolating `in oklch` with `transparent` or a `*-tint-disabled*` endpoint (forbidding hue×hue mixes). |
+| Unknown Token Guard (`eevenkoto/no-unknown-tokens`) | Rejects undefined Tier 1/Tier 2 token references across all stylesheets (including inside `var()` fallbacks). |
+| Mandatory Text Tuples (`eevenkoto/require-text-tuple`) | Requires any selector declaring a `-background` property to include a matching `-text` property, unless annotated with `/* stylelint-disable-next-line eevenkoto/require-text-tuple */`. |
+| Mandatory Disabled Tuples (`eevenkoto/require-disabled-tuple`) | Requires interactive variants with `-background-disabled` to also declare `-text-disabled` and `-border-disabled`. |
+| Banned `-inverse` Names (`eevenkoto/no-inverse-token`) | Scans for `-inverse` in token names and fails the build. Use `[data-surface-mode="dark"]` scoped context containers instead. |
+| Semantic & Composite Contrast (`scripts/contrast-audit.mjs`) | Light and dark. Content on all 4 surfaces (≥ 4.5:1), control text/icons/edges, feedback subtle and solid across all 4 surfaces, form text/placeholder/invalid wash/borders, links, dual focus halos, and cross-family component pairs. |
+| Tier Isolation (`eevenkoto/no-primitive-in-components`) | Dynamically loads `primitive-tokens.css` and rejects any Tier 1 token reference outside `tokens.css`. |
 ## Tier 3 — Component scoping
 
 _Source: `apps/storybook/src/foundations/color-tokens-tier3-component-scoping.mdx`_
@@ -1381,7 +1614,7 @@ A component stylesheet must never reference a Tier 1 primitive by hue (e.g., `--
 
 - **Violation:** `background-color: var(--eevenkoto-color-turquoise-state);`
 - **Correction:** Reference the semantic intent: `var(--eevenkoto-color-control-primary-background)`.
-- **Planned enforcement:** Stylelint should block hue-primitive leakage in component stylesheets under `packages/css/core/**` and `packages/css/domain/**` (not wired in CI yet — follow the rule manually).
+- **CI enforcement:** `eevenkoto/no-primitive-in-components` dynamically loads `primitive-tokens.css` and blocks any Tier 1 reference in component and Storybook stylesheets.
 
 ### Rule 2: Complete Tuple Synchronization on State & Variant Shifts
 
@@ -1395,7 +1628,7 @@ When a component variant, pseudo-class (`:hover`, `:active`, `:focus-visible`), 
 - Component tokens are scoped to their component host class (`.eevenkoto-<component>`).
 - Component stylesheets must not define global selectors (`:root`, `body`, `div`).
 - Modifiers must be applied via BEM-style variant classes (e.g., `.eevenkoto-button--secondary`) or data attributes (`data-variant="secondary"`), never via bare tag selectors.
-- **Exception (type only):** Heading may map level from the host tag with `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides). Bare `h1`–`h6` / `p` styling is allowed only under the Prose host (`.eevenkoto-prose :where(…)`). Do not style those tags globally.
+- **Exception (type only):** Heading may map level from the host tag with `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides). Bare `h1`–`h6` / `p` / `ul` / `ol` / `li` / `a` styling is allowed only under the Prose host (`.eevenkoto-prose :where(…)`). Do not style those tags globally.
 - **Host defaults:** The host class alone must implement the documented default (see [Minimum-class defaults](/?path=/docs/foundations-minimum-class-defaults--docs)). Default variant/size modifiers are optional aliases, not requirements.
 
 ### Rule 4: Zero Speculative Property Exposure
@@ -1450,7 +1683,7 @@ Tier 2 owns **solid** contrast tuples (`background` / `text` / `border` / `icon`
 ### Rules
 
 1. **Solid fill always exists.** On the host, bridge `--_eevenkoto-<component>-bg` to the public API with a Tier 2 `*-background` fallback, and attach the private bridge to `background-color`. Gradients attach via `background-image` so forced-colors / gradient stripping still leave a readable fill.
-2. **Compose stops from Tier 2.** Default gradient stops with `color-mix(in display-p3, …)` over semantic tokens — never hue primitives, never raw `oklch()` in the component sheet.
+2. **Derive stops from the host’s private bridges.** Default gradient stops with `color-mix(in display-p3, var(--_eevenkoto-<component>-bg), …)` so overriding `--eevenkoto-<component>-bg` automatically updates both the solid fill and the gradient without hardcoding `control-primary-*` twice.
 3. **Public stop overrides.** Expose `--eevenkoto-<component>-gradient-{start,middle,end}` (and `-hover` / state variants when needed). Bridge through private `--_eevenkoto-<component>-gradient-*` on the host only.
 4. **`@property` registers private bridges only.** Registering a public custom property with an `initial-value` makes `var(--public, fallback)` always take the initial value and kills Tier 2 fallbacks. Animate the private `--_*` names; variants/states change the public stop vars so the registered bridges recompute.
 5. **States set the full public color tuple plus stops together.** Disabled states must use opaque disabled backgrounds as gradient stops (or `transparent` for ghost) — never `opacity` on the host.
@@ -1467,24 +1700,28 @@ Tier 2 owns **solid** contrast tuples (`background` / `text` / `border` / `icon`
     --eevenkoto-button-bg,
     var(--eevenkoto-color-control-primary-background)
   );
+  --_eevenkoto-button-icon: var(
+    --eevenkoto-button-icon,
+    var(--eevenkoto-color-control-primary-icon)
+  );
   --_eevenkoto-button-gradient-start: var(
     --eevenkoto-button-gradient-start,
     color-mix(
       in display-p3,
-      var(--eevenkoto-color-control-primary-background),
+      var(--_eevenkoto-button-bg),
       var(--eevenkoto-color-control-primary-background-hover) 30%
     )
   );
   --_eevenkoto-button-gradient-middle: var(
     --eevenkoto-button-gradient-middle,
-    var(--eevenkoto-color-control-primary-background)
+    var(--_eevenkoto-button-bg)
   );
   --_eevenkoto-button-gradient-end: var(
     --eevenkoto-button-gradient-end,
     color-mix(
       in display-p3,
-      var(--eevenkoto-color-control-primary-background),
-      var(--eevenkoto-color-control-primary-icon) 30%
+      var(--_eevenkoto-button-bg),
+      var(--_eevenkoto-button-icon) 30%
     )
   );
 
@@ -1726,97 +1963,97 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 }
 ```
 
-### Component: Form Field (TextField)
+### Component: Form Field & Input
 
-`packages/css/core/atoms/text-field.css` (example)
+`packages/css/core/molecules/field.css` + `packages/css/core/atoms/input.css` (simplified)
 
 ```css
 /* ==========================================================================
-   EEVENKOTO DESIGN SYSTEM: TEXT FIELD COMPONENT (TIER 3)
+   EEVENKOTO DESIGN SYSTEM: FIELD + INPUT (TIER 3)
    ========================================================================== */
 
 .eevenkoto-field {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: var(--eevenkoto-space-1-5);
   width: 100%;
 }
 
 .eevenkoto-field__label {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--eevenkoto-color-content-primary);
+  --_eevenkoto-field-label-color: var(
+    --eevenkoto-field-label-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  font-size: var(--eevenkoto-font-size-ui-sm);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  color: var(--_eevenkoto-field-label-color);
 }
 
-.eevenkoto-field__input {
+.eevenkoto-input {
   /* 1. PRIVATE BRIDGE INITIALIZATION */
-  --_eevenkoto-field-input-bg: var(
-    --eevenkoto-field-input-bg,
+  --_eevenkoto-input-bg: var(
+    --eevenkoto-input-bg,
     var(--eevenkoto-color-form-input-background)
   );
-  --_eevenkoto-field-input-text: var(
-    --eevenkoto-field-input-text,
+  --_eevenkoto-input-text: var(
+    --eevenkoto-input-text,
     var(--eevenkoto-color-form-input-text)
   );
-  --_eevenkoto-field-input-border-color: var(
-    --eevenkoto-field-input-border-color,
+  --_eevenkoto-input-border-color: var(
+    --eevenkoto-input-border-color,
     var(--eevenkoto-color-form-input-border)
   );
 
   /* 2. ELEMENT STYLING DECLARATIONS */
   box-sizing: border-box;
   width: 100%;
-  padding: 0.625rem 0.75rem;
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
   font-family: inherit;
-  font-size: 0.875rem;
-  line-height: 1.25;
+  font-size: var(--eevenkoto-font-size-ui-md);
 
-  background-color: var(--_eevenkoto-field-input-bg);
-  color: var(--_eevenkoto-field-input-text);
-  border: 1px solid var(--_eevenkoto-field-input-border-color);
-  border-radius: 0.375rem;
+  background-color: var(--_eevenkoto-input-bg);
+  color: var(--_eevenkoto-input-text);
+  border: var(--eevenkoto-line-width-1) solid var(--_eevenkoto-input-border-color);
+  border-radius: var(--eevenkoto-radius-md);
 
   transition:
-    border-color var(--eevenkoto-duration-3) var(--eevenkoto-ease-in-out),
-    box-shadow var(--eevenkoto-duration-3) var(--eevenkoto-ease-in-out);
+    border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    box-shadow var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
 }
 
-.eevenkoto-field__input:focus {
+.eevenkoto-input:focus-visible {
   outline: none;
   border-color: var(--eevenkoto-color-boundary-focus-outer);
-  box-shadow: 0 0 0 1px var(--eevenkoto-color-boundary-focus-outer);
+  box-shadow:
+    0 0 0 var(--eevenkoto-line-width-2) var(--eevenkoto-color-boundary-focus-inner),
+    0 0 0 var(--eevenkoto-line-width-4) var(--eevenkoto-color-boundary-focus-outer);
 }
 
 /* VALIDATION STATE: INVALID / ERROR TUPLE */
 
-.eevenkoto-field__input[aria-invalid="true"] {
-  --eevenkoto-field-input-bg: var(
-    --eevenkoto-field-input-bg-invalid,
-    var(--eevenkoto-color-form-input-background-invalid)
-  );
-  --eevenkoto-field-input-text: var(
-    --eevenkoto-field-input-text-invalid,
-    var(--eevenkoto-color-form-input-text-invalid)
-  );
-  --eevenkoto-field-input-border-color: var(
-    --eevenkoto-field-input-border-color-invalid,
-    var(--eevenkoto-color-form-input-border-invalid)
-  );
+.eevenkoto-input[aria-invalid="true"] {
+  --eevenkoto-input-bg: var(--eevenkoto-color-form-input-background-invalid);
+  --eevenkoto-input-text: var(--eevenkoto-color-form-input-text-invalid);
+  --eevenkoto-input-border-color: var(--eevenkoto-color-form-input-border-invalid);
 }
 
 .eevenkoto-field__message {
-  font-size: 0.75rem;
-  color: var(--eevenkoto-color-content-secondary);
+  --_eevenkoto-field-message-color: var(
+    --eevenkoto-field-message-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+  font-size: var(--eevenkoto-font-size-ui-xs);
+  color: var(--_eevenkoto-field-message-color);
 }
 
 .eevenkoto-field__message--error {
-  color: var(--eevenkoto-color-form-input-message-invalid);
+  --eevenkoto-field-message-color: var(--eevenkoto-color-form-input-message-invalid);
 }
 ```
 
 ### Component: Composite Surface Container (Card)
 
-`packages/css/core/molecules/card.css` (example)
+`packages/css/core/molecules/card.css` (simplified)
 
 ```css
 /* ==========================================================================
@@ -1829,24 +2066,28 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
     --eevenkoto-card-bg,
     var(--eevenkoto-color-surface-raised)
   );
+  --_eevenkoto-card-fg: var(
+    --eevenkoto-card-fg,
+    var(--eevenkoto-color-content-primary)
+  );
   --_eevenkoto-card-border-color: var(
     --eevenkoto-card-border-color,
     var(--eevenkoto-color-boundary-subtle)
   );
   --_eevenkoto-card-shadow: var(
     --eevenkoto-card-shadow,
-    0 1px 3px var(--eevenkoto-color-depth-shadow-penumbra),
-    0 4px 6px var(--eevenkoto-color-depth-shadow-umbra)
+    0 0.1rem 0.3rem var(--eevenkoto-color-depth-shadow-penumbra),
+    0 0.4rem 0.6rem var(--eevenkoto-color-depth-shadow-umbra)
   );
 
   /* 2. ELEMENT STYLING DECLARATIONS */
   box-sizing: border-box;
-  padding: 1.5rem;
+  padding: var(--eevenkoto-space-6);
   background-color: var(--_eevenkoto-card-bg);
-  border: 1px solid var(--_eevenkoto-card-border-color);
-  border-radius: 0.5rem;
+  border: var(--eevenkoto-line-width-1) solid var(--_eevenkoto-card-border-color);
+  border-radius: var(--eevenkoto-radius-lg);
   box-shadow: var(--_eevenkoto-card-shadow);
-  color: var(--eevenkoto-color-content-primary);
+  color: var(--_eevenkoto-card-fg);
 }
 
 /* Moded Well variant — sets public API; host bridges resolve */
@@ -1858,7 +2099,7 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 
 ## CI verification & linting rules
 
-These AST-based Stylelint checks run on `packages/css/core/**/*.css` and `packages/css/domain/**/*.css` via `npm run lint:css` / `npm run ci`.
+These AST-based Stylelint checks run on `packages/css/**/*.css` and `apps/storybook/src/**/*.css` via `npm run lint:css` / `npm run ci`.
 
 ```text
                     Pull Request / Code Commit
@@ -1866,7 +2107,7 @@ These AST-based Stylelint checks run on `packages/css/core/**/*.css` and `packag
                                 ▼
          ┌──────────────────────────────────────────────┐
          │       Check 1: Primitive Prefix Check        │
-         │  Does file contain hue-primitive leakage?    │
+         │  Does file contain Tier 1 primitive leakage? │
          └──────────────────────┬───────────────────────┘
                                 │ NO
                                 ▼
@@ -1889,13 +2130,27 @@ These AST-based Stylelint checks run on `packages/css/core/**/*.css` and `packag
          └──────────────────────┬───────────────────────┘
                                 │ NO
                                 ▼
+         ┌──────────────────────────────────────────────┐
+         │     Check 5: Unknown Token Inventory Guard   │
+         │ Does var(--eevenkoto-*) resolve in Tier 1/2? │
+         └──────────────────────┬───────────────────────┘
+                                │ YES
+                                ▼
+         ┌──────────────────────────────────────────────┐
+         │     Check 6: Private Bridge Hygiene Guard    │
+         │ Stateless --_* bridges; no modifier mutation │
+         └──────────────────────┬───────────────────────┘
+                                │ YES
+                                ▼
                      [CI VALIDATION PASSED]
 ```
 
-1. **Strict Tier 1 Boundary Guard** (`eevenkoto/no-primitive-in-components`) — Rejects hue-primitive references inside `packages/css/core/` and `packages/css/domain/`.
-2. **Raw Literal Guard** (`eevenkoto/no-raw-color-literals`) — Rejects raw hex, `rgb()`, `hsl()`, or `oklch()` literals within component stylesheets.
-3. **Bridge Enforcement** (`eevenkoto/enforce-private-bridge`) — Flags component CSS that consumes a Tier 2 token without establishing the private `--_eevenkoto-` bridge fallback pattern.
+1. **Strict Tier 1 Boundary Guard** (`eevenkoto/no-primitive-in-components`) — Dynamically reads `primitive-tokens.css` and rejects any Tier 1 reference inside component and Storybook CSS.
+2. **Raw Literal Guard** (`eevenkoto/no-raw-color-literals`) — Rejects raw hex, `rgb()`, `hsl()`, `oklch()`, and `opacity` disabled-state shortcuts within component and Storybook stylesheets.
+3. **Bridge Enforcement** (`eevenkoto/enforce-private-bridge`) — Flags component CSS that consumes a Tier 2 `--eevenkoto-color-*` token directly in a property without establishing a private `--_eevenkoto-*` bridge (with explicit carve-outs for dual-halo `:focus-visible` rings and browser-privacy-constrained `:visited` link rules).
 4. **Cyclic Invalidation Guard** (`eevenkoto/no-self-referencing-vars`) — Flags assignments where a public token references itself without a separate private variable.
+5. **Unknown Token Guard** (`eevenkoto/no-unknown-tokens`) — Rejects typos or phantom `--eevenkoto-*` names that are neither defined in Tier 1/2 nor locally bridged on the component.
+6. **Private Bridge Hygiene** (`eevenkoto/private-bridge-hygiene`) — Rejects state-suffixed `--_*` bridges (`-hover`, `-invalid`, `-error`, etc.), duplicate `--_*` declarations in a single block, `--_*` reassignments on BEM `--modifier` or pseudo-state rules, and embedded SVG `<path>` data URLs outside `tokens.css`. (In Tier 2 `tokens.css`, `eevenkoto/constrain-tier2-color-mix` also restricts `color-mix()` to same-hue `transparent` alpha ramps.)
 
 ```css
 /* CI FAILS THIS: Cyclic invalidation (IACVT) */
@@ -2256,6 +2511,7 @@ Also read: [Tier 3 — Component Scoping](/?path=/docs/foundations-color-tokens-
 | Button | `<button class="eevenkoto-button">` | primary + md (full states) |
 | LinkButton | `<a class="eevenkoto-link-button" href="…">` | primary + md + end-scoop (forward CTA link) |
 | Badge | `<span class="eevenkoto-badge">` | subtle + neutral + md + pill |
+| Stat | `<span class="eevenkoto-stat">` | disk + md (`4rem`, `radius-full`) |
 | StatusDot | `<span class="eevenkoto-status-dot">` | neutral pip |
 | Chip | `<button class="eevenkoto-chip">` | unselected + md |
 | CatalogTile | `<a class="eevenkoto-catalog-tile" href="…">` | raised hairline row |
@@ -2266,7 +2522,7 @@ Also read: [Tier 3 — Component Scoping](/?path=/docs/foundations-color-tokens-
 | Table | `<table class="eevenkoto-table">` + bare `tr` / `th` / `td` | default variant + row stripe; cells from host descendants (kinds via `--index` / `--numeric`) |
 | TableCell | `<td class="eevenkoto-table-cell">` | text kind — for cells outside a Table host |
 | Image | `<figure class="eevenkoto-image">` | full paragraph-wide block (`--float-left` / `--float-right` opt-in) |
-| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` / `ul` / `ol` / `li` | same defaults as classed type |
+| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` / `ul` / `ol` / `li` / `a` | same defaults as classed type + Tier 2 `link-*` |
 | Flow | Compose with Prose for bare-tag pair gaps | classed primitives always |
 
 ## CSS patterns
@@ -2462,7 +2718,7 @@ Short Why/When plus the first API table from each Storybook MDX. Full docs stay 
 
 ### Avatar
 
-_Source: `apps/storybook/src/core/atoms/Avatar/Avatar.mdx` · [Storybook](/?path=/docs/core-atoms-avatar-avatar--docs)_
+_Source: `apps\storybook\src\core\atoms\Avatar\Avatar.mdx` · [Storybook](/?path=/docs/core-atoms-avatar-avatar--docs)_
 
 **Why:** Rules and roster UIs need a compact face mark for a character or account without inventing ad-hoc circles. Avatar is that portrait shell — image or quiet parchment placeholder — sized on the shared sm/md/lg ladder.
 
@@ -2476,7 +2732,7 @@ _Source: `apps/storybook/src/core/atoms/Avatar/Avatar.mdx` · [Storybook](/?path
 
 ### Badge
 
-_Source: `apps/storybook/src/core/atoms/Badge/Badge.mdx` · [Storybook](/?path=/docs/core-atoms-badge-badge--docs)_
+_Source: `apps\storybook\src\core\atoms\Badge\Badge.mdx` · [Storybook](/?path=/docs/core-atoms-badge-badge--docs)_
 
 **Why:** Status and taxonomy need a compact, scannable marker beside content — readiness, severity, membership — without looking like a click target. Badge is that non-interactive chip so metadata stays visible without competing with Buttons or filters.
 
@@ -2493,7 +2749,7 @@ _Source: `apps/storybook/src/core/atoms/Badge/Badge.mdx` · [Storybook](/?path=/
 
 ### Button
 
-_Source: `apps/storybook/src/core/atoms/Button/Button.mdx` · [Storybook](/?path=/docs/core-atoms-button-button--docs)_
+_Source: `apps\storybook\src\core\atoms\Button\Button.mdx` · [Storybook](/?path=/docs/core-atoms-button-button--docs)_
 
 **Why:** Buttons execute actions in the interface: submitting a form, opening a dialog, cancelling an operation, or performing add/remove actions. They stand out from surrounding content and guide attention to the most important actions.
 
@@ -2510,7 +2766,7 @@ _Source: `apps/storybook/src/core/atoms/Button/Button.mdx` · [Storybook](/?path
 
 ### Caption
 
-_Source: `apps/storybook/src/core/atoms/Caption/Caption.mdx` · [Storybook](/?path=/docs/core-atoms-caption-caption--docs)_
+_Source: `apps\storybook\src\core\atoms\Caption\Caption.mdx` · [Storybook](/?path=/docs/core-atoms-caption-caption--docs)_
 
 **Why:** Captions keep timestamps, helper hints, and field metadata visually quieter than body copy — smaller type and tertiary ink — without inventing a one-off rem or gray.
 
@@ -2518,7 +2774,7 @@ _Source: `apps/storybook/src/core/atoms/Caption/Caption.mdx` · [Storybook](/?pa
 
 ### Checkbox
 
-_Source: `apps/storybook/src/core/atoms/Checkbox/Checkbox.mdx` · [Storybook](/?path=/docs/core-atoms-checkbox-checkbox--docs)_
+_Source: `apps\storybook\src\core\atoms\Checkbox\Checkbox.mdx` · [Storybook](/?path=/docs/core-atoms-checkbox-checkbox--docs)_
 
 **Why:** Form controls in TTRPG toolchains (character builders, equipment customizers, feature selectors) need clear visual states for selection, multi-line descriptions, and selectable card layouts without losing native keyboard and assistive technology ergonomics.
 
@@ -2537,7 +2793,7 @@ _Source: `apps/storybook/src/core/atoms/Checkbox/Checkbox.mdx` · [Storybook](/?
 
 ### Chip
 
-_Source: `apps/storybook/src/core/atoms/Chip/Chip.mdx` · [Storybook](/?path=/docs/core-atoms-chip-chip--docs)_
+_Source: `apps\storybook\src\core\atoms\Chip\Chip.mdx` · [Storybook](/?path=/docs/core-atoms-chip-chip--docs)_
 
 **Why:** Dev role switchers and small exclusive tags need a clickable chip that is not a Badge (feedback, non-interactive) and not a full Button. Chip is that control so eevenko.to can drop `.role-chip` / `.dev-chip`.
 
@@ -2553,7 +2809,7 @@ _Source: `apps/storybook/src/core/atoms/Chip/Chip.mdx` · [Storybook](/?path=/do
 
 ### Frame
 
-_Source: `apps/storybook/src/core/atoms/Frame/Frame.mdx` · [Storybook](/?path=/docs/core-atoms-frame-frame--docs)_
+_Source: `apps\storybook\src\core\atoms\Frame\Frame.mdx` · [Storybook](/?path=/docs/core-atoms-frame-frame--docs)_
 
 **Why:** Dense charts and token boards need a portable bordered panel so they read as contained rulebook surfaces instead of bleeding into the page canvas. Frame is that host — TableShell uses it by default, and other panels can reuse the same border without a one-off box.
 
@@ -2561,7 +2817,7 @@ _Source: `apps/storybook/src/core/atoms/Frame/Frame.mdx` · [Storybook](/?path=/
 
 ### Heading
 
-_Source: `apps/storybook/src/core/atoms/Heading/Heading.mdx` · [Storybook](/?path=/docs/core-atoms-heading-heading--docs)_
+_Source: `apps\storybook\src\core\atoms\Heading\Heading.mdx` · [Storybook](/?path=/docs/core-atoms-heading-heading--docs)_
 
 **Why:** Pages need a scannable outline readers and assistive tech can trust. Heading gives six structured levels — size, weight, family, case, posture, and light rules — so titles stay consistent without faking hierarchy with bold Paragraphs or skipped levels for looks alone.
 
@@ -2569,7 +2825,7 @@ _Source: `apps/storybook/src/core/atoms/Heading/Heading.mdx` · [Storybook](/?pa
 
 ### Icon
 
-_Source: `apps/storybook/src/core/atoms/Icon/Icon.mdx` · [Storybook](/?path=/docs/core-atoms-icon-icon--docs)_
+_Source: `apps\storybook\src\core\atoms\Icon\Icon.mdx` · [Storybook](/?path=/docs/core-atoms-icon-icon--docs)_
 
 **Why:** Chrome needs the same glyphs in Button, adornments, and product UI without each consumer pasting SVG path strings. Icon is the shared renderer (size ladder + `currentColor`); the name inventory stays in core tokens so the catalog has one source of truth.
 
@@ -2583,7 +2839,7 @@ _Source: `apps/storybook/src/core/atoms/Icon/Icon.mdx` · [Storybook](/?path=/do
 
 ### Image
 
-_Source: `apps/storybook/src/core/atoms/Image/Image.mdx` · [Storybook](/?path=/docs/core-atoms-image-image--docs)_
+_Source: `apps\storybook\src\core\atoms\Image\Image.mdx` · [Storybook](/?path=/docs/core-atoms-image-image--docs)_
 
 **Why:** Narrative rules and sourcebooks depend on visual rhythm to break up dense rule columns. Using bare unstyled `` tags often leads to layout shifts during loading, leaking floats that ruin subsequent headings, or cramped text ribbons on narrow screens.
 
@@ -2604,7 +2860,7 @@ _Source: `apps/storybook/src/core/atoms/Image/Image.mdx` · [Storybook](/?path=/
 
 ### Inline Ref
 
-_Source: `apps/storybook/src/core/atoms/InlineRef/InlineRef.mdx` · [Storybook](/?path=/docs/core-atoms-inlineref-inlineref--docs)_
+_Source: `apps\storybook\src\core\atoms\InlineRef\InlineRef.mdx` · [Storybook](/?path=/docs/core-atoms-inlineref-inlineref--docs)_
 
 **Why:** Body copy often points at another page, a previewable term, a name that has no page yet, or a destination the reader cannot open. InlineRef is that mark without Button chrome, Badge status, or product vocabulary — so Core Popover triggers stay Core and eevenko.to can drop `.unlinked-term` / `.tooltip-ref-locked`.
 
@@ -2620,7 +2876,7 @@ _Source: `apps/storybook/src/core/atoms/InlineRef/InlineRef.mdx` · [Storybook](
 
 ### Input
 
-_Source: `apps/storybook/src/core/atoms/Input/Input.mdx` · [Storybook](/?path=/docs/core-atoms-input-input--docs)_
+_Source: `apps\storybook\src\core\atoms\Input\Input.mdx` · [Storybook](/?path=/docs/core-atoms-input-input--docs)_
 
 **Why:** Every product form should not invent its own text-box surface. Input owns fill, border, focus, and invalid chrome once; Field (or equivalent host markup) owns the labeling contract around it.
 
@@ -2637,7 +2893,7 @@ _Source: `apps/storybook/src/core/atoms/Input/Input.mdx` · [Storybook](/?path=/
 
 ### LinkButton
 
-_Source: `apps/storybook/src/core/atoms/LinkButton/LinkButton.mdx` · [Storybook](/?path=/docs/core-atoms-linkbutton-linkbutton--docs)_
+_Source: `apps\storybook\src\core\atoms\LinkButton\LinkButton.mdx` · [Storybook](/?path=/docs/core-atoms-linkbutton-linkbutton--docs)_
 
 **Why:** Call-to-action navigation needs a control that *looks* like a button so it can compete with surrounding chrome, but it must remain a link: it has a destination, can be opened in a new tab, and participates in the browser’s link model. Putting `href` on Button (or wrapping Button in an anchor) mixes those roles.
 
@@ -2657,7 +2913,7 @@ _Source: `apps/storybook/src/core/atoms/LinkButton/LinkButton.mdx` · [Storybook
 
 ### Paragraph
 
-_Source: `apps/storybook/src/core/atoms/Paragraph/Paragraph.mdx` · [Storybook](/?path=/docs/core-atoms-paragraph-paragraph--docs)_
+_Source: `apps\storybook\src\core\atoms\Paragraph\Paragraph.mdx` · [Storybook](/?path=/docs/core-atoms-paragraph-paragraph--docs)_
 
 **Why:** Consistent body type keeps reading rhythm stable across pages and themes. Semantic sizes let density or theme remaps change roles without renaming the rem ladder.
 
@@ -2665,7 +2921,7 @@ _Source: `apps/storybook/src/core/atoms/Paragraph/Paragraph.mdx` · [Storybook](
 
 ### Popover
 
-_Source: `apps/storybook/src/core/atoms/Popover/Popover.mdx` · [Storybook](/?path=/docs/core-atoms-popover-popover--docs)_
+_Source: `apps\storybook\src\core\atoms\Popover\Popover.mdx` · [Storybook](/?path=/docs/core-atoms-popover-popover--docs)_
 
 **Why:** Short-lived secondary content — entity previews, compact help, a small menu shell — needs an elevated surface next to a trigger without the weight of a dialog. Popover is that chrome; the app still owns show/hide, focus, and collision.
 
@@ -2683,7 +2939,7 @@ _Source: `apps/storybook/src/core/atoms/Popover/Popover.mdx` · [Storybook](/?pa
 
 ### Property
 
-_Source: `apps/storybook/src/core/atoms/Property/Property.mdx` · [Storybook](/?path=/docs/core-atoms-property-property--docs)_
+_Source: `apps\storybook\src\core\atoms\Property\Property.mdx` · [Storybook](/?path=/docs/core-atoms-property-property--docs)_
 
 **Why:** Pair a definition term with its value without inventing a new layout. The atom keeps `dt`/`dd` semantics so assistive tech reads the association.
 
@@ -2691,7 +2947,7 @@ _Source: `apps/storybook/src/core/atoms/Property/Property.mdx` · [Storybook](/?
 
 ### Radio
 
-_Source: `apps/storybook/src/core/atoms/Radio/Radio.mdx` · [Storybook](/?path=/docs/core-atoms-radio-radio--docs)_
+_Source: `apps\storybook\src\core\atoms\Radio\Radio.mdx` · [Storybook](/?path=/docs/core-atoms-radio-radio--docs)_
 
 **Why:** Mutually exclusive choices need clear affordance, keyboard arrow navigation, and flexible presentations ranging from compact inline options to rich trait cards or selection tiles.
 
@@ -2711,7 +2967,7 @@ _Source: `apps/storybook/src/core/atoms/Radio/Radio.mdx` · [Storybook](/?path=/
 
 ### Scroll
 
-_Source: `apps/storybook/src/core/atoms/Scroll/Scroll.mdx` · [Storybook](/?path=/docs/core-atoms-scroll-scroll--docs)_
+_Source: `apps\storybook\src\core\atoms\Scroll\Scroll.mdx` · [Storybook](/?path=/docs/core-atoms-scroll-scroll--docs)_
 
 **Why:** Wide tables and tall panels overflow the frame. Scroll owns the overflow axis (and sticky cues when composed) so hosts like TableShell do not invent one-off `overflow` CSS per layout.
 
@@ -2719,7 +2975,7 @@ _Source: `apps/storybook/src/core/atoms/Scroll/Scroll.mdx` · [Storybook](/?path
 
 ### Select
 
-_Source: `apps/storybook/src/core/atoms/Select/Select.mdx` · [Storybook](/?path=/docs/core-atoms-select-select--docs)_
+_Source: `apps\storybook\src\core\atoms\Select\Select.mdx` · [Storybook](/?path=/docs/core-atoms-select-select--docs)_
 
 **Why:** Dropdown selection from a list of 5+ mutually exclusive choices without taking up vertical canvas space. Native `` guarantees touch platform support (iOS / Android wheel pickers), keyboard typeahead, and full accessibility support out of the box.
 
@@ -2736,7 +2992,7 @@ _Source: `apps/storybook/src/core/atoms/Select/Select.mdx` · [Storybook](/?path
 
 ### Stat
 
-_Source: `apps/storybook/src/core/atoms/Stat/Stat.mdx` · [Storybook](/?path=/docs/core-atoms-stat-stat--docs)_
+_Source: `apps\storybook\src\core\atoms\Stat\Stat.mdx` · [Storybook](/?path=/docs/core-atoms-stat-stat--docs)_
 
 **Why:** Ability math needs scannable glyphs with distinctive silhouettes. Stat encodes that geometry once so AbilityScore can compose three chips without one-off CSS per cell.
 
@@ -2751,7 +3007,7 @@ _Source: `apps/storybook/src/core/atoms/Stat/Stat.mdx` · [Storybook](/?path=/do
 
 ### Status Dot
 
-_Source: `apps/storybook/src/core/atoms/StatusDot/StatusDot.mdx` · [Storybook](/?path=/docs/core-atoms-statusdot-statusdot--docs)_
+_Source: `apps\storybook\src\core\atoms\StatusDot\StatusDot.mdx` · [Storybook](/?path=/docs/core-atoms-statusdot-statusdot--docs)_
 
 **Why:** Tree navigation and dense catalogs need a color + shape cue for draft vs ready without a word beside every row. StatusDot is that pip so products do not hide Badge labels or invent `.nav-valmius` CSS.
 
@@ -2764,11 +3020,11 @@ _Source: `apps/storybook/src/core/atoms/StatusDot/StatusDot.mdx` · [Storybook](
 
 ### TableCell
 
-_Source: `apps/storybook/src/core/atoms/TableCell/TableCell.mdx` · [Storybook](/?path=/docs/core-atoms-tablecell-tablecell--docs)_
+_Source: `apps\storybook\src\core\atoms\TableCell\TableCell.mdx` · [Storybook](/?path=/docs/core-atoms-tablecell-tablecell--docs)_
 
 ### Toast
 
-_Source: `apps/storybook/src/core/atoms/Toast/Toast.mdx` · [Storybook](/?path=/docs/core-atoms-toast-toast--docs)_
+_Source: `apps\storybook\src\core\atoms\Toast\Toast.mdx` · [Storybook](/?path=/docs/core-atoms-toast-toast--docs)_
 
 **Why:** Interactive tools, workshops, and content authoring flows require immediate, unobtrusive confirmation after actions like copying to clipboard, auto-saving, or toggling state. Toast encapsulates the visual presentation, icon mapping, accessible ARIA roles, and motion transitions without coupling you to a complex singleton runtime.
 
@@ -2785,7 +3041,7 @@ _Source: `apps/storybook/src/core/atoms/Toast/Toast.mdx` · [Storybook](/?path=/
 
 ### Card
 
-_Source: `apps/storybook/src/core/molecules/Card/Card.mdx` · [Storybook](/?path=/docs/core-molecules-card-card--docs)_
+_Source: `apps\storybook\src\core\molecules\Card\Card.mdx` · [Storybook](/?path=/docs/core-molecules-card-card--docs)_
 
 **Why:** Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned box so products do not invent one-off bordered panels for every teaser. Copy-paste HTML is a document (`article` + heading), not a div sandwich.
 
@@ -2793,7 +3049,7 @@ _Source: `apps/storybook/src/core/molecules/Card/Card.mdx` · [Storybook](/?path
 
 ### Catalog
 
-_Source: `apps/storybook/src/core/molecules/Catalog/Catalog.mdx` · [Storybook](/?path=/docs/core-molecules-catalog-catalog--docs)_
+_Source: `apps\storybook\src\core\molecules\Catalog\Catalog.mdx` · [Storybook](/?path=/docs/core-molecules-catalog-catalog--docs)_
 
 **Why:** Spell, creature, and culture indexes need compact linked rows in a wrapping grid. Card is too tall; List is a vertical stack; Menu is navigation chrome. Catalog is that index so eevenko.to can drop `.entity-grid` / `.entity-item`.
 
@@ -2806,7 +3062,7 @@ _Source: `apps/storybook/src/core/molecules/Catalog/Catalog.mdx` · [Storybook](
 
 ### CheckboxGroup
 
-_Source: `apps/storybook/src/core/molecules/CheckboxGroup/CheckboxGroup.mdx` · [Storybook](/?path=/docs/core-molecules-checkboxgroup-checkboxgroup--docs)_
+_Source: `apps\storybook\src\core\molecules\CheckboxGroup\CheckboxGroup.mdx` · [Storybook](/?path=/docs/core-molecules-checkboxgroup-checkboxgroup--docs)_
 
 **Why:** Lists of related checkboxes require an accessible group name for screen readers, visual alignment, and frequently need capacity tracking badges (such as "2 / 3 valittu" in equipment craft systems or character creators). CheckboxGroup standardizes this layout and accessibility pattern.
 
@@ -2826,7 +3082,7 @@ _Source: `apps/storybook/src/core/molecules/CheckboxGroup/CheckboxGroup.mdx` · 
 
 ### Field
 
-_Source: `apps/storybook/src/core/molecules/Field/Field.mdx` · [Storybook](/?path=/docs/core-molecules-field-field--docs)_
+_Source: `apps\storybook\src\core\molecules\Field\Field.mdx` · [Storybook](/?path=/docs/core-molecules-field-field--docs)_
 
 **Why:** Form controls fail WCAG when the name is only a placeholder, or when invalid state is red chrome with no words. Field owns the visible label and the hint/error message so that contract stays consistent — Input stays control chrome, not a half-built form row.
 
@@ -2843,7 +3099,7 @@ _Source: `apps/storybook/src/core/molecules/Field/Field.mdx` · [Storybook](/?pa
 
 ### Flow
 
-_Source: `apps/storybook/src/core/molecules/Flow/Flow.mdx` · [Storybook](/?path=/docs/core-molecules-flow-flow--docs)_
+_Source: `apps\storybook\src\core\molecules\Flow\Flow.mdx` · [Storybook](/?path=/docs/core-molecules-flow-flow--docs)_
 
 **Why:** Type primitives need default margins for standalone stories, but those margins **stack** in compositions — especially with global `text-box` trim removing half-leading. Flow owns the gaps instead.
 
@@ -2851,7 +3107,7 @@ _Source: `apps/storybook/src/core/molecules/Flow/Flow.mdx` · [Storybook](/?path
 
 ### List
 
-_Source: `apps/storybook/src/core/molecules/List/List.mdx` · [Storybook](/?path=/docs/core-molecules-list-list--docs)_
+_Source: `apps\storybook\src\core\molecules\List\List.mdx` · [Storybook](/?path=/docs/core-molecules-list-list--docs)_
 
 **Why:** Reading content often needs bulleted or numbered steps. Real `ul` / `ol` / `li` keep semantics honest for assistive tech and let Prose style bare CMS tags the same way as classed Lists.
 
@@ -2867,7 +3123,7 @@ _Source: `apps/storybook/src/core/molecules/List/List.mdx` · [Storybook](/?path
 
 ### Menu
 
-_Source: `apps/storybook/src/core/molecules/Menu/Menu.mdx` · [Storybook](/?path=/docs/core-molecules-menu-menu--docs)_
+_Source: `apps\storybook\src\core\molecules\Menu\Menu.mdx` · [Storybook](/?path=/docs/core-molecules-menu-menu--docs)_
 
 **Why:** Account menus, view switchers, and worldbook sidebars all need a compact vertical list of destinations. Menu owns that chrome — flat rows for standalone plaques and [Popover](/?path=/docs/core-atoms-popover--docs) menus, nested `group` branches for eevenko.to-style trees — without baking open/position or routing into the DS. Copy-paste HTML navigates with no app JS.
 
@@ -2882,7 +3138,7 @@ _Source: `apps/storybook/src/core/molecules/Menu/Menu.mdx` · [Storybook](/?path
 
 ### Notice
 
-_Source: `apps/storybook/src/core/molecules/Notice/Notice.mdx` · [Storybook](/?path=/docs/core-molecules-notice-notice--docs)_
+_Source: `apps\storybook\src\core\molecules\Notice\Notice.mdx` · [Storybook](/?path=/docs/core-molecules-notice-notice--docs)_
 
 **Why:** Readers need a scannable block that signals status — locked section, success, caution — with the same intent language as Badge, but as a banner rather than a chip. Notice owns that feedback surface so products do not paint Card or Paragraph in feedback colors.
 
@@ -2890,7 +3146,7 @@ _Source: `apps/storybook/src/core/molecules/Notice/Notice.mdx` · [Storybook](/?
 
 ### PropertyList
 
-_Source: `apps/storybook/src/core/molecules/PropertyList/PropertyList.mdx` · [Storybook](/?path=/docs/core-molecules-propertylist-propertylist--docs)_
+_Source: `apps\storybook\src\core\molecules\PropertyList\PropertyList.mdx` · [Storybook](/?path=/docs/core-molecules-propertylist-propertylist--docs)_
 
 **Why:** Combat vitals, skills, senses, languages, and challenge lines are definitional metadata. A real `dl` exposes that relationship to assistive tech and keeps Statblock rails honest — no bold Paragraph + `` scaffolding.
 
@@ -2904,7 +3160,7 @@ _Source: `apps/storybook/src/core/molecules/PropertyList/PropertyList.mdx` · [S
 
 ### Prose
 
-_Source: `apps/storybook/src/core/molecules/Prose/Prose.mdx` · [Storybook](/?path=/docs/core-molecules-prose-prose--docs)_
+_Source: `apps\storybook\src\core\molecules\Prose\Prose.mdx` · [Storybook](/?path=/docs/core-molecules-prose-prose--docs)_
 
 **Why:** CMS HTML, markdown, and editorial content often ship tags without DS classes. Prose opts those tags into the type system without restyling every `h1`/`p`/`ul` in the document.
 
@@ -2912,7 +3168,7 @@ _Source: `apps/storybook/src/core/molecules/Prose/Prose.mdx` · [Storybook](/?pa
 
 ### RadioGroup
 
-_Source: `apps/storybook/src/core/molecules/RadioGroup/RadioGroup.mdx` · [Storybook](/?path=/docs/core-molecules-radiogroup-radiogroup--docs)_
+_Source: `apps\storybook\src\core\molecules\RadioGroup\RadioGroup.mdx` · [Storybook](/?path=/docs/core-molecules-radiogroup-radiogroup--docs)_
 
 **Why:** Groups of mutually exclusive choices need an accessible group name for screen readers, keyboard arrow navigation between options, and layout options for cards with rich descriptions or compact grid tiles.
 
@@ -2933,7 +3189,7 @@ _Source: `apps/storybook/src/core/molecules/RadioGroup/RadioGroup.mdx` · [Story
 
 ### Segmented Control
 
-_Source: `apps/storybook/src/core/molecules/SegmentedControl/SegmentedControl.mdx` · [Storybook](/?path=/docs/core-molecules-segmentedcontrol-segmentedcontrol--docs)_
+_Source: `apps\storybook\src\core\molecules\SegmentedControl\SegmentedControl.mdx` · [Storybook](/?path=/docs/core-molecules-segmentedcontrol-segmentedcontrol--docs)_
 
 **Why:** Mutually exclusive short options often need to stay visible as a compact track — not hidden in a select or scattered as separate Buttons. Segmented Control is that exclusive-choice chrome for in-page radios or navigational link sets.
 
@@ -2941,7 +3197,7 @@ _Source: `apps/storybook/src/core/molecules/SegmentedControl/SegmentedControl.md
 
 ### Stepper
 
-_Source: `apps/storybook/src/core/molecules/Stepper/Stepper.mdx` · [Storybook](/?path=/docs/core-molecules-stepper-stepper--docs)_
+_Source: `apps\storybook\src\core\molecules\Stepper\Stepper.mdx` · [Storybook](/?path=/docs/core-molecules-stepper-stepper--docs)_
 
 **Why:** TTRPG systems regularly feature bounded small integer increments (armor reinforcement ranks, damage bonus pips, inventory quantities). Free-form text fields often fail validation or require extra typing on mobile devices. Steppers provide fast one-tap adjustment and bound enforcement.
 
@@ -2960,11 +3216,11 @@ _Source: `apps/storybook/src/core/molecules/Stepper/Stepper.mdx` · [Storybook](
 
 ### Table
 
-_Source: `apps/storybook/src/core/molecules/Table/Table.mdx` · [Storybook](/?path=/docs/core-molecules-table-table--docs)_
+_Source: `apps\storybook\src\core\molecules\Table\Table.mdx` · [Storybook](/?path=/docs/core-molecules-table-table--docs)_
 
 ### Tooltip Card
 
-_Source: `apps/storybook/src/core/molecules/TooltipCard/TooltipCard.mdx` · [Storybook](/?path=/docs/core-molecules-tooltipcard-tooltipcard--docs)_
+_Source: `apps\storybook\src\core\molecules\TooltipCard\TooltipCard.mdx` · [Storybook](/?path=/docs/core-molecules-tooltipcard-tooltipcard--docs)_
 
 **Why:** Preview panels need a compact elevated surface with an optional title, scrollable body, and footer link — without inventing a one-off panel or overloading page [Card](/?path=/docs/core-molecules-card--docs). TooltipCard is that chrome; Popover owns placement.
 
@@ -2972,13 +3228,13 @@ _Source: `apps/storybook/src/core/molecules/TooltipCard/TooltipCard.mdx` · [Sto
 
 ### TableShell
 
-_Source: `apps/storybook/src/core/organisms/TableShell/TableShell.mdx` · [Storybook](/?path=/docs/core-organisms-tableshell-tableshell--docs)_
+_Source: `apps\storybook\src\core\organisms\TableShell\TableShell.mdx` · [Storybook](/?path=/docs/core-organisms-tableshell-tableshell--docs)_
 
 ### AbilityName
 
-_Source: `apps/storybook/src/domain/atoms/AbilityName/AbilityName.mdx` · [Storybook](/?path=/docs/domain-atoms-abilityname-abilityname--docs)_
+_Source: `apps\storybook\src\domain\atoms\AbilityName\AbilityName.mdx` · [Storybook](/?path=/docs/domain-atoms-abilityname-abilityname--docs)_
 
-**Why:** Rules text and equipment blocks frequently reference abilities in constrained spaces (such as weapon stat cards or compact tables): - **Full readability by default:** Displays the full Finnish name (`Voimakkuus`) whenever space permits. - **Graceful degradation:** When space is cramped (e.g. in multi-column weapon stat cards or mobile screens), collapses automatically to the standard 3-letter abbreviation (`VOI`). - **Accessible:** Always provides the unabbreviated name in `aria-label`, so assistive technology reads the full ability name regardless of visual abbreviation.
+**Why:** Rules text and equipment blocks frequently reference abilities in constrained spaces (such as weapon stat cards or compact tables): - **Full readability by default:** Displays the full Finnish name (`Voimakkuus`) whenever space permits. - **Graceful degradation:** When space is cramped (e.g. in multi-column weapon stat cards or mobile screens), collapses automatically to the standard 3-letter abbreviation (`VOI`). - **Accessible:** Keeps the unabbreviated name in the accessibility tree via visually-hidden text while marking the 3-letter abbreviation `aria-hidden="true"`, so assistive technology reads the full ability name without prohibited ARIA attributes on generic inline spans.
 
 **When:** Use for presenting ability references in equipment cards, stat blocks, or rules text.       Compose multiple abilities with conjunctions like tai or /.       Let responsive CSS handle abbreviation whenever possible.        }   dont={            Don't wrap entire phrases like "Voimakkuus tai Ketteryys" in a single AbilityName atom. Wrap each ability individually.       Don't hardcode fixed abbreviations in content markup without an accessible full-name fallback.        } />
 
@@ -2990,7 +3246,7 @@ _Source: `apps/storybook/src/domain/atoms/AbilityName/AbilityName.mdx` · [Story
 
 ### Entity Ref
 
-_Source: `apps/storybook/src/domain/atoms/EntityRef/EntityRef.mdx` · [Storybook](/?path=/docs/domain-atoms-entityref-entityref--docs)_
+_Source: `apps\storybook\src\domain\atoms\EntityRef\EntityRef.mdx` · [Storybook](/?path=/docs/domain-atoms-entityref-entityref--docs)_
 
 **Why:** Rules prose names other entities constantly. EntityRef marks those names with **kind-colored** ink so readers can tell a referenced term from ordinary words — without Badge chrome or a Button. Prefer bare [InlineRef](/?path=/docs/core-atoms-inlineref--docs) when you do not need a closed kind.
 
@@ -3007,7 +3263,7 @@ _Source: `apps/storybook/src/domain/atoms/EntityRef/EntityRef.mdx` · [Storybook
 
 ### AbilityScore
 
-_Source: `apps/storybook/src/domain/molecules/AbilityScore/AbilityScore.mdx` · [Storybook](/?path=/docs/domain-molecules-abilityscore-abilityscore--docs)_
+_Source: `apps\storybook\src\domain\molecules\AbilityScore\AbilityScore.mdx` · [Storybook](/?path=/docs/domain-molecules-abilityscore-abilityscore--docs)_
 
 **Why:** Ability columns are decorative and positional (orbiting chips), but still need accessible terms for score / modifier / save. AbilityScore owns that column AT contract.
 
@@ -3028,7 +3284,7 @@ _Source: `apps/storybook/src/domain/molecules/AbilityScore/AbilityScore.mdx` · 
 
 ### StatblockFeature
 
-_Source: `apps/storybook/src/domain/molecules/StatblockFeature/StatblockFeature.mdx` · [Storybook](/?path=/docs/domain-molecules-statblockfeature-statblockfeature--docs)_
+_Source: `apps\storybook\src\domain\molecules\StatblockFeature\StatblockFeature.mdx` · [Storybook](/?path=/docs/domain-molecules-statblockfeature-statblockfeature--docs)_
 
 **Why:** Feature names should participate in the document outline without orphaning a full-width heading above a one-line mechanic. Run-in H3 keeps the name on the same line as the body while remaining a real heading.
 
@@ -3042,7 +3298,7 @@ _Source: `apps/storybook/src/domain/molecules/StatblockFeature/StatblockFeature.
 
 ### StatblockSection
 
-_Source: `apps/storybook/src/domain/molecules/StatblockSection/StatblockSection.mdx` · [Storybook](/?path=/docs/domain-molecules-statblocksection-statblocksection--docs)_
+_Source: `apps\storybook\src\domain\molecules\StatblockSection\StatblockSection.mdx` · [Storybook](/?path=/docs/domain-molecules-statblocksection-statblocksection--docs)_
 
 **Why:** Grouping features under a real H2 keeps the outline contiguous under the creature H1 and gives a clear landmark for Actions, Reactions, Legendary Actions, and similar clusters.
 
@@ -3055,7 +3311,7 @@ _Source: `apps/storybook/src/domain/molecules/StatblockSection/StatblockSection.
 
 ### AbilityScoreGroup
 
-_Source: `apps/storybook/src/domain/organisms/AbilityScoreGroup/AbilityScoreGroup.mdx` · [Storybook](/?path=/docs/domain-organisms-abilityscoregroup-abilityscoregroup--docs)_
+_Source: `apps\storybook\src\domain\organisms\AbilityScoreGroup\AbilityScoreGroup.mdx` · [Storybook](/?path=/docs/domain-organisms-abilityscoregroup-abilityscoregroup--docs)_
 
 **Why:** Ability grids need a panel, noise surface, scoop corners, and a container query. AbilityScore owns one column; AbilityScoreGroup owns the sandwich layout.
 
@@ -3069,7 +3325,7 @@ _Source: `apps/storybook/src/domain/organisms/AbilityScoreGroup/AbilityScoreGrou
 
 ### EquipmentBlock
 
-_Source: `apps/storybook/src/domain/organisms/EquipmentBlock/EquipmentBlock.mdx` · [Storybook](/?path=/docs/domain-organisms-equipmentblock-equipmentblock--docs)_
+_Source: `apps\storybook\src\domain\organisms\EquipmentBlock\EquipmentBlock.mdx` · [Storybook](/?path=/docs/domain-organisms-equipmentblock-equipmentblock--docs)_
 
 **Why:** Rules and compendium pages need a standardized, accessible display card for equipment:
 
@@ -3090,11 +3346,11 @@ _Source: `apps/storybook/src/domain/organisms/EquipmentBlock/EquipmentBlock.mdx`
 
 ### EquipmentWorkshop
 
-_Source: `apps/storybook/src/domain/organisms/EquipmentWorkshop/EquipmentWorkshop.mdx` · [Storybook](/?path=/docs/domain-organisms-equipmentworkshop-equipmentworkshop--docs)_
+_Source: `apps\storybook\src\domain\organisms\EquipmentWorkshop\EquipmentWorkshop.mdx` · [Storybook](/?path=/docs/domain-organisms-equipmentworkshop-equipmentworkshop--docs)_
 
 ### Spellblock
 
-_Source: `apps/storybook/src/domain/organisms/Spellblock/Spellblock.mdx` · [Storybook](/?path=/docs/domain-organisms-spellblock-spellblock--docs)_
+_Source: `apps\storybook\src\domain\organisms\Spellblock\Spellblock.mdx` · [Storybook](/?path=/docs/domain-organisms-spellblock-spellblock--docs)_
 
 **Why:** Spell pages need the same structure a printed spell has: find the school line, then Range and Duration, then read the effect. Spellblock gives you one organism that:
 
@@ -3114,7 +3370,7 @@ _Source: `apps/storybook/src/domain/organisms/Spellblock/Spellblock.mdx` · [Sto
 
 ### Statblock
 
-_Source: `apps/storybook/src/domain/organisms/Statblock/Statblock.mdx` · [Storybook](/?path=/docs/domain-organisms-statblock-statblock--docs)_
+_Source: `apps\storybook\src\domain\organisms\Statblock\Statblock.mdx` · [Storybook](/?path=/docs/domain-organisms-statblock-statblock--docs)_
 
 **Why:** Rules pages need a stable, accessible structure for NPC and monster entries. Statblock gives you one organism that:
 

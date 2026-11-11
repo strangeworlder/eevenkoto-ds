@@ -9,88 +9,107 @@
      ========================================================================== */
 
   /* Turquoise */
-  --eevenkoto-color-turquoise-state:          oklch(0.46 0.28 180);
-  --eevenkoto-color-turquoise-state-hover:    oklch(0.30 0.22 170);
-  --eevenkoto-color-turquoise-border-subtle:  oklch(0.10 0.22 180 / 20%);
-  --eevenkoto-color-turquoise-primary:        oklch(0.85 0.24 165);
-  --eevenkoto-color-turquoise-primary-hover:  oklch(0.70 0.28 180);
-  --eevenkoto-color-turquoise-text:           oklch(0.98 0.01 190);
+  --eevenkoto-color-turquoise-state:                 oklch(0.46 0.28 180);
+  --eevenkoto-color-turquoise-state-hover:           oklch(0.30 0.22 170);
+  /* Dark-mode primary hover — steps down lightly so ≥4.5:1 on-fill text and ≥3:1 canvas edge both hold. */
+  --eevenkoto-color-turquoise-state-hover-on-dark:   oklch(0.42 0.26 178);
+  --eevenkoto-color-turquoise-border-subtle:         oklch(0.10 0.22 180 / 20%);
+  --eevenkoto-color-turquoise-primary:               oklch(0.85 0.24 165);
+  --eevenkoto-color-turquoise-primary-hover:         oklch(0.70 0.28 180);
+  --eevenkoto-color-turquoise-text:                  oklch(0.98 0.01 190);
   /* Ink for light surfaces (links). Dark enough for 4.5:1 on sunken after sRGB gamut mapping, far enough from body text for 3:1. */
-  --eevenkoto-color-turquoise-link:           oklch(0.415 0.28 168);
+  --eevenkoto-color-turquoise-link:                  oklch(0.415 0.28 168);
+  --eevenkoto-color-turquoise-link-hover:            oklch(0.42 0.22 195);
   /* Ink for dark surfaces. */
-  --eevenkoto-color-turquoise-link-on-dark:   oklch(0.60 0.16 175);
+  --eevenkoto-color-turquoise-link-on-dark:          oklch(0.60 0.16 175);
+  --eevenkoto-color-turquoise-link-hover-on-dark:    oklch(0.59 0.18 198);
   /* Near-black turquoise for ghost ink on a mid control fill. */
-  --eevenkoto-color-turquoise-ink:            oklch(0.15 0.05 175);
-  --eevenkoto-color-turquoise-tint-cool:      oklch(0.98 0.015 202);
-  --eevenkoto-color-turquoise-tint-deep:      oklch(0.18 0.22 162);
+  --eevenkoto-color-turquoise-ink:                   oklch(0.15 0.05 175);
+  --eevenkoto-color-turquoise-tint-cool:             oklch(0.98 0.015 202);
+  --eevenkoto-color-turquoise-tint-deep:             oklch(0.18 0.22 162);
   /* Disabled mix partners: opaque achromatic endpoints (C=0). Tier 2 picks light vs deep. */
-  --eevenkoto-color-turquoise-tint-disabled:      oklch(1 0 180);
-  --eevenkoto-color-turquoise-tint-disabled-deep: oklch(0 0 180);
-  --eevenkoto-color-turquoise-shadow:         oklch(0.15 0.25 192 / 25%);
-  --eevenkoto-color-turquoise-text-shadow:    oklch(0.12 0.20 192);
+  --eevenkoto-color-turquoise-tint-disabled:         oklch(1 0 180);
+  --eevenkoto-color-turquoise-tint-disabled-deep:    oklch(0 0 180);
+  --eevenkoto-color-turquoise-shadow:                oklch(0.15 0.25 192 / 25%);
+  --eevenkoto-color-turquoise-text-shadow:           oklch(0.12 0.20 192);
 
   /* Parchment */
-  --eevenkoto-color-parchment-background:         oklch(0.96 0.02 90);
+  --eevenkoto-color-parchment-background:            oklch(0.96 0.02 90);
   /* Near-white field fill — Input on Card / raised surfaces. */
-  --eevenkoto-color-parchment-background-bright:  oklch(0.99 0.008 90);
+  --eevenkoto-color-parchment-background-bright:     oklch(0.99 0.008 90);
   /* Quieter wash above canvas (L↑, chroma −30% vs background) — table stripes, dense bands. */
-  --eevenkoto-color-parchment-background-subtle:  oklch(0.93 0.01 100);
-  --eevenkoto-color-parchment-background-element: oklch(0.90 0.04 85);
-  --eevenkoto-color-parchment-border:             oklch(0.50 0.18 80);
-  --eevenkoto-color-parchment-primary:            oklch(0.40 0.10 80);
-  --eevenkoto-color-parchment-text:               oklch(0.15 0.025 85);
-  --eevenkoto-color-parchment-text-muted:         oklch(0.35 0.04 85);
-  /* Quieter than muted — Caption / metadata (target ≥4.5:1 on canvas; audit on sunken). */
-  --eevenkoto-color-parchment-text-subtle:        oklch(0.50 0.025 85);
-  --eevenkoto-color-parchment-tint-disabled:      oklch(1 0 85);
-  --eevenkoto-color-parchment-tint-disabled-deep: oklch(0 0 85);
+  --eevenkoto-color-parchment-background-subtle:     oklch(0.93 0.01 100);
+  --eevenkoto-color-parchment-background-element:    oklch(0.90 0.04 85);
+  /* Warm gold-washed hover stop for secondary controls in light mode. */
+  --eevenkoto-color-parchment-state-hover:           oklch(0.904 0.076 83);
+  /* Subtle warm hover wash for ghost controls in light mode. */
+  --eevenkoto-color-parchment-ghost-hover:           oklch(0.848 0.036 88);
+  --eevenkoto-color-parchment-border:                oklch(0.50 0.18 80);
+  --eevenkoto-color-parchment-primary:               oklch(0.40 0.10 80);
+  --eevenkoto-color-parchment-text:                  oklch(0.15 0.025 85);
+  --eevenkoto-color-parchment-text-muted:            oklch(0.35 0.04 85);
+  /* Quieter than muted — Caption / metadata (clears ≥4.5:1 on canvas and sunken). */
+  --eevenkoto-color-parchment-text-subtle:           oklch(0.48 0.025 85);
+  --eevenkoto-color-parchment-tint-disabled:         oklch(1 0 85);
+  --eevenkoto-color-parchment-tint-disabled-deep:    oklch(0 0 85);
 
   /* Obsidian — dark elevation (additive). Hue ~240; L steps 0.14 / 0.18 / 0.23. */
-  --eevenkoto-color-obsidian-background:         oklch(0.14 0.01 240);
-  --eevenkoto-color-obsidian-background-subtle:  oklch(0.18 0.012 240);
-  --eevenkoto-color-obsidian-background-raised:  oklch(0.23 0.014 240);
-  --eevenkoto-color-obsidian-background-sunken:  oklch(0.11 0.01 240);
-  --eevenkoto-color-obsidian-border:             oklch(0.58 0.025 240);
-  --eevenkoto-color-obsidian-text:               oklch(0.97 0.01 90);
-  --eevenkoto-color-obsidian-text-muted:         oklch(0.76 0.016 90);
-  --eevenkoto-color-obsidian-text-subtle:        oklch(0.64 0.014 90);
+  --eevenkoto-color-obsidian-background:             oklch(0.14 0.01 240);
+  --eevenkoto-color-obsidian-background-subtle:      oklch(0.18 0.012 240);
+  --eevenkoto-color-obsidian-background-raised:      oklch(0.23 0.014 240);
+  --eevenkoto-color-obsidian-background-sunken:      oklch(0.11 0.01 240);
+  --eevenkoto-color-obsidian-border:                 oklch(0.58 0.025 240);
+  --eevenkoto-color-obsidian-text:                   oklch(0.97 0.01 90);
+  --eevenkoto-color-obsidian-text-muted:             oklch(0.76 0.016 90);
+  --eevenkoto-color-obsidian-text-subtle:            oklch(0.64 0.014 90);
 
   /* Gold */
-  --eevenkoto-color-gold-primary:        oklch(0.78 0.17 70);
-  --eevenkoto-color-gold-primary-strong: oklch(0.58 0.20 65);
+  --eevenkoto-color-gold-primary:                    oklch(0.78 0.17 70);
+  --eevenkoto-color-gold-primary-strong:             oklch(0.58 0.20 65);
   /* Deep gold for emphasis chrome and accent text (≥4.5:1 on sunken). */
-  --eevenkoto-color-gold-primary-deep:   oklch(0.48 0.18 65);
-  --eevenkoto-color-gold-state:          oklch(0.92 0.22 75);
+  --eevenkoto-color-gold-primary-deep:               oklch(0.48 0.18 65);
+  --eevenkoto-color-gold-state:                      oklch(0.92 0.22 75);
 
   /* ==========================================================================
-     PLACEHOLDER HUES (feedback intents)
-     Rough OKLCH scaffolds so Tier 2 / Badge can wire up. Designer finalizes
-     each pigment via the single-hue thought experiment — do not treat these
-     as approved brand values.
+     PLACEHOLDER HUES (feedback & validation intents)
+     OKLCH stops for Tier 2 feedback, validation, and visited-link mappings.
+     Designer finalizes each pigment via the single-hue thought experiment.
      ========================================================================== */
 
   /* Green → feedback-success */
-  --eevenkoto-color-green-state:         oklch(0.50 0.20 125);
-  --eevenkoto-color-green-text:          oklch(0.98 0.01 125);
+  --eevenkoto-color-green-state:                     oklch(0.50 0.20 125);
+  --eevenkoto-color-green-ink:                       oklch(0.395 0.147 113);
+  --eevenkoto-color-green-text:                      oklch(0.98 0.01 125);
 
-  /* Orange → feedback-caution (darker state for solid + white on-fill ink) */
-  --eevenkoto-color-orange-state:        oklch(0.82 0.32 70);
-  --eevenkoto-color-orange-text:         oklch(0.09 0.01 65);
+  /* Orange → feedback-caution */
+  --eevenkoto-color-orange-state:                    oklch(0.82 0.32 70);
+  --eevenkoto-color-orange-ink:                      oklch(0.384 0.128 79.8);
+  --eevenkoto-color-orange-text:                     oklch(0.09 0.01 65);
 
-  /* Crimson → feedback-critical (darker state for solid contrast) */
-  --eevenkoto-color-crimson-state:       oklch(0.35 0.33 15);
-  --eevenkoto-color-crimson-text:        oklch(0.99 0.01 25);
+  /* Crimson → feedback-critical, form invalid, destructive control */
+  --eevenkoto-color-crimson-state:                   oklch(0.35 0.33 15);
+  --eevenkoto-color-crimson-state-hover:             oklch(0.32 0.284 25.5);
+  --eevenkoto-color-crimson-state-on-dark:           oklch(0.48 0.24 20);
+  --eevenkoto-color-crimson-state-hover-on-dark:     oklch(0.52 0.24 20);
+  --eevenkoto-color-crimson-ink:                     oklch(0.29 0.238 36);
+  --eevenkoto-color-crimson-text:                    oklch(0.99 0.01 25);
   /* Light crimson ink for dark surfaces. */
-  --eevenkoto-color-crimson-text-bright: oklch(0.78 0.16 25);
+  --eevenkoto-color-crimson-text-bright:             oklch(0.78 0.16 25);
+  /* Subtle invalid field washes (light blush / dark crimson well). */
+  --eevenkoto-color-crimson-tint-cool:               oklch(0.96 0.02 20);
+  --eevenkoto-color-crimson-tint-deep:               oklch(0.20 0.05 20);
 
-  /* Purple → feedback-admin */
-  --eevenkoto-color-purple-state:        oklch(0.50 0.18 320);
-  --eevenkoto-color-purple-text:         oklch(0.98 0.01 320);
+  /* Purple → feedback-admin & visited links */
+  --eevenkoto-color-purple-state:                    oklch(0.50 0.18 320);
+  --eevenkoto-color-purple-ink:                      oklch(0.395 0.134 357.5);
+  --eevenkoto-color-purple-text:                     oklch(0.98 0.01 320);
+  --eevenkoto-color-purple-link:                     oklch(0.508 0.18 310);
+  --eevenkoto-color-purple-link-on-dark:             oklch(0.645 0.15 310);
 
   /* ==========================================================================
-     TIER 1: TYPE SCALE & WEIGHTS
-     Raw rem steps and face weights. Components must not reference these —
-     consume Tier 2 semantic font-size / weight aliases in tokens.css.
+     TIER 1: TYPE SCALE
+     Raw rem steps. Components must not reference these — consume Tier 2
+     semantic font-size aliases in tokens.css.
      ========================================================================== */
 
   --eevenkoto-font-size-xs: 1.2rem;
@@ -100,8 +119,4 @@
   --eevenkoto-font-size-xl: 2.0rem;
   --eevenkoto-font-size-2xl: 2.4rem;
   --eevenkoto-font-size-3xl: 3.2rem;
-
-  --eevenkoto-font-weight-regular: 400;
-  --eevenkoto-font-weight-semibold: 600;
-  --eevenkoto-font-weight-bold: 700;
 }

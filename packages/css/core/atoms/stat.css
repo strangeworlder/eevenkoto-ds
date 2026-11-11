@@ -35,9 +35,9 @@
     --eevenkoto-stat-font-size,
     var(--eevenkoto-font-size-body-md)
   );
-  --_eevenkoto-stat-size: var(--eevenkoto-stat-size, 3.2rem);
+  --_eevenkoto-stat-size: var(--eevenkoto-stat-size, 4rem);
   --_eevenkoto-stat-height: var(--eevenkoto-stat-height, var(--_eevenkoto-stat-size));
-  --_eevenkoto-stat-radius: var(--eevenkoto-stat-radius, var(--eevenkoto-radius-sm));
+  --_eevenkoto-stat-radius: var(--eevenkoto-stat-radius, var(--eevenkoto-radius-full));
 
   position: relative;
   box-sizing: border-box;

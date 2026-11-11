@@ -36,24 +36,25 @@ export function Example() {
 
 ### Core
 
-- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Chip`, `Frame`, `Heading`, `Icon`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Scroll`, `Stat`, `StatusDot`, `TableCell`
-- Molecules: `Card`, `Catalog`, `CatalogTile`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `SegmentedControl`, `Table`, `TooltipCard`
+- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Checkbox`, `Chip`, `Frame`, `Heading`, `Icon`, `Image`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Radio`, `Scroll`, `Select`, `Stat`, `StatusDot`, `TableCell`, `Toast`
+- Molecules: `Card`, `Catalog`, `CatalogTile`, `CheckboxGroup`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `RadioGroup`, `SegmentedControl`, `Stepper`, `Table`, `TooltipCard`
 - Organisms: `TableShell`
 
 `Button` = in-page action. `LinkButton` = prominent URL CTA (`href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef`.
 
 ### Domain
 
-- Atoms: `EntityRef`
+- Atoms: `AbilityName`, `EntityRef`
 - Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
-- Organisms: `AbilityScoreGroup`, `Statblock`, `Spellblock`
+- Organisms: `AbilityScoreGroup`, `EquipmentBlock`, `EquipmentWorkshop`, `Spellblock`, `Statblock`
 
-`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`.
+`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`. When `EquipmentBlock` renders `abilities` (or you render `AbilityName` directly), also import `@eevenkoto/css/ability-name.css`.
 
 ## Related
 
-- `@eevenkoto/css` — styles (required for appearance; consume / never rules live there)
+- `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
 - `@eevenkoto/html` — reference vanilla renderers
 - `@eevenkoto/vue` — Vue equivalents
+- Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

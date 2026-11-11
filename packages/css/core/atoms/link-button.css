@@ -46,20 +46,20 @@
     --eevenkoto-link-button-gradient-start,
     color-mix(
       in display-p3,
-      var(--eevenkoto-color-control-primary-background),
+      var(--_eevenkoto-link-button-bg),
       var(--eevenkoto-color-control-primary-background-hover) 30%
     )
   );
   --_eevenkoto-link-button-gradient-middle: var(
     --eevenkoto-link-button-gradient-middle,
-    var(--eevenkoto-color-control-primary-background)
+    var(--_eevenkoto-link-button-bg)
   );
   --_eevenkoto-link-button-gradient-end: var(
     --eevenkoto-link-button-gradient-end,
     color-mix(
       in display-p3,
-      var(--eevenkoto-color-control-primary-background),
-      var(--eevenkoto-color-control-primary-icon) 30%
+      var(--_eevenkoto-link-button-bg),
+      var(--_eevenkoto-link-button-icon) 30%
     )
   );
   --_eevenkoto-link-button-radius: var(
@@ -176,19 +176,19 @@
     --eevenkoto-link-button-gradient-start-hover,
     color-mix(
       in display-p3,
-      var(--eevenkoto-color-control-primary-background-hover),
+      var(--eevenkoto-link-button-bg),
       var(--eevenkoto-color-control-primary-tint-deep) 10%
     )
   );
   --eevenkoto-link-button-gradient-middle: var(
     --eevenkoto-link-button-gradient-middle-hover,
-    var(--eevenkoto-color-control-primary-background-hover)
+    var(--eevenkoto-link-button-bg)
   );
   --eevenkoto-link-button-gradient-end: var(
     --eevenkoto-link-button-gradient-end-hover,
     color-mix(
       in display-p3,
-      var(--eevenkoto-color-control-primary-background),
+      var(--eevenkoto-link-button-bg),
       var(--eevenkoto-color-control-primary-tint-cool) 10%
     )
   );

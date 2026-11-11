@@ -50,9 +50,9 @@ A pure geometric scale makes H6 smaller than body or H1 absurdly large. Group le
 
 | Visual tier | Levels | Differentiation |
 | --- | --- | --- |
-| **Macro** | H1, H2 | Distinct size jump, bottom rule, generous space-before |
-| **Meso** | H3, H4 | Modest size + weight; H4 near body size; no tint bands |
-| **Micro** | H5, H6 | **Same size as body**; small caps (H5) or bold italic / run-in (H6) |
+| **Macro** | H1, H2 | Outfit serif, distinct size jump, bottom rule, generous space-before |
+| **Meso** | H3, H4 | H3 Outfit serif (`heading-3`); H4 Inter sans semibold (`heading-4`); no tint bands |
+| **Micro / Statblock** | H5, H6 | H5 small-caps (`heading-5`) on sunken section band; H6 bold italic (`heading-6` = `body-md`) or run-in |
 
 <Canvas of={HeadingStories.AllLevels} />
 
@@ -79,15 +79,15 @@ Tag maps use `:where(hN)` so specificity stays low and `--M` modifiers win by so
 <DoDont
   do={
     <ul>
-      <li>Use macro rules only on H1/H2 — keep lower levels clean.</li>
-      <li>Differentiate H5/H6 with case and posture, not smaller type.</li>
+      <li>Use macro bottom rules on H1/H2 and sunken section bands on H5.</li>
+      <li>Differentiate H5/H6 with case, banding, and posture — never smaller than body copy.</li>
       <li>Prefer H6 or H3 run-in for the lowest label when the next line is body copy.</li>
     </ul>
   }
   dont={
     <ul>
       <li>Don’t invent a sixth size step that undercuts body copy.</li>
-      <li>Don’t shade every heading level — zebra banding exhausts the eye.</li>
+      <li>Don’t shade every heading level — reserve the sunken band for H5 subsections.</li>
       <li>Don’t fake titles with a bold Paragraph.</li>
     </ul>
   }
@@ -99,12 +99,12 @@ Tag maps use `:where(hN)` so specificity stays low and `--M` modifiers win by so
 
 | Value | Element | Size token | Family | Weight / posture | Color / anchor |
 | --- | --- | --- | --- | --- | --- |
-| `1` | `h1` | `heading-1` | serif | bold | Content primary + strong bottom rule |
-| `2` | `h2` | `heading-2` | serif | bold | Warm parchment (`control-secondary-icon`) + subtle rule |
-| `3` | `h3` | `heading-3` | serif | bold | Content primary |
-| `4` | `h4` | `heading-4` | sans | semibold | Warm parchment (`control-secondary-icon`) |
-| `5` | `h5` | `heading-5` | sans | bold + small caps | Sunken band; bleeds by pad-inline (`margin ±X`, `width: 100% + 2X`) |
-| `6` | `h6` | `heading-6` (= body-md) | sans | bold italic | Warm parchment (`control-secondary-icon`); optional run-in |
+| `1` | `h1` | `heading-1` | serif | bold | `content-primary` + strong bottom rule |
+| `2` | `h2` | `heading-2` | serif | bold | `content-accent` (parchment in light, gold in dark) + subtle rule |
+| `3` | `h3` | `heading-3` | serif | bold | `content-primary` |
+| `4` | `h4` | `heading-4` | sans | semibold | `content-accent` (parchment in light, gold in dark) |
+| `5` | `h5` | `heading-5` | sans | bold + small caps | `content-primary` on sunken band; bleeds by pad-inline (`margin ±X`, `width: 100% + 2X`) |
+| `6` | `h6` | `heading-6` (= body-md) | sans | bold italic | `content-accent` (parchment in light, gold in dark); optional run-in |
 | `3` + `runIn` | `h3` | default H3 scale (unless a parent remaps) | serif → often remapped | bold | Optional run-in — Statblock remaps to micro H6 look |
 | `2` + `runIn` | `h2` | default H2 scale (unless a parent remaps) | serif → often remapped | bold | Run-in drops the H2 rule and padding — Spellblock remaps to micro H6 look |
 

@@ -55,11 +55,11 @@
   --eevenkoto-inline-ref-underline: var(--eevenkoto-color-feedback-critical-icon);
 }
 
-/* Spell keeps the info fill. Ink is the link color so it stays 4.5:1 on
-   parchment; the stroke stays on the turquoise control tuple. */
+/* Spell keeps the info fill + info ink (>= 6.7:1 on sunken) while the stroke
+   and underline stay on the turquoise control tuple to distinguish from mechanic. */
 .eevenkoto-entity-ref--spell {
   --eevenkoto-inline-ref-bg: var(--eevenkoto-color-feedback-info-background);
-  --eevenkoto-inline-ref-text: var(--eevenkoto-color-link-default);
+  --eevenkoto-inline-ref-text: var(--eevenkoto-color-feedback-info-text);
   --eevenkoto-inline-ref-border-color: var(--eevenkoto-color-control-primary-border);
   --eevenkoto-inline-ref-underline: var(--eevenkoto-color-control-primary-icon);
 }

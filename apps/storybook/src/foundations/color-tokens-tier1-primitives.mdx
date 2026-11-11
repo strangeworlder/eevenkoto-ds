@@ -33,39 +33,40 @@ Primitives are authored strictly within this functional taxonomy:
 | `background` | Broad structural canvases (page root, large panes). | `background-subtle`, `background-element` |
 | `state` | Interactive mechanics and active states. | `state-hover`, `state-active` |
 | `border` | Boundary definitions, separators, and outlines. | `border-subtle` |
-| `primary` | High-impact, punchy focal points, icons, and hero elements. | `primary-hover`, `primary-strong` |
-| `text` | Readable content calibrated for typography. | `text-muted`, `text-shadow` |
-| `tint` | Atmospheric washes and disabled mix partners (C=0 endpoints). | `tint-cool`, `tint-deep`, `tint-disabled`, `tint-disabled-deep` |
+| `primary` | High-impact, punchy focal points, icons, and hero elements. | `primary-hover`, `primary-strong`, `primary-deep` |
+| `text` / `ink` / `link` | Readable typography, subtle-surface inks, and inline link stops. | `text-muted`, `text-subtle`, `text-shadow`, `link-hover`, `*-on-dark` |
+| `tint` | Atmospheric washes and opaque achromatic disabled mix partners (`C=0`). | `tint-cool`, `tint-deep`, `tint-disabled`, `tint-disabled-deep` |
 | `shadow` | Hue-tinted elevation / brand shadow pigments (composed at Tier 2). | — |
 
 ```css
 /* Example: Primitives for Turquoise & Parchment */
 :root {
   /* Turquoise */
-  --eevenkoto-color-turquoise-state:          oklch(0.50 0.28 180);
-  --eevenkoto-color-turquoise-state-hover:    oklch(0.30 0.22 170);
-  --eevenkoto-color-turquoise-border-subtle:  oklch(0.10 0.22 180 / 20%);
-  --eevenkoto-color-turquoise-primary:        oklch(0.85 0.24 165);
-  --eevenkoto-color-turquoise-primary-hover:  oklch(0.70 0.28 180);
-  --eevenkoto-color-turquoise-text:           oklch(0.98 0.01 190);
-  --eevenkoto-color-turquoise-tint-cool:      oklch(0.98 0.015 202);
-  --eevenkoto-color-turquoise-tint-deep:      oklch(0.18 0.22 162);
-  /* Disabled mix partners: mode endpoints (C=0, A=0). Tier 2 picks light vs deep. */
-  --eevenkoto-color-turquoise-tint-disabled:      oklch(1 0 180 / 0%);
-  --eevenkoto-color-turquoise-tint-disabled-deep: oklch(0 0 180 / 0%);
-  --eevenkoto-color-turquoise-shadow:         oklch(0.15 0.25 192 / 25%);
-  --eevenkoto-color-turquoise-text-shadow:    oklch(0.12 0.20 192);
+  --eevenkoto-color-turquoise-state:              oklch(0.46 0.28 180);
+  --eevenkoto-color-turquoise-state-hover:        oklch(0.30 0.22 170);
+  --eevenkoto-color-turquoise-border-subtle:      oklch(0.10 0.22 180 / 20%);
+  --eevenkoto-color-turquoise-primary:            oklch(0.85 0.24 165);
+  --eevenkoto-color-turquoise-primary-hover:      oklch(0.70 0.28 180);
+  --eevenkoto-color-turquoise-text:               oklch(0.98 0.01 190);
+  --eevenkoto-color-turquoise-tint-cool:          oklch(0.98 0.015 202);
+  --eevenkoto-color-turquoise-tint-deep:          oklch(0.18 0.22 162);
+  /* Disabled mix partners: opaque achromatic endpoints (C=0). Tier 2 picks light vs deep. */
+  --eevenkoto-color-turquoise-tint-disabled:      oklch(1 0 180);
+  --eevenkoto-color-turquoise-tint-disabled-deep: oklch(0 0 180);
+  --eevenkoto-color-turquoise-shadow:             oklch(0.15 0.25 192 / 25%);
+  --eevenkoto-color-turquoise-text-shadow:        oklch(0.12 0.20 192);
 
   /* Parchment */
   --eevenkoto-color-parchment-background:         oklch(0.96 0.02 90);
-  --eevenkoto-color-parchment-background-subtle:  oklch(0.97 0.014 90);
+  --eevenkoto-color-parchment-background-subtle:  oklch(0.93 0.01 100);
   --eevenkoto-color-parchment-background-element: oklch(0.90 0.04 85);
   --eevenkoto-color-parchment-border:             oklch(0.50 0.18 80);
   --eevenkoto-color-parchment-primary:            oklch(0.40 0.10 80);
-  --eevenkoto-color-parchment-text:               oklch(0.18 0.02 85);
+  --eevenkoto-color-parchment-text:               oklch(0.15 0.025 85);
   --eevenkoto-color-parchment-text-muted:         oklch(0.35 0.04 85);
-  --eevenkoto-color-parchment-tint-disabled:      oklch(1 0 85 / 0%);
-  --eevenkoto-color-parchment-tint-disabled-deep: oklch(0 0 85 / 0%);
+  --eevenkoto-color-parchment-text-subtle:        oklch(0.48 0.025 85);
+  --eevenkoto-color-parchment-tint-disabled:      oklch(1 0 85);
+  --eevenkoto-color-parchment-tint-disabled-deep: oklch(0 0 85);
 }
 ```
 

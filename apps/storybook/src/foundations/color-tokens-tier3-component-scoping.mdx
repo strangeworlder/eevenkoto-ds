@@ -143,7 +143,7 @@ A component stylesheet must never reference a Tier 1 primitive by hue (e.g., `--
 
 - **Violation:** `background-color: var(--eevenkoto-color-turquoise-state);`
 - **Correction:** Reference the semantic intent: `var(--eevenkoto-color-control-primary-background)`.
-- **Planned enforcement:** Stylelint should block hue-primitive leakage in component stylesheets under `packages/css/core/**` and `packages/css/domain/**` (not wired in CI yet — follow the rule manually).
+- **CI enforcement:** `eevenkoto/no-primitive-in-components` dynamically loads `primitive-tokens.css` and blocks any Tier 1 reference in component and Storybook stylesheets.
 
 ### Rule 2: Complete Tuple Synchronization on State & Variant Shifts
 
@@ -157,7 +157,7 @@ When a component variant, pseudo-class (`:hover`, `:active`, `:focus-visible`), 
 - Component tokens are scoped to their component host class (`.eevenkoto-<component>`).
 - Component stylesheets must not define global selectors (`:root`, `body`, `div`).
 - Modifiers must be applied via BEM-style variant classes (e.g., `.eevenkoto-button--secondary`) or data attributes (`data-variant="secondary"`), never via bare tag selectors.
-- **Exception (type only):** Heading may map level from the host tag with `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides). Bare `h1`–`h6` / `p` styling is allowed only under the Prose host (`.eevenkoto-prose :where(…)`). Do not style those tags globally.
+- **Exception (type only):** Heading may map level from the host tag with `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides). Bare `h1`–`h6` / `p` / `ul` / `ol` / `li` / `a` styling is allowed only under the Prose host (`.eevenkoto-prose :where(…)`). Do not style those tags globally.
 - **Host defaults:** The host class alone must implement the documented default (see [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs)). Default variant/size modifiers are optional aliases, not requirements.
 
 ### Rule 4: Zero Speculative Property Exposure
@@ -212,7 +212,7 @@ Tier 2 owns **solid** contrast tuples (`background` / `text` / `border` / `icon`
 ### Rules
 
 1. **Solid fill always exists.** On the host, bridge `--_eevenkoto-<component>-bg` to the public API with a Tier 2 `*-background` fallback, and attach the private bridge to `background-color`. Gradients attach via `background-image` so forced-colors / gradient stripping still leave a readable fill.
-2. **Compose stops from Tier 2.** Default gradient stops with `color-mix(in display-p3, …)` over semantic tokens — never hue primitives, never raw `oklch()` in the component sheet.
+2. **Derive stops from the host’s private bridges.** Default gradient stops with `color-mix(in display-p3, var(--_eevenkoto-<component>-bg), …)` so overriding `--eevenkoto-<component>-bg` automatically updates both the solid fill and the gradient without hardcoding `control-primary-*` twice.
 3. **Public stop overrides.** Expose `--eevenkoto-<component>-gradient-{start,middle,end}` (and `-hover` / state variants when needed). Bridge through private `--_eevenkoto-<component>-gradient-*` on the host only.
 4. **`@property` registers private bridges only.** Registering a public custom property with an `initial-value` makes `var(--public, fallback)` always take the initial value and kills Tier 2 fallbacks. Animate the private `--_*` names; variants/states change the public stop vars so the registered bridges recompute.
 5. **States set the full public color tuple plus stops together.** Disabled states must use opaque disabled backgrounds as gradient stops (or `transparent` for ghost) — never `opacity` on the host.
@@ -229,24 +229,28 @@ Tier 2 owns **solid** contrast tuples (`background` / `text` / `border` / `icon`
     --eevenkoto-button-bg,
     var(--eevenkoto-color-control-primary-background)
   );
+  --_eevenkoto-button-icon: var(
+    --eevenkoto-button-icon,
+    var(--eevenkoto-color-control-primary-icon)
+  );
   --_eevenkoto-button-gradient-start: var(
     --eevenkoto-button-gradient-start,
     color-mix(
       in display-p3,
-      var(--eevenkoto-color-control-primary-background),
+      var(--_eevenkoto-button-bg),
       var(--eevenkoto-color-control-primary-background-hover) 30%
     )
   );
   --_eevenkoto-button-gradient-middle: var(
     --eevenkoto-button-gradient-middle,
-    var(--eevenkoto-color-control-primary-background)
+    var(--_eevenkoto-button-bg)
   );
   --_eevenkoto-button-gradient-end: var(
     --eevenkoto-button-gradient-end,
     color-mix(
       in display-p3,
-      var(--eevenkoto-color-control-primary-background),
-      var(--eevenkoto-color-control-primary-icon) 30%
+      var(--_eevenkoto-button-bg),
+      var(--_eevenkoto-button-icon) 30%
     )
   );
 
@@ -488,97 +492,97 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 }
 ```
 
-### Component: Form Field (TextField)
+### Component: Form Field & Input
 
-`packages/css/core/atoms/text-field.css` (example)
+`packages/css/core/molecules/field.css` + `packages/css/core/atoms/input.css` (simplified)
 
 ```css
 /* ==========================================================================
-   EEVENKOTO DESIGN SYSTEM: TEXT FIELD COMPONENT (TIER 3)
+   EEVENKOTO DESIGN SYSTEM: FIELD + INPUT (TIER 3)
    ========================================================================== */
 
 .eevenkoto-field {
   display: flex;
   flex-direction: column;
-  gap: 0.375rem;
+  gap: var(--eevenkoto-space-1-5);
   width: 100%;
 }
 
 .eevenkoto-field__label {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--eevenkoto-color-content-primary);
+  --_eevenkoto-field-label-color: var(
+    --eevenkoto-field-label-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  font-size: var(--eevenkoto-font-size-ui-sm);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  color: var(--_eevenkoto-field-label-color);
 }
 
-.eevenkoto-field__input {
+.eevenkoto-input {
   /* 1. PRIVATE BRIDGE INITIALIZATION */
-  --_eevenkoto-field-input-bg: var(
-    --eevenkoto-field-input-bg,
+  --_eevenkoto-input-bg: var(
+    --eevenkoto-input-bg,
     var(--eevenkoto-color-form-input-background)
   );
-  --_eevenkoto-field-input-text: var(
-    --eevenkoto-field-input-text,
+  --_eevenkoto-input-text: var(
+    --eevenkoto-input-text,
     var(--eevenkoto-color-form-input-text)
   );
-  --_eevenkoto-field-input-border-color: var(
-    --eevenkoto-field-input-border-color,
+  --_eevenkoto-input-border-color: var(
+    --eevenkoto-input-border-color,
     var(--eevenkoto-color-form-input-border)
   );
 
   /* 2. ELEMENT STYLING DECLARATIONS */
   box-sizing: border-box;
   width: 100%;
-  padding: 0.625rem 0.75rem;
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
   font-family: inherit;
-  font-size: 0.875rem;
-  line-height: 1.25;
+  font-size: var(--eevenkoto-font-size-ui-md);
 
-  background-color: var(--_eevenkoto-field-input-bg);
-  color: var(--_eevenkoto-field-input-text);
-  border: 1px solid var(--_eevenkoto-field-input-border-color);
-  border-radius: 0.375rem;
+  background-color: var(--_eevenkoto-input-bg);
+  color: var(--_eevenkoto-input-text);
+  border: var(--eevenkoto-line-width-1) solid var(--_eevenkoto-input-border-color);
+  border-radius: var(--eevenkoto-radius-md);
 
   transition:
-    border-color var(--eevenkoto-duration-3) var(--eevenkoto-ease-in-out),
-    box-shadow var(--eevenkoto-duration-3) var(--eevenkoto-ease-in-out);
+    border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    box-shadow var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
 }
 
-.eevenkoto-field__input:focus {
+.eevenkoto-input:focus-visible {
   outline: none;
   border-color: var(--eevenkoto-color-boundary-focus-outer);
-  box-shadow: 0 0 0 1px var(--eevenkoto-color-boundary-focus-outer);
+  box-shadow:
+    0 0 0 var(--eevenkoto-line-width-2) var(--eevenkoto-color-boundary-focus-inner),
+    0 0 0 var(--eevenkoto-line-width-4) var(--eevenkoto-color-boundary-focus-outer);
 }
 
 /* VALIDATION STATE: INVALID / ERROR TUPLE */
 
-.eevenkoto-field__input[aria-invalid="true"] {
-  --eevenkoto-field-input-bg: var(
-    --eevenkoto-field-input-bg-invalid,
-    var(--eevenkoto-color-form-input-background-invalid)
-  );
-  --eevenkoto-field-input-text: var(
-    --eevenkoto-field-input-text-invalid,
-    var(--eevenkoto-color-form-input-text-invalid)
-  );
-  --eevenkoto-field-input-border-color: var(
-    --eevenkoto-field-input-border-color-invalid,
-    var(--eevenkoto-color-form-input-border-invalid)
-  );
+.eevenkoto-input[aria-invalid="true"] {
+  --eevenkoto-input-bg: var(--eevenkoto-color-form-input-background-invalid);
+  --eevenkoto-input-text: var(--eevenkoto-color-form-input-text-invalid);
+  --eevenkoto-input-border-color: var(--eevenkoto-color-form-input-border-invalid);
 }
 
 .eevenkoto-field__message {
-  font-size: 0.75rem;
-  color: var(--eevenkoto-color-content-secondary);
+  --_eevenkoto-field-message-color: var(
+    --eevenkoto-field-message-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+  font-size: var(--eevenkoto-font-size-ui-xs);
+  color: var(--_eevenkoto-field-message-color);
 }
 
 .eevenkoto-field__message--error {
-  color: var(--eevenkoto-color-form-input-message-invalid);
+  --eevenkoto-field-message-color: var(--eevenkoto-color-form-input-message-invalid);
 }
 ```
 
 ### Component: Composite Surface Container (Card)
 
-`packages/css/core/molecules/card.css` (example)
+`packages/css/core/molecules/card.css` (simplified)
 
 ```css
 /* ==========================================================================
@@ -591,24 +595,28 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
     --eevenkoto-card-bg,
     var(--eevenkoto-color-surface-raised)
   );
+  --_eevenkoto-card-fg: var(
+    --eevenkoto-card-fg,
+    var(--eevenkoto-color-content-primary)
+  );
   --_eevenkoto-card-border-color: var(
     --eevenkoto-card-border-color,
     var(--eevenkoto-color-boundary-subtle)
   );
   --_eevenkoto-card-shadow: var(
     --eevenkoto-card-shadow,
-    0 1px 3px var(--eevenkoto-color-depth-shadow-penumbra),
-    0 4px 6px var(--eevenkoto-color-depth-shadow-umbra)
+    0 0.1rem 0.3rem var(--eevenkoto-color-depth-shadow-penumbra),
+    0 0.4rem 0.6rem var(--eevenkoto-color-depth-shadow-umbra)
   );
 
   /* 2. ELEMENT STYLING DECLARATIONS */
   box-sizing: border-box;
-  padding: 1.5rem;
+  padding: var(--eevenkoto-space-6);
   background-color: var(--_eevenkoto-card-bg);
-  border: 1px solid var(--_eevenkoto-card-border-color);
-  border-radius: 0.5rem;
+  border: var(--eevenkoto-line-width-1) solid var(--_eevenkoto-card-border-color);
+  border-radius: var(--eevenkoto-radius-lg);
   box-shadow: var(--_eevenkoto-card-shadow);
-  color: var(--eevenkoto-color-content-primary);
+  color: var(--_eevenkoto-card-fg);
 }
 
 /* Moded Well variant — sets public API; host bridges resolve */
@@ -620,7 +628,7 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 
 ## CI verification & linting rules
 
-These AST-based Stylelint checks run on `packages/css/core/**/*.css` and `packages/css/domain/**/*.css` via `npm run lint:css` / `npm run ci`.
+These AST-based Stylelint checks run on `packages/css/**/*.css` and `apps/storybook/src/**/*.css` via `npm run lint:css` / `npm run ci`.
 
 ```text
                     Pull Request / Code Commit
@@ -628,7 +636,7 @@ These AST-based Stylelint checks run on `packages/css/core/**/*.css` and `packag
                                 ▼
          ┌──────────────────────────────────────────────┐
          │       Check 1: Primitive Prefix Check        │
-         │  Does file contain hue-primitive leakage?    │
+         │  Does file contain Tier 1 primitive leakage? │
          └──────────────────────┬───────────────────────┘
                                 │ NO
                                 ▼
@@ -651,13 +659,27 @@ These AST-based Stylelint checks run on `packages/css/core/**/*.css` and `packag
          └──────────────────────┬───────────────────────┘
                                 │ NO
                                 ▼
+         ┌──────────────────────────────────────────────┐
+         │     Check 5: Unknown Token Inventory Guard   │
+         │ Does var(--eevenkoto-*) resolve in Tier 1/2? │
+         └──────────────────────┬───────────────────────┘
+                                │ YES
+                                ▼
+         ┌──────────────────────────────────────────────┐
+         │     Check 6: Private Bridge Hygiene Guard    │
+         │ Stateless --_* bridges; no modifier mutation │
+         └──────────────────────┬───────────────────────┘
+                                │ YES
+                                ▼
                      [CI VALIDATION PASSED]
 ```
 
-1. **Strict Tier 1 Boundary Guard** (`eevenkoto/no-primitive-in-components`) — Rejects hue-primitive references inside `packages/css/core/` and `packages/css/domain/`.
-2. **Raw Literal Guard** (`eevenkoto/no-raw-color-literals`) — Rejects raw hex, `rgb()`, `hsl()`, or `oklch()` literals within component stylesheets.
-3. **Bridge Enforcement** (`eevenkoto/enforce-private-bridge`) — Flags component CSS that consumes a Tier 2 token without establishing the private `--_eevenkoto-` bridge fallback pattern.
+1. **Strict Tier 1 Boundary Guard** (`eevenkoto/no-primitive-in-components`) — Dynamically reads `primitive-tokens.css` and rejects any Tier 1 reference inside component and Storybook CSS.
+2. **Raw Literal Guard** (`eevenkoto/no-raw-color-literals`) — Rejects raw hex, `rgb()`, `hsl()`, `oklch()`, and `opacity` disabled-state shortcuts within component and Storybook stylesheets.
+3. **Bridge Enforcement** (`eevenkoto/enforce-private-bridge`) — Flags component CSS that consumes a Tier 2 `--eevenkoto-color-*` token directly in a property without establishing a private `--_eevenkoto-*` bridge (with explicit carve-outs for dual-halo `:focus-visible` rings and browser-privacy-constrained `:visited` link rules).
 4. **Cyclic Invalidation Guard** (`eevenkoto/no-self-referencing-vars`) — Flags assignments where a public token references itself without a separate private variable.
+5. **Unknown Token Guard** (`eevenkoto/no-unknown-tokens`) — Rejects typos or phantom `--eevenkoto-*` names that are neither defined in Tier 1/2 nor locally bridged on the component.
+6. **Private Bridge Hygiene** (`eevenkoto/private-bridge-hygiene`) — Rejects state-suffixed `--_*` bridges (`-hover`, `-invalid`, `-error`, etc.), duplicate `--_*` declarations in a single block, `--_*` reassignments on BEM `--modifier` or pseudo-state rules, and embedded SVG `<path>` data URLs outside `tokens.css`. (In Tier 2 `tokens.css`, `eevenkoto/constrain-tier2-color-mix` also restricts `color-mix()` to same-hue `transparent` alpha ramps.)
 
 ```css
 /* CI FAILS THIS: Cyclic invalidation (IACVT) */

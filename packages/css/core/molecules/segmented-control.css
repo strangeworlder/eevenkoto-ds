@@ -85,15 +85,9 @@ fieldset.eevenkoto-segmented-control {
     --eevenkoto-segmented-control-option-text,
     var(--eevenkoto-color-content-secondary)
   );
-  /* Default selected recipe = primary (overridden by --primary / --secondary). */
-  --eevenkoto-segmented-control-option-selected-bg: var(
-    --eevenkoto-color-control-primary-background
-  );
-  --eevenkoto-segmented-control-option-selected-text: var(
-    --eevenkoto-color-control-primary-text
-  );
-  --eevenkoto-segmented-control-option-hover-bg: var(
-    --eevenkoto-color-control-primary-background-hover
+  --_eevenkoto-segmented-control-option-border: var(
+    --eevenkoto-segmented-control-option-border,
+    transparent
   );
 
   appearance: none;
@@ -106,7 +100,8 @@ fieldset.eevenkoto-segmented-control {
   min-block-size: 0;
   padding: var(--_eevenkoto-segmented-control-pad-block)
     var(--_eevenkoto-segmented-control-pad-inline);
-  border: var(--eevenkoto-line-width-sm) solid transparent;
+  border: var(--eevenkoto-line-width-sm) solid
+    var(--_eevenkoto-segmented-control-option-border);
   border-radius: calc(var(--_eevenkoto-segmented-control-radius) - 0.1rem);
   background: var(--_eevenkoto-segmented-control-option-bg);
   color: var(--_eevenkoto-segmented-control-option-text);
@@ -158,7 +153,10 @@ a.eevenkoto-segmented-control__option {
   ):not([aria-current='page']):not(:has(:checked)) {
   --eevenkoto-segmented-control-option-bg: color-mix(
     in oklch,
-    var(--eevenkoto-segmented-control-option-hover-bg) 18%,
+    var(
+      --eevenkoto-segmented-control-option-hover-bg,
+      var(--eevenkoto-color-control-primary-background-hover)
+    ) 18%,
     transparent
   );
   --eevenkoto-segmented-control-option-text: var(--eevenkoto-color-content-primary);
@@ -169,10 +167,16 @@ a.eevenkoto-segmented-control__option {
 .eevenkoto-segmented-control__option[aria-current='page'],
 .eevenkoto-segmented-control__option:has(:checked) {
   --eevenkoto-segmented-control-option-bg: var(
-    --eevenkoto-segmented-control-option-selected-bg
+    --eevenkoto-segmented-control-option-selected-bg,
+    var(--eevenkoto-color-control-primary-background)
   );
   --eevenkoto-segmented-control-option-text: var(
-    --eevenkoto-segmented-control-option-selected-text
+    --eevenkoto-segmented-control-option-selected-text,
+    var(--eevenkoto-color-control-primary-text)
+  );
+  --eevenkoto-segmented-control-option-border: var(
+    --eevenkoto-segmented-control-option-selected-border,
+    var(--eevenkoto-color-control-primary-border)
   );
 }
 
@@ -189,6 +193,7 @@ a.eevenkoto-segmented-control__option {
   cursor: not-allowed;
   --eevenkoto-segmented-control-option-text: var(--eevenkoto-color-content-disabled);
   --eevenkoto-segmented-control-option-bg: transparent;
+  --eevenkoto-segmented-control-option-border: transparent;
   pointer-events: none;
 }
 
@@ -201,6 +206,9 @@ a.eevenkoto-segmented-control__option {
   --eevenkoto-segmented-control-option-selected-text: var(
     --eevenkoto-color-control-primary-text
   );
+  --eevenkoto-segmented-control-option-selected-border: var(
+    --eevenkoto-color-control-primary-border
+  );
   --eevenkoto-segmented-control-option-hover-bg: var(
     --eevenkoto-color-control-primary-background-hover
   );
@@ -208,10 +216,13 @@ a.eevenkoto-segmented-control__option {
 
 .eevenkoto-segmented-control__option--secondary {
   --eevenkoto-segmented-control-option-selected-bg: var(
-    --eevenkoto-color-control-secondary-tint
+    --eevenkoto-color-control-secondary-background-hover
   );
   --eevenkoto-segmented-control-option-selected-text: var(
     --eevenkoto-color-control-secondary-text
+  );
+  --eevenkoto-segmented-control-option-selected-border: var(
+    --eevenkoto-color-control-secondary-border
   );
   --eevenkoto-segmented-control-option-hover-bg: var(
     --eevenkoto-color-control-secondary-background-hover

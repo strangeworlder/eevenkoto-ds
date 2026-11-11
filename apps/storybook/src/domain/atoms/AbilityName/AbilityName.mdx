@@ -42,7 +42,7 @@ Multiple abilities can be composed together with standard conjunctions:
 Rules text and equipment blocks frequently reference abilities in constrained spaces (such as weapon stat cards or compact tables):
 - **Full readability by default:** Displays the full Finnish name (`Voimakkuus`) whenever space permits.
 - **Graceful degradation:** When space is cramped (e.g. in multi-column weapon stat cards or mobile screens), collapses automatically to the standard 3-letter abbreviation (`VOI`).
-- **Accessible:** Always provides the unabbreviated name in `aria-label`, so assistive technology reads the full ability name regardless of visual abbreviation.
+- **Accessible:** Keeps the unabbreviated name in the accessibility tree via visually-hidden text while marking the 3-letter abbreviation `aria-hidden="true"`, so assistive technology reads the full ability name without prohibited ARIA attributes on generic inline spans.
 
 ## Composition
 

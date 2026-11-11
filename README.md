@@ -1,6 +1,6 @@
 # Eevenkoto design system
 
-Eevenkoto is a **TTRPG content design system with growing core chrome**. It is not a full application UI kit: Dialog, Toast, Tabs, breadcrumbs, and app-shell patterns are **not shipped**. Some Tier 2 color roles (toasts, modals) exist as **tokens only** so future components can land without renaming semantics.
+Eevenkoto is a **TTRPG content design system with growing core chrome**. It is not a full application UI kit: Dialog, Tabs, breadcrumbs, and app-shell patterns are **not shipped**. Some Tier 2 color roles (modals, destructive controls) exist as **tokens only** so future or app-local patterns can consume stable semantics.
 
 Packages: `@eevenkoto/css` (appearance) → `@eevenkoto/core` (props + BEM classes) → `@eevenkoto/html` (reference markup) → `@eevenkoto/react` / `@eevenkoto/vue` (thin wrappers). CSS is an **optional peer** of the bindings — import `@eevenkoto/css` yourself or markup is unstyled.
 
@@ -21,6 +21,8 @@ import '@eevenkoto/css/button.css';
 ## Docs
 
 - Storybook: `npm run storybook` → [http://localhost:6006](http://localhost:6006)
+- Release notes: [`CHANGELOG.md`](./CHANGELOG.md)
+- Consuming-site upgrade guide: [`docs/migration-token-architecture-and-a11y.md`](./docs/migration-token-architecture-and-a11y.md)
 - Agent feed-in: [`llms.txt`](./llms.txt) / [`llms-full.txt`](./llms-full.txt) (regenerate with `npm run generate:llms`)
 - Contributors: [`AGENTS.md`](./AGENTS.md)
 
@@ -28,9 +30,9 @@ import '@eevenkoto/css/button.css';
 
 | Status | Surfaces |
 | --- | --- |
-| **Shipped** | Typography, Flow/Prose/Frame/Scroll, Button/LinkButton/Icon, Badge/StatusDot/Chip/Notice, Field+Input/Select/Checkbox/Radio, CheckboxGroup/RadioGroup/Stepper, Menu, Catalog, Popover+TooltipCard, Card, table stack, Stat/Property/List, Avatar/InlineRef, Domain statblock & workshop stack |
-| **Token-only** | Toast/banner fills, modal surface roles, breadcrumbs-as-link tokens |
-| **Not planned here** | Dialog, Toast, Pager, Tabs, date pickers, app chrome |
+| **Shipped** | Typography, Flow/Prose/Frame/Scroll/Image, Button/LinkButton/Icon, Badge/StatusDot/Chip/Notice/Toast, Field+Input/Select/Checkbox/Radio, CheckboxGroup/RadioGroup/Stepper, Menu, Catalog, Popover+TooltipCard, Card, table stack, Stat/Property/List, Avatar/InlineRef, Domain AbilityName + EntityRef + statblock/spellblock + equipment/workshop stack |
+| **Token-only** | Modal surface roles, destructive control tuples |
+| **Not planned here** | Dialog, Pager, Tabs, date pickers, app chrome |
 
 ## Scripts
 

@@ -2,7 +2,8 @@
    EEVENKOTO DESIGN SYSTEM: INPUT (TIER 3)
    Single-line text field. Host is the wrapper (border, fill, focus ring) so an
    icon slot can sit beside the transparent `__field`.
-   Consumes Tier 2 `form-input-*` only. Host alone = md, valid, enabled.
+   Consumes Tier 2 `form-input-*`, `surface-sunken`, and `boundary-focus-*`.
+   Host alone = md, valid, enabled.
    ========================================================================== */
 
 .eevenkoto-input {
@@ -24,11 +25,11 @@
   );
   --_eevenkoto-input-icon: var(
     --eevenkoto-input-icon,
-    var(--eevenkoto-color-content-secondary)
+    var(--eevenkoto-color-form-input-placeholder)
   );
   --_eevenkoto-input-placeholder: var(
     --eevenkoto-input-placeholder,
-    var(--eevenkoto-color-content-secondary)
+    var(--eevenkoto-color-form-input-placeholder)
   );
   --_eevenkoto-input-radius: var(--eevenkoto-input-radius, var(--eevenkoto-radius-sm));
   --_eevenkoto-input-pad-block: var(--eevenkoto-input-pad-block, var(--eevenkoto-space-2));

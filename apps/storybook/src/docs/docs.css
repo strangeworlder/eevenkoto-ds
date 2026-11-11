@@ -8,16 +8,17 @@
 }
 
 .eevenkoto-docs-callout {
-  border-radius: 0.5rem;
-  border: 1px solid;
+  border-radius: var(--eevenkoto-radius-md);
+  border: var(--eevenkoto-line-width-sm) solid var(--eevenkoto-color-boundary-subtle);
   padding: 0.875rem 1rem;
-  background: var(--eevenkoto-color-surface-raised, #f7f5f0);
+  background: var(--eevenkoto-color-surface-raised);
+  color: var(--eevenkoto-color-content-primary);
 }
 
 .eevenkoto-docs-callout__label {
   display: block;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: var(--eevenkoto-font-weight-bold);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
@@ -41,34 +42,34 @@
   margin: 0.5rem 0 0;
   font-size: 0.8125rem;
   line-height: 1.4;
-  opacity: 0.85;
+  color: var(--eevenkoto-color-content-secondary);
 }
 
 .eevenkoto-docs-callout--do {
-  border-color: color-mix(in oklab, #1a7f4b 45%, transparent);
-  background: color-mix(in oklab, #1a7f4b 8%, white);
+  border-color: var(--eevenkoto-color-feedback-success-border);
+  background: var(--eevenkoto-color-feedback-success-background);
 }
 
 .eevenkoto-docs-callout--do .eevenkoto-docs-callout__label {
-  color: #1a7f4b;
+  color: var(--eevenkoto-color-feedback-success-text);
 }
 
 .eevenkoto-docs-callout--dont {
-  border-color: color-mix(in oklab, #b42318 45%, transparent);
-  background: color-mix(in oklab, #b42318 8%, white);
+  border-color: var(--eevenkoto-color-feedback-critical-border);
+  background: var(--eevenkoto-color-feedback-critical-background);
 }
 
 .eevenkoto-docs-callout--dont .eevenkoto-docs-callout__label {
-  color: #b42318;
+  color: var(--eevenkoto-color-feedback-critical-text);
 }
 
 .eevenkoto-docs-callout--danger {
-  border-color: color-mix(in oklab, #b42318 55%, transparent);
-  background: color-mix(in oklab, #b42318 10%, white);
+  border-color: var(--eevenkoto-color-feedback-critical-icon);
+  background: var(--eevenkoto-color-feedback-critical-background);
 }
 
 .eevenkoto-docs-callout--danger .eevenkoto-docs-callout__label {
-  color: #912018;
+  color: var(--eevenkoto-color-feedback-critical-text);
 }
 
 .eevenkoto-docs-anatomy {
@@ -81,7 +82,7 @@
 }
 
 .eevenkoto-docs-anatomy strong {
-  font-weight: 600;
+  font-weight: var(--eevenkoto-font-weight-semibold);
 }
 
 .eevenkoto-docs-example-row {

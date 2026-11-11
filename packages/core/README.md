@@ -25,7 +25,7 @@ const className = buttonClassNames({
 // "eevenkoto-button eevenkoto-button--primary eevenkoto-button--sm eevenkoto-button--icon-left"
 ```
 
-Helpers include `buttonClassNames`, `linkButtonClassNames`, `badgeClassNames`, `statusDotClassNames`, `chipClassNames`, `headingClassNames`, `iconClassNames`, `inputClassNames`, `fieldClassNames`, `menuClassNames`, `catalogClassNames`, `popoverClassNames`, `noticeClassNames`, `cardClassNames`, plus Domain helpers (`entityRefClassNames`, `abilityScoreClassNames`, `statblockClassNames`, `spellblockClassNames`, …). Full export list: `src/index.ts`.
+Helpers include `buttonClassNames`, `linkButtonClassNames`, `badgeClassNames`, `statusDotClassNames`, `chipClassNames`, `headingClassNames`, `iconClassNames`, `imageClassNames`, `inputClassNames`, `selectClassNames`, `checkboxClassNames`, `radioClassNames`, `stepperClassNames`, `toastClassNames`, `fieldClassNames`, `menuClassNames`, `catalogClassNames`, `popoverClassNames`, `noticeClassNames`, `cardClassNames`, plus Domain helpers (`abilityNameClassNames`, `entityRefClassNames`, `abilityScoreClassNames`, `statblockClassNames`, `spellblockClassNames`, `equipmentBlockClassNames`, `equipmentWorkshopClassNames`, …). Full export list: `src/index.ts`.
 
 Pair with `@eevenkoto/css` for styling.
 
@@ -35,5 +35,6 @@ Pair with `@eevenkoto/css` for styling.
 
 - `@eevenkoto/css` — tokens and component styles (consume / never rules live there)
 - `@eevenkoto/html` / `@eevenkoto/react` / `@eevenkoto/vue` — markup bindings
+- Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

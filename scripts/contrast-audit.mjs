@@ -23,8 +23,8 @@ const SURFACES = ['canvas', 'subtle', 'sunken', 'raised'].map(
 const CONTENT_TEXT = [
   ['primary', 4.5],
   ['secondary', 4.5],
-  ['tertiary', 3],
-  ['accent', 3],
+  ['tertiary', 4.5],
+  ['accent', 4.5],
   ['accent-strong', 4.5],
   ['disabled', 3],
 ];
@@ -250,7 +250,7 @@ function auditTheme(label, maps) {
   }
 
   const canvas = '--eevenkoto-color-surface-canvas';
-  const raised = '--eevenkoto-color-surface-raised';
+  const sunken = '--eevenkoto-color-surface-sunken';
 
   for (const [role, minimum] of CONTENT_TEXT) {
     const fg = `--eevenkoto-color-content-${role}`;
@@ -267,11 +267,19 @@ function auditTheme(label, maps) {
   for (const variant of variants) {
     const text = `--eevenkoto-color-control-${variant}-text`;
     const icon = `--eevenkoto-color-control-${variant}-icon`;
+    const border = `--eevenkoto-color-control-${variant}-border`;
+    const borderColor = tokenExists(colors, border) ? colors.get(border) : null;
+    const isContainedBorderless =
+      variant !== 'ghost' && (!borderColor || alphaOf(borderColor) === 0);
+
     for (const state of ['', '-hover', '-active']) {
       const background = `--eevenkoto-color-control-${variant}-background${state}`;
       if (!tokenExists(colors, background)) continue;
       checkPair(colors, label, text, background, 4.5, [canvas]);
       if (tokenExists(colors, icon)) checkPair(colors, label, icon, background, 3, [canvas]);
+      if (isContainedBorderless) {
+        checkPair(colors, label, background, canvas, 3);
+      }
     }
     const disabledBg = `--eevenkoto-color-control-${variant}-background-disabled`;
     const disabledText = `--eevenkoto-color-control-${variant}-text-disabled`;
@@ -295,28 +303,71 @@ function auditTheme(label, maps) {
       const text = `--eevenkoto-color-feedback-${intent}${mode}-text`;
       const icon = `--eevenkoto-color-feedback-${intent}${mode}-icon`;
       if (!tokenExists(colors, background)) continue;
-      checkPair(colors, label, text, background, 4.5, [canvas, raised]);
+      checkPair(colors, label, text, background, 4.5, SURFACES);
       if (tokenExists(colors, icon)) {
-        checkPair(colors, label, icon, background, 3, [canvas, raised]);
+        checkPair(colors, label, icon, background, 3, SURFACES);
       }
     }
   }
 
+  // Composite component pairings across token families
+  checkPair(
+    colors,
+    `${label} [entity-ref--spell]`,
+    '--eevenkoto-color-feedback-info-text',
+    '--eevenkoto-color-feedback-info-background',
+    4.5,
+    SURFACES,
+  );
+  checkPair(
+    colors,
+    `${label} [entity-ref--class]`,
+    '--eevenkoto-color-feedback-admin-text',
+    '--eevenkoto-color-feedback-info-background',
+    4.5,
+    SURFACES,
+  );
+  checkPair(
+    colors,
+    `${label} [segmented-control--secondary]`,
+    '--eevenkoto-color-control-secondary-text',
+    '--eevenkoto-color-control-secondary-background-hover',
+    4.5,
+    [sunken],
+  );
+  checkPair(
+    colors,
+    `${label} [segmented-control--secondary border]`,
+    '--eevenkoto-color-control-secondary-border',
+    sunken,
+    3,
+  );
+
   const inputText = '--eevenkoto-color-form-input-text';
+  const placeholder = '--eevenkoto-color-form-input-placeholder';
   for (const state of ['', '-hover', '-invalid']) {
     const background = `--eevenkoto-color-form-input-background${state}`;
     const text =
       state === '-invalid' ? '--eevenkoto-color-form-input-text-invalid' : inputText;
     if (!tokenExists(colors, background) || !tokenExists(colors, text)) continue;
     checkPair(colors, label, text, background, 4.5, [canvas]);
+    if (tokenExists(colors, placeholder)) {
+      checkPair(colors, label, placeholder, background, 4.5, [canvas]);
+    }
   }
-  checkPair(
-    colors,
-    label,
-    '--eevenkoto-color-form-input-message-invalid',
-    canvas,
-    4.5,
-  );
+  if (tokenExists(colors, placeholder)) {
+    checkPair(colors, label, placeholder, sunken, 4.5, [canvas]);
+  }
+  for (const surface of SURFACES) {
+    checkPair(
+      colors,
+      label,
+      '--eevenkoto-color-form-input-message-invalid',
+      surface,
+      4.5,
+      [canvas],
+    );
+  }
   for (const border of [
     '--eevenkoto-color-form-input-border',
     '--eevenkoto-color-form-input-border-focus',
@@ -325,7 +376,9 @@ function auditTheme(label, maps) {
     if (!tokenExists(colors, border)) continue;
     const borderColor = colors.get(border);
     if (alphaOf(borderColor) === 0) continue;
-    checkPair(colors, label, border, canvas, 3);
+    for (const surface of SURFACES) {
+      checkPair(colors, label, border, surface, 3, [canvas]);
+    }
   }
   if (
     tokenExists(colors, '--eevenkoto-color-form-input-text-disabled') &&

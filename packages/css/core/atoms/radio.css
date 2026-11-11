@@ -3,7 +3,8 @@
    Single selection control. Host is the wrapper `<label>` containing the native
    radio input and label/description content.
    Supports default row layout, `--card`, and `--tile` selection blocks.
-   Consumes Tier 2 tokens only. Host alone = md, default row, enabled.
+   Consumes Tier 2 tokens only via stateless private bridges.
+   Host alone = md, default row, enabled.
    ========================================================================== */
 
 .eevenkoto-radio {
@@ -47,58 +48,6 @@
     --eevenkoto-radio-control-size,
     1.8rem
   );
-  --_eevenkoto-radio-control-bg: var(
-    --eevenkoto-radio-control-bg,
-    var(--eevenkoto-color-form-input-background)
-  );
-  --_eevenkoto-radio-control-bg-hover: var(
-    --eevenkoto-radio-control-bg-hover,
-    var(--eevenkoto-color-form-input-background-hover)
-  );
-  --_eevenkoto-radio-control-border: var(
-    --eevenkoto-radio-control-border,
-    var(--eevenkoto-color-form-input-border)
-  );
-  --_eevenkoto-radio-control-border-hover: var(
-    --eevenkoto-radio-control-border-hover,
-    var(--eevenkoto-color-form-input-border-focus)
-  );
-  --_eevenkoto-radio-control-border-width: var(
-    --eevenkoto-radio-control-border-width,
-    var(--eevenkoto-line-width-md)
-  );
-  --_eevenkoto-radio-checked-border: var(
-    --eevenkoto-radio-checked-border,
-    var(--eevenkoto-color-control-primary-background)
-  );
-  --_eevenkoto-radio-checked-dot: var(
-    --eevenkoto-radio-checked-dot,
-    var(--eevenkoto-color-control-primary-background)
-  );
-  --_eevenkoto-radio-focus-ring-outer: var(
-    --eevenkoto-radio-focus-ring-outer,
-    var(--eevenkoto-color-boundary-focus-outer)
-  );
-  --_eevenkoto-radio-focus-ring-inner: var(
-    --eevenkoto-radio-focus-ring-inner,
-    var(--eevenkoto-color-boundary-focus-inner)
-  );
-  --_eevenkoto-radio-disabled-bg: var(
-    --eevenkoto-radio-disabled-bg,
-    var(--eevenkoto-color-form-input-background-disabled)
-  );
-  --_eevenkoto-radio-disabled-border: var(
-    --eevenkoto-radio-disabled-border,
-    var(--eevenkoto-color-form-input-border-disabled)
-  );
-  --_eevenkoto-radio-disabled-dot: var(
-    --eevenkoto-radio-disabled-dot,
-    var(--eevenkoto-color-form-input-text-disabled)
-  );
-  --_eevenkoto-radio-invalid-border: var(
-    --eevenkoto-radio-invalid-border,
-    var(--eevenkoto-color-form-input-border-invalid)
-  );
 
   display: flex;
   align-items: center;
@@ -116,8 +65,9 @@
   cursor: pointer;
   user-select: none;
   text-box: normal;
-  transition: background var(--eevenkoto-transition-fast),
-    border-color var(--eevenkoto-transition-fast);
+  transition:
+    background var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
 }
 
 .eevenkoto-radio--card,
@@ -126,6 +76,23 @@
 }
 
 .eevenkoto-radio__control {
+  --_eevenkoto-radio-control-bg: var(
+    --eevenkoto-radio-control-bg,
+    var(--eevenkoto-color-form-input-background)
+  );
+  --_eevenkoto-radio-control-border: var(
+    --eevenkoto-radio-control-border,
+    var(--eevenkoto-color-form-input-border)
+  );
+  --_eevenkoto-radio-control-border-width: var(
+    --eevenkoto-radio-control-border-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-radio-dot: var(
+    --eevenkoto-radio-dot,
+    var(--eevenkoto-color-control-primary-background)
+  );
+
   appearance: none;
   -webkit-appearance: none;
   display: inline-grid;
@@ -138,9 +105,10 @@
   background-color: var(--_eevenkoto-radio-control-bg);
   border: var(--_eevenkoto-radio-control-border-width) solid var(--_eevenkoto-radio-control-border);
   border-radius: var(--eevenkoto-radius-full);
-  transition: background-color var(--eevenkoto-transition-fast),
-    border-color var(--eevenkoto-transition-fast),
-    box-shadow var(--eevenkoto-transition-fast);
+  transition:
+    background-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    box-shadow var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
 }
 
 .eevenkoto-radio--card .eevenkoto-radio__control,
@@ -148,19 +116,50 @@
   margin-block-start: 0.2rem;
 }
 
-.eevenkoto-radio:hover:not(:has(:disabled)):not(.eevenkoto-radio--disabled) .eevenkoto-radio__control {
-  background-color: var(--_eevenkoto-radio-control-bg-hover);
-  border-color: var(--_eevenkoto-radio-control-border-hover);
+.eevenkoto-radio:hover:not(:has(:disabled)):not(.eevenkoto-radio--disabled)
+  .eevenkoto-radio__control:not(:checked) {
+  --eevenkoto-radio-control-bg: var(
+    --eevenkoto-radio-control-bg-hover,
+    var(--eevenkoto-color-form-input-background-hover)
+  );
+  --eevenkoto-radio-control-border: var(
+    --eevenkoto-radio-control-border-hover,
+    var(--eevenkoto-color-form-input-border-focus)
+  );
+}
+
+.eevenkoto-radio:hover:not(:has(:disabled)):not(.eevenkoto-radio--disabled)
+  .eevenkoto-radio__control:checked {
+  --eevenkoto-radio-control-bg: var(
+    --eevenkoto-radio-control-bg-hover,
+    var(--eevenkoto-color-form-input-background-hover)
+  );
+  --eevenkoto-radio-control-border: var(
+    --eevenkoto-radio-checked-border-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
+  --eevenkoto-radio-dot: var(
+    --eevenkoto-radio-checked-dot-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
 }
 
 .eevenkoto-radio__control:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--_eevenkoto-radio-focus-ring-inner),
-    0 0 0 4px var(--_eevenkoto-radio-focus-ring-outer);
+  box-shadow:
+    0 0 0 2px var(--eevenkoto-color-boundary-focus-inner),
+    0 0 0 4px var(--eevenkoto-color-boundary-focus-outer);
 }
 
 .eevenkoto-radio__control:checked {
-  border-color: var(--_eevenkoto-radio-checked-border);
+  --eevenkoto-radio-control-border: var(
+    --eevenkoto-radio-checked-border,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --eevenkoto-radio-dot: var(
+    --eevenkoto-radio-checked-dot,
+    var(--eevenkoto-color-control-primary-background)
+  );
 }
 
 .eevenkoto-radio__control::after {
@@ -169,9 +168,9 @@
   inline-size: 0.8rem;
   block-size: 0.8rem;
   border-radius: var(--eevenkoto-radius-full);
-  background-color: var(--_eevenkoto-radio-checked-dot);
+  background-color: var(--_eevenkoto-radio-dot);
   transform: scale(0);
-  transition: transform var(--eevenkoto-transition-fast);
+  transition: transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
 }
 
 .eevenkoto-radio__control:checked::after {
@@ -299,7 +298,10 @@
 
 .eevenkoto-radio--invalid .eevenkoto-radio__control,
 .eevenkoto-radio__control[aria-invalid='true'] {
-  border-color: var(--_eevenkoto-radio-invalid-border);
+  --eevenkoto-radio-control-border: var(
+    --eevenkoto-radio-invalid-border,
+    var(--eevenkoto-color-form-input-border-invalid)
+  );
 }
 
 /* --- DISABLED --- */
@@ -316,13 +318,18 @@
 .eevenkoto-radio--disabled .eevenkoto-radio__control,
 .eevenkoto-radio:has(:disabled) .eevenkoto-radio__control {
   cursor: not-allowed;
-  background-color: var(--_eevenkoto-radio-disabled-bg);
-  border-color: var(--_eevenkoto-radio-disabled-border);
-}
-
-.eevenkoto-radio--disabled .eevenkoto-radio__control:checked::after,
-.eevenkoto-radio__control:disabled:checked::after {
-  background-color: var(--_eevenkoto-radio-disabled-dot);
+  --eevenkoto-radio-control-bg: var(
+    --eevenkoto-radio-disabled-bg,
+    var(--eevenkoto-color-form-input-background-disabled)
+  );
+  --eevenkoto-radio-control-border: var(
+    --eevenkoto-radio-disabled-border,
+    var(--eevenkoto-color-form-input-border-disabled)
+  );
+  --eevenkoto-radio-dot: var(
+    --eevenkoto-radio-disabled-dot,
+    var(--eevenkoto-color-form-input-text-disabled)
+  );
 }
 
 @media (forced-colors: active) {

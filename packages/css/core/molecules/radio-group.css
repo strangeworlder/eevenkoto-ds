@@ -17,14 +17,6 @@
     --eevenkoto-radio-group-legend-size,
     var(--eevenkoto-font-size-control-md)
   );
-  --_eevenkoto-radio-group-message-color: var(
-    --eevenkoto-radio-group-message-color,
-    var(--eevenkoto-color-content-secondary)
-  );
-  --_eevenkoto-radio-group-message-error: var(
-    --eevenkoto-radio-group-message-error,
-    var(--eevenkoto-color-form-input-message-invalid)
-  );
 
   display: flex;
   flex-direction: column;
@@ -85,6 +77,11 @@
 /* --- MESSAGE / HINT / ERROR --- */
 
 .eevenkoto-radio-group__message {
+  --_eevenkoto-radio-group-message-color: var(
+    --eevenkoto-radio-group-message-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+
   margin: 0;
   margin-block-start: var(--_eevenkoto-radio-group-gap);
   font-size: var(--eevenkoto-font-size-caption);
@@ -93,7 +90,10 @@
 }
 
 .eevenkoto-radio-group__message--error {
-  color: var(--_eevenkoto-radio-group-message-error);
+  --eevenkoto-radio-group-message-color: var(
+    --eevenkoto-radio-group-message-error,
+    var(--eevenkoto-color-form-input-message-invalid)
+  );
   font-weight: var(--eevenkoto-font-weight-semibold);
 }
 

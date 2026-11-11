@@ -28,7 +28,7 @@
   );
   --_eevenkoto-equipment-workshop-radius: var(
     --eevenkoto-equipment-workshop-radius,
-    var(--eevenkoto-radius-lg)
+    var(--eevenkoto-radius-md)
   );
   --_eevenkoto-equipment-workshop-pad: var(
     --eevenkoto-equipment-workshop-pad,
@@ -41,30 +41,6 @@
   --_eevenkoto-equipment-workshop-item-bg: var(
     --eevenkoto-equipment-workshop-item-bg,
     var(--eevenkoto-color-surface-sunken)
-  );
-  --_eevenkoto-equipment-workshop-item-bg-hover: var(
-    --eevenkoto-equipment-workshop-item-bg-hover,
-    var(--eevenkoto-color-surface-raised)
-  );
-  --_eevenkoto-equipment-workshop-item-border-hover: var(
-    --eevenkoto-equipment-workshop-item-border-hover,
-    var(--eevenkoto-color-boundary-focus-outer)
-  );
-  --_eevenkoto-equipment-workshop-item-border-checked: var(
-    --eevenkoto-equipment-workshop-item-border-checked,
-    var(--eevenkoto-color-content-accent)
-  );
-  --_eevenkoto-equipment-workshop-accent: var(
-    --eevenkoto-equipment-workshop-accent,
-    var(--eevenkoto-color-content-accent)
-  );
-  --_eevenkoto-equipment-workshop-disabled-bg: var(
-    --eevenkoto-equipment-workshop-disabled-bg,
-    var(--eevenkoto-color-surface-disabled)
-  );
-  --_eevenkoto-equipment-workshop-disabled-text: var(
-    --eevenkoto-equipment-workshop-disabled-text,
-    var(--eevenkoto-color-content-disabled)
   );
 
   display: flex;
@@ -110,7 +86,7 @@
 
 .eevenkoto-equipment-workshop__preset-label {
   font-size: var(--eevenkoto-font-size-control-sm);
-  font-weight: 600;
+  font-weight: var(--eevenkoto-font-weight-semibold);
   color: var(--_eevenkoto-equipment-workshop-muted);
 }
 
@@ -128,8 +104,9 @@
 }
 
 .eevenkoto-equipment-workshop__preset-select:focus-visible {
-  outline: 2px solid var(--_eevenkoto-equipment-workshop-item-border-hover);
-  outline-offset: 1px;
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--eevenkoto-color-boundary-focus-inner);
 }
 
 /* --- BODY GRID --- */
@@ -152,7 +129,7 @@
 .eevenkoto-equipment-workshop__controls {
   display: flex;
   flex-direction: column;
-  gap: var(--eevenkoto-space-5);
+  gap: var(--eevenkoto-space-4);
   min-width: 0;
 }
 
@@ -182,7 +159,7 @@
 
 .eevenkoto-equipment-workshop__group-label {
   font-size: var(--eevenkoto-font-size-control-md);
-  font-weight: 700;
+  font-weight: var(--eevenkoto-font-weight-bold);
   color: var(--_eevenkoto-equipment-workshop-text);
 }
 

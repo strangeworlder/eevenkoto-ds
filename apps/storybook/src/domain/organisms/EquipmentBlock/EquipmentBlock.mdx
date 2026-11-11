@@ -92,9 +92,9 @@ EquipmentBlock
 
 ## Accessibility
 
-- Maintains a clean document heading outline (**H1** by default, customizable to **H2** via `nameLevel: 2` for embeds).
+- Maintains a clean document heading outline (**H1** → **H2** section titles by default, or **H2** → **H3** via `nameLevel: 2` for embeds).
 - Real HTML list elements (`<ul>`, `<li>`) for rules notes.
-- Stat pairs use clear label-value association; AbilityName maintains full names in `aria-label`.
+- Stat pairs use clear label-value association; AbilityName preserves full names via visually-hidden text when abbreviated.
 - Notice blocks declare `role="alert"`.
 - Buttons are native `<button type="button">` with visible focus rings.
 

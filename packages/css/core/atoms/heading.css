@@ -67,11 +67,18 @@
   break-inside: avoid;
 }
 
+/* Default tone alias (emitted by headingClassNames) — placed before level
+   maps so H2/H4/H6 default to content-accent without double-class specificity. */
+.eevenkoto-heading--primary {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
+}
+
 /* --- MACRO: H1 / H2 — size jump + structural rule + generous space --- */
 
 :where(h1).eevenkoto-heading,
 .eevenkoto-heading--1,
 .eevenkoto-prose :where(h1) {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-1);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
@@ -83,7 +90,7 @@
 :where(h2).eevenkoto-heading,
 .eevenkoto-heading--2,
 .eevenkoto-prose :where(h2) {
-  --eevenkoto-heading-color: var(--eevenkoto-color-control-secondary-icon);
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-accent);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-2);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
@@ -97,6 +104,7 @@
 :where(h3).eevenkoto-heading,
 .eevenkoto-heading--3,
 .eevenkoto-prose :where(h3) {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-3);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-serif);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
@@ -106,7 +114,7 @@
 :where(h4).eevenkoto-heading,
 .eevenkoto-heading--4,
 .eevenkoto-prose :where(h4) {
-  --eevenkoto-heading-color: var(--eevenkoto-color-control-secondary-icon);
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-accent);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-4);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-sans);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-semibold);
@@ -114,15 +122,15 @@
   --eevenkoto-heading-margin-block: var(--eevenkoto-space-4) 0 var(--eevenkoto-space-2);
 }
 
-/* --- MICRO: H5 / H6 — same size as body-md; case / posture / run-in --- */
+/* --- MICRO: H5 / H6 — case + sunken band (H5, lg) / bold italic + run-in (H6, md) --- */
 
 :where(h5).eevenkoto-heading,
 .eevenkoto-heading--5,
 .eevenkoto-prose :where(h5) {
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-5);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-sans);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
-  --eevenkoto-heading-font-variant-caps: var(--eevenkoto-font-variant-caps, all-small-caps);
   --eevenkoto-heading-font-variant-caps: all-small-caps;
   --eevenkoto-heading-letter-spacing: 0.06em;
   --eevenkoto-heading-line-height: var(--eevenkoto-line-height-body);
@@ -143,32 +151,13 @@
 :where(h6).eevenkoto-heading,
 .eevenkoto-heading--6,
 .eevenkoto-prose :where(h6) {
-  --eevenkoto-heading-color: var(--eevenkoto-color-control-secondary-icon);
+  --eevenkoto-heading-color: var(--eevenkoto-color-content-accent);
   --eevenkoto-heading-font-size: var(--eevenkoto-font-size-heading-6);
   --eevenkoto-heading-font-family: var(--eevenkoto-font-sans);
   --eevenkoto-heading-font-weight: var(--eevenkoto-font-weight-bold);
   --eevenkoto-heading-font-style: italic;
   --eevenkoto-heading-line-height: var(--eevenkoto-line-height-body);
   --eevenkoto-heading-margin-block: var(--eevenkoto-space-3) 0 var(--eevenkoto-space-1);
-}
-
-.eevenkoto-heading--primary {
-  --eevenkoto-heading-color: var(--eevenkoto-color-content-primary);
-}
-
-:where(h2).eevenkoto-heading.eevenkoto-heading--primary,
-.eevenkoto-heading--2.eevenkoto-heading--primary {
-  --eevenkoto-heading-color: var(--eevenkoto-color-control-secondary-icon);
-}
-
-:where(h4).eevenkoto-heading.eevenkoto-heading--primary,
-.eevenkoto-heading--4.eevenkoto-heading--primary {
-  --eevenkoto-heading-color: var(--eevenkoto-color-control-secondary-icon);
-}
-
-:where(h6).eevenkoto-heading.eevenkoto-heading--primary,
-.eevenkoto-heading--6.eevenkoto-heading--primary {
-  --eevenkoto-heading-color: var(--eevenkoto-color-control-secondary-icon);
 }
 
 .eevenkoto-heading--secondary {

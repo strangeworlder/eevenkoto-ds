@@ -29,7 +29,7 @@
   --_eevenkoto-badge-pad-block: var(--eevenkoto-badge-pad-block, var(--eevenkoto-space-1));
   --_eevenkoto-badge-pad-inline: var(--eevenkoto-badge-pad-inline, var(--eevenkoto-space-2));
   --_eevenkoto-badge-radius: var(--eevenkoto-badge-radius, var(--eevenkoto-radius-full));
-  --_eevenkoto-badge-dot-size: var(--eevenkoto-badge-dot-size, 0.6em);
+  --_eevenkoto-badge-dot-size: var(--eevenkoto-badge-dot-size, 0.4em);
   --_eevenkoto-badge-gap: var(--eevenkoto-badge-gap, var(--eevenkoto-space-1));
   --_eevenkoto-badge-border-width: var(
     --eevenkoto-badge-border-width,
@@ -74,7 +74,6 @@
   height: var(--_eevenkoto-badge-dot-size);
   border-radius: var(--eevenkoto-radius-full);
   background-color: var(--_eevenkoto-badge-dot-color);
-  margin-right: var(--_eevenkoto-badge-gap);
   flex-shrink: 0;
 }
 

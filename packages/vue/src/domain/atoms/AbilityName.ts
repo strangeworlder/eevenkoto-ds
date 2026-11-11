@@ -35,7 +35,6 @@ export const AbilityName = defineComponent({
         'span',
         {
           class: className.value,
-          'aria-label': fullText,
         },
         [
           h('span', { class: 'eevenkoto-ability-name__full' }, slotContent || fullText),

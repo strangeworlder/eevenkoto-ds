@@ -12,7 +12,7 @@
   "scripts": {
     "build": "npm run build -w @eevenkoto/core && npm run build -w @eevenkoto/html && npm run build -w @eevenkoto/react && npm run build -w @eevenkoto/vue",
     "generate:llms": "node scripts/generate-llms.mjs",
-    "lint:css": "stylelint \"packages/css/tokens/tokens.css\" \"packages/css/core/**/*.css\" \"packages/css/domain/**/*.css\"",
+    "lint:css": "stylelint \"packages/css/**/*.css\" \"apps/storybook/src/**/*.css\"",
     "test": "vitest run",
     "test:storybook": "vitest run --config apps/storybook/vitest.config.ts",
     "contrast": "node scripts/contrast-audit.mjs",
@@ -24,6 +24,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.68.2",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.1",
     "culori": "^4.0.2",

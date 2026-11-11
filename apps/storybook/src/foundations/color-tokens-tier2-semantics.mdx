@@ -112,7 +112,7 @@ Form components consume only the `form` domain.
 - Platform keywords: `transparent` and `currentColor`
 - CSS system color keywords for Windows High Contrast Mode (`Canvas`, `CanvasText`, `ButtonBorder`, `Highlight`, `HighlightText`, `LinkText`)
 
-**Planned enforcement:** Stylelint should fail CI if raw color strings appear in `tokens.css` (not wired yet). If an intent requires an unvetted color stop, it must be added to Tier 1 via the primitive review process.
+**CI enforcement:** Stylelint (`eevenkoto/no-raw-color-literals` and `eevenkoto/constrain-tier2-color-mix`) fails CI if raw color strings or hue×hue mixes appear in `tokens.css`. If an intent requires an unvetted color stop, it must be added to Tier 1 via the primitive review process.
 
 ### 3.1a Prefer aliases — constrain `color-mix`
 
@@ -153,7 +153,6 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 ```css
 --eevenkoto-color-[domain]-[variant]-background:  /* Container fill */
 --eevenkoto-color-[domain]-[variant]-text:        /* Primary text (>= 4.5:1) */
---eevenkoto-color-[domain]-[variant]-text-subtle: /* Secondary text (>= 3.0:1) */
 --eevenkoto-color-[domain]-[variant]-border:      /* Boundary stroke */
 ```
 
@@ -176,7 +175,7 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 );
 ```
 
-**Planned enforcement:** AST linting should require every token ending in `-background` to have a co-located `-text` sibling within the same selector (not wired yet).
+**CI enforcement:** `eevenkoto/require-text-tuple` and `eevenkoto/require-disabled-tuple` enforce co-located `-text` and `-disabled` tuples in `tokens.css`.
 
 ### 3.3 Ban on `-inverse` Tokens (Scoped Context Theming)
 
@@ -184,44 +183,51 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 
 **Rationale:** Adding `-inverse` creates an explosion of parallel tokens when dark containers host complex children (inputs, tables, tooltips).
 
-**Implementation:** Apply Scoped Context Theming using `[data-surface-mode="dark"]`. The cascade rebinds the standard tokens locally:
+**Implementation:** Apply Scoped Context Theming using `[data-surface-mode="dark"]` paired with `[data-theme="dark"]`. The cascade rebinds the standard tokens locally:
 
 ```css
-/* Inverted surface container rebinds standard tokens locally */
+/* Dark theme and scoped dark islands share the exact same Tier 2 block */
+[data-theme="dark"],
 [data-surface-mode="dark"] {
   --eevenkoto-color-surface-canvas:  var(--eevenkoto-color-obsidian-background);
   --eevenkoto-color-content-primary: var(--eevenkoto-color-obsidian-text);
-  --eevenkoto-color-link-default:    var(--eevenkoto-color-turquoise-primary);
-  --eevenkoto-color-boundary-subtle: var(--eevenkoto-color-obsidian-border-subtle);
+  --eevenkoto-color-link-default:    var(--eevenkoto-color-turquoise-link-on-dark);
+  --eevenkoto-color-boundary-subtle: color-mix(
+    in oklch,
+    var(--eevenkoto-color-obsidian-border) 45%,
+    transparent
+  );
 }
 ```
 
-**Planned enforcement:** AST linting should reject any token name containing the substring `-inverse` (not wired yet).
+**CI enforcement:** `eevenkoto/no-inverse-token` rejects any token name containing `-inverse`.
 
 ### 3.4 Contrast & Polarity Standards
 
-Token pairings must pass two automated CI checks:
+**Automated CI gate — WCAG 2.1/2.2 AA (sRGB Relative Luminance Y):**
 
-**WCAG 2.1/2.2 AA (sRGB Relative Luminance Y):**
+`scripts/contrast-audit.mjs` and Playwright `axe-core` browser tests enforce:
 
-- Normal text: ≥ 4.5:1
-- Large text & non-text UI components: ≥ 3.0:1
+- Normal text (`content-primary`, `content-secondary`, `content-tertiary`, `content-accent`, `content-accent-strong`, control text, feedback text, form text/placeholder/invalid message, inline links): **≥ 4.5:1** across all 4 surfaces (`canvas`, `subtle`, `sunken`, `raised`).
+- Non-text UI boundaries, icons, disabled tuples, contained borderless button edges, link-vs-body text separation, and dual focus halos: **≥ 3.0:1**.
 
-**APCA Directional Lightness (L<sup>c</sup>):**
+**Design-review calibration — APCA Directional Lightness (L<sup>c</sup>):**
 
-- Dark text on light background (positive polarity): L<sup>c</sup> ≥ +75
-- Light text on dark background (negative polarity): L<sup>c</sup> ≥ −60 (prevents halation fatigue)
-- Non-text graphics & boundaries: |L<sup>c</sup>| ≥ 45
+When tuning new Tier 1 stops with a designer, calibrate polarity to prevent dark-mode halation fatigue:
+
+- Dark text on light background (positive polarity): target L<sup>c</sup> ≥ +75
+- Light text on dark background (negative polarity): target L<sup>c</sup> ≥ −60
+- Non-text graphics & boundaries: target |L<sup>c</sup>| ≥ 45
 
 #### Contrast Requirements by Element Type
 
-- **Contained Controls (Buttons):** Internal contrast between background and text must meet ≥ 4.5:1.
-- **Inline Links:** Must meet ≥ 4.5:1 against the ambient surface and ≥ 3.0:1 against adjacent body text.
-- **Form Controls:** Checkbox/radio tracks and input borders must meet ≥ 3.0:1 non-text contrast against the canvas.
+- **Contained Controls (Buttons):** Internal contrast between background and text must meet ≥ 4.5:1, and borderless contained fills (`primary`, `destructive`) must clear ≥ 3.0:1 against `surface-canvas`.
+- **Inline Links:** Must meet ≥ 4.5:1 against every surface (`canvas`, `subtle`, `sunken`, `raised`) and ≥ 3.0:1 against adjacent body text (`content-primary`).
+- **Form Controls:** Input borders, checkbox/radio borders, and invalid borders must meet ≥ 3.0:1 non-text contrast across all surfaces; `form-input-placeholder` clears ≥ 4.5:1 on input fills and sunken wells.
 - **Dual-Boundary Focus Indicators:** A single focus ring cannot guarantee contrast against both an arbitrary control fill and an unknown outer canvas. Tier 2 defines a two-part halo:
   - `--eevenkoto-color-boundary-focus-outer`: Contrasts against the surrounding canvas (≥ 3.0:1).
   - `--eevenkoto-color-boundary-focus-inner`: Contrasts against the component's inner fill (≥ 3.0:1).
-- **Multi-Canvas Surface Rule:** Because typography renders across multiple elevation steps, `--eevenkoto-color-content-primary` must clear WCAG AA (≥ 4.5:1) against `--eevenkoto-color-surface-canvas`, `--eevenkoto-color-surface-subtle`, and `--eevenkoto-color-surface-sunken`.
+- **Multi-Canvas Surface Rule:** Because typography and subtle badges/notices render across multiple elevation steps, content roles and composited feedback fills must clear WCAG AA (≥ 4.5:1) against `--eevenkoto-color-surface-canvas`, `--eevenkoto-color-surface-subtle`, `--eevenkoto-color-surface-sunken`, and `--eevenkoto-color-surface-raised`.
 
 ### 3.5 Elevation & Depth Mechanics
 
@@ -242,18 +248,19 @@ Token pairings must pass two automated CI checks:
 
 **Dark Mode (Additive Elevation):** Black shadows are invisible against dark canvas. Elevation is communicated by stepping lightness (L) upward:
 
-- Canvas Root: obsidian wash (L ≈ 0.14)
-- Raised Surface (Cards, Rows): obsidian subtle (L ≈ 0.18)
-- Sunken Surface (Inputs, Wells): obsidian base (L ≈ 0.10)
+- Sunken Surface (Wells): `obsidian-background-sunken` (L = 0.11)
+- Canvas Root: `obsidian-background` (L = 0.14)
+- Subtle Band (Stripes, Hover): `obsidian-background-subtle` (L = 0.18)
+- Raised Surface (Cards, Inputs, Popovers): `obsidian-background-raised` (L = 0.23)
 
 ## Canonical Semantic Token Definitions
 
-Illustrative excerpts for `tokens.css`. Theme switching occurs only in this layer.
+Illustrative excerpts from `packages/css/tokens/tokens.css`. Theme switching occurs only in this layer.
 
 ```css
 /* ==========================================================================
    TIER 2: SEMANTIC TOKENS (tokens.css)
-   Exclusively references Tier 1 primitives or oklch color-mix expressions.
+   Aliases Tier 1 primitives or constrained oklch color-mix fades/disabled stops.
    ========================================================================== */
 
 :root {
@@ -280,14 +287,19 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
   --eevenkoto-color-content-tertiary:      var(--eevenkoto-color-parchment-text-subtle);
   --eevenkoto-color-content-accent:        var(--eevenkoto-color-parchment-primary);
   --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-deep);
-  --eevenkoto-color-content-disabled:      var(--eevenkoto-color-parchment-border);
+  --eevenkoto-color-content-disabled:      color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 50%,
+    var(--eevenkoto-color-parchment-tint-disabled) 50%
+  );
 
   /* 3. TYPOGRAPHIC LINKS */
-  --eevenkoto-color-link-default:          var(--eevenkoto-color-turquoise-state);
-  --eevenkoto-color-link-hover:            var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-link-default:          var(--eevenkoto-color-turquoise-link);
+  --eevenkoto-color-link-hover:            var(--eevenkoto-color-turquoise-link-hover);
+  --eevenkoto-color-link-visited:          var(--eevenkoto-color-purple-link);
   --eevenkoto-color-link-underline:        color-mix(
     in oklch,
-    var(--eevenkoto-color-link-default) 40%,
+    var(--eevenkoto-color-turquoise-link) 40%,
     transparent
   );
 
@@ -298,37 +310,34 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
     transparent
   );
   --eevenkoto-color-boundary-strong:       var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-boundary-focus-outer:  var(--eevenkoto-color-gold-primary);
+  --eevenkoto-color-boundary-focus-outer:  var(--eevenkoto-color-gold-primary-strong);
   --eevenkoto-color-boundary-focus-inner:  var(--eevenkoto-color-surface-canvas);
 
   /* 5. CONTROLS: PRIMARY ACTION */
-  --eevenkoto-color-control-primary-background:          var(--eevenkoto-color-turquoise-state);
-  --eevenkoto-color-control-primary-background-hover:    var(--eevenkoto-color-turquoise-state-hover);
-  --eevenkoto-color-control-primary-background-active:   var(--eevenkoto-color-turquoise-state-hover);
-  --eevenkoto-color-control-primary-text:                var(--eevenkoto-color-turquoise-text);
-  --eevenkoto-color-control-primary-border:              transparent;
-
-  --eevenkoto-color-control-primary-background-disabled: var(--eevenkoto-color-parchment-background-element);
-  --eevenkoto-color-control-primary-text-disabled:       var(--eevenkoto-color-parchment-border);
-  --eevenkoto-color-control-primary-border-disabled:     transparent;
+  --eevenkoto-color-control-primary-background:        var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-control-primary-background-hover:  var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-control-primary-background-active: var(--eevenkoto-color-turquoise-state-hover);
+  --eevenkoto-color-control-primary-text:              var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-control-primary-border:            var(--eevenkoto-color-turquoise-border-subtle);
 
   /* 6. CONTROLS: DESTRUCTIVE ACTION */
-  --eevenkoto-color-control-destructive-background:          var(--eevenkoto-color-crimson-state);
-  --eevenkoto-color-control-destructive-background-hover:    var(--eevenkoto-color-crimson-state-hover);
-  --eevenkoto-color-control-destructive-text:                var(--eevenkoto-color-crimson-text);
-  --eevenkoto-color-control-destructive-border:              transparent;
+  --eevenkoto-color-control-destructive-background:       var(--eevenkoto-color-crimson-state);
+  --eevenkoto-color-control-destructive-background-hover: var(--eevenkoto-color-crimson-state-hover);
+  --eevenkoto-color-control-destructive-text:             var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-control-destructive-border:           transparent;
 
   /* 7. FORM INPUTS & VALIDATION TUPLE */
-  --eevenkoto-color-form-input-background:         var(--eevenkoto-color-parchment-background);
+  --eevenkoto-color-form-input-background:         var(--eevenkoto-color-parchment-background-bright);
   --eevenkoto-color-form-input-text:               var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-form-input-placeholder:        var(--eevenkoto-color-parchment-text-muted);
   --eevenkoto-color-form-input-border:             var(--eevenkoto-color-parchment-border);
 
   --eevenkoto-color-form-input-background-invalid: var(--eevenkoto-color-crimson-tint-cool);
-  --eevenkoto-color-form-input-text-invalid:       var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-form-input-text-invalid:       var(--eevenkoto-color-crimson-ink);
   --eevenkoto-color-form-input-border-invalid:     var(--eevenkoto-color-crimson-state);
-  --eevenkoto-color-form-input-message-invalid:    var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-form-input-message-invalid:    var(--eevenkoto-color-crimson-state);
 
-  /* 8. FEEDBACK CONTAINERS — subtle via color-mix; solid via state + on-fill text */
+  /* 8. FEEDBACK CONTAINERS — subtle via transparent fade; ink via dedicated Tier 1 stop */
   --eevenkoto-color-feedback-caution-background: color-mix(
     in oklch,
     var(--eevenkoto-color-orange-state) 16%,
@@ -339,11 +348,7 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
     var(--eevenkoto-color-orange-state) 30%,
     transparent
   );
-  --eevenkoto-color-feedback-caution-text: color-mix(
-    in oklch,
-    var(--eevenkoto-color-orange-state) 65%,
-    var(--eevenkoto-color-parchment-text)
-  );
+  --eevenkoto-color-feedback-caution-text: var(--eevenkoto-color-orange-ink);
 
   --eevenkoto-color-feedback-critical-background: color-mix(
     in oklch,
@@ -355,42 +360,44 @@ Illustrative excerpts for `tokens.css`. Theme switching occurs only in this laye
     var(--eevenkoto-color-crimson-state) 28%,
     transparent
   );
-  --eevenkoto-color-feedback-critical-text: color-mix(
-    in oklch,
-    var(--eevenkoto-color-crimson-state) 70%,
-    var(--eevenkoto-color-parchment-text)
-  );
+  --eevenkoto-color-feedback-critical-text: var(--eevenkoto-color-crimson-ink);
 }
 
 /* ==========================================================================
-   DARK THEME OVERRIDES ([data-theme="dark"])
+   DARK THEME OVERRIDES ([data-theme="dark"], [data-surface-mode="dark"])
    ========================================================================== */
-[data-theme="dark"] {
+[data-theme="dark"],
+[data-surface-mode="dark"] {
   --eevenkoto-color-surface-canvas:   var(--eevenkoto-color-obsidian-background);
-  --eevenkoto-color-surface-sunken:   var(--eevenkoto-color-obsidian-background-element);
-  --eevenkoto-color-surface-raised:   var(--eevenkoto-color-obsidian-background-subtle);
+  --eevenkoto-color-surface-subtle:   var(--eevenkoto-color-obsidian-background-subtle);
+  --eevenkoto-color-surface-sunken:   var(--eevenkoto-color-obsidian-background-sunken);
+  --eevenkoto-color-surface-raised:   var(--eevenkoto-color-obsidian-background-raised);
 
-  --eevenkoto-color-content-primary:  var(--eevenkoto-color-obsidian-text);
+  --eevenkoto-color-content-primary:   var(--eevenkoto-color-obsidian-text);
   --eevenkoto-color-content-secondary: var(--eevenkoto-color-obsidian-text-muted);
+  --eevenkoto-color-content-accent:    var(--eevenkoto-color-gold-primary);
 
-  --eevenkoto-color-link-default:     var(--eevenkoto-color-turquoise-primary);
-  --eevenkoto-color-link-hover:       var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-link-default:      var(--eevenkoto-color-turquoise-link-on-dark);
+  --eevenkoto-color-link-hover:        var(--eevenkoto-color-turquoise-link-hover-on-dark);
+  --eevenkoto-color-link-visited:      var(--eevenkoto-color-purple-link-on-dark);
 
-  --eevenkoto-color-control-primary-background:       var(--eevenkoto-color-turquoise-primary);
-  --eevenkoto-color-control-primary-background-hover: var(--eevenkoto-color-turquoise-primary-hover);
-  --eevenkoto-color-control-primary-text:             var(--eevenkoto-color-turquoise-tint-deep);
+  --eevenkoto-color-control-primary-background:       var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-control-primary-background-hover: var(--eevenkoto-color-turquoise-state-hover-on-dark);
+  --eevenkoto-color-control-primary-text:             var(--eevenkoto-color-turquoise-text);
 }
 ```
 
 ## CI enforcement
 
-These Stylelint rules and contrast checks run in `npm run lint:css`, `npm run contrast`, and `npm run ci`.
+These Stylelint rules, token parity tests, and contrast checks run in `npm run lint:css`, `npm run contrast`, `npm run test`, and `npm run ci`.
 
 | Check | Behavior |
 | --- | --- |
-| Zero Raw Literals | Rejects raw color formats in `tokens.css`. Allowed: primitive `var()`, constrained `color-mix(in oklch, …)` recipes (fades / disabled endpoints — see §3.1a), platform keywords, system colors. |
-| Mandatory Text Tuples | Requires any selector declaring a `-background` property to include a matching `-text` property, unless annotated with `/* stylelint-disable-next-line eevenkoto/require-text-tuple */`. |
-| Mandatory Disabled Tuples | Requires interactive variants with `-background-disabled` to also declare `-text-disabled` and `-border-disabled`. |
-| Banned `-inverse` Names | Scans for `-inverse` in token names and fails the build. Use scoped context containers instead. |
-| Semantic contrast tuples | Light and dark. Content on every surface, control text and icons (default, hover, active, disabled), feedback subtle and solid text and icons, form text, invalid message, input borders, links, and both focus halos at the ratios in §3.4. Translucent fills are composited before the ratio is measured. Subtle feedback borders and `boundary-subtle` are reported, not gated. |
-| Tier Isolation | Rejects any occurrence of Tier 1 primitive leakage patterns in `packages/css/core/` and `packages/css/domain/`. |
+| Zero Raw Literals (`eevenkoto/no-raw-color-literals`) | Rejects raw color formats in `tokens.css`, component CSS, and Storybook CSS. |
+| Constrained Tier 2 Mixes (`eevenkoto/constrain-tier2-color-mix`) | Rejects `color-mix()` in `tokens.css` unless interpolating `in oklch` with `transparent` or a `*-tint-disabled*` endpoint (forbidding hue×hue mixes). |
+| Unknown Token Guard (`eevenkoto/no-unknown-tokens`) | Rejects undefined Tier 1/Tier 2 token references across all stylesheets (including inside `var()` fallbacks). |
+| Mandatory Text Tuples (`eevenkoto/require-text-tuple`) | Requires any selector declaring a `-background` property to include a matching `-text` property, unless annotated with `/* stylelint-disable-next-line eevenkoto/require-text-tuple */`. |
+| Mandatory Disabled Tuples (`eevenkoto/require-disabled-tuple`) | Requires interactive variants with `-background-disabled` to also declare `-text-disabled` and `-border-disabled`. |
+| Banned `-inverse` Names (`eevenkoto/no-inverse-token`) | Scans for `-inverse` in token names and fails the build. Use `[data-surface-mode="dark"]` scoped context containers instead. |
+| Semantic & Composite Contrast (`scripts/contrast-audit.mjs`) | Light and dark. Content on all 4 surfaces (≥ 4.5:1), control text/icons/edges, feedback subtle and solid across all 4 surfaces, form text/placeholder/invalid wash/borders, links, dual focus halos, and cross-family component pairs. |
+| Tier Isolation (`eevenkoto/no-primitive-in-components`) | Dynamically loads `primitive-tokens.css` and rejects any Tier 1 token reference outside `tokens.css`. |

@@ -1,9 +1,9 @@
 /* packages/css/core/molecules/prose.css */
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: PROSE (TIER 3)
-   Scope host for bare heading / paragraph / list tags. Pulls in type sheets so
-   `.eevenkoto-prose :where(h1–h6|p|ul|ol|li)` match classed Heading / Paragraph /
-   List defaults (see those files). Compose with Flow for vertical rhythm:
+   Scope host for bare heading / paragraph / list / link tags. Pulls in type sheets so
+   `.eevenkoto-prose :where(h1–h6|p|ul|ol|li|a)` match classed Heading / Paragraph /
+   List / link defaults (see those files). Compose with Flow for vertical rhythm:
    class="eevenkoto-prose eevenkoto-flow"
    ========================================================================== */
 
@@ -15,6 +15,56 @@
   display: block;
   min-width: 0;
   container-type: inline-size;
+}
+
+.eevenkoto-prose :where(a:not([class])) {
+  --_eevenkoto-prose-link-color: var(
+    --eevenkoto-prose-link-color,
+    var(--eevenkoto-color-link-default)
+  );
+  --_eevenkoto-prose-link-underline: var(
+    --eevenkoto-prose-link-underline,
+    var(--eevenkoto-color-link-underline)
+  );
+
+  color: var(--_eevenkoto-prose-link-color);
+  text-decoration-line: underline;
+  text-decoration-color: var(--_eevenkoto-prose-link-underline);
+  text-underline-offset: 0.18em;
+  transition:
+    color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    text-decoration-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
+}
+
+/* Browsers ignore custom property mutations inside :visited for privacy; read Tier 2 link-visited directly. */
+.eevenkoto-prose :where(a:not([class])):visited:not(:hover) {
+  color: var(--eevenkoto-prose-link-visited, var(--eevenkoto-color-link-visited));
+}
+
+.eevenkoto-prose :where(a:not([class])):hover {
+  --eevenkoto-prose-link-color: var(--eevenkoto-color-link-hover);
+  --eevenkoto-prose-link-underline: currentColor;
+}
+
+.eevenkoto-prose :where(a:not([class])):focus-visible {
+  border-radius: var(--eevenkoto-radius-sm);
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-prose :where(a:not([class])) {
+    color: LinkText;
+    text-decoration-color: LinkText;
+  }
+
+  .eevenkoto-prose :where(a:not([class])):visited:not(:hover) {
+    color: VisitedText;
+  }
+
+  .eevenkoto-prose :where(a:not([class])):focus-visible {
+    outline-color: Highlight;
+  }
 }
 
 .eevenkoto-prose :where(img) {

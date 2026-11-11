@@ -11,7 +11,7 @@
   );
   --_eevenkoto-status-dot-ring: var(
     --eevenkoto-status-dot-ring,
-    var(--eevenkoto-color-form-input-background)
+    var(--eevenkoto-color-surface-canvas)
   );
   --_eevenkoto-status-dot-size: var(--eevenkoto-status-dot-size, 0.7rem);
 

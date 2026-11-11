@@ -177,13 +177,14 @@ export const EquipmentBlock = defineComponent({
       }
 
       // 4. Traits
+      const sectionTag = level === 2 ? 'h3' : 'h2';
       const traitElements: VNode[] = props.traits?.length
         ? props.traits.map((tr) => h('span', { class: chipClassNames() }, tr))
         : [h('span', { class: 'eevenkoto-equipment-block__empty-traits' }, props.emptyTraitsText)];
 
       children.push(
         h('div', { class: 'eevenkoto-equipment-block__section' }, [
-          h('h4', { class: 'eevenkoto-equipment-block__section-title' }, props.traitsTitle),
+          h(sectionTag, { class: 'eevenkoto-equipment-block__section-title' }, props.traitsTitle),
           h('div', { class: 'eevenkoto-equipment-block__traits' }, traitElements),
         ]),
       );
@@ -195,7 +196,7 @@ export const EquipmentBlock = defineComponent({
         );
         children.push(
           h('div', { class: 'eevenkoto-equipment-block__section' }, [
-            h('h4', { class: 'eevenkoto-equipment-block__section-title' }, props.notesTitle),
+            h(sectionTag, { class: 'eevenkoto-equipment-block__section-title' }, props.notesTitle),
             h('ul', { class: 'eevenkoto-list eevenkoto-equipment-block__notes' }, noteItems),
           ]),
         );

@@ -35,7 +35,7 @@
   --eevenkoto-color-content-secondary: var(--eevenkoto-color-parchment-text-muted);
   /* Metadata / Caption default — quieter than secondary body de-emphasis. */
   --eevenkoto-color-content-tertiary: var(--eevenkoto-color-parchment-text-subtle);
-  /* Quiet chrome (ability labels, default chip borders) — parchment, not mixed gold. */
+  /* Quiet chrome (ability labels, default chip borders, H2/H4/H6) — parchment in light, gold in dark. */
   --eevenkoto-color-content-accent: var(--eevenkoto-color-parchment-primary);
   /* Deep gold for emphasis chrome (e.g. proficient save shields) — clears 4.5:1 on sunken. */
   --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary-deep);
@@ -80,10 +80,8 @@
 
   /* --- Controls: secondary --- */
   --eevenkoto-color-control-secondary-background: var(--eevenkoto-color-parchment-background-element);
-  --eevenkoto-color-control-secondary-background-hover: color-mix(
-    in oklch,
-    var(--eevenkoto-color-parchment-background-element) 80%,
-    var(--eevenkoto-color-gold-state) 20%
+  --eevenkoto-color-control-secondary-background-hover: var(
+    --eevenkoto-color-parchment-state-hover
   );
   --eevenkoto-color-control-secondary-text: var(--eevenkoto-color-parchment-text);
   --eevenkoto-color-control-secondary-border: var(--eevenkoto-color-parchment-border);
@@ -111,11 +109,7 @@
 
   /* --- Controls: ghost --- */
   --eevenkoto-color-control-ghost-background: transparent;
-  --eevenkoto-color-control-ghost-background-hover: color-mix(
-    in oklch,
-    var(--eevenkoto-color-parchment-background) 80%,
-    var(--eevenkoto-color-parchment-primary) 20%
-  );
+  --eevenkoto-color-control-ghost-background-hover: var(--eevenkoto-color-parchment-ghost-hover);
   --eevenkoto-color-control-ghost-text: var(--eevenkoto-color-turquoise-ink);
   --eevenkoto-color-control-ghost-border: transparent;
   --eevenkoto-color-control-ghost-icon: var(--eevenkoto-color-turquoise-ink);
@@ -170,11 +164,7 @@
     var(--eevenkoto-color-green-state) 14%,
     transparent
   );
-  --eevenkoto-color-feedback-success-text: color-mix(
-    in oklch,
-    var(--eevenkoto-color-green-state) 70%,
-    var(--eevenkoto-color-parchment-text)
-  );
+  --eevenkoto-color-feedback-success-text: var(--eevenkoto-color-green-ink);
   --eevenkoto-color-feedback-success-border: color-mix(
     in oklch,
     var(--eevenkoto-color-green-state) 28%,
@@ -191,17 +181,13 @@
     var(--eevenkoto-color-orange-state) 16%,
     transparent
   );
-  --eevenkoto-color-feedback-caution-text: color-mix(
-    in oklch,
-    var(--eevenkoto-color-orange-state) 35%,
-    var(--eevenkoto-color-parchment-text)
-  );
+  --eevenkoto-color-feedback-caution-text: var(--eevenkoto-color-orange-ink);
   --eevenkoto-color-feedback-caution-border: color-mix(
     in oklch,
     var(--eevenkoto-color-orange-state) 30%,
     transparent
   );
-  --eevenkoto-color-feedback-caution-icon: var(--eevenkoto-color-feedback-caution-text);
+  --eevenkoto-color-feedback-caution-icon: var(--eevenkoto-color-orange-ink);
   --eevenkoto-color-feedback-caution-solid-background: var(--eevenkoto-color-orange-state);
   --eevenkoto-color-feedback-caution-solid-text: var(--eevenkoto-color-orange-text);
   --eevenkoto-color-feedback-caution-solid-border: transparent;
@@ -212,11 +198,7 @@
     var(--eevenkoto-color-crimson-state) 14%,
     transparent
   );
-  --eevenkoto-color-feedback-critical-text: color-mix(
-    in oklch,
-    var(--eevenkoto-color-crimson-state) 70%,
-    var(--eevenkoto-color-parchment-text)
-  );
+  --eevenkoto-color-feedback-critical-text: var(--eevenkoto-color-crimson-ink);
   --eevenkoto-color-feedback-critical-border: color-mix(
     in oklch,
     var(--eevenkoto-color-crimson-state) 28%,
@@ -233,11 +215,7 @@
     var(--eevenkoto-color-purple-state) 14%,
     transparent
   );
-  --eevenkoto-color-feedback-admin-text: color-mix(
-    in oklch,
-    var(--eevenkoto-color-purple-state) 70%,
-    var(--eevenkoto-color-parchment-text)
-  );
+  --eevenkoto-color-feedback-admin-text: var(--eevenkoto-color-purple-ink);
   --eevenkoto-color-feedback-admin-border: color-mix(
     in oklch,
     var(--eevenkoto-color-purple-state) 28%,
@@ -251,22 +229,23 @@
 
   /* --- Links --- */
   --eevenkoto-color-link-default: var(--eevenkoto-color-turquoise-link);
-  --eevenkoto-color-link-hover: var(--eevenkoto-color-turquoise-link);
-  --eevenkoto-color-link-visited: var(--eevenkoto-color-turquoise-link);
+  --eevenkoto-color-link-hover: var(--eevenkoto-color-turquoise-link-hover);
+  --eevenkoto-color-link-visited: var(--eevenkoto-color-purple-link);
   --eevenkoto-color-link-underline: color-mix(
     in oklch,
-    var(--eevenkoto-color-link-default) 40%,
+    var(--eevenkoto-color-turquoise-link) 40%,
     transparent
   );
 
   /* --- Form inputs & validation --- */
   --eevenkoto-color-form-input-background: var(--eevenkoto-color-parchment-background-bright);
   --eevenkoto-color-form-input-text: var(--eevenkoto-color-parchment-text);
+  --eevenkoto-color-form-input-placeholder: var(--eevenkoto-color-parchment-text-muted);
   --eevenkoto-color-form-input-border: var(--eevenkoto-color-parchment-border);
   --eevenkoto-color-form-input-background-hover: var(--eevenkoto-color-parchment-background);
   --eevenkoto-color-form-input-border-focus: var(--eevenkoto-color-boundary-focus-outer);
-  --eevenkoto-color-form-input-background-invalid: var(--eevenkoto-color-crimson-state);
-  --eevenkoto-color-form-input-text-invalid: var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-form-input-background-invalid: var(--eevenkoto-color-crimson-tint-cool);
+  --eevenkoto-color-form-input-text-invalid: var(--eevenkoto-color-crimson-ink);
   --eevenkoto-color-form-input-border-invalid: var(--eevenkoto-color-crimson-state);
   --eevenkoto-color-form-input-message-invalid: var(--eevenkoto-color-crimson-state);
   --eevenkoto-color-form-input-background-disabled: color-mix(
@@ -283,15 +262,11 @@
 
   /* --- Controls: destructive --- */
   --eevenkoto-color-control-destructive-background: var(--eevenkoto-color-crimson-state);
-  --eevenkoto-color-control-destructive-background-hover: color-mix(
-    in oklch,
-    var(--eevenkoto-color-crimson-state) 85%,
-    var(--eevenkoto-color-parchment-text)
+  --eevenkoto-color-control-destructive-background-hover: var(
+    --eevenkoto-color-crimson-state-hover
   );
-  --eevenkoto-color-control-destructive-background-active: color-mix(
-    in oklch,
-    var(--eevenkoto-color-crimson-state) 85%,
-    var(--eevenkoto-color-parchment-text)
+  --eevenkoto-color-control-destructive-background-active: var(
+    --eevenkoto-color-crimson-state-hover
   );
   --eevenkoto-color-control-destructive-text: var(--eevenkoto-color-crimson-text);
   --eevenkoto-color-control-destructive-border: transparent;
@@ -316,11 +291,16 @@
   /* ==========================================================================
      METRICS & TYPOGRAPHY
      Font-size roles map Tier 1 rem steps → intent (same rule as color).
-     Components consume these aliases — never --eevenkoto-font-size-sm…3xl.
+     Components consume these aliases — never --eevenkoto-font-size-xs…3xl.
      ========================================================================== */
 
   --eevenkoto-font-sans: 'Inter', system-ui, sans-serif;
   --eevenkoto-font-serif: 'Outfit', system-ui, sans-serif;
+
+  /* --- Single-tier face weights --- */
+  --eevenkoto-font-weight-regular: 400;
+  --eevenkoto-font-weight-semibold: 600;
+  --eevenkoto-font-weight-bold: 700;
 
   /* --- Semantic font sizes (Tier 2) ---
      Heading ladder uses multi-axis hierarchy: macro (1–2) keep size jumps;
@@ -371,6 +351,10 @@
 
   --eevenkoto-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --eevenkoto-ease-in-out: ease-in-out;
+
+  /* Canonical pseudo-element icon masks (synced with @eevenkoto/core iconPaths). */
+  --eevenkoto-icon-mask-chevron-right: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.97 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L9.69 8 5.97 4.28a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E");
+  --eevenkoto-icon-mask-chevron-down: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.22 5.97a.75.75 0 0 1 1.06 0L8 9.69l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L3.22 7.03a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E");
 }
 
 /* Dark theme and scoped dark islands share the same remaps (do not drift). */
@@ -399,7 +383,11 @@
   --eevenkoto-color-content-tertiary: var(--eevenkoto-color-obsidian-text-subtle);
   --eevenkoto-color-content-accent: var(--eevenkoto-color-gold-primary);
   --eevenkoto-color-content-accent-strong: var(--eevenkoto-color-gold-primary);
-  --eevenkoto-color-content-disabled: var(--eevenkoto-color-obsidian-text-subtle);
+  --eevenkoto-color-content-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-obsidian-text) 55%,
+    var(--eevenkoto-color-parchment-tint-disabled-deep) 45%
+  );
 
   --eevenkoto-color-boundary-subtle: color-mix(
     in oklch,
@@ -408,6 +396,33 @@
   );
   --eevenkoto-color-boundary-strong: var(--eevenkoto-color-obsidian-border);
   --eevenkoto-color-boundary-focus-inner: var(--eevenkoto-color-obsidian-text);
+
+  --eevenkoto-color-control-primary-background: var(--eevenkoto-color-turquoise-state);
+  --eevenkoto-color-control-primary-background-hover: var(
+    --eevenkoto-color-turquoise-state-hover-on-dark
+  );
+  --eevenkoto-color-control-primary-background-active: var(
+    --eevenkoto-color-turquoise-state-hover-on-dark
+  );
+  --eevenkoto-color-control-primary-text: var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-control-primary-background-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-state) 30%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 70%
+  );
+  --eevenkoto-color-control-primary-text-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-text) 80%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 20%
+  );
+  --eevenkoto-color-control-primary-border-disabled: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-border-subtle) 50%,
+    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
+  );
+  --eevenkoto-color-control-primary-icon-disabled: var(
+    --eevenkoto-color-control-primary-text-disabled
+  );
 
   --eevenkoto-color-control-secondary-background: var(--eevenkoto-color-obsidian-background-raised);
   --eevenkoto-color-control-secondary-text: var(--eevenkoto-color-obsidian-text);
@@ -444,37 +459,24 @@
   --eevenkoto-color-control-ghost-border-disabled: transparent;
   --eevenkoto-color-control-ghost-icon-disabled: var(--eevenkoto-color-obsidian-text-muted);
 
-  --eevenkoto-color-control-primary-background-disabled: color-mix(
-    in oklch,
-    var(--eevenkoto-color-turquoise-state) 30%,
-    var(--eevenkoto-color-turquoise-tint-disabled-deep) 70%
-  );
-  --eevenkoto-color-control-primary-text-disabled: color-mix(
-    in oklch,
-    var(--eevenkoto-color-turquoise-text) 80%,
-    var(--eevenkoto-color-turquoise-tint-disabled-deep) 20%
-  );
-  --eevenkoto-color-control-primary-border-disabled: color-mix(
-    in oklch,
-    var(--eevenkoto-color-turquoise-border-subtle) 50%,
-    var(--eevenkoto-color-turquoise-tint-disabled-deep) 50%
-  );
-  --eevenkoto-color-control-primary-icon-disabled: var(
-    --eevenkoto-color-control-primary-text-disabled
-  );
-
   --eevenkoto-color-link-default: var(--eevenkoto-color-turquoise-link-on-dark);
-  --eevenkoto-color-link-hover: var(--eevenkoto-color-turquoise-link-on-dark);
-  --eevenkoto-color-link-visited: var(--eevenkoto-color-turquoise-link-on-dark);
+  --eevenkoto-color-link-hover: var(--eevenkoto-color-turquoise-link-hover-on-dark);
+  --eevenkoto-color-link-visited: var(--eevenkoto-color-purple-link-on-dark);
+  --eevenkoto-color-link-underline: color-mix(
+    in oklch,
+    var(--eevenkoto-color-turquoise-link-on-dark) 45%,
+    transparent
+  );
 
   --eevenkoto-color-form-input-background: var(--eevenkoto-color-obsidian-background-raised);
   --eevenkoto-color-form-input-text: var(--eevenkoto-color-obsidian-text);
+  --eevenkoto-color-form-input-placeholder: var(--eevenkoto-color-obsidian-text-muted);
   --eevenkoto-color-form-input-border: var(--eevenkoto-color-obsidian-border);
   --eevenkoto-color-form-input-background-hover: var(--eevenkoto-color-obsidian-background-subtle);
+  --eevenkoto-color-form-input-background-invalid: var(--eevenkoto-color-crimson-tint-deep);
   --eevenkoto-color-form-input-text-invalid: var(--eevenkoto-color-crimson-text);
   --eevenkoto-color-form-input-border-invalid: var(--eevenkoto-color-crimson-text-bright);
   --eevenkoto-color-form-input-message-invalid: var(--eevenkoto-color-crimson-text-bright);
-  --eevenkoto-color-form-input-background-invalid: var(--eevenkoto-color-crimson-state);
   --eevenkoto-color-form-input-background-disabled: color-mix(
     in oklch,
     var(--eevenkoto-color-obsidian-background-raised) 50%,
@@ -487,9 +489,19 @@
     var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
   );
 
+  --eevenkoto-color-control-destructive-background: var(--eevenkoto-color-crimson-state-on-dark);
+  --eevenkoto-color-control-destructive-background-hover: var(
+    --eevenkoto-color-crimson-state-hover-on-dark
+  );
+  --eevenkoto-color-control-destructive-background-active: var(
+    --eevenkoto-color-crimson-state-hover-on-dark
+  );
+  --eevenkoto-color-control-destructive-text: var(--eevenkoto-color-crimson-text);
+  --eevenkoto-color-control-destructive-border: transparent;
+  --eevenkoto-color-control-destructive-icon: var(--eevenkoto-color-crimson-text);
   --eevenkoto-color-control-destructive-background-disabled: color-mix(
     in oklch,
-    var(--eevenkoto-color-crimson-state) 50%,
+    var(--eevenkoto-color-crimson-state-on-dark) 50%,
     var(--eevenkoto-color-parchment-tint-disabled-deep) 50%
   );
   --eevenkoto-color-control-destructive-text-disabled: var(--eevenkoto-color-crimson-text);
@@ -499,7 +511,7 @@
   --eevenkoto-color-feedback-neutral-text: var(--eevenkoto-color-obsidian-text);
   --eevenkoto-color-feedback-neutral-icon: var(--eevenkoto-color-obsidian-text);
   --eevenkoto-color-feedback-info-text: var(--eevenkoto-color-turquoise-text);
-  --eevenkoto-color-feedback-info-icon: var(--eevenkoto-color-turquoise-text);
+  --eevenkoto-color-feedback-info-icon: var(--eevenkoto-color-turquoise-primary-hover);
   --eevenkoto-color-feedback-success-text: var(--eevenkoto-color-green-text);
   --eevenkoto-color-feedback-success-icon: var(--eevenkoto-color-green-text);
   --eevenkoto-color-feedback-caution-text: var(--eevenkoto-color-orange-state);

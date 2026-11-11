@@ -25,6 +25,7 @@ export const renderStepper = (args: StepperProps): string => {
 
   return template
     .replace('{{className}}', stepperClassNames(args))
+    .replace('{{disabledAttr}}', args.disabled ? ' aria-disabled="true"' : '')
     .replace('{{label}}', escapeHtml(args.label))
     .replace('{{description}}', descHtml)
     .replace(/\{\{buttonClass\}\}/g, btnClass)

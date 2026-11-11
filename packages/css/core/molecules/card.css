@@ -174,8 +174,8 @@
 .eevenkoto-card--interactive {
   cursor: pointer;
   transition:
-    border-color 0.1s ease-in-out,
-    box-shadow 0.1s ease-in-out;
+    border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-in-out),
+    box-shadow var(--eevenkoto-duration-2) var(--eevenkoto-ease-in-out);
 }
 
 .eevenkoto-card--interactive:hover:not([aria-disabled='true']):not(:has(a[aria-disabled='true'])),

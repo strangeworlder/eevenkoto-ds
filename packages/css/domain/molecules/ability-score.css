@@ -167,8 +167,8 @@
   margin: 0;
   display: flex;
   justify-content: center;
-  position:absolute;
-  top: -40px;
+  position: absolute;
+  top: -4rem;
 }
 
 /* Modifier arch is the primary centered figure. */
@@ -178,7 +178,7 @@
 }
 .eevenkoto-ability-score__stat--modifier .eevenkoto-ability-score__stat-value {
   position: relative;
-  top: 0px;
+  top: 0;
 }
 
 
@@ -229,7 +229,7 @@
   }
 }
 
-@container eevenkoto-ability-score-group (max-width: 650px) {
+@container eevenkoto-ability-score-group (max-width: 65rem) {
   .eevenkoto-ability-score-group__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     max-width: 40rem;

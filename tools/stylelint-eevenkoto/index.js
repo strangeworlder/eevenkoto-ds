@@ -1,13 +1,153 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import stylelint from 'stylelint';
 
 const { report, ruleMessages, validateOptions } = stylelint.utils;
 
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '../..');
+const primitiveTokensPath = join(repoRoot, 'packages/css/tokens/primitive-tokens.css');
+const semanticTokensPath = join(repoRoot, 'packages/css/tokens/tokens.css');
+const cssPackageDir = join(repoRoot, 'packages/css');
+
+function stripComments(css) {
+  return css.replace(/\/\*[\s\S]*?\*\//g, '');
+}
+
+function collectDeclaredCustomProps(css, prefix = '--') {
+  const out = new Set();
+  const clean = stripComments(css);
+  const re = /(--_?eevenkoto-[a-z0-9-]+)\s*:/gi;
+  let match;
+  while ((match = re.exec(clean))) {
+    if (match[1].startsWith(prefix)) out.add(match[1]);
+  }
+  return out;
+}
+
+function walkCssFiles(dir, files = []) {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) walkCssFiles(full, files);
+    else if (entry.isFile() && entry.name.endsWith('.css')) files.push(full);
+  }
+  return files;
+}
+
+function loadTokenInventory() {
+  const primitiveCss = readFileSync(primitiveTokensPath, 'utf8');
+  const semanticCss = readFileSync(semanticTokensPath, 'utf8');
+  const primitiveTokens = collectDeclaredCustomProps(primitiveCss, '--eevenkoto-');
+  const tier2Tokens = collectDeclaredCustomProps(semanticCss, '--eevenkoto-');
+
+  const declaredPublicComponentTokens = new Set();
+  const declaredPrivateTokens = new Set();
+  for (const file of walkCssFiles(cssPackageDir)) {
+    if (file === primitiveTokensPath || file === semanticTokensPath) continue;
+    const css = readFileSync(file, 'utf8');
+    for (const prop of collectDeclaredCustomProps(css, '--eevenkoto-')) {
+      declaredPublicComponentTokens.add(prop);
+    }
+    for (const prop of collectDeclaredCustomProps(css, '--_eevenkoto-')) {
+      declaredPrivateTokens.add(prop);
+    }
+  }
+
+  return {
+    primitiveTokens,
+    tier2Tokens,
+    declaredPublicComponentTokens,
+    declaredPrivateTokens,
+  };
+}
+
+const INVENTORY = loadTokenInventory();
+
 const RAW =
   /(?:#[0-9a-fA-F]{3,8}\b|(?<![-\w])(?:rgb|rgba|hsl|hsla|hwb|lab|lch|oklab)\s*\()/i;
 const OKLCH_LITERAL = /(?<!in\s)oklch\s*\(/i;
-const PRIMITIVE_HUES =
-  /--eevenkoto-color-(?:turquoise|parchment|gold|green|orange|crimson|purple|obsidian)-/;
-const FONT_LADDER = /--eevenkoto-font-size-(?:xs|sm|md|lg|xl|2xl|3xl)\b/;
+const GLOBAL_NAMESPACE =
+  /^--eevenkoto-(?:color|space|radius|font|line|duration|ease|transition|icon-mask)-/;
+const FOCUS_ALLOW = /^--eevenkoto-color-boundary-focus-(?:outer|inner)$/;
+const VISITED_ALLOW = /^--eevenkoto-color-link-visited$/;
+const SYSTEM_COLOR =
+  /\b(?:Canvas|CanvasText|ButtonText|ButtonFace|Highlight|LinkText|VisitedText|GrayText|transparent|currentColor|inherit|none)\b/;
+const STATE_BRIDGE_SUFFIX =
+  /(?:^|-)(?:hover|active|disabled|invalid|checked|error)(?:$|-)/;
+const MODIFIER_OR_STATE_SELECTOR =
+  /(?:--[a-z0-9-]+|:(?:hover|active|focus|focus-visible|focus-within|disabled|checked|invalid|user-invalid|visited)\b|\[(?:open|aria-|data-))/i;
+const EMBEDDED_SVG_PATH = /(?:<path\b|%3Cpath\b)/i;
+
+function extractVarCalls(value) {
+  const calls = [];
+  const lower = value.toLowerCase();
+  let idx = 0;
+  while (idx < value.length) {
+    const pos = lower.indexOf('var(', idx);
+    if (pos < 0) break;
+    const prev = pos > 0 ? value[pos - 1] : '';
+    if (/[-\w]/.test(prev)) {
+      idx = pos + 4;
+      continue;
+    }
+    let depth = 1;
+    let cursor = pos + 4;
+    let commaAt = -1;
+    while (cursor < value.length && depth > 0) {
+      const ch = value[cursor];
+      if (ch === '(') depth++;
+      else if (ch === ')') depth--;
+      else if (ch === ',' && depth === 1 && commaAt < 0) commaAt = cursor;
+      cursor++;
+    }
+    if (depth === 0) {
+      const end = cursor - 1;
+      const name = (commaAt >= 0 ? value.slice(pos + 4, commaAt) : value.slice(pos + 4, end)).trim();
+      const hasFallback = commaAt >= 0;
+      calls.push({ name, hasFallback });
+    }
+    idx = pos + 4;
+  }
+  return calls;
+}
+
+function extractColorMixCalls(value) {
+  const calls = [];
+  const lower = value.toLowerCase();
+  let idx = 0;
+  while (idx < value.length) {
+    const pos = lower.indexOf('color-mix(', idx);
+    if (pos < 0) break;
+    let depth = 1;
+    let cursor = pos + 10;
+    while (cursor < value.length && depth > 0) {
+      if (value[cursor] === '(') depth++;
+      else if (value[cursor] === ')') depth--;
+      cursor++;
+    }
+    if (depth === 0) {
+      calls.push(value.slice(pos + 10, cursor - 1));
+    }
+    idx = pos + 10;
+  }
+  return calls;
+}
+
+function splitTopLevelCommas(str) {
+  const parts = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === '(') depth++;
+    else if (str[i] === ')') depth--;
+    else if (str[i] === ',' && depth === 0) {
+      parts.push(str.slice(start, i).trim());
+      start = i + 1;
+    }
+  }
+  parts.push(str.slice(start).trim());
+  return parts;
+}
 
 function createRule(ruleName, messages, check) {
   const ruleFn = (primary) => (root, result) => {
@@ -121,26 +261,27 @@ export const requireDisabledTuple = createRule(
 export const noPrimitiveInComponents = createRule(
   'eevenkoto/no-primitive-in-components',
   ruleMessages('eevenkoto/no-primitive-in-components', {
-    rejected: (value) => `Tier 1 primitive leaked: ${value}`,
+    rejected: (token) => `Tier 1 primitive leaked: ${token}`,
   }),
   (root, result, messages) => {
     root.walkDecls((decl) => {
       const hay = `${decl.prop} ${decl.value}`;
-      if (PRIMITIVE_HUES.test(hay) || FONT_LADDER.test(hay)) {
-        report({
-          message: messages.rejected(hay.slice(0, 120)),
-          node: decl,
-          result,
-          ruleName: 'eevenkoto/no-primitive-in-components',
-        });
+      const re = /--eevenkoto-[a-z0-9-]+/g;
+      let match;
+      while ((match = re.exec(hay))) {
+        const token = match[0];
+        if (INVENTORY.primitiveTokens.has(token) && !INVENTORY.tier2Tokens.has(token)) {
+          report({
+            message: messages.rejected(token),
+            node: decl,
+            result,
+            ruleName: 'eevenkoto/no-primitive-in-components',
+          });
+        }
       }
     });
   },
 );
-
-const FOCUS_ALLOW = /--eevenkoto-color-boundary-focus-(?:outer|inner)/;
-const SYSTEM_COLOR =
-  /\b(?:Canvas|CanvasText|ButtonText|ButtonFace|Highlight|LinkText|GrayText|transparent|currentColor|inherit|none)\b/;
 
 export const enforcePrivateBridge = createRule(
   'eevenkoto/enforce-private-bridge',
@@ -151,15 +292,23 @@ export const enforcePrivateBridge = createRule(
   (root, result, messages) => {
     root.walkDecls((decl) => {
       if (decl.prop.startsWith('--')) return;
-      if (!/--eevenkoto-color-/.test(decl.value)) return;
+      const colorRefs = decl.value.match(/--eevenkoto-color-[a-z0-9-]+/g);
+      if (!colorRefs) return;
       if (
-        /^(?:outline|box-shadow)$/.test(decl.prop) &&
-        FOCUS_ALLOW.test(decl.value) &&
-        !PRIMITIVE_HUES.test(decl.value)
+        /^(?:outline|outline-color|box-shadow)$/.test(decl.prop) &&
+        colorRefs.every((ref) => FOCUS_ALLOW.test(ref))
       ) {
         return;
       }
-      if (SYSTEM_COLOR.test(decl.value) && !/--eevenkoto-color-/.test(decl.value)) return;
+      if (
+        decl.prop === 'color' &&
+        decl.parent?.type === 'rule' &&
+        decl.parent.selector.includes(':visited') &&
+        colorRefs.every((ref) => VISITED_ALLOW.test(ref))
+      ) {
+        return;
+      }
+      if (SYSTEM_COLOR.test(decl.value) && colorRefs.length === 0) return;
       report({
         message: messages.rejected(decl.prop, decl.value.trim().slice(0, 80)),
         node: decl,
@@ -192,6 +341,174 @@ export const noSelfReferencingVars = createRule(
   },
 );
 
+export const noUnknownTokens = createRule(
+  'eevenkoto/no-unknown-tokens',
+  ruleMessages('eevenkoto/no-unknown-tokens', {
+    rejected: (token) => `Unknown or undefined token "${token}"`,
+  }),
+  (root, result, messages) => {
+    const file = (root.source?.input?.file ?? '').replace(/\\/g, '/');
+    const isTokensSheet = file.endsWith('/packages/css/tokens/tokens.css');
+
+    root.walkDecls((decl) => {
+      for (const { name, hasFallback } of extractVarCalls(decl.value)) {
+        if (isTokensSheet) {
+          if (
+            name.startsWith('--eevenkoto-') &&
+            !INVENTORY.primitiveTokens.has(name) &&
+            !INVENTORY.tier2Tokens.has(name)
+          ) {
+            report({
+              message: messages.rejected(name),
+              node: decl,
+              result,
+              ruleName: 'eevenkoto/no-unknown-tokens',
+            });
+          }
+          continue;
+        }
+
+        if (name.startsWith('--_eevenkoto-')) {
+          if (!hasFallback && !INVENTORY.declaredPrivateTokens.has(name)) {
+            report({
+              message: messages.rejected(name),
+              node: decl,
+              result,
+              ruleName: 'eevenkoto/no-unknown-tokens',
+            });
+          }
+          continue;
+        }
+
+        if (!name.startsWith('--eevenkoto-')) continue;
+        // Leaked Tier 1 primitives are reported by eevenkoto/no-primitive-in-components.
+        if (INVENTORY.primitiveTokens.has(name) && !INVENTORY.tier2Tokens.has(name)) continue;
+
+        if (GLOBAL_NAMESPACE.test(name)) {
+          if (!INVENTORY.tier2Tokens.has(name)) {
+            report({
+              message: messages.rejected(name),
+              node: decl,
+              result,
+              ruleName: 'eevenkoto/no-unknown-tokens',
+            });
+          }
+        } else if (!hasFallback && !INVENTORY.declaredPublicComponentTokens.has(name)) {
+          report({
+            message: messages.rejected(name),
+            node: decl,
+            result,
+            ruleName: 'eevenkoto/no-unknown-tokens',
+          });
+        }
+      }
+    });
+  },
+);
+
+export const constrainTier2ColorMix = createRule(
+  'eevenkoto/constrain-tier2-color-mix',
+  ruleMessages('eevenkoto/constrain-tier2-color-mix', {
+    invalidSpace: (expr) =>
+      `Tier 2 color-mix must interpolate "in oklch": color-mix(${expr})`,
+    hueMix: (expr) =>
+      `Tier 2 color-mix may only mix a single pigment with transparent or a *-tint-disabled* endpoint (define a Tier 1 stop instead): color-mix(${expr})`,
+  }),
+  (root, result, messages) => {
+    root.walkDecls((decl) => {
+      for (const inner of extractColorMixCalls(decl.value)) {
+        const parts = splitTopLevelCommas(inner);
+        if (parts.length !== 3 || !/^in\s+oklch$/i.test(parts[0])) {
+          report({
+            message: messages.invalidSpace(inner.slice(0, 100)),
+            node: decl,
+            result,
+            ruleName: 'eevenkoto/constrain-tier2-color-mix',
+          });
+          continue;
+        }
+        const stops = parts.slice(1);
+        const allowedEndpoint = stops.some(
+          (stop) =>
+            /^transparent(?:\s+\d+(?:\.\d+)?%)?$/i.test(stop) ||
+            /--eevenkoto-color-[a-z0-9-]+-tint-disabled/.test(stop),
+        );
+        if (!allowedEndpoint) {
+          report({
+            message: messages.hueMix(inner.slice(0, 100)),
+            node: decl,
+            result,
+            ruleName: 'eevenkoto/constrain-tier2-color-mix',
+          });
+        }
+      }
+    });
+  },
+);
+
+export const privateBridgeHygiene = createRule(
+  'eevenkoto/private-bridge-hygiene',
+  ruleMessages('eevenkoto/private-bridge-hygiene', {
+    stateNamed: (prop) =>
+      `Private bridge "${prop}" must be stateless; move state onto public --eevenkoto-* overrides`,
+    reassignedOnState: (prop, selector) =>
+      `Do not assign private bridge "${prop}" on modifier/state selector "${selector}"; set public --eevenkoto-* instead`,
+    duplicateBridge: (prop) =>
+      `Private bridge "${prop}" is declared multiple times; declare it once on its host and override via public --eevenkoto-*`,
+    embeddedSvgPath: () =>
+      'Do not embed SVG <path> strings in component CSS; use @eevenkoto/core iconPaths or canonical mask tokens in tokens.css',
+  }),
+  (root, result, messages) => {
+    const seenPrivateBridges = new Set();
+
+    root.walkDecls((decl) => {
+      if (EMBEDDED_SVG_PATH.test(decl.value)) {
+        report({
+          message: messages.embeddedSvgPath(),
+          node: decl,
+          result,
+          ruleName: 'eevenkoto/private-bridge-hygiene',
+        });
+      }
+
+      if (!decl.prop.startsWith('--_eevenkoto-')) return;
+      if (decl.parent?.type === 'atrule' && decl.parent.name === 'property') return;
+
+      if (seenPrivateBridges.has(decl.prop)) {
+        report({
+          message: messages.duplicateBridge(decl.prop),
+          node: decl,
+          result,
+          ruleName: 'eevenkoto/private-bridge-hygiene',
+        });
+      }
+      seenPrivateBridges.add(decl.prop);
+
+      const suffix = decl.prop.replace(/^--_eevenkoto-/, '');
+      if (STATE_BRIDGE_SUFFIX.test(suffix)) {
+        report({
+          message: messages.stateNamed(decl.prop),
+          node: decl,
+          result,
+          ruleName: 'eevenkoto/private-bridge-hygiene',
+        });
+      }
+
+      if (decl.parent?.type === 'rule') {
+        const selector = decl.parent.selector;
+        if (MODIFIER_OR_STATE_SELECTOR.test(selector)) {
+          report({
+            message: messages.reassignedOnState(decl.prop, selector),
+            node: decl,
+            result,
+            ruleName: 'eevenkoto/private-bridge-hygiene',
+          });
+        }
+      }
+    });
+  },
+);
+
 const plugins = [
   noRawColorLiterals,
   noInverseToken,
@@ -200,6 +517,9 @@ const plugins = [
   noPrimitiveInComponents,
   enforcePrivateBridge,
   noSelfReferencingVars,
+  noUnknownTokens,
+  constrainTier2ColorMix,
+  privateBridgeHygiene,
 ];
 
 export default plugins;

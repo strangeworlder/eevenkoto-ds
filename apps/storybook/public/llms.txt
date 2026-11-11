@@ -4,8 +4,8 @@
 
 ## Using the system
 
-- [llms-full.txt](/llms-full.txt): generated one-shot body (package READMEs + Tokens + Typography + Packages)
-- [@eevenkoto/css README](/?path=/docs/foundations-packages--docs): install narrative also in Packages docs
+- [llms-full.txt](/llms-full.txt): generated one-shot body (package READMEs + Tokens + Typography + Packages + Upgrading & Consumer Migration Guide)
+- [@eevenkoto/css README](/?path=/docs/foundations-packages--docs): install narrative, theming, and consume/never rules
 - [Tokens catalog](/?path=/docs/foundations-tokens--docs): live swatches in Storybook
 - [Typography](/?path=/docs/foundations-typography--docs): semantic type roles
 

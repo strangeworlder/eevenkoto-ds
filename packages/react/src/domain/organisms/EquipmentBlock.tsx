@@ -43,6 +43,7 @@ export const EquipmentBlock = ({
   const hostClasses = [equipmentBlockClassNames(), className].filter(Boolean).join(' ');
   const level: EquipmentBlockNameLevel = nameLevel === 2 ? 2 : 1;
   const NameTag = level === 2 ? 'h2' : 'h1';
+  const SectionTag = level === 2 ? 'h3' : 'h2';
 
   const handleCopy = () => {
     if (onCopy && copyText) {
@@ -160,7 +161,7 @@ export const EquipmentBlock = ({
       ) : null}
 
       <div className="eevenkoto-equipment-block__section">
-        <h4 className="eevenkoto-equipment-block__section-title">{traitsTitle}</h4>
+        <SectionTag className="eevenkoto-equipment-block__section-title">{traitsTitle}</SectionTag>
         <div className="eevenkoto-equipment-block__traits">
           {traits?.length ? (
             traits.map((tr) => (
@@ -176,7 +177,7 @@ export const EquipmentBlock = ({
 
       {notes?.length ? (
         <div className="eevenkoto-equipment-block__section">
-          <h4 className="eevenkoto-equipment-block__section-title">{notesTitle}</h4>
+          <SectionTag className="eevenkoto-equipment-block__section-title">{notesTitle}</SectionTag>
           <ul className="eevenkoto-list eevenkoto-equipment-block__notes">
             {notes.map((note, idx) => (
               <li key={idx} dangerouslySetInnerHTML={{ __html: note }} />

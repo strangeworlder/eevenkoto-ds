@@ -57,7 +57,13 @@ export const Stepper = ({
   };
 
   return (
-    <div className={classes} id={id} {...rest}>
+    <div
+      className={classes}
+      id={id}
+      role="group"
+      aria-disabled={disabled ? true : undefined}
+      {...rest}
+    >
       <div className={stepperInfoClassNames()}>
         <strong className={stepperLabelClassNames()}>{label}</strong>
         {description ? (

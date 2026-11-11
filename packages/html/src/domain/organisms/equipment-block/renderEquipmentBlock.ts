@@ -128,6 +128,7 @@ export const renderEquipmentBlock = (args: EquipmentBlockProps): string => {
   }
 
   // Traits section
+  const sectionLevel = nameLevel === 2 ? 3 : 2;
   const traitsTitle = args.traitsTitle || 'Valitut piirteet';
   let traitsContent = '';
   if (args.traits?.length) {
@@ -139,7 +140,7 @@ export const renderEquipmentBlock = (args: EquipmentBlockProps): string => {
   }
   parts.push(
     `<div class="eevenkoto-equipment-block__section">` +
-      `<h4 class="eevenkoto-equipment-block__section-title">${escapeHtml(traitsTitle)}</h4>` +
+      `<h${sectionLevel} class="eevenkoto-equipment-block__section-title">${escapeHtml(traitsTitle)}</h${sectionLevel}>` +
       `<div class="eevenkoto-equipment-block__traits">${traitsContent}</div>` +
       `</div>`,
   );
@@ -152,7 +153,7 @@ export const renderEquipmentBlock = (args: EquipmentBlockProps): string => {
       .join('');
     parts.push(
       `<div class="eevenkoto-equipment-block__section">` +
-        `<h4 class="eevenkoto-equipment-block__section-title">${escapeHtml(notesTitle)}</h4>` +
+        `<h${sectionLevel} class="eevenkoto-equipment-block__section-title">${escapeHtml(notesTitle)}</h${sectionLevel}>` +
         `<ul class="eevenkoto-list eevenkoto-equipment-block__notes">${notesList}</ul>` +
         `</div>`,
     );

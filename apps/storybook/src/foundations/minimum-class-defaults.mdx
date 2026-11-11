@@ -35,6 +35,7 @@ Also read: [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-t
 | Button | `<button class="eevenkoto-button">` | primary + md (full states) |
 | LinkButton | `<a class="eevenkoto-link-button" href="…">` | primary + md + end-scoop (forward CTA link) |
 | Badge | `<span class="eevenkoto-badge">` | subtle + neutral + md + pill |
+| Stat | `<span class="eevenkoto-stat">` | disk + md (`4rem`, `radius-full`) |
 | StatusDot | `<span class="eevenkoto-status-dot">` | neutral pip |
 | Chip | `<button class="eevenkoto-chip">` | unselected + md |
 | CatalogTile | `<a class="eevenkoto-catalog-tile" href="…">` | raised hairline row |
@@ -45,7 +46,7 @@ Also read: [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-t
 | Table | `<table class="eevenkoto-table">` + bare `tr` / `th` / `td` | default variant + row stripe; cells from host descendants (kinds via `--index` / `--numeric`) |
 | TableCell | `<td class="eevenkoto-table-cell">` | text kind — for cells outside a Table host |
 | Image | `<figure class="eevenkoto-image">` | full paragraph-wide block (`--float-left` / `--float-right` opt-in) |
-| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` / `ul` / `ol` / `li` | same defaults as classed type |
+| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` / `ul` / `ol` / `li` / `a` | same defaults as classed type + Tier 2 `link-*` |
 | Flow | Compose with Prose for bare-tag pair gaps | classed primitives always |
 
 ## CSS patterns

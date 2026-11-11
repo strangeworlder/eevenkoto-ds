@@ -64,7 +64,7 @@ export const GroupedOptions: Story = {
     id: 'select-grouped',
     ariaLabel: 'Valitse kilpi',
     value: 'kevyt_kilpi',
-    options: [
+    groups: [
       {
         label: 'Kevyet suojat',
         options: [

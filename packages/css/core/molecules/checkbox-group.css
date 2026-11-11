@@ -17,14 +17,6 @@
     --eevenkoto-checkbox-group-legend-size,
     var(--eevenkoto-font-size-control-md)
   );
-  --_eevenkoto-checkbox-group-message-color: var(
-    --eevenkoto-checkbox-group-message-color,
-    var(--eevenkoto-color-content-secondary)
-  );
-  --_eevenkoto-checkbox-group-message-error: var(
-    --eevenkoto-checkbox-group-message-error,
-    var(--eevenkoto-color-form-input-message-invalid)
-  );
 
   display: flex;
   flex-direction: column;
@@ -85,6 +77,11 @@
 /* --- MESSAGE / HINT / ERROR --- */
 
 .eevenkoto-checkbox-group__message {
+  --_eevenkoto-checkbox-group-message-color: var(
+    --eevenkoto-checkbox-group-message-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+
   margin: 0;
   margin-block-start: var(--_eevenkoto-checkbox-group-gap);
   font-size: var(--eevenkoto-font-size-caption);
@@ -93,7 +90,10 @@
 }
 
 .eevenkoto-checkbox-group__message--error {
-  color: var(--_eevenkoto-checkbox-group-message-error);
+  --eevenkoto-checkbox-group-message-color: var(
+    --eevenkoto-checkbox-group-message-error,
+    var(--eevenkoto-color-form-input-message-invalid)
+  );
   font-weight: var(--eevenkoto-font-weight-semibold);
 }
 

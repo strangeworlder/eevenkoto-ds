@@ -2,7 +2,50 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.9.5**.
+Published package version is **0.10.0**.
+
+## 0.10.0
+
+> **Consuming site upgrade instructions:** See [`docs/migration-token-architecture-and-a11y.md`](docs/migration-token-architecture-and-a11y.md) for the step-by-step checklist, token search-and-replace table, and component selector/prop updates.
+
+### Added
+
+- **Tier 2 semantic tokens (`@eevenkoto/css/tokens.css`)**:
+  - `--eevenkoto-color-form-input-placeholder` — dedicated WCAG AA placeholder ink (`>= 5.79:1` in light and dark modes), wired automatically into `Input` and `Select`.
+  - `--eevenkoto-icon-mask-chevron-right` and `--eevenkoto-icon-mask-chevron-down` — canonical CSS mask-image disclosure tokens (consumed by `Menu`).
+- **Editorial bare links in `Prose` (`@eevenkoto/css/prose.css`)**:
+  - `.eevenkoto-prose :where(a:not([class]))` now styles unclassed inline hyperlinks with `--eevenkoto-color-link-default`, `link-hover`, privacy-safe `:visited:not(:hover)` (`link-visited`), `link-underline`, and dual-halo `:focus-visible` focus rings.
+- **CI guardrails & token parity tests**:
+  - Expanded `stylelint-eevenkoto` with dynamic Tier 1/2 CSS inventory loading, `eevenkoto/no-unknown-tokens`, `eevenkoto/constrain-tier2-color-mix`, `eevenkoto/private-bridge-hygiene`, disabled `opacity` guard, and Storybook CSS linting.
+  - Added `tests/tokens.test.ts` enforcing 100% Tier 1/2 Storybook catalog parity and expanded `contrast-specimen.stories.ts` to full light/dark browser `axe-core` verification.
+
+### Changed
+
+- **Three-tier token boundary cleanup**:
+  - Moved `--eevenkoto-font-weight-{regular,semibold,bold}` from `primitive-tokens.css` into `tokens.css` as single-tier metrics so 100% of `primitive-tokens.css` is strictly internal to Tier 2.
+  - Replaced all 8 cross-hue `color-mix()` expressions in `tokens.css` with named functional Tier 1 stops in `primitive-tokens.css` (leaving only same-hue `transparent` alpha ramps in Tier 2).
+- **Invalid form input tuple (`form-input-*-invalid`)**:
+  - Restored `--eevenkoto-color-form-input-background-invalid` + `--eevenkoto-color-form-input-text-invalid` to a subtle crimson wash with high-contrast dark/light ink (`8.72:1` light, `17.57:1` dark) instead of an inverted solid crimson fill.
+- **Tier 3 private bridge hygiene**:
+  - Refactored state-suffixed private `--_*` variables and modifier `--_*` reassignments into stateless host bridges + public `--eevenkoto-<component>-*` overrides across `Checkbox`, `Radio`, `Field`, `CheckboxGroup`, `RadioGroup`, `List`, and `EquipmentWorkshop`.
+- **`EquipmentBlock` heading outline (`h4` → `h2` / `h3`)**:
+  - Section titles (`.eevenkoto-equipment-block__section-title`) now derive their heading tag from `nameLevel` (`<h1>` → `<h2>` by default; `<h2>` → `<h3>` when `nameLevel: 2`) across HTML, React, and Vue so document outlines never skip heading levels.
+- **`AbilityName` inline accessibility**:
+  - Removed ARIA-prohibited `aria-label` from generic `<span class="eevenkoto-ability-name">`; collapsed full ability names now stay in the accessibility tree via visually-hidden CSS clipping in `ability-name.css` and `equipment-block.css`.
+- **`Stepper` group & disabled semantics**:
+  - Root `.eevenkoto-stepper` now emits `role="group"` (and `aria-disabled="true"` when `disabled`) across HTML, React, and Vue.
+
+### Fixed
+
+- **Phantom/misnamed token references** across `select.css`, `toast.css`, `checkbox.css`, `radio.css`, `heading.css`, `equipment-block.css`, and `equipment-workshop.css` (`duration-fast` → `duration-2`, `easing-standard` → `ease-standard`, `font-weight-medium` → `font-weight-semibold`, `space-xs`/`sm`/`md` → numeric `space-*`, `radius-base` → `radius-md`, removed `font-variant-caps` custom property).
+- **WCAG AA contrast across light & dark modes**:
+  - `content-tertiary` nudged to clear `4.85:1` on `surface-sunken`.
+  - `Heading` (H2/H4/H6) and `StatblockFeature` switched to `content-accent` (`5.77:1`).
+  - `EntityRef` `--spell` switched to `feedback-info-text` (`6.99:1`+ on all surfaces).
+  - `SegmentedControl` `--secondary` dark-mode contrast fixed (`17.29:1`) and base public token clobbering removed.
+  - Completed `[data-theme="dark"], [data-surface-mode="dark"]` remaps for `content-disabled`, `control-primary-background-hover`/`-active`, `control-destructive-*`, `feedback-info-icon`, and separated `link-default` / `link-hover` / `link-visited` / `link-underline`.
+- **`Button` & `LinkButton` custom `--eevenkoto-button-bg` overrides** now apply to both `background-color` and P3 gradient endpoints via private bridges.
+- **Minimum-class host defaults** aligned in `stat.css` (`disk` + `md`), `badge.css` (`0.4em` dot), and `status-dot.css` (`surface-canvas` ring).
 
 ## 0.9.5
 
