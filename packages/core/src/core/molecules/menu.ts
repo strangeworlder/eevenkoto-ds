@@ -1,4 +1,7 @@
+import type { IconName } from '../../tokens/icons';
 import type { BadgeIntent } from '../atoms/badge';
+
+export type MenuSize = 'sm' | 'md';
 
 export interface MenuItemEntry {
   kind?: 'item';
@@ -6,6 +9,8 @@ export interface MenuItemEntry {
   id: string;
   /** Visible label. */
   label: string;
+  /** Optional leading glyph from token `ICON_NAMES` (renders decorative Icon). */
+  icon?: IconName;
   /** When true, the item is non-interactive. */
   disabled?: boolean;
   /**
@@ -47,6 +52,8 @@ export interface MenuGroupEntry {
   id: string;
   /** Branch label on the disclosure control. */
   label: string;
+  /** Optional leading glyph on the disclosure control. */
+  icon?: IconName;
   /** Start open (`details` open attribute). Default: false */
   expanded?: boolean;
   children: MenuEntry[];
@@ -63,16 +70,25 @@ export interface MenuProps {
   /** Accessible name for the nav landmark. */
   label?: string;
   /**
+   * Shared control size ladder: `sm | md`.
+   * Default: `md` (host class alone is also `md` in CSS).
+   */
+  size?: MenuSize;
+  /**
    * Transparent flush surface for a sunken sidebar.
-   * Default false = raised panel (Popover menus).
+   * Default false = raised plaque (auto-flush inside Popover).
    */
   embedded?: boolean;
 }
 
-export type MenuClassNameProps = Pick<MenuProps, 'embedded'>;
+export type MenuClassNameProps = Pick<MenuProps, 'embedded' | 'size'>;
 
 export const menuClassNames = (props: MenuClassNameProps = {}): string =>
-  ['eevenkoto-menu', props.embedded ? 'eevenkoto-menu--embedded' : '']
+  [
+    'eevenkoto-menu',
+    props.size ? `eevenkoto-menu--${props.size}` : '',
+    props.embedded ? 'eevenkoto-menu--embedded' : '',
+  ]
     .filter(Boolean)
     .join(' ');
 
@@ -93,3 +109,5 @@ export const menuSummaryClassNames = (): string =>
 export const menuGroupClassNames = (): string => 'eevenkoto-menu__group';
 
 export const menuItemLabelClassNames = (): string => 'eevenkoto-menu__item-label';
+
+export const menuIconClassNames = (): string => 'eevenkoto-menu__icon';

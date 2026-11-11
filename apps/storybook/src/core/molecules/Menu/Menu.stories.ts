@@ -15,6 +15,15 @@ const accountEntries: MenuProps['entries'] = [
   { id: 'sign-out', label: 'Sign out', href: '#sign-out' },
 ];
 
+const iconEntries: MenuProps['entries'] = [
+  { kind: 'header', label: 'Adventurer' },
+  { id: 'profile', label: 'Character sheet', href: '#profile', icon: 'user' },
+  { id: 'campaign', label: 'Active campaign', href: '#campaign', icon: 'dice', selected: true },
+  { id: 'armory', label: 'Equipment workshop', href: '#armory', icon: 'swords' },
+  { kind: 'separator' },
+  { id: 'srd', label: 'Open SRD reference', href: '#srd', icon: 'external-link' },
+];
+
 /** Nested sidebar pattern from eevenko.to (Pelaajahahmot → Lajit → leaves). */
 const worldbookEntries: MenuProps['entries'] = [
   {
@@ -40,9 +49,28 @@ const worldbookEntries: MenuProps['entries'] = [
         expanded: true,
         children: [
           { id: 'species-index', label: 'Lajit', href: '#species' },
-          { id: 'human', label: 'Ihminen', href: '#human', selected: true, status: 'success', statusLabel: 'Valmis' },
-          { id: 'catfolk', label: 'Kissalainen', href: '#catfolk', status: 'success', statusLabel: 'Valmis' },
-          { id: 'troll', label: 'Peikko', href: '#troll', status: 'caution', statusLabel: 'Vedos' },
+          {
+            id: 'human',
+            label: 'Ihminen',
+            href: '#human',
+            selected: true,
+            status: 'success',
+            statusLabel: 'Valmis',
+          },
+          {
+            id: 'catfolk',
+            label: 'Kissalainen',
+            href: '#catfolk',
+            status: 'success',
+            statusLabel: 'Valmis',
+          },
+          {
+            id: 'troll',
+            label: 'Peikko',
+            href: '#troll',
+            status: 'caution',
+            statusLabel: 'Vedos',
+          },
         ],
       },
       {
@@ -51,9 +79,29 @@ const worldbookEntries: MenuProps['entries'] = [
         label: 'Luokat',
         expanded: true,
         children: [
-          { id: 'barbarian', label: 'Hurjapää', href: '#barbarian', status: 'success', statusLabel: 'Valmis' },
-          { id: 'rogue', label: 'Lurjus', href: '#rogue', locked: true, lockedLabel: 'Lukittu', status: 'caution', statusLabel: 'Vedos' },
-          { id: 'bard', label: 'Sensaatio', href: '#bard', status: 'success', statusLabel: 'Valmis' },
+          {
+            id: 'barbarian',
+            label: 'Hurjapää',
+            href: '#barbarian',
+            status: 'success',
+            statusLabel: 'Valmis',
+          },
+          {
+            id: 'rogue',
+            label: 'Lurjus',
+            href: '#rogue',
+            locked: true,
+            lockedLabel: 'Lukittu',
+            status: 'caution',
+            statusLabel: 'Vedos',
+          },
+          {
+            id: 'bard',
+            label: 'Sensaatio',
+            href: '#bard',
+            status: 'success',
+            statusLabel: 'Valmis',
+          },
         ],
       },
     ],
@@ -75,12 +123,17 @@ const meta: Meta<MenuProps> = {
     docs: {
       description: {
         component:
-          'Vertical navigation list: <nav> + nested ul/li/a, with <details> branches. Import icon.css when lock icons are present.',
+          'Vertical navigation list: scooped raised plaque (<nav> + nested ul/li/a) with <details> branches, Outfit chapter headers, and directional end-scoop rows.',
       },
     },
   },
   argTypes: {
     label: { control: 'text', description: 'Accessible name for the nav landmark.' },
+    size: {
+      control: { type: 'inline-radio' },
+      options: ['sm', 'md'],
+      description: 'Shared control size ladder (default: md).',
+    },
     embedded: { control: 'boolean', description: 'Flush transparent surface for a sidebar.' },
   },
   render: (args) => renderMenu(args),
@@ -94,6 +147,23 @@ export const Default: Story = {
     label: 'Account',
     entries: accountEntries,
   },
+};
+
+export const WithIcons: Story = {
+  name: 'With icons',
+  args: {
+    label: 'Adventurer',
+    entries: iconEntries,
+  },
+};
+
+export const SizeComparison: Story = {
+  name: 'Size comparison',
+  render: () =>
+    `<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 2.4rem;">
+      ${renderMenu({ label: 'Compact menu', size: 'sm', entries: accountEntries })}
+      ${renderMenu({ label: 'Default menu', size: 'md', entries: accountEntries })}
+    </div>`,
 };
 
 export const NestedNav: Story = {

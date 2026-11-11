@@ -1,22 +1,29 @@
 import {
   menuClassNames,
+  menuIconClassNames,
   menuItemClassNames,
   menuItemLabelClassNames,
   type MenuEntry,
+  type MenuGroupEntry,
   type MenuItemEntry,
   type MenuProps,
+  type MenuSize,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNode } from 'vue';
 import { Icon } from '../atoms/Icon';
 import { StatusDot } from '../atoms/StatusDot';
 
-export type { MenuProps, MenuEntry };
+export type { MenuProps, MenuEntry, MenuSize };
 
 const itemChildren = (entry: MenuItemEntry): (string | VNode)[] => {
-  const extras = Boolean(entry.locked || entry.status);
-  const nodes: (string | VNode)[] = extras
-    ? [h('span', { class: menuItemLabelClassNames() }, entry.label)]
-    : [entry.label];
+  const extras = Boolean(entry.icon || entry.locked || entry.status);
+  const nodes: (string | VNode)[] = [];
+  if (entry.icon) {
+    nodes.push(h('span', { class: menuIconClassNames() }, [h(Icon, { name: entry.icon })]));
+  }
+  nodes.push(
+    extras ? h('span', { class: menuItemLabelClassNames() }, entry.label) : entry.label,
+  );
   if (entry.locked) {
     nodes.push(
       h('span', { class: 'eevenkoto-menu__lock' }, [
@@ -33,6 +40,14 @@ const itemChildren = (entry: MenuItemEntry): (string | VNode)[] => {
     );
   }
   return nodes;
+};
+
+const groupSummaryChildren = (entry: MenuGroupEntry): string | (string | VNode)[] => {
+  if (!entry.icon) return entry.label;
+  return [
+    h('span', { class: menuIconClassNames() }, [h(Icon, { name: entry.icon })]),
+    h('span', { class: menuItemLabelClassNames() }, entry.label),
+  ];
 };
 
 const renderEntries = (
@@ -53,7 +68,7 @@ const renderEntries = (
     if (entry.kind === 'group') {
       return h('li', { key: entry.id }, [
         h('details', { open: entry.expanded || undefined }, [
-          h('summary', entry.label),
+          h('summary', groupSummaryChildren(entry)),
           h('ul', renderEntries(entry.children, onSelect)),
         ]),
       ]);
@@ -97,11 +112,14 @@ export const Menu = defineComponent({
   props: {
     entries: { type: Array as PropType<MenuEntry[]>, required: true },
     label: { type: String, default: undefined },
+    size: { type: String as PropType<MenuSize>, default: undefined },
     embedded: { type: Boolean, default: false },
   },
   emits: ['select'],
   setup(props, { emit }) {
-    const className = computed(() => menuClassNames({ embedded: props.embedded }));
+    const className = computed(() =>
+      menuClassNames({ embedded: props.embedded, size: props.size }),
+    );
 
     return () =>
       h('nav', { class: className.value, 'aria-label': props.label }, [

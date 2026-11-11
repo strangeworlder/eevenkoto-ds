@@ -1,16 +1,19 @@
 import {
   menuClassNames,
+  menuIconClassNames,
   menuItemClassNames,
   menuItemLabelClassNames,
   type MenuEntry,
+  type MenuGroupEntry,
   type MenuItemEntry,
   type MenuProps,
+  type MenuSize,
 } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { Icon } from '../atoms/Icon';
 import { StatusDot } from '../atoms/StatusDot';
 
-export type { MenuProps, MenuEntry };
+export type { MenuProps, MenuEntry, MenuSize };
 
 export type MenuComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children'> &
   MenuProps & {
@@ -18,9 +21,14 @@ export type MenuComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children'> &
   };
 
 const itemExtras = (entry: MenuItemEntry): ReactNode => {
-  const extras = Boolean(entry.locked || entry.status);
+  const extras = Boolean(entry.icon || entry.locked || entry.status);
   return (
     <>
+      {entry.icon ? (
+        <span className={menuIconClassNames()}>
+          <Icon name={entry.icon} />
+        </span>
+      ) : null}
       {extras ? <span className={menuItemLabelClassNames()}>{entry.label}</span> : entry.label}
       {entry.locked ? (
         <span className="eevenkoto-menu__lock">
@@ -33,6 +41,18 @@ const itemExtras = (entry: MenuItemEntry): ReactNode => {
           <StatusDot intent={entry.status} label={entry.statusLabel ?? 'Ready'} />
         </span>
       ) : null}
+    </>
+  );
+};
+
+const groupSummaryInner = (entry: MenuGroupEntry): ReactNode => {
+  if (!entry.icon) return entry.label;
+  return (
+    <>
+      <span className={menuIconClassNames()}>
+        <Icon name={entry.icon} />
+      </span>
+      <span className={menuItemLabelClassNames()}>{entry.label}</span>
     </>
   );
 };
@@ -62,7 +82,7 @@ const renderEntries = (
       return (
         <li key={entry.id}>
           <details open={entry.expanded || undefined}>
-            <summary>{entry.label}</summary>
+            <summary>{groupSummaryInner(entry)}</summary>
             <ul>{renderEntries(entry.children, onSelect)}</ul>
           </details>
         </li>
@@ -105,12 +125,13 @@ const renderEntries = (
 export const Menu = ({
   entries,
   label,
+  size,
   embedded,
   className,
   onSelect,
   ...rest
 }: MenuComponentProps): ReactElement => {
-  const classes = [menuClassNames({ embedded }), className].filter(Boolean).join(' ');
+  const classes = [menuClassNames({ embedded, size }), className].filter(Boolean).join(' ');
 
   return (
     <nav className={classes} aria-label={label} {...rest}>

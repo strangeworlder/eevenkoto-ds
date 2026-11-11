@@ -98,6 +98,7 @@ export {
   type MenuComponentProps,
   type MenuProps,
   type MenuEntry,
+  type MenuSize,
 } from './core/molecules/Menu';
 export {
   Catalog,

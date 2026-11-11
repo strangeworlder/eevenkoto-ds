@@ -42,7 +42,7 @@ export {
   renderTooltipCard,
   type TooltipCardProps,
 } from './core/molecules/tooltip-card/renderTooltipCard';
-export { renderMenu, type MenuProps, type MenuEntry } from './core/molecules/menu/renderMenu';
+export { renderMenu, type MenuProps, type MenuEntry, type MenuSize } from './core/molecules/menu/renderMenu';
 export {
   renderCatalog,
   renderCatalogTile,

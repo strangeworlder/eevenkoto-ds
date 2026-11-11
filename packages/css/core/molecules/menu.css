@@ -3,65 +3,146 @@
    Vertical navigation list. Host is <nav class="eevenkoto-menu"> wrapping
    nested ul / li / a / details. Hand-authored links need no item BEM.
    Buttons are an escape hatch. Nested expand uses native <details>.
+
+   Visual kinship:
+   - Plaque framing, parchment grain, Outfit + content-accent headers → Statblock
+   - Directional end-scoop, @property 328deg sheen, dual-halo focus → Button / LinkButton
    ========================================================================== */
 
 @import url('../atoms/icon.css');
 @import url('../atoms/status-dot.css');
 
+@property --_eevenkoto-menu-item-gradient-start {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --_eevenkoto-menu-item-gradient-middle {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --_eevenkoto-menu-item-gradient-end {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: transparent;
+}
+
 .eevenkoto-menu {
+  /* 1. PRIVATE BRIDGE INITIALIZATION (raised plaque + md defaults) */
+  --_eevenkoto-menu-noise: var(
+    --eevenkoto-menu-noise,
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E")
+  );
   --_eevenkoto-menu-bg: var(--eevenkoto-menu-bg, var(--eevenkoto-color-surface-raised));
-  --_eevenkoto-menu-radius: var(--eevenkoto-menu-radius, var(--eevenkoto-radius-sm));
-  --_eevenkoto-menu-pad-block: var(--eevenkoto-menu-pad-block, var(--eevenkoto-space-1));
+  --_eevenkoto-menu-border-color: var(
+    --eevenkoto-menu-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-menu-border-width: var(
+    --eevenkoto-menu-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-menu-radius: var(--eevenkoto-menu-radius, var(--eevenkoto-radius-md));
+  --_eevenkoto-menu-shadow: var(
+    --eevenkoto-menu-shadow,
+    1px 1px 3px var(--eevenkoto-color-depth-shadow-umbra)
+  );
+  --_eevenkoto-menu-pad-block: var(--eevenkoto-menu-pad-block, var(--eevenkoto-space-2));
+  --_eevenkoto-menu-pad-inline: var(--eevenkoto-menu-pad-inline, var(--eevenkoto-space-2));
   --_eevenkoto-menu-min-inline-size: var(--eevenkoto-menu-min-inline-size, 18rem);
-  --_eevenkoto-menu-indent: var(--eevenkoto-menu-indent, var(--eevenkoto-space-4));
-  --_eevenkoto-menu-item-text: var(
-    --eevenkoto-menu-item-text,
-    var(--eevenkoto-color-content-primary)
+  --_eevenkoto-menu-font-size: var(
+    --eevenkoto-menu-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-menu-row-gap: var(--eevenkoto-menu-row-gap, 0.2rem);
+  --_eevenkoto-menu-indent: var(--eevenkoto-menu-indent, var(--eevenkoto-space-3));
+  --_eevenkoto-menu-tree-offset: var(--eevenkoto-menu-tree-offset, var(--eevenkoto-space-4));
+  --_eevenkoto-menu-tree-border-color: var(
+    --eevenkoto-menu-tree-border-color,
+    var(--eevenkoto-color-boundary-subtle)
   );
   --_eevenkoto-menu-header-text: var(
     --eevenkoto-menu-header-text,
-    var(--eevenkoto-color-content-secondary)
+    var(--eevenkoto-color-content-accent)
   );
-  --_eevenkoto-menu-item-bg-hover: var(
-    --eevenkoto-menu-item-bg-hover,
-    var(--eevenkoto-color-control-secondary-background-hover)
-  );
-  --_eevenkoto-menu-item-selected-bg: var(
-    --eevenkoto-menu-item-selected-bg,
-    var(--eevenkoto-color-control-primary-background)
-  );
-  --_eevenkoto-menu-item-selected-text: var(
-    --eevenkoto-menu-item-selected-text,
-    var(--eevenkoto-color-control-primary-text)
-  );
-  --_eevenkoto-menu-item-pad-block: var(
-    --eevenkoto-menu-item-pad-block,
-    var(--eevenkoto-space-2)
-  );
-  --_eevenkoto-menu-item-pad-inline: var(
-    --eevenkoto-menu-item-pad-inline,
-    var(--eevenkoto-space-3)
+  --_eevenkoto-menu-header-border-color: var(
+    --eevenkoto-menu-header-border-color,
+    var(--eevenkoto-color-boundary-subtle)
   );
   --_eevenkoto-menu-separator-color: var(
     --eevenkoto-menu-separator-color,
     var(--eevenkoto-color-boundary-subtle)
   );
-  --_eevenkoto-menu-chevron: var(
-    --eevenkoto-menu-chevron,
-    var(--eevenkoto-color-content-tertiary)
-  );
 
+  /* 2. HOST STYLING */
   box-sizing: border-box;
   margin: 0;
-  padding: var(--_eevenkoto-menu-pad-block) 0;
-  background: var(--_eevenkoto-menu-bg);
+  min-inline-size: var(--_eevenkoto-menu-min-inline-size);
+  padding: var(--_eevenkoto-menu-pad-block) var(--_eevenkoto-menu-pad-inline);
+  background-color: var(--_eevenkoto-menu-bg);
+  background-image: var(--_eevenkoto-menu-noise);
+  border: var(--_eevenkoto-menu-border-width) solid var(--_eevenkoto-menu-border-color);
   border-radius: var(--_eevenkoto-menu-radius);
+  corner-shape: scoop;
+  box-shadow: var(--_eevenkoto-menu-shadow);
   font-family: var(--eevenkoto-font-sans);
-  font-size: var(--eevenkoto-font-size-control-md);
+  font-size: var(--_eevenkoto-menu-font-size);
   line-height: var(--eevenkoto-line-height-body);
 }
 
-.eevenkoto-menu ul {
+/* --- CONTEXTUAL SURFACE MODES --- */
+
+.eevenkoto-menu--embedded {
+  --eevenkoto-menu-bg: transparent;
+  --eevenkoto-menu-noise: none;
+  --eevenkoto-menu-border-color: transparent;
+  --eevenkoto-menu-border-width: 0px;
+  --eevenkoto-menu-shadow: none;
+  --eevenkoto-menu-radius: 0;
+  --eevenkoto-menu-pad-inline: 0;
+  --eevenkoto-menu-min-inline-size: 0;
+
+  corner-shape: square;
+}
+
+/* Popover already frames floating menus; shed redundant plaque chrome. */
+.eevenkoto-popover > .eevenkoto-menu {
+  --eevenkoto-menu-bg: transparent;
+  --eevenkoto-menu-noise: none;
+  --eevenkoto-menu-border-color: transparent;
+  --eevenkoto-menu-border-width: 0px;
+  --eevenkoto-menu-shadow: none;
+  --eevenkoto-menu-radius: 0;
+  --eevenkoto-menu-pad-block: 0;
+  --eevenkoto-menu-pad-inline: 0;
+
+  corner-shape: square;
+}
+
+/* --- SIZES (sm | md — shared control ladder) --- */
+
+.eevenkoto-menu--sm {
+  --eevenkoto-menu-font-size: var(--eevenkoto-font-size-control-sm);
+  --eevenkoto-menu-pad-block: var(--eevenkoto-space-1);
+  --eevenkoto-menu-pad-inline: var(--eevenkoto-space-1);
+  --eevenkoto-menu-item-pad-block: var(--eevenkoto-space-1);
+  --eevenkoto-menu-item-pad-inline: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-menu--md {
+  --eevenkoto-menu-font-size: var(--eevenkoto-font-size-control-md);
+}
+
+/* --- LISTS & TREE STRUCTURE --- */
+
+.eevenkoto-menu ul,
+.eevenkoto-menu__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-menu-row-gap);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -72,35 +153,94 @@
   padding: 0;
 }
 
-.eevenkoto-menu details > ul {
+.eevenkoto-menu :is(details, .eevenkoto-menu__branch) > :is(ul, .eevenkoto-menu__group) {
+  margin-block-start: var(--_eevenkoto-menu-row-gap);
+  margin-inline-start: var(--_eevenkoto-menu-tree-offset);
   padding-inline-start: var(--_eevenkoto-menu-indent);
+  border-inline-start: var(--eevenkoto-line-width-sm) solid
+    var(--_eevenkoto-menu-tree-border-color);
 }
 
+/* --- GROUP HEADERS & SEPARATORS (Statblock editorial voice) --- */
+
 .eevenkoto-menu__header {
-  margin: 0;
-  padding: var(--_eevenkoto-menu-item-pad-block) var(--_eevenkoto-menu-item-pad-inline);
+  --_eevenkoto-menu-header-pad-block: var(
+    --eevenkoto-menu-item-pad-block,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-menu-header-pad-inline: var(
+    --eevenkoto-menu-item-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+
+  margin: 0 0 var(--eevenkoto-space-1) 0;
+  padding: var(--_eevenkoto-menu-header-pad-block) var(--_eevenkoto-menu-header-pad-inline);
   color: var(--_eevenkoto-menu-header-text);
-  font-size: var(--eevenkoto-font-size-caption);
+  font-family: var(--eevenkoto-font-serif);
+  font-size: var(--eevenkoto-font-size-body-sm);
   font-weight: var(--eevenkoto-font-weight-bold);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  line-height: var(--eevenkoto-line-height-tight);
+  border-block-end: var(--eevenkoto-line-width-sm) solid
+    var(--_eevenkoto-menu-header-border-color);
 }
 
 .eevenkoto-menu hr,
 .eevenkoto-menu__separator {
-  margin: var(--_eevenkoto-menu-pad-block) 0;
+  --_eevenkoto-menu-separator-inset: var(
+    --eevenkoto-menu-item-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+
+  margin: var(--eevenkoto-space-1) var(--_eevenkoto-menu-separator-inset);
   border: 0;
   border-block-start: var(--eevenkoto-line-width-sm) solid
     var(--_eevenkoto-menu-separator-color);
 }
 
+/* --- INTERACTIVE ROWS (LinkButton + Button DNA) --- */
+
 .eevenkoto-menu :is(a, button, summary),
 .eevenkoto-menu__item {
+  --_eevenkoto-menu-item-bg: var(--eevenkoto-menu-item-bg, transparent);
+  --_eevenkoto-menu-item-text: var(
+    --eevenkoto-menu-item-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-menu-item-border-color: var(--eevenkoto-menu-item-border-color, transparent);
+  --_eevenkoto-menu-item-border-start-width: var(
+    --eevenkoto-menu-item-border-start-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-menu-item-icon: var(
+    --eevenkoto-menu-item-icon,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-menu-item-gradient-start: var(--eevenkoto-menu-item-gradient-start, transparent);
+  --_eevenkoto-menu-item-gradient-middle: var(
+    --eevenkoto-menu-item-gradient-middle,
+    transparent
+  );
+  --_eevenkoto-menu-item-gradient-end: var(--eevenkoto-menu-item-gradient-end, transparent);
+  --_eevenkoto-menu-item-pad-block: var(
+    --eevenkoto-menu-item-pad-block,
+    var(--eevenkoto-space-2)
+  );
+  --_eevenkoto-menu-item-pad-inline: var(
+    --eevenkoto-menu-item-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-menu-item-radius: var(
+    --eevenkoto-menu-item-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-menu-item-font-family: var(--eevenkoto-menu-item-font-family, inherit);
   --_eevenkoto-menu-item-font-weight: var(
     --eevenkoto-menu-item-font-weight,
     var(--eevenkoto-font-weight-regular)
   );
   --_eevenkoto-menu-item-text-shadow: var(--eevenkoto-menu-item-text-shadow, none);
+  --_eevenkoto-menu-item-box-shadow: var(--eevenkoto-menu-item-box-shadow, none);
+  --_eevenkoto-menu-item-nudge: var(--eevenkoto-menu-item-nudge, 0.2rem);
 
   appearance: none;
   display: flex;
@@ -110,11 +250,28 @@
   inline-size: 100%;
   margin: 0;
   padding: var(--_eevenkoto-menu-item-pad-block) var(--_eevenkoto-menu-item-pad-inline);
-  border: 0;
-  border-radius: var(--_eevenkoto-menu-radius);
-  background: transparent;
+
+  /* Explicit solid stroke preserves hit boundaries in forced-colors mode. */
+  border-width: var(--eevenkoto-line-width-sm);
+  border-inline-start-width: var(--_eevenkoto-menu-item-border-start-width);
+  border-style: solid;
+  border-color: var(--_eevenkoto-menu-item-border-color);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  border-start-end-radius: var(--_eevenkoto-menu-item-radius);
+  border-end-end-radius: var(--_eevenkoto-menu-item-radius);
+  corner-shape: square scoop scoop square;
+
+  background-color: var(--_eevenkoto-menu-item-bg);
+  background-image: linear-gradient(
+    328deg,
+    var(--_eevenkoto-menu-item-gradient-start) 0%,
+    var(--_eevenkoto-menu-item-gradient-end) 50%,
+    var(--_eevenkoto-menu-item-gradient-middle) 100%
+  );
+  box-shadow: var(--_eevenkoto-menu-item-box-shadow);
   color: var(--_eevenkoto-menu-item-text);
-  font-family: inherit;
+  font-family: var(--_eevenkoto-menu-item-font-family);
   font-size: inherit;
   font-weight: var(--_eevenkoto-menu-item-font-weight);
   line-height: inherit;
@@ -122,9 +279,32 @@
   text-decoration: none;
   text-shadow: var(--_eevenkoto-menu-item-text-shadow);
   cursor: pointer;
+
+  transition:
+    transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    background-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    border-color var(--eevenkoto-duration-1) var(--eevenkoto-ease-in-out),
+    color var(--eevenkoto-duration-1) var(--eevenkoto-ease-standard),
+    --_eevenkoto-menu-item-gradient-start var(--eevenkoto-duration-1) var(--eevenkoto-ease-in-out),
+    --_eevenkoto-menu-item-gradient-middle var(--eevenkoto-duration-2) var(--eevenkoto-ease-in-out),
+    --_eevenkoto-menu-item-gradient-end var(--eevenkoto-duration-3) var(--eevenkoto-ease-in-out);
 }
 
-.eevenkoto-menu :is(a, button):not(:has(.eevenkoto-menu__item-label, .eevenkoto-menu__lock, .eevenkoto-menu__status)) {
+.eevenkoto-menu :is(a, button, summary):dir(rtl),
+.eevenkoto-menu__item:dir(rtl) {
+  corner-shape: scoop square square scoop;
+}
+
+.eevenkoto-menu
+  :is(a, button):not(
+    :has(
+      .eevenkoto-menu__item-label,
+      .eevenkoto-menu__icon,
+      .eevenkoto-menu__lock,
+      .eevenkoto-menu__status,
+      .eevenkoto-icon
+    )
+  ) {
   display: block;
   overflow-x: clip;
   overflow-y: visible;
@@ -132,42 +312,191 @@
   white-space: nowrap;
 }
 
-.eevenkoto-menu :is(a, button, summary):hover:not(:disabled):not([aria-disabled='true']),
-.eevenkoto-menu__item:hover:not(:disabled):not([aria-disabled='true']) {
-  --_eevenkoto-menu-item-text: var(--eevenkoto-color-content-primary);
-  --_eevenkoto-menu-item-text-shadow: none;
-  background: var(--_eevenkoto-menu-item-bg-hover);
+/* --- UNSELECTED HOVER (warm secondary wash + edge glint) --- */
+
+.eevenkoto-menu
+  :is(a, button, summary):hover:not(:disabled):not([aria-disabled='true']):not(
+    [aria-current='page']
+  ):not(.eevenkoto-menu__item--selected),
+.eevenkoto-menu__item:hover:not(:disabled):not([aria-disabled='true']):not(
+    [aria-current='page']
+  ):not(.eevenkoto-menu__item--selected) {
+  --eevenkoto-menu-item-bg: var(
+    --eevenkoto-menu-item-bg-hover,
+    var(--eevenkoto-color-control-secondary-background-hover)
+  );
+  --eevenkoto-menu-item-text: var(
+    --eevenkoto-menu-item-text-hover,
+    var(--eevenkoto-color-content-primary)
+  );
+  --eevenkoto-menu-item-border-color: var(
+    --eevenkoto-menu-item-border-color-hover,
+    color-mix(
+      in oklch,
+      var(--eevenkoto-color-control-primary-background-hover) 40%,
+      var(--eevenkoto-color-boundary-subtle)
+    )
+  );
+  --eevenkoto-menu-item-icon: var(
+    --eevenkoto-menu-item-icon-hover,
+    var(--eevenkoto-color-content-accent-strong)
+  );
+  --eevenkoto-menu-item-gradient-start: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-control-secondary-background),
+    var(--eevenkoto-color-control-secondary-background-hover) 45%
+  );
+  --eevenkoto-menu-item-gradient-middle: var(
+    --eevenkoto-menu-item-bg-hover,
+    var(--eevenkoto-color-control-secondary-background-hover)
+  );
+  --eevenkoto-menu-item-gradient-end: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-control-secondary-background-hover),
+    var(--eevenkoto-color-control-secondary-tint) 10%
+  );
 }
 
-.eevenkoto-menu :is(a, button, summary):focus-visible,
-.eevenkoto-menu__item:focus-visible {
-  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
-  outline-offset: -2px;
+/* Directional link nudge vs in-place button press */
+.eevenkoto-menu a:hover:not([aria-disabled='true']) {
+  transform: translateX(var(--_eevenkoto-menu-item-nudge));
 }
+
+.eevenkoto-menu a:dir(rtl):hover:not([aria-disabled='true']) {
+  transform: translateX(calc(-1 * var(--_eevenkoto-menu-item-nudge)));
+}
+
+.eevenkoto-menu button:active:not(:disabled):not([aria-disabled='true']) {
+  transform: scale(0.99);
+}
+
+/* --- SELECTED / CURRENT PAGE (Button primary 328deg recipe) --- */
 
 .eevenkoto-menu a[aria-current='page'],
 .eevenkoto-menu :is(a, button, summary).eevenkoto-menu__item--selected,
 .eevenkoto-menu__item--selected {
-  background: var(--_eevenkoto-menu-item-selected-bg);
-  --_eevenkoto-menu-item-text: var(--_eevenkoto-menu-item-selected-text);
-  --_eevenkoto-menu-item-font-weight: var(--eevenkoto-font-weight-bold);
-  --_eevenkoto-menu-item-text-shadow: 0 0 2px var(--eevenkoto-color-depth-shadow-control-text);
+  --eevenkoto-menu-item-bg: var(
+    --eevenkoto-menu-item-selected-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --eevenkoto-menu-item-text: var(
+    --eevenkoto-menu-item-selected-text,
+    var(--eevenkoto-color-control-primary-text)
+  );
+  --eevenkoto-menu-item-border-color: var(
+    --eevenkoto-menu-item-selected-border-color,
+    var(--eevenkoto-color-control-primary-border)
+  );
+  --eevenkoto-menu-item-border-start-width: var(--eevenkoto-line-width-md);
+  --eevenkoto-menu-item-icon: var(
+    --eevenkoto-menu-item-selected-icon,
+    var(--eevenkoto-color-control-primary-icon)
+  );
+  --eevenkoto-menu-item-gradient-start: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-control-primary-background),
+    var(--eevenkoto-color-control-primary-background-hover) 30%
+  );
+  --eevenkoto-menu-item-gradient-middle: var(
+    --eevenkoto-menu-item-selected-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --eevenkoto-menu-item-gradient-end: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-control-primary-background),
+    var(--eevenkoto-color-control-primary-icon) 30%
+  );
+  --eevenkoto-menu-item-font-weight: var(--eevenkoto-font-weight-bold);
+  --eevenkoto-menu-item-text-shadow: 0 0 2px var(--eevenkoto-color-depth-shadow-control-text);
+  --eevenkoto-menu-item-box-shadow: 0 0.75px 0 0 var(--eevenkoto-color-depth-shadow-control);
+  --eevenkoto-menu-icon-filter: drop-shadow(
+    0 0 2px
+      color-mix(
+        in display-p3,
+        var(--eevenkoto-menu-item-selected-text, var(--eevenkoto-color-control-primary-text)) 50%,
+        transparent
+      )
+  );
 }
+
+.eevenkoto-menu a[aria-current='page']:hover:not([aria-disabled='true']),
+.eevenkoto-menu
+  :is(a, button, summary).eevenkoto-menu__item--selected:hover:not(:disabled):not(
+    [aria-disabled='true']
+  ),
+.eevenkoto-menu__item--selected:hover:not(:disabled):not([aria-disabled='true']) {
+  --eevenkoto-menu-item-bg: var(
+    --eevenkoto-menu-item-selected-bg-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
+  --eevenkoto-menu-item-gradient-start: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-control-primary-background-hover),
+    var(--eevenkoto-color-control-primary-tint-deep) 10%
+  );
+  --eevenkoto-menu-item-gradient-middle: var(
+    --eevenkoto-menu-item-selected-bg-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
+  );
+  --eevenkoto-menu-item-gradient-end: color-mix(
+    in display-p3,
+    var(--eevenkoto-color-control-primary-background),
+    var(--eevenkoto-color-control-primary-tint-cool) 10%
+  );
+}
+
+/* --- GATED / LOCKED ITEMS --- */
+
+.eevenkoto-menu
+  :is(a, button).eevenkoto-menu__item--locked:not(:disabled):not([aria-disabled='true']):not(
+    [aria-current='page']
+  ):not(.eevenkoto-menu__item--selected),
+.eevenkoto-menu__item--locked:not(:disabled):not([aria-disabled='true']):not(
+    [aria-current='page']
+  ):not(.eevenkoto-menu__item--selected) {
+  --eevenkoto-menu-item-text: var(--eevenkoto-color-content-secondary);
+}
+
+/* --- DISABLED (opaque tuples; no opacity) --- */
 
 .eevenkoto-menu :is(a, button, summary):disabled,
 .eevenkoto-menu :is(a, button, summary)[aria-disabled='true'],
 .eevenkoto-menu__item:disabled,
 .eevenkoto-menu__item[aria-disabled='true'] {
   cursor: not-allowed;
-  background: transparent;
-  --_eevenkoto-menu-item-text: var(--eevenkoto-color-content-disabled);
+  --eevenkoto-menu-item-bg: var(--eevenkoto-menu-item-bg-disabled, transparent);
+  --eevenkoto-menu-item-text: var(
+    --eevenkoto-menu-item-text-disabled,
+    var(--eevenkoto-color-content-disabled)
+  );
+  --eevenkoto-menu-item-border-color: var(
+    --eevenkoto-menu-item-border-color-disabled,
+    transparent
+  );
+  --eevenkoto-menu-item-icon: var(
+    --eevenkoto-menu-item-icon-disabled,
+    var(--eevenkoto-color-content-disabled)
+  );
+  --eevenkoto-menu-item-gradient-start: transparent;
+  --eevenkoto-menu-item-gradient-middle: transparent;
+  --eevenkoto-menu-item-gradient-end: transparent;
+  --eevenkoto-menu-item-text-shadow: none;
+  --eevenkoto-menu-item-box-shadow: none;
+  --eevenkoto-menu-icon-filter: none;
 }
 
-.eevenkoto-menu--embedded {
-  --eevenkoto-menu-bg: transparent;
-  --eevenkoto-menu-radius: 0;
-  min-inline-size: 0;
+/* --- FOCUS (dual-halo; composes with item elevation when selected) --- */
+
+.eevenkoto-menu :is(a, button, summary):focus-visible,
+.eevenkoto-menu__item:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--eevenkoto-color-boundary-focus-inner),
+    var(--_eevenkoto-menu-item-box-shadow);
 }
+
+/* --- SLOTS: LABEL, LEADING ICON, LOCK, STATUS --- */
 
 .eevenkoto-menu__item-label {
   flex: 1 1 auto;
@@ -180,34 +509,57 @@
   white-space: nowrap;
 }
 
+.eevenkoto-menu__icon,
+.eevenkoto-menu :is(a, button, summary) > .eevenkoto-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  color: var(--_eevenkoto-menu-item-icon);
+  line-height: 1;
+}
+
+.eevenkoto-menu__icon .eevenkoto-icon,
+.eevenkoto-menu :is(a, button, summary) > .eevenkoto-icon {
+  --_eevenkoto-menu-icon-filter: var(--eevenkoto-menu-icon-filter, none);
+  --eevenkoto-icon-size: 1em;
+
+  filter: var(--_eevenkoto-menu-icon-filter);
+}
+
 .eevenkoto-menu__lock {
-  /* Gating marker, not an accent: the lock tracks item ink through selected / disabled. */
+  /* Gating marker tracks item ink through selected / disabled states. */
   --_eevenkoto-menu-lock-color: var(--eevenkoto-menu-lock-color, currentColor);
 
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
   color: var(--_eevenkoto-menu-lock-color);
   line-height: 1;
 }
 
 .eevenkoto-menu__lock .eevenkoto-icon {
-  --eevenkoto-icon-size: 0.75em;
+  --eevenkoto-icon-size: 0.8em;
 }
 
 .eevenkoto-menu__status {
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
 }
 
-/* --- Nested branches (details / summary) --- */
+/* --- NESTED BRANCHES (details / summary) --- */
 
-.eevenkoto-menu details {
+.eevenkoto-menu details,
+.eevenkoto-menu__branch {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-.eevenkoto-menu summary {
+.eevenkoto-menu :where(summary, .eevenkoto-menu__summary) {
+  --eevenkoto-menu-item-font-weight: var(--eevenkoto-font-weight-semibold);
+
   list-style: none;
-  font-weight: var(--eevenkoto-font-weight-semibold);
 }
 
 .eevenkoto-menu summary::-webkit-details-marker {
@@ -218,36 +570,97 @@
   content: '';
 }
 
-/* Border triangle, not a rotated square: reduced motion forces `transform: none`,
-   which would flatten a transform-built marker into a box. */
-.eevenkoto-menu summary::before {
+/* Masked SVG chevron from canonical iconPaths (chevron-right / chevron-down).
+   Swapping the mask path on [open] avoids `transform`, so global reduced-motion
+   `transform: none !important` never breaks open-state orientation. */
+.eevenkoto-menu :is(summary, .eevenkoto-menu__summary)::before {
+  --_eevenkoto-menu-chevron: var(
+    --eevenkoto-menu-chevron,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-menu-chevron-mask: var(
+    --eevenkoto-menu-chevron-mask,
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.97 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L9.69 8 5.97 4.28a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E")
+  );
+
   content: '';
   flex-shrink: 0;
   display: block;
-  inline-size: 0;
-  block-size: 0;
-  border-block: 0.3em solid transparent;
-  border-inline-start: 0.4em solid var(--_eevenkoto-menu-chevron);
+  inline-size: 0.9em;
+  block-size: 0.9em;
+  background-color: var(--_eevenkoto-menu-chevron);
+  -webkit-mask-image: var(--_eevenkoto-menu-chevron-mask);
+  mask-image: var(--_eevenkoto-menu-chevron-mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
-.eevenkoto-menu details[open] > summary::before {
-  border-block: 0;
-  border-inline: 0.3em solid transparent;
-  border-block-start: 0.4em solid var(--_eevenkoto-menu-chevron);
+.eevenkoto-menu :is(summary, .eevenkoto-menu__summary):dir(rtl)::before {
+  transform: scaleX(-1);
 }
 
-/* Root sections echo eevenko.to uppercase chrome; nested summaries stay sentence case. */
-.eevenkoto-menu > ul > li > details > summary {
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  font-size: var(--eevenkoto-font-size-caption);
+.eevenkoto-menu details[open] > :where(summary, .eevenkoto-menu__summary) {
+  --eevenkoto-menu-chevron: var(--eevenkoto-color-content-accent);
+  --eevenkoto-menu-chevron-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.22 5.97a.75.75 0 0 1 1.06 0L8 9.69l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L3.22 7.03a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E");
+}
+
+/* Root chapters use Statblock's Outfit serif + accent ink; nested branches stay sans. */
+.eevenkoto-menu
+  > :where(ul, .eevenkoto-menu__group)
+  > :where(li)
+  > :where(details, .eevenkoto-menu__branch)
+  > :where(summary, .eevenkoto-menu__summary) {
+  --eevenkoto-menu-item-font-family: var(--eevenkoto-font-serif);
+  --eevenkoto-menu-item-font-weight: var(--eevenkoto-font-weight-bold);
+  --eevenkoto-menu-item-text: var(
+    --eevenkoto-menu-header-text,
+    var(--eevenkoto-color-content-accent)
+  );
+  --eevenkoto-menu-item-text-hover: var(--eevenkoto-color-content-accent-strong);
+  --eevenkoto-menu-chevron: var(
+    --eevenkoto-menu-header-text,
+    var(--eevenkoto-color-content-accent)
+  );
+}
+
+/* --- PLATFORM ADAPTATIONS --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-menu :is(a, button, summary),
+  .eevenkoto-menu__item {
+    transition: none;
+  }
+
+  .eevenkoto-menu a:hover,
+  .eevenkoto-menu a:dir(rtl):hover,
+  .eevenkoto-menu button:active {
+    transform: none;
+  }
 }
 
 @media (forced-colors: active) {
-  .eevenkoto-menu a[aria-current='page'],
-  .eevenkoto-menu__item--selected {
-    outline: 2px solid Highlight;
-    outline-offset: -2px;
+  .eevenkoto-menu {
+    background-image: none;
+    border-color: CanvasText;
+    box-shadow: none;
+  }
+
+  .eevenkoto-menu--embedded,
+  .eevenkoto-popover > .eevenkoto-menu {
+    border-color: transparent;
+  }
+
+  .eevenkoto-menu :is(details, .eevenkoto-menu__branch) > :is(ul, .eevenkoto-menu__group) {
+    border-inline-start-color: CanvasText;
+  }
+
+  .eevenkoto-menu__header {
+    color: CanvasText;
+    border-block-end-color: CanvasText;
   }
 
   .eevenkoto-menu hr,
@@ -255,13 +668,30 @@
     border-block-start-color: CanvasText;
   }
 
-  /* Only the solid edge may take a system color; the other edges shape the triangle. */
-  .eevenkoto-menu summary::before {
-    border-inline-start-color: CanvasText;
+  .eevenkoto-menu :is(a, button, summary),
+  .eevenkoto-menu__item {
+    --eevenkoto-menu-icon-filter: none;
+    background-image: none;
+    box-shadow: none;
+    text-shadow: none;
   }
 
-  .eevenkoto-menu details[open] > summary::before {
-    border-block-start-color: CanvasText;
+  .eevenkoto-menu a[aria-current='page'],
+  .eevenkoto-menu__item--selected {
+    border-color: Highlight;
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+
+  .eevenkoto-menu :is(a, button, summary):focus-visible,
+  .eevenkoto-menu__item:focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+
+  .eevenkoto-menu :is(summary, .eevenkoto-menu__summary)::before {
+    background-color: CanvasText;
+    forced-color-adjust: none;
   }
 }
 

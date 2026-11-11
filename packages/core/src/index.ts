@@ -262,6 +262,7 @@ export {
 } from './core/molecules/tooltipCard';
 
 export {
+  type MenuSize,
   type MenuEntry,
   type MenuItemEntry,
   type MenuHeaderEntry,
@@ -276,6 +277,7 @@ export {
   menuSummaryClassNames,
   menuGroupClassNames,
   menuItemLabelClassNames,
+  menuIconClassNames,
 } from './core/molecules/menu';
 
 export {

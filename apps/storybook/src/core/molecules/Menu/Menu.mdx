@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Menu
 
-Vertical **navigation** list. The host is a `<nav>` wrapping nested `<ul>` / `<li>` / `<a>`. Branches are native `<details>` / `<summary>`. The host class alone styles those tags — no item BEM is required for the default look. Current page uses `aria-current="page"`.
+Vertical **navigation** list. The host is a `<nav>` wrapping nested `<ul>` / `<li>` / `<a>`. Branches are native `<details>` / `<summary>`. The host class alone renders a scooped, raised parchment plaque and styles descendant rows — no item BEM is required for the default look. Current page uses `aria-current="page"`.
 
 <Canvas of={MenuStories.Default} />
 
@@ -43,7 +43,9 @@ Vertical **navigation** list. The host is a `<nav>` wrapping nested `<ul>` / `<l
 </nav>
 ```
 
-Hover and selection come from Tier 2 **`control`**; ink, group labels, and the disabled state come from **`content`**. Disclosure chevrons are CSS on `summary` (no Icon). Import `icon.css` only when lock icons may render.
+Menu bridges Eevenkoto’s editorial surfaces and interactive chrome:
+- **Plaque & headers** echo [Statblock](?path=/docs/domain-organisms-statblock--docs): scooped outer corners, soft parchment grain, `Outfit` (`--eevenkoto-font-serif`) chapter labels in `--eevenkoto-color-content-accent`, and vertical guide rails on nested branches.
+- **Rows & selection** echo [Button](?path=/docs/core-atoms-button--docs) and [LinkButton](?path=/docs/core-atoms-linkbutton--docs): directional end-scoop (`corner-shape: square scoop scoop square`), `@property`-animated `328deg` primary sheen on `aria-current="page"`, warm secondary hover, and dual-halo `:focus-visible`.
 
 ### Playground
 
@@ -51,7 +53,7 @@ Hover and selection come from Tier 2 **`control`**; ink, group labels, and the d
 
 ## Why to use
 
-Account menus, view switchers, and worldbook sidebars all need a compact vertical list of destinations. Menu owns that chrome — flat rows for Popover menus, nested `group` branches for eevenko.to-style trees — without baking open/position or routing into the DS. Copy-paste HTML navigates with no app JS.
+Account menus, view switchers, and worldbook sidebars all need a compact vertical list of destinations. Menu owns that chrome — flat rows for standalone plaques and [Popover](?path=/docs/core-atoms-popover--docs) menus, nested `group` branches for eevenko.to-style trees — without baking open/position or routing into the DS. Copy-paste HTML navigates with no app JS.
 
 ## When to use
 
@@ -63,12 +65,12 @@ Account menus, view switchers, and worldbook sidebars all need a compact vertica
         <code>renderMenu</code>) so the menu works as a document.
       </li>
       <li>
-        Use flat items (+ header/separator) for account and action menus inside{' '}
-        <a href="?path=/docs/core-atoms-popover--docs">Popover</a>. Prefer links to profile,
-        billing, and sign-out URLs.
+        Use flat items (+ header/separator) for account and action menus, standalone or inside{' '}
+        <a href="?path=/docs/core-atoms-popover--docs">Popover</a> (Menu sheds its redundant outer
+        plaque automatically when nested directly inside Popover).
       </li>
       <li>
-        Use nested <code>kind: 'group'</code> for multi-level nav (section → subsection → leaf
+        Use nested <code>kind: 'group'</code> for multi-level nav (chapter → subsection → leaf
         links), as on eevenko.to. Hand HTML is <code>&lt;li&gt;&lt;details&gt;</code> with a nested{' '}
         <code>&lt;ul&gt;</code>.
       </li>
@@ -81,13 +83,14 @@ Account menus, view switchers, and worldbook sidebars all need a compact vertica
         <code>details</code>) when that branch should start open (current section).
       </li>
       <li>
-        Set <code>embedded</code> when the menu sits in a sunken sidebar (transparent, no raised
-        panel). Leave the default raised host for Popover menus.
+        Set <code>embedded</code> when the menu sits in a sunken sidebar (transparent, flush, no
+        plaque border).
       </li>
       <li>
-        Pass <code>status</code> + <code>statusLabel</code> for a trailing{' '}
-        <a href="?path=/docs/core-atoms-statusdot--docs">StatusDot</a>; <code>locked</code> for a
-        lock Icon. Labels truncate with ellipsis.
+        Pass <code>icon</code> for an optional leading <a href="?path=/docs/core-atoms-icon--docs">Icon</a>,{' '}
+        <code>status</code> + <code>statusLabel</code> for a trailing{' '}
+        <a href="?path=/docs/core-atoms-statusdot--docs">StatusDot</a>, or <code>locked</code> for a
+        gating lock glyph. Labels truncate with ellipsis.
       </li>
     </ul>
   }
@@ -105,9 +108,17 @@ Account menus, view switchers, and worldbook sidebars all need a compact vertica
   }
 />
 
+## Leading icons & sizes
+
+Pass `icon` (from token `ICON_NAMES`) on items or groups when visual landmarks help scan dense account or tool menus. Use `size: 'sm'` (`eevenkoto-menu--sm`) for compact utility menus; `md` is the host default.
+
+<Canvas of={MenuStories.WithIcons} />
+
+<Canvas of={MenuStories.SizeComparison} />
+
 ## Nested nav
 
-Branches nest arbitrarily. Root summaries use uppercase chrome; deeper summaries stay sentence case. Children indent with `--eevenkoto-menu-indent`.
+Branches nest arbitrarily. Root summaries use `Outfit` serif + `content-accent` ink; deeper summaries stay `Inter` semibold so macro chapters and meso subsections mirror [Statblock](?path=/docs/domain-organisms-statblock--docs). Open branches draw a vertical guide rail along nested `<ul>` lists and swap a masked canonical chevron (`chevron-right` → `chevron-down`).
 
 ```html
 <nav class="eevenkoto-menu eevenkoto-menu--embedded" aria-label="Worldbook">
@@ -134,15 +145,13 @@ Flush surface + status pips + a locked leaf. Migration: drop `.nav-valmius`, `.n
 
 ## Locked items
 
-`locked` adds a trailing lock Icon named by `lockedLabel` (default “Locked”). Keep `href` when signing in still navigates somewhere — the row stays a link with `aria-disabled`; drop it and the row renders as a disabled button. The lock draws in `currentColor`, so it follows item ink through selection and the disabled state instead of pulling a separate accent.
+`locked` adds a trailing lock Icon named by `lockedLabel` (default “Locked”). Keep `href` when signing in still navigates somewhere — the row stays a followable link in `content-secondary` ink; drop `href` and the row renders as a disabled button.
 
 <Canvas of={MenuStories.LockedItems} />
 
-## Items only
+## Items only & links
 
 <Canvas of={MenuStories.ItemsOnly} />
-
-## Links
 
 <Canvas of={MenuStories.Links} />
 
@@ -154,44 +163,89 @@ Omit `href` only when the row is an in-page command with no destination. Framewo
 
 ## Inside a Popover
 
+When `.eevenkoto-menu` is a direct child of `.eevenkoto-popover`, Menu automatically clears its outer plaque border, grain, and shadow via public override tokens so Popover owns the floating surface cleanly.
+
 <Canvas of={MenuStories.InsidePopover} />
+
+## Accessibility
+
+- **Landmark & current page:** Host is `<nav>` (pass `label` → `aria-label` when multiple nav landmarks appear on the page); active links set `aria-current="page"`.
+- **Non-color selection cue:** Selected rows combine primary fill + bold weight + thicker inline-start stroke (`--eevenkoto-line-width-md`) + scooped end silhouette.
+- **Dual-halo focus:** Keyboard focus uses Eevenkoto’s dual-halo (`--eevenkoto-color-boundary-focus-outer` + `--eevenkoto-color-boundary-focus-inner`) so focus stays ≥ 3:1 against both unselected parchment and selected primary rows.
+- **Reduced motion & High Contrast:** Disclosure chevrons swap SVG masks rather than relying on `transform: rotate()`, remaining accurate under `prefers-reduced-motion: reduce`. Explicit `1px solid transparent` row borders preserve hit targets in `@media (forced-colors: active)`.
 
 ## Anatomy
 
 | Part | Role |
 | --- | --- |
 | Host | `<nav class="eevenkoto-menu">` |
-| List | descendant `ul` / `li` (no extra class) |
+| List | descendant `ul` / `li` (no extra class required) |
 | Row | `a`, `button`, or `summary` (optional `.eevenkoto-menu__item`) |
-| Current page | `aria-current="page"` on the link |
-| `__header` | Static group label (`p` inside `li`) |
-| `hr` | Rule between clusters |
-| `details` | Nested branch |
-| `summary` | Disclosure control (CSS chevron) |
-| Nested `ul` | Indented children |
+| Current page | `aria-current="page"` on the link (or `.eevenkoto-menu__item--selected`) |
+| `__header` | Static group label (`p` inside `li`, `Outfit` + accent rule) |
+| `hr` | Inset rule between clusters |
+| `details` | Nested branch (optional `.eevenkoto-menu__branch`) |
+| `summary` | Disclosure control with masked chevron (optional `.eevenkoto-menu__summary`) |
+| Nested `ul` | Indented children with inline-start guide rail |
 
 ## API reference
 
 | Entry `kind` | Fields |
 | --- | --- |
-| `item` (default) | `id`, `label`, `href?`, `selected?`, `disabled?`, `locked?`, `lockedLabel?`, `status?`, `statusLabel?` |
+| `item` (default) | `id`, `label`, `icon?`, `href?`, `selected?`, `disabled?`, `locked?`, `lockedLabel?`, `status?`, `statusLabel?` |
 | `header` | `label` |
 | `separator` | — |
-| `group` | `id`, `label`, `expanded?`, `children: MenuEntry[]` |
+| `group` | `id`, `label`, `icon?`, `expanded?`, `children: MenuEntry[]` |
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `entries` | `MenuEntry[]` | — | List data. |
 | `label` | `string` | — | Accessible name (`aria-label` on `nav`). |
-| `embedded` | `boolean` | `false` | Transparent flush surface. |
+| `size` | `'sm' \| 'md'` | `'md'` | Shared control size ladder (`eevenkoto-menu--sm` / `--md`). |
+| `embedded` | `boolean` | `false` | Transparent flush surface for sidebars. |
 
 <ArgTypes of={MenuStories} />
+
+### CSS classes
+
+| Class | Role |
+| --- | --- |
+| `eevenkoto-menu` | Host `<nav>` (raised scooped plaque + `md` defaults) |
+| `eevenkoto-menu--embedded` | Flush transparent sidebar variant |
+| `eevenkoto-menu--sm` / `--md` | Compact / default control size |
+| `eevenkoto-menu__header` | Static section label |
+| `eevenkoto-menu__separator` | Optional alias for `<hr>` |
+| `eevenkoto-menu__item` | Optional row alias (descendant `a` / `button` / `summary` style automatically) |
+| `eevenkoto-menu__item--selected` | Selected row alias when `aria-current="page"` is not applicable |
+| `eevenkoto-menu__item--locked` | Gated item modifier |
+| `eevenkoto-menu__icon` | Leading icon slot |
+| `eevenkoto-menu__item-label` | Truncating label wrapper when slots accompany text |
+| `eevenkoto-menu__lock` / `__status` | Trailing lock Icon / StatusDot slots |
+
+### Public CSS override tokens
+
+Parents may contextualize Menu via public Tier 3 custom properties (bridged privately inside `menu.css`):
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-menu-bg` / `-noise` | Plaque surface fill and parchment grain |
+| `--eevenkoto-menu-border-color` / `-border-width` / `-shadow` | Plaque framing and depth |
+| `--eevenkoto-menu-radius` / `-pad-block` / `-pad-inline` | Plaque geometry |
+| `--eevenkoto-menu-min-inline-size` | Minimum plaque width (`18rem` default; `0` when embedded) |
+| `--eevenkoto-menu-header-text` / `-header-border-color` | Section header & root summary ink / rule |
+| `--eevenkoto-menu-tree-border-color` / `-tree-offset` / `-indent` | Nested branch guide rail & indentation |
+| `--eevenkoto-menu-item-bg` / `-text` / `-border-color` / `-icon` | Resting row tuple |
+| `--eevenkoto-menu-item-bg-hover` / `-text-hover` / `-border-color-hover` | Unselected hover tuple |
+| `--eevenkoto-menu-item-selected-bg` / `-selected-text` / `-selected-border-color` | Selected row tuple |
+| `--eevenkoto-menu-item-pad-block` / `-item-pad-inline` / `-item-radius` | Row geometry |
+| `--eevenkoto-menu-chevron` | Disclosure chevron color |
 
 ## Framework packages
 
 Hand-authored HTML is the reference. `renderMenu` emits the same tags from `entries`.
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/menu.css';
 import { renderMenu } from '@eevenkoto/html';
 
@@ -204,7 +258,7 @@ renderMenu({
       label: 'Lajit',
       expanded: true,
       children: [
-        { id: 'human', label: 'Ihminen', href: '/lajit/ihminen' },
+        { id: 'human', label: 'Ihminen', href: '/lajit/ihminen', selected: true },
         { id: 'troll', label: 'Peikko', href: '/lajit/peikko' },
       ],
     },
@@ -213,9 +267,23 @@ renderMenu({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/menu.css';
 import { Menu } from '@eevenkoto/react';
 
 <Menu label="Worldbook" entries={entries} />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/menu.css';
+import { Menu } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Menu label="Worldbook" :entries="entries" />
+</template>
 ```
 
 The host is `<nav>`, not `role="menu"`. Add menu semantics and arrow-key handling in the app only when you also implement the keyboard contract. Nested expand/collapse uses native `<details>`.

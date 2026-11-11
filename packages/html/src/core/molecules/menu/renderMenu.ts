@@ -1,17 +1,25 @@
 import {
   menuClassNames,
+  menuIconClassNames,
   menuItemClassNames,
   menuItemLabelClassNames,
   type MenuEntry,
+  type MenuGroupEntry,
   type MenuItemEntry,
   type MenuProps,
+  type MenuSize,
 } from '@eevenkoto/core';
 import { renderIcon } from '../../atoms/icon/renderIcon';
 import { renderStatusDot } from '../../atoms/status-dot/renderStatusDot';
 import { escapeHtml } from '../../../utils/html';
 import template from './Menu.html';
 
-export type { MenuProps, MenuEntry };
+export type { MenuProps, MenuEntry, MenuSize };
+
+const itemIcon = (entry: MenuItemEntry | MenuGroupEntry): string => {
+  if (!entry.icon) return '';
+  return `<span class="${menuIconClassNames()}">${renderIcon({ name: entry.icon })}</span>`;
+};
 
 const itemLock = (entry: MenuItemEntry): string => {
   if (!entry.locked) return '';
@@ -27,11 +35,16 @@ const itemStatus = (entry: MenuItemEntry): string => {
 };
 
 const itemInner = (entry: MenuItemEntry): string => {
-  const extras = Boolean(entry.locked || entry.status);
+  const extras = Boolean(entry.icon || entry.locked || entry.status);
   const label = extras
     ? `<span class="${menuItemLabelClassNames()}">${escapeHtml(entry.label)}</span>`
     : escapeHtml(entry.label);
-  return `${label}${itemLock(entry)}${itemStatus(entry)}`;
+  return `${itemIcon(entry)}${label}${itemLock(entry)}${itemStatus(entry)}`;
+};
+
+const groupSummaryInner = (entry: MenuGroupEntry): string => {
+  if (!entry.icon) return escapeHtml(entry.label);
+  return `${itemIcon(entry)}<span class="${menuItemLabelClassNames()}">${escapeHtml(entry.label)}</span>`;
 };
 
 const wrapItem = (inner: string): string => `<li>${inner}</li>`;
@@ -49,7 +62,7 @@ const renderEntry = (entry: MenuEntry): string => {
     const openAttr = entry.expanded ? ' open' : '';
     const children = entry.children.map((child) => renderEntry(child)).join('');
     return wrapItem(`<details${openAttr}>
-  <summary>${escapeHtml(entry.label)}</summary>
+  <summary>${groupSummaryInner(entry)}</summary>
   <ul>${children}</ul>
 </details>`);
   }

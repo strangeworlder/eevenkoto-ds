@@ -160,6 +160,27 @@ describe('HTML matches Core class strings', () => {
     expect(html).toContain('href="#home"');
   });
 
+  it('Menu size and leading icons', () => {
+    const html = renderMenu({
+      label: 'Account',
+      size: 'sm',
+      entries: [
+        {
+          kind: 'group',
+          id: 'adventurer',
+          label: 'Adventurer',
+          icon: 'dice',
+          expanded: true,
+          children: [{ id: 'profile', label: 'Profile', href: '#profile', icon: 'user' }],
+        },
+      ],
+    });
+    expect(html).toContain(menuClassNames({ size: 'sm' }));
+    expect(html).toContain('eevenkoto-menu--sm');
+    expect(html).toContain('eevenkoto-menu__icon');
+    expect(html).toContain('eevenkoto-icon');
+  });
+
   it('StatusDot', () => {
     expect(renderStatusDot({ label: 'Ready' })).toContain(statusDotClassNames());
   });
@@ -440,6 +461,29 @@ describe('React className matches Core', () => {
     expect(html).toContain('<ul>');
     expect(html).toContain('<details');
     expect(html).toContain('aria-current="page"');
+  });
+
+  it('Menu size and leading icons', () => {
+    const html = renderToStaticMarkup(
+      createElement(Menu, {
+        label: 'Account',
+        size: 'sm',
+        entries: [
+          {
+            kind: 'group',
+            id: 'adventurer',
+            label: 'Adventurer',
+            icon: 'dice',
+            expanded: true,
+            children: [{ id: 'profile', label: 'Profile', href: '#profile', icon: 'user' }],
+          },
+        ],
+      }),
+    );
+    expect(html).toContain(menuClassNames({ size: 'sm' }));
+    expect(html).toContain('eevenkoto-menu--sm');
+    expect(html).toContain('eevenkoto-menu__icon');
+    expect(html).toContain('eevenkoto-icon');
   });
 
   it('StatusDot', () => {
@@ -745,6 +789,27 @@ describe('Vue class matches Core (priority subset)', () => {
     expect(html).toContain('<ul>');
     expect(html).toContain('<details');
     expect(html).toContain('aria-current="page"');
+  });
+
+  it('Menu size and leading icons', async () => {
+    const html = await vueHtml(VueMenu, {
+      label: 'Account',
+      size: 'sm',
+      entries: [
+        {
+          kind: 'group',
+          id: 'adventurer',
+          label: 'Adventurer',
+          icon: 'dice',
+          expanded: true,
+          children: [{ id: 'profile', label: 'Profile', href: '#profile', icon: 'user' }],
+        },
+      ],
+    });
+    expect(html).toContain(menuClassNames({ size: 'sm' }));
+    expect(html).toContain('eevenkoto-menu--sm');
+    expect(html).toContain('eevenkoto-menu__icon');
+    expect(html).toContain('eevenkoto-icon');
   });
 
   it('StatusDot', async () => {

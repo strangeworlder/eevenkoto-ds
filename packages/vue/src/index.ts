@@ -41,7 +41,7 @@ export {
   type TooltipCardProps,
   type TooltipCardTitleLevel,
 } from './core/molecules/TooltipCard';
-export { Menu, type MenuProps, type MenuEntry } from './core/molecules/Menu';
+export { Menu, type MenuProps, type MenuEntry, type MenuSize } from './core/molecules/Menu';
 export {
   Catalog,
   CatalogTile,
