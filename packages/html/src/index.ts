@@ -5,6 +5,16 @@ export {
 } from './core/atoms/link-button/renderLinkButton';
 export { renderBadge, type BadgeProps } from './core/atoms/badge/renderBadge';
 export { renderStatusDot, type StatusDotProps } from './core/atoms/status-dot/renderStatusDot';
+export { renderSwatch, type SwatchProps } from './core/atoms/swatch/renderSwatch';
+export { renderDivider, type DividerProps } from './core/atoms/divider/renderDivider';
+export {
+  renderProgressBar,
+  type ProgressBarProps,
+} from './core/atoms/progress-bar/renderProgressBar';
+export {
+  renderFloatingBanner,
+  type FloatingBannerProps,
+} from './core/molecules/floating-banner/renderFloatingBanner';
 export { renderChip, type ChipProps } from './core/atoms/chip/renderChip';
 export { renderHeading, type HeadingProps } from './core/atoms/heading/renderHeading';
 export { renderParagraph, type ParagraphProps } from './core/atoms/paragraph/renderParagraph';
@@ -126,3 +136,49 @@ export {
   type EquipmentWorkshopProps,
 } from './domain/organisms/equipment-workshop/renderEquipmentWorkshop';
 export { escapeHtml, sanitizeInlineHtml, slugifyId } from './utils/html';
+export { renderDisclosure, type DisclosureProps } from './core/molecules/disclosure/renderDisclosure';
+export { renderChipGroup, type ChipGroupProps } from './core/molecules/chip-group/renderChipGroup';
+export {
+  renderTableOfContents,
+  type TableOfContentsProps,
+} from './core/molecules/table-of-contents/renderTableOfContents';
+export {
+  renderSectionHeader,
+  type SectionHeaderProps,
+} from './core/molecules/section-header/renderSectionHeader';
+export { renderTierCard, type TierCardProps } from './core/organisms/tier-card/renderTierCard';
+export {
+  renderAccountMenu,
+  type AccountMenuProps,
+} from './core/organisms/account-menu/renderAccountMenu';
+
+export { renderLicenseBar, type LicenseBarProps } from './domain/molecules/license-bar/renderLicenseBar';
+export {
+  renderDocumentHeader,
+  type DocumentHeaderProps,
+  type DocumentHeaderRenderProps,
+} from './domain/molecules/document-header/renderDocumentHeader';
+export {
+  renderContentTable,
+  type ContentTableProps,
+} from './domain/molecules/content-table/renderContentTable';
+export {
+  renderEntityPreview,
+  type EntityPreviewProps,
+  type EntityPreviewRenderProps,
+} from './domain/molecules/entity-preview/renderEntityPreview';
+export {
+  renderReadAloudBox,
+  type ReadAloudBoxProps,
+} from './domain/molecules/read-aloud-box/renderReadAloudBox';
+export { renderNpcCard, type NpcCardProps } from './domain/molecules/npc-card/renderNpcCard';
+export { renderMapFrame, type MapFrameProps } from './domain/molecules/map-frame/renderMapFrame';
+export {
+  renderNpcCardGrid,
+  type NpcCardGridProps,
+} from './domain/organisms/npc-card-grid/renderNpcCardGrid';
+export {
+  renderContentGate,
+  type ContentGateProps,
+  type ContentGateRenderProps,
+} from './domain/organisms/content-gate/renderContentGate';

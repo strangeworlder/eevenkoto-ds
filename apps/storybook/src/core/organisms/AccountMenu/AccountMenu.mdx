@@ -1,0 +1,59 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as AccountMenuStories from './AccountMenu.stories';
+
+<Meta of={AccountMenuStories} />
+
+# AccountMenu
+
+Account entry point. Signed out it renders a full-width secondary sign-in [LinkButton](?path=/docs/core-atoms-linkbutton--docs). Signed in it renders a trigger (small [Avatar](?path=/docs/core-atoms-avatar--docs), single-line name, tier [Badge](?path=/docs/core-atoms-badge--docs), rotating chevron) and a trigger-width [Popover](?path=/docs/core-atoms-popover--docs) with a profile summary, an embedded [Menu](?path=/docs/core-molecules-menu--docs) and an optional footer.
+
+<Canvas of={AccountMenuStories.SignedInOpenWithDestructiveLogout} />
+
+<Controls of={AccountMenuStories.SignedInOpenWithDestructiveLogout} />
+
+## Why to use
+
+Encodes the trigger's `aria-haspopup` / `aria-expanded` wiring, ellipsis for long names, and destructive sign-out styling (`tone: 'destructive'` on the Menu entry) in one place.
+
+## When to use
+
+- Use once per app, typically in a sidebar or header.
+- Toggle `open` from your own handler (`onToggle` in React, `toggle` event in Vue); close on outside click and Escape yourself.
+- Don't use it for generic dropdowns — compose [Popover](?path=/docs/core-atoms-popover--docs) with [Menu](?path=/docs/core-molecules-menu--docs).
+
+<Canvas of={AccountMenuStories.SignedOut} />
+
+<Canvas of={AccountMenuStories.SignedInClosed} />
+
+<Canvas of={AccountMenuStories.WithFooterSlot} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `authenticated` | `boolean` | — | Signed-in state. |
+| `loginHref` / `loginLabel` | `string` | `'#login'` / `'Sign in'` | Signed-out link. |
+| `userName` / `userEmail` | `string` | — | Identity (email omitted when empty). |
+| `avatarSrc` | `string` | — | Avatar image. |
+| `tierLabel` / `tierIntent` | `string` / `BadgeIntent` | — / `'neutral'` | Tier badge. |
+| `menuLabel` / `popoverLabel` | `string` | `'Account menu'` / `'Account'` | Accessible names. |
+| `entries` | `MenuEntry[]` | — | Popover menu entries. |
+| `open` | `boolean` | `false` | Popover expanded. |
+| `footer` | slot / prop | — | Popover footer. |
+
+<ArgTypes of={AccountMenuStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/account-menu.css';
+import { renderAccountMenu } from '@eevenkoto/html';
+
+renderAccountMenu({ authenticated: false, loginLabel: 'Sign in' });
+```
+
+```tsx
+import { AccountMenu } from '@eevenkoto/react';
+
+<AccountMenu authenticated userName="Aino" open={open} onToggle={setOpen} entries={entries} />
+```

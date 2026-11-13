@@ -8,9 +8,12 @@ export const Caption = defineComponent({
   props: {
     text: { type: String, required: true },
     tone: { type: String as PropType<CaptionProps['tone']>, default: undefined },
+    variant: { type: String as PropType<CaptionProps['variant']>, default: undefined },
   },
   setup(props) {
-    const className = computed(() => captionClassNames({ tone: props.tone }));
+    const className = computed(() =>
+      captionClassNames({ tone: props.tone, variant: props.variant }),
+    );
 
     return () => h('p', { class: className.value }, props.text);
   },

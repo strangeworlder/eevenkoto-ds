@@ -73,9 +73,13 @@ Alla oleva tarina demonstroi, miten kuluttajasovellus kytkee omat sääntönsä 
 
 | Prop | Tyyppi | Oletus | Kuvaus |
 | --- | --- | --- | --- |
+| `layout` | `'split' \| 'inline'` | `'split'` | Asettelugeometria (`'split'` 2-palstainen tai `'inline'` yksipalstainen). |
+| `sticky` | `'preview' \| 'controls' \| 'none'` | `'preview'` | Sticky-sarakkeen käyttäytyminen yli `56rem` säiliöleveydessä. |
 | `header` | `ReactNode \| string` | — | Yläpalkin sisältö (otsikko, tilakytkin, esiasetusvalitsin). |
 | `controls` | `ReactNode \| string` | — | Vasemman palstan ohjainlomake (tai lapsikomponentit). |
+| `toolbar` | `ReactNode \| string` | — | Valinnainen upotettu työkalupalkki esikatselun yläpuolella. |
 | `preview` | `ReactNode \| string` | — | Oikean palstan esikatselu (tyypillisesti `EquipmentBlock`). |
+| `footer` | `ReactNode \| string` | — | Valinnainen alapalkki rungon alla. |
 | `idSuffix` | `string` | — | Valinnainen elementti-id:n tarkenne. |
 
 ### Apuluokat (CSS)

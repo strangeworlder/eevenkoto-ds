@@ -57,6 +57,7 @@ export const BUTTON_ICON_NAMES = [
   'swords',
   'shield',
   'sword',
+  'user',
 ] as const;
 
 export type ButtonIconName = (typeof BUTTON_ICON_NAMES)[number];

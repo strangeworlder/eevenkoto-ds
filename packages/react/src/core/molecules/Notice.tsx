@@ -2,6 +2,7 @@ import {
   ICON_NAMES,
   defaultNoticeIcon,
   noticeClassNames,
+  noticeStatusClassNames,
   resolveNoticeRole,
   type IconName,
   type NoticeProps,
@@ -29,6 +30,7 @@ export const Notice = ({
   bodyHtml,
   icon,
   actions,
+  statusText,
   children,
   className,
   role,
@@ -68,6 +70,11 @@ export const Notice = ({
         ) : null}
         {children}
         {actions ? <div className="eevenkoto-notice__actions">{actions}</div> : null}
+        {statusText ? (
+          <p className={noticeStatusClassNames()} role="status" aria-live="polite">
+            {statusText}
+          </p>
+        ) : null}
       </div>
     </div>
   );

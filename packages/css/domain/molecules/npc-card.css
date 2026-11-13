@@ -1,0 +1,70 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: NPC CARD (TIER 3)
+   Compact NPC entry: name (heading), role line, divided details
+   (PropertyList), free body copy.
+   ========================================================================== */
+
+@import url('../../core/atoms/heading.css');
+@import url('../../core/atoms/property.css');
+@import url('../../core/molecules/prose.css');
+
+.eevenkoto-npc-card {
+  --_eevenkoto-npc-card-bg: var(
+    --eevenkoto-npc-card-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-npc-card-border-color: var(
+    --eevenkoto-npc-card-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-npc-card-border-width: var(
+    --eevenkoto-npc-card-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-npc-card-role-color: var(
+    --eevenkoto-npc-card-role-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-2);
+  min-inline-size: 0;
+  padding: var(--eevenkoto-space-3) var(--eevenkoto-space-4);
+  background: var(--_eevenkoto-npc-card-bg);
+  border: var(--_eevenkoto-npc-card-border-width) solid var(--_eevenkoto-npc-card-border-color);
+  border-radius: var(--eevenkoto-radius-md);
+  box-sizing: border-box;
+}
+
+.eevenkoto-npc-card__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-1);
+}
+
+.eevenkoto-npc-card__name {
+  margin: 0;
+  font-family: var(--eevenkoto-font-serif);
+  font-weight: var(--eevenkoto-font-weight-bold);
+}
+
+.eevenkoto-npc-card__role {
+  margin: 0;
+  color: var(--_eevenkoto-npc-card-role-color);
+  font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+.eevenkoto-npc-card__body > :first-child {
+  margin-block-start: 0;
+}
+
+.eevenkoto-npc-card__body > :last-child {
+  margin-block-end: 0;
+}
+
+@media print {
+  .eevenkoto-npc-card {
+    break-inside: avoid;
+  }
+}

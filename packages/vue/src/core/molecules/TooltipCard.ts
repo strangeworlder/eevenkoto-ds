@@ -14,9 +14,11 @@ export const TooltipCard = defineComponent({
     title: { type: String, default: undefined },
     titleLevel: { type: Number as PropType<TooltipCardTitleLevel>, default: 2 },
     body: { type: String, default: undefined },
+    bodyHtml: { type: String, default: undefined },
+    flush: { type: Boolean, default: false },
   },
   setup(props, { slots }) {
-    const className = computed(() => tooltipCardClassNames());
+    const className = computed(() => tooltipCardClassNames({ flush: props.flush }));
     const bodyClassName = computed(() => tooltipCardBodyClassNames());
 
     return () => {
@@ -29,11 +31,16 @@ export const TooltipCard = defineComponent({
         children.push(h('header', [h(`h${level}`, props.title)]));
       }
 
-      const bodyChildren: VNodeChild[] = [];
-      if (props.body) bodyChildren.push(h('p', props.body));
-      if (slots.default) bodyChildren.push(slots.default());
-      if (bodyChildren.length > 0) {
-        children.push(h('div', { class: bodyClassName.value, tabindex: '0' }, bodyChildren));
+      if (slots.default) {
+        children.push(h('div', { class: bodyClassName.value, tabindex: '0' }, slots.default()));
+      } else if (props.bodyHtml) {
+        children.push(
+          h('div', { class: bodyClassName.value, tabindex: '0', innerHTML: props.bodyHtml }),
+        );
+      } else if (props.body) {
+        children.push(
+          h('div', { class: bodyClassName.value, tabindex: '0' }, [h('p', props.body)]),
+        );
       }
 
       if (slots.footer) {

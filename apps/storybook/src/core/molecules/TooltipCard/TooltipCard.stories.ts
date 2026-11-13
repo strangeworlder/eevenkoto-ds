@@ -25,6 +25,14 @@ const meta: Meta<TooltipCardProps> = {
       description: 'Heading level for `title`. Default 2.',
     },
     body: { control: 'text', description: 'Body copy.' },
+    bodyHtml: {
+      control: 'text',
+      description: 'Trusted pre-rendered HTML for `__body` (takes precedence over `body`).',
+    },
+    flush: {
+      control: 'boolean',
+      description: 'Removes body padding for embedded full-bleed blocks.',
+    },
     footer: { control: 'text', description: 'Footer HTML.' },
   },
   render: (args) => renderTooltipCard(args),
@@ -48,6 +56,17 @@ export const ScrollingBody: Story = {
     content:
       '<ul><li>This spell has no effect on undead or constructs.</li><li>Healing increases by 1d8 for each slot level above 1st.</li></ul>',
     footer: '1st-level evocation · Touch',
+  },
+};
+
+export const FlushBody: Story = {
+  name: 'Flush body',
+  args: {
+    title: 'Shield Guardian',
+    flush: true,
+    bodyHtml:
+      '<div style="padding: 1.2rem; background: var(--eevenkoto-color-surface-sunken);"><p><strong>AC</strong> 17 · <strong>HP</strong> 142 (15d10 + 60) · <strong>Speed</strong> 30 ft.</p></div>',
+    footer: 'Large construct · Unaligned',
   },
 };
 

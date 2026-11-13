@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import '@eevenkoto/css/table.css';
-import { renderTable, type TableProps } from '@eevenkoto/html';
+import '@eevenkoto/css/entity-ref.css';
+import { renderEntityRef, renderTable, type TableProps } from '@eevenkoto/html';
 
 const defaultColumns = [
   { key: 'name', header: 'Name', kind: 'text' as const },
@@ -54,7 +55,7 @@ const meta: Meta<TableProps> = {
     docs: {
       description: {
         component:
-          'Table molecule for default grids, numeric progression charts, and pair/roll tables.',
+          'Table molecule for default grids, numeric progression charts, and pair/roll tables, supporting plain string rows and structured rich-HTML/spanned cells.',
       },
     },
   },
@@ -119,6 +120,47 @@ export const PairRoll: Story = {
     caption: 'Road omens',
     columns: pairColumns,
     rows: pairRows,
+  },
+};
+
+export const RichHtmlAndColSpan: Story = {
+  args: {
+    caption: 'Arcane traditions & signature spells',
+    columns: [
+      { key: 'level', header: 'Level', kind: 'index' },
+      { key: 'feature', header: 'Feature', kind: 'text' },
+      { key: 'spells', header: 'Granted spells', kind: 'text' },
+      { key: 'uses', header: 'Uses / day', kind: 'numeric' },
+    ],
+    rows: [
+      {
+        attributes: { 'data-tier': 'apprentice' },
+        cells: [
+          {
+            text: 'Apprentice Tier (Levels 1–4)',
+            header: true,
+            scope: 'colgroup',
+            colSpan: 4,
+            kind: 'text',
+          },
+        ],
+      },
+      [
+        '1',
+        {
+          html: `Arcane Ward (${renderEntityRef({ kind: 'mechanic', name: 'Abjuration', href: '#abjuration' })})`,
+        },
+        {
+          html: `${renderEntityRef({ kind: 'spell', name: 'Shield', href: '#shield' })}, ${renderEntityRef({ kind: 'spell', name: 'Mage Armor', href: '#mage-armor' })}`,
+        },
+        '2',
+      ],
+      [
+        '3',
+        'Projected Ward',
+        { text: 'No additional spells granted at this tier', colSpan: 2 },
+      ],
+    ],
   },
 };
 

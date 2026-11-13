@@ -86,6 +86,12 @@ Default `row` zebra uses `surface-subtle` on the host (no `--stripe-row` require
 
 <Canvas of={TableStories.StripeColumn} />
 
+### Rich HTML, spanned cells & row attributes
+
+`rows` accepts plain `string[][]` for compact tables as well as structured `TableRowObject` (`{ attributes, cells }`) and `TableCellObject` (`{ text, html, kind, colSpan, rowSpan, header, scope, attributes }`) for inline [EntityRef](?path=/docs/domain-atoms-entityref--docs) links, category group subheaders (`header: true, scope: 'colgroup', colSpan`), and filterable `data-*` attributes.
+
+<Canvas of={TableStories.RichHtmlAndColSpan} />
+
 ## Ecosystem
 
 ```

@@ -1,0 +1,76 @@
+---
+import { accountMenuClassNames, popoverClassNames, type AccountMenuProps } from '@eevenkoto/core';
+import Avatar from '../atoms/Avatar.astro';
+import Badge from '../atoms/Badge.astro';
+import Icon from '../atoms/Icon.astro';
+import LinkButton from '../atoms/LinkButton.astro';
+import Menu from '../molecules/Menu.astro';
+
+export interface Props extends AccountMenuProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  authenticated,
+  loginHref = '#login',
+  loginLabel = 'Sign in',
+  userName = '',
+  userEmail,
+  avatarSrc,
+  tierLabel,
+  tierIntent = 'neutral',
+  menuLabel = 'Account menu',
+  popoverLabel = 'Account',
+  entries,
+  open,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [accountMenuClassNames({ authenticated, open }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const popoverId = id ? `${id}-popover` : undefined;
+---
+<div id={id} class={classes} {...rest}>
+  {!authenticated ? (
+    <LinkButton href={loginHref} label={loginLabel} variant="secondary" icon="user" fullWidth />
+  ) : (
+    <Fragment>
+      <button
+        type="button"
+        class="eevenkoto-account-menu__trigger"
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : 'false'}
+        aria-controls={popoverId}
+      >
+        <Avatar name={userName} src={avatarSrc} size="sm" />
+        <span class="eevenkoto-account-menu__identity">
+          <span class="eevenkoto-account-menu__name">{userName}</span>
+          {tierLabel ? <Badge label={tierLabel} size="sm" variant="subtle" shape="pill" intent={tierIntent} /> : null}
+        </span>
+        <Icon name="chevron-down" size="sm" class="eevenkoto-account-menu__chevron" />
+      </button>
+      <div
+        id={popoverId}
+        class={popoverClassNames({ placement: 'bottom-start', matchTriggerWidth: true })}
+        role="dialog"
+        aria-label={popoverLabel}
+        hidden={open ? undefined : true}
+      >
+        <div class="eevenkoto-account-menu__summary">
+          <span>{userName}</span>
+          {userEmail ? <span class="eevenkoto-account-menu__email">{userEmail}</span> : null}
+          {tierLabel ? <Badge label={tierLabel} size="sm" variant="solid" shape="pill" intent={tierIntent} /> : null}
+        </div>
+        {entries?.length ? <Menu label={menuLabel} entries={entries} embedded size="sm" /> : null}
+        {Astro.slots.has('footer') ? (
+          <div class="eevenkoto-account-menu__footer"><slot name="footer" /></div>
+        ) : null}
+      </div>
+    </Fragment>
+  )}
+</div>

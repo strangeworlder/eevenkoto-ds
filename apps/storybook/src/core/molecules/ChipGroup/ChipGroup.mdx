@@ -1,0 +1,57 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ChipGroupStories from './ChipGroup.stories';
+
+<Meta of={ChipGroupStories} />
+
+# ChipGroup
+
+A `<fieldset>` with a `<legend>` and a wrapping list of [Chip](?path=/docs/core-atoms-chip--docs)s. Each chip carries `data-value` so host scripts can wire selection; `mode` is exposed as `data-selection-mode`.
+
+<Canvas of={ChipGroupStories.SingleSelect} />
+
+<Controls of={ChipGroupStories.SingleSelect} />
+
+## Why to use
+
+One accessible structure (group name, per-chip `aria-pressed`) for filters and color pickers, with leading `icon` and `swatchColor` support and disabled chips that keep their contrast.
+
+## When to use
+
+- Use for compact, visible filter or picker options.
+- Use `hideLegend` when the heading is already on screen (the legend stays for screen readers).
+- Don't use for exclusive form choices that need native radios — use [RadioGroup](?path=/docs/core-molecules-radiogroup--docs).
+
+<Canvas of={ChipGroupStories.MultiSelectWithSwatches} />
+
+<Canvas of={ChipGroupStories.DisabledOpaqueOptions} />
+
+<Canvas of={ChipGroupStories.HiddenLegend} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | DOM id on `<fieldset>`. |
+| `label` | `string` | — | Legend text. |
+| `hideLegend` | `boolean` | `false` | Visually hide the legend. |
+| `mode` | `'single' \| 'multiple'` | `'single'` | Selection semantics (`data-selection-mode`). |
+| `size` | `ChipSize` | `'sm'` | Chip size. |
+| `hidden` | `boolean` | `false` | Hide the whole group. |
+| `options` | `ChipGroupOption[]` | — | `{ value, label, selected?, disabled?, title?, icon?, swatchColor?, href?, attributes? }`. |
+
+<ArgTypes of={ChipGroupStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/chip-group.css';
+import { renderChipGroup } from '@eevenkoto/html';
+
+renderChipGroup({ label: 'Level', options: [{ value: '1', label: 'Level 1' }] });
+```
+
+```tsx
+import { ChipGroup } from '@eevenkoto/react';
+
+<ChipGroup label="Level" options={options} onSelect={setValue} />
+```

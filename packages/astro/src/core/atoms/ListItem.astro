@@ -1,5 +1,6 @@
 ---
-import type { ListItemProps } from '@eevenkoto/core';
+import { listItemClassNames, type IconName, type ListItemProps } from '@eevenkoto/core';
+import Icon from './Icon.astro';
 
 export interface Props extends Partial<ListItemProps> {
   class?: string;
@@ -7,7 +8,27 @@ export interface Props extends Partial<ListItemProps> {
   [key: string]: unknown;
 }
 
-const { text, class: classProp, className, ...rest } = Astro.props;
-const classes = [classProp, className].filter(Boolean).join(' ') || undefined;
+const { text, html, status, class: classProp, className, ...rest } = Astro.props;
+const classes = [listItemClassNames(status), classProp, className].filter(Boolean).join(' ') || undefined;
+const hasDefaultSlot = Astro.slots.has('default');
+const iconName: IconName = status === 'accent' ? 'star' : status === 'excluded' ? 'close' : 'check';
 ---
-<li class={classes} {...rest}>{text}<slot /></li>
+{status ? (
+  <li class={classes} {...rest}>
+    <Icon name={iconName} size="sm" class="eevenkoto-list__icon" />
+    {status === 'excluded' ? <span class="eevenkoto-visually-hidden">Excluded: </span> : null}
+    {hasDefaultSlot ? (
+      <span class="eevenkoto-list__item-text"><slot /></span>
+    ) : html !== undefined ? (
+      <span class="eevenkoto-list__item-text" set:html={html} />
+    ) : (
+      <span class="eevenkoto-list__item-text">{text}</span>
+    )}
+  </li>
+) : hasDefaultSlot ? (
+  <li class={classes} {...rest}>{text}<slot /></li>
+) : html !== undefined ? (
+  <li class={classes} {...rest} set:html={html} />
+) : (
+  <li class={classes} {...rest}>{text}</li>
+)}

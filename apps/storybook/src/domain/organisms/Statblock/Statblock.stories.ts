@@ -128,6 +128,20 @@ const meta: Meta<StatblockProps> = {
       },
     },
   },
+  argTypes: {
+    id: { control: 'text', description: 'Optional anchor `id` on outer `<article>`.' },
+    headingId: { control: 'text', description: 'Optional anchor `id` on creature name heading.' },
+    name: { control: 'text' },
+    nameHtml: {
+      control: 'text',
+      description: 'Trusted inline HTML for creature name heading (sanitized in HTML renderer).',
+    },
+    nameLevel: {
+      control: 'inline-radio',
+      options: [1, 2, 3],
+      description: 'Semantic heading level (`1` default; `2` or `3` for embedded outlines).',
+    },
+  },
   render: (args) => renderStatblock(args),
 };
 
@@ -147,13 +161,34 @@ export const EmbedNameLevel: Story = {
   name: 'Embed (nameLevel 2)',
   args: {
     ...aatelinen,
+    id: 'statblock-aatelinen',
+    headingId: 'aatelinen',
     nameLevel: 2,
   },
   parameters: {
     docs: {
       description: {
         story:
-          'When the host document already owns an H1, set `nameLevel: 2` so the creature title does not fork the outline.',
+          'When the host document already owns an H1, set `nameLevel: 2` (or `3` under an H2 subsection) so the creature title, sections (`h3`/`h4`), and run-in features (`h4`/`h5`) cascade into a contiguous outline.',
+      },
+    },
+  },
+};
+
+export const DeepEmbedWithInlineHtmlName: Story = {
+  name: 'Deep Embed (nameLevel 3 + nameHtml)',
+  args: {
+    ...aatelinen,
+    id: 'entry-aatelinen-hof',
+    headingId: 'aatelinen-hof',
+    nameHtml: 'Aatelinen <span lang="la">(Nobilis)</span>',
+    nameLevel: 3,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Demonstrates `nameLevel: 3` (`h3 → h4 → h5` contiguous outline), `id` / `headingId` deep-link anchors, and `nameHtml` inline markup.',
       },
     },
   },

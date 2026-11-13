@@ -1,0 +1,105 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: LICENSE BAR (TIER 3)
+   Legal-license edge strip. Default placement is a fixed, full-height vertical
+   stripe on the inline-end viewport edge; `--inline` renders a plain row.
+   Proprietary content signals with the accent hue, open content with primary.
+   Copy stays on neutral content tokens so the strip never depends on a
+   coloured fill for contrast; the hue lives in the thick edge border.
+   ========================================================================== */
+
+.eevenkoto-license-bar {
+  --_eevenkoto-license-bar-bg: var(
+    --eevenkoto-license-bar-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-license-bar-text: var(
+    --eevenkoto-license-bar-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-license-bar-link-color: var(
+    --eevenkoto-license-bar-link-color,
+    var(--eevenkoto-color-link-default)
+  );
+  --_eevenkoto-license-bar-edge-color: var(
+    --eevenkoto-license-bar-edge-color,
+    var(--eevenkoto-color-content-accent-strong)
+  );
+  --_eevenkoto-license-bar-edge-width: var(
+    --eevenkoto-license-bar-edge-width,
+    var(--eevenkoto-line-width-lg)
+  );
+  --_eevenkoto-license-bar-size: var(--eevenkoto-license-bar-size, 2rem);
+
+  position: fixed;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: var(--eevenkoto-z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--_eevenkoto-license-bar-size);
+  box-sizing: border-box;
+  writing-mode: vertical-rl;
+  background: var(--_eevenkoto-license-bar-bg);
+  color: var(--_eevenkoto-license-bar-text);
+  border-inline-start: var(--_eevenkoto-license-bar-edge-width) solid
+    var(--_eevenkoto-license-bar-edge-color);
+  font-size: var(--eevenkoto-font-size-caption);
+  line-height: var(--eevenkoto-line-height-body);
+  pointer-events: none;
+  user-select: none;
+}
+
+.eevenkoto-license-bar--open {
+  --eevenkoto-license-bar-edge-color: var(--eevenkoto-color-control-primary-background);
+}
+
+.eevenkoto-license-bar__entry {
+  display: none;
+  white-space: nowrap;
+}
+
+.eevenkoto-license-bar__entry--active {
+  display: inline-block;
+}
+
+.eevenkoto-license-bar a {
+  color: var(--_eevenkoto-license-bar-link-color);
+  text-decoration: underline;
+  pointer-events: auto;
+}
+
+.eevenkoto-license-bar a:focus-visible {
+  outline: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+.eevenkoto-license-bar--inline {
+  position: static;
+  inset: auto;
+  inline-size: auto;
+  writing-mode: horizontal-tb;
+  justify-content: flex-start;
+  pointer-events: auto;
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
+  border-inline-start-width: var(--eevenkoto-line-width-lg);
+  user-select: auto;
+}
+
+@media (max-width: 48rem) {
+  .eevenkoto-license-bar:not(.eevenkoto-license-bar--inline) {
+    --eevenkoto-license-bar-size: 1.4rem;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-license-bar {
+    border-inline-start-color: CanvasText;
+  }
+}
+
+@media print {
+  .eevenkoto-license-bar:not(.eevenkoto-license-bar--inline) {
+    display: none !important;
+  }
+}

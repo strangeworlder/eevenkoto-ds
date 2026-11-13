@@ -46,3 +46,14 @@
 .eevenkoto-caption--primary {
   --eevenkoto-caption-color: var(--eevenkoto-color-content-primary);
 }
+
+.eevenkoto-caption--accent {
+  --eevenkoto-caption-color: var(--eevenkoto-color-content-accent-strong);
+}
+
+.eevenkoto-caption--eyebrow {
+  --eevenkoto-caption-font-weight: var(--eevenkoto-font-weight-bold);
+
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}

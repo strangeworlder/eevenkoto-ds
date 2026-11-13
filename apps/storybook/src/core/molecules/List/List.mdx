@@ -83,10 +83,13 @@ Use List for unordered or ordered content lists in reading layouts. Prefer Prope
 | --- | --- | --- |
 | `unordered` | `ul` | `disc` (default) |
 | `ordered` | `ol` | `decimal` |
+| `checklist` | `ul` | Status `Icon` (`included` → `check`, `accent` → `star`, `excluded` → `close` + strikethrough + SR `"Excluded: "` prefix) |
 
 Tag inference: `:where(ol).eevenkoto-list` and bare `ol` under Prose are ordered without requiring `--ordered`.
 
 <Canvas of={ListStories.Ordered} />
+
+<Canvas of={ListStories.Checklist} />
 
 ### size
 
@@ -114,19 +117,25 @@ Tag inference: `:where(ol).eevenkoto-list` and bare `ol` under Prose are ordered
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `items` | `ListItemProps[]` | — | Rows to render. |
-| `variant` | `'unordered' \| 'ordered'` | `unordered` | List kind / element. |
+| `variant` | `'unordered' \| 'ordered' \| 'checklist'` | `unordered` | List kind / element. |
 | `size` | `'sm' \| 'md' \| 'lg'` | `md` | Body type size. |
 | `tone` | `'primary' \| 'secondary'` | `primary` | Content color. |
 | `text` (item) | `string` | — | Item copy. |
+| `html` (item) | `string` | — | Trusted pre-rendered inline HTML (takes precedence over `text`). |
+| `status` (item) | `'included' \| 'accent' \| 'excluded'` | `'included'` (in checklist) | Checklist row status icon and treatment. |
 
 ```ts
+export type ListItemStatus = 'included' | 'accent' | 'excluded';
+
 export interface ListItemProps {
-  text: string;
+  text?: string;
+  html?: string;
+  status?: ListItemStatus;
 }
 
 export interface ListProps {
   items: ListItemProps[];
-  variant?: 'unordered' | 'ordered';
+  variant?: 'unordered' | 'ordered' | 'checklist';
   size?: 'sm' | 'md' | 'lg';
   tone?: 'primary' | 'secondary';
 }

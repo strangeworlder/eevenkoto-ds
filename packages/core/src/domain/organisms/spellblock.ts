@@ -3,14 +3,20 @@ import type { PropertyItem } from '../../core/atoms/property';
 import type { StatblockFeatureProps } from '../molecules/statblockFeature';
 
 /** Heading levels allowed for the spell name (embed-safe). */
-export type SpellblockNameLevel = Extract<HeadingLevel, 1 | 2>;
+export type SpellblockNameLevel = Extract<HeadingLevel, 1 | 2 | 3>;
 
 export interface SpellblockProps {
+  /** Optional anchor `id` applied to the outer `<article>`. */
+  id?: string;
+  /** Optional anchor `id` applied to the spell name heading. */
+  headingId?: string;
   /** Spell name. */
   name: string;
+  /** Trusted inline HTML for the spell name heading (sanitized in HTML renderer). Takes precedence over `name`. */
+  nameHtml?: string;
   /**
    * Semantic heading level for `name`. Default `1` for a dedicated entry page.
-   * Use `2` when the host document already owns an H1.
+   * Use `2` or `3` when embedded inside a host document outline.
    */
   nameLevel?: SpellblockNameLevel;
   /** Italic level / school line on the title plate. Ritual tags belong here. */

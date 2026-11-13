@@ -85,6 +85,22 @@ const meta: Meta<SpellblockProps> = {
       },
     },
   },
+  argTypes: {
+    id: { control: 'text', description: 'Optional anchor `id` on outer `<article>`.' },
+    headingId: { control: 'text', description: 'Optional anchor `id` on spell name heading.' },
+    name: { control: 'text' },
+    nameHtml: {
+      control: 'text',
+      description: 'Trusted inline HTML for spell name heading (sanitized in HTML renderer).',
+    },
+    nameLevel: {
+      control: 'inline-radio',
+      options: [1, 2, 3],
+      description: 'Semantic heading level (`1` default; `2` or `3` for embedded outlines).',
+    },
+    deck: { control: 'boolean' },
+    lang: { control: 'text' },
+  },
   render: (args) => renderSpellblock(args),
 };
 
@@ -140,13 +156,34 @@ export const EmbedNameLevel: Story = {
   name: 'Embed (nameLevel 2)',
   args: {
     ...aavevalo,
+    id: 'spell-aavevalo',
+    headingId: 'aavevalo',
     nameLevel: 2,
   },
   parameters: {
     docs: {
       description: {
         story:
-          'When the host document already owns an H1, set `nameLevel: 2` so the spell title does not fork the outline.',
+          'When the host document already owns an H1, set `nameLevel: 2` (or `3` under an H2 subsection) so the spell title and scaling run-ins (`h3` / `h4`) maintain a contiguous outline.',
+      },
+    },
+  },
+};
+
+export const DeepEmbedWithInlineHtmlName: Story = {
+  name: 'Deep Embed (nameLevel 3 + nameHtml)',
+  args: {
+    ...elainystava,
+    id: 'spell-elainystava',
+    headingId: 'elainystava-heading',
+    nameHtml: 'Eläinystävä <em>(Rituaali)</em>',
+    nameLevel: 3,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Demonstrates `nameLevel: 3` (`h3 → h4` scaling run-in), `id` / `headingId` anchors, and `nameHtml` inline markup.',
       },
     },
   },

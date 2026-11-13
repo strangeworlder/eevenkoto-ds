@@ -1,16 +1,39 @@
 import {
   tableClassNames,
   tableColClassNames,
+  type TableCellInput,
+  type TableCellObject,
   type TableColumn,
   type TableProps,
+  type TableRowInput,
+  type TableRowObject,
   type TableStripe,
   type TableVariant,
 } from '@eevenkoto/core';
 import { escapeHtml } from '../../../utils/html';
-import { renderTableCell } from '../../atoms/table-cell/renderTableCell';
+import {
+  mergeTableClass,
+  renderTableCell,
+  serializeTableAttributes,
+} from '../../atoms/table-cell/renderTableCell';
 import template from './Table.html';
 
-export type { TableColumn, TableProps, TableStripe, TableVariant };
+export type {
+  TableCellInput,
+  TableCellObject,
+  TableColumn,
+  TableProps,
+  TableRowInput,
+  TableRowObject,
+  TableStripe,
+  TableVariant,
+};
+
+const isRowObject = (row: TableRowInput): row is TableRowObject =>
+  !Array.isArray(row) && typeof row === 'object' && row !== null && Array.isArray(row.cells);
+
+const isCellObject = (cell: TableCellInput): cell is TableCellObject =>
+  typeof cell === 'object' && cell !== null;
 
 export const renderTable = (args: TableProps): string => {
   const variant = args.variant ?? 'default';
@@ -48,25 +71,73 @@ export const renderTable = (args: TableProps): string => {
 
   const thead = columns.length > 0 ? `<thead><tr>${headCells}</tr></thead>` : '';
 
+  const colRowSpans: number[] = [];
+
   const bodyRows = rows
     .map((row) => {
-      const cells = columns
-        .map((col, index) => {
-          const kind = col.kind ?? 'text';
-          const text = row[index] ?? '';
+      const rowCells = isRowObject(row) ? row.cells : row;
+      const rowAttrs = isRowObject(row) ? row.attributes : undefined;
+      const trClass = mergeTableClass('', rowAttrs);
+      const trClassAttr = trClass ? ` class="${trClass}"` : '';
+      const trExtraAttrs = serializeTableAttributes(rowAttrs, true);
+
+      let colCursor = 0;
+      const advancePastSpannedCols = () => {
+        while ((colRowSpans[colCursor] ?? 0) > 0) {
+          colRowSpans[colCursor] -= 1;
+          colCursor += 1;
+        }
+      };
+
+      const cells = rowCells
+        .map((cell) => {
+          advancePastSpannedCols();
+          const col = columns[colCursor];
+
+          if (isCellObject(cell)) {
+            const colSpan = cell.colSpan && cell.colSpan > 0 ? cell.colSpan : 1;
+            const rowSpan = cell.rowSpan && cell.rowSpan > 1 ? cell.rowSpan : 1;
+            if (rowSpan > 1) {
+              for (let s = 0; s < colSpan; s += 1) {
+                colRowSpans[colCursor + s] = rowSpan - 1;
+              }
+            }
+            const kind = cell.kind ?? col?.kind ?? 'text';
+            colCursor += colSpan;
+
+            return renderTableCell({
+              text: cell.text,
+              html: cell.html,
+              kind,
+              inTable: true,
+              header: Boolean(cell.header),
+              scope: cell.scope,
+              colSpan: cell.colSpan,
+              rowSpan: cell.rowSpan,
+              attributes: cell.attributes,
+            });
+          }
+
+          const colKind = col?.kind ?? 'text';
           const asRowHeader =
-            variant === 'pair' && (kind === 'index' || index === 0) && index === 0;
+            variant === 'pair' && (colKind === 'index' || colCursor === 0) && colCursor === 0;
+          colCursor += 1;
 
           return renderTableCell({
-            text,
-            kind: asRowHeader ? 'index' : kind,
+            text: cell,
+            kind: asRowHeader ? 'index' : colKind,
             inTable: true,
             header: asRowHeader,
             scope: asRowHeader ? 'row' : undefined,
           });
         })
         .join('');
-      return `<tr>${cells}</tr>`;
+
+      for (let c = colCursor; c < colRowSpans.length; c += 1) {
+        if (colRowSpans[c] > 0) colRowSpans[c] -= 1;
+      }
+
+      return `<tr${trClassAttr}${trExtraAttrs}>${cells}</tr>`;
     })
     .join('');
 

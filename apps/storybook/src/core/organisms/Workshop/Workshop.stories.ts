@@ -1,8 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import '@eevenkoto/css/workshop.css';
+import '@eevenkoto/css/button.css';
+import '@eevenkoto/css/badge.css';
 import '@eevenkoto/css/card.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/caption.css';
 import '@eevenkoto/css/field.css';
 import '@eevenkoto/css/input.css';
 import '@eevenkoto/css/select.css';
@@ -10,6 +13,8 @@ import '@eevenkoto/css/stepper.css';
 import '@eevenkoto/css/segmented-control.css';
 import {
   renderWorkshop,
+  renderButton,
+  renderBadge,
   renderField,
   renderInput,
   renderSelect,
@@ -69,19 +74,39 @@ const meta: Meta<WorkshopProps> = {
     docs: {
       description: {
         component:
-          'Generalized 2-column workbench layout organism (header bar, control groups, and sticky live preview column) shared across interactive generators and builders.',
+          'Generalized workbench and generator layout organism (`split` 2-column workbench or `inline` prose-width generator) with structured header lockup, control groups, preview toolbar, live preview region, and footer tray.',
       },
     },
   },
   argTypes: {
     label: { control: 'text', description: 'Optional accessible region label.' },
+    layout: {
+      control: 'inline-radio',
+      options: ['split', 'inline'],
+      description: 'Chassis geometry: 2-column workbench (`split`) or single-column (`inline`).',
+    },
+    sticky: {
+      control: 'inline-radio',
+      options: ['preview', 'controls', 'none'],
+      description: 'Sticky column behavior.',
+    },
+    icon: { control: 'text', description: 'Optional leading glyph in structured header lockup.' },
+    title: { control: 'text', description: 'Structured header title.' },
+    titleLevel: {
+      control: 'inline-radio',
+      options: [2, 3],
+      description: 'Semantic heading level for `title`.',
+    },
+    subtitle: { control: 'text', description: 'Optional muted subtitle below `title`.' },
     controlsWidth: {
       control: 'text',
       description: 'CSS Grid track override for `--eevenkoto-workshop-controls-width`.',
     },
     header: { control: 'text' },
     controls: { control: 'text' },
+    toolbar: { control: 'text' },
     preview: { control: 'text' },
+    footer: { control: 'text' },
   },
   args: {
     label: 'Encounter builder',
@@ -100,5 +125,57 @@ export const Default: Story = {};
 export const EqualColumns: Story = {
   args: {
     controlsWidth: 'minmax(0, 1fr)',
+  },
+};
+
+export const InlineGenerator: Story = {
+  args: {
+    label: 'Tavern rumor roller',
+    layout: 'inline',
+    icon: 'dice',
+    title: 'Tavern Rumor Generator',
+    subtitle: 'Roll a quick hook for the evening watch without leaving the chapter prose.',
+    header: renderButton({
+      label: 'Reroll d20',
+      variant: 'secondary',
+      size: 'sm',
+      icon: 'reroll',
+    }),
+    controls: `<div class="eevenkoto-workshop__control-group">${renderField({
+      htmlFor: 'rumor-region',
+      label: 'Region table',
+      control: renderSelect({
+        id: 'rumor-region',
+        fullWidth: true,
+        options: [
+          { value: 'fen', label: 'Sunken Fenlands (1d20)' },
+          { value: 'spire', label: 'Glass Spire Ward (1d20)' },
+        ],
+      }),
+    })}</div>`,
+    preview: renderCard({
+      body: '<strong>14 — The Silent Ferryman:</strong> Lanterns were spotted crossing the reedmarsh after midnight, though the barge sank three winters ago.',
+    }),
+  },
+};
+
+export const WithToolbarAndFooter: Story = {
+  args: {
+    label: 'Encounter workbench with toolbar and footer',
+    icon: 'swords',
+    title: 'Encounter Workbench',
+    subtitle: 'Balance XP budgets and export ready-to-run rosters.',
+    header: defaultHeader,
+    controls: defaultControls,
+    toolbar: `${renderBadge({ label: '1,200 / 1,400 XP · Moderate', intent: 'info' })}${renderButton({
+      label: 'Copy roster',
+      variant: 'secondary',
+      size: 'sm',
+      icon: 'copy',
+    })}`,
+    preview: defaultPreview,
+    footer: `<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem"><span class="eevenkoto-workshop__subgroup-title">Quick presets</span><div>${renderButton(
+      { label: 'Roadside Ambush', variant: 'ghost', size: 'sm' },
+    )} ${renderButton({ label: 'Bridge Toll', variant: 'ghost', size: 'sm' })}</div></div>`,
   },
 };

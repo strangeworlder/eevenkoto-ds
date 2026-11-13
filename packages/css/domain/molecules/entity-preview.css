@@ -1,0 +1,36 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: ENTITY PREVIEW (TIER 3)
+   TooltipCard specialised for referenced entities (spells, creatures, items…).
+   Adds a kind/badge row and a "truncated" note; a Statblock or Spellblock
+   placed directly in the body renders flush so it does not double its chrome.
+   ========================================================================== */
+
+@import url('../../core/molecules/tooltip-card.css');
+@import url('../../core/atoms/badge.css');
+
+/* Wrapper for trusted `bodyHtml` in every binding; layout-transparent. */
+.eevenkoto-entity-preview__html {
+  display: contents;
+}
+
+.eevenkoto-entity-preview .eevenkoto-tooltip-card__body > :is(.eevenkoto-statblock, .eevenkoto-spellblock),
+.eevenkoto-entity-preview__html > :is(.eevenkoto-statblock, .eevenkoto-spellblock) {
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.eevenkoto-entity-preview__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  margin-block-end: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-entity-preview__truncated {
+  margin: var(--eevenkoto-space-2) 0 0;
+  font-size: var(--eevenkoto-font-size-caption);
+  font-style: italic;
+}

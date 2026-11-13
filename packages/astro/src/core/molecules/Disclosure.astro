@@ -1,0 +1,59 @@
+---
+import {
+  disclosureBodyClassNames,
+  disclosureChevronClassNames,
+  disclosureClassNames,
+  disclosureSummaryClassNames,
+  disclosureSummaryLabelClassNames,
+  disclosureSummaryLeadClassNames,
+  disclosureSummaryMetaClassNames,
+  disclosureSummaryTextClassNames,
+  type DisclosureProps,
+} from '@eevenkoto/core';
+import Icon from '../atoms/Icon.astro';
+
+export interface Props extends DisclosureProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  label,
+  summaryText,
+  variant,
+  open,
+  emphasized,
+  body,
+  bodyHtml,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [disclosureClassNames({ variant, emphasized }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<details id={id} class={classes} open={open || undefined} {...rest}>
+  <summary class={disclosureSummaryClassNames()}>
+    {Astro.slots.has('summaryLead') ? (
+      <span class={disclosureSummaryLeadClassNames()}><slot name="summaryLead" /></span>
+    ) : null}
+    <span class={disclosureSummaryLabelClassNames()}>{label}</span>
+    {summaryText ? <span class={disclosureSummaryTextClassNames()}>{summaryText}</span> : null}
+    {Astro.slots.has('summaryMeta') ? (
+      <span class={disclosureSummaryMetaClassNames()}><slot name="summaryMeta" /></span>
+    ) : null}
+    <Icon name="chevron-down" size="sm" class={disclosureChevronClassNames()} />
+  </summary>
+  <div class={disclosureBodyClassNames()}>
+    {Astro.slots.has('default') ? (
+      <slot />
+    ) : bodyHtml !== undefined ? (
+      <Fragment set:html={bodyHtml} />
+    ) : body ? (
+      <p>{body}</p>
+    ) : null}
+  </div>
+</details>

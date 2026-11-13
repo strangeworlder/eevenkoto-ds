@@ -276,33 +276,53 @@
   --eevenkoto-heading-color: var(--eevenkoto-color-content-secondary);
 }
 
-/* Run-in H2 / H3 / H6: flows into the following Paragraph (eliminates orphan title lines).
-   H2 is included so entries with no named sections can keep a contiguous outline. */
-.eevenkoto-heading--2.eevenkoto-heading--run-in,
-.eevenkoto-heading--3.eevenkoto-heading--run-in,
-.eevenkoto-heading--6.eevenkoto-heading--run-in {
+/* Run-in H2–H6: flows into the following Paragraph (eliminates orphan title lines
+   and preserves contiguous heading outlines in embedded Statblocks & Spellblocks). */
+:is(
+  .eevenkoto-heading--2,
+  .eevenkoto-heading--3,
+  .eevenkoto-heading--4,
+  .eevenkoto-heading--5,
+  .eevenkoto-heading--6
+).eevenkoto-heading--run-in {
   --eevenkoto-heading-display: inline-block;
   --eevenkoto-heading-margin-block: 0;
-  /* Macro H2 chrome has no place inline. */
+  /* Macro/micro block chrome (bottom border, sunken bleed band) has no place inline. */
   --eevenkoto-heading-padding: 0;
+  --eevenkoto-heading-background: transparent;
+  --eevenkoto-heading-radius: 0;
   --eevenkoto-heading-border-block-end: none;
-  margin-inline-end: var(--eevenkoto-heading-run-in-gap, 0.35em);
+  margin-inline: 0 var(--eevenkoto-heading-run-in-gap, 0.35em);
+  width: auto;
 }
 
-.eevenkoto-heading--2.eevenkoto-heading--run-in::after,
-.eevenkoto-heading--3.eevenkoto-heading--run-in::after,
-.eevenkoto-heading--6.eevenkoto-heading--run-in::after {
+:is(
+  .eevenkoto-heading--2,
+  .eevenkoto-heading--3,
+  .eevenkoto-heading--4,
+  .eevenkoto-heading--5,
+  .eevenkoto-heading--6
+).eevenkoto-heading--run-in::after {
   content: var(--eevenkoto-heading-run-in-suffix, ". ");
   font-style: inherit;
   font-weight: inherit;
 }
 
-.eevenkoto-heading--2.eevenkoto-heading--run-in + .eevenkoto-paragraph,
-.eevenkoto-heading--3.eevenkoto-heading--run-in + .eevenkoto-paragraph,
-.eevenkoto-heading--6.eevenkoto-heading--run-in + .eevenkoto-paragraph,
-.eevenkoto-prose .eevenkoto-heading--2.eevenkoto-heading--run-in + :where(p),
-.eevenkoto-prose .eevenkoto-heading--3.eevenkoto-heading--run-in + :where(p),
-.eevenkoto-prose .eevenkoto-heading--6.eevenkoto-heading--run-in + :where(p) {
+:is(
+  .eevenkoto-heading--2,
+  .eevenkoto-heading--3,
+  .eevenkoto-heading--4,
+  .eevenkoto-heading--5,
+  .eevenkoto-heading--6
+).eevenkoto-heading--run-in + .eevenkoto-paragraph,
+.eevenkoto-prose
+  :is(
+    .eevenkoto-heading--2,
+    .eevenkoto-heading--3,
+    .eevenkoto-heading--4,
+    .eevenkoto-heading--5,
+    .eevenkoto-heading--6
+  ).eevenkoto-heading--run-in + :where(p) {
   display: inline;
   margin-block-start: 0;
 }

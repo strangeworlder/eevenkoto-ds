@@ -1,0 +1,74 @@
+---
+import { tableOfContentsClassNames, type TableOfContentsProps } from '@eevenkoto/core';
+import Icon from '../atoms/Icon.astro';
+
+export interface Props extends TableOfContentsProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  label = 'Table of contents',
+  groups,
+  variant = 'auto',
+  toggleLabel = 'On this page',
+  open,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [tableOfContentsClassNames({ variant }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<nav id={id} class={classes} aria-label={label} {...rest}>
+  {variant !== 'collapsible' ? (
+    <div class="eevenkoto-toc__rail">
+      <p class="eevenkoto-toc__heading">{toggleLabel}</p>
+      {groups.map((group) => (
+        <div class="eevenkoto-toc__group" id={group.id}>
+          {group.label ? <p class="eevenkoto-toc__group-label">{group.label}</p> : null}
+          <ul class="eevenkoto-toc__list">
+            {group.items.map((item) => (
+              <li>
+                <a
+                  class="eevenkoto-toc__link"
+                  href={item.href}
+                  data-toc-target={item.id}
+                  aria-current={item.current ? 'location' : undefined}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  ) : null}
+  {variant !== 'rail' ? (
+    <details class="eevenkoto-toc__disclosure" open={open || undefined}>
+      <summary class="eevenkoto-toc__summary">
+        <span class="eevenkoto-toc__toggle-label">{toggleLabel}</span>
+        <Icon name="chevron-down" size="sm" />
+      </summary>
+      <div class="eevenkoto-toc__panel">
+        {groups.map((group) => (
+          <div class="eevenkoto-toc__group" id={group.id}>
+            {group.label ? <p class="eevenkoto-toc__group-label">{group.label}</p> : null}
+            <ul class="eevenkoto-toc__list">
+              {group.items.map((item) => (
+                <li>
+                  <a
+                    class="eevenkoto-toc__link"
+                    href={item.href}
+                    data-toc-target={item.id}
+                    aria-current={item.current ? 'location' : undefined}>{item.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </details>
+  ) : null}
+</nav>

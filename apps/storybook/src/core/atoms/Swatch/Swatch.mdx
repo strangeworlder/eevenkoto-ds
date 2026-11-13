@@ -1,0 +1,136 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SwatchStories from './Swatch.stories';
+
+export const Do = ({ children, caption, label = 'Do' }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--do">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const Dont = ({ children, caption, label = "Don't" }) => (
+  <aside className="eevenkoto-docs-callout eevenkoto-docs-callout--dont">
+    <strong className="eevenkoto-docs-callout__label">{label}</strong>
+    <div className="eevenkoto-docs-callout__body">{children}</div>
+    {caption ? <p className="eevenkoto-docs-callout__caption">{caption}</p> : null}
+  </aside>
+);
+
+export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaption }) => (
+  <div className="eevenkoto-docs-dodont">
+    <Do caption={doCaption}>{doContent}</Do>
+    <Dont caption={dontCaption}>{dontContent}</Dont>
+  </div>
+);
+
+<Meta of={SwatchStories} />
+
+# Swatch
+
+A **color sample** atom for arbitrary data pigments — heraldry tinctures, dye swatches, character token colors, or filter chips. Host alone renders **md** (`1.6rem`) + **circle** (`--eevenkoto-radius-full`) with a `--eevenkoto-color-boundary-strong` hairline so light and dark fills hold their edge on every surface.
+
+<Canvas of={SwatchStories.Default} />
+
+```html
+<span
+  class="eevenkoto-swatch eevenkoto-swatch--md eevenkoto-swatch--circle"
+  style="--eevenkoto-swatch-color: #2c7a7b"
+  role="img"
+  aria-label="Myrskynvihreä"
+></span>
+```
+
+### Playground
+
+<Controls of={SwatchStories.Default} />
+
+## Why to use
+
+Product data often carries user-chosen or world-authored colors (faction banners, dye vials, map markers) that do not belong to the semantic feedback palette. Swatch encapsulates the inline `--eevenkoto-swatch-color` bridge, hairline contrast boundary, `forced-colors: active` preservation (`forced-color-adjust: none`), and `print-color-adjust: exact` in one shared atom.
+
+## When to use
+
+<DoDont
+  do={
+    <ul>
+      <li>
+        Render data-driven pigments (heraldry, equipment dyes, map layers) with a hairline boundary.
+      </li>
+      <li>
+        Pass <code>label</code> when the swatch stands alone; omit <code>label</code> when paired
+        next to visible text (decorative <code>aria-hidden="true"</code>) or use{' '}
+        <a href="?path=/docs/core-atoms-chip--docs">Chip</a> <code>swatchColor</code>.
+      </li>
+      <li>
+        Use <code>shape="rounded"</code> when matching square/tile controls, or keep the default{' '}
+        <code>circle</code> alongside inline labels.
+      </li>
+    </ul>
+  }
+  dont={
+    <ul>
+      <li>
+        Don’t use Swatch for workflow readiness or status — use{' '}
+        <a href="?path=/docs/core-atoms-statusdot--docs">StatusDot</a> or{' '}
+        <a href="?path=/docs/core-atoms-badge--docs">Badge</a>.
+      </li>
+      <li>
+        Don’t make Swatch an interactive button — use{' '}
+        <a href="?path=/docs/core-atoms-chip--docs">Chip</a> with <code>swatchColor</code> when the
+        user selects or toggles a color filter.
+      </li>
+      <li>Don’t pass a duplicate <code>label</code> when the color name is already printed next to it.</li>
+    </ul>
+  }
+/>
+
+## Sizes & shapes
+
+<Canvas of={SwatchStories.Sizes} />
+
+<Canvas of={SwatchStories.Shapes} />
+
+## Light and dark pigments
+
+Because `--eevenkoto-swatch-border-color` defaults to `--eevenkoto-color-boundary-strong`, pale linen swatches stay visible on light parchment and charcoal swatches stay visible on dark obsidian.
+
+<Canvas of={SwatchStories.LightAndDarkSwatches} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `color` | `string` | — | CSS color value bound to `--eevenkoto-swatch-color`. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Sample box size (`1.2rem` / `1.6rem` / `2.4rem`). |
+| `shape` | `'circle' \| 'rounded'` | `'circle'` | Circle (`radius-full`) or rounded square (`radius-sm`). |
+| `label` | `string` | — | Accessible name (`role="img"` + `aria-label`). Omit when decorative. |
+
+<ArgTypes of={SwatchStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/swatch.css';
+import { renderSwatch } from '@eevenkoto/html';
+
+renderSwatch({ color: '#2c7a7b', label: 'Myrskynvihreä' });
+```
+
+```tsx
+import { Swatch } from '@eevenkoto/react';
+
+<Swatch color="#2c7a7b" label="Myrskynvihreä" />
+```
+
+```vue
+<script setup>
+import { Swatch } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Swatch color="#2c7a7b" label="Myrskynvihreä" />
+</template>
+```
+
+Related: [Chip](?path=/docs/core-atoms-chip--docs) · [StatusDot](?path=/docs/core-atoms-statusdot--docs) · [Badge](?path=/docs/core-atoms-badge--docs)

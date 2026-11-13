@@ -17,10 +17,13 @@ export type SpellblockFeatureNode = {
   name: string;
   description?: ReactNode;
   descriptionHtml?: string;
+  level?: StatblockFeatureLevel;
 };
 
 export type SpellblockComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children'> & {
+  headingId?: string;
   name: string;
+  nameHtml?: string;
   nameLevel?: SpellblockNameLevel;
   typeLine?: string;
   typeLineHtml?: string;
@@ -34,7 +37,10 @@ export type SpellblockComponentProps = Omit<HTMLAttributes<HTMLElement>, 'childr
 };
 
 export const Spellblock = ({
+  id,
+  headingId,
   name,
+  nameHtml,
   nameLevel = 1,
   typeLine,
   typeLineHtml,
@@ -49,16 +55,28 @@ export const Spellblock = ({
   ...rest
 }: SpellblockComponentProps): ReactElement => {
   const hostClasses = [spellblockClassNames({ deck }), className].filter(Boolean).join(' ');
-  const level: SpellblockNameLevel = nameLevel === 2 ? 2 : 1;
-  const NameTag = level === 2 ? 'h2' : 'h1';
+  const level: SpellblockNameLevel =
+    nameLevel === 3 ? 3 : nameLevel === 2 ? 2 : 1;
+  const NameTag = level === 3 ? 'h3' : level === 2 ? 'h2' : 'h1';
   // Spells have no section H2, so scaling runs in one level below the name.
-  const featureLevel: StatblockFeatureLevel = level === 2 ? 3 : 2;
+  const featureLevel: StatblockFeatureLevel =
+    level === 3 ? 4 : level === 2 ? 3 : 2;
   const hasBody = Boolean(paragraphsHtml?.length || paragraphs?.length || bodyHtml);
 
   return (
-    <article className={hostClasses} {...rest}>
+    <article id={id} className={hostClasses} {...rest}>
       <div className="eevenkoto-spellblock__plate">
-        <NameTag className={headingClassNames({ level })}>{name}</NameTag>
+        {nameHtml ? (
+          <NameTag
+            id={headingId}
+            className={headingClassNames({ level })}
+            dangerouslySetInnerHTML={{ __html: nameHtml }}
+          />
+        ) : (
+          <NameTag id={headingId} className={headingClassNames({ level })}>
+            {name}
+          </NameTag>
+        )}
         {typeLineHtml ? (
           <p
             className={`${captionClassNames()} eevenkoto-spellblock__type`}
@@ -100,7 +118,7 @@ export const Spellblock = ({
               name={feature.name}
               description={feature.description}
               descriptionHtml={feature.descriptionHtml}
-              level={featureLevel}
+              level={feature.level ?? featureLevel}
             />
           ))}
         </div>

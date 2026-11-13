@@ -194,3 +194,18 @@ Public CSS import paths stay flat (`@eevenkoto/css/ability-score.css`) even when
 | `primitivetokens.css` (legacy filename) | `primitive-tokens.css` |
 | PropertyList under `core/atoms/` | `core/molecules/` |
 | AbilityScoreGroup under `domain/molecules/` | `domain/organisms/` |
+
+## Content license, readiness and gating (0.12)
+
+| Term | Meaning | Prop / type |
+| --- | --- | --- |
+| **ContentLicense** | Which legal mode a text is read under | `'proprietary' \| 'open'` (never product names such as `teksti` / `srd`) |
+| **LicenseBar** | Strip that shows the active license and legal links | `LicenseBarProps` (`activeLicense`, `placement`, `entries`) |
+| **readiness** | Maturity of content (ready / preview / draft) | `readinessLabel` + `readinessIntent: BadgeIntent` |
+| **ContentGate** | Page that explains why a document is locked | `ContentGateProps` (`currentTierLabel`, `requiredTierLabel`, `statusMessage`) |
+| **tier** | A membership level | `*TierLabel`; `TierCard` for comparison |
+| **checklist** | List variant with included / accent / excluded items | `List variant="checklist"`, `ListItemProps.status` |
+| **details** | NPC / statblock footer PropertyList (never `traits`) | `NpcCardProps.details` |
+| **svgHtml** | Trusted inline SVG for a map | `MapFrameProps.svgHtml` |
+
+`*Html` props (`bodyHtml`, `descriptionHtml`, `captionHtml`, `nameHtml`, `valueHtml`) always accept pre-rendered inline/block HTML alongside plain strings and framework slots.

@@ -1,0 +1,77 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: READ-ALOUD BOX (TIER 3)
+   Boxed text meant to be read aloud to players. Thick accent inline-start
+   rule + optional ornament; never splits across printed pages.
+   ========================================================================== */
+
+@import url('../../core/molecules/prose.css');
+
+.eevenkoto-read-aloud-box {
+  --_eevenkoto-read-aloud-box-bg: var(
+    --eevenkoto-read-aloud-box-bg,
+    var(--eevenkoto-color-surface-subtle)
+  );
+  --_eevenkoto-read-aloud-box-text: var(
+    --eevenkoto-read-aloud-box-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-read-aloud-box-rule-color: var(
+    --eevenkoto-read-aloud-box-rule-color,
+    var(--eevenkoto-color-content-accent-strong)
+  );
+  --_eevenkoto-read-aloud-box-rule-width: var(
+    --eevenkoto-read-aloud-box-rule-width,
+    var(--eevenkoto-line-width-lg)
+  );
+  --_eevenkoto-read-aloud-box-ornament-color: var(
+    --eevenkoto-read-aloud-box-ornament-color,
+    var(--eevenkoto-color-content-accent-strong)
+  );
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--eevenkoto-space-3);
+  margin: var(--eevenkoto-space-4) 0;
+  padding: var(--eevenkoto-space-3) var(--eevenkoto-space-4);
+  background: var(--_eevenkoto-read-aloud-box-bg);
+  color: var(--_eevenkoto-read-aloud-box-text);
+  border-inline-start: var(--_eevenkoto-read-aloud-box-rule-width) solid
+    var(--_eevenkoto-read-aloud-box-rule-color);
+  border-start-end-radius: var(--eevenkoto-radius-sm);
+  border-end-end-radius: var(--eevenkoto-radius-sm);
+  font-family: var(--eevenkoto-font-serif);
+  font-style: italic;
+  box-sizing: border-box;
+}
+
+.eevenkoto-read-aloud-box__ornament {
+  flex: 0 0 auto;
+  color: var(--_eevenkoto-read-aloud-box-ornament-color);
+  font-style: normal;
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-read-aloud-box__body {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.eevenkoto-read-aloud-box__body > :first-child {
+  margin-block-start: 0;
+}
+
+.eevenkoto-read-aloud-box__body > :last-child {
+  margin-block-end: 0;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-read-aloud-box {
+    border-inline-start-color: CanvasText;
+  }
+}
+
+@media print {
+  .eevenkoto-read-aloud-box {
+    break-inside: avoid;
+  }
+}

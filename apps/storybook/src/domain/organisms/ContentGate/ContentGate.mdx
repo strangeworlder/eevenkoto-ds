@@ -1,0 +1,54 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ContentGateStories from './ContentGate.stories';
+
+<Meta of={ContentGateStories} />
+
+# ContentGate
+
+Full-page gate shown when the reader's tier cannot open a document: readiness Badge + lock, heading, copy, current-vs-required tier pill, actions, live status line and an optional dev footer.
+
+<Canvas of={ContentGateStories.Default} />
+
+<Controls of={ContentGateStories.Default} />
+
+## Why to use
+
+Gating a document needs a consistent, accessible explanation: what is locked, why, and what to do. A live status region announces async results without relying on colour.
+
+## When to use
+
+- Use when the reader cannot access a document and no public fallback exists.
+- The status line is hidden until `statusMessage` is set.
+- Put developer-only controls in the `footer` slot.
+
+<Canvas of={ContentGateStories.WithStatus} />
+
+<Canvas of={ContentGateStories.WithDevFooter} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| readinessLabel / readinessIntent | `string` / `BadgeIntent` | — | Readiness badge (required). |
+| lockLabel | `string` | — | Accessible label for the lock icon. |
+| title / titleLevel | `string` / `1 \| 2 \| 3` | — / `2` | Heading. |
+| description / descriptionHtml | `string` | — | Explanatory copy (or default slot). |
+| currentTierLabel / requiredTierLabel | `string` | — | Comparison pill values (required). |
+| currentTierPrefix / requiredTierPrefix | `string` | — | Localised prefixes. |
+| statusMessage | `string` | — | Live-region text; hidden when empty. |
+| actions / footer | slots | — | Buttons; dev-only footer. |
+
+<ArgTypes of={ContentGateStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/content-gate.css';
+import { renderContentGate } from '@eevenkoto/html';
+```
+
+```tsx
+import { ContentGate } from '@eevenkoto/react';
+
+<ContentGate readinessLabel="Ennakko" readinessIntent="caution" title="Lukittu" currentTierLabel="Seuraaja" requiredTierLabel="Kannattaja" actions={<LinkButton href="#join" label="Liity" />} />
+```

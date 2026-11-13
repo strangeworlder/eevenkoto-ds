@@ -1,0 +1,53 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: DOCUMENT HEADER (TIER 3)
+   Page-title row: title slot + readiness Badge + optional content-license
+   toggle (SegmentedControl). `--open` (or any ancestor carrying
+   `[data-content-license="open"]`) recolours the H1 underline to primary.
+   ========================================================================== */
+
+@import url('../../core/atoms/badge.css');
+@import url('../../core/atoms/heading.css');
+@import url('../../core/molecules/segmented-control.css');
+
+.eevenkoto-document-header {
+  --_eevenkoto-document-header-gap: var(
+    --eevenkoto-document-header-gap,
+    var(--eevenkoto-space-3)
+  );
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--_eevenkoto-document-header-gap);
+  min-inline-size: 0;
+}
+
+.eevenkoto-document-header__title {
+  flex: 1 1 20rem;
+  min-inline-size: 0;
+}
+
+.eevenkoto-document-header__title > :is(h1, h2, h3, .eevenkoto-heading) {
+  margin-block: 0;
+}
+
+.eevenkoto-document-header__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--eevenkoto-space-3);
+}
+
+/* Open-license accent: heading underline follows the active license. */
+.eevenkoto-document-header--open :is(:where(h1).eevenkoto-heading, .eevenkoto-prose :where(h1)),
+[data-content-license='open'] :is(:where(h1).eevenkoto-heading, .eevenkoto-prose :where(h1)) {
+  --eevenkoto-heading-border-block-end: var(--eevenkoto-line-width-lg) solid
+    var(--eevenkoto-color-control-primary-background);
+}
+
+@media print {
+  .eevenkoto-document-header__license-toggle {
+    display: none;
+  }
+}

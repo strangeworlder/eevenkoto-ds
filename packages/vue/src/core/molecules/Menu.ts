@@ -114,7 +114,7 @@ const renderEntries = (
     }
 
     const itemClass = mergeClass(
-      menuItemClassNames({ selected: entry.selected, locked: entry.locked }),
+      menuItemClassNames({ selected: entry.selected, locked: entry.locked, tone: entry.tone }),
       entry.attributes,
     );
     const lockedNoHref = Boolean(entry.locked && !entry.href);

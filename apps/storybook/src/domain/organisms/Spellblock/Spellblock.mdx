@@ -119,7 +119,7 @@ Long compounds (`Loitsimisviive`, `Taikakonstin voimistuminen`) are the binding 
 
 ## Accessibility
 
-- Outline is **H1 → H2 run-in**. Spells have no named sections in 5.5e, so there is no section H2 above the scaling entry — which means the scaling entry itself has to be the H2, or the card would skip from H1 to H3. The bands stay visual, not structural. Use `nameLevel: 2` when the host page already owns an H1; the scaling run-in follows to H3 automatically.
+- Outline is **H1 → H2 run-in**. Spells have no named sections in 5.5e, so there is no section H2 above the scaling entry — which means the scaling entry itself has to be the H2, or the card would skip from H1 to H3. The bands stay visual, not structural. Use `nameLevel: 2` or `nameLevel: 3` when embedded in a host document outline; the scaling run-in follows to H3 or H4 automatically.
 - Casting properties are a real `<dl>` with `dt` / `dd` pairs via PropertyList.
 - Band separation never relies on color alone — each band carries a border and a padding change.
 - `forced-colors`: grain and shadow drop out, borders map to `CanvasText` / `ButtonText`.
@@ -129,24 +129,33 @@ Long compounds (`Loitsimisviive`, `Taikakonstin voimistuminen`) are the binding 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | — | Optional anchor `id` applied to the outer `<article>`. |
+| `headingId` | `string` | — | Optional anchor `id` applied to the spell name heading. |
 | `name` | `string` | — | Spell name. |
-| `nameLevel` | `1 \| 2` | `1` | Heading level for the name (use `2` in embeds). |
+| `nameHtml` | `string` | — | Trusted inline HTML for the spell name heading (sanitized in HTML renderer). Takes precedence over `name`. |
+| `nameLevel` | `1 \| 2 \| 3` | `1` | Heading level for the name (`2` or `3` in embeds; scaling features cascade to `nameLevel + 1`). |
 | `typeLine` | `string` | — | Italic level / school line on the plate. |
 | `classes` | `PropertyItem[]` | — | Optional catalog rail under the type line. |
 | `properties` | `PropertyItem[]` | — | Casting time, range, components, duration. |
 | `paragraphs` | `string[]` | — | Effect prose, one entry per paragraph. |
-| `features` | `StatblockFeatureProps[]` | — | Scaling run-ins. The level is derived from `nameLevel`; do not set it per item. |
+| `features` | `StatblockFeatureProps[]` | — | Scaling run-ins. Default `level` cascades from `nameLevel` (`2`, `3`, or `4`). |
 | `deck` | `boolean` | `false` | Compact card for grids. |
 | `lang` | `string` | — | BCP 47 tag on the article; enables `hyphens: auto`. |
 
 ```ts
 export interface SpellblockProps {
+  id?: string;
+  headingId?: string;
   name: string;
-  nameLevel?: 1 | 2;
+  nameHtml?: string;
+  nameLevel?: 1 | 2 | 3;
   typeLine?: string;
+  typeLineHtml?: string;
   classes?: PropertyItem[];
   properties: PropertyItem[];
   paragraphs?: string[];
+  paragraphsHtml?: string[];
+  bodyHtml?: string;
   features?: StatblockFeatureProps[];
   deck?: boolean;
   lang?: string;

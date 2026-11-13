@@ -1,3 +1,6 @@
+@import url('./icon.css');
+@import url('./swatch.css');
+
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: CHIP (TIER 3)
    Interactive filter / role chip. Consumes Tier 2 `control-*` (not feedback).
@@ -23,6 +26,7 @@
   );
   --_eevenkoto-chip-pad-block: var(--eevenkoto-chip-pad-block, var(--eevenkoto-space-1));
   --_eevenkoto-chip-pad-inline: var(--eevenkoto-chip-pad-inline, var(--eevenkoto-space-2));
+  --_eevenkoto-chip-gap: var(--eevenkoto-chip-gap, var(--eevenkoto-space-2));
   --_eevenkoto-chip-radius: var(--eevenkoto-chip-radius, var(--eevenkoto-radius-sm));
   --_eevenkoto-chip-border-width: var(
     --eevenkoto-chip-border-width,
@@ -36,6 +40,7 @@
   appearance: none;
   display: inline-flex;
   align-items: center;
+  gap: var(--_eevenkoto-chip-gap);
   box-sizing: border-box;
   margin: 0;
   padding: var(--_eevenkoto-chip-pad-block) var(--_eevenkoto-chip-pad-inline);
@@ -53,6 +58,10 @@
     background-color var(--eevenkoto-duration-1) var(--eevenkoto-ease-standard),
     border-color var(--eevenkoto-duration-1) var(--eevenkoto-ease-standard),
     color var(--eevenkoto-duration-1) var(--eevenkoto-ease-standard);
+}
+
+.eevenkoto-chip__label {
+  min-width: 0;
 }
 
 .eevenkoto-chip:hover:not(:disabled):not([aria-disabled='true']):not(
@@ -89,6 +98,7 @@
   --eevenkoto-chip-font-size: var(--eevenkoto-font-size-control-sm);
   --eevenkoto-chip-pad-block: var(--eevenkoto-space-1);
   --eevenkoto-chip-pad-inline: var(--eevenkoto-space-2);
+  --eevenkoto-chip-gap: var(--eevenkoto-space-1);
 }
 
 .eevenkoto-chip--md {

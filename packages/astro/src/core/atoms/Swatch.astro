@@ -1,0 +1,29 @@
+---
+import { swatchClassNames, type SwatchProps } from '@eevenkoto/core';
+
+export interface Props extends SwatchProps {
+  style?: string | Record<string, string | number | undefined>;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { color, size, shape, label, style, class: classProp, className, ...rest } = Astro.props;
+const classes = [swatchClassNames({ size, shape }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const inlineStyle =
+  style === undefined
+    ? `--eevenkoto-swatch-color: ${color}`
+    : typeof style === 'string'
+      ? `--eevenkoto-swatch-color: ${color}; ${style}`
+      : { '--eevenkoto-swatch-color': color, ...style };
+---
+<span
+  class={classes}
+  style={inlineStyle}
+  role={label ? 'img' : undefined}
+  aria-label={label || undefined}
+  aria-hidden={label ? undefined : 'true'}
+  {...rest}
+/>

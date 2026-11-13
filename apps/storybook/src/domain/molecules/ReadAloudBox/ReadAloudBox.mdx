@@ -1,0 +1,49 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ReadAloudBoxStories from './ReadAloudBox.stories';
+
+<Meta of={ReadAloudBoxStories} />
+
+# ReadAloudBox
+
+Boxed text meant to be read aloud to players: thick accent inline-start rule, optional ornament, never split across printed pages.
+
+<Canvas of={ReadAloudBoxStories.Default} />
+
+<Controls of={ReadAloudBoxStories.Default} />
+
+## Why to use
+
+Read-aloud text is a recognisable adventure convention. A dedicated component keeps it semantically an aside and visually consistent.
+
+## When to use
+
+- Use for narration meant for players.
+- Do not use for GM-only notes — use Notice.
+
+<Canvas of={ReadAloudBoxStories.NoOrnament} />
+
+<Canvas of={ReadAloudBoxStories.RichBody} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| id | `string` | — | Element id. |
+| label | `string` | — | aria-label for the aside. |
+| ornament | `string \| false` | `'❖'` | Decorative glyph; `false` hides it. |
+| body / bodyHtml | `string` | — | Copy. |
+
+<ArgTypes of={ReadAloudBoxStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/read-aloud-box.css';
+import { renderReadAloudBox } from '@eevenkoto/html';
+```
+
+```tsx
+import { ReadAloudBox } from '@eevenkoto/react';
+
+<ReadAloudBox body="Tunkkainen ilma…" />
+```

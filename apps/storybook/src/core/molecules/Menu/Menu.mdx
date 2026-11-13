@@ -161,6 +161,12 @@ Omit `href` only when the row is an in-page command with no destination. Framewo
 
 <Canvas of={MenuStories.ActionEscapeHatch} />
 
+## Destructive action items
+
+Set `tone: 'destructive'` (or `.eevenkoto-menu__item--destructive`) on irreversible or session-ending actions such as signing out or deleting a campaign. Rows render in critical crimson ink at rest and show a subtle critical feedback wash on hover.
+
+<Canvas of={MenuStories.DestructiveItem} />
+
 ## Inside a Popover
 
 When `.eevenkoto-menu` is a direct child of `.eevenkoto-popover`, Menu automatically clears its outer plaque border, grain, and shadow via public override tokens so Popover owns the floating surface cleanly.
@@ -192,7 +198,7 @@ When `.eevenkoto-menu` is a direct child of `.eevenkoto-popover`, Menu automatic
 
 | Entry `kind` | Fields |
 | --- | --- |
-| `item` (default) | `id`, `label`, `icon?`, `href?`, `selected?`, `disabled?`, `locked?`, `lockedLabel?`, `status?`, `statusLabel?` |
+| `item` (default) | `id`, `label`, `icon?`, `tone?` (`'default' \| 'destructive'`), `href?`, `selected?`, `disabled?`, `locked?`, `lockedLabel?`, `status?`, `statusLabel?` |
 | `header` | `label` |
 | `separator` | — |
 | `group` | `id`, `label`, `icon?`, `expanded?`, `children: MenuEntry[]` |
@@ -218,6 +224,7 @@ When `.eevenkoto-menu` is a direct child of `.eevenkoto-popover`, Menu automatic
 | `eevenkoto-menu__item` | Optional row alias (descendant `a` / `button` / `summary` style automatically) |
 | `eevenkoto-menu__item--selected` | Selected row alias when `aria-current="page"` is not applicable |
 | `eevenkoto-menu__item--locked` | Gated item modifier |
+| `eevenkoto-menu__item--destructive` | Crimson destructive action modifier |
 | `eevenkoto-menu__icon` | Leading icon slot |
 | `eevenkoto-menu__item-label` | Truncating label wrapper when slots accompany text |
 | `eevenkoto-menu__lock` / `__status` | Trailing lock Icon / StatusDot slots |

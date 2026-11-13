@@ -1,0 +1,50 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as NpcCardStories from './NpcCard.stories';
+
+<Meta of={NpcCardStories} />
+
+# NpcCard
+
+Compact NPC entry: name, role, divided `details` (PropertyList) and body copy.
+
+<Canvas of={NpcCardStories.Default} />
+
+<Controls of={NpcCardStories.Default} />
+
+## Why to use
+
+NPC entries recur in adventures. A shared structure gives consistent heading levels (outline-safe) and a divided details list.
+
+## When to use
+
+- Use for single NPC entries or compose several in NpcCardGrid.
+- Use Statblock for full combat stats.
+
+<Canvas of={NpcCardStories.HeadingLevel4} />
+
+<Canvas of={NpcCardStories.NameHtml} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| name / nameHtml | `string` | — | Name; `nameHtml` is sanitised inline HTML. |
+| nameLevel | `2 \| 3 \| 4` | `3` | Heading level. |
+| role / roleHtml | `string` | — | Role line. |
+| details | `PropertyItem[]` | — | Divided PropertyList rows. |
+| body / bodyHtml | `string` | — | Copy. |
+
+<ArgTypes of={NpcCardStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/npc-card.css';
+import { renderNpcCard } from '@eevenkoto/html';
+```
+
+```tsx
+import { NpcCard } from '@eevenkoto/react';
+
+<NpcCard name="Aino Karhu" role="Kauppias" details={details} />
+```

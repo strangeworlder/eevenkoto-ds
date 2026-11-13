@@ -1,0 +1,86 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: MAP FRAME (TIER 3)
+   Figure wrapper for an inline SVG or image map with title, scale, caption.
+   ========================================================================== */
+
+.eevenkoto-map-frame {
+  --_eevenkoto-map-frame-bg: var(
+    --eevenkoto-map-frame-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-map-frame-viewport-bg: var(
+    --eevenkoto-map-frame-viewport-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-map-frame-border-color: var(
+    --eevenkoto-map-frame-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-map-frame-text: var(
+    --eevenkoto-map-frame-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-map-frame-muted: var(
+    --eevenkoto-map-frame-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
+
+  margin: var(--eevenkoto-space-4) 0;
+  padding: 0;
+  background: var(--_eevenkoto-map-frame-bg);
+  color: var(--_eevenkoto-map-frame-text);
+  border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-map-frame-border-color);
+  border-radius: var(--eevenkoto-radius-md);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.eevenkoto-map-frame__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--eevenkoto-space-2);
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
+  border-block-end: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-map-frame-border-color);
+}
+
+.eevenkoto-map-frame__title {
+  font-family: var(--eevenkoto-font-serif);
+  font-weight: var(--eevenkoto-font-weight-bold);
+}
+
+.eevenkoto-map-frame__scale {
+  color: var(--_eevenkoto-map-frame-muted);
+  font-size: var(--eevenkoto-font-size-caption);
+}
+
+.eevenkoto-map-frame__viewport {
+  display: flex;
+  justify-content: center;
+  padding: var(--eevenkoto-space-3);
+  background: var(--_eevenkoto-map-frame-viewport-bg);
+  overflow: auto;
+}
+
+.eevenkoto-map-frame__viewport :is(svg, img) {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+.eevenkoto-map-frame__caption {
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
+  color: var(--_eevenkoto-map-frame-muted);
+  font-size: var(--eevenkoto-font-size-caption);
+}
+
+@media print {
+  .eevenkoto-map-frame {
+    break-inside: avoid;
+  }
+
+  .eevenkoto-map-frame__viewport {
+    overflow: visible;
+  }
+}

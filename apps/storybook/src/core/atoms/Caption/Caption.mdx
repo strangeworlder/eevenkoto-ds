@@ -87,8 +87,18 @@ Use Caption under form fields, on cards, or beside status metadata. Prefer Parag
 | --- | --- | --- |
 | `secondary` | Yes | `--eevenkoto-color-content-tertiary` (metadata quiet) |
 | `primary` | No | `--eevenkoto-color-content-primary` |
+| `accent` | No | `--eevenkoto-color-content-accent-strong` (≥4.5:1 AA on raised & sunken surfaces) |
 
 Caption’s default “secondary” tone is **not** the same token as Paragraph `--secondary`. Paragraph secondary uses `content-secondary`; Caption secondary uses quieter `content-tertiary`.
+
+### variant
+
+| Value | Default | Treatment |
+| --- | --- | --- |
+| `default` | Yes | Regular weight, sentence case |
+| `eyebrow` | No | Tracked uppercase (`0.07em`) + bold weight (`--eevenkoto-caption-font-family` defaults to `--eevenkoto-font-sans`) |
+
+<Canvas of={CaptionStories.Eyebrow} />
 
 <Canvas of={CaptionStories.Helper} />
 

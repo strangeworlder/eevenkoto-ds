@@ -1,5 +1,7 @@
 import { chipClassNames, type ChipProps } from '@eevenkoto/core';
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactElement } from 'react';
+import { Icon } from './Icon';
+import { Swatch } from './Swatch';
 
 export type { ChipProps };
 
@@ -15,12 +17,24 @@ export const Chip = ({
   label,
   selected,
   size,
+  icon,
+  swatchColor,
   href,
   disabled,
   className,
   ...rest
 }: ChipComponentProps): ReactElement => {
   const classes = [chipClassNames({ selected, size }), className].filter(Boolean).join(' ');
+  const hasLeading = Boolean(swatchColor || icon);
+  const content = hasLeading ? (
+    <>
+      {swatchColor ? <Swatch color={swatchColor} size="sm" /> : null}
+      {icon ? <Icon name={icon} size="sm" /> : null}
+      <span className="eevenkoto-chip__label">{label}</span>
+    </>
+  ) : (
+    label
+  );
 
   if (href) {
     return (
@@ -31,7 +45,7 @@ export const Chip = ({
         aria-pressed={selected || undefined}
         {...(rest as AnchorHTMLAttributes<HTMLAnchorElement>)}
       >
-        {label}
+        {content}
       </a>
     );
   }
@@ -44,7 +58,7 @@ export const Chip = ({
       aria-pressed={selected || undefined}
       {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}
     >
-      {label}
+      {content}
     </button>
   );
 };

@@ -100,3 +100,20 @@ Put the **default surface** recipe on intent-only classes; higher-specificity co
 - Putting default hover only on `.eevenkoto-button--primary:hover` so host-alone buttons look dead
 - Bare `h1 { … }` or `button { … }` outside Prose / host compounds
 - Treating Flow as a substitute for Prose (Flow owns gaps; Prose owns bare-tag type)
+
+## 0.12 additions
+
+Every component added in 0.12 renders its documented default from the host class alone:
+
+| Host | Minimum markup | Default meaning |
+| --- | --- | --- |
+| Swatch | `<span class="eevenkoto-swatch" style="--eevenkoto-swatch-color: …">` | md circle |
+| Divider | `<hr class="eevenkoto-divider">` (or bare `hr` in Prose) | md spacing, solid |
+| ProgressBar | `<div class="eevenkoto-progress-bar">` | inline, primary, hidden until `--active` |
+| FloatingBanner | `<aside class="eevenkoto-floating-banner">` | bottom-center, hidden until `--open` |
+| Disclosure | `<details class="eevenkoto-disclosure">` | card variant |
+| TierCard | `<article class="eevenkoto-card eevenkoto-tier-card">` | neutral, not featured |
+| LicenseBar | `<aside class="eevenkoto-license-bar">` | edge stripe, proprietary |
+| ReadAloudBox / NpcCard / MapFrame / ContentGate | host class | documented default |
+
+Modifier classes (`--open`, `--featured`, `--inline`, …) are opt-in.

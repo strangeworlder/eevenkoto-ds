@@ -1,6 +1,6 @@
 # Eevenkoto design system
 
-Eevenkoto is a **TTRPG content design system with growing core chrome**. It is not a full application UI kit: Dialog, Tabs, breadcrumbs, and app-shell patterns are **not shipped**. Some Tier 2 color roles (modals, destructive controls) exist as **tokens only** so future or app-local patterns can consume stable semantics.
+Eevenkoto is a **TTRPG content design system with growing core chrome**. It is not a full application UI kit: Dialog, Tabs, breadcrumbs, and **AppShell / Sidebar** are **not shipped** (portable page chrome such as ProgressBar, FloatingBanner, AccountMenu, TableOfContents and LicenseBar is). Some Tier 2 color roles (modals, destructive controls) exist as **tokens only** so future or app-local patterns can consume stable semantics.
 
 Packages: `@eevenkoto/css` (appearance) → `@eevenkoto/core` (props + BEM classes) → `@eevenkoto/html` (reference markup) → `@eevenkoto/react` / `@eevenkoto/vue` / `@eevenkoto/astro` (thin wrappers). CSS is an **optional peer** of the bindings — import `@eevenkoto/css` yourself or markup is unstyled.
 
@@ -31,8 +31,9 @@ import '@eevenkoto/css/button.css';
 | Status | Surfaces |
 | --- | --- |
 | **Shipped** | Typography, Flow/Prose/Frame/Scroll/Image, Button/LinkButton/Icon, Badge/StatusDot/Chip/Notice/Toast, Field+Input/Select/Checkbox/Radio, CheckboxGroup/RadioGroup/Stepper, Menu, Catalog, Popover+TooltipCard, Card, table stack, Stat/Property/List, Avatar/InlineRef, Domain AbilityName + EntityRef + statblock/spellblock + equipment/workshop stack |
+| **Shipped in 0.12** | Swatch, Divider, ProgressBar, FloatingBanner, Disclosure, ChipGroup, TableOfContents, SectionHeader, TierCard, AccountMenu; Domain LicenseBar, DocumentHeader, ContentTable, EntityPreview, ReadAloudBox, NpcCard, NpcCardGrid, MapFrame, ContentGate (see [`docs/migration-0.12-frontend-gap-resolution.md`](./docs/migration-0.12-frontend-gap-resolution.md)) |
 | **Token-only** | Modal surface roles, destructive control tuples |
-| **Not planned here** | Dialog, Pager, Tabs, date pickers, app chrome |
+| **Not planned here** | Dialog, Pager, Tabs, date pickers, AppShell / Sidebar |
 
 ## Scripts
 

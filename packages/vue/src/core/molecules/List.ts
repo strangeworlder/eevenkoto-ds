@@ -33,7 +33,14 @@ export const List = defineComponent({
       return h(
         tag,
         { class: className.value },
-        props.items.map((item) => h(ListItem, { text: item.text, key: item.text })),
+        props.items.map((item, index) =>
+          h(ListItem, {
+            text: item.text,
+            html: item.html,
+            status: props.variant === 'checklist' ? (item.status ?? 'included') : item.status,
+            key: item.text ?? item.html ?? index,
+          }),
+        ),
       );
     };
   },

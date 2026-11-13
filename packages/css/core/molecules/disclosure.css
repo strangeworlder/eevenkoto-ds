@@ -1,0 +1,137 @@
+/* packages/css/core/molecules/disclosure.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: DISCLOSURE (TIER 3)
+   Native <details>/<summary>. Host alone renders the `card` variant.
+   ========================================================================== */
+
+@import url('../atoms/icon.css');
+@import url('./prose.css');
+
+.eevenkoto-disclosure {
+  --_eevenkoto-disclosure-bg: var(--eevenkoto-disclosure-bg, var(--eevenkoto-color-surface-raised));
+  --_eevenkoto-disclosure-text: var(
+    --eevenkoto-disclosure-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-disclosure-muted: var(
+    --eevenkoto-disclosure-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-disclosure-border-color: var(
+    --eevenkoto-disclosure-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-disclosure-border-width: var(
+    --eevenkoto-disclosure-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-disclosure-radius: var(--eevenkoto-disclosure-radius, var(--eevenkoto-radius-md));
+  --_eevenkoto-disclosure-pad-block: var(--eevenkoto-disclosure-pad-block, var(--eevenkoto-space-3));
+  --_eevenkoto-disclosure-pad-inline: var(
+    --eevenkoto-disclosure-pad-inline,
+    var(--eevenkoto-space-4)
+  );
+
+  display: block;
+  min-inline-size: 0;
+  background: var(--_eevenkoto-disclosure-bg);
+  color: var(--_eevenkoto-disclosure-text);
+  border: var(--_eevenkoto-disclosure-border-width) solid var(--_eevenkoto-disclosure-border-color);
+  border-radius: var(--_eevenkoto-disclosure-radius);
+  box-sizing: border-box;
+}
+
+.eevenkoto-disclosure--subtle {
+  --eevenkoto-disclosure-bg: var(--eevenkoto-color-surface-subtle);
+}
+
+.eevenkoto-disclosure--flush {
+  --eevenkoto-disclosure-bg: transparent;
+  --eevenkoto-disclosure-radius: 0;
+  --eevenkoto-disclosure-pad-inline: 0;
+
+  border-inline: 0;
+  border-block-start: 0;
+}
+
+.eevenkoto-disclosure--emphasized {
+  --eevenkoto-disclosure-border-color: var(--eevenkoto-color-content-accent-strong);
+  --eevenkoto-disclosure-border-width: var(--eevenkoto-line-width-md);
+}
+
+.eevenkoto-disclosure__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-3);
+  padding: var(--_eevenkoto-disclosure-pad-block) var(--_eevenkoto-disclosure-pad-inline);
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--_eevenkoto-disclosure-radius);
+}
+
+.eevenkoto-disclosure__summary::-webkit-details-marker {
+  display: none;
+}
+
+.eevenkoto-disclosure__summary:focus-visible {
+  outline: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+.eevenkoto-disclosure__summary-lead {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.eevenkoto-disclosure__summary-label {
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+.eevenkoto-disclosure__summary-text {
+  color: var(--_eevenkoto-disclosure-muted);
+  font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+.eevenkoto-disclosure__summary-meta {
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-disclosure__chevron {
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  transition: transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
+}
+
+.eevenkoto-disclosure__summary-meta + .eevenkoto-disclosure__chevron {
+  margin-inline-start: 0;
+}
+
+.eevenkoto-disclosure[open] > .eevenkoto-disclosure__summary .eevenkoto-disclosure__chevron {
+  transform: rotate(180deg);
+}
+
+.eevenkoto-disclosure__body {
+  padding: 0 var(--_eevenkoto-disclosure-pad-inline) var(--_eevenkoto-disclosure-pad-block);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-disclosure__chevron {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-disclosure {
+    border-color: CanvasText;
+  }
+}
+
+@media print {
+  .eevenkoto-disclosure {
+    break-inside: avoid;
+  }
+}

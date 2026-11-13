@@ -1,0 +1,15 @@
+---
+import { dividerClassNames, type DividerProps } from '@eevenkoto/core';
+
+export interface Props extends DividerProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { spacing, variant, class: classProp, className, ...rest } = Astro.props;
+const classes = [dividerClassNames({ spacing, variant }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<hr class={classes} {...rest} />

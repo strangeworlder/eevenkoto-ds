@@ -5,11 +5,20 @@ export interface TooltipCardProps {
   title?: string;
   /** Heading level for `title`. Default: 2 (preview panel, not a page entry). */
   titleLevel?: TooltipCardTitleLevel;
-  /** Body copy in `__body`. Optional when using framework slots. */
+  /** Body copy in `__body`. Optional when using framework slots or `bodyHtml`. */
   body?: string;
+  /** Trusted pre-rendered HTML for `__body`. Takes precedence over `body`. */
+  bodyHtml?: string;
+  /** Removes body padding for embedded full-bleed blocks. Default: `false`. */
+  flush?: boolean;
 }
 
-export const tooltipCardClassNames = (): string => 'eevenkoto-tooltip-card';
+export type TooltipCardClassNameProps = Pick<TooltipCardProps, 'flush'>;
+
+export const tooltipCardClassNames = (props: TooltipCardClassNameProps = {}): string =>
+  ['eevenkoto-tooltip-card', props.flush ? 'eevenkoto-tooltip-card--flush' : '']
+    .filter(Boolean)
+    .join(' ');
 
 /**
  * The body caps itself at `--eevenkoto-tooltip-card-body-max-block-size` and scrolls.

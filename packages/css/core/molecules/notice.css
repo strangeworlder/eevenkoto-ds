@@ -36,6 +36,8 @@
     --eevenkoto-notice-font-size,
     var(--eevenkoto-font-size-body-md)
   );
+  --eevenkoto-paragraph-color: currentColor;
+  --eevenkoto-list-color: currentColor;
 
   box-sizing: border-box;
   display: grid;
@@ -50,6 +52,11 @@
   font-family: var(--eevenkoto-font-sans);
   font-size: var(--_eevenkoto-notice-font-size);
   line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-notice :is(.eevenkoto-paragraph, .eevenkoto-list) {
+  --eevenkoto-paragraph-color: currentColor;
+  --eevenkoto-list-color: currentColor;
 }
 
 .eevenkoto-notice:not(:has(.eevenkoto-notice__icon)) {
@@ -102,6 +109,13 @@
   flex-wrap: wrap;
   gap: var(--eevenkoto-space-2);
   margin-block-start: var(--eevenkoto-space-1);
+}
+
+.eevenkoto-notice__status {
+  margin: 0;
+  font-size: var(--eevenkoto-font-size-body-sm);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  color: currentColor;
 }
 
 /* --- INTENTS (subtle recipe; host alone = neutral) --- */

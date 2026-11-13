@@ -1,6 +1,7 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: PROPERTY / PROPERTY LIST (TIER 3)
    Definition-list metadata rows (Label → value). Consumes content / surface.
+   Host alone = inline stacked rows. Opt-in layouts: --divided, --grid, --cards.
    ========================================================================== */
 
 .eevenkoto-property-list {
@@ -9,6 +10,11 @@
     var(--eevenkoto-space-3)
   );
   --_eevenkoto-property-list-margin-block: var(--eevenkoto-property-list-margin-block, 0);
+  --_eevenkoto-property-list-cols: var(--eevenkoto-property-list-cols, 2);
+  --_eevenkoto-property-list-divider-color: var(
+    --eevenkoto-property-list-divider-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
 
   display: flex;
   flex-direction: column;
@@ -28,6 +34,18 @@
   --_eevenkoto-property-value-color: var(
     --eevenkoto-property-value-color,
     var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-property-meta-color: var(
+    --eevenkoto-property-meta-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-property-card-bg: var(
+    --eevenkoto-property-card-bg,
+    var(--eevenkoto-color-surface-subtle)
+  );
+  --_eevenkoto-property-card-border-color: var(
+    --eevenkoto-property-card-border-color,
+    var(--eevenkoto-color-boundary-subtle)
   );
   --_eevenkoto-property-font-size: var(
     --eevenkoto-property-font-size,
@@ -77,4 +95,122 @@
   min-width: 0;
   font-weight: var(--eevenkoto-font-weight-regular);
   color: var(--_eevenkoto-property-value-color);
+}
+
+.eevenkoto-property__meta {
+  display: block;
+  margin-block-start: var(--eevenkoto-space-1);
+  font-size: var(--eevenkoto-font-size-caption);
+  font-weight: var(--eevenkoto-font-weight-regular);
+  line-height: var(--eevenkoto-line-height-body);
+  color: var(--_eevenkoto-property-meta-color);
+}
+
+/* --- DIVIDED LAYOUT --- */
+
+.eevenkoto-property-list--divided {
+  --eevenkoto-property-list-gap: 0;
+}
+
+.eevenkoto-property-list--divided > .eevenkoto-property {
+  padding-block: var(--eevenkoto-space-2);
+  border-block-end: var(--eevenkoto-line-width-sm) solid
+    var(--_eevenkoto-property-list-divider-color);
+}
+
+.eevenkoto-property-list--divided > .eevenkoto-property:first-child {
+  padding-block-start: 0;
+}
+
+.eevenkoto-property-list--divided > .eevenkoto-property:last-child {
+  padding-block-end: 0;
+  border-block-end: none;
+}
+
+/* --- GRID & CARDS LAYOUTS --- */
+
+.eevenkoto-property-list--grid {
+  --eevenkoto-property-list-cols: 4;
+  --eevenkoto-property-label-color: var(--eevenkoto-color-content-accent-strong);
+  --eevenkoto-property-gap: var(--eevenkoto-space-1);
+
+  display: grid;
+  grid-template-columns: repeat(var(--_eevenkoto-property-list-cols), minmax(0, 1fr));
+}
+
+.eevenkoto-property-list--cards {
+  --eevenkoto-property-list-cols: 2;
+  --eevenkoto-property-label-color: var(--eevenkoto-color-content-accent-strong);
+  --eevenkoto-property-gap: var(--eevenkoto-space-1);
+
+  display: grid;
+  grid-template-columns: repeat(var(--_eevenkoto-property-list-cols), minmax(0, 1fr));
+}
+
+.eevenkoto-property-list--cols-2 {
+  --eevenkoto-property-list-cols: 2;
+}
+
+.eevenkoto-property-list--cols-3 {
+  --eevenkoto-property-list-cols: 3;
+}
+
+.eevenkoto-property-list--cols-4 {
+  --eevenkoto-property-list-cols: 4;
+}
+
+.eevenkoto-property-list--grid > .eevenkoto-property,
+.eevenkoto-property-list--cards > .eevenkoto-property {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.eevenkoto-property-list--cards > .eevenkoto-property {
+  padding: var(--eevenkoto-space-3);
+  background: var(--_eevenkoto-property-card-bg);
+  border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-property-card-border-color);
+  border-radius: var(--eevenkoto-radius-sm);
+}
+
+.eevenkoto-property-list--grid .eevenkoto-property__label,
+.eevenkoto-property-list--cards .eevenkoto-property__label {
+  font-family: var(--eevenkoto-font-serif);
+  font-size: var(--eevenkoto-font-size-caption);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.eevenkoto-property-list--grid .eevenkoto-property__label::after,
+.eevenkoto-property-list--cards .eevenkoto-property__label::after {
+  content: '';
+}
+
+.eevenkoto-property-list--grid .eevenkoto-property__value,
+.eevenkoto-property-list--cards .eevenkoto-property__value {
+  flex: 0 1 auto;
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+@media (max-width: 40rem) {
+  .eevenkoto-property-list--grid,
+  .eevenkoto-property-list--cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 26rem) {
+  .eevenkoto-property-list--grid,
+  .eevenkoto-property-list--cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-property-list--divided > .eevenkoto-property {
+    border-block-end-color: CanvasText;
+  }
+
+  .eevenkoto-property-list--cards > .eevenkoto-property {
+    border-color: CanvasText;
+  }
 }

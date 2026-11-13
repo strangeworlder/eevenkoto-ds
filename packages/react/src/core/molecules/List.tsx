@@ -23,8 +23,13 @@ export const List = ({
 
   return (
     <Tag className={classes} {...rest}>
-      {items.map((item) => (
-        <ListItem key={item.text} text={item.text} />
+      {items.map((item, index) => (
+        <ListItem
+          key={item.text ?? item.html ?? index}
+          text={item.text}
+          html={item.html}
+          status={variant === 'checklist' ? (item.status ?? 'included') : item.status}
+        />
       ))}
     </Tag>
   );

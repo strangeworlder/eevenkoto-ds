@@ -1,0 +1,58 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as DisclosureStories from './Disclosure.stories';
+
+<Meta of={DisclosureStories} />
+
+# Disclosure
+
+A native `<details>`/`<summary>` expander. The summary carries a label, optional secondary text, optional leading and trailing slots, and a chevron that rotates when open. The body is wrapped in `.eevenkoto-prose`.
+
+<Canvas of={DisclosureStories.Default} />
+
+<Controls of={DisclosureStories.Default} />
+
+## Why to use
+
+Keyboard- and screen-reader-accessible expand/collapse with no JavaScript, tokenized surfaces and focus ring, and forced-colors and print support.
+
+## When to use
+
+- Use for optional detail, FAQs, and grouped filters.
+- Use `variant="flush"` inside cards or lists, `emphasized` for a focal item.
+- Don't use it for primary navigation — use [Menu](?path=/docs/core-molecules-menu--docs).
+
+<Canvas of={DisclosureStories.Variants} />
+
+<Canvas of={DisclosureStories.WithSwatchAndMeta} />
+
+<Canvas of={DisclosureStories.Emphasized} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | DOM id on `<details>`. |
+| `label` | `string` | — | Summary label. |
+| `summaryText` | `string` | — | Muted secondary summary text. |
+| `variant` | `'card' \| 'subtle' \| 'flush'` | `'card'` | Surface treatment. |
+| `open` | `boolean` | `false` | Start expanded. |
+| `emphasized` | `boolean` | `false` | Accent border. |
+| `body` / `bodyHtml` | `string` | — | Plain or trusted HTML (slot/children wins). |
+| `summaryLead` / `summaryMeta` | slot / prop | — | Leading and trailing summary content. |
+
+<ArgTypes of={DisclosureStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/disclosure.css';
+import { renderDisclosure } from '@eevenkoto/html';
+
+renderDisclosure({ label: 'Details', body: 'Hidden copy.' });
+```
+
+```tsx
+import { Disclosure } from '@eevenkoto/react';
+
+<Disclosure label="Details">Hidden copy.</Disclosure>
+```

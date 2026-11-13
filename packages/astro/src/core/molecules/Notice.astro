@@ -3,6 +3,7 @@ import {
   ICON_NAMES,
   defaultNoticeIcon,
   noticeClassNames,
+  noticeStatusClassNames,
   resolveNoticeRole,
   type IconName,
   type NoticeProps,
@@ -26,6 +27,7 @@ const {
   bodyHtml,
   icon,
   role,
+  statusText,
   class: classProp,
   className,
   ...rest
@@ -68,6 +70,9 @@ const isBlockHtml = bodyHtml
     <slot />
     {hasActionsSlot ? (
       <div class="eevenkoto-notice__actions"><slot name="actions" /></div>
+    ) : null}
+    {statusText ? (
+      <p class={noticeStatusClassNames()} role="status" aria-live="polite">{statusText}</p>
     ) : null}
   </div>
 </div>

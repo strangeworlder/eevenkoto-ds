@@ -1,8 +1,9 @@
 ---
-import { listClassNames, type ListProps } from '@eevenkoto/core';
+import { listClassNames, type ListItemProps, type ListProps } from '@eevenkoto/core';
 import ListItem from '../atoms/ListItem.astro';
 
-export interface Props extends Partial<ListProps> {
+export interface Props extends Omit<Partial<ListProps>, 'items'> {
+  items?: Array<string | ListItemProps>;
   class?: string;
   className?: string;
   [key: string]: unknown;
@@ -13,8 +14,17 @@ const classes = [listClassNames({ variant, size, tone }), classProp, className]
   .filter(Boolean)
   .join(' ');
 const Tag = (variant ?? 'unordered') === 'ordered' ? 'ol' : 'ul';
+const normalizedItems: ListItemProps[] = items.map((item) =>
+  typeof item === 'string' ? { text: item } : item,
+);
 ---
 <Tag class={classes} {...rest}>
-  {items.map((item) => <ListItem text={item.text} />)}
+  {normalizedItems.map((item) => (
+    <ListItem
+      text={item.text}
+      html={item.html}
+      status={variant === 'checklist' ? (item.status ?? 'included') : item.status}
+    />
+  ))}
   <slot />
 </Tag>

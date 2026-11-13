@@ -2,7 +2,9 @@
 import {
   headingClassNames,
   statblockSectionClassNames,
+  type StatblockFeatureLevel,
   type StatblockSectionProps,
+  type StatblockSectionTitleLevel,
 } from '@eevenkoto/core';
 import StatblockFeature from './StatblockFeature.astro';
 
@@ -23,7 +25,10 @@ const {
 } = Astro.props;
 
 const classes = [statblockSectionClassNames(), classProp, className].filter(Boolean).join(' ');
-const TitleTag = titleLevel === 3 ? 'h3' : 'h2';
+const tagLevel: StatblockSectionTitleLevel =
+  titleLevel === 4 ? 4 : titleLevel === 3 ? 3 : 2;
+const TitleTag = tagLevel === 4 ? 'h4' : tagLevel === 3 ? 'h3' : 'h2';
+const defaultFeatureLevel = (tagLevel + 1) as StatblockFeatureLevel;
 ---
 <section class={classes} {...rest}>
   <TitleTag class={headingClassNames({ level: 2 })}>{title}</TitleTag>
@@ -33,7 +38,7 @@ const TitleTag = titleLevel === 3 ? 'h3' : 'h2';
       name={feature.name}
       description={feature.description}
       descriptionHtml={feature.descriptionHtml}
-      level={feature.level}
+      level={feature.level ?? defaultFeatureLevel}
     />
   ))}
   <slot />

@@ -1,0 +1,66 @@
+/* packages/css/core/molecules/section-header.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: SECTION HEADER (TIER 3)
+   Eyebrow + (logo) + heading + lead + actions + note lockup.
+   ========================================================================== */
+
+@import url('../atoms/caption.css');
+@import url('../atoms/heading.css');
+@import url('../atoms/paragraph.css');
+@import url('../atoms/icon.css');
+
+.eevenkoto-section-header {
+  --_eevenkoto-section-header-note-color: var(
+    --eevenkoto-section-header-note-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--eevenkoto-space-3);
+  min-inline-size: 0;
+}
+
+.eevenkoto-section-header--center {
+  align-items: center;
+  text-align: center;
+}
+
+.eevenkoto-section-header .eevenkoto-heading[class],
+.eevenkoto-section-header .eevenkoto-paragraph[class],
+.eevenkoto-section-header .eevenkoto-caption[class] {
+  --eevenkoto-heading-margin-block: 0;
+  --eevenkoto-heading-padding: 0;
+  --eevenkoto-heading-border-block-end: none;
+  --eevenkoto-paragraph-margin-block: 0;
+  --eevenkoto-caption-margin-block: 0;
+}
+
+.eevenkoto-section-header__logo {
+  display: block;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+.eevenkoto-section-header--center .eevenkoto-section-header__lead {
+  max-inline-size: 62ch;
+}
+
+.eevenkoto-section-header__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-section-header--center .eevenkoto-section-header__actions {
+  justify-content: center;
+}
+
+.eevenkoto-section-header__note {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  color: var(--_eevenkoto-section-header-note-color);
+  font-size: var(--eevenkoto-font-size-body-sm);
+}

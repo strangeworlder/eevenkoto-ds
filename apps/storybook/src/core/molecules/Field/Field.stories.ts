@@ -3,8 +3,10 @@ import { expect, userEvent, within } from 'storybook/test';
 import type { FieldProps as FieldCoreProps } from '@eevenkoto/core';
 import '@eevenkoto/css/field.css';
 import '@eevenkoto/css/input.css';
+import '@eevenkoto/css/select.css';
+import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/icon.css';
-import { renderField, renderInput } from '@eevenkoto/html';
+import { renderButton, renderField, renderInput, renderSelect } from '@eevenkoto/html';
 
 type FieldStoryArgs = FieldCoreProps & {
   placeholder?: string;
@@ -27,6 +29,11 @@ const meta: Meta<FieldStoryArgs> = {
   argTypes: {
     label: { control: 'text' },
     htmlFor: { control: 'text' },
+    orientation: {
+      control: { type: 'inline-radio' },
+      options: ['vertical', 'horizontal'],
+      table: { defaultValue: { summary: 'vertical' } },
+    },
     hint: { control: 'text' },
     error: { control: 'text' },
     placeholder: { control: 'text' },
@@ -40,6 +47,7 @@ const meta: Meta<FieldStoryArgs> = {
     return renderField({
       label: args.label,
       htmlFor,
+      orientation: args.orientation,
       hint: args.hint,
       error: args.error,
       messageId,
@@ -88,6 +96,44 @@ export const WithError: Story = {
     value: 'gjør-not-an-email',
     type: 'email',
   },
+};
+
+export const Horizontal: Story = {
+  render: () =>
+    renderField({
+      label: 'Sort by',
+      htmlFor: 'field-sort-by',
+      orientation: 'horizontal',
+      control: renderSelect({
+        id: 'field-sort-by',
+        options: [
+          { value: 'name', label: 'Name (A–Z)' },
+          { value: 'level', label: 'Spell level' },
+          { value: 'school', label: 'School of magic' },
+        ],
+      }),
+    }),
+};
+
+export const WithAction: Story = {
+  name: 'With inline action',
+  render: () =>
+    renderField({
+      label: 'Sign-in email',
+      htmlFor: 'field-magic-link',
+      hint: 'We send a one-time link to this address.',
+      messageId: 'field-magic-link-message',
+      control: renderInput({
+        id: 'field-magic-link',
+        type: 'email',
+        placeholder: 'elowen@eevenko.to',
+        describedBy: 'field-magic-link-message',
+      }),
+      action: renderButton({
+        label: 'Send link',
+        variant: 'primary',
+      }),
+    }),
 };
 
 export const Keyboard: Story = {

@@ -3,12 +3,17 @@ import {
   workshopBodyClassNames,
   workshopClassNames,
   workshopControlsClassNames,
+  workshopFooterClassNames,
   workshopHeaderClassNames,
   workshopPreviewClassNames,
+  workshopToolbarClassNames,
   type WorkshopProps,
+  type WorkshopTitleLevel,
 } from '@eevenkoto/core';
+import Icon from '../atoms/Icon.astro';
 
-export interface Props extends Omit<WorkshopProps, 'header' | 'controls' | 'preview'> {
+export interface Props
+  extends Omit<WorkshopProps, 'header' | 'controls' | 'toolbar' | 'preview' | 'footer'> {
   role?: string;
   style?: string | Record<string, string | number | undefined>;
   class?: string;
@@ -20,6 +25,12 @@ const {
   id,
   idSuffix,
   label,
+  layout,
+  sticky,
+  icon,
+  title,
+  titleLevel,
+  subtitle,
   controlsWidth,
   role,
   style,
@@ -28,7 +39,9 @@ const {
   ...rest
 } = Astro.props;
 
-const classes = [workshopClassNames(), classProp, className].filter(Boolean).join(' ');
+const classes = [workshopClassNames({ layout, sticky }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
 const elementId = id ?? (idSuffix ? `workshop${idSuffix}` : undefined);
 const resolvedRole = role ?? (label ? 'region' : undefined);
 
@@ -44,9 +57,14 @@ if (controlsWidth) {
   }
 }
 
+const hasTitleGroup = Boolean(icon || title || subtitle);
+const resolvedTitleLevel: WorkshopTitleLevel = titleLevel === 3 ? 3 : 2;
+const TitleTag = resolvedTitleLevel === 3 ? 'h3' : 'h2';
 const hasHeaderSlot = Astro.slots.has('header');
 const hasControlsSlot = Astro.slots.has('controls');
+const hasToolbarSlot = Astro.slots.has('toolbar');
 const hasPreviewSlot = Astro.slots.has('preview');
+const hasFooterSlot = Astro.slots.has('footer');
 ---
 <div
   class={classes}
@@ -57,15 +75,34 @@ const hasPreviewSlot = Astro.slots.has('preview');
   data-eevenkoto-workshop
   {...rest}
 >
-  {hasHeaderSlot ? (
-    <div class={workshopHeaderClassNames()}><slot name="header" /></div>
+  {hasTitleGroup || hasHeaderSlot ? (
+    <div class={workshopHeaderClassNames()}>
+      {hasTitleGroup ? (
+        <div class="eevenkoto-workshop__title-group">
+          {icon ? (
+            <span class="eevenkoto-workshop__icon-badge"><Icon name={icon} /></span>
+          ) : null}
+          {title ? <TitleTag class="eevenkoto-workshop__title">{title}</TitleTag> : null}
+          {subtitle ? <p class="eevenkoto-workshop__subtitle">{subtitle}</p> : null}
+        </div>
+      ) : null}
+      {hasHeaderSlot ? <slot name="header" /> : null}
+    </div>
   ) : null}
   <div class={workshopBodyClassNames()}>
     <div class={workshopControlsClassNames()}>
       {hasControlsSlot ? <slot name="controls" /> : <slot />}
     </div>
-    {hasPreviewSlot ? (
-      <div class={workshopPreviewClassNames()}><slot name="preview" /></div>
+    {hasToolbarSlot || hasPreviewSlot ? (
+      <div class={workshopPreviewClassNames()}>
+        {hasToolbarSlot ? (
+          <div class={workshopToolbarClassNames()}><slot name="toolbar" /></div>
+        ) : null}
+        {hasPreviewSlot ? <slot name="preview" /> : null}
+      </div>
     ) : null}
   </div>
+  {hasFooterSlot ? (
+    <footer class={workshopFooterClassNames()}><slot name="footer" /></footer>
+  ) : null}
 </div>

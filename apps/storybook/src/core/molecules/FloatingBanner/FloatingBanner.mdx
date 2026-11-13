@@ -1,0 +1,56 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as FloatingBannerStories from './FloatingBanner.stories';
+
+<Meta of={FloatingBannerStories} />
+
+# FloatingBanner
+
+A **fixed**, elevated notice anchored to the bottom of the viewport. It pairs compact body copy (with inline links) with a non-wrapping primary button, and stacks into a column below `40rem`. Hidden in print.
+
+<Canvas of={FloatingBannerStories.Default} />
+
+<Controls of={FloatingBannerStories.Default} />
+
+## Why to use
+
+One accessible, token-driven pattern for consent and announcement bars: `aside` landmark, `--eevenkoto-z-overlay` layering, responsive stacking, forced-colors support.
+
+## When to use
+
+- Use for persistent, dismissible site-level notices (cookies, policy changes).
+- Wire dismissal yourself: toggle `open`, or listen via `confirmId` (HTML), `onConfirm` (React), `@confirm` (Vue).
+- Don't use it for transient feedback — use [Toast](?path=/docs/core-atoms-toast--docs); for inline messages use [Notice](?path=/docs/core-molecules-notice--docs).
+
+<Canvas of={FloatingBannerStories.BottomRight} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | DOM id. |
+| `open` | `boolean` | `false` | Show the banner. |
+| `placement` | `'bottom-center' \| 'bottom-right'` | `'bottom-center'` | Viewport anchor. |
+| `ariaLabel` | `string` | — | Landmark name (required). |
+| `body` / `bodyHtml` | `string` | — | Plain or trusted HTML copy (slot/children wins). |
+| `secondaryLink` | `{ label; href }` | — | Inline link after the copy. |
+| `confirmLabel` / `confirmId` | `string` | — | Built-in primary button and its id. |
+| `actions` | slot / prop | — | Replaces the built-in button. |
+
+<ArgTypes of={FloatingBannerStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/floating-banner.css';
+import { renderFloatingBanner } from '@eevenkoto/html';
+
+renderFloatingBanner({ open: true, ariaLabel: 'Cookie notice', body: '…', confirmLabel: 'OK' });
+```
+
+```tsx
+import { FloatingBanner } from '@eevenkoto/react';
+
+<FloatingBanner open ariaLabel="Cookie notice" confirmLabel="OK" onConfirm={dismiss}>
+  We only use essential cookies.
+</FloatingBanner>
+```

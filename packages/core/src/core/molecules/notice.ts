@@ -29,6 +29,8 @@ export interface NoticeProps {
    * and `'status'` otherwise.
    */
   role?: NoticeRole;
+  /** Optional polite live-region feedback line rendered inside the notice. */
+  statusText?: string;
 }
 
 export type NoticeClassNameProps = Pick<NoticeProps, 'intent' | 'variant'>;
@@ -42,6 +44,8 @@ export const noticeClassNames = (props: NoticeClassNameProps = {}): string => {
     `eevenkoto-notice--${intent}`,
   ].join(' ');
 };
+
+export const noticeStatusClassNames = (): string => 'eevenkoto-notice__status';
 
 /** Default icon associated with each Notice feedback intent. */
 export const defaultNoticeIcon = (intent: NoticeIntent = 'neutral'): IconName => {

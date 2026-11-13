@@ -1,0 +1,46 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ContentTableStories from './ContentTable.stories';
+
+<Meta of={ContentTableStories} />
+
+# ContentTable
+
+Table with per-row `readiness` and spanning `locked` rows that carry a Notice. Builds on Table, so columns, variants and stripes work the same.
+
+<Canvas of={ContentTableStories.Default} />
+
+<Controls of={ContentTableStories.Default} />
+
+## Why to use
+
+Catalog tables mix available and gated entries. A locked row spans all columns with a Notice, keeping the row/column grid intact instead of faking cells.
+
+## When to use
+
+- Use for spell, item or monster lists where entries differ in readiness or access.
+- Use plain Table when no row is gated or flagged.
+
+<Canvas of={ContentTableStories.LockedOnly} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| rows | `ContentTableRow[]` | — | Data rows (`readiness`, `attributes`, `cells`) or `{ kind: "locked", notice }`. |
+| columns | `TableColumn[]` | — | As in Table. |
+| variant / stripe | as Table | — | Forwarded to Table. |
+
+<ArgTypes of={ContentTableStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/content-table.css';
+import { renderContentTable } from '@eevenkoto/html';
+```
+
+```tsx
+import { ContentTable } from '@eevenkoto/react';
+
+<ContentTable columns={columns} rows={rows} />
+```

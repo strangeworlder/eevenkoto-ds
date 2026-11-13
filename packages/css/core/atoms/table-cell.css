@@ -76,6 +76,12 @@
   min-width: 12rem;
 }
 
+.eevenkoto-table-cell[colspan]:not([colspan='1']),
+:where(.eevenkoto-table) > :where(thead, tbody, tfoot) > tr > :where(th, td)[colspan]:not([colspan='1']) {
+  width: auto;
+  min-width: 0;
+}
+
 th.eevenkoto-table-cell,
 :where(.eevenkoto-table) > :where(thead, tbody, tfoot) > tr > th {
   font-weight: var(--eevenkoto-font-weight-bold);

@@ -14,6 +14,7 @@ const meta: Meta<TableCellProps> = {
   },
   argTypes: {
     text: { control: 'text', table: { type: { summary: 'string' } } },
+    html: { control: 'text', table: { type: { summary: 'string' } } },
     kind: {
       control: 'select',
       options: ['index', 'numeric', 'text'],
@@ -24,9 +25,11 @@ const meta: Meta<TableCellProps> = {
     },
     header: { control: 'boolean' },
     angled: { control: 'boolean' },
+    colSpan: { control: 'number' },
+    rowSpan: { control: 'number' },
     scope: {
       control: 'select',
-      options: ['col', 'row', undefined],
+      options: ['col', 'row', 'colgroup', 'rowgroup', undefined],
     },
   },
   args: {

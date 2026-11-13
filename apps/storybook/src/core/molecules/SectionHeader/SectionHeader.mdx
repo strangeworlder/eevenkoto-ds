@@ -1,0 +1,54 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SectionHeaderStories from './SectionHeader.stories';
+
+<Meta of={SectionHeaderStories} />
+
+# SectionHeader
+
+A standard header lockup for editorial sections and hero blocks: an accent **eyebrow**, optional **logo**, a semantic **heading**, a **lead** paragraph, an **actions** row and a reassurance **note**. Child margins and the heading underline are neutralized so spacing comes from the lockup's gap.
+
+<Canvas of={SectionHeaderStories.EditorialStart} />
+
+<Controls of={SectionHeaderStories.EditorialStart} />
+
+## Why to use
+
+Pages repeat the same kicker/title/lead/CTA arrangement. SectionHeader keeps heading levels explicit (`titleLevel`) and spacing consistent while composing Caption, Heading and Paragraph.
+
+## When to use
+
+- Use at the top of a page section or as a centered hero.
+- Choose `titleLevel` from document structure, not from desired size.
+- Don't use it for card titles — use [Card](?path=/docs/core-molecules-card--docs).
+
+<Canvas of={SectionHeaderStories.CenteredHeroWithLogoAndActions} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `eyebrow` | `string` | — | Uppercase accent kicker. |
+| `title` / `titleHtml` | `string` | — | Heading text or trusted inline HTML. |
+| `titleLevel` | `1 \| 2 \| 3` | `2` | Semantic heading level. |
+| `logo` | `{ src, alt, width?, height? }` | — | Brand image. |
+| `lead` / `leadHtml` | `string` | — | Lead paragraph. |
+| `align` | `'start' \| 'center'` | `'start'` | Alignment. |
+| `note` | `{ icon?, text?, html? }` | — | Reassurance line. |
+| `actions` | slot / prop | — | Buttons or links row. |
+
+<ArgTypes of={SectionHeaderStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/section-header.css';
+import { renderSectionHeader } from '@eevenkoto/html';
+
+renderSectionHeader({ eyebrow: 'Guide', title: 'Getting started', lead: 'Begin here.' });
+```
+
+```tsx
+import { SectionHeader } from '@eevenkoto/react';
+
+<SectionHeader title="Getting started" actions={<LinkButton href="#" label="Start" />} />
+```

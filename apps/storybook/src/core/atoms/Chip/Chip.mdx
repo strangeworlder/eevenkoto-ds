@@ -74,6 +74,14 @@ Dev role switchers and small exclusive tags need a clickable chip that is not a 
 
 <Canvas of={ChipStories.Selected} />
 
+## Leading swatches & icons
+
+Pass `swatchColor` to compose a decorative `sm` [Swatch](?path=/docs/core-atoms-swatch--docs) before the label (ideal for dye/color filters), or `icon` to compose a decorative `sm` [Icon](?path=/docs/core-atoms-icon--docs) from `ICON_NAMES`. Disabled chips remain strictly opaque via `control-secondary-*-disabled` tokens.
+
+<Canvas of={ChipStories.WithSwatches} />
+
+<Canvas of={ChipStories.WithIcons} />
+
 ## Migration (eevenko.to)
 
 `.role-chip` / `.dev-chip` / `.dev-chip.active` → Chip / Chip `selected`.
@@ -87,6 +95,8 @@ Dev role switchers and small exclusive tags need a clickable chip that is not a 
 | `label` | `string` | — | Visible text. |
 | `selected` | `boolean` | `false` | Pressed / current. |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Shared control ladder. |
+| `icon` | `IconName` | — | Optional leading decorative glyph (`size="sm"`). |
+| `swatchColor` | `string` | — | Optional leading decorative Swatch (`size="sm"`). |
 | `href` | `string` | — | When set, renders as `<a>`. |
 | `disabled` | `boolean` | `false` | Non-interactive (opaque disabled tokens). |
 
@@ -101,4 +111,4 @@ import { renderChip } from '@eevenkoto/html';
 renderChip({ label: 'Seuraaja', selected: true, size: 'sm' });
 ```
 
-Related: [Badge](?path=/docs/core-atoms-badge--docs) · [StatusDot](?path=/docs/core-atoms-statusdot--docs) · [SegmentedControl](?path=/docs/core-molecules-segmentedcontrol--docs) · [Button](?path=/docs/core-atoms-button--docs)
+Related: [Swatch](?path=/docs/core-atoms-swatch--docs) · [Icon](?path=/docs/core-atoms-icon--docs) · [Badge](?path=/docs/core-atoms-badge--docs) · [StatusDot](?path=/docs/core-atoms-statusdot--docs) · [SegmentedControl](?path=/docs/core-molecules-segmentedcontrol--docs) · [Button](?path=/docs/core-atoms-button--docs)

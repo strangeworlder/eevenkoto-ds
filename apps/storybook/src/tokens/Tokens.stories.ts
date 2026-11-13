@@ -237,6 +237,7 @@ const semanticColors: Token[] = [
   { name: 'Depth shadow penumbra', variable: '--eevenkoto-color-depth-shadow-penumbra' },
   { name: 'Depth shadow control', variable: '--eevenkoto-color-depth-shadow-control' },
   { name: 'Depth shadow control text', variable: '--eevenkoto-color-depth-shadow-control-text' },
+  { name: 'Depth scrim', variable: '--eevenkoto-color-depth-scrim' },
 ];
 
 const fontFamilies: Token[] = [
@@ -313,6 +314,18 @@ const durations: Token[] = [
 const eases: Token[] = [
   { name: 'Standard', variable: '--eevenkoto-ease-standard' },
   { name: 'In-out', variable: '--eevenkoto-ease-in-out' },
+];
+
+const zIndices: Token[] = [
+  { name: 'Base', variable: '--eevenkoto-z-base' },
+  { name: 'Above', variable: '--eevenkoto-z-above' },
+  { name: 'Sticky', variable: '--eevenkoto-z-sticky' },
+  { name: 'Popover', variable: '--eevenkoto-z-popover' },
+  { name: 'Overlay', variable: '--eevenkoto-z-overlay' },
+  { name: 'Drawer', variable: '--eevenkoto-z-drawer' },
+  { name: 'Modal', variable: '--eevenkoto-z-modal' },
+  { name: 'Tooltip', variable: '--eevenkoto-z-tooltip' },
+  { name: 'Toast', variable: '--eevenkoto-z-toast' },
 ];
 
 const iconMasks: Token[] = [
@@ -678,6 +691,35 @@ export const LineWidths: Story = {
 export const Motion: Story = {
   name: 'Motion',
   render: () => renderMotion(),
+};
+
+const renderLayering = (): string => `
+  <div class="eevenkoto-tokens">
+    <section class="eevenkoto-tokens__section">
+      <h2 class="eevenkoto-tokens__heading">Layering (Z-index)</h2>
+      <p class="eevenkoto-tokens__intro">Single-tier elevation stacking scale from tokens.css.</p>
+      <div class="eevenkoto-tokens__stack">
+        ${zIndices
+          .map(
+            (token) => `
+              <div class="eevenkoto-tokens__line-row">
+                <div class="eevenkoto-tokens__meta">
+                  <p class="eevenkoto-tokens__name">${escapeHtml(token.name)}</p>
+                  <p class="eevenkoto-tokens__value">${escapeHtml(token.variable)}</p>
+                  <p class="eevenkoto-tokens__value">${escapeHtml(resolveTokenValue(token.variable))}</p>
+                </div>
+              </div>
+            `,
+          )
+          .join('')}
+      </div>
+    </section>
+  </div>
+`;
+
+export const Layering: Story = {
+  name: 'Layering',
+  render: () => renderLayering(),
 };
 
 const buttonIconSet = new Set<string>(BUTTON_ICON_NAMES);

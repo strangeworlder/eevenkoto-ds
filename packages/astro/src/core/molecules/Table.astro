@@ -2,14 +2,19 @@
 import {
   tableClassNames,
   tableColClassNames,
+  type TableCellInput,
+  type TableCellObject,
   type TableColumn,
+  type TableElementAttributes,
   type TableProps,
+  type TableRowInput,
+  type TableRowObject,
 } from '@eevenkoto/core';
 import TableCell from '../atoms/TableCell.astro';
 
 export interface Props extends Omit<TableProps, 'columns' | 'rows'> {
   columns?: TableColumn[];
-  rows?: string[][];
+  rows?: TableRowInput[];
   class?: string;
   className?: string;
   [key: string]: unknown;
@@ -30,6 +35,89 @@ const classes = [tableClassNames({ variant, stripe }), classProp, className]
   .filter(Boolean)
   .join(' ');
 const hasDefaultSlot = Astro.slots.has('default');
+
+const SAFE_ATTR_NAME_RE = /^[a-zA-Z_:][a-zA-Z0-9_.:-]*$/;
+const normalizeRowAttributes = (attrs?: TableElementAttributes) => {
+  const out: Record<string, string | number | boolean> = {};
+  if (!attrs) return out;
+  for (const [name, value] of Object.entries(attrs)) {
+    if (value === undefined || value === false || name === 'class') continue;
+    if (!SAFE_ATTR_NAME_RE.test(name) || /^on/i.test(name)) continue;
+    out[name] = value === true && name.startsWith('data-') ? '' : value;
+  }
+  return out;
+};
+
+const isRowObject = (row: TableRowInput): row is TableRowObject =>
+  !Array.isArray(row) && typeof row === 'object' && row !== null && Array.isArray(row.cells);
+
+const isCellObject = (cell: TableCellInput): cell is TableCellObject =>
+  typeof cell === 'object' && cell !== null;
+
+const colRowSpans: number[] = [];
+const resolvedRows = rows.map((row) => {
+  const rowCells = isRowObject(row) ? row.cells : row;
+  const rowAttrs = isRowObject(row) ? row.attributes : undefined;
+  const trClass = typeof rowAttrs?.class === 'string' ? rowAttrs.class.trim() || undefined : undefined;
+  const trExtraAttrs = normalizeRowAttributes(rowAttrs);
+
+  let colCursor = 0;
+  const advancePastSpannedCols = () => {
+    while ((colRowSpans[colCursor] ?? 0) > 0) {
+      colRowSpans[colCursor] -= 1;
+      colCursor += 1;
+    }
+  };
+
+  const cells = rowCells.map((cell) => {
+    advancePastSpannedCols();
+    const col = columns[colCursor];
+
+    if (isCellObject(cell)) {
+      const colSpan = cell.colSpan && cell.colSpan > 0 ? cell.colSpan : 1;
+      const rowSpan = cell.rowSpan && cell.rowSpan > 1 ? cell.rowSpan : 1;
+      if (rowSpan > 1) {
+        for (let s = 0; s < colSpan; s += 1) {
+          colRowSpans[colCursor + s] = rowSpan - 1;
+        }
+      }
+      const kind = cell.kind ?? col?.kind ?? 'text';
+      colCursor += colSpan;
+
+      return {
+        header: Boolean(cell.header) || undefined,
+        scope: cell.scope,
+        kind,
+        colSpan: cell.colSpan,
+        rowSpan: cell.rowSpan,
+        html: cell.html,
+        text: cell.text,
+        attributes: cell.attributes,
+      };
+    }
+
+    const colKind = col?.kind ?? 'text';
+    const asRowHeader = variant === 'pair' && colCursor === 0;
+    colCursor += 1;
+
+    return {
+      header: asRowHeader || undefined,
+      scope: asRowHeader ? ('row' as const) : undefined,
+      kind: asRowHeader ? ('index' as const) : colKind,
+      colSpan: undefined,
+      rowSpan: undefined,
+      html: undefined,
+      text: cell,
+      attributes: undefined,
+    };
+  });
+
+  for (let c = colCursor; c < colRowSpans.length; c += 1) {
+    if (colRowSpans[c] > 0) colRowSpans[c] -= 1;
+  }
+
+  return { trClass, trExtraAttrs, cells };
+});
 ---
 <table class={classes} {...rest}>
   {caption ? <caption>{caption}</caption> : null}
@@ -65,20 +153,21 @@ const hasDefaultSlot = Astro.slots.has('default');
         </thead>
       ) : null}
       <tbody>
-        {rows.map((row) => (
-          <tr>
-            {columns.map((col, index) => {
-              const kind = col.kind ?? 'text';
-              const asRowHeader = variant === 'pair' && index === 0;
-              return (
-                <TableCell
-                  header={asRowHeader || undefined}
-                  inTable
-                  scope={asRowHeader ? 'row' : undefined}
-                  kind={asRowHeader ? 'index' : kind}
-                >{row[index] ?? ''}</TableCell>
-              );
-            })}
+        {resolvedRows.map((row) => (
+          <tr class={row.trClass} {...row.trExtraAttrs}>
+            {row.cells.map((cell) => (
+              <TableCell
+                header={cell.header}
+                inTable
+                scope={cell.scope}
+                kind={cell.kind}
+                colSpan={cell.colSpan}
+                rowSpan={cell.rowSpan}
+                html={cell.html}
+                text={cell.text}
+                attributes={cell.attributes}
+              />
+            ))}
           </tr>
         ))}
       </tbody>

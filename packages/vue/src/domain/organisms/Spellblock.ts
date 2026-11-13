@@ -15,7 +15,10 @@ import { StatblockFeature } from '../molecules/StatblockFeature';
 export const Spellblock = defineComponent({
   name: 'EevenkotoSpellblock',
   props: {
+    id: { type: String, default: undefined },
+    headingId: { type: String, default: undefined },
     name: { type: String, required: true },
+    nameHtml: { type: String, default: undefined },
     nameLevel: { type: Number as PropType<SpellblockNameLevel>, default: 1 },
     typeLine: { type: String, default: undefined },
     typeLineHtml: { type: String, default: undefined },
@@ -26,16 +29,28 @@ export const Spellblock = defineComponent({
     bodyHtml: { type: String, default: undefined },
     features: { type: Array as PropType<StatblockFeatureProps[]>, default: undefined },
     deck: { type: Boolean, default: false },
+    lang: { type: String, default: undefined },
   },
   setup(props) {
     const className = computed(() => spellblockClassNames({ deck: props.deck }));
 
     return () => {
-      const level: SpellblockNameLevel = props.nameLevel === 2 ? 2 : 1;
+      const level: SpellblockNameLevel =
+        props.nameLevel === 3 ? 3 : props.nameLevel === 2 ? 2 : 1;
       const bands: VNode[] = [];
 
       const plate: VNode[] = [
-        h(`h${level}`, { class: headingClassNames({ level }) }, props.name),
+        props.nameHtml
+          ? h(`h${level}`, {
+              id: props.headingId,
+              class: headingClassNames({ level }),
+              innerHTML: props.nameHtml,
+            })
+          : h(
+              `h${level}`,
+              { id: props.headingId, class: headingClassNames({ level }) },
+              props.name,
+            ),
       ];
 
       if (props.typeLineHtml) {
@@ -92,7 +107,8 @@ export const Spellblock = defineComponent({
 
       if (props.features?.length) {
         // Spells have no section H2, so scaling runs in one level below the name.
-        const featureLevel: StatblockFeatureLevel = level === 2 ? 3 : 2;
+        const featureLevel: StatblockFeatureLevel =
+          level === 3 ? 4 : level === 2 ? 3 : 2;
         bands.push(
           h(
             'div',
@@ -102,7 +118,7 @@ export const Spellblock = defineComponent({
                 name: feature.name,
                 description: feature.description,
                 descriptionHtml: feature.descriptionHtml,
-                level: featureLevel,
+                level: feature.level ?? featureLevel,
                 key: feature.name,
               }),
             ),
@@ -110,7 +126,7 @@ export const Spellblock = defineComponent({
         );
       }
 
-      return h('article', { class: className.value }, bands);
+      return h('article', { id: props.id, lang: props.lang, class: className.value }, bands);
     };
   },
 });

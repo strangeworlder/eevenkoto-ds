@@ -16,7 +16,9 @@ Eevenkoto is a **TTRPG content design system** (statblocks, entity refs, ability
 
 **Token-only (no component yet):** modal surface roles, breadcrumb-as-link tokens. Do not assume a component exists because a Tier 2 token is named.
 
-**Not in scope:** Dialog, Pager, Tabs, date pickers, app shell. Popover is CSS chrome; the host app owns focus trapping and dialog behavior. Toast is a pure presentation atom (`.eevenkoto-toast`, accessible `status`/`alert` role, placement, and transitions); full runtime queueing and portal management remain the host app's domain. Compose class pages with the [Class entry recipe](?path=/docs/foundations-class-entry-recipe--docs) — no Classblock organism yet.
+**0.12.0 additions:** portable page chrome that is _not_ an app shell — ProgressBar, FloatingBanner, AccountMenu, TableOfContents, SectionHeader, Disclosure, ChipGroup, Divider, TierCard; Domain LicenseBar, DocumentHeader, ContentGate, ContentTable, EntityPreview, ReadAloudBox, NpcCard, NpcCardGrid, MapFrame. Existing components gained props (see CHANGELOG). Patterns that are only layout glue over these parts (status banner, readiness legend grid, adventure meta card, version-comparison preview) stay [composition recipes](?path=/docs/foundations-composition-recipes--docs), not components.
+
+**Not in scope:** Dialog, Pager, Tabs, date pickers, **AppShell / Sidebar** (collapsible rail, drawer, scroll lock, history handling — host-app behavior; compose the shipped parts inside your own shell). Popover is CSS chrome; the host app owns focus trapping and dialog behavior. Toast is a pure presentation atom (`.eevenkoto-toast`, accessible `status`/`alert` role, placement, and transitions); full runtime queueing and portal management remain the host app's domain. Compose class pages with the [Class entry recipe](?path=/docs/foundations-class-entry-recipe--docs) — no Classblock organism yet.
 
 ## Optional CSS peer
 

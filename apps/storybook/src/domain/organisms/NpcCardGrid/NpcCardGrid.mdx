@@ -1,0 +1,45 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as NpcCardGridStories from './NpcCardGrid.stories';
+
+<Meta of={NpcCardGridStories} />
+
+# NpcCardGrid
+
+Responsive grid of NpcCards: two columns on wide containers, one on narrow.
+
+<Canvas of={NpcCardGridStories.Default} />
+
+<Controls of={NpcCardGridStories.Default} />
+
+## Why to use
+
+NPC lists should scan as a grid without every adventure re-implementing the layout.
+
+## When to use
+
+- Use for 2+ NPC entries.
+- Use `columns={1}` for long entries.
+
+<Canvas of={NpcCardGridStories.SingleColumn} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| cards | `NpcCardProps[]` | — | Card data (or pass NpcCard children). |
+| columns | `1 \| 2` | `2` | Maximum columns. |
+
+<ArgTypes of={NpcCardGridStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/npc-card-grid.css';
+import { renderNpcCardGrid } from '@eevenkoto/html';
+```
+
+```tsx
+import { NpcCardGrid } from '@eevenkoto/react';
+
+<NpcCardGrid cards={cards} />
+```

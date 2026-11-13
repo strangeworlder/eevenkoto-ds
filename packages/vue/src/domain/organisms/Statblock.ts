@@ -7,6 +7,7 @@ import {
   type AbilityScoreProps,
   type StatblockNameLevel,
   type StatblockSectionProps,
+  type StatblockSectionTitleLevel,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType } from 'vue';
 import { AbilityScoreGroup } from './AbilityScoreGroup';
@@ -16,7 +17,10 @@ import { StatblockSection } from '../molecules/StatblockSection';
 export const Statblock = defineComponent({
   name: 'EevenkotoStatblock',
   props: {
+    id: { type: String, default: undefined },
+    headingId: { type: String, default: undefined },
     name: { type: String, required: true },
+    nameHtml: { type: String, default: undefined },
     nameLevel: { type: Number as PropType<StatblockNameLevel>, default: 1 },
     flavor: { type: String, default: undefined },
     flavorHtml: { type: String, default: undefined },
@@ -32,9 +36,21 @@ export const Statblock = defineComponent({
     const className = computed(() => statblockClassNames());
 
     return () => {
-      const level: StatblockNameLevel = props.nameLevel === 2 ? 2 : 1;
+      const level: StatblockNameLevel =
+        props.nameLevel === 3 ? 3 : props.nameLevel === 2 ? 2 : 1;
+      const defaultSectionTitleLevel = (level + 1) as StatblockSectionTitleLevel;
       const children = [
-        h(`h${level}`, { class: headingClassNames({ level }) }, props.name),
+        props.nameHtml
+          ? h(`h${level}`, {
+              id: props.headingId,
+              class: headingClassNames({ level }),
+              innerHTML: props.nameHtml,
+            })
+          : h(
+              `h${level}`,
+              { id: props.headingId, class: headingClassNames({ level }) },
+              props.name,
+            ),
       ];
 
       if (props.flavorHtml) {
@@ -73,7 +89,7 @@ export const Statblock = defineComponent({
         children.push(
           h(StatblockSection, {
             title: section.title,
-            titleLevel: section.titleLevel,
+            titleLevel: section.titleLevel ?? defaultSectionTitleLevel,
             bodyHtml: section.bodyHtml,
             features: section.features,
             key: section.title,
@@ -85,7 +101,7 @@ export const Statblock = defineComponent({
         children.push(h('div', { innerHTML: props.bodyHtml }));
       }
 
-      return h('article', { class: className.value }, children);
+      return h('article', { id: props.id, class: className.value }, children);
     };
   },
 });

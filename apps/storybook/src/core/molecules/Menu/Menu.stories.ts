@@ -246,6 +246,21 @@ export const ActionEscapeHatch: Story = {
   },
 };
 
+export const DestructiveItem: Story = {
+  name: 'Destructive item',
+  args: {
+    label: 'Account actions',
+    entries: [
+      { kind: 'header', label: 'Account' },
+      { id: 'profile', label: 'Profile', href: '#profile', icon: 'user' },
+      { id: 'library', label: 'My library', href: '#library' },
+      { kind: 'separator' },
+      { id: 'sign-out', label: 'Sign out', icon: 'logout', tone: 'destructive' },
+      { id: 'delete', label: 'Delete campaign', icon: 'close', tone: 'destructive', disabled: true },
+    ],
+  },
+};
+
 export const Keyboard: Story = {
   args: {
     label: 'Worldbook',

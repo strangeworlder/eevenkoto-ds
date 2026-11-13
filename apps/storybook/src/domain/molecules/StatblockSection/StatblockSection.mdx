@@ -91,21 +91,25 @@ Gap between title and features uses `--eevenkoto-statblock-section-gap` (default
 
 ## Accessibility
 
-- Section landmark is a real `<section>` with an H2 title.
-- Feature children must be H3 (via StatblockFeature) — do not insert bare paragraphs as “named” entries.
-- One section title per cluster; avoid multiple H2s that repeat the same label.
+- Section landmark is a real `<section>` with an H2 title (`titleLevel: 2` default, or `3` / `4` when embedded under H2/H3).
+- Feature children automatically default to `titleLevel + 1` (`h3`, `h4`, or `h5`) via StatblockFeature so the outline stays 100% contiguous — do not insert bare paragraphs as “named” entries.
+- One section title per cluster; avoid multiple headings that repeat the same label.
 
 ## API reference
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `title` | `string` | — | Section heading (H2). |
-| `features` | `StatblockFeatureProps[]` | — | Stacked feature entries. |
+| `title` | `string` | — | Section heading (visual meso H3). |
+| `titleLevel` | `2 \| 3 \| 4` | `2` | Semantic heading tag level (`3` or `4` when embedded under H2/H3). |
+| `bodyHtml` | `string` | — | Optional introductory HTML before `features`. |
+| `features` | `StatblockFeatureProps[]` | — | Stacked feature entries (default `level` cascades to `titleLevel + 1`). |
 
 ```ts
 export interface StatblockSectionProps {
   title: string;
-  features: StatblockFeatureProps[];
+  titleLevel?: 2 | 3 | 4;
+  bodyHtml?: string;
+  features?: StatblockFeatureProps[];
 }
 ```
 

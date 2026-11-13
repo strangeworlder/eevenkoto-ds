@@ -123,10 +123,10 @@ See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2--h3--h6) f
 
 ## Accessibility
 
-- Outline is contiguous: **H1 → H2 → H3** by default. Use `nameLevel: 2` when the host page already owns an H1 (then **H2 → H2 → H3** for name/sections/features — prefer a dedicated page H1 when possible).
+- Outline is contiguous: **H1 → H2 → H3** by default. Set `nameLevel: 2` (under an H1 page) or `nameLevel: 3` (under an H2 subsection) to cascade sections and run-in features automatically (**H2 → H3 → H4** or **H3 → H4 → H5**).
 - Ability columns expose score / modifier / save via visually hidden `dt` terms (`scoreLabel`, `modifierLabel`, `saveLabel` — override for Finnish), and each column `dl` is `aria-labelledby` the ability name.
 - PropertyList uses a real `<dl>` with grouped `dt` / `dd` pairs.
-- Run-in keeps a real `<h3>` — never demote the feature name to a `<span>` for styling.
+- Run-in keeps a real heading (`<h3>`/`<h4>`/`<h5>`) — never demote the feature name to a `<span>` for styling.
 - Proficient saves use deep gold + thicker border/outline (not color-only) and announce `({proficientLabel})` to AT (default `proficient`; override for locale).
 
 ## Migration from `kykylistaus-*`
@@ -144,8 +144,11 @@ See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2--h3--h6) f
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | — | Optional anchor `id` applied to the outer `<article>`. |
+| `headingId` | `string` | — | Optional anchor `id` applied to the creature name heading. |
 | `name` | `string` | — | Creature / entity title. |
-| `nameLevel` | `1 \| 2` | `1` | Heading level for the name (use `2` in embeds). |
+| `nameHtml` | `string` | — | Trusted inline HTML for the creature name heading (sanitized in HTML renderer). Takes precedence over `name`. |
+| `nameLevel` | `1 \| 2 \| 3` | `1` | Heading level for the name (`2` or `3` in embedded outlines; cascades section `titleLevel` and feature `level`). |
 | `flavor` | `string` | — | Optional flavor Paragraph. |
 | `typeLine` | `string` | — | Optional italic type line. |
 | `vitals` | `PropertyItem[]` | — | Combat vitals → AbilityScoreGroup header. |
@@ -155,14 +158,20 @@ See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2--h3--h6) f
 
 ```ts
 export interface StatblockProps {
+  id?: string;
+  headingId?: string;
   name: string;
-  nameLevel?: 1 | 2;
+  nameHtml?: string;
+  nameLevel?: 1 | 2 | 3;
   flavor?: string;
+  flavorHtml?: string;
   typeLine?: string;
+  typeLineHtml?: string;
   vitals: PropertyItem[];
   abilities: AbilityScoreProps[];
   details: PropertyItem[];
   sections?: StatblockSectionProps[];
+  bodyHtml?: string;
 }
 ```
 

@@ -1,0 +1,137 @@
+/* packages/css/core/organisms/account-menu.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: ACCOUNT MENU (TIER 3)
+   Sign-in button (signed out) or avatar trigger + profile popover (signed in).
+   ========================================================================== */
+
+@import url('../atoms/avatar.css');
+@import url('../atoms/badge.css');
+@import url('../atoms/icon.css');
+@import url('../atoms/link-button.css');
+@import url('../atoms/popover.css');
+@import url('../molecules/menu.css');
+
+.eevenkoto-account-menu {
+  --_eevenkoto-account-menu-text: var(
+    --eevenkoto-account-menu-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-account-menu-muted: var(
+    --eevenkoto-account-menu-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-account-menu-border-color: var(
+    --eevenkoto-account-menu-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+
+  position: relative;
+  inline-size: 100%;
+  min-inline-size: 0;
+}
+
+.eevenkoto-account-menu__trigger {
+  --_eevenkoto-account-menu-trigger-bg: var(
+    --eevenkoto-account-menu-trigger-bg,
+    var(--eevenkoto-color-control-secondary-background)
+  );
+  --_eevenkoto-account-menu-trigger-text: var(
+    --eevenkoto-account-menu-trigger-text,
+    var(--eevenkoto-color-control-secondary-text)
+  );
+  --_eevenkoto-account-menu-trigger-border-color: var(
+    --eevenkoto-account-menu-trigger-border-color,
+    var(--eevenkoto-color-control-secondary-border)
+  );
+
+  display: flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-3);
+  inline-size: 100%;
+  min-inline-size: 0;
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
+  background: var(--_eevenkoto-account-menu-trigger-bg);
+  color: var(--_eevenkoto-account-menu-trigger-text);
+  border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-account-menu-trigger-border-color);
+  border-radius: var(--eevenkoto-radius-md);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.eevenkoto-account-menu__trigger:hover {
+  --eevenkoto-account-menu-trigger-bg: var(--eevenkoto-color-control-secondary-background-hover);
+}
+
+.eevenkoto-account-menu__trigger:focus-visible {
+  outline: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+.eevenkoto-account-menu__identity {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--eevenkoto-space-1);
+  min-inline-size: 0;
+}
+
+.eevenkoto-account-menu__name {
+  max-inline-size: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+.eevenkoto-account-menu__chevron {
+  flex-shrink: 0;
+  transition: transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
+}
+
+.eevenkoto-account-menu__trigger[aria-expanded='true'] .eevenkoto-account-menu__chevron {
+  transform: rotate(180deg);
+}
+
+.eevenkoto-account-menu__summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--eevenkoto-space-1);
+  padding: var(--eevenkoto-space-3);
+  color: var(--_eevenkoto-account-menu-text);
+  border-block-end: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-account-menu-border-color);
+  font-weight: var(--eevenkoto-font-weight-bold);
+}
+
+.eevenkoto-account-menu__email {
+  font-weight: var(--eevenkoto-font-weight-regular);
+  font-size: var(--eevenkoto-font-size-body-sm);
+  color: var(--_eevenkoto-account-menu-muted);
+  overflow-wrap: anywhere;
+}
+
+.eevenkoto-account-menu__footer {
+  padding: var(--eevenkoto-space-3);
+  border-block-start: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-account-menu-border-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-account-menu__chevron {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-account-menu__trigger {
+    border-color: ButtonText;
+  }
+}
+
+@media print {
+  .eevenkoto-account-menu {
+    display: none;
+  }
+}

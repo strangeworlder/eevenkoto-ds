@@ -457,6 +457,53 @@
   --eevenkoto-menu-item-text: var(--eevenkoto-color-content-secondary);
 }
 
+/* --- DESTRUCTIVE ITEMS --- */
+
+.eevenkoto-menu
+  :is(a, button).eevenkoto-menu__item--destructive:not(:disabled):not([aria-disabled='true']):not(
+    [aria-current='page']
+  ):not(.eevenkoto-menu__item--selected),
+.eevenkoto-menu__item--destructive:not(:disabled):not([aria-disabled='true']):not(
+    [aria-current='page']
+  ):not(.eevenkoto-menu__item--selected) {
+  --eevenkoto-menu-item-text: var(
+    --eevenkoto-menu-item-destructive-text,
+    var(--eevenkoto-color-feedback-critical-text)
+  );
+  --eevenkoto-menu-item-icon: var(
+    --eevenkoto-menu-item-destructive-icon,
+    var(--eevenkoto-color-feedback-critical-icon)
+  );
+}
+
+.eevenkoto-menu
+  :is(a, button).eevenkoto-menu__item--destructive:hover:not(:disabled):not(
+    [aria-disabled='true']
+  ):not([aria-current='page']):not(.eevenkoto-menu__item--selected),
+.eevenkoto-menu__item--destructive:hover:not(:disabled):not([aria-disabled='true']):not(
+    [aria-current='page']
+  ):not(.eevenkoto-menu__item--selected) {
+  --eevenkoto-menu-item-bg: var(
+    --eevenkoto-menu-item-destructive-bg-hover,
+    var(--eevenkoto-color-feedback-critical-background)
+  );
+  --eevenkoto-menu-item-text: var(
+    --eevenkoto-menu-item-destructive-text-hover,
+    var(--eevenkoto-color-feedback-critical-text)
+  );
+  --eevenkoto-menu-item-border-color: var(
+    --eevenkoto-menu-item-destructive-border-color-hover,
+    var(--eevenkoto-color-feedback-critical-border)
+  );
+  --eevenkoto-menu-item-icon: var(
+    --eevenkoto-menu-item-destructive-icon-hover,
+    var(--eevenkoto-color-feedback-critical-icon)
+  );
+  --eevenkoto-menu-item-gradient-start: transparent;
+  --eevenkoto-menu-item-gradient-middle: transparent;
+  --eevenkoto-menu-item-gradient-end: transparent;
+}
+
 /* --- DISABLED (opaque tuples; no opacity) --- */
 
 .eevenkoto-menu :is(a, button, summary):disabled,
@@ -483,6 +530,20 @@
   --eevenkoto-menu-item-text-shadow: none;
   --eevenkoto-menu-item-box-shadow: none;
   --eevenkoto-menu-icon-filter: none;
+}
+
+.eevenkoto-menu :is(a, button).eevenkoto-menu__item--destructive:disabled,
+.eevenkoto-menu :is(a, button).eevenkoto-menu__item--destructive[aria-disabled='true'],
+.eevenkoto-menu__item--destructive:disabled,
+.eevenkoto-menu__item--destructive[aria-disabled='true'] {
+  --eevenkoto-menu-item-text: var(
+    --eevenkoto-menu-item-destructive-text-disabled,
+    var(--eevenkoto-color-control-secondary-text-disabled)
+  );
+  --eevenkoto-menu-item-icon: var(
+    --eevenkoto-menu-item-destructive-icon-disabled,
+    var(--eevenkoto-color-control-secondary-icon-disabled)
+  );
 }
 
 /* --- FOCUS (dual-halo; composes with item elevation when selected) --- */

@@ -2,7 +2,51 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.11.0**.
+Published package version is **0.12.0**.
+
+## 0.12.0
+
+> **Consuming site upgrade instructions:** See [`docs/migration-0.12-frontend-gap-resolution.md`](docs/migration-0.12-frontend-gap-resolution.md) for the item-by-item mapping from the frontend gap analysis to the shipped components, props and recipes.
+
+Resolves the frontend team's gap analysis (23 custom elements + 12 local overrides) from DS first principles. Everything ships across `@eevenkoto/{css,core,html,react,vue,astro}` with Storybook docs; `*Html` string, plain-text and slot/children inputs stay in parity.
+
+### Added
+
+- **Core:** `Swatch`, `Divider` (also styles bare `hr` in Prose), `ProgressBar`, `FloatingBanner`, `Disclosure`, `ChipGroup`, `TableOfContents`, `SectionHeader`, `TierCard`, `AccountMenu`.
+- **Domain:** `LicenseBar`, `DocumentHeader`, `ContentTable`, `EntityPreview`, `ReadAloudBox`, `NpcCard`, `NpcCardGrid`, `MapFrame`, `ContentGate`.
+- **Tokens:** `--eevenkoto-z-*` stacking scale and `--eevenkoto-color-depth-scrim`.
+- **`ContentLicense` (`'proprietary' | 'open'`)** type shared by `LicenseBar` and `DocumentHeader`; `[data-content-license="open"]` recolours H1 underlines.
+- **Docs:** Foundations **Composition recipes** (account status banner, readiness legend grid, adventure meta card, highlight tile, version comparison preview, swatch picker tray).
+
+### Changed (backwards compatible)
+
+- `Heading`: run-in levels 2–6.
+- `Caption`: `variant="eyebrow"`, `tone="accent"`.
+- `Chip`: `icon`, `swatchColor`.
+- `Property` / `PropertyList`: `meta`, `layout` (`inline | divided | grid | cards`), `columns`.
+- `List` / `ListItem`: `html`, `status`, `variant="checklist"`.
+- `Menu`: `tone="destructive"` items.
+- `Notice`: `statusText` live line; nested copy inherits notice colour.
+- `Field`: `orientation`, `action`.
+- `TooltipCard`: `flush`, `bodyHtml`.
+- `Card`: `surface`, `accent`, `current`, `layout="split"`, `elevated`, `interactive`, `titleHtml`, `headerActions`, `actions`.
+- `Table` / `TableCell`: `html`, `colSpan`, `rowSpan`, `scope`, `attributes`, row objects.
+- `Workshop`: `layout="inline"`, `sticky`, `icon`/`title`/`subtitle`, `toolbar`, `footer`; container-query collapse. `EquipmentWorkshop` now composes Workshop (duplicate layout CSS removed; both class sets are emitted).
+- `Statblock` / `StatblockSection` / `Spellblock`: `nameLevel`, `id`, `headingId`, `nameHtml`, contiguous heading outlines.
+
+### Not shipped
+
+- **AppShell / Sidebar** remain out of scope (host-app behavior). Use the shipped parts and `--eevenkoto-z-*` tokens inside your own shell.
+- `StatusBanner`, `ReadinessGrid`, `AdventureMetaCard`, `VersionComparisonPreview`, `HighlightTile`, `AttributeBox`, `GeneratorCard`, `WorkshopToolbar` are covered by upgrades + recipes, not new components.
+
+### Fixed
+
+- Wave 2 `tier-card.css` imported a non-existent `list.css` path.
+- `AccountMenu` signed-out `LinkButton` now shows the `user` icon (`'user'` added to `BUTTON_ICON_NAMES`); Vue `AccountMenu` forwards Menu `select` events.
+- Astro `Badge` renders `dot` (previously leaked as an HTML attribute); Astro `DocumentHeader`, `EntityPreview` and `ContentGate` compose it instead of hand-built badge markup.
+- `EntityPreview` `bodyHtml` is wrapped in a layout-transparent `.eevenkoto-entity-preview__html` in every binding (HTML previously inserted it raw).
+- New `eevenkoto/z-index-token` Stylelint rule: component sheets must use `var(--eevenkoto-z-*)` or a local offset between -1 and 3. `AbilityScoreGroup` now uses 1–3 inside `isolation: isolate`.
+- Wave 3 HTML renderers use `.html` templates like the rest of `@eevenkoto/html`.
 
 ## 0.11.0
 

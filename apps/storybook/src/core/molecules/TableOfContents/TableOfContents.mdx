@@ -1,0 +1,54 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TableOfContentsStories from './TableOfContents.stories';
+
+<Meta of={TableOfContentsStories} />
+
+# TableOfContents
+
+A `<nav>` outline of in-page jump links. It replaces horizontal chip bars with a real list: a vertical **rail** on wide layouts and a sticky **disclosure** on narrow ones. The current location is shown with `aria-current="location"` plus a thick accent border and heavier weight, so it never relies on color alone.
+
+<Canvas of={TableOfContentsStories.Rail} />
+
+<Controls of={TableOfContentsStories.Rail} />
+
+## Why to use
+
+Long documents need a navigable outline that works without JavaScript, stays reachable on mobile, and is skipped in print. Links use `data-toc-target` (never duplicate ids), so one scrollspy updates both presentations.
+
+## When to use
+
+- Use `variant="auto"` for document pages with a side column.
+- Use `rail` inside a layout you already control, `collapsible` for single-column pages.
+- Don't use it for site navigation — use [Menu](?path=/docs/core-molecules-menu--docs).
+
+<Canvas of={TableOfContentsStories.Collapsible} />
+
+<Canvas of={TableOfContentsStories.AutoResponsive} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | DOM id on `<nav>`. |
+| `label` | `string` | `'Table of contents'` | Landmark `aria-label`. |
+| `groups` | `TableOfContentsGroup[]` | — | `{ id?, label?, items: { id, href, label, current? }[] }`. |
+| `variant` | `'auto' \| 'rail' \| 'collapsible'` | `'auto'` | Presentation. |
+| `toggleLabel` | `string` | `'On this page'` | Rail heading and disclosure summary. |
+| `open` | `boolean` | `false` | Start the disclosure open. |
+
+<ArgTypes of={TableOfContentsStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/table-of-contents.css';
+import { renderTableOfContents } from '@eevenkoto/html';
+
+renderTableOfContents({ groups: [{ items: [{ id: 'a', href: '#a', label: 'A' }] }] });
+```
+
+```tsx
+import { TableOfContents } from '@eevenkoto/react';
+
+<TableOfContents groups={groups} variant="auto" />
+```

@@ -1,0 +1,56 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as DividerStories from './Divider.stories';
+
+<Meta of={DividerStories} />
+
+# Divider
+
+A thematic break between sections. Host alone renders a **solid** rule with **lg** spacing; bare `<hr>` inside `.eevenkoto-prose` receives the same styling.
+
+<Canvas of={DividerStories.Default} />
+
+```html
+<hr class="eevenkoto-divider" />
+```
+
+<Controls of={DividerStories.Default} />
+
+## Why to use
+
+One rule for every section break, tied to `--eevenkoto-color-boundary-subtle` and the shared space scale, with `forced-colors` support.
+
+## When to use
+
+- Use between unrelated sections of a page or document.
+- Use `spacing="sm"` inside dense cards, `dashed` for softer secondary breaks.
+- Don't use it as a card or table border — use the host component's own border.
+
+<Canvas of={DividerStories.Spacings} />
+
+<Canvas of={DividerStories.Dashed} />
+
+<Canvas of={DividerStories.InProse} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `spacing` | `'sm' \| 'md' \| 'lg'` | `'lg'` | Block margin (`space-3` / `space-4` / `space-6`). |
+| `variant` | `'solid' \| 'dashed'` | `'solid'` | Stroke style. |
+
+<ArgTypes of={DividerStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/divider.css';
+import { renderDivider } from '@eevenkoto/html';
+
+renderDivider({ spacing: 'md', variant: 'dashed' });
+```
+
+```tsx
+import { Divider } from '@eevenkoto/react';
+
+<Divider spacing="md" />
+```

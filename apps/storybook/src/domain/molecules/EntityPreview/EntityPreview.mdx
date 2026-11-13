@@ -1,0 +1,50 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as EntityPreviewStories from './EntityPreview.stories';
+
+<Meta of={EntityPreviewStories} />
+
+# EntityPreview
+
+TooltipCard specialised for referenced entities: optional kind badge, body, truncated note and footer link. A Statblock/Spellblock in the body renders flush.
+
+<Canvas of={EntityPreviewStories.Default} />
+
+<Controls of={EntityPreviewStories.Default} />
+
+## Why to use
+
+Hover and popover previews for entity references all share structure and chrome; this keeps them consistent and avoids double borders around embedded blocks.
+
+## When to use
+
+- Use inside a Popover or tooltip target for EntityRef previews.
+- Use TooltipCard for non-entity tooltips.
+
+<Canvas of={EntityPreviewStories.Truncated} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| title / titleLevel | `string` / `2 \| 3` | — / `2` | Header. |
+| kind | `EntityRefKind` | — | Sets `data-entity-kind`. |
+| badge | `BadgeProps` | — | Kind / readiness badge. |
+| body / bodyHtml | `string` | — | Body copy. |
+| truncatedLabel | `string` | — | Note shown when the preview was cut. |
+| footerLink | `LinkButtonProps` | — | Footer link button. |
+| flush | `boolean` | `false` | Remove body padding. |
+
+<ArgTypes of={EntityPreviewStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/entity-preview.css';
+import { renderEntityPreview } from '@eevenkoto/html';
+```
+
+```tsx
+import { EntityPreview } from '@eevenkoto/react';
+
+<EntityPreview title="Tulipallo" kind="spell" body="Räjähtävä pallo tulta." />
+```

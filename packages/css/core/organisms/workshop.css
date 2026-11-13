@@ -1,9 +1,12 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: WORKSHOP (TIER 3)
-   Interactive 2-column workbench layout organism (header bar, form/stepper
-   control groups, and sticky live preview column).
+   Interactive workbench & generator layout organism (header bar, form/stepper
+   control groups, toolbar, live preview region, and footer tray).
+   Supports `split` (2-column workbench) and `inline` (single-column generator).
    Customize column split via `--eevenkoto-workshop-controls-width`.
    ========================================================================== */
+
+@import url('../atoms/icon.css');
 
 .eevenkoto-workshop {
   --_eevenkoto-workshop-bg: var(
@@ -42,6 +45,14 @@
     --eevenkoto-workshop-item-bg,
     var(--eevenkoto-color-surface-sunken)
   );
+  --_eevenkoto-workshop-badge-bg: var(
+    --eevenkoto-workshop-badge-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-workshop-badge-color: var(
+    --eevenkoto-workshop-badge-color,
+    var(--eevenkoto-color-content-accent)
+  );
   --_eevenkoto-workshop-controls-width: var(
     --eevenkoto-workshop-controls-width,
     minmax(0, 1.35fr)
@@ -50,6 +61,9 @@
     --eevenkoto-workshop-preview-width,
     minmax(0, 1fr)
   );
+
+  container-type: inline-size;
+  container-name: eevenkoto-workshop;
 
   display: flex;
   flex-direction: column;
@@ -67,7 +81,7 @@
   position: relative;
 }
 
-/* --- HEADER BAR --- */
+/* --- HEADER BAR & STRUCTURED TITLE LOCKUP --- */
 
 .eevenkoto-workshop__header {
   display: flex;
@@ -79,6 +93,53 @@
   margin-block-end: var(--eevenkoto-space-6);
   border-block-end: var(--_eevenkoto-workshop-border-width) solid
     var(--_eevenkoto-workshop-border-color);
+}
+
+.eevenkoto-workshop__title-group {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--eevenkoto-space-3);
+  row-gap: var(--eevenkoto-space-1);
+  align-items: center;
+  min-width: 0;
+}
+
+.eevenkoto-workshop__title-group:not(:has(> .eevenkoto-workshop__icon-badge)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.eevenkoto-workshop__icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--eevenkoto-space-8);
+  block-size: var(--eevenkoto-space-8);
+  background: var(--_eevenkoto-workshop-badge-bg);
+  color: var(--_eevenkoto-workshop-badge-color);
+  border: var(--_eevenkoto-workshop-border-width) solid
+    var(--_eevenkoto-workshop-border-color);
+  border-radius: var(--eevenkoto-radius-sm);
+  flex-shrink: 0;
+}
+
+.eevenkoto-workshop__title-group:has(> .eevenkoto-workshop__subtitle)
+  > .eevenkoto-workshop__icon-badge {
+  grid-row: 1 / span 2;
+}
+
+.eevenkoto-workshop__title {
+  margin: 0;
+  font-family: var(--eevenkoto-font-serif);
+  font-size: var(--eevenkoto-font-size-heading-3);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  line-height: var(--eevenkoto-line-height-tight);
+  color: var(--_eevenkoto-workshop-text);
+}
+
+.eevenkoto-workshop__subtitle {
+  margin: 0;
+  font-size: var(--eevenkoto-font-size-body-sm);
+  color: var(--_eevenkoto-workshop-muted);
 }
 
 .eevenkoto-workshop__mode-nav {
@@ -132,12 +193,6 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
-@media (max-width: 56rem) {
-  .eevenkoto-workshop__body {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
 /* --- CONTROLS COLUMN --- */
 
 .eevenkoto-workshop__controls {
@@ -182,6 +237,15 @@
   color: var(--_eevenkoto-workshop-muted);
 }
 
+.eevenkoto-workshop__subgroup-title {
+  margin: 0;
+  font-size: var(--eevenkoto-font-size-caption);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--_eevenkoto-workshop-muted);
+}
+
 .eevenkoto-workshop__name-row {
   display: flex;
   align-items: center;
@@ -198,11 +262,97 @@
   gap: var(--eevenkoto-space-2);
 }
 
-/* --- PREVIEW COLUMN --- */
+/* --- PREVIEW COLUMN & TOOLBAR --- */
 
 .eevenkoto-workshop__preview {
   position: sticky;
   top: var(--eevenkoto-space-4);
   align-self: start;
   min-width: 0;
+}
+
+.eevenkoto-workshop__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  padding: var(--eevenkoto-space-3);
+  margin-block-end: var(--eevenkoto-space-3);
+  background: var(--_eevenkoto-workshop-item-bg);
+  border: var(--_eevenkoto-workshop-border-width) solid
+    var(--_eevenkoto-workshop-border-color);
+  border-radius: var(--eevenkoto-radius-sm);
+}
+
+/* --- FOOTER TRAY --- */
+
+.eevenkoto-workshop__footer {
+  margin-block-start: var(--eevenkoto-space-6);
+  padding-block-start: var(--eevenkoto-space-4);
+  border-block-start: var(--_eevenkoto-workshop-border-width) solid
+    var(--_eevenkoto-workshop-border-color);
+}
+
+/* --- LAYOUT & STICKY MODIFIERS --- */
+
+.eevenkoto-workshop--inline {
+  --eevenkoto-workshop-pad: var(--eevenkoto-space-4);
+}
+
+.eevenkoto-workshop--inline .eevenkoto-workshop__body {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.eevenkoto-workshop--inline .eevenkoto-workshop__preview {
+  position: static;
+}
+
+.eevenkoto-workshop--sticky-none .eevenkoto-workshop__preview {
+  position: static;
+}
+
+.eevenkoto-workshop--sticky-controls .eevenkoto-workshop__preview {
+  position: static;
+}
+
+.eevenkoto-workshop--sticky-controls .eevenkoto-workshop__controls {
+  position: sticky;
+  top: var(--eevenkoto-space-4);
+  align-self: start;
+}
+
+.eevenkoto-workshop--sticky-preview .eevenkoto-workshop__preview {
+  position: sticky;
+  top: var(--eevenkoto-space-4);
+}
+
+/* --- CONTAINER STACKING --- */
+
+@container eevenkoto-workshop (max-width: 56rem) {
+  .eevenkoto-workshop__body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .eevenkoto-workshop__preview,
+  .eevenkoto-workshop__controls,
+  .eevenkoto-workshop--sticky-preview .eevenkoto-workshop__preview,
+  .eevenkoto-workshop--sticky-controls .eevenkoto-workshop__controls {
+    position: static;
+  }
+}
+
+/* --- PRINT --- */
+
+@media print {
+  .eevenkoto-workshop--inline,
+  .eevenkoto-workshop--sticky-none .eevenkoto-workshop__preview,
+  .eevenkoto-workshop--inline .eevenkoto-workshop__preview {
+    break-inside: avoid;
+  }
+
+  .eevenkoto-workshop__preview,
+  .eevenkoto-workshop__controls {
+    position: static;
+  }
 }

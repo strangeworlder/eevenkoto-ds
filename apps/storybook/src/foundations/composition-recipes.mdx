@@ -1,0 +1,161 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Composition recipes" />
+
+# Composition recipes
+
+Patterns the design system deliberately does **not** ship as components. Each is layout glue over parts that already exist; a dedicated component would add API surface without adding behavior. Copy the recipe, keep the classes, change the data.
+
+All recipes use `@eevenkoto/html` for brevity. React, Vue and Astro take the same props and slots — see [Packages](?path=/docs/foundations-packages--docs).
+
+## Account status banner
+
+A signed-in greeting with a tier badge on the start side and one or two actions on the end side. Use `Card` with `layout="split"`: the main content stays on the inline-start side, `actions` on the inline-end side, and the card stacks on narrow containers.
+
+```ts
+import '@eevenkoto/css/card.css';
+import { renderCard, renderBadge, renderLinkButton } from '@eevenkoto/html';
+
+renderCard({
+  layout: 'split',
+  elevated: true,
+  titleHtml: 'Hei, <span class="user-name">Seikkailija</span>',
+  titleLevel: 3,
+  headerActions: renderBadge({ label: 'Kannattaja', intent: 'info', shape: 'pill' }),
+  body: 'Tilauksesi on voimassa. Ennakkoversiot ovat avoinna.',
+  actions: renderLinkButton({ href: '/tili', label: 'Hallitse tiliä', variant: 'secondary' }),
+});
+```
+
+`titleHtml` accepts a hydration target (`<span class="user-name">`) for client-side personalisation.
+
+## Readiness legend grid
+
+An overview of readiness levels (what "ready", "preview" and "draft" mean). Use a sunken `Card` with a `StatusDot` + label per tile, laid out by your own CSS grid.
+
+```ts
+import '@eevenkoto/css/card.css';
+import '@eevenkoto/css/status-dot.css';
+import { renderCard, renderStatusDot } from '@eevenkoto/html';
+
+const tile = (intent, label, text) =>
+  renderCard({
+    surface: 'sunken',
+    title: label,
+    titleLevel: 3,
+    headerActions: renderStatusDot({ intent, label }),
+    body: text,
+  });
+
+`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:var(--eevenkoto-space-3)">
+  ${tile('success', 'Valmis', 'Lopullinen sisältö.')}
+  ${tile('caution', 'Ennakko', 'Voi muuttua.')}
+  ${tile('neutral', 'Luonnos', 'Keskeneräinen.')}
+</div>`;
+```
+
+The grid wrapper is app layout. Keep gaps on `--eevenkoto-space-*` tokens.
+
+## Adventure meta card
+
+Key facts about an adventure (level range, length, players, system). Use `Card` with `accent="top"` and a four-column `PropertyList`.
+
+```ts
+import '@eevenkoto/css/card.css';
+import '@eevenkoto/css/property.css';
+import { renderCard, renderPropertyList } from '@eevenkoto/html';
+
+renderCard({
+  accent: 'top',
+  surface: 'subtle',
+  title: 'Seikkailun tiedot',
+  titleLevel: 2,
+  bodyHtml: renderPropertyList({
+    layout: 'grid',
+    columns: 4,
+    items: [
+      { label: 'Taso', value: '3–5' },
+      { label: 'Kesto', value: '4 h' },
+      { label: 'Pelaajat', value: '3–5' },
+      { label: 'Järjestelmä', value: 'Eevenkoto' },
+    ],
+  }),
+});
+```
+
+Use `layout="cards"` with `PropertyItem.meta` for highlight tiles (value + secondary lines), and `Card accent="start"` for a single highlighted attribute box.
+
+## Highlight tile / attribute box
+
+A single emphasised fact with supporting lines.
+
+```ts
+renderCard({
+  accent: 'start',
+  surface: 'subtle',
+  bodyHtml: renderPropertyList({
+    layout: 'cards',
+    columns: 2,
+    items: [{ label: 'Kesto', value: '3 / 4', meta: ['Murskaus 4', 'Viilto 3'] }],
+  }),
+});
+```
+
+## Version comparison preview
+
+Side-by-side reading modes (proprietary text vs. open SRD text). Use a `SegmentedControl` (links or radios mode) to pick the mode and sunken `Card` panels for each version; the host app swaps visibility. Reflect the active mode with `[data-content-license="open"]` on an ancestor so `DocumentHeader` headings follow, and with [`LicenseBar`](?path=/docs/domain-molecules-licensebar--docs).
+
+```ts
+import '@eevenkoto/css/segmented-control.css';
+import '@eevenkoto/css/card.css';
+import { renderSegmentedControl, renderCard } from '@eevenkoto/html';
+
+`<div data-content-license="open">
+  ${renderSegmentedControl({
+    label: 'Lukutila',
+    mode: 'radios',
+    name: 'mode',
+    selectedId: 'open',
+    options: [
+      { id: 'proprietary', label: 'Teksti' },
+      { id: 'open', label: 'SRD' },
+    ],
+  })}
+  ${renderCard({ surface: 'sunken', title: 'SRD', body: 'Avoin teksti (CC-BY 4.0).' })}
+</div>`;
+```
+
+## Categorised swatch picker tray
+
+A colour picker grouped by category (skin, hair, cloth). Compose `Disclosure` (one per category) with a `ChipGroup` of `swatchColor` options. Selection state and persistence belong to the app; the DS provides the markup (`data-value`, `aria-pressed`) and opaque disabled styling.
+
+```ts
+import '@eevenkoto/css/disclosure.css';
+import '@eevenkoto/css/chip-group.css';
+import { renderDisclosure, renderChipGroup } from '@eevenkoto/html';
+
+renderDisclosure({
+  label: 'Hiukset',
+  variant: 'subtle',
+  open: true,
+  bodyHtml: renderChipGroup({
+    label: 'Hiusten väri',
+    hideLegend: true,
+    mode: 'single',
+    options: [
+      { value: 'dark', label: 'Tumma', selected: true, swatchColor: '#2b1d14' },
+      { value: 'fair', label: 'Vaalea', swatchColor: '#e6c88b' },
+    ],
+  }),
+});
+```
+
+Use `Disclosure` `summaryLead` for a leading `Swatch` and `summaryMeta` for a count or current value.
+
+## Inline generator (formerly "GeneratorCard")
+
+Use `Workshop` with `layout="inline"` — no separate component. `icon`, `title`, `subtitle` build the header, `toolbar` sits above the preview, and `footer` holds quick picks. Toolbars are `Workshop`'s `toolbar` prop, not a separate molecule.
+
+## Application shell
+
+Not a recipe, by design: see [Decisions](?path=/docs/foundations-decisions--docs). Place `ProgressBar` (fixed), `FloatingBanner`, `AccountMenu`, `TableOfContents` and `LicenseBar` inside your own shell; z-order comes from the `--eevenkoto-z-*` tokens and the drawer scrim from `--eevenkoto-color-depth-scrim`.

@@ -13,12 +13,19 @@ export interface Props extends Omit<PropertyListProps, 'items'> {
   [key: string]: unknown;
 }
 
-const { items, class: classProp, className, ...rest } = Astro.props;
-const classes = [propertyListClassNames(), classProp, className].filter(Boolean).join(' ');
+const { items, layout, columns, class: classProp, className, ...rest } = Astro.props;
+const classes = [propertyListClassNames({ layout, columns }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
 ---
 <dl class={classes} {...rest}>
   {items?.map((item) => (
-    <Property label={item.label} value={item.value} valueHtml={item.valueHtml} />
+    <Property
+      label={item.label}
+      value={item.value}
+      valueHtml={item.valueHtml}
+      meta={item.meta}
+    />
   ))}
   <slot />
 </dl>

@@ -21,6 +21,9 @@ export { default as Scroll } from './core/atoms/Scroll.astro';
 export { default as Select } from './core/atoms/Select.astro';
 export { default as Stat } from './core/atoms/Stat.astro';
 export { default as StatusDot } from './core/atoms/StatusDot.astro';
+export { default as Swatch } from './core/atoms/Swatch.astro';
+export { default as Divider } from './core/atoms/Divider.astro';
+export { default as ProgressBar } from './core/atoms/ProgressBar.astro';
 export { default as TableCell } from './core/atoms/TableCell.astro';
 export { default as Toast } from './core/atoms/Toast.astro';
 
@@ -30,6 +33,7 @@ export { default as Catalog } from './core/molecules/Catalog.astro';
 export { default as CatalogTile } from './core/molecules/CatalogTile.astro';
 export { default as CheckboxGroup } from './core/molecules/CheckboxGroup.astro';
 export { default as Field } from './core/molecules/Field.astro';
+export { default as FloatingBanner } from './core/molecules/FloatingBanner.astro';
 export { default as Flow } from './core/molecules/Flow.astro';
 export { default as List } from './core/molecules/List.astro';
 export { default as Menu } from './core/molecules/Menu.astro';
@@ -61,3 +65,21 @@ export { default as EquipmentBlock } from './domain/organisms/EquipmentBlock.ast
 export { default as EquipmentWorkshop } from './domain/organisms/EquipmentWorkshop.astro';
 export { default as Spellblock } from './domain/organisms/Spellblock.astro';
 export { default as Statblock } from './domain/organisms/Statblock.astro';
+
+// Core — Molecules (0.12.0)
+export { default as ChipGroup } from './core/molecules/ChipGroup.astro';
+export { default as Disclosure } from './core/molecules/Disclosure.astro';
+export { default as TableOfContents } from './core/molecules/TableOfContents.astro';
+export { default as SectionHeader } from './core/molecules/SectionHeader.astro';
+export { default as AccountMenu } from './core/organisms/AccountMenu.astro';
+export { default as TierCard } from './core/organisms/TierCard.astro';
+
+export { default as LicenseBar } from './domain/molecules/LicenseBar.astro';
+export { default as DocumentHeader } from './domain/molecules/DocumentHeader.astro';
+export { default as ContentTable } from './domain/molecules/ContentTable.astro';
+export { default as EntityPreview } from './domain/molecules/EntityPreview.astro';
+export { default as ReadAloudBox } from './domain/molecules/ReadAloudBox.astro';
+export { default as NpcCard } from './domain/molecules/NpcCard.astro';
+export { default as MapFrame } from './domain/molecules/MapFrame.astro';
+export { default as NpcCardGrid } from './domain/organisms/NpcCardGrid.astro';
+export { default as ContentGate } from './domain/organisms/ContentGate.astro';

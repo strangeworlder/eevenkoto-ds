@@ -1,0 +1,42 @@
+/* packages/css/core/molecules/chip-group.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: CHIP GROUP (TIER 3)
+   Fieldset + legend + wrapping list of Chips. Disabled options use Chip's
+   opaque disabled tokens (no strikethrough, no opacity).
+   ========================================================================== */
+
+@import url('../atoms/chip.css');
+
+.eevenkoto-chip-group {
+  --_eevenkoto-chip-group-legend-color: var(
+    --eevenkoto-chip-group-legend-color,
+    var(--eevenkoto-color-content-primary)
+  );
+
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-chip-group[hidden] {
+  display: none;
+}
+
+.eevenkoto-chip-group__legend {
+  padding: 0;
+  margin-block-end: var(--eevenkoto-space-2);
+  font-size: var(--eevenkoto-font-size-control-md);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  color: var(--_eevenkoto-chip-group-legend-color);
+}
+
+.eevenkoto-chip-group__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+}

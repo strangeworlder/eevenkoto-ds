@@ -48,6 +48,10 @@
     --eevenkoto-tooltip-card-pad-inline,
     var(--eevenkoto-space-3)
   );
+  --_eevenkoto-tooltip-card-body-pad: var(
+    --eevenkoto-tooltip-card-body-pad,
+    var(--_eevenkoto-tooltip-card-pad-block) var(--_eevenkoto-tooltip-card-pad-inline)
+  );
   --_eevenkoto-tooltip-card-gap: var(
     --eevenkoto-tooltip-card-gap,
     var(--eevenkoto-space-1)
@@ -118,9 +122,14 @@
 .eevenkoto-tooltip-card__body {
   display: flex;
   flex-direction: column;
+  padding: var(--_eevenkoto-tooltip-card-body-pad);
   max-block-size: var(--_eevenkoto-tooltip-card-body-max-block-size);
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+.eevenkoto-tooltip-card--flush {
+  --eevenkoto-tooltip-card-body-pad: 0;
 }
 
 /* Prose owns block rhythm. Last child must not leave a trailing margin inside the scrollport. */

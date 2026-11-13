@@ -8,9 +8,9 @@ export interface Props extends Omit<BadgeProps, 'label'> {
   [key: string]: unknown;
 }
 
-const { label, variant, size, shape, intent, class: classProp, className, ...rest } = Astro.props;
+const { label, variant, size, shape, intent, dot, class: classProp, className, ...rest } = Astro.props;
 const classes = [badgeClassNames({ variant, size, shape, intent }), classProp, className]
   .filter(Boolean)
   .join(' ');
 ---
-<span class={classes} {...rest}>{label}<slot /></span>
+<span class={classes} {...rest}>{dot ? <span class="eevenkoto-badge__dot" aria-hidden="true"></span> : null}<span class="eevenkoto-badge__label">{label}<slot /></span></span>

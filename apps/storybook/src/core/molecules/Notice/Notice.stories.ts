@@ -31,6 +31,10 @@ const meta: Meta<NoticeProps> = {
       options: ['status', 'alert', 'note', 'region'],
       table: { defaultValue: { summary: 'status' } },
     },
+    statusText: {
+      control: 'text',
+      description: 'Optional polite live-region feedback line inside the notice.',
+    },
   },
   render: (args) => renderNotice(args),
 };
@@ -43,6 +47,17 @@ export const Default: Story = {
     title: 'Section locked',
     body: 'This section is available to patrons. Sign in or upgrade to continue.',
     intent: 'caution',
+    variant: 'subtle',
+  },
+};
+
+export const StatusFeedback: Story = {
+  name: 'With status feedback',
+  args: {
+    title: 'Verify your sign-in link',
+    body: 'We sent a one-time magic link to your inbox.',
+    statusText: 'Verification link resent just now.',
+    intent: 'info',
     variant: 'subtle',
   },
 };

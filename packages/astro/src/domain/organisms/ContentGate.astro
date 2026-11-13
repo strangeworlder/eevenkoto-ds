@@ -1,0 +1,64 @@
+---
+import {
+  contentGateClassNames,
+  headingClassNames,
+  type ContentGateProps,
+} from '@eevenkoto/core';
+import Badge from '../../core/atoms/Badge.astro';
+import Icon from '../../core/atoms/Icon.astro';
+
+export interface Props extends ContentGateProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  readinessLabel,
+  readinessIntent,
+  lockLabel,
+  title,
+  titleLevel = 2,
+  description,
+  descriptionHtml,
+  currentTierLabel,
+  currentTierPrefix,
+  requiredTierLabel,
+  requiredTierPrefix,
+  statusMessage,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const Title = `h${titleLevel}` as 'h2';
+const classes = [contentGateClassNames(), classProp, className].filter(Boolean).join(' ');
+const hasSlot = Astro.slots.has('default');
+const descClass = 'eevenkoto-content-gate__description eevenkoto-prose';
+---
+<section id={id} class={classes} {...rest}>
+  <div class="eevenkoto-content-gate__status-row">
+    <Badge label={readinessLabel} intent={readinessIntent} dot shape="pill" />
+
+    <span class="eevenkoto-content-gate__lock"><Icon name="lock" size="md" label={lockLabel} /></span>
+  </div>
+  <Title class={`${headingClassNames({ level: titleLevel })} eevenkoto-content-gate__title`}>{title}</Title>
+  {hasSlot ? (
+    <div class={descClass}><slot /></div>
+  ) : descriptionHtml !== undefined ? (
+    <div class={descClass} set:html={descriptionHtml} />
+  ) : description ? (
+    <div class={descClass}><p>{description}</p></div>
+  ) : null}
+  <p class="eevenkoto-content-gate__comparison">
+    <span>{currentTierPrefix ? `${currentTierPrefix} ` : null}<strong>{currentTierLabel}</strong></span>
+    <span>{requiredTierPrefix ? `${requiredTierPrefix} ` : null}<strong>{requiredTierLabel}</strong></span>
+  </p>
+  {Astro.slots.has('actions') ? (
+    <div class="eevenkoto-content-gate__actions"><slot name="actions" /></div>
+  ) : null}
+  <p class="eevenkoto-content-gate__feedback" role="status" aria-live="polite" hidden={!statusMessage}>{statusMessage}</p>
+  {Astro.slots.has('footer') ? (
+    <footer class="eevenkoto-content-gate__footer"><slot name="footer" /></footer>
+  ) : null}
+</section>

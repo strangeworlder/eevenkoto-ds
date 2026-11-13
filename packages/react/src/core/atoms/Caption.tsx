@@ -9,10 +9,11 @@ export type CaptionComponentProps = Omit<HTMLAttributes<HTMLParagraphElement>, '
 export const Caption = ({
   text,
   tone,
+  variant,
   className,
   ...rest
 }: CaptionComponentProps): ReactElement => {
-  const classes = [captionClassNames({ tone }), className].filter(Boolean).join(' ');
+  const classes = [captionClassNames({ tone, variant }), className].filter(Boolean).join(' ');
   return (
     <p className={classes} {...rest}>
       {text}

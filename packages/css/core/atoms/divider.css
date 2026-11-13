@@ -1,0 +1,45 @@
+/* packages/css/core/atoms/divider.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: DIVIDER (TIER 3)
+   Horizontal rule. Host alone = solid, lg spacing. Bare <hr> inside
+   `.eevenkoto-prose` receives the same default.
+   ========================================================================== */
+
+.eevenkoto-divider,
+.eevenkoto-prose :where(hr) {
+  --_eevenkoto-divider-color: var(--eevenkoto-divider-color, var(--eevenkoto-color-boundary-subtle));
+  --_eevenkoto-divider-width: var(--eevenkoto-divider-width, var(--eevenkoto-line-width-sm));
+  --_eevenkoto-divider-style: var(--eevenkoto-divider-style, solid);
+  --_eevenkoto-divider-margin-block: var(--eevenkoto-divider-margin-block, var(--eevenkoto-space-6));
+
+  border: 0;
+  border-block-start: var(--_eevenkoto-divider-width) var(--_eevenkoto-divider-style)
+    var(--_eevenkoto-divider-color);
+  margin-block: var(--_eevenkoto-divider-margin-block);
+  margin-inline: 0;
+  height: 0;
+  inline-size: 100%;
+}
+
+.eevenkoto-divider--spacing-sm {
+  --eevenkoto-divider-margin-block: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-divider--spacing-md {
+  --eevenkoto-divider-margin-block: var(--eevenkoto-space-4);
+}
+
+.eevenkoto-divider--spacing-lg {
+  --eevenkoto-divider-margin-block: var(--eevenkoto-space-6);
+}
+
+.eevenkoto-divider--dashed {
+  --eevenkoto-divider-style: dashed;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-divider,
+  .eevenkoto-prose :where(hr) {
+    border-block-start-color: CanvasText;
+  }
+}

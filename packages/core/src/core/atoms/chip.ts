@@ -1,3 +1,5 @@
+import type { IconName } from '../../tokens/icons';
+
 export type ChipSize = 'sm' | 'md' | 'lg';
 
 export interface ChipProps {
@@ -7,6 +9,10 @@ export interface ChipProps {
   selected?: boolean;
   /** Shared sm | md | lg ladder. Default: md */
   size?: ChipSize;
+  /** Optional leading decorative glyph from `ICON_NAMES`. */
+  icon?: IconName;
+  /** Optional leading Swatch color value (renders a `sm` Swatch before the label). */
+  swatchColor?: string;
   /** When set, the chip renders as a link. */
   href?: string;
   disabled?: boolean;

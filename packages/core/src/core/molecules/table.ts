@@ -1,4 +1,8 @@
-import type { TableCellKind } from '../atoms/tableCell';
+import type {
+  TableCellKind,
+  TableCellScope,
+  TableElementAttributes,
+} from '../atoms/tableCell';
 
 export type TableVariant = 'default' | 'numeric' | 'pair';
 export type TableStripe = 'row' | 'column' | 'none';
@@ -10,6 +14,26 @@ export interface TableColumn {
   kind?: TableCellKind;
 }
 
+export interface TableCellObject {
+  text?: string;
+  html?: string;
+  kind?: TableCellKind;
+  colSpan?: number;
+  rowSpan?: number;
+  header?: boolean;
+  scope?: TableCellScope;
+  attributes?: TableElementAttributes;
+}
+
+export type TableCellInput = string | TableCellObject;
+
+export interface TableRowObject {
+  attributes?: TableElementAttributes;
+  cells: TableCellInput[];
+}
+
+export type TableRowInput = TableCellInput[] | TableRowObject;
+
 export interface TableClassNameProps {
   variant?: TableVariant;
   /** Alternating band. Defaults to `row`. */
@@ -19,8 +43,8 @@ export interface TableClassNameProps {
 export interface TableProps extends TableClassNameProps {
   caption?: string;
   columns: TableColumn[];
-  /** Row cells aligned to `columns` order. */
-  rows: string[][];
+  /** Row cells aligned to `columns` order (accepts plain `string[][]` or structured cells/rows). */
+  rows: TableRowInput[];
 }
 
 export const tableClassNames = (props: TableClassNameProps = {}): string => {

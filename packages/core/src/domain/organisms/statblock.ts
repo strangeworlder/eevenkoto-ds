@@ -4,14 +4,20 @@ import type { PropertyItem } from '../../core/atoms/property';
 import type { StatblockSectionProps } from '../molecules/statblockSection';
 
 /** Heading levels allowed for the creature name (embed-safe). */
-export type StatblockNameLevel = Extract<HeadingLevel, 1 | 2>;
+export type StatblockNameLevel = Extract<HeadingLevel, 1 | 2 | 3>;
 
 export interface StatblockProps {
+  /** Optional anchor `id` applied to the outer `<article>`. */
+  id?: string;
+  /** Optional anchor `id` applied to the creature name heading. */
+  headingId?: string;
   /** Creature / entity name. */
   name: string;
+  /** Trusted inline HTML for the creature name heading (sanitized in HTML renderer). Takes precedence over `name`. */
+  nameHtml?: string;
   /**
    * Semantic heading level for `name`. Default `1` for a dedicated entry page.
-   * Use `2` when the host document already owns an H1.
+   * Use `2` or `3` when embedded inside a host document outline.
    */
   nameLevel?: StatblockNameLevel;
   /** Optional flavor paragraph. */

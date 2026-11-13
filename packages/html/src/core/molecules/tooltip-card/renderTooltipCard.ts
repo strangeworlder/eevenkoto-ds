@@ -27,7 +27,16 @@ export const renderTooltipCard = (args: TooltipCardProps): string => {
     header = `<header><h${level}>${escapeHtml(args.title)}</h${level}></header>`;
   }
 
-  const bodyInner = `${args.body ? `<p>${escapeHtml(args.body)}</p>` : ''}${args.content ?? ''}`;
+  const primaryBody = args.bodyHtml
+    ? args.bodyHtml
+    : args.body
+      ? `<p>${escapeHtml(args.body)}</p>`
+      : '';
+  const bodyInner = args.content
+    ? args.body && !args.bodyHtml
+      ? `${primaryBody}${args.content}`
+      : args.content
+    : primaryBody;
   const body = bodyInner
     ? `<div class="${tooltipCardBodyClassNames()}" tabindex="0">${bodyInner}</div>`
     : '';
@@ -35,6 +44,6 @@ export const renderTooltipCard = (args: TooltipCardProps): string => {
   const footer = args.footer ? `<footer>${args.footer}</footer>` : '';
 
   return template
-    .replace('{{className}}', tooltipCardClassNames())
+    .replace('{{className}}', tooltipCardClassNames({ flush: args.flush }))
     .replace('{{content}}', `${header}${body}${footer}`);
 };

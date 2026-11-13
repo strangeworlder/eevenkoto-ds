@@ -110,6 +110,28 @@ Item entries, paywall summaries, and other self-contained chunks need a surface 
   }
 />
 
+## Surfaces & accents
+
+`surface` switches the background fill between `raised` (default), `subtle`, and `sunken`. `accent` adds a structural gold edge (`top`, `start`) or stronger `outline` without shifting layout metrics.
+
+<Canvas of={CardStories.Surfaces} />
+
+<Canvas of={CardStories.Accents} />
+
+## Current state & header actions
+
+Set `current` (`.eevenkoto-card--current`) to mark an active plan or selected card with both border thickness and an outer focus-contrast ring. Use `headerActions` (`.eevenkoto-card__header-actions`) for trailing badges or compact buttons inside `<header>`, and `titleHtml` when the heading contains inline emphasis or cross-references.
+
+<Canvas of={CardStories.CurrentState} />
+
+<Canvas of={CardStories.HeaderActions} />
+
+## Split banner layout
+
+`layout="split"` (`.eevenkoto-card--split`) places the main content stack on the inline-start side and `.eevenkoto-card__actions` on the inline-end side, wrapping cleanly on narrow viewports and sidebars.
+
+<Canvas of={CardStories.SplitBanner} />
+
 ## Elevated
 
 <Canvas of={CardStories.Elevated} />
@@ -141,8 +163,10 @@ The host stays `<article>`. `renderCard({ href })` wraps the sections in an inne
 | --- | --- |
 | Host | `<article class="eevenkoto-card">` |
 | Header | descendant `header` (optional `.eevenkoto-card__header`) |
-| Title | `h2` (or `h3` via `titleLevel`) inside `header` |
-| Body | flow siblings (`p`, …) — optional `.eevenkoto-card__body` grouping alias |
+| Title | `h2` (or `h3` via `titleLevel`) inside `header`, from `title` or `titleHtml` |
+| Header actions | `.eevenkoto-card__header-actions` pushed to `inline-end` inside `header` |
+| Body | flow siblings (`p`, …) — `.eevenkoto-card__body` groups main content in `split` layout |
+| Actions | `.eevenkoto-card__actions` for CTA buttons (inline-end in `split` layout) |
 | Footer | descendant `footer` (optional `.eevenkoto-card__footer`) |
 | Interactive | inner `a[href]` wrapping the sections; `--interactive` on the article |
 

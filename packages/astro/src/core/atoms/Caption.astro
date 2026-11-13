@@ -9,7 +9,9 @@ export interface Props extends Omit<CaptionProps, 'text'> {
   [key: string]: unknown;
 }
 
-const { text, tone, as: Tag = 'p', class: classProp, className, ...rest } = Astro.props;
-const classes = [captionClassNames({ tone }), classProp, className].filter(Boolean).join(' ');
+const { text, tone, variant, as: Tag = 'p', class: classProp, className, ...rest } = Astro.props;
+const classes = [captionClassNames({ tone, variant }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
 ---
 <Tag class={classes} {...rest}>{text}<slot /></Tag>

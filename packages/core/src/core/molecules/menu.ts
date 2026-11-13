@@ -2,6 +2,7 @@ import type { IconName } from '../../tokens/icons';
 import type { BadgeIntent } from '../atoms/badge';
 
 export type MenuSize = 'sm' | 'md';
+export type MenuItemTone = 'default' | 'destructive';
 
 /** Safe HTML/data/ARIA attributes forwarded onto rendered menu elements. */
 export type MenuAttributes = Record<string, string | boolean | undefined>;
@@ -14,6 +15,8 @@ export interface MenuItemEntry {
   label: string;
   /** Optional leading glyph from token `ICON_NAMES` (renders decorative Icon). */
   icon?: IconName;
+  /** Semantic action tone (`'destructive'` renders crimson action styling). Default: `'default'`. */
+  tone?: MenuItemTone;
   /** When true, the item is non-interactive. */
   disabled?: boolean;
   /**
@@ -105,13 +108,14 @@ export const menuClassNames = (props: MenuClassNameProps = {}): string =>
     .filter(Boolean)
     .join(' ');
 
-export type MenuItemClassNameProps = Pick<MenuItemEntry, 'selected' | 'locked'>;
+export type MenuItemClassNameProps = Pick<MenuItemEntry, 'selected' | 'locked' | 'tone'>;
 
 /** Optional item BEM alias; CSS paints rows from `a` / `button` / `summary` under the host. */
 export const menuItemClassNames = (props: MenuItemClassNameProps = {}): string => {
   const selectedClass = props.selected ? ' eevenkoto-menu__item--selected' : '';
   const lockedClass = props.locked ? ' eevenkoto-menu__item--locked' : '';
-  return `eevenkoto-menu__item${selectedClass}${lockedClass}`;
+  const toneClass = props.tone === 'destructive' ? ' eevenkoto-menu__item--destructive' : '';
+  return `eevenkoto-menu__item${selectedClass}${lockedClass}${toneClass}`;
 };
 
 export const menuBranchClassNames = (): string => 'eevenkoto-menu__branch';

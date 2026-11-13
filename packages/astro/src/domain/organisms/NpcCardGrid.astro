@@ -1,0 +1,19 @@
+---
+import { npcCardGridClassNames, type NpcCardGridProps } from '@eevenkoto/core';
+import NpcCard from '../molecules/NpcCard.astro';
+
+export interface Props extends NpcCardGridProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const { id, columns, cards = [], class: classProp, className, ...rest } = Astro.props;
+const classes = [npcCardGridClassNames({ columns }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<div id={id} class={classes} {...rest}>
+  {cards.map((card) => <NpcCard {...card} />)}
+  <slot />
+</div>

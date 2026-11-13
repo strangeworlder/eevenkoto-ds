@@ -106,7 +106,7 @@
   position: fixed;
   bottom: var(--eevenkoto-space-6);
   inset-inline-end: var(--eevenkoto-space-6);
-  z-index: 9999;
+  z-index: var(--eevenkoto-z-toast);
 }
 
 .eevenkoto-toast--fixed-bottom-center {
@@ -114,7 +114,7 @@
   bottom: var(--eevenkoto-space-6);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 9999;
+  z-index: var(--eevenkoto-z-toast);
 }
 
 .eevenkoto-toast--fixed-bottom-right.eevenkoto-toast--hidden {

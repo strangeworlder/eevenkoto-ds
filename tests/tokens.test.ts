@@ -90,7 +90,7 @@ describe('Design token architecture & catalog parity', () => {
 
   it('has zero leaked Tier 1 primitives or undefined global tokens across component and Storybook CSS', () => {
     const globalNamespace =
-      /^--eevenkoto-(?:color|space|radius|font|line|duration|ease|transition|icon-mask)-/;
+      /^--eevenkoto-(?:color|space|radius|font|line|duration|ease|transition|icon-mask|z)-/;
     const cssFiles = [
       ...walkCssFiles(join(repoRoot, 'packages/css')).filter(
         (f) => f !== primitiveTokensPath && f !== semanticTokensPath,

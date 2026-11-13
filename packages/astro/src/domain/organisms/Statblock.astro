@@ -6,6 +6,7 @@ import {
   statblockClassNames,
   type StatblockNameLevel,
   type StatblockProps,
+  type StatblockSectionTitleLevel,
 } from '@eevenkoto/core';
 import PropertyList from '../../core/molecules/PropertyList.astro';
 import StatblockSection from '../molecules/StatblockSection.astro';
@@ -18,7 +19,10 @@ export interface Props extends StatblockProps {
 }
 
 const {
+  id,
+  headingId,
   name,
+  nameHtml,
   nameLevel = 1,
   flavor,
   flavorHtml,
@@ -35,11 +39,17 @@ const {
 } = Astro.props;
 
 const classes = [statblockClassNames(), classProp, className].filter(Boolean).join(' ');
-const level: StatblockNameLevel = nameLevel === 2 ? 2 : 1;
-const NameTag = level === 2 ? 'h2' : 'h1';
+const level: StatblockNameLevel =
+  nameLevel === 3 ? 3 : nameLevel === 2 ? 2 : 1;
+const NameTag = level === 3 ? 'h3' : level === 2 ? 'h2' : 'h1';
+const defaultSectionTitleLevel = (level + 1) as StatblockSectionTitleLevel;
 ---
-<article class={classes} {...rest}>
-  <NameTag class={headingClassNames({ level })}>{name}</NameTag>
+<article id={id} class={classes} {...rest}>
+  {nameHtml ? (
+    <NameTag id={headingId} class={headingClassNames({ level })} set:html={nameHtml} />
+  ) : (
+    <NameTag id={headingId} class={headingClassNames({ level })}>{name}</NameTag>
+  )}
   {flavorHtml ? (
     <p class={paragraphClassNames({ size: 'md' })} set:html={flavorHtml} />
   ) : flavor ? (
@@ -57,7 +67,7 @@ const NameTag = level === 2 ? 'h2' : 'h1';
   {sections?.map((section) => (
     <StatblockSection
       title={section.title}
-      titleLevel={section.titleLevel}
+      titleLevel={section.titleLevel ?? defaultSectionTitleLevel}
       bodyHtml={section.bodyHtml}
       features={section.features}
     />

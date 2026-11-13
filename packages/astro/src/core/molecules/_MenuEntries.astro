@@ -83,7 +83,7 @@ const mergeClass = (base: string, attrs?: MenuAttributes): string => {
     }
 
     const itemClasses = mergeClass(
-      menuItemClassNames({ selected: entry.selected, locked: entry.locked }),
+      menuItemClassNames({ selected: entry.selected, locked: entry.locked, tone: entry.tone }),
       entry.attributes,
     );
     const extras = Boolean(entry.icon || entry.locked || entry.status);

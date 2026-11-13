@@ -1,6 +1,6 @@
 import type { ListItemProps } from '../atoms/listItem';
 
-export type ListVariant = 'unordered' | 'ordered';
+export type ListVariant = 'unordered' | 'ordered' | 'checklist';
 export type ListSize = 'sm' | 'md' | 'lg';
 export type ListTone = 'primary' | 'secondary';
 

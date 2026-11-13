@@ -1,6 +1,7 @@
 import {
   defaultNoticeIcon,
   noticeClassNames,
+  noticeStatusClassNames,
   resolveNoticeRole,
   type NoticeProps,
   type NoticeRole,
@@ -28,6 +29,7 @@ export const Notice = defineComponent({
       type: String as PropType<NoticeRole>,
       default: undefined,
     },
+    statusText: { type: String, default: undefined },
   },
   setup(props, { slots }) {
     const className = computed(() =>
@@ -54,6 +56,15 @@ export const Notice = defineComponent({
       }
       if (slots.actions) {
         contentChildren.push(h('div', { class: 'eevenkoto-notice__actions' }, slots.actions()));
+      }
+      if (props.statusText) {
+        contentChildren.push(
+          h(
+            'p',
+            { class: noticeStatusClassNames(), role: 'status', 'aria-live': 'polite' },
+            props.statusText,
+          ),
+        );
       }
 
       const children = [];

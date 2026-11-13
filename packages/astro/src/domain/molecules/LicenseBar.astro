@@ -1,0 +1,41 @@
+---
+import { licenseBarClassNames, type LicenseBarProps } from '@eevenkoto/core';
+
+export interface Props extends LicenseBarProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  activeLicense,
+  placement,
+  entries,
+  separator = ' · ',
+  ariaLabel = 'License',
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const active = activeLicense ?? 'proprietary';
+const classes = [licenseBarClassNames({ activeLicense, placement }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<aside id={id} class={classes} aria-label={ariaLabel} {...rest}>
+  {entries.map((entry) => (
+    <span
+      class={`eevenkoto-license-bar__entry${entry.license === active ? ' eevenkoto-license-bar__entry--active' : ''}`}
+      data-content-license={entry.license}
+      hidden={entry.license !== active}
+    >
+      {entry.links.map((link, index) => (
+        <>
+          {index > 0 ? separator : null}
+          {link.href ? <a href={link.href}>{link.label}</a> : <span>{link.label}</span>}
+        </>
+      ))}
+    </span>
+  ))}
+</aside>

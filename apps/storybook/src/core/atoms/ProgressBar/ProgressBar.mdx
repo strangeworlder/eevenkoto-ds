@@ -1,0 +1,56 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ProgressBarStories from './ProgressBar.stories';
+
+<Meta of={ProgressBarStories} />
+
+# ProgressBar
+
+A thin `role="progressbar"` indicator. Hidden until `active`; **indeterminate** unless `value` is given. With `fixed` it becomes a `0.3rem` bar at the viewport top (`--eevenkoto-z-toast`).
+
+<Canvas of={ProgressBarStories.Indeterminate} />
+
+<Controls of={ProgressBarStories.Indeterminate} />
+
+## Why to use
+
+Shared motion, `prefers-reduced-motion` fallback (static 65% fill), forced-colors and print behavior for page-transition and upload feedback.
+
+## When to use
+
+- Use `fixed` + `tone="accent"` or `"primary"` for page-navigation progress; toggle `active` from your router.
+- Use `value` for known-length work like uploads.
+- Don't use it for form-step position — use [Stepper](?path=/docs/core-molecules-stepper--docs).
+
+<Canvas of={ProgressBarStories.Determinate} />
+
+<Canvas of={ProgressBarStories.AccentTone} />
+
+<Canvas of={ProgressBarStories.FixedTopBar} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | DOM id. |
+| `active` | `boolean` | `false` | Visible; sets `aria-busy`. Otherwise `aria-hidden`. |
+| `tone` | `'primary' \| 'accent'` | `'primary'` | Turquoise or gold fill. |
+| `fixed` | `boolean` | `false` | Pin to viewport top. |
+| `label` | `string` | `'Loading'` | Accessible name. |
+| `value` | `number` | — | Determinate 0–100 (clamped). |
+
+<ArgTypes of={ProgressBarStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/progress-bar.css';
+import { renderProgressBar } from '@eevenkoto/html';
+
+renderProgressBar({ active: true, fixed: true, tone: 'accent' });
+```
+
+```tsx
+import { ProgressBar } from '@eevenkoto/react';
+
+<ProgressBar active fixed value={40} />
+```

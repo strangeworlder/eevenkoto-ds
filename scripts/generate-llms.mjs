@@ -92,6 +92,11 @@ const AUTHOR_SOURCES = [
     path: 'apps/storybook/src/foundations/class-entry-recipe.mdx',
     kind: 'mdx',
   },
+  {
+    title: 'Composition recipes',
+    path: 'apps/storybook/src/foundations/composition-recipes.mdx',
+    kind: 'mdx',
+  },
 ];
 
 const SKIP_COMPONENT_MDX = new Set(['TypographySample.mdx']);

@@ -1,5 +1,10 @@
 ---
-import { cardClassNames, type CardProps, type CardTitleLevel } from '@eevenkoto/core';
+import {
+  cardClassNames,
+  cardHeaderActionsClassNames,
+  type CardProps,
+  type CardTitleLevel,
+} from '@eevenkoto/core';
 
 export interface Props extends CardProps {
   href?: string;
@@ -9,9 +14,14 @@ export interface Props extends CardProps {
 }
 
 const {
+  surface,
+  accent,
+  current,
+  layout,
   elevated,
   interactive,
   title,
+  titleHtml,
   titleLevel,
   body,
   bodyHtml,
@@ -22,7 +32,14 @@ const {
 } = Astro.props;
 
 const classes = [
-  cardClassNames({ elevated, interactive: interactive || Boolean(href) }),
+  cardClassNames({
+    surface,
+    accent,
+    current,
+    layout,
+    elevated,
+    interactive: interactive || Boolean(href),
+  }),
   classProp,
   className,
 ]
@@ -32,34 +49,102 @@ const classes = [
 const level: CardTitleLevel = titleLevel === 3 ? 3 : 2;
 const HeadingTag = level === 3 ? 'h3' : 'h2';
 const hasHeaderSlot = Astro.slots.has('header');
+const hasHeaderActionsSlot = Astro.slots.has('headerActions');
+const hasActionsSlot = Astro.slots.has('actions');
 const hasFooterSlot = Astro.slots.has('footer');
-const hasHeader = hasHeaderSlot || Boolean(title);
+const hasDefaultSlot = Astro.slots.has('default');
+const hasHeader = hasHeaderSlot || Boolean(titleHtml) || Boolean(title) || hasHeaderActionsSlot;
+const hasMain = hasHeader || Boolean(bodyHtml) || Boolean(body) || hasDefaultSlot;
+const isSplit = layout === 'split';
 const isBlockHtml = bodyHtml
   ? /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i.test(bodyHtml)
   : false;
+const headerClass = hasHeaderActionsSlot ? 'eevenkoto-card__header' : undefined;
+const headerActionsClass = cardHeaderActionsClassNames();
 ---
 <article class={classes} {...rest}>
   {href ? (
     <a href={href}>
-      {hasHeader ? (
-        <header>{hasHeaderSlot ? <slot name="header" /> : <HeadingTag>{title}</HeadingTag>}</header>
-      ) : null}
-      {bodyHtml ? (
-        isBlockHtml ? (
-          <div class="eevenkoto-card__body" set:html={bodyHtml} />
-        ) : (
-          <p set:html={bodyHtml} />
-        )
-      ) : body ? (
-        <p>{body}</p>
-      ) : null}
-      <slot />
-      {hasFooterSlot ? <footer><slot name="footer" /></footer> : null}
+      {isSplit ? (
+        <>
+          {hasMain ? (
+            <div class="eevenkoto-card__body">
+              {hasHeader ? (
+                <header class={headerClass}>
+                  {hasHeaderSlot ? <slot name="header" /> : titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+                  {hasHeaderActionsSlot ? <div class={headerActionsClass}><slot name="headerActions" /></div> : null}
+                </header>
+              ) : null}
+              {bodyHtml ? (
+                isBlockHtml ? (
+                  <div class="eevenkoto-card__body" set:html={bodyHtml} />
+                ) : (
+                  <p set:html={bodyHtml} />
+                )
+              ) : body ? (
+                <p>{body}</p>
+              ) : null}
+              <slot />
+            </div>
+          ) : null}
+          {hasActionsSlot ? <div class="eevenkoto-card__actions"><slot name="actions" /></div> : null}
+          {hasFooterSlot ? <footer><slot name="footer" /></footer> : null}
+        </>
+      ) : (
+        <>
+          {hasHeader ? (
+            <header class={headerClass}>
+              {hasHeaderSlot ? <slot name="header" /> : titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+              {hasHeaderActionsSlot ? <div class={headerActionsClass}><slot name="headerActions" /></div> : null}
+            </header>
+          ) : null}
+          {bodyHtml ? (
+            isBlockHtml ? (
+              <div class="eevenkoto-card__body" set:html={bodyHtml} />
+            ) : (
+              <p set:html={bodyHtml} />
+            )
+          ) : body ? (
+            <p>{body}</p>
+          ) : null}
+          <slot />
+          {hasActionsSlot ? <div class="eevenkoto-card__actions"><slot name="actions" /></div> : null}
+          {hasFooterSlot ? <footer><slot name="footer" /></footer> : null}
+        </>
+      )}
     </a>
+  ) : isSplit ? (
+    <>
+      {hasMain ? (
+        <div class="eevenkoto-card__body">
+          {hasHeader ? (
+            <header class={headerClass}>
+              {hasHeaderSlot ? <slot name="header" /> : titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+              {hasHeaderActionsSlot ? <div class={headerActionsClass}><slot name="headerActions" /></div> : null}
+            </header>
+          ) : null}
+          {bodyHtml ? (
+            isBlockHtml ? (
+              <div class="eevenkoto-card__body" set:html={bodyHtml} />
+            ) : (
+              <p set:html={bodyHtml} />
+            )
+          ) : body ? (
+            <p>{body}</p>
+          ) : null}
+          <slot />
+        </div>
+      ) : null}
+      {hasActionsSlot ? <div class="eevenkoto-card__actions"><slot name="actions" /></div> : null}
+      {hasFooterSlot ? <footer><slot name="footer" /></footer> : null}
+    </>
   ) : (
     <>
       {hasHeader ? (
-        <header>{hasHeaderSlot ? <slot name="header" /> : <HeadingTag>{title}</HeadingTag>}</header>
+        <header class={headerClass}>
+          {hasHeaderSlot ? <slot name="header" /> : titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+          {hasHeaderActionsSlot ? <div class={headerActionsClass}><slot name="headerActions" /></div> : null}
+        </header>
       ) : null}
       {bodyHtml ? (
         isBlockHtml ? (
@@ -71,6 +156,7 @@ const isBlockHtml = bodyHtml
         <p>{body}</p>
       ) : null}
       <slot />
+      {hasActionsSlot ? <div class="eevenkoto-card__actions"><slot name="actions" /></div> : null}
       {hasFooterSlot ? <footer><slot name="footer" /></footer> : null}
     </>
   )}

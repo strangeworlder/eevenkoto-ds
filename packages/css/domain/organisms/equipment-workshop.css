@@ -2,16 +2,60 @@
    EEVENKOTO DESIGN SYSTEM: EQUIPMENT WORKSHOP (TIER 3)
    "Varusteverstas" interactive workshop organism for designing modular
    weapons and armors according to Eevenkoto rules.
-   Composes SegmentedControl, Input, Button, Badge, Notice, and EquipmentBlock.
+   Inherits chassis layout from Core Workshop and adds equipment-specific
+   token aliases and control-group helpers.
    ========================================================================== */
 
 @import url('../../core/organisms/workshop.css');
 
-.eevenkoto-equipment-workshop {
-  --_eevenkoto-equipment-workshop-bg: var(
+:where(.eevenkoto-equipment-workshop) {
+  --eevenkoto-workshop-bg: var(
     --eevenkoto-equipment-workshop-bg,
     var(--eevenkoto-color-surface-raised)
   );
+  --eevenkoto-workshop-text: var(
+    --eevenkoto-equipment-workshop-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --eevenkoto-workshop-muted: var(
+    --eevenkoto-equipment-workshop-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --eevenkoto-workshop-border-color: var(
+    --eevenkoto-equipment-workshop-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --eevenkoto-workshop-border-width: var(
+    --eevenkoto-equipment-workshop-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --eevenkoto-workshop-radius: var(
+    --eevenkoto-equipment-workshop-radius,
+    var(--eevenkoto-radius-md)
+  );
+  --eevenkoto-workshop-pad: var(
+    --eevenkoto-equipment-workshop-pad,
+    var(--eevenkoto-space-6)
+  );
+  --eevenkoto-workshop-gap: var(
+    --eevenkoto-equipment-workshop-gap,
+    var(--eevenkoto-space-6)
+  );
+  --eevenkoto-workshop-item-bg: var(
+    --eevenkoto-equipment-workshop-item-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --eevenkoto-workshop-controls-width: var(
+    --eevenkoto-equipment-workshop-controls-width,
+    minmax(0, 1.35fr)
+  );
+  --eevenkoto-workshop-preview-width: var(
+    --eevenkoto-equipment-workshop-preview-width,
+    minmax(0, 1fr)
+  );
+}
+
+.eevenkoto-equipment-workshop {
   --_eevenkoto-equipment-workshop-text: var(
     --eevenkoto-equipment-workshop-text,
     var(--eevenkoto-color-content-primary)
@@ -28,60 +72,13 @@
     --eevenkoto-equipment-workshop-border-width,
     var(--eevenkoto-line-width-sm)
   );
-  --_eevenkoto-equipment-workshop-radius: var(
-    --eevenkoto-equipment-workshop-radius,
-    var(--eevenkoto-radius-md)
-  );
-  --_eevenkoto-equipment-workshop-pad: var(
-    --eevenkoto-equipment-workshop-pad,
-    var(--eevenkoto-space-6)
-  );
-  --_eevenkoto-equipment-workshop-gap: var(
-    --eevenkoto-equipment-workshop-gap,
-    var(--eevenkoto-space-6)
-  );
   --_eevenkoto-equipment-workshop-item-bg: var(
     --eevenkoto-equipment-workshop-item-bg,
     var(--eevenkoto-color-surface-sunken)
   );
-  --_eevenkoto-equipment-workshop-controls-width: var(
-    --eevenkoto-equipment-workshop-controls-width,
-    var(--eevenkoto-workshop-controls-width, minmax(0, 1.35fr))
-  );
-  --_eevenkoto-equipment-workshop-preview-width: var(
-    --eevenkoto-equipment-workshop-preview-width,
-    var(--eevenkoto-workshop-preview-width, minmax(0, 1fr))
-  );
-
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  margin-block: var(--eevenkoto-space-6);
-  padding: var(--_eevenkoto-equipment-workshop-pad);
-  background: var(--_eevenkoto-equipment-workshop-bg);
-  border: var(--_eevenkoto-equipment-workshop-border-width) solid
-    var(--_eevenkoto-equipment-workshop-border-color);
-  border-radius: var(--_eevenkoto-equipment-workshop-radius);
-  font-family: var(--eevenkoto-font-sans);
-  font-size: var(--eevenkoto-font-size-body-md);
-  line-height: var(--eevenkoto-line-height-body);
-  color: var(--_eevenkoto-equipment-workshop-text);
-  position: relative;
 }
 
-/* --- HEADER BAR: Mode Tabs & Preset Selector --- */
-
-.eevenkoto-equipment-workshop__header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--eevenkoto-space-4);
-  padding-block-end: var(--eevenkoto-space-4);
-  margin-block-end: var(--eevenkoto-space-6);
-  border-block-end: var(--_eevenkoto-equipment-workshop-border-width) solid
-    var(--_eevenkoto-equipment-workshop-border-color);
-}
+/* --- HEADER HELPERS: Mode Tabs & Preset Selector --- */
 
 .eevenkoto-equipment-workshop__mode-nav {
   display: flex;
@@ -119,35 +116,7 @@
   box-shadow: 0 0 0 2px var(--eevenkoto-color-boundary-focus-inner);
 }
 
-/* --- BODY GRID --- */
-
-.eevenkoto-equipment-workshop__body {
-  display: grid;
-  grid-template-columns: var(--_eevenkoto-equipment-workshop-controls-width) var(
-      --_eevenkoto-equipment-workshop-preview-width
-    );
-  gap: var(--_eevenkoto-equipment-workshop-gap);
-  align-items: start;
-}
-
-.eevenkoto-equipment-workshop__body:not(:has(> .eevenkoto-equipment-workshop__preview)) {
-  grid-template-columns: minmax(0, 1fr);
-}
-
-@media (max-width: 56rem) {
-  .eevenkoto-equipment-workshop__body {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-/* --- CONTROLS COLUMN --- */
-
-.eevenkoto-equipment-workshop__controls {
-  display: flex;
-  flex-direction: column;
-  gap: var(--eevenkoto-space-4);
-  min-width: 0;
-}
+/* --- EQUIPMENT CONTROL GROUPS --- */
 
 .eevenkoto-equipment-workshop__panel {
   display: none;
@@ -156,7 +125,7 @@
 }
 
 .eevenkoto-equipment-workshop__panel--active,
-.eevenkoto-equipment-workshop__panel[data-active="true"] {
+.eevenkoto-equipment-workshop__panel[data-active='true'] {
   display: flex;
 }
 
@@ -194,18 +163,8 @@
   flex: 1;
 }
 
-/* --- STEPPERS CONTAINER --- */
-
 .eevenkoto-equipment-workshop__stepper-grid {
   display: flex;
   flex-direction: column;
   gap: var(--eevenkoto-space-2);
-}
-
-/* --- PREVIEW COLUMN --- */
-
-.eevenkoto-equipment-workshop__preview {
-  position: sticky;
-  top: var(--eevenkoto-space-4);
-  align-self: start;
 }

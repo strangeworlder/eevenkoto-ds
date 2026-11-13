@@ -106,6 +106,12 @@ Preview panels need a compact elevated surface with an optional title, scrollabl
 
 `__body` owns its own cap (`--eevenkoto-tooltip-card-body-max-block-size`) and scrolls past it, so the header and footer stay pinned. There is no opt-in prop and no [Scroll](?path=/docs/core-atoms-scroll--docs) import: a floating preview that grows without bound is never the behavior you want.
 
+## Flush body & pre-rendered HTML
+
+Set `flush` (`.eevenkoto-tooltip-card--flush`) to zero body padding (`--eevenkoto-tooltip-card-body-pad: 0`) when embedding a full-bleed rules block inside the preview while keeping header and footer padded. Pass `bodyHtml` when rendering trusted pre-rendered HTML directly inside `__body` (framework children/default slot takes precedence over `bodyHtml`, which takes precedence over `body`).
+
+<Canvas of={TooltipCardStories.FlushBody} />
+
 ## Inside a Popover
 
 <Canvas of={TooltipCardStories.InsidePopover} />
@@ -116,7 +122,7 @@ As a direct Popover child it drops its own border, radius, and shadow and zeroes
 
 | Part | Role |
 | --- | --- |
-| Host | `<div class="eevenkoto-tooltip-card">` |
+| Host | `<div class="eevenkoto-tooltip-card">` (`--flush` zeroes body padding) |
 | Header | descendant `header` (optional `.eevenkoto-tooltip-card__header`) |
 | Title | `h2` (or `h3` via `titleLevel`) inside `header` |
 | Body | `.eevenkoto-tooltip-card__body.eevenkoto-prose` — capped scroll region; Prose so bare `p` / lists style |

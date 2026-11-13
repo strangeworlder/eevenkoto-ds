@@ -5,7 +5,7 @@ import * as WorkshopStories from './Workshop.stories';
 
 # Workshop
 
-Core 2-column workbench organism (`eevenkoto-workshop`) with an optional header bar, form/stepper control stack, and a sticky live preview pane.
+Core workbench and generator layout organism (`eevenkoto-workshop`) supporting both a 2-column `split` workbench and a single-column `inline` generator card, with structured header lockups, sunken preview toolbars, sticky column modes, container-query stacking, and a footer tray.
 
 <Canvas of={WorkshopStories.Default} />
 
@@ -15,21 +15,41 @@ Core 2-column workbench organism (`eevenkoto-workshop`) with an optional header 
 
 ## Why to use
 
-Interactive TTRPG generators (Creature, Encounter, Magic Item, and Equipment builders) share the same two-pane ergonomics: form controls on the inline-start side and a sticky live statblock/card preview on the inline-end side that collapses to a single column below `56rem`.
+Interactive TTRPG generators (Creature, Encounter, Magic Item, Rumor rollers, and Equipment builders) share the same chassis ergonomics: structured header lockups, form controls, and a live statblock/card preview that collapses cleanly via `@container eevenkoto-workshop (max-width: 56rem)` without viewport breakout hacks.
 
 ## When to use
 
-Use `Workshop` whenever a tool pairs structured form/stepper controls with a live output sheet. Customize the controls track width via `controlsWidth` or `--eevenkoto-workshop-controls-width` (for example `minmax(0, 1fr)` for 50/50 columns or `24rem` for a fixed rail). Domain `EquipmentWorkshop` remains supported as a domain-specific alias.
+- **`layout="split"` (default):** Full 2-column builders where controls sit on the inline-start rail and the live preview sticks on the inline-end rail (`sticky="preview"` by default, or `sticky="controls"` / `sticky="none"`).
+- **`layout="inline"`:** Compact single-column random tables and inline prose generators (`sticky` defaults to `'none'`).
+- Customize the controls track width via `controlsWidth` or `--eevenkoto-workshop-controls-width` (for example `minmax(0, 1fr)` for 50/50 columns or `24rem` for a fixed rail). Domain `EquipmentWorkshop` builds directly on `Workshop`.
 
 <Canvas of={WorkshopStories.EqualColumns} />
+
+## Inline generator (`layout="inline"`)
+
+<Canvas of={WorkshopStories.InlineGenerator} />
+
+## Structured header, preview toolbar, and footer tray
+
+Pass `icon`, `title` (`titleLevel` `2 | 3`), and `subtitle` to render `.eevenkoto-workshop__title-group` alongside any `header` action controls. Pass `toolbar` to render a sunken summary/export bar directly above the preview content, and `footer` to render a top-bordered quick-pick tray beneath the body.
+
+<Canvas of={WorkshopStories.WithToolbarAndFooter} />
 
 ## API reference
 
 | Prop | Type | Default | Notes |
 | --- | --- | --- | --- |
-| `header` | `string \| ReactNode` | — | Optional top toolbar (mode switcher, presets, actions) |
-| `controls` | `string \| ReactNode` | — | Left-hand form/control column (or default slot/children) |
-| `preview` | `string \| ReactNode` | — | Sticky right-hand live output sheet |
+| `layout` | `'split' \| 'inline'` | `'split'` | 2-column workbench (`'split'`) or single-column generator (`'inline'`) |
+| `sticky` | `'preview' \| 'controls' \| 'none'` | `'preview'` (`'none'` in `inline`) | Sticky column behavior above `56rem` container width |
+| `icon` | `IconName` | — | Optional decorative glyph inside `.eevenkoto-workshop__icon-badge` |
+| `title` | `string` | — | Structured header title (`.eevenkoto-workshop__title`) |
+| `titleLevel` | `2 \| 3` | `2` | Semantic heading tag level for `title` |
+| `subtitle` | `string` | — | Optional muted subtitle (`.eevenkoto-workshop__subtitle`) |
+| `header` | `string \| ReactNode` | — | Optional top header actions (mode switcher, presets, reroll button) |
+| `controls` | `string \| ReactNode` | — | Controls column/stack (or default slot/children) |
+| `toolbar` | `string \| ReactNode` | — | Sunken summary/export bar inside `.eevenkoto-workshop__preview` |
+| `preview` | `string \| ReactNode` | — | Live output sheet |
+| `footer` | `string \| ReactNode` | — | Top-bordered footer tray below `.eevenkoto-workshop__body` |
 | `controlsWidth` | `string` | `minmax(0, 1.35fr)` | Sets `--eevenkoto-workshop-controls-width` |
 | `label` | `string` | — | Adds `role="region"` + `aria-label` |
 

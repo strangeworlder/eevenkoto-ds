@@ -1,0 +1,117 @@
+/* packages/css/core/molecules/floating-banner.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: FLOATING BANNER (TIER 3)
+   Fixed, elevated notice (consent, announcements). Closed by default;
+   `--open` shows it. Body + actions row, stacking on narrow viewports.
+   ========================================================================== */
+
+@import url('../atoms/button.css');
+
+.eevenkoto-floating-banner {
+  --_eevenkoto-floating-banner-bg: var(
+    --eevenkoto-floating-banner-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-floating-banner-text: var(
+    --eevenkoto-floating-banner-text,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-floating-banner-border-color: var(
+    --eevenkoto-floating-banner-border-color,
+    var(--eevenkoto-color-boundary-strong)
+  );
+  --_eevenkoto-floating-banner-link-color: var(
+    --eevenkoto-floating-banner-link-color,
+    var(--eevenkoto-color-link-default)
+  );
+  --_eevenkoto-floating-banner-shadow: var(
+    --eevenkoto-floating-banner-shadow,
+    0 6px 20px var(--eevenkoto-color-depth-shadow-umbra)
+  );
+
+  display: none;
+  position: fixed;
+  inset-block-end: var(--eevenkoto-space-4);
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  z-index: var(--eevenkoto-z-overlay);
+  inline-size: max-content;
+  max-inline-size: min(64rem, calc(100vw - var(--eevenkoto-space-6)));
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--eevenkoto-space-4);
+  padding: var(--eevenkoto-space-3) var(--eevenkoto-space-4);
+  background: var(--_eevenkoto-floating-banner-bg);
+  color: var(--_eevenkoto-floating-banner-text);
+  border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-floating-banner-border-color);
+  border-radius: var(--eevenkoto-radius-md);
+  box-shadow: var(--_eevenkoto-floating-banner-shadow);
+  font-size: var(--eevenkoto-font-size-body-sm);
+  line-height: var(--eevenkoto-line-height-body);
+  box-sizing: border-box;
+}
+
+.eevenkoto-floating-banner--open {
+  display: flex;
+}
+
+.eevenkoto-floating-banner--bottom-right {
+  inset-inline-start: auto;
+  inset-inline-end: var(--eevenkoto-space-4);
+  transform: none;
+}
+
+.eevenkoto-floating-banner__body {
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.eevenkoto-floating-banner__actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  white-space: nowrap;
+}
+
+.eevenkoto-floating-banner__body a {
+  color: var(--_eevenkoto-floating-banner-link-color);
+  text-decoration: underline;
+}
+
+.eevenkoto-floating-banner__body a:hover {
+  text-decoration-thickness: var(--eevenkoto-line-width-md);
+}
+
+.eevenkoto-floating-banner__body a:visited {
+  color: var(--eevenkoto-color-link-visited);
+}
+
+.eevenkoto-floating-banner__body a:focus-visible {
+  outline: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+@media (max-width: 40rem) {
+  .eevenkoto-floating-banner {
+    flex-direction: column;
+    align-items: stretch;
+    inline-size: calc(100vw - var(--eevenkoto-space-6));
+  }
+
+  .eevenkoto-floating-banner__actions > * {
+    inline-size: 100%;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-floating-banner {
+    border-color: CanvasText;
+  }
+}
+
+@media print {
+  .eevenkoto-floating-banner {
+    display: none !important;
+  }
+}

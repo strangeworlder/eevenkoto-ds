@@ -1,0 +1,44 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: CONTENT TABLE (TIER 3)
+   Table with per-row readiness and spanning "locked" rows that carry a Notice.
+   Builds on Table; adds only the row-level readiness edge and locked-row reset.
+   ========================================================================== */
+
+@import url('../../core/molecules/table.css');
+@import url('../../core/molecules/notice.css');
+
+.eevenkoto-content-table {
+  --_eevenkoto-content-table-edge-width: var(
+    --eevenkoto-content-table-edge-width,
+    var(--eevenkoto-line-width-lg)
+  );
+  --_eevenkoto-content-table-edge-color: var(
+    --eevenkoto-content-table-edge-color,
+    transparent
+  );
+}
+
+.eevenkoto-content-table tr[data-readiness] > :first-child {
+  border-inline-start: var(--_eevenkoto-content-table-edge-width) solid
+    var(--_eevenkoto-content-table-edge-color);
+}
+
+.eevenkoto-content-table tr[data-readiness='success'] {
+  --eevenkoto-content-table-edge-color: var(--eevenkoto-color-feedback-success-icon);
+}
+
+.eevenkoto-content-table tr[data-readiness='caution'] {
+  --eevenkoto-content-table-edge-color: var(--eevenkoto-color-content-accent-strong);
+}
+
+.eevenkoto-content-table tr[data-readiness='critical'] {
+  --eevenkoto-content-table-edge-color: var(--eevenkoto-color-boundary-strong);
+}
+
+.eevenkoto-content-table__locked-cell {
+  padding: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-content-table__locked-cell > .eevenkoto-notice {
+  margin: 0;
+}

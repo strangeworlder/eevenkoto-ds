@@ -38,6 +38,17 @@
   padding-block-start: var(--_eevenkoto-field-gap);
 }
 
+.eevenkoto-field--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
+}
+
+.eevenkoto-field--horizontal > * + * {
+  padding-block-start: 0;
+}
+
 .eevenkoto-field__label {
   display: block;
   color: var(--_eevenkoto-field-label-text);
@@ -51,9 +62,28 @@
   min-inline-size: 0;
 }
 
+.eevenkoto-field--horizontal > .eevenkoto-field__control {
+  flex: 1 1 auto;
+  min-width: 10rem;
+}
+
 .eevenkoto-field__control :is(.eevenkoto-input, .eevenkoto-select) {
   display: flex;
   inline-size: 100%;
+}
+
+.eevenkoto-field__control-group {
+  display: flex;
+  align-items: stretch;
+  gap: var(--eevenkoto-space-2);
+  width: 100%;
+}
+
+.eevenkoto-field__control-group > .eevenkoto-input,
+.eevenkoto-field__control-group > .eevenkoto-select {
+  flex: 1 1 auto;
+  inline-size: auto;
+  min-width: 0;
 }
 
 .eevenkoto-field__message {
@@ -71,6 +101,10 @@
   font-size: var(--_eevenkoto-field-message-size);
   font-weight: var(--eevenkoto-font-weight-regular);
   line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-field--horizontal > .eevenkoto-field__message {
+  flex-basis: 100%;
 }
 
 .eevenkoto-field__message--error {

@@ -27,13 +27,13 @@ describe('@eevenkoto/astro package parity and compiler verification', () => {
   const indexJs = readFileSync(join(astroSrcDir, 'index.js'), 'utf8');
   const indexDts = readFileSync(join(astroSrcDir, 'index.d.ts'), 'utf8');
 
-  it('ships all 52 public components matching @eevenkoto/react', () => {
+  it('ships all 71 public components matching @eevenkoto/react', () => {
     const reactComponentNames = Object.keys(ReactExports).sort();
     const exportedMatches = [...indexJs.matchAll(/export\s+\{\s*default\s+as\s+(\w+)\s*\}\s+from\s+'([^']+)';/g)];
     const astroExportedNames = exportedMatches.map((m) => m[1]).sort();
 
     expect(astroExportedNames).toEqual(reactComponentNames);
-    expect(astroExportedNames.length).toBe(52);
+    expect(astroExportedNames.length).toBe(71);
 
     for (const [, name, relTarget] of exportedMatches) {
       const targetPath = resolve(astroSrcDir, relTarget);
@@ -46,7 +46,7 @@ describe('@eevenkoto/astro package parity and compiler verification', () => {
   });
 
   it('compiles every .astro file cleanly with @astrojs/compiler (zero errors or warnings)', async () => {
-    expect(astroFiles.length).toBeGreaterThanOrEqual(52);
+    expect(astroFiles.length).toBeGreaterThanOrEqual(70);
 
     for (const file of astroFiles) {
       const rel = relative(rootDir, file).replace(/\\/g, '/');

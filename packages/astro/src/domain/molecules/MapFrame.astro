@@ -1,0 +1,48 @@
+---
+import { mapFrameClassNames, type MapFrameProps } from '@eevenkoto/core';
+
+export interface Props extends MapFrameProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  title,
+  scale,
+  svgHtml,
+  src,
+  alt,
+  caption,
+  captionHtml,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [mapFrameClassNames(), classProp, className].filter(Boolean).join(' ');
+const hasSlot = Astro.slots.has('default');
+const hasCaption = captionHtml !== undefined ? Boolean(captionHtml) : Boolean(caption);
+---
+<figure id={id} class={classes} {...rest}>
+  {title || scale ? (
+    <div class="eevenkoto-map-frame__header">
+      {title ? <span class="eevenkoto-map-frame__title">{title}</span> : null}
+      {scale ? <span class="eevenkoto-map-frame__scale">{scale}</span> : null}
+    </div>
+  ) : null}
+  {hasSlot ? (
+    <div class="eevenkoto-map-frame__viewport"><slot /></div>
+  ) : svgHtml !== undefined ? (
+    <div class="eevenkoto-map-frame__viewport" set:html={svgHtml} />
+  ) : (
+    <div class="eevenkoto-map-frame__viewport">{src ? <img src={src} alt={alt ?? ''} /> : null}</div>
+  )}
+  {hasCaption ? (
+    captionHtml !== undefined ? (
+      <figcaption class="eevenkoto-map-frame__caption" set:html={captionHtml} />
+    ) : (
+      <figcaption class="eevenkoto-map-frame__caption">{caption}</figcaption>
+    )
+  ) : null}
+</figure>

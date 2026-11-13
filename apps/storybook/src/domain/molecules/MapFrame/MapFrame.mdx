@@ -1,0 +1,47 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as MapFrameStories from './MapFrame.stories';
+
+<Meta of={MapFrameStories} />
+
+# MapFrame
+
+Figure wrapper for an inline SVG or image map with title, scale and caption.
+
+<Canvas of={MapFrameStories.Default} />
+
+<Controls of={MapFrameStories.Default} />
+
+## Why to use
+
+Maps need a consistent frame with title, scale and caption, and must not break across printed pages.
+
+## When to use
+
+- Use for adventure maps (inline SVG via `svgHtml` / children, or `src`).
+- Provide `alt` for images and an accessible name for inline SVG.
+
+<Canvas of={MapFrameStories.ImageSource} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| title / scale | `string` | — | Header row. |
+| svgHtml | `string` | — | Trusted inline SVG markup. |
+| src / alt | `string` | — | Image source and text alternative. |
+| caption / captionHtml | `string` | — | Figure caption. |
+
+<ArgTypes of={MapFrameStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/map-frame.css';
+import { renderMapFrame } from '@eevenkoto/html';
+```
+
+```tsx
+import { MapFrame } from '@eevenkoto/react';
+
+<MapFrame title="Kellari" src="/map.png" alt="Kellarin kartta" />
+```

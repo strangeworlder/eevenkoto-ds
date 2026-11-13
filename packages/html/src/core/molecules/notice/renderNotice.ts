@@ -2,6 +2,7 @@ import {
   ICON_NAMES,
   defaultNoticeIcon,
   noticeClassNames,
+  noticeStatusClassNames,
   resolveNoticeRole,
   type IconName,
   type NoticeProps as NoticeCoreProps,
@@ -60,8 +61,11 @@ export const renderNotice = (args: NoticeProps): string => {
   const actions = args.actions
     ? `<div class="eevenkoto-notice__actions">${args.actions}</div>`
     : '';
+  const status = args.statusText
+    ? `<p class="${noticeStatusClassNames()}" role="status" aria-live="polite">${escapeHtml(args.statusText)}</p>`
+    : '';
 
-  const contentInner = `${title}${body}${actions}`;
+  const contentInner = `${title}${body}${actions}${status}`;
   const content = `${icon}<div class="eevenkoto-notice__content">${contentInner}</div>`;
 
   return template

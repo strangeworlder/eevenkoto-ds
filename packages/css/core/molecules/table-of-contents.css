@@ -1,0 +1,183 @@
+/* packages/css/core/molecules/table-of-contents.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: TABLE OF CONTENTS (TIER 3)
+   Semantic outline navigation. `auto` shows a vertical rail on wide
+   viewports and a sticky <details> disclosure on narrow ones; `rail` and
+   `collapsible` render a single presentation. Hidden in print.
+   ========================================================================== */
+
+@import url('../atoms/icon.css');
+
+.eevenkoto-toc {
+  --_eevenkoto-toc-muted: var(--eevenkoto-toc-muted, var(--eevenkoto-color-content-secondary));
+  --_eevenkoto-toc-eyebrow: var(
+    --eevenkoto-toc-eyebrow,
+    var(--eevenkoto-color-content-accent-strong)
+  );
+  --_eevenkoto-toc-text: var(--eevenkoto-toc-text, var(--eevenkoto-color-content-primary));
+  --_eevenkoto-toc-surface: var(--eevenkoto-toc-surface, var(--eevenkoto-color-surface-raised));
+  --_eevenkoto-toc-border-color: var(
+    --eevenkoto-toc-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+
+  display: block;
+  min-inline-size: 0;
+}
+
+/* --- Rail ------------------------------------------------------------- */
+
+.eevenkoto-toc__heading {
+  margin: 0 0 var(--eevenkoto-space-3);
+  font-size: var(--eevenkoto-font-size-caption);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--_eevenkoto-toc-muted);
+}
+
+.eevenkoto-toc__group + .eevenkoto-toc__group {
+  margin-block-start: var(--eevenkoto-space-4);
+}
+
+.eevenkoto-toc__group-label {
+  margin: 0 0 var(--eevenkoto-space-1);
+  font-family: var(--eevenkoto-font-serif);
+  font-size: var(--eevenkoto-font-size-caption);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--_eevenkoto-toc-eyebrow);
+}
+
+.eevenkoto-toc__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.eevenkoto-toc__link {
+  --_eevenkoto-toc-link-color: var(
+    --eevenkoto-toc-link-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-toc-link-bg: var(--eevenkoto-toc-link-bg, transparent);
+  --_eevenkoto-toc-link-border-color: var(--eevenkoto-toc-link-border-color, transparent);
+  --_eevenkoto-toc-link-weight: var(
+    --eevenkoto-toc-link-weight,
+    var(--eevenkoto-font-weight-regular)
+  );
+
+  display: block;
+  padding: var(--eevenkoto-space-1) var(--eevenkoto-space-3);
+  color: var(--_eevenkoto-toc-link-color);
+  background: var(--_eevenkoto-toc-link-bg);
+  font-weight: var(--_eevenkoto-toc-link-weight);
+  font-size: var(--eevenkoto-font-size-body-sm);
+  text-decoration: none;
+  border-inline-start: var(--eevenkoto-line-width-md) solid var(--_eevenkoto-toc-link-border-color);
+}
+
+.eevenkoto-toc__link:hover {
+  --eevenkoto-toc-link-color: var(--eevenkoto-color-content-primary);
+  --eevenkoto-toc-link-bg: var(--eevenkoto-color-surface-subtle);
+}
+
+.eevenkoto-toc__link:focus-visible {
+  outline: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+.eevenkoto-toc__link[aria-current='location'] {
+  --eevenkoto-toc-link-color: var(--eevenkoto-color-content-primary);
+  --eevenkoto-toc-link-bg: var(--eevenkoto-color-surface-sunken);
+  --eevenkoto-toc-link-border-color: var(--eevenkoto-color-content-accent-strong);
+  --eevenkoto-toc-link-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+/* --- Collapsible ------------------------------------------------------ */
+
+.eevenkoto-toc__disclosure {
+  position: sticky;
+  inset-block-start: var(--eevenkoto-space-2);
+  z-index: var(--eevenkoto-z-sticky);
+  background: var(--_eevenkoto-toc-surface);
+  border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-toc-border-color);  border-radius: var(--eevenkoto-radius-md);
+}
+
+.eevenkoto-toc__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  padding: var(--eevenkoto-space-3) var(--eevenkoto-space-4);
+  cursor: pointer;
+  list-style: none;
+  font-weight: var(--eevenkoto-font-weight-semibold);
+  color: var(--_eevenkoto-toc-text);
+}
+
+.eevenkoto-toc__summary::-webkit-details-marker {
+  display: none;
+}
+
+.eevenkoto-toc__summary:focus-visible {
+  outline: var(--eevenkoto-line-width-md) solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+}
+
+.eevenkoto-toc__summary .eevenkoto-icon {
+  margin-inline-start: auto;
+  transition: transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
+}
+
+.eevenkoto-toc__disclosure[open] > .eevenkoto-toc__summary .eevenkoto-icon {
+  transform: rotate(180deg);
+}
+
+.eevenkoto-toc__panel {
+  max-block-size: 60vh;
+  overflow-y: auto;
+  padding: 0 var(--eevenkoto-space-2) var(--eevenkoto-space-3);
+}
+
+/* --- Variant switching ------------------------------------------------ */
+
+.eevenkoto-toc--rail > .eevenkoto-toc__disclosure,
+.eevenkoto-toc--collapsible > .eevenkoto-toc__rail {
+  display: none;
+}
+
+.eevenkoto-toc:not(.eevenkoto-toc--rail):not(.eevenkoto-toc--collapsible) > .eevenkoto-toc__rail {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .eevenkoto-toc:not(.eevenkoto-toc--rail):not(.eevenkoto-toc--collapsible) > .eevenkoto-toc__rail {
+    display: block;
+  }
+
+  .eevenkoto-toc:not(.eevenkoto-toc--rail):not(.eevenkoto-toc--collapsible)
+    > .eevenkoto-toc__disclosure {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-toc__summary .eevenkoto-icon {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-toc__link[aria-current='location'] {
+    border-inline-start-color: Highlight;
+  }
+}
+
+@media print {
+  .eevenkoto-toc {
+    display: none !important;
+  }
+}

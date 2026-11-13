@@ -1,0 +1,111 @@
+---
+import {
+  tableColClassNames,
+  tableClassNames,
+  type ContentTableProps,
+  type TableCellObject,
+} from '@eevenkoto/core';
+import Notice from '../../core/molecules/Notice.astro';
+import TableCell from '../../core/atoms/TableCell.astro';
+
+export interface Props extends Omit<ContentTableProps, 'columns' | 'rows'> {
+  columns?: ContentTableProps['columns'];
+  rows?: ContentTableProps['rows'];
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variant = 'default',
+  stripe = 'row',
+  caption,
+  columns = [],
+  rows = [],
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [tableClassNames({ variant, stripe }), 'eevenkoto-content-table', classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const colCount = columns.length || 1;
+const isCellObject = (cell: unknown): cell is TableCellObject =>
+  typeof cell === 'object' && cell !== null;
+const SAFE_ATTR = /^[a-zA-Z_:][a-zA-Z0-9_.:-]*$/;
+const rowAttrs = (attrs?: Record<string, string | number | boolean | undefined>) =>
+  Object.fromEntries(
+    Object.entries(attrs ?? {})
+      .filter(([k, v]) => v !== undefined && v !== false && k !== 'class' && SAFE_ATTR.test(k) && !/^on/i.test(k))
+      .map(([k, v]) => [k, v === true ? '' : v]),
+  );
+const resolved = rows.map((row) => {
+  if (row.kind === 'locked') {
+    return { locked: row, attrs: { 'data-locked': '' }, cells: [] as never[] };
+  }
+  let cursor = 0;
+  const cells = row.cells.map((cell) => {
+    const col = columns[cursor];
+    if (isCellObject(cell)) {
+      cursor += cell.colSpan && cell.colSpan > 0 ? cell.colSpan : 1;
+      return { ...cell, kind: cell.kind ?? col?.kind ?? 'text' };
+    }
+    cursor += 1;
+    return { text: cell as string, kind: col?.kind ?? 'text' };
+  });
+  return {
+    locked: undefined,
+    attrs: rowAttrs({
+      ...(row.readiness ? { 'data-readiness': row.readiness } : {}),
+      ...row.attributes,
+    }),
+    cells,
+  };
+});
+---
+<table class={classes} {...rest}>
+  {caption ? <caption>{caption}</caption> : null}
+  {columns.length > 0 ? (
+    <colgroup>
+      {columns.map((col) => <col class={tableColClassNames({ kind: col.kind }) || undefined} />)}
+    </colgroup>
+  ) : null}
+  {columns.length > 0 ? (
+    <thead>
+      <tr>
+        {columns.map((col) => (
+          <TableCell header inTable scope="col" kind={col.kind ?? 'text'}>{col.header}</TableCell>
+        ))}
+      </tr>
+    </thead>
+  ) : null}
+  <tbody>
+    {resolved.map((row) => (
+      <tr {...row.attrs}>
+        {row.locked ? (
+          <TableCell
+            inTable
+            colSpan={row.locked.colSpan ?? colCount}
+            attributes={{ class: 'eevenkoto-content-table__locked-cell' }}
+          >
+            <Notice {...row.locked.notice} />
+          </TableCell>
+        ) : (
+          row.cells.map((cell) => (
+            <TableCell
+              inTable
+              header={Boolean((cell as TableCellObject).header) || undefined}
+              scope={(cell as TableCellObject).scope}
+              kind={cell.kind}
+              colSpan={(cell as TableCellObject).colSpan}
+              rowSpan={(cell as TableCellObject).rowSpan}
+              html={(cell as TableCellObject).html}
+              text={(cell as TableCellObject).text}
+              attributes={(cell as TableCellObject).attributes}
+            />
+          ))
+        )}
+      </tr>
+    ))}
+  </tbody>
+</table>

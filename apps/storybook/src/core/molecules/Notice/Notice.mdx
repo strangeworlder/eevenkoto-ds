@@ -85,6 +85,14 @@ Readers need a scannable block that signals status — locked section, success, 
 
 <Canvas of={NoticeStories.Variants} />
 
+Nested [Paragraph](?path=/docs/core-atoms-paragraph--docs) and [List](?path=/docs/core-molecules-list--docs) children automatically inherit `currentColor` across `subtle`, `outline`, and `solid` surfaces via `--eevenkoto-paragraph-color` and `--eevenkoto-list-color`.
+
+## Live status feedback
+
+Pass `statusText` when an action inside the notice produces inline confirmation copy (rendered as `<p class="eevenkoto-notice__status" role="status" aria-live="polite">`).
+
+<Canvas of={NoticeStories.StatusFeedback} />
+
 ## Usage
 
 ```html

@@ -28,9 +28,9 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # PropertyList
 
-**PropertyList** is the Core **molecule** that stacks **Property** rows in a semantic definition list (`dl`). Property itself is the row atom (`dt` / `dd` inside a grouping `div`).
+**PropertyList** is the Core **molecule** that arranges **Property** rows in a semantic definition list (`dl`). Property itself is the row atom (`dt` / `dd` inside a grouping `div`).
 
-HTML5 allows a grouping `div` inside `dl` so each pair can be one flex row (`.eevenkoto-property`) without adjacent-sibling hacks. The colon after the term is rendered by CSS (`dt::after`), not stored in the label string.
+HTML5 allows a grouping `div` inside `dl` so each pair can be one flex row or grid tile (`.eevenkoto-property`) without adjacent-sibling hacks. In `inline` and `divided` layouts, the colon after the term is rendered by CSS (`dt::after`), not stored in the label string; `grid` and `cards` suppress the colon and render tracked uppercase labels above semibold values.
 
 <Canvas of={PropertyListStories.Default} />
 
@@ -53,22 +53,23 @@ HTML5 allows a grouping `div` inside `dl` so each pair can be one flex row (`.ee
 
 ## Why to use
 
-Combat vitals, skills, senses, languages, and challenge lines are definitional metadata. A real `dl` exposes that relationship to assistive tech and keeps Statblock rails honest — no bold Paragraph + `<br>` scaffolding.
+Combat vitals, casting bands, equipment stats, skills, senses, and summary tiles are definitional metadata. A real `dl` exposes that relationship to assistive tech across stacked rows, hairline-divided lists, multi-column bands, and bordered stat cards — without bold Paragraph + `<br>` scaffolding.
 
 ## When to use
 
 <DoDont
   do={
     <ul>
-      <li>Vitals and details inside AbilityScoreGroup header/footer rails.</li>
-      <li>Any compact label→value metadata list in rules UI.</li>
-      <li>Keep Finnish (or other) labels as data — not DS enums.</li>
+      <li>Vitals and details inside AbilityScoreGroup header/footer rails (<code>inline</code>).</li>
+      <li>Summary drawers or sidebars that benefit from row hairlines (<code>divided</code>).</li>
+      <li>Casting-property bands or 2–4 column metadata strips (<code>grid</code>).</li>
+      <li>Equipment / character summary tiles with secondary <code>meta</code> lines (<code>cards</code>).</li>
     </ul>
   }
   dont={
     <ul>
       <li>Don’t fake properties with <code>&lt;strong&gt;Label:&lt;/strong&gt;</code> and line breaks.</li>
-      <li>Don’t include the colon in <code>label</code> — CSS appends it.</li>
+      <li>Don’t include the colon in <code>label</code> — CSS appends or omits it per layout.</li>
       <li>Don’t render a bare Property outside a PropertyList <code>dl</code> (invalid / incomplete semantics).</li>
     </ul>
   }
@@ -76,66 +77,72 @@ Combat vitals, skills, senses, languages, and challenge lines are definitional m
 
 <Canvas of={PropertyListStories.FinnishVitals} />
 
+## Layouts
+
+### Divided (`layout="divided"`)
+
+Inline `Label: Value` rows separated by `--eevenkoto-color-boundary-subtle` hairlines.
+
+<Canvas of={PropertyListStories.Divided} />
+
+### Grid (`layout="grid"`)
+
+Multi-column band (defaults to `columns={4}`, collapsing to 2 columns below `40rem` and 1 column below `26rem`) with tracked uppercase serif labels (`content-accent-strong`) and semibold values.
+
+<Canvas of={PropertyListStories.Grid} />
+
+### Cards with secondary `meta` (`layout="cards"`)
+
+Bordered `surface-subtle` tiles (defaults to `columns={2}`) with optional `meta` line(s) stacked inside `<dd class="eevenkoto-property__value">`.
+
+<Canvas of={PropertyListStories.CardsWithMeta} />
+
 ## Anatomy
 
-1. **PropertyList** — `dl.eevenkoto-property-list` (column flex, `width: 100%`)
-2. **Property** — grouping `div.eevenkoto-property` (`width: 100%`, flex row)
-3. **Label** — `dt.eevenkoto-property__label` (+ `::after` colon)
-4. **Value** — `dd.eevenkoto-property__value` (`flex: 1` so long values use remaining space)
-
-### Why the grouping `div`?
-
-`<dl>` children are `dt` / `dd` (and, in HTML5, a grouping `div`). The wrapper is the BEM block for one row so label and value can sit on a single flex line. Without it, pairing would rely on brittle adjacent selectors.
-
-## Layout & density
-
-| Token / rule | Default | Role |
-| --- | --- | --- |
-| `--eevenkoto-property-list-gap` | `--eevenkoto-space-2` | Space between rows |
-| `--eevenkoto-property-gap` | `0.35em` | Space between label and value |
-| Row width | `100%` | Fills the rail / container, including narrow AbilityScoreGroup breakpoints |
-
-## Accessibility
-
-- Prefer PropertyList as the public entry; Property alone is a fragment for composition.
-- Labels should be human language terms; values can include formula text (`9 (2n8)`).
-- Do not use PropertyList for narrative paragraphs — use Paragraph.
+1. **PropertyList** — `dl.eevenkoto-property-list`
+2. **Property** — grouping `div.eevenkoto-property`
+3. **Label** — `dt.eevenkoto-property__label` (`::after` colon in `inline` / `divided`, suppressed in `grid` / `cards`)
+4. **Value** — `dd.eevenkoto-property__value`
+5. **Meta (optional)** — `span.eevenkoto-property__meta` stacked below the primary value inside `dd`
 
 ## API reference
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `items` (list) | `PropertyItem[]` | — | Rows to render. |
+| `layout` (list) | `'inline' \| 'divided' \| 'grid' \| 'cards'` | `'inline'` | Visual arrangement of definition pairs. |
+| `columns` (list) | `2 \| 3 \| 4` | `4` (`grid`) / `2` (`cards`) | Column count for `grid` and `cards` layouts. |
 | `label` (item) | `string` | — | Term (no colon). |
-| `value` (item) | `string` | — | Detail text. |
+| `value` (item) | `string` | — | Primary detail text. |
+| `valueHtml` (item) | `string` | — | Trusted pre-rendered inline HTML for `dd`. |
+| `meta` (item) | `string \| string[]` | — | Optional secondary metadata line(s) stacked below `value`. |
 
-```ts
-export interface PropertyItem {
-  label: string;
-  value: string;
-}
-
-export interface PropertyListProps {
-  items: PropertyItem[];
-}
-```
+<ArgTypes of={PropertyListStories} />
 
 ### CSS classes
 
 | Class | Role |
 | --- | --- |
-| `eevenkoto-property-list` | `dl` root |
-| `eevenkoto-property` | Row group |
+| `eevenkoto-property-list` | `dl` root (host alone = `inline`) |
+| `eevenkoto-property-list--divided` | Hairline-separated inline rows |
+| `eevenkoto-property-list--grid` | Multi-column stacked metadata band |
+| `eevenkoto-property-list--cards` | Multi-column bordered card tiles |
+| `eevenkoto-property-list--cols-2` / `--cols-3` / `--cols-4` | Explicit grid/card column count |
+| `eevenkoto-property` | Row / tile group |
 | `eevenkoto-property__label` | `dt` |
 | `eevenkoto-property__value` | `dd` |
+| `eevenkoto-property__meta` | Secondary metadata line inside `dd` |
 
 ### Public CSS override tokens
 
 | Token | Purpose |
 | --- | --- |
-| `--eevenkoto-property-list-gap` | Gap between rows |
+| `--eevenkoto-property-list-gap` | Gap between rows / grid cells |
 | `--eevenkoto-property-list-margin-block` | List block margins |
-| `--eevenkoto-property-label-color` / `-value-color` | Ink |
+| `--eevenkoto-property-list-cols` | Grid / cards column count |
+| `--eevenkoto-property-list-divider-color` | Divider hairline in `--divided` |
+| `--eevenkoto-property-label-color` / `-value-color` / `-meta-color` | Ink overrides |
+| `--eevenkoto-property-card-bg` / `-card-border-color` | Tile fill & border in `--cards` |
 | `--eevenkoto-property-font-size` | Type size (defaults to `body-md`) |
 | `--eevenkoto-property-gap` | Label↔value gap |
 | `--eevenkoto-property-label-weight` | Term weight (defaults to bold) |
@@ -149,6 +156,7 @@ import '@eevenkoto/css/property.css';
 import { renderPropertyList } from '@eevenkoto/html';
 
 renderPropertyList({
+  layout: 'grid',
   items: [
     { label: 'Puolustus', value: '15' },
     { label: 'Aloite', value: '+1 (11)' },
@@ -160,9 +168,10 @@ renderPropertyList({
 import { PropertyList } from '@eevenkoto/react';
 
 <PropertyList
+  layout="cards"
   items={[
-    { label: 'Puolustus', value: '15' },
-    { label: 'Aloite', value: '+1 (11)' },
+    { label: 'Pitkämiekka', value: '1n8 viilto', meta: 'Paino 1,5 kg' },
+    { label: 'Kilpi', value: '+2 Puolustus', meta: 'Paino 3 kg' },
   ]}
 />
 ```
@@ -178,9 +187,10 @@ const items = [
 </script>
 
 <template>
-  <PropertyList :items="items" />
+  <PropertyList layout="divided" :items="items" />
 </template>
 ```
+
 ## Related
 
 - [AbilityScoreGroup](?path=/docs/domain-organisms-abilityscoregroup--docs) — Consumes PropertyList in rails

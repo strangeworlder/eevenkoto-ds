@@ -1,0 +1,70 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: SWATCH (TIER 3)
+   Color sample chip (dye, heraldry, token tint, theme preview).
+   Host alone = md (1.6rem) + circle (radius-full).
+   ========================================================================== */
+
+.eevenkoto-swatch {
+  --_eevenkoto-swatch-color: var(--eevenkoto-swatch-color, transparent);
+  --_eevenkoto-swatch-size: var(--eevenkoto-swatch-size, 1.6rem);
+  --_eevenkoto-swatch-radius: var(
+    --eevenkoto-swatch-radius,
+    var(--eevenkoto-radius-full)
+  );
+  --_eevenkoto-swatch-border-color: var(
+    --eevenkoto-swatch-border-color,
+    var(--eevenkoto-color-boundary-strong)
+  );
+  --_eevenkoto-swatch-border-width: var(
+    --eevenkoto-swatch-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+
+  display: inline-block;
+  box-sizing: border-box;
+  inline-size: var(--_eevenkoto-swatch-size);
+  block-size: var(--_eevenkoto-swatch-size);
+  flex-shrink: 0;
+  vertical-align: middle;
+  background-color: var(--_eevenkoto-swatch-color);
+  border: var(--_eevenkoto-swatch-border-width) solid var(--_eevenkoto-swatch-border-color);
+  border-radius: var(--_eevenkoto-swatch-radius);
+}
+
+/* --- SIZES (sm | md | lg) --- */
+
+.eevenkoto-swatch--sm {
+  --eevenkoto-swatch-size: 1.2rem;
+}
+
+.eevenkoto-swatch--md {
+  --eevenkoto-swatch-size: 1.6rem;
+}
+
+.eevenkoto-swatch--lg {
+  --eevenkoto-swatch-size: 2.4rem;
+}
+
+/* --- SHAPES --- */
+
+.eevenkoto-swatch--circle {
+  --eevenkoto-swatch-radius: var(--eevenkoto-radius-full);
+}
+
+.eevenkoto-swatch--rounded {
+  --eevenkoto-swatch-radius: var(--eevenkoto-radius-sm);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-swatch {
+    forced-color-adjust: none;
+    border-color: CanvasText;
+  }
+}
+
+@media print {
+  .eevenkoto-swatch {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

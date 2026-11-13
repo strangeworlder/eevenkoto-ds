@@ -1,4 +1,6 @@
 export type TableCellKind = 'index' | 'numeric' | 'text';
+export type TableCellScope = 'col' | 'row' | 'colgroup' | 'rowgroup';
+export type TableElementAttributes = Record<string, string | number | boolean | undefined>;
 
 export interface TableCellKindProps {
   /** Column role. Defaults to `text`. */
@@ -11,14 +13,22 @@ export interface TableCellClassNameProps extends TableCellKindProps {
 }
 
 export interface TableCellProps extends TableCellClassNameProps {
-  /** Cell copy (product / locale data). */
-  text: string;
+  /** Cell copy (product / locale data). Optional when `html` or framework slot is set. */
+  text?: string;
+  /** Trusted pre-rendered inline HTML for the cell. Takes precedence over `text`. */
+  html?: string;
   /** Render as header cell. */
   header?: boolean;
   /** `scope` when `header` is true. */
-  scope?: 'col' | 'row';
+  scope?: TableCellScope;
+  /** Column span (`colspan`). */
+  colSpan?: number;
+  /** Row span (`rowspan`). */
+  rowSpan?: number;
   /** Wrap header label for angled numeric heads (numeric + header). */
   angled?: boolean;
+  /** Extra HTML/data/ARIA attributes applied to `<th>` / `<td>`. */
+  attributes?: TableElementAttributes;
 }
 
 export const tableCellClassNames = (props: TableCellClassNameProps = {}): string => {

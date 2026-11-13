@@ -29,6 +29,11 @@
   );
   --eevenkoto-color-depth-shadow-control: var(--eevenkoto-color-turquoise-shadow);
   --eevenkoto-color-depth-shadow-control-text: var(--eevenkoto-color-turquoise-text-shadow);
+  --eevenkoto-color-depth-scrim: color-mix(
+    in oklch,
+    var(--eevenkoto-color-parchment-text) 45%,
+    transparent
+  );
 
   /* --- Content --- */
   --eevenkoto-color-content-primary: var(--eevenkoto-color-parchment-text);
@@ -352,6 +357,17 @@
   --eevenkoto-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --eevenkoto-ease-in-out: ease-in-out;
 
+  /* Layering / Z-index — single-tier scale. */
+  --eevenkoto-z-base: 0;
+  --eevenkoto-z-above: 10;
+  --eevenkoto-z-sticky: 100;
+  --eevenkoto-z-popover: 400;
+  --eevenkoto-z-overlay: 600;
+  --eevenkoto-z-drawer: 700;
+  --eevenkoto-z-modal: 800;
+  --eevenkoto-z-tooltip: 900;
+  --eevenkoto-z-toast: 1000;
+
   /* Canonical pseudo-element icon masks (synced with @eevenkoto/core iconPaths). */
   --eevenkoto-icon-mask-chevron-right: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.97 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 1 1-1.06-1.06L9.69 8 5.97 4.28a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E");
   --eevenkoto-icon-mask-chevron-down: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.22 5.97a.75.75 0 0 1 1.06 0L8 9.69l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L3.22 7.03a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E");
@@ -375,6 +391,11 @@
   --eevenkoto-color-depth-shadow-penumbra: color-mix(
     in oklch,
     var(--eevenkoto-color-obsidian-background-sunken) 35%,
+    transparent
+  );
+  --eevenkoto-color-depth-scrim: color-mix(
+    in oklch,
+    var(--eevenkoto-color-obsidian-background-sunken) 70%,
     transparent
   );
 

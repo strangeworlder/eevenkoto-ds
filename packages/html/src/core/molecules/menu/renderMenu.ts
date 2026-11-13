@@ -7,6 +7,7 @@ import {
   type MenuEntry,
   type MenuGroupEntry,
   type MenuItemEntry,
+  type MenuItemTone,
   type MenuProps,
   type MenuSize,
 } from '@eevenkoto/core';
@@ -15,7 +16,7 @@ import { renderStatusDot } from '../../atoms/status-dot/renderStatusDot';
 import { escapeHtml } from '../../../utils/html';
 import template from './Menu.html';
 
-export type { MenuAttributes, MenuProps, MenuEntry, MenuSize };
+export type { MenuAttributes, MenuProps, MenuEntry, MenuItemTone, MenuSize };
 
 const SAFE_ATTR_NAME_RE = /^[a-zA-Z_:][a-zA-Z0-9_.:-]*$/;
 
@@ -92,7 +93,7 @@ const renderEntry = (entry: MenuEntry): string => {
   }
 
   const className = mergeClass(
-    menuItemClassNames({ selected: entry.selected, locked: entry.locked }),
+    menuItemClassNames({ selected: entry.selected, locked: entry.locked, tone: entry.tone }),
     entry.attributes,
   );
   const extraAttrs = serializeAttributes(entry.attributes, true);

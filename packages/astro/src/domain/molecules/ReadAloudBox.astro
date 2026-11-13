@@ -1,0 +1,39 @@
+---
+import {
+  readAloudBoxBodyClassNames,
+  readAloudBoxClassNames,
+  readAloudBoxOrnamentClassNames,
+  type ReadAloudBoxProps,
+} from '@eevenkoto/core';
+
+export interface Props extends ReadAloudBoxProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  label,
+  ornament = '❖',
+  body,
+  bodyHtml,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [readAloudBoxClassNames(), classProp, className].filter(Boolean).join(' ');
+const hasSlot = Astro.slots.has('default');
+---
+<aside id={id} class={classes} aria-label={label} {...rest}>
+  {ornament ? (
+    <span class={readAloudBoxOrnamentClassNames()} aria-hidden="true">{ornament}</span>
+  ) : null}
+  {hasSlot ? (
+    <div class={readAloudBoxBodyClassNames()}><slot /></div>
+  ) : bodyHtml !== undefined ? (
+    <div class={readAloudBoxBodyClassNames()} set:html={bodyHtml} />
+  ) : (
+    <div class={readAloudBoxBodyClassNames()}>{body ? <p>{body}</p> : null}</div>
+  )}
+</aside>

@@ -24,7 +24,16 @@ const {
 } = Astro.props;
 
 const classes = [statblockFeatureClassNames(), classProp, className].filter(Boolean).join(' ');
-const NameTag = level === 2 ? 'h2' : level === 6 ? 'h6' : 'h3';
+const NameTag =
+  level === 2
+    ? 'h2'
+    : level === 4
+      ? 'h4'
+      : level === 5
+        ? 'h5'
+        : level === 6
+          ? 'h6'
+          : 'h3';
 const hasDefaultSlot = Astro.slots.has('default');
 const descMarkup =
   descriptionHtml !== undefined ? descriptionHtml : sanitizeInlineHtml(description ?? '');

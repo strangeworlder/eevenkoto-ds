@@ -92,6 +92,12 @@ Duration ladder and easing curves. Components stagger properties the way Button 
 
 <Canvas of={TokensStories.Motion} />
 
+## Layering
+
+Stacking order is a single-tier scale: `--eevenkoto-z-base` → `above` → `sticky` → `popover` → `overlay` → `drawer` → `modal` → `tooltip` → `toast`. Components and app shells use these instead of raw `z-index` numbers (Stylelint enforces it). `--eevenkoto-color-depth-scrim` is the backdrop colour for drawers and modals that the host app renders.
+
+<Canvas of={TokensStories.Layering} />
+
 ## Icons
 
 Glyph inventory (`ICON_NAMES` / `iconPaths`) lives in **`@eevenkoto/core`** as `tokens/icons` — not inside the Icon atom. [Icon](?path=/docs/core-atoms-icon--docs) and [Button](?path=/docs/core-atoms-button--docs) both consume it. Cards with a primary border are also in `BUTTON_ICON_NAMES`.

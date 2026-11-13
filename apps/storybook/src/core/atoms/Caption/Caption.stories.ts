@@ -20,18 +20,28 @@ const meta: Meta<CaptionProps> = {
     },
     tone: {
       control: 'select',
-      options: ['primary', 'secondary'],
+      options: ['primary', 'secondary', 'accent'],
       description:
-        'Content color tone. Defaults to secondary → content-tertiary (quieter than Paragraph secondary).',
+        'Content color tone. Defaults to secondary → content-tertiary; accent uses content-accent-strong (≥4.5:1 AA).',
       table: {
-        type: { summary: "'primary' | 'secondary'" },
+        type: { summary: "'primary' | 'secondary' | 'accent'" },
         defaultValue: { summary: 'secondary' },
+      },
+    },
+    variant: {
+      control: 'select',
+      options: ['default', 'eyebrow'],
+      description: 'Typographic treatment. `eyebrow` renders tracked uppercase kicker text.',
+      table: {
+        type: { summary: "'default' | 'eyebrow'" },
+        defaultValue: { summary: 'default' },
       },
     },
   },
   args: {
     text: 'Updated 2 hours ago',
     tone: 'secondary',
+    variant: 'default',
   },
   render: (args) => renderCaption(args),
 };
@@ -43,6 +53,14 @@ export const Default: Story = {};
 
 export const Primary: Story = {
   args: { tone: 'primary', text: 'Required field' },
+};
+
+export const Accent: Story = {
+  args: { tone: 'accent', text: '3. piirin loitsu' },
+};
+
+export const Eyebrow: Story = {
+  args: { tone: 'accent', variant: 'eyebrow', text: 'Taisteluloki' },
 };
 
 export const Helper: Story = {

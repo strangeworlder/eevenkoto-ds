@@ -67,7 +67,7 @@ const RAW =
   /(?:#[0-9a-fA-F]{3,8}\b|(?<![-\w])(?:rgb|rgba|hsl|hsla|hwb|lab|lch|oklab)\s*\()/i;
 const OKLCH_LITERAL = /(?<!in\s)oklch\s*\(/i;
 const GLOBAL_NAMESPACE =
-  /^--eevenkoto-(?:color|space|radius|font|line|duration|ease|transition|icon-mask)-/;
+  /^--eevenkoto-(?:color|space|radius|font|line|duration|ease|transition|icon-mask|z)-/;
 const FOCUS_ALLOW = /^--eevenkoto-color-boundary-focus-(?:outer|inner)$/;
 const VISITED_ALLOW = /^--eevenkoto-color-link-visited$/;
 const SYSTEM_COLOR =
@@ -509,6 +509,40 @@ export const privateBridgeHygiene = createRule(
   },
 );
 
+/*
+ * Layering: global stacking goes through the single-tier --eevenkoto-z-* scale.
+ * Small integers (-1…3) remain allowed for local ordering inside a component
+ * that owns its stacking context (e.g. Stat face vs. outline, AbilityScore chips).
+ */
+const LOCAL_Z_MIN = -1;
+const LOCAL_Z_MAX = 3;
+
+export const zIndexToken = createRule(
+  'eevenkoto/z-index-token',
+  ruleMessages('eevenkoto/z-index-token', {
+    rejected: (value) =>
+      `z-index "${value}" must use var(--eevenkoto-z-*) or a local offset between ${LOCAL_Z_MIN} and ${LOCAL_Z_MAX}`,
+  }),
+  (root, result, messages) => {
+    root.walkDecls('z-index', (decl) => {
+      const value = decl.value.trim();
+      if (/^(auto|inherit|initial|unset|revert|revert-layer)$/i.test(value)) return;
+      if (/^var\(\s*--eevenkoto-z-[a-z]+\s*\)$/.test(value)) return;
+      if (/^calc\(\s*var\(\s*--eevenkoto-z-[a-z]+\s*\)\s*[+-]\s*\d\s*\)$/.test(value)) return;
+      if (/^-?\d+$/.test(value)) {
+        const n = Number(value);
+        if (n >= LOCAL_Z_MIN && n <= LOCAL_Z_MAX) return;
+      }
+      report({
+        message: messages.rejected(value),
+        node: decl,
+        result,
+        ruleName: 'eevenkoto/z-index-token',
+      });
+    });
+  },
+);
+
 const plugins = [
   noRawColorLiterals,
   noInverseToken,
@@ -520,6 +554,7 @@ const plugins = [
   noUnknownTokens,
   constrainTier2ColorMix,
   privateBridgeHygiene,
+  zIndexToken,
 ];
 
 export default plugins;

@@ -10,6 +10,7 @@
 @import url('../atoms/heading.css');
 @import url('../atoms/paragraph.css');
 @import url('../atoms/list.css');
+@import url('../atoms/divider.css');
 
 .eevenkoto-prose {
   display: block;

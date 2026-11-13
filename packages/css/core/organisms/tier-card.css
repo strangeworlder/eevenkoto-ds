@@ -1,0 +1,87 @@
+/* packages/css/core/organisms/tier-card.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: TIER CARD (TIER 3)
+   Pricing / membership comparison card. Composed on top of `.eevenkoto-card`
+   (featured = accent outline, current = focus ring) with a checklist and CTA.
+   ========================================================================== */
+
+@import url('../molecules/card.css');
+@import url('../atoms/badge.css');
+@import url('../atoms/list.css');
+@import url('../atoms/link-button.css');
+
+.eevenkoto-tier-card {
+  --_eevenkoto-tier-card-name-color: var(
+    --eevenkoto-tier-card-name-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-tier-card-price-color: var(
+    --eevenkoto-tier-card-price-color,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-tier-card-muted-color: var(
+    --eevenkoto-tier-card-muted-color,
+    var(--eevenkoto-color-content-secondary)
+  );
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-4);
+  block-size: 100%;
+  box-sizing: border-box;
+}
+
+.eevenkoto-tier-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-tier-card__name {
+  margin: 0;
+  font-family: var(--eevenkoto-font-serif);
+  font-size: var(--eevenkoto-font-size-heading-3);
+  line-height: var(--eevenkoto-line-height-tight);
+  color: var(--_eevenkoto-tier-card-name-color);
+}
+
+.eevenkoto-tier-card__pricing {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-tier-card__price {
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-heading-1);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  line-height: var(--eevenkoto-line-height-tight);
+  color: var(--_eevenkoto-tier-card-price-color);
+}
+
+.eevenkoto-tier-card__period {
+  font-size: var(--eevenkoto-font-size-body-sm);
+  color: var(--_eevenkoto-tier-card-muted-color);
+}
+
+.eevenkoto-tier-card__description {
+  margin: 0;
+  color: var(--_eevenkoto-tier-card-muted-color);
+}
+
+.eevenkoto-tier-card__features {
+  flex: 1 1 auto;
+}
+
+.eevenkoto-tier-card__footer {
+  margin-block-start: auto;
+  padding-block-start: var(--eevenkoto-space-4);
+}
+
+@media print {
+  .eevenkoto-tier-card {
+    break-inside: avoid;
+  }
+}

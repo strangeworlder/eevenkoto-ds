@@ -144,13 +144,26 @@ Field still owns the visible label; Input `--search` is only the control recipe.
 
 <Canvas of={FieldStories.SearchChrome} />
 
+## Horizontal orientation
+
+Use `orientation="horizontal"` (`.eevenkoto-field--horizontal`) for compact filter toolbars where the label sits inline beside the control while hints/errors still wrap onto a full-width row underneath.
+
+<Canvas of={FieldStories.Horizontal} />
+
+## Inline action
+
+Pass `action` (prop in HTML/React, `action` slot in Vue/Astro) to pair a control with an adjacent action button inside `.eevenkoto-field__control-group` while keeping label association and validation messages unified.
+
+<Canvas of={FieldStories.WithAction} />
+
 ## Anatomy
 
 | Part | Role |
 | --- | --- |
-| Host | Column stack |
+| Host | Column stack (`--horizontal` switches to inline row wrap) |
 | `__label` | Visible `<label for>` |
 | `__control` | Slot for Input (or other control) |
+| `__control-group` | Flex row wrapper inside `__control` when `action` is provided |
 | `__message` | Hint (tertiary quiet) |
 | `__message--error` | Error text |
 
@@ -160,10 +173,12 @@ Field still owns the visible label; Input `--search` is only the control recipe.
 | --- | --- | --- | --- |
 | `label` | `string` | — | Visible label. |
 | `htmlFor` | `string` | slug from label (HTML) | Control id. |
+| `orientation` | `'vertical' \| 'horizontal'` | `'vertical'` | Label/control layout axis. |
 | `hint` | `string` | — | Helper text when no error. |
 | `error` | `string` | — | Error text (takes priority over hint). |
 | `messageId` | `string` | `` `${htmlFor}-message` `` | Id for `aria-describedby`. |
 | `control` | `string` | — | HTML package: nested control markup. |
+| `action` | `string \| ReactNode` (slot in Vue/Astro) | — | Optional trailing inline action inside `__control-group`. |
 
 <ArgTypes of={FieldStories} />
 

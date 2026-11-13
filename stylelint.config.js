@@ -30,6 +30,7 @@ export default {
         'eevenkoto/no-self-referencing-vars': true,
         'eevenkoto/no-unknown-tokens': true,
         'eevenkoto/private-bridge-hygiene': true,
+        'eevenkoto/z-index-token': true,
       },
     },
     {

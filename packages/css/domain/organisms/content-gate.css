@@ -1,0 +1,148 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: CONTENT GATE (TIER 3)
+   Full-page gate card shown when the reader's tier cannot open a document.
+   Top accent bar, readiness Badge + lock icon, heading, copy, a sunken
+   current-vs-required pill, actions, a live status line, optional dev footer.
+   ========================================================================== */
+
+@import url('../../core/atoms/badge.css');
+@import url('../../core/atoms/icon.css');
+@import url('../../core/atoms/heading.css');
+@import url('../../core/molecules/prose.css');
+
+.eevenkoto-content-gate {
+  --_eevenkoto-content-gate-bg: var(
+    --eevenkoto-content-gate-bg,
+    var(--eevenkoto-color-surface-raised)
+  );
+  --_eevenkoto-content-gate-text: var(
+    --eevenkoto-content-gate-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-content-gate-muted: var(
+    --eevenkoto-content-gate-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-content-gate-border-color: var(
+    --eevenkoto-content-gate-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-content-gate-accent: var(
+    --eevenkoto-content-gate-accent,
+    var(--eevenkoto-color-content-accent-strong)
+  );
+  --_eevenkoto-content-gate-pill-bg: var(
+    --eevenkoto-content-gate-pill-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-content-gate-shadow: var(
+    --eevenkoto-content-gate-shadow,
+    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.8rem 1.6rem var(--eevenkoto-color-depth-shadow-penumbra)
+  );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--eevenkoto-space-4);
+  inline-size: 100%;
+  max-inline-size: 56rem;
+  margin-inline: auto;
+  padding: var(--eevenkoto-space-6) var(--eevenkoto-space-6) var(--eevenkoto-space-4);
+  background: var(--_eevenkoto-content-gate-bg);
+  color: var(--_eevenkoto-content-gate-text);
+  border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-content-gate-border-color);
+  border-block-start: var(--eevenkoto-line-width-lg) solid var(--_eevenkoto-content-gate-accent);
+  border-radius: var(--eevenkoto-radius-md);
+  box-shadow: var(--_eevenkoto-content-gate-shadow);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.eevenkoto-content-gate__status-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-content-gate__lock {
+  color: var(--_eevenkoto-content-gate-muted);
+}
+
+.eevenkoto-content-gate__title {
+  margin: 0;
+}
+
+.eevenkoto-content-gate__description {
+  max-inline-size: 62ch;
+  color: var(--_eevenkoto-content-gate-muted);
+}
+
+.eevenkoto-content-gate__description > :first-child {
+  margin-block-start: 0;
+}
+
+.eevenkoto-content-gate__description > :last-child {
+  margin-block-end: 0;
+}
+
+.eevenkoto-content-gate__comparison {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eevenkoto-space-1) var(--eevenkoto-space-3);
+  margin: 0;
+  padding: var(--eevenkoto-space-2) var(--eevenkoto-space-4);
+  background: var(--_eevenkoto-content-gate-pill-bg);
+  border-radius: var(--eevenkoto-radius-full);
+  font-size: var(--eevenkoto-font-size-body-sm);
+}
+
+.eevenkoto-content-gate__comparison strong {
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+.eevenkoto-content-gate__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-content-gate__actions:empty {
+  display: none;
+}
+
+.eevenkoto-content-gate__feedback {
+  margin: 0;
+  font-size: var(--eevenkoto-font-size-body-sm);
+  font-weight: var(--eevenkoto-font-weight-semibold);
+}
+
+.eevenkoto-content-gate__feedback:empty,
+.eevenkoto-content-gate__feedback[hidden] {
+  display: none;
+}
+
+.eevenkoto-content-gate__footer {
+  inline-size: 100%;
+  padding-block-start: var(--eevenkoto-space-3);
+  border-block-start: var(--eevenkoto-line-width-sm) dashed var(--_eevenkoto-content-gate-border-color);
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-content-gate {
+    border-block-start-color: CanvasText;
+  }
+}
+
+@media print {
+  .eevenkoto-content-gate__footer,
+  .eevenkoto-content-gate__actions {
+    display: none;
+  }
+}

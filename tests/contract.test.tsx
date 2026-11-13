@@ -24,6 +24,12 @@ import {
   spellblockClassNames,
   statblockClassNames,
   statusDotClassNames,
+  swatchClassNames,
+  captionClassNames,
+  cardClassNames,
+  listClassNames,
+  propertyListClassNames,
+  tooltipCardClassNames,
   tableCellClassNames,
   tableColClassNames,
   equipmentBlockClassNames,
@@ -45,6 +51,7 @@ import {
   sanitizeInlineHtml,
   renderBadge,
   renderButton,
+  renderCaption,
   renderCard,
   renderCatalog,
   renderChip,
@@ -55,6 +62,7 @@ import {
   renderInput,
   renderInlineRef,
   renderLinkButton,
+  renderList,
   renderMenu,
   renderNotice,
   renderPopover,
@@ -66,8 +74,10 @@ import {
   renderStatblockFeature,
   renderStatblockSection,
   renderStatusDot,
+  renderSwatch,
   renderTable,
   renderTableCell,
+  renderTooltipCard,
   renderEquipmentBlock,
   renderEquipmentWorkshop,
   renderWorkshop,
@@ -83,6 +93,7 @@ import {
 import {
   Badge,
   Button,
+  Caption,
   Card,
   Catalog,
   Chip,
@@ -92,6 +103,7 @@ import {
   Image,
   Input,
   LinkButton,
+  List,
   Menu,
   Notice,
   Popover,
@@ -103,7 +115,9 @@ import {
   StatblockFeature,
   StatblockSection,
   StatusDot,
+  Swatch,
   Table,
+  TooltipCard,
   EquipmentBlock,
   EquipmentWorkshop,
   Workshop,
@@ -119,6 +133,7 @@ import {
 import {
   Badge as VueBadge,
   Button as VueButton,
+  Caption as VueCaption,
   Card as VueCard,
   Catalog as VueCatalog,
   Chip as VueChip,
@@ -128,6 +143,7 @@ import {
   Image as VueImage,
   Input as VueInput,
   LinkButton as VueLinkButton,
+  List as VueList,
   Menu as VueMenu,
   Notice as VueNotice,
   Popover as VuePopover,
@@ -139,7 +155,9 @@ import {
   StatblockFeature as VueStatblockFeature,
   StatblockSection as VueStatblockSection,
   StatusDot as VueStatusDot,
+  Swatch as VueSwatch,
   Table as VueTable,
+  TooltipCard as VueTooltipCard,
   EquipmentBlock as VueEquipmentBlock,
   EquipmentWorkshop as VueEquipmentWorkshop,
   Workshop as VueWorkshop,
@@ -315,9 +333,9 @@ describe('HTML matches Core class strings', () => {
       preview: '<aside>Esikatselu</aside>',
     });
     expect(markup).toContain(equipmentWorkshopClassNames());
-    expect(markup).toContain('class="eevenkoto-equipment-workshop__header"');
-    expect(markup).toContain('class="eevenkoto-equipment-workshop__controls"');
-    expect(markup).toContain('class="eevenkoto-equipment-workshop__preview"');
+    expect(markup).toContain('eevenkoto-workshop__header eevenkoto-equipment-workshop__header');
+    expect(markup).toContain('eevenkoto-workshop__controls eevenkoto-equipment-workshop__controls');
+    expect(markup).toContain('eevenkoto-workshop__preview eevenkoto-equipment-workshop__preview');
     expect(markup).toContain('<h1>Verstas</h1>');
     expect(markup).toContain('Ohjaimet');
     expect(markup).toContain('Esikatselu');
@@ -623,9 +641,9 @@ describe('React className matches Core', () => {
       ),
     );
     expect(html).toContain(equipmentWorkshopClassNames());
-    expect(html).toContain('class="eevenkoto-equipment-workshop__header"');
-    expect(html).toContain('class="eevenkoto-equipment-workshop__controls"');
-    expect(html).toContain('class="eevenkoto-equipment-workshop__preview"');
+    expect(html).toContain('eevenkoto-workshop__header eevenkoto-equipment-workshop__header');
+    expect(html).toContain('eevenkoto-workshop__controls eevenkoto-equipment-workshop__controls');
+    expect(html).toContain('eevenkoto-workshop__preview eevenkoto-equipment-workshop__preview');
     expect(html).toContain('<h1>Verstas</h1>');
     expect(html).toContain('Ohjaimet');
     expect(html).toContain('Esikatselu');
@@ -938,9 +956,9 @@ describe('Vue class matches Core (priority subset)', () => {
       },
     );
     expect(html).toContain(equipmentWorkshopClassNames());
-    expect(html).toContain('class="eevenkoto-equipment-workshop__header"');
-    expect(html).toContain('class="eevenkoto-equipment-workshop__controls"');
-    expect(html).toContain('class="eevenkoto-equipment-workshop__preview"');
+    expect(html).toContain('eevenkoto-workshop__header eevenkoto-equipment-workshop__header');
+    expect(html).toContain('eevenkoto-workshop__controls eevenkoto-equipment-workshop__controls');
+    expect(html).toContain('eevenkoto-workshop__preview eevenkoto-equipment-workshop__preview');
     expect(html).toContain('<h1>Verstas</h1>');
     expect(html).toContain('Ohjaimet');
     expect(html).toContain('Esikatselu');
@@ -1662,5 +1680,591 @@ describe('0.11.0 Features — Icons, LinkButton, EntityRef, Popover, Widths, Men
     expect(vue).toContain(workshopClassNames());
     expect(vue).toContain('role="region"');
     expect(vue).toContain('--eevenkoto-workshop-controls-width:22rem');
+  });
+});
+
+describe('0.12.0 Wave 1 — Swatch & Component Upgrades across HTML, React, and Vue', () => {
+  it('Swatch renders color variable and decorative vs labeled ARIA across HTML, React, and Vue', async () => {
+    const cls = swatchClassNames({ size: 'sm', shape: 'rounded' });
+    const html = renderSwatch({ color: '#c48f2a', size: 'sm', shape: 'rounded', label: 'Kulta' });
+    expect(html).toContain(cls);
+    expect(html).toContain('--eevenkoto-swatch-color: #c48f2a');
+    expect(html).toContain('role="img"');
+    expect(html).toContain('aria-label="Kulta"');
+
+    const decorative = renderSwatch({ color: '#1b6d6e' });
+    expect(decorative).toContain('aria-hidden="true"');
+
+    const react = renderToStaticMarkup(
+      createElement(Swatch, { color: '#c48f2a', size: 'sm', shape: 'rounded', label: 'Kulta' }),
+    );
+    expect(react).toContain(cls);
+    expect(react).toContain('--eevenkoto-swatch-color:#c48f2a');
+
+    const vue = await vueHtml(VueSwatch, { color: '#c48f2a', size: 'sm', shape: 'rounded', label: 'Kulta' });
+    expect(vue).toContain(cls);
+    expect(vue).toContain('--eevenkoto-swatch-color:#c48f2a');
+  });
+
+  it('Caption eyebrow+accent and Chip icon+swatchColor parity across HTML, React, and Vue', async () => {
+    const capCls = captionClassNames({ tone: 'accent', variant: 'eyebrow' });
+    expect(renderCaption({ text: 'Seikkailu', tone: 'accent', variant: 'eyebrow' })).toContain(capCls);
+    expect(
+      renderToStaticMarkup(createElement(Caption, { text: 'Seikkailu', tone: 'accent', variant: 'eyebrow' })),
+    ).toContain(capCls);
+    expect(
+      await vueHtml(VueCaption, { text: 'Seikkailu', tone: 'accent', variant: 'eyebrow' }),
+    ).toContain(capCls);
+
+    const chipHtml = renderChip({ label: 'Purppura', swatchColor: '#6b2d5c', icon: 'star' });
+    expect(chipHtml).toContain('eevenkoto-swatch');
+    expect(chipHtml).toContain('eevenkoto-icon');
+    expect(
+      renderToStaticMarkup(createElement(Chip, { label: 'Purppura', swatchColor: '#6b2d5c', icon: 'star' })),
+    ).toContain('eevenkoto-swatch');
+    expect(
+      await vueHtml(VueChip, { label: 'Purppura', swatchColor: '#6b2d5c', icon: 'star' }),
+    ).toContain('eevenkoto-swatch');
+  });
+
+  it('PropertyList layouts (divided, grid, cards) and meta lines across HTML, React, and Vue', async () => {
+    const items = [{ label: 'Kesto', value: '3 / 4', meta: ['Murskaus 4', 'Viilto 3'] }];
+    const cls = propertyListClassNames({ layout: 'cards', columns: 3 });
+
+    const html = renderPropertyList({ items, layout: 'cards', columns: 3 });
+    expect(html).toContain(cls);
+    expect(html).toContain('eevenkoto-property__meta');
+    expect(html).toContain('Murskaus 4');
+
+    const react = renderToStaticMarkup(createElement(PropertyList, { items, layout: 'cards', columns: 3 }));
+    expect(react).toContain(cls);
+    expect(react).toContain('eevenkoto-property__meta');
+
+    const vue = await vueHtml(VuePropertyList, { items, layout: 'cards', columns: 3 });
+    expect(vue).toContain(cls);
+    expect(vue).toContain('eevenkoto-property__meta');
+  });
+
+  it('List checklist variant, Menu destructive tone, Notice statusText, Field horizontal, and TooltipCard flush', async () => {
+    const checklistItems = [
+      { text: 'SRD-säännöt', status: 'included' as const },
+      { html: '<strong>Eevenkodon</strong> maailma', status: 'accent' as const },
+      { text: 'Ennakkoversiot', status: 'excluded' as const },
+    ];
+    const listHtml = renderList({ variant: 'checklist', items: checklistItems });
+    expect(listHtml).toContain(listClassNames({ variant: 'checklist' }));
+    expect(listHtml).toContain('eevenkoto-list__item--excluded');
+    expect(listHtml).toContain('<strong>Eevenkodon</strong>');
+    expect(
+      renderToStaticMarkup(createElement(List, { variant: 'checklist', items: checklistItems })),
+    ).toContain('eevenkoto-list__item--accent');
+    expect(await vueHtml(VueList, { variant: 'checklist', items: checklistItems })).toContain(
+      'eevenkoto-list__item--included',
+    );
+
+    const menuHtml = renderMenu({
+      label: 'Tili',
+      entries: [{ id: 'logout', label: 'Kirjaudu ulos', tone: 'destructive', icon: 'logout' }],
+    });
+    expect(menuHtml).toContain('eevenkoto-menu__item--destructive');
+
+    const noticeHtml = renderNotice({ intent: 'info', body: 'Tilaa uutiskirje.', statusText: 'Lähetetty!' });
+    expect(noticeHtml).toContain('eevenkoto-notice__status');
+    expect(noticeHtml).toContain('Lähetetty!');
+
+    const fieldHtml = renderField({
+      label: 'Taso',
+      orientation: 'horizontal',
+      control: '<input id="taso" />',
+      action: '<button type="button">Arvo</button>',
+    });
+    expect(fieldHtml).toContain('eevenkoto-field--horizontal');
+    expect(fieldHtml).toContain('eevenkoto-field__control-group');
+
+    const tipHtml = renderTooltipCard({ title: 'Esikatselu', bodyHtml: '<div>Sisältö</div>', flush: true });
+    expect(tipHtml).toContain(tooltipCardClassNames({ flush: true }));
+    expect(tipHtml).toContain('<div>Sisältö</div>');
+    expect(
+      renderToStaticMarkup(createElement(TooltipCard, { bodyHtml: '<div>Sisältö</div>', flush: true })),
+    ).toContain('eevenkoto-tooltip-card--flush');
+    expect(await vueHtml(VueTooltipCard, { bodyHtml: '<div>Sisältö</div>', flush: true })).toContain(
+      'eevenkoto-tooltip-card--flush',
+    );
+  });
+
+  it('Card surfaces, accents, split layout, current state, titleHtml, and Table rich colSpan cells', async () => {
+    const cardCls = cardClassNames({
+      surface: 'sunken',
+      accent: 'top',
+      current: true,
+      layout: 'split',
+      elevated: true,
+    });
+    const cardHtml = renderCard({
+      surface: 'sunken',
+      accent: 'top',
+      current: true,
+      layout: 'split',
+      elevated: true,
+      titleHtml: 'Hei, <span class="user-name">Seikkailija</span>',
+      headerActions: '<span class="badge">Mestari</span>',
+      body: 'Tilasi on aktiivinen.',
+      actions: '<a href="/tili">Hallitse</a>',
+    });
+    expect(cardHtml).toContain(cardCls);
+    expect(cardHtml).toContain('<span class="user-name">Seikkailija</span>');
+    expect(cardHtml).toContain('eevenkoto-card__header-actions');
+
+    const tableColumns = [
+      { key: 'lvl', header: 'Taso', kind: 'index' as const },
+      { key: 'feat', header: 'Piirre' },
+    ];
+    const tableRows = [
+      ['1', { html: '<a href="#p">Taikuus</a>' }],
+      {
+        attributes: { 'data-gated': 'true' },
+        cells: [{ colSpan: 2, html: '<em>Lukittu</em>' }],
+      },
+    ];
+    const tblHtml = renderTable({ columns: tableColumns, rows: tableRows });
+    expect(tblHtml).toContain('data-gated="true"');
+    expect(tblHtml).toContain('colspan="2"');
+    expect(tblHtml).toContain('<a href="#p">Taikuus</a>');
+    expect(
+      renderToStaticMarkup(createElement(Table, { columns: tableColumns, rows: tableRows })),
+    ).toContain('colSpan="2"');
+    expect(await vueHtml(VueTable, { columns: tableColumns, rows: tableRows })).toContain(
+      'colspan="2"',
+    );
+  });
+
+  it('Workshop inline layout + toolbar/footer and Statblock/Spellblock nameLevel 3 contiguous outlines + IDs', async () => {
+    const wsHtml = renderWorkshop({
+      layout: 'inline',
+      icon: 'dice',
+      title: 'Nimigeneraattori',
+      subtitle: 'Arvo hahmolle nimi',
+      controls: '<button type="button">Arvo</button>',
+      toolbar: '<span>Yhteenveto</span>',
+      preview: '<div>Tulos</div>',
+      footer: '<div>Pikavalinnat</div>',
+    });
+    expect(wsHtml).toContain(workshopClassNames({ layout: 'inline' }));
+    expect(wsHtml).toContain('eevenkoto-workshop__toolbar');
+    expect(wsHtml).toContain('eevenkoto-workshop__footer');
+    expect(wsHtml).toContain('Nimigeneraattori');
+
+    const sb = renderStatblock({
+      id: 'olento-varjo',
+      headingId: 'otsikko-varjo',
+      name: 'Varjo',
+      nameHtml: 'Varjo <span class="tag">(CR 1)</span>',
+      nameLevel: 3,
+      vitals: [],
+      abilities: [],
+      details: [],
+      sections: [
+        {
+          title: 'Toiminnot',
+          features: [{ name: 'Voiman imeminen', description: 'Lähitaisteluhyökkäys.' }],
+        },
+      ],
+    });
+    expect(sb).toContain('id="olento-varjo"');
+    expect(sb).toContain('id="otsikko-varjo"');
+    expect(sb).toContain('<h3 ');
+    expect(sb).toContain('<h4 ');
+    expect(sb).toContain('<h5 class="eevenkoto-heading eevenkoto-heading--5 eevenkoto-heading--primary eevenkoto-heading--run-in"');
+
+    const sp = renderSpellblock({
+      id: 'loitsu-aavevalo',
+      headingId: 'otsikko-aavevalo',
+      name: 'Aavevalo',
+      nameLevel: 3,
+      properties: [],
+      features: [{ name: 'Voimistuminen', description: 'Kasvaa.' }],
+    });
+    expect(sp).toContain('id="loitsu-aavevalo"');
+    expect(sp).toContain('id="otsikko-aavevalo"');
+    expect(sp).toContain('<h3 ');
+    expect(sp).toContain('<h4 class="eevenkoto-heading eevenkoto-heading--4 eevenkoto-heading--primary eevenkoto-heading--run-in"');
+
+    expect(
+      renderToStaticMarkup(
+        createElement(Statblock, {
+          id: 'r-sb',
+          headingId: 'r-sb-h',
+          name: 'Varjo',
+          nameLevel: 3,
+          vitals: [],
+          abilities: [],
+          details: [],
+          sections: [{ title: 'Toiminnot', features: [{ name: 'Isku', description: 'Osuu.' }] }],
+        }),
+      ),
+    ).toContain('<h5');
+    expect(
+      await vueHtml(VueSpellblock, {
+        id: 'v-sp',
+        headingId: 'v-sp-h',
+        name: 'Aavevalo',
+        nameLevel: 3,
+        properties: [],
+        features: [{ name: 'Voimistuminen', description: 'Kasvaa.' }],
+      }),
+    ).toContain('<h4');
+  });
+});
+
+import {
+  dividerClassNames,
+  progressBarClassNames,
+  floatingBannerClassNames,
+  disclosureClassNames,
+  chipGroupClassNames,
+  tableOfContentsClassNames,
+  sectionHeaderClassNames,
+  tierCardClassNames,
+  accountMenuClassNames,
+} from '@eevenkoto/core';
+import {
+  renderDivider,
+  renderProgressBar,
+  renderFloatingBanner,
+  renderDisclosure,
+  renderChipGroup,
+  renderTableOfContents,
+  renderSectionHeader,
+  renderTierCard,
+  renderAccountMenu,
+} from '@eevenkoto/html';
+import {
+  Divider,
+  ProgressBar,
+  FloatingBanner,
+  Disclosure,
+  ChipGroup,
+  TableOfContents,
+  SectionHeader,
+  TierCard,
+  AccountMenu,
+} from '@eevenkoto/react';
+import {
+  Divider as VueDivider,
+  ProgressBar as VueProgressBar,
+  FloatingBanner as VueFloatingBanner,
+  Disclosure as VueDisclosure,
+  ChipGroup as VueChipGroup,
+  TableOfContents as VueTableOfContents,
+  SectionHeader as VueSectionHeader,
+  TierCard as VueTierCard,
+  AccountMenu as VueAccountMenu,
+} from '@eevenkoto/vue';
+
+describe('0.12.0 Wave 2 — new components across HTML, React, and Vue', () => {
+  it('Divider and ProgressBar parity', async () => {
+    const dCls = dividerClassNames({ spacing: 'sm', variant: 'dashed' });
+    expect(renderDivider({ spacing: 'sm', variant: 'dashed' })).toContain(dCls);
+    expect(
+      renderToStaticMarkup(createElement(Divider, { spacing: 'sm', variant: 'dashed' })),
+    ).toContain(dCls);
+    expect(await vueHtml(VueDivider, { spacing: 'sm', variant: 'dashed' })).toContain(dCls);
+
+    const pCls = progressBarClassNames({ active: true, tone: 'accent', fixed: true });
+    const html = renderProgressBar({ active: true, tone: 'accent', fixed: true, value: 150 });
+    expect(html).toContain(pCls);
+    expect(html).toContain('aria-valuenow="100"');
+    expect(renderProgressBar({})).toContain('aria-hidden="true"');
+    expect(
+      renderToStaticMarkup(createElement(ProgressBar, { active: true, tone: 'accent', fixed: true })),
+    ).toContain(pCls);
+    expect(await vueHtml(VueProgressBar, { active: true, tone: 'accent', fixed: true })).toContain(pCls);
+  });
+
+  it('FloatingBanner parity (confirm button, secondary link, bodyHtml)', async () => {
+    const cls = floatingBannerClassNames({ open: true, placement: 'bottom-right' });
+    const html = renderFloatingBanner({
+      open: true,
+      placement: 'bottom-right',
+      ariaLabel: 'Evästeet',
+      body: 'Käytämme evästeitä.',
+      secondaryLink: { label: 'Tietosuoja', href: '/tietosuoja' },
+      confirmLabel: 'Selvä',
+      confirmId: 'consent-ok',
+    });
+    expect(html).toContain(cls);
+    expect(html).toContain('id="consent-ok"');
+    expect(html).toContain('href="/tietosuoja"');
+    expect(renderFloatingBanner({ ariaLabel: 'x', bodyHtml: '<b>Hei</b>' })).toContain('<b>Hei</b>');
+
+    const react = renderToStaticMarkup(
+      createElement(FloatingBanner, {
+        open: true,
+        placement: 'bottom-right',
+        ariaLabel: 'Evästeet',
+        confirmLabel: 'Selvä',
+        confirmId: 'consent-ok',
+      }),
+    );
+    expect(react).toContain(cls);
+    expect(react).toContain('id="consent-ok"');
+    const vue = await vueHtml(VueFloatingBanner, {
+      open: true,
+      placement: 'bottom-right',
+      ariaLabel: 'Evästeet',
+      confirmLabel: 'Selvä',
+    });
+    expect(vue).toContain(cls);
+  });
+
+  it('Disclosure, ChipGroup and TableOfContents parity', async () => {
+    const dCls = disclosureClassNames({ variant: 'subtle', emphasized: true });
+    expect(renderDisclosure({ label: 'Lisää', variant: 'subtle', emphasized: true, open: true, body: 'Teksti' })).toContain(dCls);
+    expect(
+      renderToStaticMarkup(createElement(Disclosure, { label: 'Lisää', variant: 'subtle', emphasized: true, open: true }, 'Teksti')),
+    ).toContain(dCls);
+    expect(await vueHtml(VueDisclosure, { label: 'Lisää', variant: 'subtle', emphasized: true, open: true, body: 'Teksti' })).toContain(dCls);
+
+    const options = [
+      { value: 'a', label: 'Alfa', selected: true, swatchColor: '#2c7a7b' },
+      { value: 'b', label: 'Beeta', disabled: true, title: 'Loppu' },
+    ];
+    const chipHtml = renderChipGroup({ label: 'Valinta', options });
+    expect(chipHtml).toContain(chipGroupClassNames());
+    expect(chipHtml).toContain('data-value="a"');
+    expect(chipHtml).toContain('title="Loppu"');
+    expect(renderToStaticMarkup(createElement(ChipGroup, { label: 'Valinta', options }))).toContain('data-value="a"');
+    expect(await vueHtml(VueChipGroup, { label: 'Valinta', options })).toContain('data-value="a"');
+
+    const groups = [{ items: [{ id: 'x', href: '#x', label: 'X', current: true }] }];
+    const tocCls = tableOfContentsClassNames({ variant: 'rail' });
+    const toc = renderTableOfContents({ groups, variant: 'rail' });
+    expect(toc).toContain(tocCls);
+    expect(toc).toContain('aria-current="location"');
+    expect(toc).not.toContain('eevenkoto-toc__disclosure');
+    expect(renderTableOfContents({ groups, variant: 'collapsible' })).not.toContain('eevenkoto-toc__rail');
+    expect(renderToStaticMarkup(createElement(TableOfContents, { groups, variant: 'rail' }))).toContain(tocCls);
+    expect(await vueHtml(VueTableOfContents, { groups, variant: 'rail' })).toContain(tocCls);
+  });
+
+  it('SectionHeader, TierCard and AccountMenu parity', async () => {
+    const shCls = sectionHeaderClassNames({ align: 'center' });
+    const sh = renderSectionHeader({ eyebrow: 'Seikkailu', title: 'Otsikko', lead: 'Ingressi', align: 'center', titleLevel: 1 });
+    expect(sh).toContain(shCls);
+    expect(sh).toContain('<h1');
+    expect(renderToStaticMarkup(createElement(SectionHeader, { title: 'Otsikko', align: 'center' }))).toContain(shCls);
+    expect(await vueHtml(VueSectionHeader, { title: 'Otsikko', align: 'center' })).toContain(shCls);
+
+    const tier = {
+      name: 'Kannattaja',
+      price: '5 €',
+      period: '/ kk',
+      featured: true,
+      current: true,
+      features: [{ text: 'Ennakko', status: 'accent' as const }, { text: 'Arkisto', status: 'excluded' as const }],
+      cta: { href: '#join', label: 'Liity' },
+    };
+    const tcCls = tierCardClassNames({ featured: true, current: true });
+    const tc = renderTierCard(tier);
+    expect(tc).toContain(tcCls);
+    expect(tc).toContain('eevenkoto-card--current');
+    expect(tc).toContain('eevenkoto-list__item--excluded');
+    expect(renderToStaticMarkup(createElement(TierCard, tier))).toContain(tcCls);
+    expect(await vueHtml(VueTierCard, tier)).toContain(tcCls);
+
+    const out = renderAccountMenu({ authenticated: false, loginLabel: 'Kirjaudu' });
+    expect(out).toContain(accountMenuClassNames({ authenticated: false }));
+    expect(out).toContain('href="#login"');
+    expect(out).toContain('eevenkoto-icon');
+    expect(renderToStaticMarkup(createElement(AccountMenu, { authenticated: false }))).toContain('eevenkoto-icon');
+    expect(await vueHtml(VueAccountMenu, { authenticated: false })).toContain('eevenkoto-icon');
+    const entries = [{ id: 'logout', label: 'Ulos', tone: 'destructive' as const }];
+    const inCls = accountMenuClassNames({ authenticated: true, open: true });
+    const signedIn = renderAccountMenu({ authenticated: true, open: true, userName: 'Aino', userEmail: 'a@b.fi', tierLabel: 'Mestari', entries });
+    expect(signedIn).toContain(inCls);
+    expect(signedIn).toContain('aria-expanded="true"');
+    expect(signedIn).toContain('eevenkoto-menu__item--destructive');
+    expect(signedIn).toContain('a@b.fi');
+    expect(renderAccountMenu({ authenticated: true, userName: 'Aino' })).not.toContain('eevenkoto-account-menu__email');
+    expect(
+      renderToStaticMarkup(createElement(AccountMenu, { authenticated: true, open: true, userName: 'Aino', entries })),
+    ).toContain('aria-expanded="true"');
+    expect(await vueHtml(VueAccountMenu, { authenticated: true, open: true, userName: 'Aino', entries })).toContain(inCls);
+  });
+});
+
+import {
+  licenseBarClassNames,
+  documentHeaderClassNames,
+  contentTableClassNames,
+  entityPreviewClassNames,
+  readAloudBoxClassNames,
+  npcCardClassNames,
+  mapFrameClassNames,
+  npcCardGridClassNames,
+  contentGateClassNames,
+} from '@eevenkoto/core';
+import {
+  renderLicenseBar,
+  renderDocumentHeader,
+  renderContentTable,
+  renderEntityPreview,
+  renderReadAloudBox,
+  renderNpcCard,
+  renderMapFrame,
+  renderNpcCardGrid,
+  renderContentGate,
+} from '@eevenkoto/html';
+import {
+  LicenseBar,
+  DocumentHeader,
+  ContentTable,
+  EntityPreview,
+  ReadAloudBox,
+  NpcCard,
+  MapFrame,
+  NpcCardGrid,
+  ContentGate,
+} from '@eevenkoto/react';
+import {
+  LicenseBar as VueLicenseBar,
+  DocumentHeader as VueDocumentHeader,
+  ContentTable as VueContentTable,
+  EntityPreview as VueEntityPreview,
+  ReadAloudBox as VueReadAloudBox,
+  NpcCard as VueNpcCard,
+  MapFrame as VueMapFrame,
+  NpcCardGrid as VueNpcCardGrid,
+  ContentGate as VueContentGate,
+} from '@eevenkoto/vue';
+
+describe('0.12.0 Wave 3 — Domain components across HTML, React, and Vue', () => {
+  it('LicenseBar shows only the active license entry', async () => {
+    const entries = [
+      { license: 'proprietary' as const, links: [{ label: '© Petri', href: '/c' }] },
+      { license: 'open' as const, links: [{ label: 'SRD (CC-BY 4.0)', href: '/o' }] },
+    ];
+    const cls = licenseBarClassNames({ activeLicense: 'open' });
+    expect(cls).toContain('eevenkoto-license-bar--open');
+    const html = renderLicenseBar({ entries, activeLicense: 'open' });
+    expect(html).toContain(cls);
+    expect(html).toContain('data-content-license="open"');
+    expect(html).toMatch(/data-content-license="proprietary" hidden/);
+    expect(renderToStaticMarkup(createElement(LicenseBar, { entries, activeLicense: 'open' }))).toContain(cls);
+    expect(await vueHtml(VueLicenseBar, { entries, activeLicense: 'open' })).toContain(cls);
+  });
+
+  it('DocumentHeader renders readiness badge and license toggle', async () => {
+    const props = {
+      readinessLabel: 'Valmis',
+      readinessIntent: 'success' as const,
+      showLicenseToggle: true,
+      selectedLicense: 'open' as const,
+      licenseOptions: [
+        { id: 'proprietary', label: 'Teksti' },
+        { id: 'open', label: 'SRD' },
+      ],
+    };
+    const cls = documentHeaderClassNames({ selectedLicense: 'open' });
+    const html = renderDocumentHeader({ ...props, heading: '<h1>Otsikko</h1>' });
+    expect(html).toContain(cls);
+    expect(html).toContain('<h1>Otsikko</h1>');
+    expect(html).toContain('eevenkoto-document-header__license-toggle');
+    expect(renderToStaticMarkup(createElement(DocumentHeader, props))).toContain(cls);
+    expect(await vueHtml(VueDocumentHeader, props)).toContain(cls);
+    expect(renderDocumentHeader({ heading: 'x' })).not.toContain('__meta');
+  });
+
+  it('ContentTable emits readiness attributes and a spanning locked row', async () => {
+    const props = {
+      columns: [{ key: 'a', header: 'A' }, { key: 'b', header: 'B' }],
+      rows: [
+        { readiness: 'success' as const, cells: ['1', '2'] },
+        { kind: 'locked' as const, notice: { intent: 'caution' as const, title: 'Lukittu' } },
+      ],
+    };
+    const cls = contentTableClassNames();
+    const html = renderContentTable(props);
+    expect(html).toContain(cls);
+    expect(html).toContain('data-readiness="success"');
+    expect(html).toContain('colspan="2"');
+    expect(html).toContain('Lukittu');
+    expect(html).toContain('class="eevenkoto-content-table__locked-cell"');
+    const react = renderToStaticMarkup(createElement(ContentTable, props));
+    expect(react).toContain('eevenkoto-content-table');
+    expect(react).toContain('eevenkoto-content-table__locked-cell');
+    expect(react).toMatch(/col[sS]pan="2"/);
+    expect(await vueHtml(VueContentTable, props)).toContain('Lukittu');
+  });
+
+  it('EntityPreview, ReadAloudBox and MapFrame parity', async () => {
+    const epCls = entityPreviewClassNames({ flush: true });
+    expect(epCls).toContain('eevenkoto-entity-preview');
+    const ep = renderEntityPreview({ title: 'Tulipallo', body: 'Kuvaus', flush: true, truncatedLabel: 'Lyhennetty' });
+    expect(ep).toContain(epCls);
+    expect(ep).toContain('Lyhennetty');
+    expect(renderToStaticMarkup(createElement(EntityPreview, { title: 'Tulipallo', flush: true }))).toContain(epCls);
+    expect(await vueHtml(VueEntityPreview, { title: 'Tulipallo', flush: true })).toContain(epCls);
+    const wrap = 'class="eevenkoto-entity-preview__html"';
+    expect(renderEntityPreview({ bodyHtml: '<b>x</b>' })).toContain(`<div ${wrap}><b>x</b></div>`);
+    expect(renderToStaticMarkup(createElement(EntityPreview, { bodyHtml: '<b>x</b>' }))).toContain(`<div ${wrap}><b>x</b></div>`);
+    expect(await vueHtml(VueEntityPreview, { bodyHtml: '<b>x</b>' })).toContain(`<div ${wrap}><b>x</b></div>`);
+
+    const raCls = readAloudBoxClassNames();
+    const ra = renderReadAloudBox({ body: 'Luettavaa' });
+    expect(ra).toContain(raCls);
+    expect(ra).toContain('❖');
+    expect(renderReadAloudBox({ body: 'x', ornament: false })).not.toContain('__ornament');
+    expect(renderToStaticMarkup(createElement(ReadAloudBox, { body: 'x' }))).toContain(raCls);
+    expect(await vueHtml(VueReadAloudBox, { body: 'x' })).toContain(raCls);
+
+    const mfCls = mapFrameClassNames();
+    const mf = renderMapFrame({ title: 'Kartta', scale: '1:10', svgHtml: '<svg></svg>', caption: 'Teksti' });
+    expect(mf).toContain(mfCls);
+    expect(mf).toContain('<svg></svg>');
+    expect(mf).toContain('<figcaption');
+    expect(renderToStaticMarkup(createElement(MapFrame, { title: 'Kartta', src: '/m.png', alt: 'Kartta' }))).toContain(mfCls);
+    expect(await vueHtml(VueMapFrame, { title: 'Kartta', svgHtml: '<svg></svg>' })).toContain('<svg></svg>');
+  });
+
+  it('NpcCard, NpcCardGrid and ContentGate parity', async () => {
+    const card = {
+      name: 'Aino',
+      role: 'Kauppias',
+      details: [{ label: 'Asenne', value: 'Ystävällinen' }],
+    };
+    const nCls = npcCardClassNames();
+    const html = renderNpcCard(card);
+    expect(html).toContain(nCls);
+    expect(html).toContain('<h3');
+    expect(html).toContain('eevenkoto-property-list--divided');
+    expect(renderToStaticMarkup(createElement(NpcCard, card))).toContain('eevenkoto-property-list--divided');
+    expect(await vueHtml(VueNpcCard, card)).toContain('eevenkoto-property-list--divided');
+
+    const gCls = npcCardGridClassNames({ columns: 1 });
+    expect(gCls).toContain('--1');
+    expect(renderNpcCardGrid({ columns: 1, cards: [card] })).toContain(gCls);
+    expect(renderToStaticMarkup(createElement(NpcCardGrid, { columns: 1, cards: [card] }))).toContain(gCls);
+    expect(await vueHtml(VueNpcCardGrid, { columns: 1, cards: [card] })).toContain(gCls);
+
+    const gate = {
+      readinessLabel: 'Ennakko',
+      readinessIntent: 'caution' as const,
+      title: 'Lukittu',
+      currentTierLabel: 'Seuraaja',
+      currentTierPrefix: 'Nykytilasi:',
+      requiredTierLabel: 'Kannattaja',
+      requiredTierPrefix: 'Vaadittu rooli:',
+    };
+    const cgCls = contentGateClassNames();
+    const cg = renderContentGate({ ...gate, actions: '<a href="#">Liity</a>' });
+    expect(cg).toContain(cgCls);
+    expect(cg).toContain('Vaadittu rooli:');
+    expect(cg).toContain('eevenkoto-content-gate__actions');
+    expect(cg).toMatch(/role="status"[^>]* hidden/);
+    expect(renderContentGate({ ...gate, statusMessage: 'Valmis' })).not.toMatch(/role="status"[^>]* hidden/);
+    expect(renderContentGate(gate)).not.toContain('eevenkoto-content-gate__actions');
+    expect(renderToStaticMarkup(createElement(ContentGate, gate))).toContain(cgCls);
+    expect(await vueHtml(VueContentGate, gate)).toContain(cgCls);
   });
 });

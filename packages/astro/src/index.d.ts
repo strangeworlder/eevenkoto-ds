@@ -15,6 +15,9 @@ import type {
   CheckboxGroupProps,
   CheckboxProps,
   ChipProps,
+  DividerProps,
+  FloatingBannerProps,
+  ProgressBarProps,
   EntityRefKind,
   EntityRefProps,
   EquipmentBlockNameLevel,
@@ -63,18 +66,31 @@ import type {
   StatblockNameLevel,
   StatblockProps,
   StatblockSectionProps,
+  StatblockSectionTitleLevel,
   StatusDotProps,
   StepperProps,
+  SwatchProps,
+  SwatchShape,
+  SwatchSize,
+  TableCellInput,
   TableCellKind,
+  TableCellObject,
   TableCellProps,
+  TableCellScope,
   TableColumn,
+  TableElementAttributes,
   TableProps,
+  TableRowInput,
+  TableRowObject,
   TableStripe,
   TableVariant,
   ToastProps,
   TooltipCardProps,
   TooltipCardTitleLevel,
+  WorkshopLayout,
   WorkshopProps,
+  WorkshopSticky,
+  WorkshopTitleLevel,
 } from '@eevenkoto/core';
 
 export type {
@@ -94,6 +110,9 @@ export type {
   CheckboxGroupProps,
   CheckboxProps,
   ChipProps,
+  DividerProps,
+  FloatingBannerProps,
+  ProgressBarProps,
   EntityRefKind,
   EntityRefProps,
   EquipmentBlockNameLevel,
@@ -142,18 +161,31 @@ export type {
   StatblockNameLevel,
   StatblockProps,
   StatblockSectionProps,
+  StatblockSectionTitleLevel,
   StatusDotProps,
   StepperProps,
+  SwatchProps,
+  SwatchShape,
+  SwatchSize,
+  TableCellInput,
   TableCellKind,
+  TableCellObject,
   TableCellProps,
+  TableCellScope,
   TableColumn,
+  TableElementAttributes,
   TableProps,
+  TableRowInput,
+  TableRowObject,
   TableStripe,
   TableVariant,
   ToastProps,
   TooltipCardProps,
   TooltipCardTitleLevel,
+  WorkshopLayout,
   WorkshopProps,
+  WorkshopSticky,
+  WorkshopTitleLevel,
 };
 
 export type AstroCommonProps = {
@@ -187,7 +219,7 @@ export declare const Input: AstroComponent<InputProps>;
 export declare const LinkButton: AstroComponent<
   Omit<LinkButtonProps, 'label'> & { label?: string }
 >;
-export declare const ListItem: AstroComponent<Omit<ListItemProps, 'text'> & { text?: string }>;
+export declare const ListItem: AstroComponent<ListItemProps>;
 export declare const Paragraph: AstroComponent<Omit<ParagraphProps, 'text'> & { text?: string }>;
 export declare const Popover: AstroComponent<PopoverProps & { open?: boolean }>;
 export declare const Property: AstroComponent<PropertyProps>;
@@ -196,13 +228,10 @@ export declare const Scroll: AstroComponent<ScrollProps>;
 export declare const Select: AstroComponent<SelectProps>;
 export declare const Stat: AstroComponent<StatProps>;
 export declare const StatusDot: AstroComponent<StatusDotProps>;
-export declare const TableCell: AstroComponent<{
-  kind?: TableCellKind;
-  header?: boolean;
-  angled?: boolean;
-  inTable?: boolean;
-  scope?: 'col' | 'row' | 'colgroup' | 'rowgroup';
-}>;
+export declare const Swatch: AstroComponent<SwatchProps>;
+export declare const Divider: AstroComponent<DividerProps>;
+export declare const ProgressBar: AstroComponent<ProgressBarProps>;
+export declare const TableCell: AstroComponent<TableCellProps>;
 export declare const Toast: AstroComponent<ToastProps>;
 
 // Core — Molecules
@@ -211,8 +240,11 @@ export declare const Catalog: AstroComponent<CatalogProps>;
 export declare const CatalogTile: AstroComponent<CatalogTileProps>;
 export declare const CheckboxGroup: AstroComponent<CheckboxGroupProps>;
 export declare const Field: AstroComponent<FieldProps>;
+export declare const FloatingBanner: AstroComponent<FloatingBannerProps>;
 export declare const Flow: AstroComponent<FlowProps>;
-export declare const List: AstroComponent<Omit<ListProps, 'items'> & { items?: string[] }>;
+export declare const List: AstroComponent<
+  Omit<ListProps, 'items'> & { items?: Array<string | ListItemProps> }
+>;
 export declare const Menu: AstroComponent<MenuProps>;
 export declare const Notice: AstroComponent<
   Omit<NoticeProps, 'icon'> & { icon?: IconName | false; role?: NoticeRole }
@@ -225,7 +257,7 @@ export declare const RadioGroup: AstroComponent<RadioGroupProps>;
 export declare const SegmentedControl: AstroComponent<SegmentedControlProps>;
 export declare const Stepper: AstroComponent<StepperProps>;
 export declare const Table: AstroComponent<
-  Omit<TableProps, 'columns' | 'rows'> & { columns?: TableColumn[]; rows?: string[][] }
+  Omit<TableProps, 'columns' | 'rows'> & { columns?: TableColumn[]; rows?: TableRowInput[] }
 >;
 export declare const TooltipCard: AstroComponent<TooltipCardProps>;
 
@@ -236,7 +268,7 @@ export declare const TableShell: AstroComponent<{
   scrollAxis?: ScrollAxis;
 }>;
 export declare const Workshop: AstroComponent<
-  Omit<WorkshopProps, 'header' | 'controls' | 'preview'> & {
+  Omit<WorkshopProps, 'header' | 'controls' | 'toolbar' | 'preview' | 'footer'> & {
     role?: string;
     style?: string | Record<string, string | number | undefined>;
   }
@@ -259,7 +291,62 @@ export declare const StatblockSection: AstroComponent<StatblockSectionProps>;
 export declare const AbilityScoreGroup: AstroComponent<{ abilities: AbilityScoreProps[] }>;
 export declare const EquipmentBlock: AstroComponent<EquipmentBlockProps>;
 export declare const EquipmentWorkshop: AstroComponent<
-  Omit<EquipmentWorkshopProps, 'header' | 'controls' | 'preview'> & { id?: string }
+  Omit<EquipmentWorkshopProps, 'header' | 'controls' | 'toolbar' | 'preview' | 'footer'> & {
+    id?: string;
+  }
 >;
 export declare const Spellblock: AstroComponent<SpellblockProps>;
 export declare const Statblock: AstroComponent<StatblockProps>;
+
+import type {
+  ChipGroupProps,
+  DisclosureProps,
+  TableOfContentsProps,
+} from '@eevenkoto/core';
+
+export type { ChipGroupProps, DisclosureProps, TableOfContentsProps };
+
+export declare const ChipGroup: AstroComponent<ChipGroupProps>;
+export declare const Disclosure: AstroComponent<DisclosureProps>;
+export declare const TableOfContents: AstroComponent<TableOfContentsProps>;
+
+import type { AccountMenuProps, SectionHeaderProps, TierCardProps } from '@eevenkoto/core';
+
+export type { AccountMenuProps, SectionHeaderProps, TierCardProps };
+
+export declare const SectionHeader: AstroComponent<SectionHeaderProps>;
+export declare const AccountMenu: AstroComponent<AccountMenuProps>;
+export declare const TierCard: AstroComponent<TierCardProps>;
+
+import type {
+  LicenseBarProps,
+  DocumentHeaderProps,
+  ContentTableProps,
+  EntityPreviewProps,
+  ReadAloudBoxProps,
+  NpcCardProps,
+  MapFrameProps,
+  NpcCardGridProps,
+  ContentGateProps,
+} from '@eevenkoto/core';
+export type {
+  LicenseBarProps,
+  DocumentHeaderProps,
+  ContentTableProps,
+  EntityPreviewProps,
+  ReadAloudBoxProps,
+  NpcCardProps,
+  MapFrameProps,
+  NpcCardGridProps,
+  ContentGateProps,
+};
+
+export declare const LicenseBar: AstroComponent<LicenseBarProps>;
+export declare const DocumentHeader: AstroComponent<DocumentHeaderProps>;
+export declare const ContentTable: AstroComponent<ContentTableProps>;
+export declare const EntityPreview: AstroComponent<EntityPreviewProps>;
+export declare const ReadAloudBox: AstroComponent<ReadAloudBoxProps>;
+export declare const NpcCard: AstroComponent<NpcCardProps>;
+export declare const MapFrame: AstroComponent<MapFrameProps>;
+export declare const NpcCardGrid: AstroComponent<NpcCardGridProps>;
+export declare const ContentGate: AstroComponent<ContentGateProps>;

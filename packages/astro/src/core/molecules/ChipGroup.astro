@@ -1,0 +1,48 @@
+---
+import {
+  chipGroupClassNames,
+  chipGroupLegendClassNames,
+  chipGroupListClassNames,
+  type ChipGroupProps,
+} from '@eevenkoto/core';
+import Chip from '../atoms/Chip.astro';
+
+export interface Props extends ChipGroupProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  label,
+  hideLegend,
+  mode = 'single',
+  size = 'sm',
+  hidden,
+  options,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [chipGroupClassNames(), classProp, className].filter(Boolean).join(' ');
+---
+<fieldset id={id} hidden={hidden || undefined} class={classes} data-selection-mode={mode} {...rest}>
+  <legend class={chipGroupLegendClassNames(hideLegend)}>{label}</legend>
+  <div class={chipGroupListClassNames()}>
+    {options.map((opt) => (
+      <Chip
+        label={opt.label}
+        selected={opt.selected}
+        disabled={opt.disabled}
+        size={size}
+        icon={opt.icon}
+        swatchColor={opt.swatchColor}
+        href={opt.href}
+        data-value={opt.value}
+        title={opt.title}
+        {...(opt.attributes ?? {})}
+      />
+    ))}
+  </div>
+</fieldset>

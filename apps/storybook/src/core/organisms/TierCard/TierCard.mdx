@@ -1,0 +1,58 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TierCardStories from './TierCard.stories';
+
+<Meta of={TierCardStories} />
+
+# TierCard
+
+A comparison card for membership or pricing tiers. It composes [Card](?path=/docs/core-molecules-card--docs) (elevated; `featured` → accent outline; `current` → focus ring), a [Badge](?path=/docs/core-atoms-badge--docs), a checklist [List](?path=/docs/core-molecules-list--docs) and a full-width [LinkButton](?path=/docs/core-atoms-linkbutton--docs). The CTA sits at the bottom so cards in a grid align.
+
+<Canvas of={TierCardStories.SingleTier} />
+
+<Controls of={TierCardStories.SingleTier} />
+
+## Why to use
+
+Tier comparison needs consistent structure, a non-color cue for excluded features (visually hidden text plus strikethrough), and a clear active-tier state.
+
+## When to use
+
+- Use in a grid of 2–5 tiers.
+- Set `current` on the user's active tier and `featured` on the recommended one (they may both apply).
+- Don't use it for generic content cards — use [Card](?path=/docs/core-molecules-card--docs).
+
+<Canvas of={TierCardStories.FeaturedTier} />
+
+<Canvas of={TierCardStories.CurrentTier} />
+
+<Canvas of={TierCardStories.ComparisonGrid} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | — | Tier name. |
+| `nameLevel` | `2 \| 3` | `2` | Heading level. |
+| `badge` | `BadgeProps` | — | Header pill (shape defaults to `pill`). |
+| `price` / `period` | `string` | — | Price and cadence. |
+| `description` / `descriptionHtml` | `string` | — | Summary copy. |
+| `features` | `ListItemProps[]` | — | Checklist items (`included` / `accent` / `excluded`). |
+| `featured` / `current` | `boolean` | `false` | Accent outline / active-tier ring. |
+| `cta` | `LinkButtonProps` | — | Full-width CTA (or use `footer`). |
+
+<ArgTypes of={TierCardStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/tier-card.css';
+import { renderTierCard } from '@eevenkoto/html';
+
+renderTierCard({ name: 'Patron', price: '5 €', period: '/ mo', features: [{ text: 'Early access' }] });
+```
+
+```tsx
+import { TierCard } from '@eevenkoto/react';
+
+<TierCard name="Patron" price="5 €" features={features} featured />
+```

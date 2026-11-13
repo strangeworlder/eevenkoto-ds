@@ -1,0 +1,52 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as DocumentHeaderStories from './DocumentHeader.stories';
+
+<Meta of={DocumentHeaderStories} />
+
+# DocumentHeader
+
+Page-title row: heading, readiness Badge and an optional content-license toggle. Under `selectedLicense="open"` (or any `[data-content-license="open"]` ancestor) the H1 underline turns primary.
+
+<Canvas of={DocumentHeaderStories.Default} />
+
+<Controls of={DocumentHeaderStories.Default} />
+
+## Why to use
+
+Document pages repeat the same title row. Centralising it keeps readiness and license cues consistent and lets the license accent follow the active mode.
+
+## When to use
+
+- Use at the top of a document or chapter page.
+- Pass the heading markup as the default slot / children (`heading` in `@eevenkoto/html`).
+- Enable `showLicenseToggle` only where the reader may switch between proprietary and open text.
+
+<Canvas of={DocumentHeaderStories.OpenLicense} />
+
+<Canvas of={DocumentHeaderStories.HeadingOnly} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| id | `string` | — | Element id; prefixes the toggle input name. |
+| showLicenseToggle | `boolean` | `false` | Render the SegmentedControl toggle. |
+| selectedLicense | `'proprietary' \| 'open'` | `'proprietary'` | Active license. |
+| licenseOptions | `SegmentedControlOption[]` | — | Toggle options. |
+| licenseLabel | `string` | `'License'` | Toggle accessible label. |
+| readinessLabel / readinessIntent | `string` / `BadgeIntent` | — | Readiness badge. |
+
+<ArgTypes of={DocumentHeaderStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/document-header.css';
+import { renderDocumentHeader } from '@eevenkoto/html';
+```
+
+```tsx
+import { DocumentHeader } from '@eevenkoto/react';
+
+<DocumentHeader readinessLabel="Valmis" readinessIntent="success"><h1>Velhon käsikirja</h1></DocumentHeader>
+```

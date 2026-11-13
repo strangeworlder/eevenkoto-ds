@@ -1,16 +1,26 @@
-import { propertyListClassNames, type PropertyItem, type PropertyListProps } from '@eevenkoto/core';
+import {
+  propertyListClassNames,
+  type PropertyItem,
+  type PropertyListColumns,
+  type PropertyListLayout,
+  type PropertyListProps,
+} from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType } from 'vue';
 import { Property } from '../atoms/Property';
 
-export type { PropertyItem, PropertyListProps };
+export type { PropertyItem, PropertyListColumns, PropertyListLayout, PropertyListProps };
 
 export const PropertyList = defineComponent({
   name: 'EevenkotoPropertyList',
   props: {
     items: { type: Array as PropType<PropertyItem[]>, required: true },
+    layout: { type: String as PropType<PropertyListLayout>, default: undefined },
+    columns: { type: Number as PropType<PropertyListColumns>, default: undefined },
   },
   setup(props) {
-    const className = computed(() => propertyListClassNames());
+    const className = computed(() =>
+      propertyListClassNames({ layout: props.layout, columns: props.columns }),
+    );
 
     return () =>
       h(
@@ -21,6 +31,7 @@ export const PropertyList = defineComponent({
             label: item.label,
             value: item.value,
             valueHtml: item.valueHtml,
+            meta: item.meta,
             key: `${item.label}-${index}`,
           }),
         ),

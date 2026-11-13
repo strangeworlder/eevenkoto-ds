@@ -1,5 +1,7 @@
-import { chipClassNames, type ChipProps } from '@eevenkoto/core';
-import { computed, defineComponent, h, type PropType } from 'vue';
+import { chipClassNames, type ChipProps, type IconName } from '@eevenkoto/core';
+import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vue';
+import { Icon } from './Icon';
+import { Swatch } from './Swatch';
 
 export type { ChipProps };
 
@@ -9,6 +11,8 @@ export const Chip = defineComponent({
     label: { type: String, required: true },
     selected: { type: Boolean, default: false },
     size: { type: String as PropType<ChipProps['size']>, default: undefined },
+    icon: { type: String as PropType<IconName>, default: undefined },
+    swatchColor: { type: String, default: undefined },
     href: { type: String, default: undefined },
     disabled: { type: Boolean, default: false },
   },
@@ -18,6 +22,15 @@ export const Chip = defineComponent({
     );
 
     return () => {
+      const hasLeading = Boolean(props.swatchColor || props.icon);
+      const children: VNodeChild = hasLeading
+        ? [
+            ...(props.swatchColor ? [h(Swatch, { color: props.swatchColor, size: 'sm' })] : []),
+            ...(props.icon ? [h(Icon, { name: props.icon, size: 'sm' })] : []),
+            h('span', { class: 'eevenkoto-chip__label' }, props.label),
+          ]
+        : props.label;
+
       if (props.href) {
         return h(
           'a',
@@ -27,7 +40,7 @@ export const Chip = defineComponent({
             'aria-disabled': props.disabled ? 'true' : undefined,
             'aria-pressed': props.selected ? 'true' : undefined,
           },
-          props.label,
+          children,
         );
       }
 
@@ -39,7 +52,7 @@ export const Chip = defineComponent({
           disabled: props.disabled || undefined,
           'aria-pressed': props.selected ? 'true' : undefined,
         },
-        props.label,
+        children,
       );
     };
   },

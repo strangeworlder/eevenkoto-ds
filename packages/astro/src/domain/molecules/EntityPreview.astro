@@ -1,0 +1,52 @@
+---
+import {
+  entityPreviewClassNames,
+  type EntityPreviewProps,
+} from '@eevenkoto/core';
+import Badge from '../../core/atoms/Badge.astro';
+import LinkButton from '../../core/atoms/LinkButton.astro';
+
+export interface Props extends EntityPreviewProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  title,
+  titleLevel,
+  body,
+  bodyHtml,
+  flush,
+  kind,
+  badge,
+  truncatedLabel,
+  footerLink,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const Title = (titleLevel === 3 ? 'h3' : 'h2') as 'h2';
+const classes = [entityPreviewClassNames({ flush }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const hasSlot = Astro.slots.has('default');
+const hasBody = Boolean(badge || bodyHtml || body || hasSlot || truncatedLabel);
+---
+<div class={classes} data-entity-kind={kind} {...rest}>
+  {title ? <header><Title>{title}</Title></header> : null}
+  {hasBody ? (
+    <div class="eevenkoto-tooltip-card__body eevenkoto-prose" tabindex="0">
+      {badge ? (
+        <div class="eevenkoto-entity-preview__meta">
+          <Badge {...badge} />
+
+        </div>
+      ) : null}
+      {bodyHtml !== undefined ? <div class="eevenkoto-entity-preview__html" set:html={bodyHtml} /> : body ? <p>{body}</p> : null}
+      <slot />
+      {truncatedLabel ? <p class="eevenkoto-entity-preview__truncated">{truncatedLabel}</p> : null}
+    </div>
+  ) : null}
+  {footerLink ? <footer><LinkButton {...footerLink} /></footer> : null}
+</div>

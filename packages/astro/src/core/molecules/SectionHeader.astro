@@ -1,0 +1,63 @@
+---
+import {
+  captionClassNames,
+  headingClassNames,
+  paragraphClassNames,
+  sectionHeaderClassNames,
+  type SectionHeaderProps,
+} from '@eevenkoto/core';
+import Icon from '../atoms/Icon.astro';
+
+export interface Props extends SectionHeaderProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  titleHtml,
+  titleLevel = 2,
+  logo,
+  lead,
+  leadHtml,
+  align,
+  note,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [sectionHeaderClassNames({ align }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const Heading = `h${titleLevel}` as 'h2';
+const headingClass = headingClassNames({ level: titleLevel });
+const leadClass = `${paragraphClassNames({ size: 'lg', tone: 'secondary' })} eevenkoto-section-header__lead`;
+---
+<header id={id} class={classes} {...rest}>
+  {eyebrow ? <p class={captionClassNames({ tone: 'accent', variant: 'eyebrow' })}>{eyebrow}</p> : null}
+  {logo ? (
+    <img class="eevenkoto-section-header__logo" src={logo.src} alt={logo.alt} width={logo.width} height={logo.height} />
+  ) : null}
+  {titleHtml !== undefined ? (
+    <Heading class={headingClass} set:html={titleHtml} />
+  ) : title ? (
+    <Heading class={headingClass}>{title}</Heading>
+  ) : null}
+  {leadHtml !== undefined ? (
+    <p class={leadClass} set:html={leadHtml} />
+  ) : lead ? (
+    <p class={leadClass}>{lead}</p>
+  ) : null}
+  {Astro.slots.has('actions') ? (
+    <div class="eevenkoto-section-header__actions"><slot name="actions" /></div>
+  ) : null}
+  {note && (note.text || note.html) ? (
+    <p class={`eevenkoto-section-header__note ${captionClassNames({ tone: 'secondary' })}`}>
+      {note.icon ? <Icon name={note.icon} size="sm" /> : null}
+      {note.html !== undefined ? <span set:html={note.html} /> : <span>{note.text}</span>}
+    </p>
+  ) : null}
+</header>

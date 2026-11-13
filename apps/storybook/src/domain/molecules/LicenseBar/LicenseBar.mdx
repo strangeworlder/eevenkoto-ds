@@ -1,0 +1,52 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as LicenseBarStories from './LicenseBar.stories';
+
+<Meta of={LicenseBarStories} />
+
+# LicenseBar
+
+Legal-license strip. `edge` placement is a fixed vertical stripe on the inline-end viewport edge; `inline` renders a plain row. Only the entry for `activeLicense` is visible.
+
+<Canvas of={LicenseBarStories.Proprietary} />
+
+<Controls of={LicenseBarStories.Proprietary} />
+
+## Why to use
+
+Which license a reading mode falls under is legal information that must be visible and consistent. The strip pairs a neutral readable surface with a thick hue edge (accent for proprietary, primary for open), so contrast never depends on a coloured fill.
+
+## When to use
+
+- Use once per page to show the active content license and legal links.
+- Provide one entry per license; the active one is shown and the rest are `hidden`.
+- Use `placement="inline"` inside content or in print-oriented layouts; the `edge` stripe is hidden in print.
+
+<Canvas of={LicenseBarStories.Open} />
+
+<Canvas of={LicenseBarStories.EdgeStripe} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| id | `string` | — | Element id. |
+| activeLicense | `'proprietary' \| 'open'` | `'proprietary'` | Visible entry; open recolours the edge. |
+| placement | `'edge' \| 'inline'` | `'edge'` | Fixed vertical stripe vs static row. |
+| entries | `LicenseBarEntry[]` | — | License + links per mode. |
+| separator | `string` | `' · '` | Text between links. |
+| ariaLabel | `string` | `'License'` | Accessible name for the aside. |
+
+<ArgTypes of={LicenseBarStories} />
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/license-bar.css';
+import { renderLicenseBar } from '@eevenkoto/html';
+```
+
+```tsx
+import { LicenseBar } from '@eevenkoto/react';
+
+<LicenseBar entries={entries} activeLicense="open" placement="inline" />
+```

@@ -1,0 +1,63 @@
+---
+import { cardClassNames, tierCardClassNames, type TierCardProps } from '@eevenkoto/core';
+import Badge from '../atoms/Badge.astro';
+import LinkButton from '../atoms/LinkButton.astro';
+import List from '../molecules/List.astro';
+
+export interface Props extends TierCardProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  name,
+  nameLevel = 2,
+  badge,
+  price,
+  period,
+  description,
+  descriptionHtml,
+  features,
+  featured,
+  current,
+  cta,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [
+  cardClassNames({ elevated: true, accent: featured ? 'outline' : 'none', current }),
+  tierCardClassNames({ featured, current }),
+  classProp,
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+const Name = `h${nameLevel}` as 'h2';
+const hasFooterSlot = Astro.slots.has('footer');
+---
+<article id={id} class={classes} {...rest}>
+  <header class="eevenkoto-tier-card__header">
+    <Name class="eevenkoto-tier-card__name">{name}</Name>
+    {badge ? <Badge {...badge} shape={badge.shape ?? 'pill'} /> : null}
+  </header>
+  <div class="eevenkoto-tier-card__pricing">
+    <span class="eevenkoto-tier-card__price">{price}</span>
+    {period ? <span class="eevenkoto-tier-card__period">{period}</span> : null}
+  </div>
+  {descriptionHtml !== undefined ? (
+    <p class="eevenkoto-tier-card__description" set:html={descriptionHtml} />
+  ) : description ? (
+    <p class="eevenkoto-tier-card__description">{description}</p>
+  ) : null}
+  <div class="eevenkoto-tier-card__features">
+    <List variant="checklist" size="sm" items={features} />
+  </div>
+  {hasFooterSlot ? (
+    <footer class="eevenkoto-tier-card__footer"><slot name="footer" /></footer>
+  ) : cta ? (
+    <footer class="eevenkoto-tier-card__footer"><LinkButton {...cta} fullWidth /></footer>
+  ) : null}
+</article>

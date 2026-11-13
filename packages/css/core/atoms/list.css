@@ -1,4 +1,6 @@
 /* packages/css/core/atoms/list.css */
+@import url('./icon.css');
+
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: LIST / LIST ITEM (TIER 3)
    Content lists (ul / ol + li). Body roles via Tier 2 font-size-body-*.
@@ -43,7 +45,7 @@
   );
   --_eevenkoto-list-item-gap: var(
     --eevenkoto-list-item-gap,
-    var(--eevenkoto-space-2)
+    var(--eevenkoto-space-3)
   );
   --_eevenkoto-list-style-type: var(--eevenkoto-list-style-type, disc);
 
@@ -72,6 +74,17 @@
   --eevenkoto-list-style-type: disc;
 }
 
+.eevenkoto-list--checklist {
+  --eevenkoto-list-style-type: none;
+  --eevenkoto-list-pad-inline-start: 0;
+
+  list-style: none;
+  padding-inline-start: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--eevenkoto-space-2);
+}
+
 .eevenkoto-list--primary {
   --eevenkoto-list-color: var(--eevenkoto-color-content-primary);
 }
@@ -82,14 +95,17 @@
 
 .eevenkoto-list--sm {
   --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-sm);
+  --eevenkoto-list-item-gap: var(--eevenkoto-space-2);
 }
 
 .eevenkoto-list--md {
   --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-md);
+  --eevenkoto-list-item-gap: var(--eevenkoto-space-3);
 }
 
 .eevenkoto-list--lg {
   --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-lg);
+  --eevenkoto-list-item-gap: var(--eevenkoto-space-4);
 }
 
 /* Nested lists: tighter indent, no extra block margin. */
@@ -110,7 +126,7 @@ ol.eevenkoto-list :where(li),
 .eevenkoto-prose :where(li) {
   --_eevenkoto-list-item-pad-block: var(
     --eevenkoto-list-item-pad-block,
-    calc(var(--_eevenkoto-list-item-gap, var(--eevenkoto-space-2)) / 2)
+    0
   );
 
   margin: 0;
@@ -130,5 +146,51 @@ ol.eevenkoto-list :where(li)::marker,
 ul.eevenkoto-list :where(li) + :where(li),
 ol.eevenkoto-list :where(li) + :where(li),
 .eevenkoto-prose :where(li) + :where(li) {
+  margin-block-start: var(--_eevenkoto-list-item-gap);
+}
+
+.eevenkoto-list--checklist > :where(li) + :where(li) {
   margin-block-start: 0;
+}
+
+/* --- CHECKLIST / STATUS ITEMS --- */
+
+.eevenkoto-list .eevenkoto-list__item,
+.eevenkoto-list__item {
+  --_eevenkoto-list-item-color: var(--eevenkoto-list-item-color, inherit);
+  --_eevenkoto-list-item-icon-color: var(
+    --eevenkoto-list-item-icon-color,
+    var(--eevenkoto-color-feedback-success-icon)
+  );
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--eevenkoto-space-2);
+  color: var(--_eevenkoto-list-item-color);
+}
+
+.eevenkoto-list__icon {
+  flex-shrink: 0;
+  color: var(--_eevenkoto-list-item-icon-color);
+}
+
+.eevenkoto-list__item-text {
+  min-inline-size: 0;
+}
+
+.eevenkoto-list__item--included {
+  --eevenkoto-list-item-icon-color: var(--eevenkoto-color-feedback-success-icon);
+}
+
+.eevenkoto-list__item--accent {
+  --eevenkoto-list-item-icon-color: var(--eevenkoto-color-content-accent-strong);
+}
+
+.eevenkoto-list__item--excluded {
+  --eevenkoto-list-item-icon-color: var(--eevenkoto-color-content-tertiary);
+  --eevenkoto-list-item-color: var(--eevenkoto-color-content-secondary);
+}
+
+.eevenkoto-list__item--excluded .eevenkoto-list__item-text {
+  text-decoration: line-through;
 }

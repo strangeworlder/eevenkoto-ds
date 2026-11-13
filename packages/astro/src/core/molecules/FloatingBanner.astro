@@ -1,0 +1,52 @@
+---
+import {
+  floatingBannerActionsClassNames,
+  floatingBannerBodyClassNames,
+  floatingBannerClassNames,
+  type FloatingBannerProps,
+} from '@eevenkoto/core';
+import Button from '../atoms/Button.astro';
+
+export interface Props extends FloatingBannerProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  open,
+  placement,
+  ariaLabel,
+  body,
+  bodyHtml,
+  secondaryLink,
+  confirmLabel,
+  confirmId,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [floatingBannerClassNames({ open, placement }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const hasActionsSlot = Astro.slots.has('actions');
+---
+<aside id={id} class={classes} aria-label={ariaLabel} {...rest}>
+  <div class={floatingBannerBodyClassNames()}>
+    {Astro.slots.has('default') ? (
+      <slot />
+    ) : bodyHtml !== undefined ? (
+      <Fragment set:html={bodyHtml} />
+    ) : (
+      body
+    )}{secondaryLink ? <Fragment>{' '}<a href={secondaryLink.href}>{secondaryLink.label}</a></Fragment> : null}
+  </div>
+  <div class={floatingBannerActionsClassNames()}>
+    {hasActionsSlot ? (
+      <slot name="actions" />
+    ) : confirmLabel ? (
+      <Button label={confirmLabel} size="sm" id={confirmId} />
+    ) : null}
+  </div>
+</aside>

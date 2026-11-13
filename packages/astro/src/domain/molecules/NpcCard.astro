@@ -1,0 +1,53 @@
+---
+import { npcCardClassNames, type NpcCardProps } from '@eevenkoto/core';
+import PropertyList from '../../core/molecules/PropertyList.astro';
+
+export interface Props extends NpcCardProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  name,
+  nameHtml,
+  nameLevel = 3,
+  role,
+  roleHtml,
+  details,
+  body,
+  bodyHtml,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const Name = `h${nameLevel}` as 'h3';
+const classes = [npcCardClassNames(), classProp, className].filter(Boolean).join(' ');
+const hasSlot = Astro.slots.has('default');
+const hasRole = roleHtml !== undefined ? Boolean(roleHtml) : Boolean(role);
+---
+<article id={id} class={classes} {...rest}>
+  <header class="eevenkoto-npc-card__header">
+    {nameHtml !== undefined ? (
+      <Name class="eevenkoto-npc-card__name" set:html={nameHtml} />
+    ) : (
+      <Name class="eevenkoto-npc-card__name">{name}</Name>
+    )}
+    {hasRole ? (
+      roleHtml !== undefined ? (
+        <p class="eevenkoto-npc-card__role" set:html={roleHtml} />
+      ) : (
+        <p class="eevenkoto-npc-card__role">{role}</p>
+      )
+    ) : null}
+  </header>
+  {details?.length ? <PropertyList layout="divided" items={details} /> : null}
+  {hasSlot ? (
+    <div class="eevenkoto-npc-card__body eevenkoto-prose"><slot /></div>
+  ) : bodyHtml !== undefined ? (
+    <div class="eevenkoto-npc-card__body eevenkoto-prose" set:html={bodyHtml} />
+  ) : body ? (
+    <div class="eevenkoto-npc-card__body eevenkoto-prose"><p>{body}</p></div>
+  ) : null}
+</article>

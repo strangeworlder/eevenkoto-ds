@@ -1,0 +1,98 @@
+/* packages/css/core/atoms/progress-bar.css */
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: PROGRESS BAR (TIER 3)
+   Inline by default (hidden until `--active`); `--fixed` pins a thin bar to
+   the top of the viewport. Indeterminate unless `aria-valuenow` is set.
+   ========================================================================== */
+
+.eevenkoto-progress-bar {
+  --_eevenkoto-progress-bar-track-bg: var(
+    --eevenkoto-progress-bar-track-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-progress-bar-fill-bg: var(
+    --eevenkoto-progress-bar-fill-bg,
+    var(--eevenkoto-color-control-primary-background)
+  );
+  --_eevenkoto-progress-bar-height: var(--eevenkoto-progress-bar-height, 0.4rem);
+  --_eevenkoto-progress-bar-scale: var(--eevenkoto-progress-bar-scale, 0);
+
+  position: relative;
+  inline-size: 100%;
+  block-size: var(--_eevenkoto-progress-bar-height);
+  background: var(--_eevenkoto-progress-bar-track-bg);
+  border-radius: var(--eevenkoto-radius-full);
+  overflow: hidden;
+  visibility: hidden;
+  box-sizing: border-box;
+}
+
+.eevenkoto-progress-bar--active {
+  visibility: visible;
+}
+
+.eevenkoto-progress-bar--accent {
+  --eevenkoto-progress-bar-fill-bg: var(--eevenkoto-color-content-accent-strong);
+}
+
+.eevenkoto-progress-bar--fixed {
+  --eevenkoto-progress-bar-height: 0.3rem;
+  --eevenkoto-progress-bar-track-bg: transparent;
+
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: var(--eevenkoto-z-toast);
+  border-radius: 0;
+  pointer-events: none;
+}
+
+.eevenkoto-progress-bar__fill {
+  block-size: 100%;
+  inline-size: 100%;
+  background: var(--_eevenkoto-progress-bar-fill-bg);
+  transform-origin: left center;
+  transform: scaleX(var(--_eevenkoto-progress-bar-scale));
+  transition: transform var(--eevenkoto-duration-4) var(--eevenkoto-ease-standard);
+}
+
+.eevenkoto-progress-bar--active:not([aria-valuenow]) .eevenkoto-progress-bar__fill {
+  animation: eevenkoto-progress-indeterminate 1.6s var(--eevenkoto-ease-in-out) infinite alternate;
+}
+
+@keyframes eevenkoto-progress-indeterminate {
+  from {
+    transform: scaleX(0.08);
+  }
+
+  60% {
+    transform: scaleX(0.72);
+  }
+
+  to {
+    transform: scaleX(0.92);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-progress-bar__fill {
+    transition: none;
+  }
+
+  .eevenkoto-progress-bar--active:not([aria-valuenow]) .eevenkoto-progress-bar__fill {
+    animation: none;
+    transform: scaleX(0.65);
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-progress-bar__fill {
+    background: Highlight;
+  }
+}
+
+@media print {
+  .eevenkoto-progress-bar {
+    display: none !important;
+  }
+}

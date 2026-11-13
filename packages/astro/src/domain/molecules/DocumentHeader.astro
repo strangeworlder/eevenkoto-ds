@@ -1,0 +1,51 @@
+---
+import { documentHeaderClassNames, type DocumentHeaderProps } from '@eevenkoto/core';
+import Badge from '../../core/atoms/Badge.astro';
+import SegmentedControl from '../../core/molecules/SegmentedControl.astro';
+
+export interface Props extends DocumentHeaderProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  showLicenseToggle,
+  selectedLicense,
+  licenseOptions,
+  licenseLabel = 'License',
+  readinessLabel,
+  readinessIntent,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const classes = [documentHeaderClassNames({ selectedLicense }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const hasToggle = Boolean(showLicenseToggle && licenseOptions?.length);
+---
+<header id={id} class={classes} {...rest}>
+  <div class="eevenkoto-document-header__title"><slot /></div>
+  {readinessLabel || hasToggle ? (
+    <div class="eevenkoto-document-header__meta">
+      {readinessLabel ? (
+        <Badge label={readinessLabel} intent={readinessIntent ?? 'neutral'} dot shape="pill" />
+
+      ) : null}
+      {hasToggle ? (
+        <div class="eevenkoto-document-header__license-toggle">
+          <SegmentedControl
+            label={licenseLabel}
+            options={licenseOptions ?? []}
+            selectedId={selectedLicense ?? 'proprietary'}
+            mode="radios"
+            name={`${id ?? 'document-header'}-license`}
+            size="sm"
+          />
+        </div>
+      ) : null}
+    </div>
+  ) : null}
+</header>

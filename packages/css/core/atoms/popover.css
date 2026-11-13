@@ -33,7 +33,7 @@
   --_eevenkoto-popover-arrow-size: var(--eevenkoto-popover-arrow-size, var(--eevenkoto-space-2));
 
   position: absolute;
-  z-index: 100;
+  z-index: var(--eevenkoto-z-popover);
   box-sizing: border-box;
   max-inline-size: var(--_eevenkoto-popover-max-inline-size);
   padding: var(--_eevenkoto-popover-padding);
@@ -139,7 +139,7 @@
    Declared after placement modifiers so --fixed always wins on inset/margin/transform. */
 .eevenkoto-popover--fixed {
   position: fixed;
-  z-index: 1000;
+  z-index: var(--eevenkoto-z-tooltip);
   inset: auto;
   margin: 0;
   transform: none;

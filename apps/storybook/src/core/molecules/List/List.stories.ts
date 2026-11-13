@@ -22,15 +22,15 @@ const meta: Meta<ListProps> = {
   argTypes: {
     items: {
       control: 'object',
-      description: 'Array of `{ text }` items.',
+      description: 'Array of `{ text, html, status }` items.',
       table: { type: { summary: 'ListItemProps[]' } },
     },
     variant: {
       control: 'select',
-      options: ['unordered', 'ordered'],
-      description: 'Maps to `ul` (disc) or `ol` (decimal).',
+      options: ['unordered', 'ordered', 'checklist'],
+      description: 'Maps to `ul` (disc), `ol` (decimal), or `ul` checklist with status icons.',
       table: {
-        type: { summary: "'unordered' | 'ordered'" },
+        type: { summary: "'unordered' | 'ordered' | 'checklist'" },
         defaultValue: { summary: 'unordered' },
       },
     },
@@ -69,6 +69,17 @@ export const Default: Story = {};
 
 export const Ordered: Story = {
   args: { variant: 'ordered' },
+};
+
+export const Checklist: Story = {
+  args: {
+    variant: 'checklist',
+    items: [
+      { text: 'Full SRD spell and monster reference', status: 'included' },
+      { text: 'Early access to patron worldbook chapters', status: 'accent' },
+      { text: 'Offline campaign archive export', status: 'excluded' },
+    ],
+  },
 };
 
 export const Small: Story = {

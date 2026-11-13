@@ -1,0 +1,24 @@
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: NPC CARD GRID (TIER 3)
+   Responsive grid of NpcCards: 2 columns on wide containers, 1 on narrow.
+   ========================================================================== */
+
+@import url('../molecules/npc-card.css');
+
+.eevenkoto-npc-card-grid {
+  --_eevenkoto-npc-card-grid-gap: var(
+    --eevenkoto-npc-card-grid-gap,
+    var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-npc-card-grid-min: var(--eevenkoto-npc-card-grid-min, 24rem);
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--_eevenkoto-npc-card-grid-min)), 1fr));
+  gap: var(--_eevenkoto-npc-card-grid-gap);
+  margin-block: var(--eevenkoto-space-4);
+  padding: 0;
+}
+
+.eevenkoto-npc-card-grid--1 {
+  --eevenkoto-npc-card-grid-min: 100%;
+}

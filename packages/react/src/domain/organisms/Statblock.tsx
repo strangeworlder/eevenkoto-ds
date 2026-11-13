@@ -5,8 +5,10 @@ import {
   statblockClassNames,
   type PropertyItem,
   type AbilityScoreProps,
+  type StatblockFeatureLevel,
   type StatblockNameLevel,
   type StatblockSectionProps,
+  type StatblockSectionTitleLevel,
 } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { AbilityScoreGroup } from './AbilityScoreGroup';
@@ -18,17 +20,20 @@ export type StatblockFeatureNode = {
   name: string;
   description?: ReactNode;
   descriptionHtml?: string;
+  level?: StatblockFeatureLevel;
 };
 
 export type StatblockSectionNode = {
   title: string;
-  titleLevel?: 2 | 3;
+  titleLevel?: StatblockSectionTitleLevel;
   bodyHtml?: string;
   features?: StatblockFeatureNode[];
 };
 
 export type StatblockComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children'> & {
+  headingId?: string;
   name: string;
+  nameHtml?: string;
   nameLevel?: StatblockNameLevel;
   flavor?: string;
   flavorHtml?: string;
@@ -42,7 +47,10 @@ export type StatblockComponentProps = Omit<HTMLAttributes<HTMLElement>, 'childre
 };
 
 export const Statblock = ({
+  id,
+  headingId,
   name,
+  nameHtml,
   nameLevel = 1,
   flavor,
   flavorHtml,
@@ -57,12 +65,24 @@ export const Statblock = ({
   ...rest
 }: StatblockComponentProps): ReactElement => {
   const classes = [statblockClassNames(), className].filter(Boolean).join(' ');
-  const level: StatblockNameLevel = nameLevel === 2 ? 2 : 1;
-  const NameTag = level === 2 ? 'h2' : 'h1';
+  const level: StatblockNameLevel =
+    nameLevel === 3 ? 3 : nameLevel === 2 ? 2 : 1;
+  const NameTag = level === 3 ? 'h3' : level === 2 ? 'h2' : 'h1';
+  const defaultSectionTitleLevel = (level + 1) as StatblockSectionTitleLevel;
 
   return (
-    <article className={classes} {...rest}>
-      <NameTag className={headingClassNames({ level })}>{name}</NameTag>
+    <article id={id} className={classes} {...rest}>
+      {nameHtml ? (
+        <NameTag
+          id={headingId}
+          className={headingClassNames({ level })}
+          dangerouslySetInnerHTML={{ __html: nameHtml }}
+        />
+      ) : (
+        <NameTag id={headingId} className={headingClassNames({ level })}>
+          {name}
+        </NameTag>
+      )}
       {flavorHtml ? (
         <p
           className={paragraphClassNames({ size: 'md' })}
@@ -88,7 +108,7 @@ export const Statblock = ({
         <StatblockSection
           key={section.title}
           title={section.title}
-          titleLevel={section.titleLevel}
+          titleLevel={section.titleLevel ?? defaultSectionTitleLevel}
           bodyHtml={section.bodyHtml}
           features={section.features}
         />

@@ -1,35 +1,58 @@
 ---
 import {
   equipmentWorkshopClassNames,
+  workshopBodyClassNames,
+  workshopControlsClassNames,
+  workshopFooterClassNames,
+  workshopHeaderClassNames,
+  workshopPreviewClassNames,
+  workshopToolbarClassNames,
   type EquipmentWorkshopProps,
 } from '@eevenkoto/core';
 
-export interface Props extends Omit<EquipmentWorkshopProps, 'header' | 'controls' | 'preview'> {
+export interface Props
+  extends Omit<EquipmentWorkshopProps, 'header' | 'controls' | 'toolbar' | 'preview' | 'footer'> {
   id?: string;
   class?: string;
   className?: string;
   [key: string]: unknown;
 }
 
-const { id, idSuffix, class: classProp, className, ...rest } = Astro.props;
-const classes = [equipmentWorkshopClassNames(), classProp, className]
+const { id, idSuffix, layout, sticky, class: classProp, className, ...rest } = Astro.props;
+const classes = [equipmentWorkshopClassNames({ layout, sticky }), classProp, className]
   .filter(Boolean)
   .join(' ');
 const elementId = id ?? (idSuffix ? `equipment-workshop${idSuffix}` : undefined);
 const hasHeaderSlot = Astro.slots.has('header');
 const hasControlsSlot = Astro.slots.has('controls');
+const hasToolbarSlot = Astro.slots.has('toolbar');
 const hasPreviewSlot = Astro.slots.has('preview');
+const hasFooterSlot = Astro.slots.has('footer');
 ---
 <div class={classes} id={elementId} data-eevenkoto-equipment-workshop {...rest}>
   {hasHeaderSlot ? (
-    <div class="eevenkoto-equipment-workshop__header"><slot name="header" /></div>
+    <div class={`${workshopHeaderClassNames()} eevenkoto-equipment-workshop__header`}>
+      <slot name="header" />
+    </div>
   ) : null}
-  <div class="eevenkoto-equipment-workshop__body">
-    <div class="eevenkoto-equipment-workshop__controls">
+  <div class={`${workshopBodyClassNames()} eevenkoto-equipment-workshop__body`}>
+    <div class={`${workshopControlsClassNames()} eevenkoto-equipment-workshop__controls`}>
       {hasControlsSlot ? <slot name="controls" /> : <slot />}
     </div>
-    {hasPreviewSlot ? (
-      <div class="eevenkoto-equipment-workshop__preview"><slot name="preview" /></div>
+    {hasToolbarSlot || hasPreviewSlot ? (
+      <div class={`${workshopPreviewClassNames()} eevenkoto-equipment-workshop__preview`}>
+        {hasToolbarSlot ? (
+          <div class={`${workshopToolbarClassNames()} eevenkoto-equipment-workshop__toolbar`}>
+            <slot name="toolbar" />
+          </div>
+        ) : null}
+        {hasPreviewSlot ? <slot name="preview" /> : null}
+      </div>
     ) : null}
   </div>
+  {hasFooterSlot ? (
+    <footer class={`${workshopFooterClassNames()} eevenkoto-equipment-workshop__footer`}>
+      <slot name="footer" />
+    </footer>
+  ) : null}
 </div>

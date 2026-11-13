@@ -1,0 +1,41 @@
+---
+import { progressBarClassNames, progressBarFillClassNames, type ProgressBarProps } from '@eevenkoto/core';
+
+export interface Props extends ProgressBarProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  active,
+  tone,
+  fixed,
+  label = 'Loading',
+  value,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+const determinate = typeof value === 'number' && Number.isFinite(value);
+const clamped = determinate ? Math.min(100, Math.max(0, value as number)) : undefined;
+const classes = [progressBarClassNames({ active, tone, fixed }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+---
+<div
+  id={id}
+  class={classes}
+  role="progressbar"
+  aria-label={label}
+  aria-busy={active ? 'true' : undefined}
+  aria-hidden={active ? undefined : 'true'}
+  aria-valuemin={clamped !== undefined ? 0 : undefined}
+  aria-valuemax={clamped !== undefined ? 100 : undefined}
+  aria-valuenow={clamped}
+  style={clamped !== undefined ? `--eevenkoto-progress-bar-scale: ${clamped / 100}` : undefined}
+  {...rest}
+>
+  <div class={progressBarFillClassNames()}></div>
+</div>

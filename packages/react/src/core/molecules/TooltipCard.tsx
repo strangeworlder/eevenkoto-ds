@@ -26,26 +26,37 @@ export const TooltipCard = ({
   title,
   titleLevel,
   body,
+  bodyHtml,
+  flush,
   header,
   footer,
   children,
   className,
   ...rest
 }: TooltipCardComponentProps): ReactElement => {
-  const classes = [tooltipCardClassNames(), className].filter(Boolean).join(' ');
+  const classes = [tooltipCardClassNames({ flush }), className].filter(Boolean).join(' ');
   const level: TooltipCardTitleLevel = titleLevel === 3 ? 3 : 2;
   const hasHeader = header != null || Boolean(title);
-  const hasBody = Boolean(body) || Boolean(children);
+  const hasChildren = children !== undefined && children !== null && children !== false;
 
   return (
     <div className={classes} {...rest}>
       {hasHeader ? (
         <header>{header ?? createElement(`h${level}`, null, title)}</header>
       ) : null}
-      {hasBody ? (
+      {hasChildren ? (
         <div className={tooltipCardBodyClassNames()} tabIndex={0}>
-          {body ? <p>{body}</p> : null}
           {children}
+        </div>
+      ) : bodyHtml ? (
+        <div
+          className={tooltipCardBodyClassNames()}
+          tabIndex={0}
+          dangerouslySetInnerHTML={{ __html: bodyHtml }}
+        />
+      ) : body ? (
+        <div className={tooltipCardBodyClassNames()} tabIndex={0}>
+          <p>{body}</p>
         </div>
       ) : null}
       {footer ? <footer>{footer}</footer> : null}
