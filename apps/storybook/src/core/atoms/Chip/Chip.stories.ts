@@ -85,6 +85,7 @@ export const Keyboard: Story = {
     link.addEventListener('click', (event) => event.preventDefault());
     await userEvent.tab();
     await expect(button).toHaveFocus();
+    await userEvent.tab();
     await expect(link).toHaveFocus();
     await expect(disabled).toBeDisabled();
     await userEvent.tab();

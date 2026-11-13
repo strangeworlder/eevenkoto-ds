@@ -43,7 +43,7 @@ export const renderEquipmentWorkshop = (props: EquipmentWorkshopProps = {}): str
     `</div>`;
 
   const footerHtml = footer
-    ? `<footer class="${workshopFooterClassNames()} eevenkoto-equipment-workshop__footer">${footer}</footer>`
+    ? `<div class="${workshopFooterClassNames()} eevenkoto-equipment-workshop__footer">${footer}</div>`
     : '';
 
   return template

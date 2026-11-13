@@ -75,7 +75,7 @@ export const renderWorkshop = (props: WorkshopProps = {}): string => {
     `</div>`;
 
   const footerHtml = footer
-    ? `<footer class="${workshopFooterClassNames()}">${footer}</footer>`
+    ? `<div class="${workshopFooterClassNames()}">${footer}</div>`
     : '';
 
   return template

@@ -73,9 +73,9 @@ export const EquipmentWorkshop = ({
         ) : null}
       </div>
       {footer ? (
-        <footer className={`${workshopFooterClassNames()} eevenkoto-equipment-workshop__footer`}>
+        <div className={`${workshopFooterClassNames()} eevenkoto-equipment-workshop__footer`}>
           {footer}
-        </footer>
+        </div>
       ) : null}
     </div>
   );

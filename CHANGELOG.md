@@ -47,6 +47,7 @@ Resolves the frontend team's gap analysis (23 custom elements + 12 local overrid
 - `EntityPreview` `bodyHtml` is wrapped in a layout-transparent `.eevenkoto-entity-preview__html` in every binding (HTML previously inserted it raw).
 - New `eevenkoto/z-index-token` Stylelint rule: component sheets must use `var(--eevenkoto-z-*)` or a local offset between -1 and 3. `AbilityScoreGroup` now uses 1–3 inside `isolation: isolate`.
 - Wave 3 HTML renderers use `.html` templates like the rest of `@eevenkoto/html`.
+- `Workshop` / `EquipmentWorkshop` `footer` renders a `div.eevenkoto-workshop__footer`, not `<footer>`: the hosts are non-sectioning `div`s, so `<footer>` became a page-level `contentinfo` landmark (axe `landmark-contentinfo-is-top-level`).
 
 ## 0.11.0
 

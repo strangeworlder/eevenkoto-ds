@@ -51,8 +51,8 @@ const hasFooterSlot = Astro.slots.has('footer');
     ) : null}
   </div>
   {hasFooterSlot ? (
-    <footer class={`${workshopFooterClassNames()} eevenkoto-equipment-workshop__footer`}>
+    <div class={`${workshopFooterClassNames()} eevenkoto-equipment-workshop__footer`}>
       <slot name="footer" />
-    </footer>
+    </div>
   ) : null}
 </div>

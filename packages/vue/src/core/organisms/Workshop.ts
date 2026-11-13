@@ -99,7 +99,7 @@ export const Workshop = defineComponent({
       children.push(h('div', { class: workshopBodyClassNames() }, bodyChildren));
 
       if (footerContent) {
-        children.push(h('footer', { class: workshopFooterClassNames() }, footerContent));
+        children.push(h('div', { class: workshopFooterClassNames() }, footerContent));
       }
 
       const elementId =

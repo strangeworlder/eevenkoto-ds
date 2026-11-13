@@ -102,7 +102,7 @@ export const Workshop = ({
           </div>
         ) : null}
       </div>
-      {footer ? <footer className={workshopFooterClassNames()}>{footer}</footer> : null}
+      {footer ? <div className={workshopFooterClassNames()}>{footer}</div> : null}
     </div>
   );
 };

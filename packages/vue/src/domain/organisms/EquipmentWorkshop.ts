@@ -103,7 +103,7 @@ export const EquipmentWorkshop = defineComponent({
       if (footerContent) {
         children.push(
           h(
-            'footer',
+            'div',
             { class: `${workshopFooterClassNames()} eevenkoto-equipment-workshop__footer` },
             footerContent,
           ),
