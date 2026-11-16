@@ -32,6 +32,18 @@ A **Notice** is a feedback callout or banner. It consumes Tier 2 **`feedback`** 
 
 <Canvas of={NoticeStories.Default} />
 
+```html
+<div class="eevenkoto-notice" role="status">
+  <span class="eevenkoto-notice__icon" aria-hidden="true">
+    <svg class="eevenkoto-icon" aria-hidden="true">…</svg>
+  </span>
+  <div class="eevenkoto-notice__content">
+    <p class="eevenkoto-notice__title">Draft saved</p>
+    <div class="eevenkoto-notice__body">Changes are stored locally until you publish.</div>
+  </div>
+</div>
+```
+
 Host alone is **subtle** + **neutral**. `resolveNoticeRole` defaults `caution` and `critical` intents to `role="alert"` and other intents to `role="status"` (override with `role="status" | "alert" | "note" | "region"`). Each intent also renders a matching leading `Icon` by default (`icon={false}` to omit).
 
 ### Playground

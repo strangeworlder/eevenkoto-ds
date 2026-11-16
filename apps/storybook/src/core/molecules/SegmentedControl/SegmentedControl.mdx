@@ -39,6 +39,20 @@ Two modes share the same chrome and work **without JavaScript**:
 
 <Canvas of={SegmentedControlStories.Default} />
 
+```html
+<fieldset class="eevenkoto-segmented-control">
+  <legend class="eevenkoto-visually-hidden">Document version</legend>
+  <label class="eevenkoto-segmented-control__option eevenkoto-segmented-control__option--primary" for="doc-version-text">
+    <input class="eevenkoto-segmented-control__input" type="radio" id="doc-version-text" name="doc-version" value="text" checked />
+    <span class="eevenkoto-segmented-control__label">Text</span>
+  </label>
+  <label class="eevenkoto-segmented-control__option eevenkoto-segmented-control__option--secondary" for="doc-version-srd">
+    <input class="eevenkoto-segmented-control__input" type="radio" id="doc-version-srd" name="doc-version" value="srd" />
+    <span class="eevenkoto-segmented-control__label">SRD</span>
+  </label>
+</fieldset>
+```
+
 ### Playground
 
 <Controls of={SegmentedControlStories.Default} />

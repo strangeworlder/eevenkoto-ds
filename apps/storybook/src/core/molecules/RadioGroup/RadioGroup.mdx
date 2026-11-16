@@ -32,6 +32,17 @@ Semantic fieldset grouping mutually exclusive radio options with an accessible `
 
 <Canvas of={RadioGroupStories.Default} />
 
+```html
+<fieldset class="eevenkoto-radio-group">
+  <div class="eevenkoto-radio-group__header">
+    <legend class="eevenkoto-radio-group__legend">Otsikko</legend>
+  </div>
+  <div class="eevenkoto-radio-group__list">
+    <!-- Radio items -->
+  </div>
+</fieldset>
+```
+
 Host alone renders a vertical list of radio options.
 
 ### Playground
@@ -82,21 +93,6 @@ Groups of mutually exclusive choices need an accessible group name for screen re
 ## Tile grid layout
 
 <Canvas of={RadioGroupStories.TileGrid} />
-
-## Minimum classes
-
-Host alone renders the default stack layout:
-
-```html
-<fieldset class="eevenkoto-radio-group">
-  <div class="eevenkoto-radio-group__header">
-    <legend class="eevenkoto-radio-group__legend">Otsikko</legend>
-  </div>
-  <div class="eevenkoto-radio-group__list">
-    <!-- Radio items -->
-  </div>
-</fieldset>
-```
 
 ## API reference
 

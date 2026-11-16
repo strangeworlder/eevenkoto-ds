@@ -32,7 +32,16 @@ Accessible single-choice radio button consuming Tier 2 form tokens (`--eevenkoto
 
 <Canvas of={RadioStories.Default} />
 
-Host alone is **default** inline appearance, **md** size, enabled, and unchecked.
+```html
+<label class="eevenkoto-radio">
+  <input type="radio" name="example" value="opt" class="eevenkoto-radio__control" />
+  <span class="eevenkoto-radio__content">
+    <strong class="eevenkoto-radio__title">Label</strong>
+  </span>
+</label>
+```
+
+Host alone is **default** inline appearance, **md** size, enabled, and unchecked. Add `eevenkoto-radio--card` or `eevenkoto-radio--tile` for variant layouts.
 
 ### Playground
 
@@ -88,21 +97,6 @@ Card radios display with borders, hover elevation, and an active surface tint wh
 Compact tile appearance with centered content, suitable for grid layouts.
 
 <Canvas of={RadioStories.TileVariant} />
-
-## Minimum classes
-
-Host alone renders the default inline radio:
-
-```html
-<label class="eevenkoto-radio">
-  <input type="radio" name="example" value="opt" class="eevenkoto-radio__control" />
-  <span class="eevenkoto-radio__content">
-    <strong class="eevenkoto-radio__title">Label</strong>
-  </span>
-</label>
-```
-
-Add `eevenkoto-radio--card` or `eevenkoto-radio--tile` for variant layouts.
 
 ## API reference
 

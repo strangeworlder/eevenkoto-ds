@@ -32,7 +32,16 @@ Accessible checkbox control consuming Tier 2 form and control tokens (`--eevenko
 
 <Canvas of={CheckboxStories.Default} />
 
-Host alone is **default** inline appearance, **md** size, enabled, and unchecked.
+```html
+<label class="eevenkoto-checkbox">
+  <input type="checkbox" class="eevenkoto-checkbox__control" />
+  <span class="eevenkoto-checkbox__content">
+    <strong class="eevenkoto-checkbox__title">Label</strong>
+  </span>
+</label>
+```
+
+Host alone is **default** inline appearance, **md** size, enabled, and unchecked. Add `eevenkoto-checkbox--card` for card layout.
 
 ### Playground
 
@@ -84,21 +93,6 @@ Card checkboxes provide a larger clickable surface area, subtle borders, and bac
 ## With description and badge
 
 <Canvas of={CheckboxStories.WithBadge} />
-
-## Minimum classes
-
-Host alone renders the default inline checkbox:
-
-```html
-<label class="eevenkoto-checkbox">
-  <input type="checkbox" class="eevenkoto-checkbox__control" />
-  <span class="eevenkoto-checkbox__content">
-    <strong class="eevenkoto-checkbox__title">Label</strong>
-  </span>
-</label>
-```
-
-Add `eevenkoto-checkbox--card` for card layout.
 
 ## API reference
 

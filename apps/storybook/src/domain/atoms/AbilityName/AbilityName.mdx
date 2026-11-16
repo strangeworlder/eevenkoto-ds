@@ -31,11 +31,20 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 **AbilityName** is the domain atom for RPG ability names (e.g. *Voimakkuus*, *Ketteryys*, *Sitkeys*, *Älykkyys*, *Viisaus*, *Karisma*, *Sisu*, *Mieli*, *Käsityö*). It renders the full ability name when space permits, and automatically collapses to a 3-letter ALLCAPS abbreviation (e.g. `VOI`, `KET`, `SIS`) when container space is constrained.
 
 Multiple abilities can be composed together with standard conjunctions:
-```html
-<AbilityName>Voimakkuus</AbilityName> tai <AbilityName>Ketteryys</AbilityName>
+```tsx
+<>
+  <AbilityName>Voimakkuus</AbilityName> tai <AbilityName>Ketteryys</AbilityName>
+</>
 ```
 
 <Canvas of={AbilityNameStories.Default} />
+
+```html
+<span class="eevenkoto-ability-name">
+  <span class="eevenkoto-ability-name__full">Voimakkuus</span>
+  <span class="eevenkoto-ability-name__short" aria-hidden="true">VOI</span>
+</span>
+```
 
 ## Why to use
 

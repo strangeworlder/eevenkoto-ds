@@ -9,6 +9,23 @@ Table with per-row `readiness` and spanning `locked` rows that carry a Notice. B
 
 <Canvas of={ContentTableStories.Default} />
 
+```html
+<table class="eevenkoto-table eevenkoto-content-table">
+  <thead>
+    <tr>
+      <th scope="col">Nimi</th>
+      <th scope="col">Piiri</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-readiness="success">
+      <td>Tulipallo</td>
+      <td>3. piiri</td>
+    </tr>
+  </tbody>
+</table>
+```
+
 <Controls of={ContentTableStories.Default} />
 
 ## Why to use

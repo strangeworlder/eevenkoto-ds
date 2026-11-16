@@ -34,6 +34,15 @@ The design system owns the responsive 2-column layout, container-query stacking,
 
 <Canvas of={EquipmentWorkshopStories.Chassis} />
 
+```html
+<div class="eevenkoto-workshop eevenkoto-equipment-workshop" data-eevenkoto-equipment-workshop>
+  <div class="eevenkoto-workshop__body eevenkoto-equipment-workshop__body">
+    <div class="eevenkoto-workshop__controls eevenkoto-equipment-workshop__controls">…</div>
+    <div class="eevenkoto-workshop__preview eevenkoto-equipment-workshop__preview">…</div>
+  </div>
+</div>
+```
+
 ## Why to use
 
 Crafting tools need a responsive split workbench (controls on the inline-start rail, sticky `EquipmentBlock` preview on the inline-end rail, optional header/toolbar/footer) without hardcoding game math into `@eevenkoto/core` or inventing ad-hoc flex/grid wrappers per builder.

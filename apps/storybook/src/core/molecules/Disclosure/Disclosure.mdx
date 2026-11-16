@@ -9,6 +9,18 @@ A native `<details>`/`<summary>` expander. The summary carries a label, optional
 
 <Canvas of={DisclosureStories.Default} />
 
+```html
+<details class="eevenkoto-disclosure">
+  <summary class="eevenkoto-disclosure__summary">
+    <span class="eevenkoto-disclosure__summary-label">Lisäehdot</span>
+    <svg class="eevenkoto-icon eevenkoto-icon--sm eevenkoto-disclosure__chevron" aria-hidden="true">…</svg>
+  </summary>
+  <div class="eevenkoto-disclosure__body eevenkoto-prose">
+    <p>Tämä sääntö pätee vain lähitaistelussa.</p>
+  </div>
+</details>
+```
+
 <Controls of={DisclosureStories.Default} />
 
 ## Why to use

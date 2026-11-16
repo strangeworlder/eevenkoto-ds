@@ -9,6 +9,26 @@ A comparison card for membership or pricing tiers. It composes [Card](?path=/doc
 
 <Canvas of={TierCardStories.SingleTier} />
 
+```html
+<article class="eevenkoto-card eevenkoto-card--elevated eevenkoto-tier-card">
+  <header class="eevenkoto-tier-card__header">
+    <h2 class="eevenkoto-tier-card__name">Seuraaja</h2>
+  </header>
+  <div class="eevenkoto-tier-card__pricing">
+    <span class="eevenkoto-tier-card__price">5 €</span>
+    <span class="eevenkoto-tier-card__period">/ kk</span>
+  </div>
+  <div class="eevenkoto-tier-card__features">
+    <ul class="eevenkoto-list eevenkoto-list--checklist eevenkoto-list--sm">
+      <li class="eevenkoto-list__item eevenkoto-list__item--included">Kaikki säännöt</li>
+    </ul>
+  </div>
+  <footer class="eevenkoto-tier-card__footer">
+    <a class="eevenkoto-link-button eevenkoto-link-button--full-width" href="/tilaa">Valitse taso</a>
+  </footer>
+</article>
+```
+
 <Controls of={TierCardStories.SingleTier} />
 
 ## Why to use

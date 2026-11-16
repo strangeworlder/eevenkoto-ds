@@ -32,6 +32,19 @@ Accessible numeric step control with increment and decrement buttons, live regio
 
 <Canvas of={StepperStories.Default} />
 
+```html
+<div class="eevenkoto-stepper" role="group">
+  <div class="eevenkoto-stepper__info">
+    <strong class="eevenkoto-stepper__label">Otsikko</strong>
+  </div>
+  <div class="eevenkoto-stepper__controls">
+    <button type="button" class="eevenkoto-button eevenkoto-button--secondary eevenkoto-button--sm eevenkoto-stepper__button" aria-label="Vähennä">−</button>
+    <span class="eevenkoto-stepper__value" role="status" aria-live="polite">0</span>
+    <button type="button" class="eevenkoto-button eevenkoto-button--secondary eevenkoto-button--sm eevenkoto-stepper__button" aria-label="Lisää">+</button>
+  </div>
+</div>
+```
+
 Host alone is enabled with minimum 0 and default step 1.
 
 ### Playground
@@ -72,23 +85,6 @@ TTRPG systems regularly feature bounded small integer increments (armor reinforc
 ## With description
 
 <Canvas of={StepperStories.WithDescription} />
-
-## Minimum classes
-
-Host alone renders the complete row layout:
-
-```html
-<div class="eevenkoto-stepper" role="group">
-  <div class="eevenkoto-stepper__info">
-    <strong class="eevenkoto-stepper__label">Otsikko</strong>
-  </div>
-  <div class="eevenkoto-stepper__controls">
-    <button type="button" class="eevenkoto-button eevenkoto-button--secondary eevenkoto-button--sm eevenkoto-stepper__button" aria-label="Vähennä">−</button>
-    <span class="eevenkoto-stepper__value" role="status" aria-live="polite">0</span>
-    <button type="button" class="eevenkoto-button eevenkoto-button--secondary eevenkoto-button--sm eevenkoto-stepper__button" aria-label="Lisää">+</button>
-  </div>
-</div>
-```
 
 ## API reference
 

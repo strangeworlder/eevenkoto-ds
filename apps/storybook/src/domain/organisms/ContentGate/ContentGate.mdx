@@ -9,6 +9,22 @@ Full-page gate shown when the reader's tier cannot open a document: readiness Ba
 
 <Canvas of={ContentGateStories.Default} />
 
+```html
+<section class="eevenkoto-content-gate">
+  <div class="eevenkoto-content-gate__status-row">
+    <span class="eevenkoto-badge eevenkoto-badge--caution">
+      <span class="eevenkoto-badge__dot" aria-hidden="true"></span>
+      <span class="eevenkoto-badge__label">Ennakko</span>
+    </span>
+    <span class="eevenkoto-content-gate__lock"><svg class="eevenkoto-icon" aria-hidden="true">…</svg></span>
+  </div>
+  <h2 class="eevenkoto-heading eevenkoto-content-gate__title">Tämä luku on tukijoille</h2>
+  <div class="eevenkoto-content-gate__description eevenkoto-prose">
+    <p>Päivitä tilauksesi lukeaksesi luvun.</p>
+  </div>
+</section>
+```
+
 <Controls of={ContentGateStories.Default} />
 
 ## Why to use

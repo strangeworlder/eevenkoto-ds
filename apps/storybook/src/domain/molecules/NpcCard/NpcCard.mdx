@@ -9,6 +9,24 @@ Compact NPC entry: name, role, divided `details` (PropertyList) and body copy.
 
 <Canvas of={NpcCardStories.Default} />
 
+```html
+<article class="eevenkoto-npc-card">
+  <header class="eevenkoto-npc-card__header">
+    <h3 class="eevenkoto-npc-card__name">Aino Karhu</h3>
+    <p class="eevenkoto-npc-card__role">Kauppias</p>
+  </header>
+  <dl class="eevenkoto-property-list eevenkoto-property-list--divided">
+    <div class="eevenkoto-property">
+      <dt class="eevenkoto-property__label">Asenne</dt>
+      <dd class="eevenkoto-property__value">Ystävällinen</dd>
+    </div>
+  </dl>
+  <div class="eevenkoto-npc-card__body eevenkoto-prose">
+    <p>Tuntee vanhat kauppareitit.</p>
+  </div>
+</article>
+```
+
 <Controls of={NpcCardStories.Default} />
 
 ## Why to use

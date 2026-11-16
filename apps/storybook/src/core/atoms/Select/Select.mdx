@@ -32,6 +32,16 @@ Native dropdown picker wrapped in styled `.eevenkoto-select` chrome (`<span clas
 
 <Canvas of={SelectStories.Default} />
 
+```html
+<span class="eevenkoto-select">
+  <select class="eevenkoto-select__field">
+    <option value="1">Yksi</option>
+    <option value="2">Kaksi</option>
+  </select>
+  <span class="eevenkoto-select__icon" aria-hidden="true">…</span>
+</span>
+```
+
 Host alone is **md** size, valid, and enabled.
 
 ### Playground
@@ -86,20 +96,6 @@ Dropdown selection from a list of 5+ mutually exclusive choices without taking u
 Options can be nested into categories using `groups` (which may also be combined with top-level `options`):
 
 <Canvas of={SelectStories.GroupedOptions} />
-
-## Minimum classes
-
-Host alone renders the default styled select wrapper:
-
-```html
-<span class="eevenkoto-select">
-  <select class="eevenkoto-select__field">
-    <option value="1">Yksi</option>
-    <option value="2">Kaksi</option>
-  </select>
-  <span class="eevenkoto-select__icon" aria-hidden="true">…</span>
-</span>
-```
 
 ## API reference
 

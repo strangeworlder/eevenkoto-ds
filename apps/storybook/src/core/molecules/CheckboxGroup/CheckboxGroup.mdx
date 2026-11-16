@@ -32,6 +32,17 @@ Semantic grouping of multiple checkboxes inside an accessible `<fieldset>` with 
 
 <Canvas of={CheckboxGroupStories.Default} />
 
+```html
+<fieldset class="eevenkoto-checkbox-group">
+  <div class="eevenkoto-checkbox-group__header">
+    <legend class="eevenkoto-checkbox-group__legend">Ryhmän otsikko</legend>
+  </div>
+  <div class="eevenkoto-checkbox-group__list">
+    <!-- Checkboxes -->
+  </div>
+</fieldset>
+```
+
 Host alone renders a vertical stack of checkboxes with standard spacing.
 
 ### Playground
@@ -85,21 +96,6 @@ When limits are exceeded, switch `badgeIntent="critical"` and provide an `error`
 ## Grid layout
 
 <Canvas of={CheckboxGroupStories.GridLayout} />
-
-## Minimum classes
-
-Host alone renders the default stack layout:
-
-```html
-<fieldset class="eevenkoto-checkbox-group">
-  <div class="eevenkoto-checkbox-group__header">
-    <legend class="eevenkoto-checkbox-group__legend">Ryhmän otsikko</legend>
-  </div>
-  <div class="eevenkoto-checkbox-group__list">
-    <!-- Checkboxes -->
-  </div>
-</fieldset>
-```
 
 ## API reference
 

@@ -9,6 +9,19 @@ Figure wrapper for an inline SVG or image map with title, scale and caption.
 
 <Canvas of={MapFrameStories.Default} />
 
+```html
+<figure class="eevenkoto-map-frame">
+  <div class="eevenkoto-map-frame__header">
+    <span class="eevenkoto-map-frame__title">Vartiotorni</span>
+    <span class="eevenkoto-map-frame__scale">1 ruutu = 2 m</span>
+  </div>
+  <div class="eevenkoto-map-frame__viewport">
+    <img src="/maps/tower.webp" alt="Vartiotornin pohjapiirros" />
+  </div>
+  <figcaption class="eevenkoto-map-frame__caption">Yläkerran pohjapiirros.</figcaption>
+</figure>
+```
+
 <Controls of={MapFrameStories.Default} />
 
 ## Why to use

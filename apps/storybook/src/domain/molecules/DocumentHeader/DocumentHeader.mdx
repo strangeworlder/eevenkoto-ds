@@ -9,6 +9,20 @@ Page-title row: heading, readiness Badge and an optional content-license toggle.
 
 <Canvas of={DocumentHeaderStories.Default} />
 
+```html
+<header class="eevenkoto-document-header">
+  <div class="eevenkoto-document-header__title">
+    <h1 class="eevenkoto-heading">Velhon käsikirja</h1>
+  </div>
+  <div class="eevenkoto-document-header__meta">
+    <span class="eevenkoto-badge eevenkoto-badge--success">
+      <span class="eevenkoto-badge__dot" aria-hidden="true"></span>
+      <span class="eevenkoto-badge__label">Valmis</span>
+    </span>
+  </div>
+</header>
+```
+
 <Controls of={DocumentHeaderStories.Default} />
 
 ## Why to use

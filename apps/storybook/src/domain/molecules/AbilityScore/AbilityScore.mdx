@@ -34,6 +34,26 @@ For the sandwich panel (header / grid / footer), use **[AbilityScoreGroup](?path
 
 <Canvas of={AbilityScoreStories.Default} />
 
+```html
+<figure class="eevenkoto-ability-score">
+  <figcaption id="ability-karisma" class="eevenkoto-ability-score__label">Karisma</figcaption>
+  <dl class="eevenkoto-ability-score__stats" aria-labelledby="ability-karisma">
+    <div class="eevenkoto-ability-score__stat eevenkoto-ability-score__stat--modifier">
+      <dt class="eevenkoto-ability-score__stat-label">Muuttuja</dt>
+      <dd class="eevenkoto-ability-score__stat-value"><span class="eevenkoto-stat eevenkoto-stat--arch eevenkoto-stat--lg">+3</span></dd>
+    </div>
+    <div class="eevenkoto-ability-score__stat eevenkoto-ability-score__stat--score">
+      <dt class="eevenkoto-ability-score__stat-label">Arvo</dt>
+      <dd class="eevenkoto-ability-score__stat-value"><span class="eevenkoto-stat eevenkoto-stat--disk eevenkoto-stat--sm">16</span></dd>
+    </div>
+    <div class="eevenkoto-ability-score__stat eevenkoto-ability-score__stat--save">
+      <dt class="eevenkoto-ability-score__stat-label">Pelastusheitto</dt>
+      <dd class="eevenkoto-ability-score__stat-value"><span class="eevenkoto-stat eevenkoto-stat--shield eevenkoto-stat--sm">+3</span></dd>
+    </div>
+  </dl>
+</figure>
+```
+
 ### Playground
 
 <Controls of={AbilityScoreStories.Default} />

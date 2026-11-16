@@ -9,6 +9,20 @@ Account entry point. Signed out it renders a full-width secondary sign-in [LinkB
 
 <Canvas of={AccountMenuStories.SignedInOpenWithDestructiveLogout} />
 
+```html
+<div class="eevenkoto-account-menu">
+  <button type="button" class="eevenkoto-account-menu__trigger" aria-haspopup="true" aria-expanded="false">
+    <span class="eevenkoto-avatar eevenkoto-avatar--sm" role="img" aria-label="Elowen Karth">…</span>
+    <span class="eevenkoto-account-menu__identity">
+      <span class="eevenkoto-account-menu__name">Elowen Karth</span>
+      <span class="eevenkoto-badge eevenkoto-badge--info eevenkoto-badge--sm"><span class="eevenkoto-badge__label">Kannattaja</span></span>
+    </span>
+    <svg class="eevenkoto-icon eevenkoto-icon--sm eevenkoto-account-menu__chevron" aria-hidden="true">…</svg>
+  </button>
+  <div hidden class="eevenkoto-popover eevenkoto-popover--bottom-start eevenkoto-popover--match-trigger-width" role="dialog" aria-label="Account">…</div>
+</div>
+```
+
 <Controls of={AccountMenuStories.SignedInOpenWithDestructiveLogout} />
 
 ## Why to use

@@ -9,6 +9,16 @@ A `<fieldset>` with a `<legend>` and a wrapping list of [Chip](?path=/docs/core-
 
 <Canvas of={ChipGroupStories.SingleSelect} />
 
+```html
+<fieldset class="eevenkoto-chip-group" data-selection-mode="single">
+  <legend class="eevenkoto-chip-group__legend">Piiri</legend>
+  <div class="eevenkoto-chip-group__list">
+    <button type="button" class="eevenkoto-chip eevenkoto-chip--sm eevenkoto-chip--selected" data-value="0" aria-pressed="true">Taikakonsti</button>
+    <button type="button" class="eevenkoto-chip eevenkoto-chip--sm" data-value="1" aria-pressed="false">1. piiri</button>
+  </div>
+</fieldset>
+```
+
 <Controls of={ChipGroupStories.SingleSelect} />
 
 ## Why to use

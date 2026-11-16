@@ -9,6 +9,20 @@ A `<nav>` outline of in-page jump links. It replaces horizontal chip bars with a
 
 <Canvas of={TableOfContentsStories.Rail} />
 
+```html
+<nav class="eevenkoto-toc" aria-label="Table of contents">
+  <div class="eevenkoto-toc__rail">
+    <p class="eevenkoto-toc__heading">On this page</p>
+    <div class="eevenkoto-toc__group">
+      <ul class="eevenkoto-toc__list">
+        <li><a class="eevenkoto-toc__link" href="#overview" aria-current="location">Overview</a></li>
+        <li><a class="eevenkoto-toc__link" href="#details">Details</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+```
+
 <Controls of={TableOfContentsStories.Rail} />
 
 ## Why to use

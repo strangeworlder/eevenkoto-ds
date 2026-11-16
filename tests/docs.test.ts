@@ -1595,4 +1595,29 @@ export {};
   },
     30_000,
   );
+
+  it('includes an opening ```html code block in the intro section of every published component MDX page', () => {
+    const componentMdxFiles = [
+      ...walkFiles(join(repoRoot, 'apps/storybook/src/core'), ['.mdx']),
+      ...walkFiles(join(repoRoot, 'apps/storybook/src/domain'), ['.mdx']),
+    ].filter((f) => basename(f) !== 'TypographySample.mdx');
+
+    const violations: string[] = [];
+    for (const mdx of componentMdxFiles) {
+      const raw = readFileSync(mdx, 'utf8');
+      const rel = relative(repoRoot, mdx).replace(/\\/g, '/');
+      const firstH2 = raw.search(/^##\s+/m);
+      const intro = firstH2 === -1 ? raw : raw.slice(0, firstH2);
+      const htmlMatch = intro.match(/```html\r?\n([\s\S]*?)```/);
+      if (!htmlMatch) {
+        violations.push(`${rel}: missing opening \`\`\`html block in intro section`);
+        continue;
+      }
+      if (!/\beevenkoto-[a-z0-9-]+/.test(htmlMatch[1])) {
+        violations.push(`${rel}: opening \`\`\`html block does not contain an eevenkoto-* class`);
+      }
+    }
+
+    expect(violations).toEqual([]);
+  });
 });

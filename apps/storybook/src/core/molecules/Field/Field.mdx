@@ -36,6 +36,17 @@ Stack rhythm uses flex `gap` (`--eevenkoto-field-gap`, default `--eevenkoto-spac
 
 <Canvas of={FieldStories.Default} />
 
+```html
+<div class="eevenkoto-field">
+  <label class="eevenkoto-field__label" for="character-name">Character name</label>
+  <div class="eevenkoto-field__control">
+    <span class="eevenkoto-input">
+      <input class="eevenkoto-input__field" type="text" id="character-name" placeholder="e.g. Elowen Karth" />
+    </span>
+  </div>
+</div>
+```
+
 ### Playground
 
 <Controls of={FieldStories.Default} />
