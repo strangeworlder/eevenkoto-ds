@@ -104,6 +104,7 @@
   font-family: var(--eevenkoto-font-serif);
   font-size: var(--eevenkoto-font-size-heading-4);
   font-weight: var(--eevenkoto-font-weight-semibold);
+  line-height: var(--eevenkoto-line-height-snug);
   border-block-end: var(--_eevenkoto-card-divider-width) solid
     var(--_eevenkoto-card-divider-color);
 }
@@ -123,6 +124,10 @@
 .eevenkoto-card :where(header) :is(h1, h2, h3, h4, h5, h6),
 .eevenkoto-card__header :is(h1, h2, h3, h4, h5, h6) {
   margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  width: auto;
   font: inherit;
   color: inherit;
   letter-spacing: inherit;

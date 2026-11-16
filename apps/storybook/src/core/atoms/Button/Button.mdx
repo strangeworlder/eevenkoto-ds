@@ -394,6 +394,7 @@ The Storybook controls map to the HTML class and attribute contract below. The B
 | `disabled` | `boolean` | No | `false` | Sets the native `disabled` attribute. |
 | `icon` | `ButtonIconName` | No | — | From token `BUTTON_ICON_NAMES` (renders Icon). |
 | `iconPosition` | `'left' \| 'right' \| 'only'` | No | `'left'` when icon is set | Maps to `eevenkoto-button--icon-*`. |
+| `fullWidth` | `boolean` | No | `false` | Stretches the button to `inline-size: 100%` (`eevenkoto-button--full-width`). |
 
 <ArgTypes of={ButtonStories} />
 
@@ -408,6 +409,7 @@ The Storybook controls map to the HTML class and attribute contract below. The B
 | `eevenkoto-button--sm` | Small size |
 | `eevenkoto-button--md` | Medium (default) size |
 | `eevenkoto-button--lg` | Large size |
+| `eevenkoto-button--full-width` | Full-width block layout (`inline-size: 100%`) |
 | `eevenkoto-button--icon-left` | Icon before label |
 | `eevenkoto-button--icon-right` | Icon after label |
 | `eevenkoto-button--icon-only` | Icon-only layout |
@@ -429,37 +431,48 @@ export interface ButtonProps {
   disabled?: boolean;
   icon?: ButtonIconName;
   iconPosition?: 'left' | 'right' | 'only';
+  fullWidth?: boolean;
 }
 ```
 
 ### Public CSS override tokens
 
-Parents may contextualize Button appearance via public custom properties (bridged privately inside the component). Common tokens include:
+Parents may contextualize Button appearance via public custom properties (bridged privately inside the component):
 
 | Token | Purpose |
 | --- | --- |
-| `--eevenkoto-button-bg` | Background |
-| `--eevenkoto-button-text` | Label color |
-| `--eevenkoto-button-border-color` | Border color |
-| `--eevenkoto-button-icon` | Icon color |
-| `--eevenkoto-button-bg-hover` / `-active` / `-disabled` | State backgrounds |
-| `--eevenkoto-button-pad-block` / `-pad-inline` | Padding |
+| `--eevenkoto-button-bg` | Resting background |
+| `--eevenkoto-button-text` | Resting label color |
+| `--eevenkoto-button-border-color` | Resting border color |
+| `--eevenkoto-button-border-width` | Border stroke width |
+| `--eevenkoto-button-icon` | Resting icon color |
+| `--eevenkoto-button-bg-hover` | Hover background |
+| `--eevenkoto-button-border-color-hover` | Hover border color |
+| `--eevenkoto-button-bg-active` | Active/pressed background |
+| `--eevenkoto-button-bg-disabled` | Disabled background |
+| `--eevenkoto-button-text-disabled` | Disabled label color |
+| `--eevenkoto-button-border-color-disabled` | Disabled border color |
+| `--eevenkoto-button-icon-disabled` | Disabled icon color |
+| `--eevenkoto-button-pad-block` | Block padding |
+| `--eevenkoto-button-pad-inline` | Inline padding |
 | `--eevenkoto-button-radius` | Corner radius |
 | `--eevenkoto-button-font-size` | Type size (defaults to `--eevenkoto-font-size-control-*`) |
 | `--eevenkoto-button-font-weight` | Type weight (defaults to `--eevenkoto-font-weight-bold`) |
-| `--eevenkoto-button-gradient-start` / `-middle` / `-end` | Gradient stops |
+| `--eevenkoto-button-line-height` | Line height (defaults to `--eevenkoto-line-height-tight`) |
+| `--eevenkoto-button-text-shadow` | Label depth shadow |
+| `--eevenkoto-button-box-shadow` | Control elevation shadow |
+| `--eevenkoto-button-gradient-start` / `--eevenkoto-button-gradient-middle` / `--eevenkoto-button-gradient-end` | Resting gradient stops |
+| `--eevenkoto-button-gradient-start-hover` / `--eevenkoto-button-gradient-middle-hover` / `--eevenkoto-button-gradient-end-hover` | Hover gradient stops |
 
 See [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs) for the private-bridge pattern and governance rules.
 
 ## Framework packages
 
-HTML is the reference implementation. React and Vue are thin wrappers over the same BEM classes from `@eevenkoto/core`.
+HTML is the reference implementation. React, Vue, and Astro are thin wrappers over the same BEM classes from `@eevenkoto/core`. When rendering an `icon`, also import `@eevenkoto/css/icon.css`.
 
 ```bash
 npm install @eevenkoto/css @eevenkoto/html
-# or
-npm install @eevenkoto/css @eevenkoto/react
-npm install @eevenkoto/css @eevenkoto/vue
+# or @eevenkoto/react / @eevenkoto/vue / @eevenkoto/astro
 ```
 
 ```ts
@@ -490,6 +503,16 @@ import { Button } from '@eevenkoto/vue';
 <template>
   <Button label="Save" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/button.css';
+import { Button } from '@eevenkoto/astro';
+---
+
+<Button label="Save" />
 ```
 
 See [Packages](?path=/docs/foundations-packages--docs) for the package map.

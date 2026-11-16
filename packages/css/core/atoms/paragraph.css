@@ -6,7 +6,7 @@
    ========================================================================== */
 
 .eevenkoto-paragraph,
-.eevenkoto-prose :where(p) {
+.eevenkoto-prose :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) {
   --_eevenkoto-paragraph-color: var(
     --eevenkoto-paragraph-color,
     var(--eevenkoto-color-content-primary)

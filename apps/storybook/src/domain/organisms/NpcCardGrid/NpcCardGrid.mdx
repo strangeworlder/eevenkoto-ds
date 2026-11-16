@@ -26,20 +26,63 @@ NPC lists should scan as a grid without every adventure re-implementing the layo
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| cards | `NpcCardProps[]` | — | Card data (or pass NpcCard children). |
-| columns | `1 \| 2` | `2` | Maximum columns. |
+| `cards` | `NpcCardProps[]` | — | Card data (or pass `NpcCard` children / default slot). |
+| `columns` | `1 \| 2` | `2` | Maximum columns on wide containers. |
+| `id` | `string` | — | Host element `id`. |
 
 <ArgTypes of={NpcCardGridStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-npc-card-grid-gap` | Grid gap (`space-4`) |
+| `--eevenkoto-npc-card-grid-min` | Minimum card track width (`24rem`, `100%` when `columns={1}`) |
+
 ## Framework packages
 
+`npc-card-grid.css` imports `npc-card.css` (and transitively `heading.css`, `property.css`, `prose.css`) automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/npc-card-grid.css';
 import { renderNpcCardGrid } from '@eevenkoto/html';
+
+renderNpcCardGrid({
+  cards: [{ name: 'Aino Karhu', role: 'Kauppias' }],
+});
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/npc-card-grid.css';
 import { NpcCardGrid } from '@eevenkoto/react';
+
+<NpcCardGrid cards={[{ name: 'Aino Karhu', role: 'Kauppias' }]} />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/npc-card-grid.css';
+import { NpcCardGrid } from '@eevenkoto/vue';
+
+const cards = [{ name: 'Aino Karhu', role: 'Kauppias' }];
+</script>
+
+<template>
+  <NpcCardGrid :cards="cards" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/npc-card-grid.css';
+import { NpcCardGrid } from '@eevenkoto/astro';
+
+const cards = [{ name: 'Aino Karhu', role: 'Kauppias' }];
+---
 
 <NpcCardGrid cards={cards} />
 ```

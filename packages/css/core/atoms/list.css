@@ -10,7 +10,7 @@
    ========================================================================== */
 
 .eevenkoto-list,
-.eevenkoto-prose :where(ul, ol) {
+.eevenkoto-prose :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"], .eevenkoto-menu *)) {
   --_eevenkoto-list-color: var(
     --eevenkoto-list-color,
     var(--eevenkoto-color-content-primary)
@@ -45,7 +45,7 @@
   );
   --_eevenkoto-list-item-gap: var(
     --eevenkoto-list-item-gap,
-    var(--eevenkoto-space-3)
+    var(--eevenkoto-space-2)
   );
   --_eevenkoto-list-style-type: var(--eevenkoto-list-style-type, disc);
 
@@ -66,7 +66,7 @@
 /* Tag / modifier inference for ordered lists (host alone stays disc / ul). */
 :where(ol).eevenkoto-list,
 .eevenkoto-list--ordered,
-.eevenkoto-prose :where(ol) {
+.eevenkoto-prose :where(ol:not([class^="eevenkoto-"], [class*=" eevenkoto-"], .eevenkoto-menu *)) {
   --eevenkoto-list-style-type: decimal;
 }
 
@@ -95,23 +95,23 @@
 
 .eevenkoto-list--sm {
   --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-sm);
-  --eevenkoto-list-item-gap: var(--eevenkoto-space-2);
+  --eevenkoto-list-item-gap: var(--eevenkoto-space-1);
 }
 
 .eevenkoto-list--md {
   --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-md);
-  --eevenkoto-list-item-gap: var(--eevenkoto-space-3);
+  --eevenkoto-list-item-gap: var(--eevenkoto-space-2);
 }
 
 .eevenkoto-list--lg {
   --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-lg);
-  --eevenkoto-list-item-gap: var(--eevenkoto-space-4);
+  --eevenkoto-list-item-gap: var(--eevenkoto-space-3);
 }
 
 /* Nested lists: tighter indent, no extra block margin. */
 .eevenkoto-list .eevenkoto-list,
 .eevenkoto-list :where(li) > .eevenkoto-list,
-.eevenkoto-prose :where(li) > :where(ul, ol) {
+.eevenkoto-prose :where(li) > :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"], .eevenkoto-menu *)) {
   --eevenkoto-list-margin-block: var(--eevenkoto-list-nested-margin-block, 0);
   --eevenkoto-list-pad-inline-start: var(
     --eevenkoto-list-nested-pad-inline-start,
@@ -121,9 +121,8 @@
 }
 
 /* Item look from the list host — bare <li> is enough (no .eevenkoto-list-item). */
-ul.eevenkoto-list :where(li),
-ol.eevenkoto-list :where(li),
-.eevenkoto-prose :where(li) {
+:where(ul, ol).eevenkoto-list > :where(li),
+.eevenkoto-prose :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"], .eevenkoto-menu *)) > :where(li) {
   --_eevenkoto-list-item-pad-block: var(
     --eevenkoto-list-item-pad-block,
     0
@@ -137,16 +136,25 @@ ol.eevenkoto-list :where(li),
   line-height: inherit;
 }
 
-ul.eevenkoto-list :where(li)::marker,
-ol.eevenkoto-list :where(li)::marker,
-.eevenkoto-prose :where(li)::marker {
+:where(ul, ol).eevenkoto-list > :where(li)::marker,
+.eevenkoto-prose :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"], .eevenkoto-menu *)) > :where(li)::marker {
   color: var(--_eevenkoto-list-marker-color);
 }
 
-ul.eevenkoto-list :where(li) + :where(li),
-ol.eevenkoto-list :where(li) + :where(li),
-.eevenkoto-prose :where(li) + :where(li) {
+:where(ul, ol).eevenkoto-list > :where(li) + :where(li),
+.eevenkoto-prose :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"], .eevenkoto-menu *)) > :where(li) + :where(li) {
   margin-block-start: var(--_eevenkoto-list-item-gap);
+}
+
+/* Loose Markdown lists wrap item copy in <p>; keep item spacing single-spaced. */
+:where(ul, ol).eevenkoto-list > :where(li) > :is(.eevenkoto-paragraph, p),
+.eevenkoto-prose :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"], .eevenkoto-menu *)) > :where(li) > :where(p) {
+  margin-block: 0;
+}
+
+:where(ul, ol).eevenkoto-list > :where(li) > :is(.eevenkoto-paragraph, p) + :is(.eevenkoto-paragraph, p),
+.eevenkoto-prose :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"], .eevenkoto-menu *)) > :where(li) > :where(p) + :where(p) {
+  margin-block-start: var(--eevenkoto-space-2);
 }
 
 .eevenkoto-list--checklist > :where(li) + :where(li) {

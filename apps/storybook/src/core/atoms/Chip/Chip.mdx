@@ -102,13 +102,60 @@ Pass `swatchColor` to compose a decorative `sm` [Swatch](?path=/docs/core-atoms-
 
 <ArgTypes of={ChipStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-chip-bg` | Chip fill |
+| `--eevenkoto-chip-text` | Chip label color |
+| `--eevenkoto-chip-border-color` | Border color |
+| `--eevenkoto-chip-border-width` | Border width |
+| `--eevenkoto-chip-radius` | Corner radius |
+| `--eevenkoto-chip-pad-block` / `--eevenkoto-chip-pad-inline` | Padding |
+| `--eevenkoto-chip-gap` | Gap between leading swatch/icon and label |
+| `--eevenkoto-chip-font-size` | Font size (`control-*`) |
+| `--eevenkoto-chip-font-weight` | Font weight |
+
 ## Framework packages
 
+`chip.css` imports `icon.css` and `swatch.css` automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/chip.css';
 import { renderChip } from '@eevenkoto/html';
 
 renderChip({ label: 'Seuraaja', selected: true, size: 'sm' });
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/chip.css';
+import { Chip } from '@eevenkoto/react';
+
+<Chip label="Seuraaja" selected size="sm" />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/chip.css';
+import { Chip } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Chip label="Seuraaja" :selected="true" size="sm" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/chip.css';
+import { Chip } from '@eevenkoto/astro';
+---
+
+<Chip label="Seuraaja" selected size="sm" />
 ```
 
 Related: [Swatch](?path=/docs/core-atoms-swatch--docs) · [Icon](?path=/docs/core-atoms-icon--docs) · [Badge](?path=/docs/core-atoms-badge--docs) · [StatusDot](?path=/docs/core-atoms-statusdot--docs) · [SegmentedControl](?path=/docs/core-molecules-segmentedcontrol--docs) · [Button](?path=/docs/core-atoms-button--docs)

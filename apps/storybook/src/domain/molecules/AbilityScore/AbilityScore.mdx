@@ -103,6 +103,8 @@ Default chip borders and ability labels use parchment **`content-accent`**. When
 | `saveProficient` | `boolean` | `false` | Emphasized shield + proficient suffix in the hidden term. |
 | `proficientLabel` | `string` | `'proficient'` | Suffix inside the hidden save term when proficient. |
 
+<ArgTypes of={AbilityScoreStories} />
+
 ```ts
 export interface AbilityScoreProps {
   label: string;
@@ -134,13 +136,18 @@ export interface AbilityScoreProps {
 
 | Token | Purpose |
 | --- | --- |
-| `--eevenkoto-ability-score-label-color` | Column header ink (defaults to parchment `content-accent`) |
+| `--eevenkoto-ability-score-label-color` | Column header ink (defaults to `content-accent`) |
+| `--eevenkoto-ability-score-label-border` | Column header accent underline (`content-accent`) |
+| `--eevenkoto-ability-score-label-bg` | Column header background (`transparent`) |
+| `--eevenkoto-ability-score-pad-block` | Column block padding (`space-2`) |
+| `--eevenkoto-ability-score-pad-inline` | Column inline padding (`space-3`) |
 
-Required CSS: `stat.css`, `ability-score.css`.
+Required CSS: `stat.css`, `ability-score.css` (group sandwich tokens `--eevenkoto-ability-score-group-*` live in the same stylesheet — see [AbilityScoreGroup](?path=/docs/domain-organisms-abilityscoregroup--docs)).
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/stat.css';
 import '@eevenkoto/css/ability-score.css';
 import { renderAbilityScore } from '@eevenkoto/html';
@@ -159,6 +166,7 @@ renderAbilityScore({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/stat.css';
 import '@eevenkoto/css/ability-score.css';
 import { AbilityScore } from '@eevenkoto/react';
@@ -178,6 +186,7 @@ import { AbilityScore } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/stat.css';
 import '@eevenkoto/css/ability-score.css';
 import { AbilityScore } from '@eevenkoto/vue';
@@ -196,6 +205,27 @@ import { AbilityScore } from '@eevenkoto/vue';
     save-label="Pelastus"
   />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
+import { AbilityScore } from '@eevenkoto/astro';
+---
+
+<AbilityScore
+  label="Karisma"
+  score="16"
+  modifier="+3"
+  save="+5"
+  saveProficient
+  proficientLabel="pätevä"
+  scoreLabel="Arvo"
+  modifierLabel="Muuttuja"
+  saveLabel="Pelastus"
+/>
 ```
 
 ## Related

@@ -21,6 +21,7 @@ const meta: Meta<InputProps> = {
     },
     value: { control: 'text' },
     id: { control: 'text' },
+    name: { control: 'text', description: 'Native `<input name>` attribute.' },
     ariaLabel: {
       control: 'text',
       description:
@@ -41,8 +42,13 @@ const meta: Meta<InputProps> = {
       table: { defaultValue: { summary: 'md' } },
     },
     search: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
+    icon: {
+      control: 'text',
+      description: 'Optional leading icon HTML override (defaults to `search` glyph when `search` is true).',
+    },
     invalid: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
     disabled: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
+    fullWidth: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
   },
   render: (args) => renderInput(args),
 };

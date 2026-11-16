@@ -60,7 +60,6 @@
   font-family: var(--eevenkoto-font-sans);
   font-size: var(--_eevenkoto-select-font-size);
   line-height: var(--eevenkoto-line-height-body);
-  text-box: normal;
   transition:
     background var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
     border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
@@ -81,7 +80,6 @@
   font-size: inherit;
   line-height: inherit;
   cursor: pointer;
-  text-box: normal;
 }
 
 .eevenkoto-select__field:focus {

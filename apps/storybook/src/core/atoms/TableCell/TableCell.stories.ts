@@ -31,6 +31,19 @@ const meta: Meta<TableCellProps> = {
       control: 'select',
       options: ['col', 'row', 'colgroup', 'rowgroup', undefined],
     },
+    inTable: {
+      control: 'boolean',
+      description: 'Inside `Table`, omit redundant `eevenkoto-table-cell` host class when `kind` is default.',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    tabIndex: {
+      control: 'number',
+      description: 'Optional `tabindex` attribute on `<th>` / `<td>`.',
+    },
+    attributes: {
+      control: 'object',
+      description: 'Safe pass-through `data-*`, `aria-*`, `id`, or `title` attributes.',
+    },
   },
   args: {
     text: '12',

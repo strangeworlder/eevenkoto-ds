@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Prose
 
-Prose is the scope host for **bare** `h1`–`h6`, `p`, `ul`, `ol`, `li`, and unclassed `a` links. Those tags receive the same default look as `eevenkoto-heading` / `eevenkoto-paragraph` / `eevenkoto-list` and Tier 2 `link-*` tokens. Prose does **not** own vertical rhythm — compose with [Flow](?path=/docs/core-molecules-flow--docs). Printing the outermost Prose host columnizes long articles; nested Prose sections do not ([Print columns](?path=/docs/foundations-print-columns--docs)).
+Prose is the scope host for **bare** `h1`–`h6`, `p`, `ul`, `ol`, `li`, `hr`, `blockquote`, `dl` (`dt`/`dd`), `img`, and unclassed `a` links. Those tags receive the same default look as `eevenkoto-heading` / `eevenkoto-paragraph` / `eevenkoto-list` / `eevenkoto-divider` and Tier 2 `link-*` tokens, while `:where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"]))` prevents Prose rules from bleeding into nested DS components. Prose trims leading/trailing block margins on its first and last direct children and gives boxed DS blocks (`Notice`, `Card`, `Table`, `Statblock`, `Spellblock`, `EquipmentBlock`, `Workshop`, etc.) `space-6` block breathing room when used standalone; compose with [Flow](?path=/docs/core-molecules-flow--docs) for full pair-aware vertical rhythm. Printing the outermost Prose host columnizes long articles; nested Prose sections do not ([Print columns](?path=/docs/foundations-print-columns--docs)).
 
 <Canvas of={ProseStories.Default} />
 
@@ -51,6 +51,8 @@ Prose is the scope host for **bare** `h1`–`h6`, `p`, `ul`, `ol`, `li`, and unc
 CMS HTML, markdown, and editorial content often ship tags without DS classes. Prose opts those tags into the type system without restyling every `h1`/`p`/`ul` in the document.
 
 ## When to use
+
+Use Prose around rendered Markdown, CMS HTML, or long-form editorial sections where elements arrive without BEM classes; add `eevenkoto-flow` alongside `eevenkoto-prose` when you want pair-aware vertical rhythm.
 
 <DoDont
   do={
@@ -100,7 +102,7 @@ Tag inference yields to an explicit `--N` modifier on a classed heading (same ca
 
 ## Imports
 
-`prose.css` pulls in `heading.css`, `paragraph.css`, and `list.css`, so bare tags under Prose match classed Heading / Paragraph / **List** (`.eevenkoto-list`). Add Flow when you need pair-aware rhythm:
+`prose.css` pulls in `heading.css`, `paragraph.css`, `list.css`, and `divider.css`, so bare tags under Prose match classed Heading / Paragraph / **List** (`.eevenkoto-list`) / **Divider** (`<hr>`). Add Flow when you need pair-aware rhythm:
 
 ```ts
 import '@eevenkoto/css/prose.css';
@@ -111,14 +113,30 @@ Import `list.css` on its own when you use classed `<ul class="eevenkoto-list">` 
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `content` | `string` | — | HTML package: inner HTML string (`children` / default slot in React, Vue, and Astro). |
+
 <ArgTypes of={ProseStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-prose-blockquote-border` | Bare `<blockquote>` inline-start border (`boundary-strong`) |
+| `--eevenkoto-prose-blockquote-color` | Bare `<blockquote>` text color (`content-secondary`) |
+| `--eevenkoto-prose-link-color` | Bare `<a href>` resting ink (`link-default`) |
+| `--eevenkoto-prose-link-underline` | Bare `<a href>` underline color (`link-underline`) |
+| `--eevenkoto-prose-link-visited` | Bare `<a href>:visited` ink (`link-visited`) |
 
 ## Framework packages
 
-HTML takes a `content` string. React/Vue use children / the default slot.
+`prose.css` imports `heading.css`, `paragraph.css`, `list.css`, and `divider.css` automatically. Compose with `@eevenkoto/css/flow.css` (`class="eevenkoto-flow"`) for vertical rhythm. HTML takes a `content` string; React, Vue, and Astro use children / the default slot.
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/prose.css';
+import '@eevenkoto/css/flow.css';
 import { renderProse } from '@eevenkoto/html';
 
 renderProse({
@@ -127,6 +145,9 @@ renderProse({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/prose.css';
+import '@eevenkoto/css/flow.css';
 import { Prose } from '@eevenkoto/react';
 
 <Prose className="eevenkoto-flow">
@@ -140,6 +161,9 @@ import { Prose } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/prose.css';
+import '@eevenkoto/css/flow.css';
 import { Prose } from '@eevenkoto/vue';
 </script>
 
@@ -152,6 +176,23 @@ import { Prose } from '@eevenkoto/vue';
     </ul>
   </Prose>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/prose.css';
+import '@eevenkoto/css/flow.css';
+import { Prose } from '@eevenkoto/astro';
+---
+
+<Prose class="eevenkoto-flow">
+  <h1>Title</h1>
+  <p>Body.</p>
+  <ul>
+    <li>Item</li>
+  </ul>
+</Prose>
 ```
 
 ## Related

@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/flow.css';
+import '@eevenkoto/css/icon.css';
 import '@eevenkoto/css/segmented-control.css';
 import { renderSegmentedControl, type SegmentedControlProps } from '@eevenkoto/html';
 
@@ -62,6 +64,18 @@ const meta: Meta<SegmentedControlProps> = {
     selectedId: {
       control: 'text',
       description: 'Initial checked radio or aria-current link.',
+    },
+    fullWidth: {
+      control: 'boolean',
+      description: 'Stretches the track across its container (`eevenkoto-segmented-control--full-width`).',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
+    options: {
+      control: 'object',
+      description: 'Segment options (`SegmentedControlOption[]`).',
     },
   },
   render: (args) => renderSegmentedControl(args),

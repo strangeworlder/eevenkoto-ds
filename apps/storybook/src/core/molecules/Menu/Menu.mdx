@@ -198,10 +198,10 @@ When `.eevenkoto-menu` is a direct child of `.eevenkoto-popover`, Menu automatic
 
 | Entry `kind` | Fields |
 | --- | --- |
-| `item` (default) | `id`, `label`, `icon?`, `tone?` (`'default' \| 'destructive'`), `href?`, `selected?`, `disabled?`, `locked?`, `lockedLabel?`, `status?`, `statusLabel?` |
-| `header` | `label` |
-| `separator` | — |
-| `group` | `id`, `label`, `icon?`, `expanded?`, `children: MenuEntry[]` |
+| `item` (default) | `id`, `label`, `icon?`, `tone?` (`'default' \| 'destructive'`), `href?`, `selected?`, `disabled?`, `locked?`, `lockedLabel?`, `status?`, `statusLabel?`, `attributes?` (`MenuAttributes` for framework hooks such as HTMX / data attributes) |
+| `header` | `id?`, `label`, `attributes?` |
+| `separator` | `id?`, `attributes?` |
+| `group` | `id`, `label`, `icon?`, `expanded?`, `attributes?`, `children: MenuEntry[]` |
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -209,6 +209,7 @@ When `.eevenkoto-menu` is a direct child of `.eevenkoto-popover`, Menu automatic
 | `label` | `string` | — | Accessible name (`aria-label` on `nav`). |
 | `size` | `'sm' \| 'md'` | `'md'` | Shared control size ladder (`eevenkoto-menu--sm` / `--md`). |
 | `embedded` | `boolean` | `false` | Transparent flush surface for sidebars. |
+| `id` | `string` | — | Host `<nav id>` (React, Vue, and Astro HTML attributes). |
 
 <ArgTypes of={MenuStories} />
 
@@ -235,21 +236,28 @@ Parents may contextualize Menu via public Tier 3 custom properties (bridged priv
 
 | Token | Purpose |
 | --- | --- |
-| `--eevenkoto-menu-bg` / `-noise` | Plaque surface fill and parchment grain |
-| `--eevenkoto-menu-border-color` / `-border-width` / `-shadow` | Plaque framing and depth |
-| `--eevenkoto-menu-radius` / `-pad-block` / `-pad-inline` | Plaque geometry |
-| `--eevenkoto-menu-min-inline-size` | Minimum plaque width (`18rem` default; `0` when embedded) |
-| `--eevenkoto-menu-header-text` / `-header-border-color` | Section header & root summary ink / rule |
-| `--eevenkoto-menu-tree-border-color` / `-tree-offset` / `-indent` | Nested branch guide rail & indentation |
-| `--eevenkoto-menu-item-bg` / `-text` / `-border-color` / `-icon` | Resting row tuple |
-| `--eevenkoto-menu-item-bg-hover` / `-text-hover` / `-border-color-hover` | Unselected hover tuple |
-| `--eevenkoto-menu-item-selected-bg` / `-selected-text` / `-selected-border-color` | Selected row tuple |
-| `--eevenkoto-menu-item-pad-block` / `-item-pad-inline` / `-item-radius` | Row geometry |
-| `--eevenkoto-menu-chevron` | Disclosure chevron color |
+| `--eevenkoto-menu-bg` / `--eevenkoto-menu-noise` | Plaque surface fill and parchment grain |
+| `--eevenkoto-menu-border-color` / `--eevenkoto-menu-border-width` / `--eevenkoto-menu-shadow` | Plaque framing and depth |
+| `--eevenkoto-menu-radius` / `--eevenkoto-menu-pad-block` / `--eevenkoto-menu-pad-inline` | Plaque geometry |
+| `--eevenkoto-menu-min-inline-size` / `--eevenkoto-menu-font-size` / `--eevenkoto-menu-row-gap` | Plaque minimum width, font size, and row spacing |
+| `--eevenkoto-menu-header-text` / `--eevenkoto-menu-header-border-color` / `--eevenkoto-menu-separator-color` | Section header ink, header rule, and `<hr>` separator |
+| `--eevenkoto-menu-tree-border-color` / `--eevenkoto-menu-tree-offset` / `--eevenkoto-menu-indent` | Nested branch guide rail and indentation |
+| `--eevenkoto-menu-item-bg` / `--eevenkoto-menu-item-text` / `--eevenkoto-menu-item-border-color` / `--eevenkoto-menu-item-border-start-width` / `--eevenkoto-menu-item-icon` | Resting row tuple |
+| `--eevenkoto-menu-item-gradient-start` / `--eevenkoto-menu-item-gradient-middle` / `--eevenkoto-menu-item-gradient-end` | Row surface gradient stops |
+| `--eevenkoto-menu-item-pad-block` / `--eevenkoto-menu-item-pad-inline` / `--eevenkoto-menu-item-radius` | Row geometry |
+| `--eevenkoto-menu-item-font-family` / `--eevenkoto-menu-item-font-weight` | Row typography |
+| `--eevenkoto-menu-item-text-shadow` / `--eevenkoto-menu-item-box-shadow` / `--eevenkoto-menu-item-nudge` | Row depth shadows and hover nudge |
+| `--eevenkoto-menu-item-bg-hover` / `--eevenkoto-menu-item-text-hover` / `--eevenkoto-menu-item-border-color-hover` / `--eevenkoto-menu-item-icon-hover` | Unselected hover tuple |
+| `--eevenkoto-menu-item-selected-bg` / `--eevenkoto-menu-item-selected-text` / `--eevenkoto-menu-item-selected-border-color` / `--eevenkoto-menu-item-selected-icon` / `--eevenkoto-menu-item-selected-bg-hover` | Selected row tuple |
+| `--eevenkoto-menu-item-destructive-text` / `--eevenkoto-menu-item-destructive-icon` | Destructive row resting tuple |
+| `--eevenkoto-menu-item-destructive-bg-hover` / `--eevenkoto-menu-item-destructive-text-hover` / `--eevenkoto-menu-item-destructive-border-color-hover` / `--eevenkoto-menu-item-destructive-icon-hover` | Destructive row hover tuple |
+| `--eevenkoto-menu-item-bg-disabled` / `--eevenkoto-menu-item-text-disabled` / `--eevenkoto-menu-item-border-color-disabled` / `--eevenkoto-menu-item-icon-disabled` / `--eevenkoto-menu-item-destructive-text-disabled` / `--eevenkoto-menu-item-destructive-icon-disabled` | Disabled row tuples |
+| `--eevenkoto-menu-icon-filter` / `--eevenkoto-menu-lock-color` | Leading icon drop-shadow filter and trailing lock color |
+| `--eevenkoto-menu-chevron` / `--eevenkoto-menu-chevron-mask` | Disclosure chevron color and mask image |
 
 ## Framework packages
 
-Hand-authored HTML is the reference. `renderMenu` emits the same tags from `entries`.
+`menu.css` imports `icon.css` and `status-dot.css` automatically. Hand-authored HTML is the reference; `renderMenu` emits the same tags from `entries`.
 
 ```ts
 import '@eevenkoto/css/styles.css';
@@ -278,19 +286,69 @@ import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/menu.css';
 import { Menu } from '@eevenkoto/react';
 
-<Menu label="Worldbook" entries={entries} />
+<Menu
+  label="Worldbook"
+  entries={[
+    {
+      kind: 'group',
+      id: 'species',
+      label: 'Lajit',
+      expanded: true,
+      children: [
+        { id: 'human', label: 'Ihminen', href: '/lajit/ihminen', selected: true },
+        { id: 'troll', label: 'Peikko', href: '/lajit/peikko' },
+      ],
+    },
+  ]}
+/>
 ```
 
 ```vue
-<script setup>
+<script setup lang="ts">
 import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/menu.css';
-import { Menu } from '@eevenkoto/vue';
+import { Menu, type MenuEntry } from '@eevenkoto/vue';
+
+const entries: MenuEntry[] = [
+  {
+    kind: 'group',
+    id: 'species',
+    label: 'Lajit',
+    expanded: true,
+    children: [
+      { id: 'human', label: 'Ihminen', href: '/lajit/ihminen', selected: true },
+      { id: 'troll', label: 'Peikko', href: '/lajit/peikko' },
+    ],
+  },
+];
 </script>
 
 <template>
   <Menu label="Worldbook" :entries="entries" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/menu.css';
+import { Menu, type MenuEntry } from '@eevenkoto/astro';
+
+const entries: MenuEntry[] = [
+  {
+    kind: 'group',
+    id: 'species',
+    label: 'Lajit',
+    expanded: true,
+    children: [
+      { id: 'human', label: 'Ihminen', href: '/lajit/ihminen', selected: true },
+      { id: 'troll', label: 'Peikko', href: '/lajit/peikko' },
+    ],
+  },
+];
+---
+
+<Menu label="Worldbook" entries={entries} />
 ```
 
 The host is `<nav>`, not `role="menu"`. Add menu semantics and arrow-key handling in the app only when you also implement the keyboard contract. Nested expand/collapse uses native `<details>`.

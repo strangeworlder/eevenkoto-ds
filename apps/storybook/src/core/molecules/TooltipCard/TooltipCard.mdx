@@ -137,7 +137,88 @@ import { renderTooltipCard } from '@eevenkoto/html';
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `title` | `string` | — | Visible heading inside `<header>`. |
+| `titleLevel` | `2 \| 3` | `2` | Heading level (`h2` or `h3`) for `title`. |
+| `header` | `string` / slot | — | Custom `<header>` content (`header` prop in HTML/React; `#header` / `slot="header"` in Vue/Astro). |
+| `body` | `string` | — | Plain-text body copy rendered in `__body` (compact `body-sm` interior rhythm). |
+| `bodyHtml` | `string` | — | Trusted pre-rendered HTML for `__body` (takes precedence over `body`). |
+| `content` | `string` / slot | — | Scrollable body content (`content` in `@eevenkoto/html`; `children` / default slot in React, Vue, and Astro). |
+| `footer` | `string` / slot | — | Pinned footer content inside `<footer>`. |
+| `flush` | `boolean` | `false` | Zeroes `__body` padding for full-bleed embedded blocks (`eevenkoto-tooltip-card--flush`). |
+| `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={TooltipCardStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-tooltip-card-bg` | Card fill (`surface-raised`) |
+| `--eevenkoto-tooltip-card-text` | Body ink (`content-primary`) |
+| `--eevenkoto-tooltip-card-muted` | Muted metadata/footer ink (`content-secondary`) |
+| `--eevenkoto-tooltip-card-divider` | Header/footer divider hairline (`boundary-subtle`) |
+| `--eevenkoto-tooltip-card-border-color` | Standalone frame border (`boundary-subtle`) |
+| `--eevenkoto-tooltip-card-border-width` | Standalone frame border width (`line-width-sm`) |
+| `--eevenkoto-tooltip-card-radius` | Standalone corner radius (`radius-md`) |
+| `--eevenkoto-tooltip-card-pad-block` / `--eevenkoto-tooltip-card-pad-inline` | Header and footer padding |
+| `--eevenkoto-tooltip-card-body-pad` | Scrollable body padding (`0` when `flush`) |
+| `--eevenkoto-tooltip-card-gap` | Gap inside body sections |
+| `--eevenkoto-tooltip-card-shadow` | Standalone elevation shadow |
+| `--eevenkoto-tooltip-card-max-inline-size` | Max card inline width (`32rem`) |
+| `--eevenkoto-tooltip-card-body-max-block-size` | Max scrollable body height (`16rem`) |
+
+## Framework packages
+
+`tooltip-card.css` imports `prose.css` automatically. Nest directly inside `Popover` to shed duplicate outer border/shadow.
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/tooltip-card.css';
+import { renderTooltipCard } from '@eevenkoto/html';
+
+renderTooltipCard({
+  title: 'Paralyzed',
+  body: 'A paralyzed creature is incapacitated and cannot move or speak.',
+});
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/tooltip-card.css';
+import { TooltipCard } from '@eevenkoto/react';
+
+<TooltipCard title="Paralyzed">
+  <p>A paralyzed creature is incapacitated and cannot move or speak.</p>
+</TooltipCard>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/tooltip-card.css';
+import { TooltipCard } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <TooltipCard title="Paralyzed">
+    <p>A paralyzed creature is incapacitated and cannot move or speak.</p>
+  </TooltipCard>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/tooltip-card.css';
+import { TooltipCard } from '@eevenkoto/astro';
+---
+
+<TooltipCard title="Paralyzed">
+  <p>A paralyzed creature is incapacitated and cannot move or speak.</p>
+</TooltipCard>
+```
 
 ## Related
 

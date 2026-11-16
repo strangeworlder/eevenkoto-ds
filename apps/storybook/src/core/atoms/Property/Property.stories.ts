@@ -15,6 +15,14 @@ const meta: Meta<PropertyProps> = {
   argTypes: {
     label: { control: 'text' },
     value: { control: 'text' },
+    valueHtml: {
+      control: 'text',
+      description: 'Trusted pre-rendered inline HTML for <dd> (takes precedence over value).',
+    },
+    meta: {
+      control: 'object',
+      description: 'Optional secondary metadata line(s) stacked below value.',
+    },
   },
   render: (args) => `<dl class="eevenkoto-property-list">${renderProperty(args)}</dl>`,
 };

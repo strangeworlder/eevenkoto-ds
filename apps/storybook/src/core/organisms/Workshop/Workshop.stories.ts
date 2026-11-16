@@ -79,6 +79,8 @@ const meta: Meta<WorkshopProps> = {
     },
   },
   argTypes: {
+    id: { control: 'text', description: 'Explicit host `<div id>`.' },
+    idSuffix: { control: 'text', description: 'Generates `id="workshop{idSuffix}"` when `id` is omitted.' },
     label: { control: 'text', description: 'Optional accessible region label.' },
     layout: {
       control: 'inline-radio',

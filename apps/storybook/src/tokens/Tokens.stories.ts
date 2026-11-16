@@ -280,6 +280,7 @@ const fontWeights: Token[] = [
 
 const lineHeights: Token[] = [
   { name: 'Tight', variable: '--eevenkoto-line-height-tight' },
+  { name: 'Snug', variable: '--eevenkoto-line-height-snug' },
   { name: 'Body', variable: '--eevenkoto-line-height-body' },
 ];
 

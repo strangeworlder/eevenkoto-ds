@@ -104,6 +104,8 @@ Gap between title and features uses `--eevenkoto-statblock-section-gap` (default
 | `bodyHtml` | `string` | — | Optional introductory HTML before `features`. |
 | `features` | `StatblockFeatureProps[]` | — | Stacked feature entries (default `level` cascades to `titleLevel + 1`). |
 
+<ArgTypes of={StatblockSectionStories} />
+
 ```ts
 export interface StatblockSectionProps {
   title: string;
@@ -130,6 +132,11 @@ Required CSS: `heading.css`, `paragraph.css`, `statblock-feature.css`, `statbloc
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/statblock-section.css';
 import { renderStatblockSection } from '@eevenkoto/html';
 
 renderStatblockSection({
@@ -139,6 +146,11 @@ renderStatblockSection({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/statblock-section.css';
 import { StatblockSection } from '@eevenkoto/react';
 
 <StatblockSection
@@ -158,6 +170,11 @@ import { StatblockSection } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/statblock-section.css';
 import { StatblockSection } from '@eevenkoto/vue';
 
 const features = [{ name: 'Kalpa', description: 'Lähitaisteluhyökkäys: +3…' }];
@@ -166,6 +183,21 @@ const features = [{ name: 'Kalpa', description: 'Lähitaisteluhyökkäys: +3…'
 <template>
   <StatblockSection title="Toiminnot" :features="features" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/statblock-section.css';
+import { StatblockSection } from '@eevenkoto/astro';
+
+const features = [{ name: 'Kalpa', descriptionHtml: '<em>Lähitaisteluhyökkäys:</em> +3…' }];
+---
+
+<StatblockSection title="Toiminnot" features={features} />
 ```
 
 ## Related

@@ -38,9 +38,22 @@ One accessible, token-driven pattern for consent and announcement bars: `aside` 
 
 <ArgTypes of={FloatingBannerStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-floating-banner-bg` | Banner surface (`surface-raised`) |
+| `--eevenkoto-floating-banner-text` | Copy ink (`content-secondary`) |
+| `--eevenkoto-floating-banner-border-color` | Frame border (`boundary-strong`) |
+| `--eevenkoto-floating-banner-link-color` | Inline link ink (`link-default`) |
+| `--eevenkoto-floating-banner-shadow` | Elevation shadow |
+
 ## Framework packages
 
+`floating-banner.css` imports `button.css` automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/floating-banner.css';
 import { renderFloatingBanner } from '@eevenkoto/html';
 
@@ -48,9 +61,56 @@ renderFloatingBanner({ open: true, ariaLabel: 'Cookie notice', body: '…', conf
 ```
 
 ```tsx
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/floating-banner.css';
 import { FloatingBanner } from '@eevenkoto/react';
 
-<FloatingBanner open ariaLabel="Cookie notice" confirmLabel="OK" onConfirm={dismiss}>
+export function CookieBanner() {
+  const [open, setOpen] = useState(true);
+  return (
+    <FloatingBanner
+      open={open}
+      ariaLabel="Cookie notice"
+      confirmLabel="OK"
+      onConfirm={() => setOpen(false)}
+    >
+      We only use essential cookies.
+    </FloatingBanner>
+  );
+}
+```
+
+```vue
+<script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/floating-banner.css';
+import { FloatingBanner } from '@eevenkoto/vue';
+
+const open = ref(true);
+</script>
+
+<template>
+  <FloatingBanner
+    :open="open"
+    aria-label="Cookie notice"
+    confirm-label="OK"
+    @confirm="open = false"
+  >
+    We only use essential cookies.
+  </FloatingBanner>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/floating-banner.css';
+import { FloatingBanner } from '@eevenkoto/astro';
+---
+
+<FloatingBanner open ariaLabel="Cookie notice" confirmLabel="OK">
   We only use essential cookies.
 </FloatingBanner>
 ```

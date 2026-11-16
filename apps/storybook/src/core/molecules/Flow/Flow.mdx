@@ -45,11 +45,11 @@ Flow is the vertical rhythm container for stacked primitives. It resets child bl
 
 ## Why to use
 
-Type primitives need default margins for standalone stories, but those margins **stack** in compositions — especially with global `text-box` trim removing half-leading. Flow owns the gaps instead.
+Type primitives carry default block margins for standalone stories, but bare margins collapse unpredictably in mixed stacks and boxed components (`Notice`, `Card`, `TableShell`, `Divider`) need consistent outer separation around them. Flow resets child block margins and applies pair-aware `margin-block-start` gaps instead.
 
 ## When to use
 
-Wrap any vertical stack of Heading / Paragraph / Caption / List (and nested Flows) in `eevenkoto-flow`. For bare CMS/`h*`/`p`/`ul`/`ol` markup, compose with [Prose](?path=/docs/core-molecules-prose--docs) (`eevenkoto-prose eevenkoto-flow`).
+Wrap any vertical stack of Heading / Paragraph / Caption / List, boxed blocks, and nested Flows in `eevenkoto-flow`. For bare CMS/`h*`/`p`/`ul`/`ol` markup, compose with [Prose](?path=/docs/core-molecules-prose--docs) (`eevenkoto-prose eevenkoto-flow`).
 
 <DoDont
   do={
@@ -80,29 +80,57 @@ Wrap any vertical stack of Heading / Paragraph / Caption / List (and nested Flow
 
 ## Pair rules (defaults)
 
-Gaps use `padding-block-start` on the following sibling (not stacked margins), so rhythm survives margin collapse and global `text-box` trim.
+Gaps use `margin-block-start` on the following sibling, so bordered, shaded, and padded children (`Notice`, `Card`, `TableShell`, `H5` sunken band) receive true outer separation rather than internal padding.
 
 | Adjacent pair | Gap token fallback |
 | --- | --- |
 | Generic sibling | `--eevenkoto-space-4` |
-| Heading → Paragraph / Caption / List | `--eevenkoto-space-4` |
-| Paragraph / Caption / List → Heading | `--eevenkoto-space-8` |
-| → H1 / H2 | `--eevenkoto-space-8` |
+| Heading 1 / 2 → content or child heading | `--eevenkoto-space-4` |
+| Heading 3 / 4 → content | `--eevenkoto-space-2` |
+| Heading 5 → content | `--eevenkoto-space-3` |
+| Heading 6 → content | `--eevenkoto-space-1` |
+| Heading 3–6 → child heading | `--eevenkoto-space-3` |
+| Non-heading → Heading 1 / 2 | `--eevenkoto-space-8` |
+| Non-heading → Heading 3–5 | `--eevenkoto-space-6` |
+| Non-heading → Heading 6 | `--eevenkoto-space-4` |
 | Paragraph ↔ Paragraph / List | `--eevenkoto-space-4` |
+| Boxed blocks (`Notice`, `Card`, `TableShell`, …) ↔ prose / Divider (`hr`) | `--eevenkoto-space-6` |
 | → Caption | `--eevenkoto-space-2` |
 | Nested Flow → Flow | `--eevenkoto-space-8` |
-| Run-in H6 → Paragraph | `0` (inline) |
+| Run-in Heading → Paragraph | `0` (inline) |
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `density` | `'tight' \| 'loose'` | — | Optional vertical rhythm scale (`eevenkoto-flow--tight` / `--loose`). |
+| `content` | `string` | — | HTML package: inner HTML (`children` / default slot in React, Vue, and Astro). |
+| `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={FlowStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-flow-gap` | Base sibling rhythm (`space-4` default; `space-2` in `--tight`, `space-6` in `--loose`) |
+| `--eevenkoto-flow-gap-block` | Gap around boxed DS surfaces (`space-6` default; `space-4` in `--tight`, `space-8` in `--loose`) |
+| `--eevenkoto-flow-gap-after-heading` | Pair gap immediately after H1–H2 (`space-4` default; `space-2` in `--tight`) |
+| `--eevenkoto-flow-gap-after-subheading` | Pair gap immediately after H3–H4 (`space-2` default; `space-1` in `--tight`, `space-3` in `--loose`) |
+| `--eevenkoto-flow-gap-before-heading` | Section break gap before H3–H5 (`space-6` default; `space-4` in `--tight`, `space-8` in `--loose`) |
+| `--eevenkoto-flow-gap-before-heading-macro` | Chapter/section break gap before H1–H2 (`space-8` default; `space-6` in `--tight`) |
+| `--eevenkoto-flow-gap-paragraph` | Gap between consecutive paragraphs/lists |
+| `--eevenkoto-flow-gap-caption` | Gap between a Caption/eyebrow and its paired block (`space-2`) |
 
 ## Framework packages
 
-HTML takes a `content` string. React/Vue use children / the default slot instead.
+HTML takes a `content` string. React, Vue, and Astro use children / the default slot instead. Import the stylesheets of any child components placed inside `Flow`.
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/flow.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
 import { renderFlow, renderHeading, renderParagraph } from '@eevenkoto/html';
 
 renderFlow({
@@ -114,6 +142,10 @@ renderFlow({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/flow.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
 import { Flow, Heading, Paragraph } from '@eevenkoto/react';
 
 <Flow>
@@ -124,6 +156,10 @@ import { Flow, Heading, Paragraph } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/flow.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
 import { Flow, Heading, Paragraph } from '@eevenkoto/vue';
 </script>
 
@@ -133,6 +169,21 @@ import { Flow, Heading, Paragraph } from '@eevenkoto/vue';
     <Paragraph text="Body." />
   </Flow>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/flow.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import { Flow, Heading, Paragraph } from '@eevenkoto/astro';
+---
+
+<Flow>
+  <Heading level={2} text="Title" />
+  <Paragraph text="Body." />
+</Flow>
 ```
 
 ## Related

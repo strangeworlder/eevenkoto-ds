@@ -56,7 +56,7 @@ Interactive tools, workshops, and content authoring flows require immediate, uno
     <ul>
       <li>Use for transient success, status updates, or brief non-blocking warnings (e.g., &ldquo;Kopioitu leikepöydälle!&rdquo;).</li>
       <li>Let <code>intent</code> automatically select appropriate icons and ARIA attributes (<code>status</code> vs <code>alert</code>).</li>
-      <li>Pair with <code>placement="fixed-bottom-right"</code> or <code>fixed-bottom-center"</code> when anchoring to viewport edge.</li>
+      <li>Pair with <code>placement="fixed-bottom-right"</code> or <code>placement="fixed-bottom-center"</code> when anchoring to viewport edge.</li>
       <li>Use <code>visible={'{false}'}</code> / <code>--hidden</code> to smoothly transition out.</li>
     </ul>
   }
@@ -84,7 +84,7 @@ Solid toasts use saturated semantic backgrounds. Best reserved for high-contrast
 ## Fixed Placement
 
 Toasts can be rendered inline or anchored using viewport placement modifiers:
-- `fixed-bottom-right`: standard desktop desktop floating toast.
+- `fixed-bottom-right`: standard desktop floating toast.
 - `fixed-bottom-center`: mobile-friendly bottom banner placement.
 
 <Canvas of={ToastStories.FixedPlacement} />
@@ -94,7 +94,7 @@ Toasts can be rendered inline or anchored using viewport placement modifiers:
 Eevenkoto is a content design system, not an opinionated full-stack application framework:
 - The **Toast atom** is strictly a presentation and accessibility component (`role="status"` / `role="alert"`).
 - Dismiss timers, queueing, stacking, and portal mounting are managed by the host application or organism (such as `EquipmentWorkshop`).
-- Use CSS class `.eevenkoto-toast--hidden` (or `visible={false}`) to trigger the slide-and-fade exit transition.
+- Use CSS class `.eevenkoto-toast--hidden` (`visible={false}` or `hidden`) to trigger the slide-and-fade exit transition on fixed toasts; inline hidden toasts (`.eevenkoto-toast.eevenkoto-toast--hidden`) collapse to `display: none` so they reserve zero layout height.
 
 ## API reference
 
@@ -105,14 +105,33 @@ Eevenkoto is a content design system, not an opinionated full-stack application 
 | `variant` | `'subtle' \| 'solid'` | `'subtle'` | Fill intensity variant. |
 | `placement` | `'inline' \| 'fixed-bottom-right' \| 'fixed-bottom-center'` | `'inline'` | Positioning strategy. |
 | `visible` | `boolean` | `true` | Visibility state for entry/exit transitions. |
+| `hidden` | `boolean` | `false` | Convenience inverse alias for `visible={false}` (`eevenkoto-toast--hidden`). |
 | `icon` | `IconName \| false` | *intent default* | Optional icon override, or `false` to omit icon. |
 
 <ArgTypes of={ToastStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-toast-bg` | Surface background (`surface-raised` in subtle, `feedback-*-solid-background` in solid) |
+| `--eevenkoto-toast-text` | Message ink |
+| `--eevenkoto-toast-icon` | Leading icon color |
+| `--eevenkoto-toast-border-color` | Toast border color |
+| `--eevenkoto-toast-border-width` | Toast border width |
+| `--eevenkoto-toast-radius` | Corner radius (`radius-md`) |
+| `--eevenkoto-toast-pad-block` / `--eevenkoto-toast-pad-inline` | Padding |
+| `--eevenkoto-toast-gap` | Gap between icon and message |
+| `--eevenkoto-toast-font-size` | Font size (`control-md`) |
+| `--eevenkoto-toast-box-shadow` | Elevation shadow |
+
 ## Framework packages
+
+Import `@eevenkoto/css/icon.css` alongside `@eevenkoto/css/toast.css` (Toast renders an intent Icon unless `icon: false`).
 
 ### HTML
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/toast.css';
 import '@eevenkoto/css/icon.css';
 import { renderToast } from '@eevenkoto/html';
@@ -126,24 +145,35 @@ const html = renderToast({
 
 ### React
 ```tsx
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/toast.css';
 import '@eevenkoto/css/icon.css';
 import { Toast } from '@eevenkoto/react';
 
-<Toast
-  text="Varustetiedot kopioitu!"
-  intent="success"
-  placement="fixed-bottom-right"
-  visible={showToast}
-/>
+export function CopyFeedback() {
+  const [showToast] = useState(true);
+  return (
+    <Toast
+      text="Varustetiedot kopioitu!"
+      intent="success"
+      placement="fixed-bottom-right"
+      visible={showToast}
+    />
+  );
+}
 ```
 
 ### Vue
-```html
+```vue
 <script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/toast.css';
 import '@eevenkoto/css/icon.css';
 import { Toast } from '@eevenkoto/vue';
+
+const showToast = ref(true);
 </script>
 
 <template>
@@ -154,6 +184,22 @@ import { Toast } from '@eevenkoto/vue';
     :visible="showToast"
   />
 </template>
+```
+
+### Astro
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/toast.css';
+import '@eevenkoto/css/icon.css';
+import { Toast } from '@eevenkoto/astro';
+---
+
+<Toast
+  text="Varustetiedot kopioitu!"
+  intent="success"
+  placement="fixed-bottom-right"
+/>
 ```
 
 Related: [Notice](?path=/docs/core-molecules-notice--docs) · [Badge](?path=/docs/core-atoms-badge--docs) · [Button](?path=/docs/core-atoms-button--docs)

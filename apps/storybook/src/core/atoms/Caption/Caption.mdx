@@ -104,11 +104,30 @@ Caption’s default “secondary” tone is **not** the same token as Paragraph 
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `text` | `string` | — | Supporting or metadata copy (Astro also accepts the default slot). |
+| `tone` | `'secondary' \| 'primary' \| 'accent'` | `'secondary'` | Ink role (`secondary` maps to `content-tertiary`). |
+| `variant` | `'default' \| 'eyebrow'` | `'default'` | Sentence-case metadata or tracked uppercase kicker (`--eyebrow`). |
+| `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={CaptionStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-caption-color` | Text color (`content-tertiary` by default) |
+| `--eevenkoto-caption-font-size` | Font size (`font-size-caption`) |
+| `--eevenkoto-caption-font-family` | Font family (`font-sans`) |
+| `--eevenkoto-caption-font-weight` | Font weight |
+| `--eevenkoto-caption-line-height` | Line height (`line-height-body`) |
+| `--eevenkoto-caption-margin-block` | Outer block margin |
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/caption.css';
 import { renderCaption } from '@eevenkoto/html';
 
@@ -116,6 +135,8 @@ renderCaption({ text: 'Updated 2 hours ago' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/caption.css';
 import { Caption } from '@eevenkoto/react';
 
 <Caption text="Updated 2 hours ago" />
@@ -123,12 +144,24 @@ import { Caption } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/caption.css';
 import { Caption } from '@eevenkoto/vue';
 </script>
 
 <template>
   <Caption text="Updated 2 hours ago" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/caption.css';
+import { Caption } from '@eevenkoto/astro';
+---
+
+<Caption text="Updated 2 hours ago" />
 ```
 
 ## Related

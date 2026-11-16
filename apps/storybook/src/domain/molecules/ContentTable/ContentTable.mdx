@@ -26,21 +26,76 @@ Catalog tables mix available and gated entries. A locked row spans all columns w
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| rows | `ContentTableRow[]` | — | Data rows (`readiness`, `attributes`, `cells`) or `{ kind: "locked", notice }`. |
-| columns | `TableColumn[]` | — | As in Table. |
-| variant / stripe | as Table | — | Forwarded to Table. |
+| `rows` | `ContentTableRow[]` | **required** | Data rows (`readiness`, `attributes`, `cells`) or `{ kind: 'locked', colSpan?, notice }`. |
+| `columns` | `TableColumn[]` | **required** | Header columns (`{ key, header, kind? }`), as in [Table](?path=/docs/core-molecules-table--docs). |
+| `caption` | `string` | — | Optional `<caption>` copy forwarded to Table. |
+| `variant` | `'default' \| 'numeric' \| 'pair'` | `'default'` | Table layout recipe forwarded to Table. |
+| `stripe` | `'row' \| 'column' \| 'none'` | `'row'` | Alternating surface band forwarded to Table. |
+| `id` | `string` | — | Host `<table id>` (React, Vue, and Astro HTML attributes). |
 
 <ArgTypes of={ContentTableStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-content-table-edge-width` | Readiness stripe width on the first cell (`line-width-lg`) |
+| `--eevenkoto-content-table-edge-color` | Readiness stripe color (`transparent` default; `feedback-success-icon`, `content-accent-strong`, or `boundary-strong` by `data-readiness`) |
+
 ## Framework packages
 
+`content-table.css` imports `table.css` and `notice.css` automatically (also import `icon.css` when `locked` rows render Notice icons).
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/content-table.css';
+import '@eevenkoto/css/icon.css';
 import { renderContentTable } from '@eevenkoto/html';
+
+renderContentTable({
+  columns: [{ key: 'name', header: 'Nimi' }],
+  rows: [{ readiness: 'success', cells: ['Tulipallo'] }],
+});
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/content-table.css';
+import '@eevenkoto/css/icon.css';
 import { ContentTable } from '@eevenkoto/react';
+
+<ContentTable
+  columns={[{ key: 'name', header: 'Nimi' }]}
+  rows={[{ readiness: 'success', cells: ['Tulipallo'] }]}
+/>
+```
+
+```vue
+<script setup lang="ts">
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/content-table.css';
+import '@eevenkoto/css/icon.css';
+import { ContentTable, type ContentTableProps } from '@eevenkoto/vue';
+
+const columns: ContentTableProps['columns'] = [{ key: 'name', header: 'Nimi' }];
+const rows: ContentTableProps['rows'] = [{ readiness: 'success', cells: ['Tulipallo'] }];
+</script>
+
+<template>
+  <ContentTable :columns="columns" :rows="rows" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/content-table.css';
+import '@eevenkoto/css/icon.css';
+import { ContentTable, type ContentTableProps } from '@eevenkoto/astro';
+
+const columns: ContentTableProps['columns'] = [{ key: 'name', header: 'Nimi' }];
+const rows: ContentTableProps['rows'] = [{ readiness: 'success', cells: ['Tulipallo'] }];
+---
 
 <ContentTable columns={columns} rows={rows} />
 ```

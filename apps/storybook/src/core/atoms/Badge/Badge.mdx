@@ -168,15 +168,31 @@ export interface BadgeProps {
 }
 ```
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-badge-bg` | Fill color |
+| `--eevenkoto-badge-text` | Label color |
+| `--eevenkoto-badge-border-color` | Border color |
+| `--eevenkoto-badge-border-width` | Border width |
+| `--eevenkoto-badge-dot-color` | Status dot fill |
+| `--eevenkoto-badge-dot-size` | Status dot diameter (`0.4em`) |
+| `--eevenkoto-badge-font-size` | Type size (`control-*`) |
+| `--eevenkoto-badge-font-weight` | Type weight (`font-weight-bold`) |
+| `--eevenkoto-badge-line-height` | Line height (`line-height-tight`) |
+| `--eevenkoto-badge-pad-block` | Block padding |
+| `--eevenkoto-badge-pad-inline` | Inline padding |
+| `--eevenkoto-badge-gap` | Gap between dot and label |
+| `--eevenkoto-badge-radius` | Corner radius |
+
 ## Framework packages
 
-HTML is the reference implementation. React and Vue are thin wrappers over the same BEM classes from `@eevenkoto/core`.
+HTML is the reference implementation. React, Vue, and Astro are thin wrappers over the same BEM classes from `@eevenkoto/core`.
 
 ```bash
 npm install @eevenkoto/css @eevenkoto/html
-# or
-npm install @eevenkoto/css @eevenkoto/react
-npm install @eevenkoto/css @eevenkoto/vue
+# or @eevenkoto/react / @eevenkoto/vue / @eevenkoto/astro
 ```
 
 ```ts
@@ -194,7 +210,6 @@ import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/badge.css';
 import { Badge } from '@eevenkoto/react';
 
-<Badge label="Neutral" />
 <Badge intent="success" label="Ready" dot />
 ```
 
@@ -206,9 +221,18 @@ import { Badge } from '@eevenkoto/vue';
 </script>
 
 <template>
-  <Badge label="Neutral" />
   <Badge intent="success" label="Ready" :dot="true" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/badge.css';
+import { Badge } from '@eevenkoto/astro';
+---
+
+<Badge intent="success" label="Ready" dot />
 ```
 
 See [Packages](?path=/docs/foundations-packages--docs) for the package map.

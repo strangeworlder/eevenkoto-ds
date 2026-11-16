@@ -49,6 +49,7 @@ const meta: Meta<ShellStoryProps> = {
     },
   },
   argTypes: {
+    table: { control: 'text', description: 'Pre-rendered `Table` HTML (`children` / default slot in framework wrappers).' },
     frame: { control: 'boolean' },
     scroll: { control: 'boolean' },
     scrollAxis: {

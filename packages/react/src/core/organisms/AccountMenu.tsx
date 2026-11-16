@@ -8,7 +8,10 @@ import { Menu } from '../molecules/Menu';
 
 export type { AccountMenuProps };
 
-export type AccountMenuComponentProps = Omit<HTMLAttributes<HTMLDivElement>, 'children'> &
+export type AccountMenuComponentProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'children' | 'onToggle'
+> &
   AccountMenuProps & {
     /** Rendered at the bottom of the popover (e.g. dev tools). */
     footer?: ReactNode;

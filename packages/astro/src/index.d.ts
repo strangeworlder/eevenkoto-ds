@@ -197,7 +197,7 @@ export type AstroCommonProps = {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AstroComponent<P = Record<string, never>> = (props: P & AstroCommonProps) => any;
+export type AstroComponent<P = unknown> = (props: P & AstroCommonProps) => any;
 
 // Core — Atoms
 export declare const Avatar: AstroComponent<AvatarProps>;
@@ -211,28 +211,38 @@ export declare const Caption: AstroComponent<
 export declare const Checkbox: AstroComponent<CheckboxProps>;
 export declare const Chip: AstroComponent<Omit<ChipProps, 'label'> & { label?: string }>;
 export declare const Frame: AstroComponent;
-export declare const Heading: AstroComponent<Omit<HeadingProps, 'text'> & { text?: string }>;
+export declare const Heading: AstroComponent<
+  Omit<HeadingProps, 'text'> & { text?: string; as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' }
+>;
 export declare const Icon: AstroComponent<IconProps>;
-export declare const Image: AstroComponent<ImageProps>;
+export declare const Image: AstroComponent<ImageProps & { style?: string }>;
 export declare const InlineRef: AstroComponent<Omit<InlineRefProps, 'name'> & { name?: string }>;
 export declare const Input: AstroComponent<InputProps>;
 export declare const LinkButton: AstroComponent<
-  Omit<LinkButtonProps, 'label'> & { label?: string }
+  Omit<LinkButtonProps, 'label'> & { label?: string; tabindex?: number | string }
 >;
 export declare const ListItem: AstroComponent<ListItemProps>;
 export declare const Paragraph: AstroComponent<Omit<ParagraphProps, 'text'> & { text?: string }>;
-export declare const Popover: AstroComponent<PopoverProps & { open?: boolean }>;
+export declare const Popover: AstroComponent<
+  PopoverProps & { open?: boolean; role?: 'dialog' | 'tooltip' | 'note' | 'group' }
+>;
 export declare const Property: AstroComponent<PropertyProps>;
 export declare const Radio: AstroComponent<RadioProps>;
-export declare const Scroll: AstroComponent<ScrollProps>;
+export declare const Scroll: AstroComponent<ScrollProps & { tabindex?: number | string }>;
 export declare const Select: AstroComponent<SelectProps>;
 export declare const Stat: AstroComponent<StatProps>;
 export declare const StatusDot: AstroComponent<StatusDotProps>;
-export declare const Swatch: AstroComponent<SwatchProps>;
+export declare const Swatch: AstroComponent<
+  SwatchProps & { style?: string | Record<string, string | number | undefined> }
+>;
 export declare const Divider: AstroComponent<DividerProps>;
 export declare const ProgressBar: AstroComponent<ProgressBarProps>;
-export declare const TableCell: AstroComponent<TableCellProps>;
-export declare const Toast: AstroComponent<ToastProps>;
+export declare const TableCell: AstroComponent<
+  TableCellProps & { tabIndex?: number; tabindex?: number }
+>;
+export declare const Toast: AstroComponent<
+  ToastProps & { role?: string; 'aria-live'?: 'polite' | 'assertive' | 'off' }
+>;
 
 // Core — Molecules
 export declare const Card: AstroComponent<CardProps & { href?: string }>;

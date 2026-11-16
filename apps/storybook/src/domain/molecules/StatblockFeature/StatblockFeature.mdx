@@ -83,22 +83,22 @@ Inside `.eevenkoto-statblock-feature`, the run-in heading overrides Heading brid
 | Family | `--eevenkoto-font-sans` |
 | Size | `--eevenkoto-font-size-heading-6` (= body-md) |
 | Weight / style | Bold italic |
-| Color | `--eevenkoto-color-control-secondary-icon` |
+| Color | `--eevenkoto-color-content-accent` |
 | Display | `inline-block` + period suffix + `--eevenkoto-heading-run-in-gap` |
 
-Run-in structure (inline + suffix + sibling paragraph) is defined on Heading for levels **2**, **3**, and **6**. See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2--h3--h6). The remap is keyed on `.eevenkoto-heading--run-in` rather than a level, so a feature looks the same whether its name is an H2 or an H3.
+Run-in structure (inline + suffix + sibling paragraph) is defined on Heading for levels **2** through **6**. See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2h6). The remap is keyed on `.eevenkoto-heading--run-in` rather than a level, so a feature looks identical whether its name is an H2, H3, H4, H5, or H6.
 
 ## Content guidelines
 
 - Keep `name` short (one or two words / a proper noun).
-- Put attack formulas, ranges, and triggers in `description`.
-- For HTML renderer: trusted inline markup (`<em>`, etc.) is fine in `description`.
-- For React: pass `description` as `ReactNode` when you need rich text without HTML strings.
+- Put attack formulas, ranges, and triggers in `description` (or `descriptionHtml` for pre-rendered inline HTML).
+- For HTML renderer: `descriptionHtml` takes trusted inline HTML (`description` also accepts sanitized inline markup).
+- For React / Vue / Astro: pass rich text via `description` (`ReactNode`), default slot, or `descriptionHtml`.
 
 ## Accessibility
 
 - The feature name remains a real heading — do not demote it to a span.
-- Keep the outline contiguous. Under a StatblockSection H2 the default `level: 3` is right; a host with no section H2 above it (Spellblock) passes `level: 2` so nothing jumps from H1 to H3.
+- Keep the outline contiguous. Under a StatblockSection H2 the default `level: 3` is right (cascading to `4` or `5` when `Statblock` uses `nameLevel: 2 | 3`); a host with no section heading above it (`Spellblock`) passes `level: 2` (or `3` / `4`) so nothing skips a heading level.
 - Trailing gap after the name uses `--eevenkoto-heading-run-in-gap` (default `0.35em`) so the body does not collide with the suffix.
 
 ## API reference
@@ -106,14 +106,21 @@ Run-in structure (inline + suffix + sibling paragraph) is defined on Heading for
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `name` | `string` | — | Feature title (run-in heading). |
-| `level` | `2 \| 3 \| 6` | `3` | Semantic heading level for `name`. Appearance is identical at every level. |
-| `description` | `string` (HTML) / `ReactNode` (React) | — | Body after the run-in. |
+| `level` | `2 \| 3 \| 4 \| 5 \| 6` | `3` | Semantic heading level for `name`. Appearance is identical at every level. |
+| `description` | `string` (HTML/Vue) / `ReactNode` (React) | — | Body after the run-in (Vue/Astro also support default slot). |
+| `descriptionHtml` | `string` | — | Trusted pre-rendered inline HTML for the feature body (takes precedence over `description`). |
+| `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
+
+<ArgTypes of={StatblockFeatureStories} />
 
 ```ts
+export type StatblockFeatureLevel = 2 | 3 | 4 | 5 | 6;
+
 export interface StatblockFeatureProps {
   name: string;
-  level?: StatblockFeatureLevel; // 2 | 3 | 6, default 3
-  description: string;
+  level?: StatblockFeatureLevel; // default 3
+  description?: string;
+  descriptionHtml?: string;
 }
 ```
 
@@ -128,6 +135,7 @@ Required CSS: `heading.css`, `paragraph.css`, `statblock-feature.css`.
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
 import '@eevenkoto/css/statblock-feature.css';
@@ -140,6 +148,10 @@ renderStatblockFeature({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/statblock-feature.css';
 import { StatblockFeature } from '@eevenkoto/react';
 
 <StatblockFeature
@@ -154,13 +166,32 @@ import { StatblockFeature } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/statblock-feature.css';
 import { StatblockFeature } from '@eevenkoto/vue';
 </script>
 
 <template>
-  <!-- Vue `description` is a plain string (not HTML / VNodes). -->
-  <StatblockFeature name="Kalpa" description="Lähitaisteluhyökkäys: +3…" />
+  <StatblockFeature name="Kalpa">
+    <em>Lähitaisteluhyökkäys:</em> +3…
+  </StatblockFeature>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/statblock-feature.css';
+import { StatblockFeature } from '@eevenkoto/astro';
+---
+
+<StatblockFeature name="Kalpa">
+  <em>Lähitaisteluhyökkäys:</em> +3…
+</StatblockFeature>
 ```
 
 ## Related

@@ -12,6 +12,22 @@ const base = { entries, placement: 'inline' } as Parameters<typeof renderLicense
 const meta: Meta<Parameters<typeof renderLicenseBar>[0]> = {
   title: 'Domain/Molecules/LicenseBar',
   parameters: { docs: { description: { component: "Legal-license strip. `edge` placement is a fixed vertical stripe on the inline-end viewport edge; `inline` renders a plain row. Only the entry for `activeLicense` is visible." } } },
+  argTypes: {
+    id: { control: 'text', description: 'Optional `<aside id>`.' },
+    activeLicense: {
+      control: 'inline-radio',
+      options: ['proprietary', 'open'],
+      table: { defaultValue: { summary: 'proprietary' } },
+    },
+    placement: {
+      control: 'inline-radio',
+      options: ['edge', 'inline'],
+      table: { defaultValue: { summary: 'edge' } },
+    },
+    entries: { control: 'object', description: 'License entries (`LicenseBarEntry[]`).' },
+    separator: { control: 'text', description: 'Separator character between links.', table: { defaultValue: { summary: '·' } } },
+    ariaLabel: { control: 'text', description: 'Accessible `<aside aria-label>`.' },
+  },
   args: base,
   render: (args) => renderLicenseBar(args),
 };

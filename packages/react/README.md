@@ -32,29 +32,29 @@ export function Example() {
 }
 ```
 
-`@eevenkoto/css` is an **optional peer** — import each component sheet (for example `@eevenkoto/css/badge.css`) or the UI is unstyled. Live Storybook docs under **Framework packages** show HTML, React, and Vue for every published component.
+`@eevenkoto/css` is an **optional peer** — import each component sheet (for example `@eevenkoto/css/badge.css`) or the UI is unstyled. Live Storybook docs under **Framework packages** show HTML, React, Vue, and Astro usage across published components.
 
 ### Core
 
-- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Checkbox`, `Chip`, `Frame`, `Heading`, `Icon`, `Image`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `Property`, `Radio`, `Scroll`, `Select`, `Stat`, `StatusDot`, `TableCell`, `Toast`
-- Molecules: `Card`, `Catalog`, `CatalogTile`, `CheckboxGroup`, `Field`, `Flow`, `List`, `Menu`, `Notice`, `Prose`, `PropertyList`, `RadioGroup`, `SegmentedControl`, `Stepper`, `Table`, `TooltipCard`
-- Organisms: `TableShell`
+- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Checkbox`, `Chip`, `Divider`, `Frame`, `Heading`, `Icon`, `Image`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `ProgressBar`, `Property`, `Radio`, `Scroll`, `Select`, `Stat`, `StatusDot`, `Swatch`, `TableCell`, `Toast`
+- Molecules: `Card`, `Catalog`, `CatalogTile`, `CheckboxGroup`, `ChipGroup`, `Disclosure`, `Field`, `FloatingBanner`, `Flow`, `List`, `Menu`, `Notice`, `PropertyList`, `Prose`, `RadioGroup`, `SectionHeader`, `SegmentedControl`, `Stepper`, `Table`, `TableOfContents`, `TooltipCard`
+- Organisms: `AccountMenu`, `TableShell`, `TierCard`, `Workshop`
 
-`Button` = in-page action. `LinkButton` = prominent URL CTA (`href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef`.
+`Button` = in-page action. `LinkButton` = prominent URL CTA or standalone action link (`primary` / `secondary` / `ghost`; `href` required; import `@eevenkoto/css/link-button.css`). Never put `href` on `Button`. Inline terms use `InlineRef` / `EntityRef`.
 
 ### Domain
 
 - Atoms: `AbilityName`, `EntityRef`
-- Molecules: `AbilityScore`, `StatblockFeature`, `StatblockSection`
-- Organisms: `AbilityScoreGroup`, `EquipmentBlock`, `EquipmentWorkshop`, `Spellblock`, `Statblock`
+- Molecules: `AbilityScore`, `ContentTable`, `DocumentHeader`, `EntityPreview`, `LicenseBar`, `MapFrame`, `NpcCard`, `ReadAloudBox`, `StatblockFeature`, `StatblockSection`
+- Organisms: `AbilityScoreGroup`, `ContentGate`, `EquipmentBlock`, `EquipmentWorkshop`, `NpcCardGrid`, `Spellblock`, `Statblock`
 
-`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`. When `EquipmentBlock` renders `abilities` (or you render `AbilityName` directly), also import `@eevenkoto/css/ability-name.css`.
+`Flow` / `Prose` / `Frame` / `Scroll` / `TableShell` use `children` (not a `content` string like `@eevenkoto/html`). For bare-tag reading content, compose both hosts: `<Prose className="eevenkoto-flow">…</Prose>`. `EquipmentBlock` (like `Statblock` and `Spellblock`) composes companion stylesheets alongside `@eevenkoto/css/equipment-block.css` (`heading.css`, plus `caption.css`, `badge.css`, `chip.css`, `list.css`, `notice.css`, `button.css`, and `ability-name.css` for the sections you render).
 
 ## Related
 
 - `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
 - `@eevenkoto/html` — reference vanilla renderers
-- `@eevenkoto/vue` — Vue equivalents
-- Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
+- `@eevenkoto/vue` / `@eevenkoto/astro` — Vue and Astro equivalents
+- Repo `CHANGELOG.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

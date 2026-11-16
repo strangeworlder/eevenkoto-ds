@@ -108,50 +108,95 @@ Add `eevenkoto-radio--card` or `eevenkoto-radio--tile` for variant layouts.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | **required** | Name of the radio button group. |
+| `id` | `string` | — | Native `<input id>`. |
+| `name` | `string` | — | Name of the radio button group (inherited when inside `RadioGroup`; provide on standalone radios). |
 | `value` | `string` | **required** | Value submitted when selected. |
 | `label` | `string` | **required** | Accessible visible label. |
 | `description` | `string` | — | Secondary descriptive copy. |
 | `badge` | `string` | — | Right-aligned badge or tag. |
-| `checked` | `boolean` | `false` | Checked state. |
+| `checked` | `boolean` | `false` | Controlled checked state. |
+| `defaultChecked` | `boolean` | — | Initial checked state when uncontrolled. |
 | `disabled` | `boolean` | `false` | Disabled state. |
+| `invalid` | `boolean` | `false` | Invalid validation state (`aria-invalid="true"`). |
 | `variant` | `'default' \| 'card' \| 'tile'` | `'default'` | Visual display variant. |
+| `card` | `boolean` | `false` | Convenience boolean alias for `variant="card"`. |
 | `size` | `'sm' \| 'md'` | `'md'` | Sizing scale. |
+| `ariaLabel` | `string` | — | `aria-label` override on the `<input>`. |
+| `ariaDescribedBy` | `string` | — | `aria-describedby` id(s) on the `<input>`. |
 
 <ArgTypes of={RadioStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-radio-bg` | Row/card/tile background |
+| `--eevenkoto-radio-text` | Label color |
+| `--eevenkoto-radio-desc-color` | Secondary description color |
+| `--eevenkoto-radio-border-color` | Row/card/tile border color |
+| `--eevenkoto-radio-border-width` | Row/card/tile border width |
+| `--eevenkoto-radio-radius` | Row/card/tile corner radius |
+| `--eevenkoto-radio-pad-block` / `--eevenkoto-radio-pad-inline` | Row/card/tile padding |
+| `--eevenkoto-radio-gap` | Gap between indicator and label |
+| `--eevenkoto-radio-control-size` | Radio circle diameter |
+| `--eevenkoto-radio-control-bg` / `--eevenkoto-radio-control-bg-hover` | Unchecked circle fill |
+| `--eevenkoto-radio-control-border` / `--eevenkoto-radio-control-border-hover` | Unchecked circle border |
+| `--eevenkoto-radio-control-border-width` | Circle border width |
+| `--eevenkoto-radio-dot` | Default inner dot fill |
+| `--eevenkoto-radio-checked-border` / `--eevenkoto-radio-checked-border-hover` | Checked circle border |
+| `--eevenkoto-radio-checked-dot` / `--eevenkoto-radio-checked-dot-hover` | Checked inner dot fill |
+| `--eevenkoto-radio-invalid-border` | Invalid circle/card border |
+| `--eevenkoto-radio-disabled-bg` / `--eevenkoto-radio-disabled-border` / `--eevenkoto-radio-disabled-dot` | Disabled circle tuple |
+
 ## Framework packages
 
-```html
-<!-- HTML -->
-<label class="eevenkoto-radio eevenkoto-radio--card">
-  <input type="radio" name="weaponType" value="kantama" class="eevenkoto-radio__control" />
-  <span class="eevenkoto-radio__content">
-    <strong class="eevenkoto-radio__title">Kantama-ase</strong>
-    <span class="eevenkoto-radio__description">KET · Kantama 20/60 m</span>
-  </span>
-</label>
+Import `@eevenkoto/css/radio.css` (and `@eevenkoto/css/badge.css` when passing `badge`).
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/radio.css';
+import '@eevenkoto/css/badge.css';
+import { renderRadio } from '@eevenkoto/html';
+
+renderRadio({
+  name: 'weaponType',
+  value: 'kantama',
+  label: 'Kantama-ase',
+  description: 'KET · Kantama 20/60 m',
+  badge: '+150 %',
+  variant: 'card',
+});
 ```
 
 ```tsx
-// React
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/radio.css';
 import { Radio } from '@eevenkoto/react';
 
-<Radio
-  name="weaponType"
-  value="kantama"
-  label="Kantama-ase"
-  description="KET · Kantama 20/60 m"
-  variant="card"
-  checked={val === 'kantama'}
-  onChange={(e) => setVal(e.target.value)}
-/>
+export function WeaponTypeOption() {
+  const [val, setVal] = useState('kantama');
+  return (
+    <Radio
+      name="weaponType"
+      value="kantama"
+      label="Kantama-ase"
+      description="KET · Kantama 20/60 m"
+      variant="card"
+      checked={val === 'kantama'}
+      onChange={(e) => setVal(e.target.value)}
+    />
+  );
+}
 ```
 
 ```vue
-<!-- Vue -->
 <script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/radio.css';
 import { Radio } from '@eevenkoto/vue';
+
 const val = ref('kantama');
 </script>
 
@@ -166,4 +211,20 @@ const val = ref('kantama');
     @change="val = 'kantama'"
   />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/radio.css';
+import { Radio } from '@eevenkoto/astro';
+---
+
+<Radio
+  name="weaponType"
+  value="kantama"
+  label="Kantama-ase"
+  description="KET · Kantama 20/60 m"
+  variant="card"
+/>
 ```

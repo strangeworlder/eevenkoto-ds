@@ -330,6 +330,7 @@
   --eevenkoto-font-size-control-lg: var(--eevenkoto-font-size-md);
 
   --eevenkoto-line-height-tight: 1;
+  --eevenkoto-line-height-snug: 1.25;
   --eevenkoto-line-height-body: 1.5;
 
   --eevenkoto-space-1: 0.4rem;

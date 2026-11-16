@@ -35,12 +35,22 @@ Pages repeat the same kicker/title/lead/CTA arrangement. SectionHeader keeps hea
 | `align` | `'start' \| 'center'` | `'start'` | Alignment. |
 | `note` | `{ icon?, text?, html? }` | — | Reassurance line. |
 | `actions` | slot / prop | — | Buttons or links row. |
+| `id` | `string` | — | Host element `id`. |
 
 <ArgTypes of={SectionHeaderStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-section-header-note-color` | Reassurance note text and icon color (`content-secondary`) |
+
 ## Framework packages
 
+`section-header.css` imports `caption.css`, `heading.css`, `paragraph.css`, and `icon.css` automatically. Import `link-button.css` / `button.css` when passing action controls.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/section-header.css';
 import { renderSectionHeader } from '@eevenkoto/html';
 
@@ -48,7 +58,40 @@ renderSectionHeader({ eyebrow: 'Guide', title: 'Getting started', lead: 'Begin h
 ```
 
 ```tsx
-import { SectionHeader } from '@eevenkoto/react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/section-header.css';
+import '@eevenkoto/css/link-button.css';
+import { SectionHeader, LinkButton } from '@eevenkoto/react';
 
-<SectionHeader title="Getting started" actions={<LinkButton href="#" label="Start" />} />
+<SectionHeader title="Getting started" actions={<LinkButton href="#start" label="Start" />} />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/section-header.css';
+import '@eevenkoto/css/link-button.css';
+import { SectionHeader, LinkButton } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <SectionHeader title="Getting started">
+    <template #actions>
+      <LinkButton href="#start" label="Start" />
+    </template>
+  </SectionHeader>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/section-header.css';
+import '@eevenkoto/css/link-button.css';
+import { SectionHeader, LinkButton } from '@eevenkoto/astro';
+---
+
+<SectionHeader title="Getting started">
+  <LinkButton slot="actions" href="#start" label="Start" />
+</SectionHeader>
 ```

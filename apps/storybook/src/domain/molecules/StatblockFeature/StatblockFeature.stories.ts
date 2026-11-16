@@ -17,7 +17,16 @@ const meta: Meta<StatblockFeatureProps> = {
   },
   argTypes: {
     name: { control: 'text' },
+    level: {
+      control: 'select',
+      options: [2, 3, 4, 5, 6],
+      table: { defaultValue: { summary: '3' } },
+    },
     description: { control: 'text' },
+    descriptionHtml: {
+      control: 'text',
+      description: 'Trusted pre-rendered inline HTML (takes precedence over description).',
+    },
   },
   render: (args) => renderStatblockFeature(args),
 };

@@ -17,7 +17,26 @@ const meta: Meta<RadioGroupProps> = {
   argTypes: {
     name: { control: 'text', description: 'Shared input name attribute.' },
     label: { control: 'text', description: 'Group legend label.' },
+    legendVisuallyHidden: {
+      control: 'boolean',
+      description: 'Visually hides the legend while keeping it accessible.',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    hideLegend: {
+      control: 'boolean',
+      description: 'Convenience alias for legendVisuallyHidden.',
+      table: { defaultValue: { summary: 'false' } },
+    },
     value: { control: 'text', description: 'Currently selected option value.' },
+    defaultValue: { control: 'text', description: 'Initial selected option value when `value` is omitted.' },
+    options: { control: 'object', description: 'Radio options (`RadioGroupOptionProps[]`).' },
+    children: { control: 'text', description: 'Optional pre-rendered radio options HTML.' },
+    badge: { control: 'text', description: 'Optional header badge text.' },
+    badgeIntent: {
+      control: 'select',
+      options: ['neutral', 'critical'],
+      table: { defaultValue: { summary: 'neutral' } },
+    },
     layout: {
       control: 'select',
       options: ['stack', 'grid'],

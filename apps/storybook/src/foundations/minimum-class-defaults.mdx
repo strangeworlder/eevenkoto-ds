@@ -14,7 +14,7 @@ Also read: [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-t
 2. **Modifiers are opt-in.** `--secondary`, `--sm`, `--solid`, etc. only change what is not already the default.
 3. **Default modifier classes are aliases.** `--primary`, `--md`, `--subtle`, `--text`, `--stripe-row` may exist for helpers/docs but must not be *required* for the default look.
 4. **Tag inference (type only).** Heading levels may come from `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides). Do not use bare global `h1` / `p` / `button` selectors.
-5. **Prose vs Flow.** Bare `h1`–`h6` / `p` / `ul` / `ol` / `li` get type styles only under `.eevenkoto-prose`. Vertical rhythm stays on `.eevenkoto-flow`. Compose: `eevenkoto-prose eevenkoto-flow`.
+5. **Prose vs Flow.** Bare `h1`–`h6` / `p` / `ul` / `ol` / `li` / `hr` / `blockquote` / `dl` / `a` get type styles only under `.eevenkoto-prose` (with `:not([class^="eevenkoto-"], [class*=" eevenkoto-"])` so nested DS components never bleed). Vertical rhythm stays on `.eevenkoto-flow`. Compose: `eevenkoto-prose eevenkoto-flow`.
 6. **Helpers may still be explicit.** Core can emit default modifiers so Button / Paragraph / List / Badge size props stay aligned; CSS must not depend on those classes for the default.
 
 ## Checklist when adding or changing a component
@@ -31,7 +31,7 @@ Also read: [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-t
 | --- | --- | --- |
 | Heading | `<h2 class="eevenkoto-heading">` | Level from tag (`:where(hN)`); `--M` overrides |
 | Paragraph | `<p class="eevenkoto-paragraph">` | `body-md` + primary |
-| List | `<ul class="eevenkoto-list">` + bare `li` | unordered + `body-md` + primary (`ol` / `--ordered` for decimal); items via host descendants |
+| List | `<ul class="eevenkoto-list">` + bare `li` | unordered + `body-md` + primary (`ol` / `--ordered` for decimal); items via direct-child `> :where(li)` |
 | Button | `<button class="eevenkoto-button">` | primary + md (full states) |
 | LinkButton | `<a class="eevenkoto-link-button" href="…">` | primary + md + end-scoop (forward CTA link) |
 | Badge | `<span class="eevenkoto-badge">` | subtle + neutral + md + pill |
@@ -46,8 +46,8 @@ Also read: [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-t
 | Table | `<table class="eevenkoto-table">` + bare `tr` / `th` / `td` | default variant + row stripe; cells from host descendants (kinds via `--index` / `--numeric`) |
 | TableCell | `<td class="eevenkoto-table-cell">` | text kind — for cells outside a Table host |
 | Image | `<figure class="eevenkoto-image">` | full paragraph-wide block (`--float-left` / `--float-right` opt-in) |
-| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` / `ul` / `ol` / `li` / `a` | same defaults as classed type + Tier 2 `link-*` |
-| Flow | Compose with Prose for bare-tag pair gaps | classed primitives always |
+| Prose | `<div class="eevenkoto-prose">` + bare `h*` / `p` / `ul` / `ol` / `li` / `hr` / `blockquote` / `dl` / `a` | same defaults as classed type + Tier 2 `link-*` (excludes nested `eevenkoto-*` classes) |
+| Flow | Compose with Prose for bare-tag pair gaps | classed primitives and boxed blocks via `margin-block-start` |
 
 ## CSS patterns
 
@@ -75,14 +75,18 @@ Also read: [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-t
 ### Tag maps with `:where` (Heading)
 
 ```css
+/* Tag inference comes BEFORE explicit --1..--6 modifiers */
 :where(h1).eevenkoto-heading,
-.eevenkoto-heading--1,
-.eevenkoto-prose :where(h1) {
+.eevenkoto-prose :where(h1:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) {
   /* level 1 publics */
+}
+
+.eevenkoto-heading--1 {
+  /* explicit level 1 publics — overrides any h1..h6 tag cleanly */
 }
 ```
 
-`:where` keeps tag specificity at 0 so `.eevenkoto-heading--3` wins on `h1.eevenkoto-heading.eevenkoto-heading--3`.
+`:where` keeps tag specificity at 0 and source order places `--1..--6` after tag inference, so `.eevenkoto-heading--3` wins on `h1` and `.eevenkoto-heading--1` wins on `h3`. Bare-tag rules exclude `eevenkoto-*` classes so nested DS components never inherit Prose overrides.
 
 ### Intent / variant shortcuts (Badge)
 
@@ -108,7 +112,7 @@ Every component added in 0.12 renders its documented default from the host class
 | Host | Minimum markup | Default meaning |
 | --- | --- | --- |
 | Swatch | `<span class="eevenkoto-swatch" style="--eevenkoto-swatch-color: …">` | md circle |
-| Divider | `<hr class="eevenkoto-divider">` (or bare `hr` in Prose) | md spacing, solid |
+| Divider | `<hr class="eevenkoto-divider">` (or bare `hr` in Prose) | lg spacing (`space-6`), solid |
 | ProgressBar | `<div class="eevenkoto-progress-bar">` | inline, primary, hidden until `--active` |
 | FloatingBanner | `<aside class="eevenkoto-floating-banner">` | bottom-center, hidden until `--open` |
 | Disclosure | `<details class="eevenkoto-disclosure">` | card variant |

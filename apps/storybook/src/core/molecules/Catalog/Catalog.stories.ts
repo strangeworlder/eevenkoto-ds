@@ -29,6 +29,7 @@ const meta: Meta<CatalogProps> = {
   },
   argTypes: {
     label: { control: 'text' },
+    tiles: { control: 'object', description: 'Catalog tiles (`CatalogTileProps[]`).' },
   },
   render: (args) => renderCatalog(args),
 };

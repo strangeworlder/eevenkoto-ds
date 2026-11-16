@@ -29,26 +29,104 @@ Gating a document needs a consistent, accessible explanation: what is locked, wh
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| readinessLabel / readinessIntent | `string` / `BadgeIntent` | — | Readiness badge (required). |
-| lockLabel | `string` | — | Accessible label for the lock icon. |
-| title / titleLevel | `string` / `1 \| 2 \| 3` | — / `2` | Heading. |
-| description / descriptionHtml | `string` | — | Explanatory copy (or default slot). |
-| currentTierLabel / requiredTierLabel | `string` | — | Comparison pill values (required). |
-| currentTierPrefix / requiredTierPrefix | `string` | — | Localised prefixes. |
-| statusMessage | `string` | — | Live-region text; hidden when empty. |
-| actions / footer | slots | — | Buttons; dev-only footer. |
+| `readinessLabel` / `readinessIntent` | `string` / `BadgeIntent` | **required** | Readiness Badge label and intent. |
+| `lockLabel` | `string` | `'Locked'` | Accessible label for the lock Icon. |
+| `title` / `titleLevel` | `string` / `1 \| 2 \| 3` | **required** / `2` | Gate heading text and tag level. |
+| `description` / `descriptionHtml` | `string` | — | Plain-text or trusted HTML explanatory copy (or default slot/children). |
+| `currentTierLabel` / `requiredTierLabel` | `string` | **required** | Comparison pill values. |
+| `currentTierPrefix` / `requiredTierPrefix` | `string` | `'Current tier:'` / `'Required tier:'` | Localised comparison prefixes. |
+| `statusMessage` | `string` | — | Live-region text; hidden when empty. |
+| `actions` / `footer` | `string` / slot | — | Primary action buttons and optional dev-only footer. |
+| `id` | `string` | — | Host `<section id>`. |
 
 <ArgTypes of={ContentGateStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-content-gate-bg` | Gate card background (`surface-raised`) |
+| `--eevenkoto-content-gate-text` | Heading and pill ink (`content-primary`) |
+| `--eevenkoto-content-gate-muted` | Description and lock icon ink (`content-secondary`) |
+| `--eevenkoto-content-gate-border-color` | Outer border and footer dashed rule (`boundary-subtle`) |
+| `--eevenkoto-content-gate-accent` | Top accent bar (`content-accent-strong`) |
+| `--eevenkoto-content-gate-pill-bg` | Current-vs-required comparison pill fill (`surface-sunken`) |
+| `--eevenkoto-content-gate-shadow` | Elevation shadow |
+
 ## Framework packages
 
+`content-gate.css` imports `badge.css`, `icon.css`, `heading.css`, and `prose.css` automatically. Also import `link-button.css` / `button.css` for any CTAs placed inside `actions`.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/content-gate.css';
-import { renderContentGate } from '@eevenkoto/html';
+import '@eevenkoto/css/link-button.css';
+import { renderContentGate, renderLinkButton } from '@eevenkoto/html';
+
+renderContentGate({
+  readinessLabel: 'Ennakko',
+  readinessIntent: 'caution',
+  title: 'Lukittu',
+  currentTierLabel: 'Seuraaja',
+  requiredTierLabel: 'Kannattaja',
+  actions: renderLinkButton({ href: '#join', label: 'Liity' }),
+});
 ```
 
 ```tsx
-import { ContentGate } from '@eevenkoto/react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/content-gate.css';
+import '@eevenkoto/css/link-button.css';
+import { ContentGate, LinkButton } from '@eevenkoto/react';
 
-<ContentGate readinessLabel="Ennakko" readinessIntent="caution" title="Lukittu" currentTierLabel="Seuraaja" requiredTierLabel="Kannattaja" actions={<LinkButton href="#join" label="Liity" />} />
+<ContentGate
+  readinessLabel="Ennakko"
+  readinessIntent="caution"
+  title="Lukittu"
+  currentTierLabel="Seuraaja"
+  requiredTierLabel="Kannattaja"
+  actions={<LinkButton href="#join" label="Liity" />}
+/>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/content-gate.css';
+import '@eevenkoto/css/link-button.css';
+import { ContentGate, LinkButton } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <ContentGate
+    readiness-label="Ennakko"
+    readiness-intent="caution"
+    title="Lukittu"
+    current-tier-label="Seuraaja"
+    required-tier-label="Kannattaja"
+  >
+    <template #actions>
+      <LinkButton href="#join" label="Liity" />
+    </template>
+  </ContentGate>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/content-gate.css';
+import '@eevenkoto/css/link-button.css';
+import { ContentGate, LinkButton } from '@eevenkoto/astro';
+---
+
+<ContentGate
+  readinessLabel="Ennakko"
+  readinessIntent="caution"
+  title="Lukittu"
+  currentTierLabel="Seuraaja"
+  requiredTierLabel="Kannattaja"
+>
+  <LinkButton slot="actions" href="#join" label="Liity" />
+</ContentGate>
 ```

@@ -115,19 +115,87 @@ Toolbar / header search with no visible Field label: `ariaLabel` names the contr
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `string` | — | Wire to Field `htmlFor` / `<label for>`. |
+| `name` | `string` | — | Native `<input name>` for form submission. |
+| `type` | `'text' \| 'search' \| 'email' \| 'password' \| 'tel' \| 'url' \| 'number'` | `'text'` (`'search'` when `search` is true) | Native `<input type>`. |
+| `value` | `string` | — | Current input value. |
+| `placeholder` | `string` | — | Example hint, not the accessible name. |
+| `size` | `'sm' \| 'md'` | `'md'` | Control height/font scale (`control-sm` / `control-md`). |
 | `ariaLabel` | `string` | — | `aria-label` when **no** visible Field label. |
 | `describedBy` | `string` | — | `aria-describedby` (Field message id). |
 | `invalid` | `boolean` | `false` | Invalid paint + `aria-invalid`. |
-| `placeholder` | `string` | — | Example hint, not the name. |
-| `search` | `boolean` | `false` | Pill + search icon recipe. |
+| `disabled` | `boolean` | `false` | Sets native `disabled` and opaque disabled tokens. |
+| `search` | `boolean` | `false` | Pill + leading `search` Icon recipe. |
+| `icon` | `string \| ReactNode` (slot in Vue/Astro) | `search` glyph when `search` is true | Custom leading icon (`icon` prop in HTML/React; `#icon` / `slot="icon"` in Vue/Astro). |
+| `fullWidth` | `boolean` | `false` | Stretches wrapper to `inline-size: 100%` (`eevenkoto-input--full-width`). |
 
 <ArgTypes of={InputStories} />
 
-```html
-<span class="eevenkoto-input">
-  <input class="eevenkoto-input__field" type="search"
-         aria-label="Search spells" placeholder="Fireball…" />
-</span>
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-input-bg` | Field wrapper background |
+| `--eevenkoto-input-text` | Input text color |
+| `--eevenkoto-input-placeholder` | Placeholder ink |
+| `--eevenkoto-input-icon` | Leading icon color |
+| `--eevenkoto-input-border-color` | Field wrapper border color |
+| `--eevenkoto-input-border-width` | Field wrapper border width |
+| `--eevenkoto-input-radius` | Corner radius (`radius-full` when `search`) |
+| `--eevenkoto-input-pad-block` / `--eevenkoto-input-pad-inline` | Wrapper padding |
+| `--eevenkoto-input-gap` | Gap between leading icon and `<input>` |
+| `--eevenkoto-input-font-size` | Font size (`control-*`) |
+
+## Framework packages
+
+Import `@eevenkoto/css/input.css` (and `@eevenkoto/css/icon.css` when `search` is enabled or a leading icon is rendered).
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/input.css';
+import '@eevenkoto/css/icon.css';
+import { renderInput } from '@eevenkoto/html';
+
+renderInput({
+  search: true,
+  ariaLabel: 'Search spells',
+  placeholder: 'Fireball…',
+});
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/input.css';
+import '@eevenkoto/css/icon.css';
+import { Input } from '@eevenkoto/react';
+
+<Input search ariaLabel="Search spells" placeholder="Fireball…" />
+```
+
+```vue
+<script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/input.css';
+import '@eevenkoto/css/icon.css';
+import { Input } from '@eevenkoto/vue';
+
+const query = ref('');
+</script>
+
+<template>
+  <Input v-model:value="query" search aria-label="Search spells" placeholder="Fireball…" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/input.css';
+import '@eevenkoto/css/icon.css';
+import { Input } from '@eevenkoto/astro';
+---
+
+<Input search ariaLabel="Search spells" placeholder="Fireball…" />
 ```
 
 Form composition (label + error) lives on [Field](?path=/docs/core-molecules-field--docs).

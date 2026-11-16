@@ -26,25 +26,80 @@ Hover and popover previews for entity references all share structure and chrome;
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| title / titleLevel | `string` / `2 \| 3` | — / `2` | Header. |
-| kind | `EntityRefKind` | — | Sets `data-entity-kind`. |
-| badge | `BadgeProps` | — | Kind / readiness badge. |
-| body / bodyHtml | `string` | — | Body copy. |
-| truncatedLabel | `string` | — | Note shown when the preview was cut. |
-| footerLink | `LinkButtonProps` | — | Footer link button. |
-| flush | `boolean` | `false` | Remove body padding. |
+| `title` / `titleLevel` | `string` / `2 \| 3` | — / `2` | Header title and heading tag level. |
+| `kind` | `EntityRefKind` | — | Sets `data-entity-kind` on the root card. |
+| `badge` | `BadgeProps` | — | Optional kind / readiness Badge inside `.eevenkoto-entity-preview__meta`. |
+| `body` / `bodyHtml` | `string` | — | Plain-text or trusted HTML body copy (`bodyHtml` wraps in `.eevenkoto-entity-preview__html`). |
+| `content` | `string` / slot | — | Pre-rendered body HTML in `@eevenkoto/html` (`children` / default slot in React, Vue, and Astro). |
+| `truncatedLabel` | `string` | — | Note shown when the preview was truncated. |
+| `footerLink` | `LinkButtonProps` | — | Footer LinkButton to the full entry. |
+| `flush` | `boolean` | `false` | Removes body padding for full-bleed embedded blocks. |
 
 <ArgTypes of={EntityPreviewStories} />
 
 ## Framework packages
 
+`entity-preview.css` imports `tooltip-card.css` and `badge.css` automatically. Also import `@eevenkoto/css/link-button.css` when `footerLink` is passed (plus `icon.css` if `footerLink.icon` is set, and the stylesheets of any `Statblock` / `Spellblock` embedded in `body`).
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/entity-preview.css';
+import '@eevenkoto/css/link-button.css';
 import { renderEntityPreview } from '@eevenkoto/html';
+
+renderEntityPreview({
+  title: 'Tulipallo',
+  kind: 'spell',
+  badge: { label: 'Loitsu', intent: 'info' },
+  body: 'Räjähtävä pallo tulta.',
+  footerLink: { href: '/loitsut/tulipallo', label: 'Avaa sivu' },
+});
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/entity-preview.css';
+import '@eevenkoto/css/link-button.css';
 import { EntityPreview } from '@eevenkoto/react';
 
-<EntityPreview title="Tulipallo" kind="spell" body="Räjähtävä pallo tulta." />
+<EntityPreview
+  title="Tulipallo"
+  kind="spell"
+  body="Räjähtävä pallo tulta."
+  footerLink={{ href: '/loitsut/tulipallo', label: 'Avaa sivu' }}
+/>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/entity-preview.css';
+import '@eevenkoto/css/link-button.css';
+import { EntityPreview } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <EntityPreview
+    title="Tulipallo"
+    kind="spell"
+    body="Räjähtävä pallo tulta."
+    :footer-link="{ href: '/loitsut/tulipallo', label: 'Avaa sivu' }"
+  />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/entity-preview.css';
+import '@eevenkoto/css/link-button.css';
+import { EntityPreview } from '@eevenkoto/astro';
+---
+
+<EntityPreview
+  title="Tulipallo"
+  kind="spell"
+  body="Räjähtävä pallo tulta."
+  footerLink={{ href: '/loitsut/tulipallo', label: 'Avaa sivu' }}
+/>
 ```

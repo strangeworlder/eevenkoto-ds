@@ -60,6 +60,14 @@ Minimum markup is the host class: `<table class="eevenkoto-table">` is the **def
 
 <Controls of={TableStories.Default} />
 
+## Why to use
+
+Rulebooks and tools rely on real `<table>` charts (class progression, roll lookups, equipment catalogs) with tabular numerals, angled numeric headers, and row/column striping that work in screen readers and print without ad-hoc table CSS.
+
+## When to use
+
+Use Table for true multi-column tabular data or roll/index lookup charts. Wrap wide tables in [TableShell](?path=/docs/core-organisms-tableshell--docs) (or Domain [ContentTable](?path=/docs/domain-molecules-contenttable--docs) when rows carry readiness states or spanning locked-tier Notices), and use [PropertyList](?path=/docs/core-molecules-propertylist--docs) for single-entity label→value pairs.
+
 ## Variants
 
 | Variant | Use |
@@ -119,11 +127,37 @@ Pager is not shipped yet — put future Pager in the TableShell footer slot.
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `columns` | `TableColumn[]` | **required** | Header columns (`{ key, header, kind? }`). |
+| `rows` | `TableRowInput[]` | **required** | Row cells (`string[][]`, `TableCellObject[]`, or `TableRowObject` with `attributes` + `cells`). |
+| `caption` | `string` | — | Optional `<caption>` copy. |
+| `variant` | `'default' \| 'numeric' \| 'pair'` | `'default'` | Table layout recipe (`eevenkoto-table--numeric` / `--pair`). |
+| `stripe` | `'row' \| 'column' \| 'none'` | `'row'` | Alternating surface band (`eevenkoto-table--stripe-column` / `--stripe-none`). |
+| `id` | `string` | — | Host `<table id>` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={TableStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-table-bg` | Table surface (`surface-canvas`) |
+| `--eevenkoto-table-header-bg` | `<thead>` row background (`surface-sunken`) |
+| `--eevenkoto-table-header-color` | `<thead>` header ink (`content-accent`) |
+| `--eevenkoto-table-header-border-color` | `<thead>` bottom rule color (`boundary-strong`) |
+| `--eevenkoto-table-header-border-width` | `<thead>` bottom rule thickness (`line-width-md`) |
+| `--eevenkoto-table-stripe-bg` | Alternating row stripe fill (`surface-subtle`) |
+| `--eevenkoto-table-col-highlight` | Alternating column stripe fill (`--stripe-column`) |
+| `--eevenkoto-table-caption-color` | `<caption>` ink (`content-secondary`) |
+| `--eevenkoto-table-caption-font-size` | `<caption>` font size (`font-size-caption`) |
 
 ## Framework packages
 
+`table.css` imports `table-cell.css` automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/table.css';
 import { renderTable } from '@eevenkoto/html';
 
@@ -142,6 +176,7 @@ renderTable({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/table.css';
 import { Table } from '@eevenkoto/react';
 
@@ -160,11 +195,12 @@ import { Table } from '@eevenkoto/react';
 ```
 
 ```vue
-<script setup>
+<script setup lang="ts">
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/table.css';
-import { Table } from '@eevenkoto/vue';
+import { Table, type TableColumn } from '@eevenkoto/vue';
 
-const columns = [
+const columns: TableColumn[] = [
   { key: 'class', header: 'Class', kind: 'index' },
   { key: 'hit', header: 'Hit die', kind: 'text' },
 ];
@@ -177,6 +213,25 @@ const rows = [
 <template>
   <Table variant="pair" caption="Class progression" :columns="columns" :rows="rows" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/table.css';
+import { Table, type TableColumn } from '@eevenkoto/astro';
+
+const columns: TableColumn[] = [
+  { key: 'class', header: 'Class', kind: 'index' },
+  { key: 'hit', header: 'Hit die', kind: 'text' },
+];
+const rows = [
+  ['Fighter', 'd10'],
+  ['Wizard', 'd6'],
+];
+---
+
+<Table variant="pair" caption="Class progression" columns={columns} rows={rows} />
 ```
 
 ## Related

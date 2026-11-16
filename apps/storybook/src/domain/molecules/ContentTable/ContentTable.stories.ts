@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import '@eevenkoto/css/content-table.css';
+import '@eevenkoto/css/icon.css';
 import { renderContentTable } from '@eevenkoto/html';
 
 const base = {
@@ -14,6 +15,21 @@ const base = {
 const meta: Meta<Parameters<typeof renderContentTable>[0]> = {
   title: 'Domain/Molecules/ContentTable',
   parameters: { docs: { description: { component: "Table with per-row `readiness` and spanning `locked` rows that carry a Notice. Builds on Table, so columns, variants and stripes work the same." } } },
+  argTypes: {
+    columns: { control: 'object', description: 'Column definitions (`TableColumn[]`).' },
+    rows: { control: 'object', description: 'Content or locked rows (`ContentTableRow[]`).' },
+    caption: { control: 'text', description: 'Optional accessible `<caption>`.' },
+    variant: {
+      control: 'select',
+      options: ['default', 'numeric', 'pair'],
+      table: { defaultValue: { summary: 'default' } },
+    },
+    stripe: {
+      control: 'select',
+      options: ['row', 'column', 'none'],
+      table: { defaultValue: { summary: 'row' } },
+    },
+  },
   args: base,
   render: (args) => renderContentTable(args),
 };

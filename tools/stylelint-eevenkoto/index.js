@@ -543,6 +543,32 @@ export const zIndexToken = createRule(
   },
 );
 
+const GLOBAL_TEXT_BOX_SELECTOR =
+  /(?:^|[\s,>+~:(])(?:\*|html\b|body\b|\.eevenkoto-(?:prose|flow)\b)/i;
+
+export const noGlobalTextBoxTrim = createRule(
+  'eevenkoto/no-global-text-box-trim',
+  ruleMessages('eevenkoto/no-global-text-box-trim', {
+    rejected: (selector, prop, value) =>
+      `Global or prose/flow text-box trim ("${prop}: ${value}" on "${selector}") collapses vertical rhythm and clips diacritics; limit text-box-trim to leaf controls`,
+  }),
+  (root, result, messages) => {
+    root.walkDecls(/^text-box(?:-trim)?$/i, (decl) => {
+      if (!/\btrim(?:-(?:both|start|end))?\b/i.test(decl.value)) return;
+      if (decl.parent?.type !== 'rule') return;
+      const selector = decl.parent.selector;
+      if (GLOBAL_TEXT_BOX_SELECTOR.test(selector)) {
+        report({
+          message: messages.rejected(selector, decl.prop, decl.value),
+          node: decl,
+          result,
+          ruleName: 'eevenkoto/no-global-text-box-trim',
+        });
+      }
+    });
+  },
+);
+
 const plugins = [
   noRawColorLiterals,
   noInverseToken,
@@ -555,6 +581,7 @@ const plugins = [
   constrainTier2ColorMix,
   privateBridgeHygiene,
   zIndexToken,
+  noGlobalTextBoxTrim,
 ];
 
 export default plugins;

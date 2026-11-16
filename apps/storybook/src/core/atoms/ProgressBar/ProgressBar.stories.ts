@@ -13,6 +13,7 @@ const meta: Meta<ProgressBarProps> = {
     },
   },
   argTypes: {
+    id: { control: 'text', description: 'Optional host `<div id>`.' },
     active: { control: 'boolean', description: 'Visible and busy.', table: { defaultValue: { summary: 'false' } } },
     tone: {
       control: 'select',

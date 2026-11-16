@@ -31,6 +31,7 @@ export default {
         'eevenkoto/no-unknown-tokens': true,
         'eevenkoto/private-bridge-hygiene': true,
         'eevenkoto/z-index-token': true,
+        'eevenkoto/no-global-text-box-trim': true,
       },
     },
     {
@@ -40,6 +41,7 @@ export default {
         'eevenkoto/no-raw-color-literals': true,
         'eevenkoto/no-self-referencing-vars': true,
         'eevenkoto/no-unknown-tokens': true,
+        'eevenkoto/no-global-text-box-trim': true,
       },
     },
   ],

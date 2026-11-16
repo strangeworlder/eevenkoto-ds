@@ -36,6 +36,11 @@
     --eevenkoto-notice-font-size,
     var(--eevenkoto-font-size-body-md)
   );
+  --_eevenkoto-notice-link-color: var(--eevenkoto-notice-link-color, currentColor);
+  --_eevenkoto-notice-link-underline: var(--eevenkoto-notice-link-underline, currentColor);
+  --eevenkoto-prose-link-color: currentColor;
+  --eevenkoto-prose-link-visited: currentColor;
+  --eevenkoto-prose-link-underline: currentColor;
   --eevenkoto-paragraph-color: currentColor;
   --eevenkoto-list-color: currentColor;
 
@@ -67,9 +72,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  min-block-size: calc(1em * var(--eevenkoto-line-height-snug));
   color: var(--_eevenkoto-notice-icon);
   flex-shrink: 0;
   line-height: 1;
+}
+
+.eevenkoto-notice:not(:has(.eevenkoto-notice__title)) .eevenkoto-notice__icon {
+  min-block-size: calc(1em * var(--eevenkoto-line-height-body));
 }
 
 .eevenkoto-notice__icon svg {
@@ -85,9 +95,14 @@
   min-width: 0;
 }
 
+.eevenkoto-notice__content > :is(p, ul, ol, dl, .eevenkoto-paragraph, .eevenkoto-list) {
+  margin-block: 0;
+}
+
 .eevenkoto-notice__title {
   margin: 0;
   font-weight: var(--_eevenkoto-notice-title-weight);
+  line-height: var(--eevenkoto-line-height-snug);
   color: var(--_eevenkoto-notice-text);
 }
 
@@ -96,12 +111,43 @@
   color: var(--_eevenkoto-notice-text);
 }
 
-.eevenkoto-notice__body > :is(p, ul, ol, dl) {
-  margin: 0;
+.eevenkoto-notice__body > :is(p, ul, ol, dl, .eevenkoto-paragraph, .eevenkoto-list) {
+  margin-block: 0;
 }
 
-.eevenkoto-notice__body > :is(p, ul, ol, dl) + :is(p, ul, ol, dl) {
+.eevenkoto-notice__body
+  > :is(p, ul, ol, dl, .eevenkoto-paragraph, .eevenkoto-list)
+  + :is(p, ul, ol, dl, .eevenkoto-paragraph, .eevenkoto-list) {
+  margin-block-start: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-notice :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) {
+  padding-inline-start: var(--eevenkoto-space-6);
+}
+
+.eevenkoto-notice
+  :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"]))
+  > :where(li)
+  + :where(li) {
   margin-block-start: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-notice a:not([class]),
+.eevenkoto-notice a:not([class]):visited {
+  color: var(--_eevenkoto-notice-link-color);
+  text-decoration-line: underline;
+  text-decoration-color: var(--_eevenkoto-notice-link-underline);
+  text-underline-offset: 0.18em;
+}
+
+.eevenkoto-notice a:not([class]):hover {
+  text-decoration-thickness: var(--eevenkoto-line-width-md);
+}
+
+.eevenkoto-notice a:not([class]):focus-visible {
+  border-radius: var(--eevenkoto-radius-sm);
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
 }
 
 .eevenkoto-notice__actions {
@@ -260,6 +306,21 @@
   .eevenkoto-notice {
     border-color: CanvasText;
     forced-color-adjust: none;
+  }
+
+  .eevenkoto-notice a:not([class]),
+  .eevenkoto-notice a:not([class]):visited {
+    color: LinkText;
+    text-decoration-color: LinkText;
+  }
+
+  .eevenkoto-notice a:not([class]):visited:not(:hover) {
+    color: VisitedText;
+    text-decoration-color: VisitedText;
+  }
+
+  .eevenkoto-notice a:not([class]):focus-visible {
+    outline-color: Highlight;
   }
 }
 

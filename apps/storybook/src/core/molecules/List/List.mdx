@@ -30,7 +30,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 **List** is the Core **molecule** that stacks **ListItem** rows in a semantic content list (`ul` / `ol`). ListItem is the row atom (`li`). Use [PropertyList](?path=/docs/core-molecules-propertylist--docs) for definitional label→value metadata (`dl`).
 
-The host class alone is the default (unordered / `body-md` / primary). Item look comes from `ul.eevenkoto-list li` / `ol.eevenkoto-list li` — bare `<li>` children need no item class. Ordered lists use `ol` (or `--ordered`); size and tone modifiers are opt-in. Framework helpers still emit explicit `--unordered` / `--md` / `--primary` for the component API.
+The host class alone is the default (unordered / `body-md` / primary). Item look comes from `:where(ul, ol).eevenkoto-list > :where(li)` — bare direct-child `<li>` elements need no item class, and loose Markdown `<p>` wrappers inside `<li>` collapse single-item margins automatically. Ordered lists use `ol` (or `--ordered`); size and tone modifiers are opt-in. Framework helpers still emit explicit `--unordered` / `--md` / `--primary` for the component API.
 
 <Canvas of={ListStories.Default} />
 
@@ -93,11 +93,11 @@ Tag inference: `:where(ol).eevenkoto-list` and bare `ol` under Prose are ordered
 
 ### size
 
-| Value | Token |
-| --- | --- |
-| `sm` | `--eevenkoto-font-size-body-sm` |
-| `md` | `--eevenkoto-font-size-body-md` |
-| `lg` | `--eevenkoto-font-size-body-lg` |
+| Value | Type token | Item gap |
+| --- | --- | --- |
+| `sm` | `--eevenkoto-font-size-body-sm` | `--eevenkoto-space-1` |
+| `md` | `--eevenkoto-font-size-body-md` | `--eevenkoto-space-2` |
+| `lg` | `--eevenkoto-font-size-body-lg` | `--eevenkoto-space-3` |
 
 <Canvas of={ListStories.SizeComparison} />
 
@@ -141,30 +141,67 @@ export interface ListProps {
 }
 ```
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-list-color` | List text color (`content-primary`) |
+| `--eevenkoto-list-marker-color` | Bullet/number marker color |
+| `--eevenkoto-list-font-size` | Body size (`font-size-body-*`) |
+| `--eevenkoto-list-font-family` | Font family (`font-sans`) |
+| `--eevenkoto-list-font-weight` | Font weight |
+| `--eevenkoto-list-line-height` | Line height (`line-height-body`) |
+| `--eevenkoto-list-margin-block` | Outer block margin |
+| `--eevenkoto-list-pad-inline-start` | Marker gutter indent |
+| `--eevenkoto-list-item-gap` | Gap between sibling items |
+| `--eevenkoto-list-style-type` | Marker style (`disc` / `decimal` / `none`) |
+| `--eevenkoto-list-nested-margin-block` | Nested sublist block margin |
+| `--eevenkoto-list-nested-pad-inline-start` | Nested sublist indent |
+| `--eevenkoto-list-item-pad-block` | `ListItem` block padding |
+| `--eevenkoto-list-item-color` | Checklist `ListItem` text color |
+| `--eevenkoto-list-item-icon-color` | Checklist `ListItem` status icon color |
+
 ## Framework packages
 
+`list.css` imports `icon.css` automatically and styles both `List` (`renderList`) and `ListItem` (`renderListItem`).
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/list.css';
-import { renderList } from '@eevenkoto/html';
+import { renderList, renderListItem } from '@eevenkoto/html';
 
 renderList({
   variant: 'unordered',
   items: [{ text: 'First step.' }, { text: 'Second step.' }],
 });
+
+`<ul class="eevenkoto-list eevenkoto-list--checklist">${renderListItem({
+  text: 'Early access',
+  status: 'included',
+})}</ul>`;
 ```
 
 ```tsx
-import { List } from '@eevenkoto/react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/list.css';
+import { List, ListItem } from '@eevenkoto/react';
 
-<List
-  variant="ordered"
-  items={[{ text: 'First step.' }, { text: 'Second step.' }]}
-/>
+<>
+  <List
+    variant="ordered"
+    items={[{ text: 'First step.' }, { text: 'Second step.' }]}
+  />
+  <ul className="eevenkoto-list eevenkoto-list--checklist">
+    <ListItem status="included">Early access</ListItem>
+  </ul>
+</>
 ```
 
 ```vue
 <script setup>
-import { List } from '@eevenkoto/vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/list.css';
+import { List, ListItem } from '@eevenkoto/vue';
 </script>
 
 <template>
@@ -172,7 +209,26 @@ import { List } from '@eevenkoto/vue';
     variant="ordered"
     :items="[{ text: 'First step.' }, { text: 'Second step.' }]"
   />
+  <ul class="eevenkoto-list eevenkoto-list--checklist">
+    <ListItem status="included">Early access</ListItem>
+  </ul>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/list.css';
+import { List, ListItem } from '@eevenkoto/astro';
+---
+
+<List
+  variant="ordered"
+  items={[{ text: 'First step.' }, { text: 'Second step.' }]}
+/>
+<ul class="eevenkoto-list eevenkoto-list--checklist">
+  <ListItem status="included">Early access</ListItem>
+</ul>
 ```
 
 ## Related

@@ -5,7 +5,7 @@ import * as AccountMenuStories from './AccountMenu.stories';
 
 # AccountMenu
 
-Account entry point. Signed out it renders a full-width secondary sign-in [LinkButton](?path=/docs/core-atoms-linkbutton--docs). Signed in it renders a trigger (small [Avatar](?path=/docs/core-atoms-avatar--docs), single-line name, tier [Badge](?path=/docs/core-atoms-badge--docs), rotating chevron) and a trigger-width [Popover](?path=/docs/core-atoms-popover--docs) with a profile summary, an embedded [Menu](?path=/docs/core-molecules-menu--docs) and an optional footer.
+Account entry point. Signed out it renders a full-width secondary sign-in [LinkButton](?path=/docs/core-atoms-linkbutton--docs) with a leading `user` [Icon](?path=/docs/core-atoms-icon--docs). Signed in it renders a trigger (small [Avatar](?path=/docs/core-atoms-avatar--docs), single-line name, tier [Badge](?path=/docs/core-atoms-badge--docs), rotating chevron) and a trigger-width [Popover](?path=/docs/core-atoms-popover--docs) with a profile summary, an embedded [Menu](?path=/docs/core-molecules-menu--docs) and an optional footer.
 
 <Canvas of={AccountMenuStories.SignedInOpenWithDestructiveLogout} />
 
@@ -40,12 +40,27 @@ Encodes the trigger's `aria-haspopup` / `aria-expanded` wiring, ellipsis for lon
 | `entries` | `MenuEntry[]` | — | Popover menu entries. |
 | `open` | `boolean` | `false` | Popover expanded. |
 | `footer` | slot / prop | — | Popover footer. |
+| `id` | `string` | — | Host element `id` (also seeds popover `aria-controls` id). |
 
 <ArgTypes of={AccountMenuStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-account-menu-text` | Summary user name ink (`content-primary`) |
+| `--eevenkoto-account-menu-muted` | Summary email/footer ink (`content-secondary`) |
+| `--eevenkoto-account-menu-border-color` | Summary/footer divider color (`boundary-subtle`) |
+| `--eevenkoto-account-menu-trigger-bg` | Signed-in trigger pill fill |
+| `--eevenkoto-account-menu-trigger-text` | Signed-in trigger ink |
+| `--eevenkoto-account-menu-trigger-border-color` | Signed-in trigger border |
+
 ## Framework packages
 
+`account-menu.css` imports `avatar.css`, `badge.css`, `icon.css`, `link-button.css`, `popover.css`, and `menu.css` automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/account-menu.css';
 import { renderAccountMenu } from '@eevenkoto/html';
 
@@ -53,7 +68,55 @@ renderAccountMenu({ authenticated: false, loginLabel: 'Sign in' });
 ```
 
 ```tsx
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/account-menu.css';
 import { AccountMenu } from '@eevenkoto/react';
 
-<AccountMenu authenticated userName="Aino" open={open} onToggle={setOpen} entries={entries} />
+export function HeaderAccount() {
+  const [open, setOpen] = useState(false);
+  return (
+    <AccountMenu
+      authenticated
+      userName="Aino"
+      open={open}
+      onToggle={setOpen}
+      entries={[{ id: 'settings', label: 'Asetukset', href: '/tili' }]}
+    />
+  );
+}
+```
+
+```vue
+<script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/account-menu.css';
+import { AccountMenu } from '@eevenkoto/vue';
+
+const open = ref(false);
+const entries = [{ id: 'settings', label: 'Asetukset', href: '/tili' }];
+</script>
+
+<template>
+  <AccountMenu
+    :authenticated="true"
+    user-name="Aino"
+    :open="open"
+    :entries="entries"
+    @toggle="open = !open"
+  />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/account-menu.css';
+import { AccountMenu } from '@eevenkoto/astro';
+
+const entries = [{ id: 'settings', label: 'Asetukset', href: '/tili' }];
+---
+
+<AccountMenu authenticated userName="Aino" entries={entries} />
 ```

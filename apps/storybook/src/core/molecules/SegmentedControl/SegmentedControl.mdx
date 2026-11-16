@@ -81,7 +81,11 @@ Mutually exclusive short options often need to stay visible as a compact track �
       <li>
         Don’t use <code>role="switch"</code> for labeled alternatives (Text / SRD).
       </li>
-      <li>Don’t use Segmented Control for multi-select filters (Chip / checkbox group later).</li>
+      <li>
+        Don’t use Segmented Control for multi-select filters — use{' '}
+        <a href="?path=/docs/core-molecules-chipgroup--docs">ChipGroup</a> or{' '}
+        <a href="?path=/docs/core-molecules-checkboxgroup--docs">CheckboxGroup</a>.
+      </li>
     </ul>
   }
 />
@@ -184,8 +188,121 @@ import { renderSegmentedControl } from '@eevenkoto/html';
 | HTML | `renderSegmentedControl` — Storybook source of truth; radios omit `--selected` |
 | React | Radios use `defaultChecked` (uncontrolled) so native exclusivity works |
 | Vue | Prefer HTML for static no-JS pages; emit `@change` when wiring SPA state |
+| Astro | Native `.astro` wrapper emitting the same no-JS `<fieldset>` / `<nav>` markup |
 | Core | `segmentedControlOptionClassNames({ tone, selected })` — set `selected` only for links |
 
-### Props
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `options` | `SegmentedControlOption[]` | **required** | Exclusive options (`{ id, label, icon?, href?, disabled?, tone? }`). |
+| `mode` | `'radios' \| 'links'` | `'radios'` | `radios` (`<fieldset>` + native radios) or `links` (`<nav>` + `<a href>`). |
+| `selectedId` | `string` | — | Initial `checked` radio (`radios`) or `aria-current="page"` + `--selected` (`links`). |
+| `name` | `string` | — | Shared radio group `name` (required when `mode="radios"`). |
+| `tone` | `'primary' \| 'secondary'` | `'primary'` | Default selected fill tone when an option omits `tone`. |
+| `size` | `'sm' \| 'md'` | `'md'` | Shared control size ladder (`control-sm` / `control-md`). |
+| `label` | `string` | — | Accessible name (visually-hidden `<legend>` or `<nav aria-label>`). |
+| `fullWidth` | `boolean` | `false` | Stretches track and options across available inline space (`eevenkoto-segmented-control--full-width`). |
+| `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
 
 <ArgTypes of={SegmentedControlStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-segmented-control-track-bg` | Outer track background (`surface-sunken`) |
+| `--eevenkoto-segmented-control-track-border` | Outer track border (`boundary-subtle`) |
+| `--eevenkoto-segmented-control-border-width` | Outer track border width (`line-width-sm`) |
+| `--eevenkoto-segmented-control-radius` | Outer track corner radius (`radius-sm`) |
+| `--eevenkoto-segmented-control-pad-block` / `--eevenkoto-segmented-control-pad-inline` | Option segment padding |
+| `--eevenkoto-segmented-control-gap` | Gap between option segments (`space-1`) |
+| `--eevenkoto-segmented-control-font-size` | Option font size (`control-*`) |
+| `--eevenkoto-segmented-control-option-bg` / `--eevenkoto-segmented-control-option-text` / `--eevenkoto-segmented-control-option-border` | Resting unselected segment tuple |
+| `--eevenkoto-segmented-control-option-hover-bg` | Unselected hover tint source |
+| `--eevenkoto-segmented-control-option-selected-bg` / `--eevenkoto-segmented-control-option-selected-text` / `--eevenkoto-segmented-control-option-selected-border` | Selected segment tuple |
+
+## Framework packages
+
+Import `@eevenkoto/css/segmented-control.css` (and `@eevenkoto/css/icon.css` when options pass `icon`).
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/segmented-control.css';
+import { renderSegmentedControl } from '@eevenkoto/html';
+
+renderSegmentedControl({
+  name: 'doc-version',
+  label: 'Document version',
+  selectedId: 'text',
+  options: [
+    { id: 'text', label: 'Text', tone: 'primary' },
+    { id: 'srd', label: 'SRD', tone: 'secondary' },
+  ],
+});
+```
+
+```tsx
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/segmented-control.css';
+import { SegmentedControl } from '@eevenkoto/react';
+
+export function VersionToggle() {
+  const [version, setVersion] = useState('text');
+  return (
+    <SegmentedControl
+      name="doc-version"
+      label="Document version"
+      selectedId={version}
+      onChange={setVersion}
+      options={[
+        { id: 'text', label: 'Text', tone: 'primary' },
+        { id: 'srd', label: 'SRD', tone: 'secondary' },
+      ]}
+    />
+  );
+}
+```
+
+```vue
+<script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/segmented-control.css';
+import { SegmentedControl } from '@eevenkoto/vue';
+
+const version = ref('text');
+</script>
+
+<template>
+  <SegmentedControl
+    name="doc-version"
+    label="Document version"
+    :selected-id="version"
+    :options="[
+      { id: 'text', label: 'Text', tone: 'primary' },
+      { id: 'srd', label: 'SRD', tone: 'secondary' },
+    ]"
+    @change="(id) => (version = id)"
+  />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/segmented-control.css';
+import { SegmentedControl } from '@eevenkoto/astro';
+---
+
+<SegmentedControl
+  name="doc-version"
+  label="Document version"
+  selectedId="text"
+  options={[
+    { id: 'text', label: 'Text', tone: 'primary' },
+    { id: 'srd', label: 'SRD', tone: 'secondary' },
+  ]}
+/>
+```

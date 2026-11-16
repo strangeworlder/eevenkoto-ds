@@ -62,15 +62,10 @@
     var(--eevenkoto-space-4)
   );
   --_eevenkoto-spellblock-gap: var(--eevenkoto-spellblock-gap, var(--eevenkoto-space-3));
-  /*
-    Paragraph breaks need more than the stack gap. Global `text-box: trim-both`
-    removes the half-leading, so a gap near the line height (24px at body-md)
-    puts paragraph baselines on the same rhythm as the lines inside them and the
-    prose reads as one block. Flow warns about the same trap.
-  */
+  /* Paragraph breaks sit cleanly wider than wrapped intra-paragraph lines. */
   --_eevenkoto-spellblock-prose-gap: var(
     --eevenkoto-spellblock-prose-gap,
-    var(--eevenkoto-space-6)
+    var(--eevenkoto-space-4)
   );
   --_eevenkoto-spellblock-deck-width: var(--eevenkoto-spellblock-deck-width, 32rem);
 
@@ -220,6 +215,7 @@
 .eevenkoto-spellblock--deck {
   --eevenkoto-spellblock-pad-block: var(--eevenkoto-space-3);
   --eevenkoto-spellblock-pad-inline: var(--eevenkoto-space-3);
+  --eevenkoto-spellblock-prose-gap: var(--eevenkoto-space-3);
 
   inline-size: var(--_eevenkoto-spellblock-deck-width);
   max-inline-size: 100%;

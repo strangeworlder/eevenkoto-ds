@@ -2,7 +2,7 @@
 
 Operating rules for agents and humans editing **this repository**. For installing and using published packages, feed Storybook’s [`/llms.txt`](http://localhost:6006/llms.txt) / [`/llms-full.txt`](http://localhost:6006/llms-full.txt) (generated from package READMEs, foundations MDX, and a short per-component index). Same files are written to the repo root by `npm run generate:llms`.
 
-**Product scope:** Eevenkoto is a **TTRPG content design system with growing core chrome**, not a full app kit. Dialog, Tabs, and app shell are out of scope. Some Tier 2 roles (modals) are **token-only**. Core includes portable feedback and form chrome (Toast, Input, Select, Checkbox, Radio, CheckboxGroup, RadioGroup, Stepper). See root `README.md` and Storybook **Foundations/Decisions**.
+**Product scope:** Eevenkoto is a **TTRPG content design system with growing core chrome**, not a full app kit. Dialog, Pager, Tabs, and AppShell / Sidebar are out of scope. Some Tier 2 roles (modals, destructive controls) are **token-only**. Core includes portable feedback, form, page, and generator chrome (Toast, Input, Select, Checkbox, Radio, CheckboxGroup, RadioGroup, Stepper, SegmentedControl, Disclosure, ChipGroup, ProgressBar, FloatingBanner, TableOfContents, SectionHeader, TierCard, AccountMenu, Workshop, Swatch, Divider). See root `README.md` and Storybook **Foundations/Decisions**.
 
 ## Repo map
 
@@ -36,9 +36,10 @@ Operating rules for agents and humans editing **this repository**. For installin
 - Never reference Tier 1 hue primitives (`--eevenkoto-color-turquoise-*`, `parchment-*`, `gold-*`, …) or the rem ladder (`--eevenkoto-font-size-xs`…`3xl`) from component CSS.
 - Missing intent → add a Tier 2 token in `tokens.css`. New pigment → Tier 1 only after design review.
 - No raw `oklch()` / hex / rgb in component sheets. Do not use `opacity` for disabled UI — use opaque `*-disabled` semantic tuples.
-- Space, radius, line-width, duration, and ease are single-tier scales in `tokens.css` (no primitive layer).
+- Font weights, line heights, space, radius, line-width, duration, ease, and z-index (`--eevenkoto-z-*`) are single-tier scales in `tokens.css` (no primitive layer). Use `var(--eevenkoto-z-*)` (or local `-1`…`3` offsets inside an isolated stacking context) instead of raw `z-index` numbers (`eevenkoto/z-index-token`).
 - **Icon paths** are single-tier data tokens in `@eevenkoto/core` (`ICON_NAMES` / `iconPaths`). Do not embed SVG path strings in components; Button uses `BUTTON_ICON_NAMES` (subset) and composes the Icon atom.
-Stylelint / CI guards described in Storybook Color Tokens docs run via `npm run lint:css` and `npm run ci`.
+- **Links on `feedback-*` surfaces** (Notice, Toast): `--eevenkoto-color-link-*` is only contrast-audited on neutral `surface-*` tokens. Inside `feedback-*` containers, default links (and `--eevenkoto-prose-link-*` overrides) to `currentColor` with an explicit underline.
+Stylelint / CI guards described in Storybook Color Tokens docs run via `npm run lint:css` and `npm run ci`; also run `npm run test:storybook` (Chromium + axe + `play` geometry/interaction checks) whenever changing CSS, markup, or tokens.
 
 ## Tier 3 component pattern
 
@@ -55,8 +56,15 @@ Deep dive: `apps/storybook/src/foundations/color-tokens-tier3-component-scoping.
 The **host class alone** must render the documented default (Button primary+md, Badge subtle+neutral, Table row stripe, Heading level from tag, etc.). Modifier classes are opt-in; default aliases (`--primary`, `--md`) may exist for helpers but must not be required for appearance.
 
 - Full rules + checklist: `apps/storybook/src/foundations/minimum-class-defaults.mdx` (Storybook **Foundations/Minimum-class defaults**)
-- Bare `h1`–`h6` / `p` / `ul` / `ol` / `li`: only under `.eevenkoto-prose`; compose with `.eevenkoto-flow` for rhythm
+- Bare `h1`–`h6` / `p` / `ul` / `ol` / `li` / `hr` / `blockquote` / `dl` / `a`: only under `.eevenkoto-prose`; compose with `.eevenkoto-flow` for rhythm
 - Heading tag maps use `:where(hN).eevenkoto-heading` so `--M` still overrides; List ordered maps use `:where(ol).eevenkoto-list`
+
+## Rhythm & Prose scoping
+
+- **No global or container `text-box-trim`**: Never set `text-box` / `text-box-trim` on `*`, `html`, `body`, `.eevenkoto-prose`, or `.eevenkoto-flow` (`eevenkoto/no-global-text-box-trim`). It strips block-edge leading while leaving wrapped lines untrimmed (inverting proximity) and clips Finnish uppercase diacritics (`Ä`/`Ö`) at scrollport edges. Restrict `text-box-trim` to single-line leaf controls (`Button`, `LinkButton`).
+- **Outer rhythm uses `margin-block-start` or `gap`**: Stack helpers (`Flow`, `Field`, …) must space siblings with `margin-block-start` or flex/grid `gap` — never `padding-block-start`, which lands inside child borders/backgrounds or gets overridden by component `padding`.
+- **Scope `.eevenkoto-prose` bare tags away from DS classes**: Bare-tag selectors (`h1`–`h6`, `p`, `ul`, `ol`, `li`, `hr`, `blockquote`, `dl`) under `.eevenkoto-prose` must exclude `[class^="eevenkoto-"], [class*=" eevenkoto-"]` inside `:where(...)` so Prose typography never bleeds into nested DS components.
+- **Line-height pairing**: Multi-line headings (`H1`–`H3`), `Notice` titles, and `TableOfContents` items use `--eevenkoto-line-height-snug` (`1.25`) so intra-item wrapped lines stay tighter than inter-item gaps; running copy uses `--eevenkoto-line-height-body` (`1.5`).
 
 ## Where to look
 
@@ -74,8 +82,8 @@ Canonical names live in Storybook **Foundations/Glossary** (`apps/storybook/src/
 - English APIs; locale strings as **data** (override AT defaults when the UI is localized).
 - Statblock footer PropertyList is **`details`** (not `traits` — that word collides with feature “traits”).
 - Visible strings: `label` (chrome / definition term), `text` (typography), `name` (entity), `title` (section).
-- Types: core/html `*Props`; React `*ComponentProps`. Do not add `*Args` aliases.
-- Files: TS camelCase, CSS/HTML kebab-case (`primitive-tokens.css`), React/Vue/Storybook PascalCase.
+- Types: core/html `*Props`; React `*ComponentProps`; Astro/Vue `*Props`. Do not add `*Args` aliases.
+- Files: TS camelCase, CSS/HTML kebab-case (`primitive-tokens.css`), React/Vue/Astro/Storybook PascalCase.
 
 ## Agent feed-in files
 

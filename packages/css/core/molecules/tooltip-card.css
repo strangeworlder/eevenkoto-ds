@@ -106,6 +106,7 @@
   font-family: var(--eevenkoto-font-serif);
   font-size: var(--eevenkoto-font-size-heading-6);
   font-weight: var(--eevenkoto-font-weight-semibold);
+  line-height: var(--eevenkoto-line-height-snug);
   border-block-end: var(--_eevenkoto-tooltip-card-border-width) solid
     var(--_eevenkoto-tooltip-card-border-color);
 }
@@ -113,6 +114,10 @@
 .eevenkoto-tooltip-card :where(header) :is(h1, h2, h3, h4, h5, h6),
 .eevenkoto-tooltip-card__header :is(h1, h2, h3, h4, h5, h6) {
   margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  width: auto;
   font: inherit;
   color: inherit;
   letter-spacing: inherit;
@@ -120,6 +125,12 @@
 }
 
 .eevenkoto-tooltip-card__body {
+  --eevenkoto-paragraph-font-size: var(--eevenkoto-font-size-body-sm);
+  --eevenkoto-paragraph-margin-block: 0 var(--eevenkoto-space-2);
+  --eevenkoto-list-font-size: var(--eevenkoto-font-size-body-sm);
+  --eevenkoto-list-margin-block: 0 var(--eevenkoto-space-2);
+  --eevenkoto-list-item-gap: var(--eevenkoto-space-1);
+
   display: flex;
   flex-direction: column;
   padding: var(--_eevenkoto-tooltip-card-body-pad);

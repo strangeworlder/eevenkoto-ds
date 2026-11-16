@@ -39,20 +39,75 @@ Tier comparison needs consistent structure, a non-color cue for excluded feature
 | `features` | `ListItemProps[]` | — | Checklist items (`included` / `accent` / `excluded`). |
 | `featured` / `current` | `boolean` | `false` | Accent outline / active-tier ring. |
 | `cta` | `LinkButtonProps` | — | Full-width CTA (or use `footer`). |
+| `id` | `string` | — | Host `<article id>`. |
 
 <ArgTypes of={TierCardStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-tier-card-name-color` | Tier heading ink (`content-primary`) |
+| `--eevenkoto-tier-card-price-color` | Price numeral ink (`content-primary`) |
+| `--eevenkoto-tier-card-muted-color` | Billing period and description ink (`content-secondary`) |
+
 ## Framework packages
 
+`tier-card.css` imports `card.css`, `badge.css`, `list.css`, and `link-button.css` automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/tier-card.css';
 import { renderTierCard } from '@eevenkoto/html';
 
-renderTierCard({ name: 'Patron', price: '5 €', period: '/ mo', features: [{ text: 'Early access' }] });
+renderTierCard({
+  name: 'Patron',
+  price: '5 €',
+  period: '/ mo',
+  features: [{ text: 'Early access' }],
+});
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/tier-card.css';
 import { TierCard } from '@eevenkoto/react';
 
-<TierCard name="Patron" price="5 €" features={features} featured />
+<TierCard
+  name="Patron"
+  price="5 €"
+  period="/ mo"
+  features={[{ text: 'Early access' }]}
+  featured
+/>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/tier-card.css';
+import { TierCard } from '@eevenkoto/vue';
+
+const features = [{ text: 'Early access' }];
+</script>
+
+<template>
+  <TierCard name="Patron" price="5 €" period="/ mo" :features="features" :featured="true" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/tier-card.css';
+import { TierCard } from '@eevenkoto/astro';
+---
+
+<TierCard
+  name="Patron"
+  price="5 €"
+  period="/ mo"
+  features={[{ text: 'Early access' }]}
+  featured
+/>
 ```

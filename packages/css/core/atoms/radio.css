@@ -64,7 +64,6 @@
   line-height: var(--eevenkoto-line-height-body);
   cursor: pointer;
   user-select: none;
-  text-box: normal;
   transition:
     background var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
     border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
@@ -183,7 +182,6 @@
   gap: var(--eevenkoto-space-1);
   flex: 1 1 auto;
   min-inline-size: 0;
-  text-box: normal;
 }
 
 .eevenkoto-radio__title {
@@ -192,7 +190,6 @@
   font-weight: var(--eevenkoto-font-weight-semibold);
   line-height: var(--eevenkoto-line-height-body);
   color: var(--_eevenkoto-radio-text);
-  text-box: normal;
 }
 
 .eevenkoto-radio__description {
@@ -200,7 +197,6 @@
   font-size: var(--eevenkoto-font-size-control-sm);
   line-height: var(--eevenkoto-line-height-body);
   color: var(--_eevenkoto-radio-desc-color);
-  text-box: normal;
 }
 
 .eevenkoto-radio__badge {

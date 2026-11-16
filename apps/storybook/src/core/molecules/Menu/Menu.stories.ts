@@ -135,6 +135,7 @@ const meta: Meta<MenuProps> = {
       description: 'Shared control size ladder (default: md).',
     },
     embedded: { control: 'boolean', description: 'Flush transparent surface for a sidebar.' },
+    entries: { control: 'object', description: 'Menu entries (`MenuEntry[]`).' },
   },
   render: (args) => renderMenu(args),
 };

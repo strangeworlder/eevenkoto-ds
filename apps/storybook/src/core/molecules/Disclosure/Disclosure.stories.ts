@@ -15,8 +15,11 @@ const meta: Meta<DisclosureProps> = {
     },
   },
   argTypes: {
+    id: { control: 'text', description: 'Optional `<details id>`.' },
     label: { control: 'text' },
     summaryText: { control: 'text' },
+    summaryLead: { control: 'text', description: 'Leading summary HTML (e.g. `Swatch`).' },
+    summaryMeta: { control: 'text', description: 'Trailing summary metadata HTML (e.g. `Badge`).' },
     variant: {
       control: 'select',
       options: ['card', 'subtle', 'flush'],

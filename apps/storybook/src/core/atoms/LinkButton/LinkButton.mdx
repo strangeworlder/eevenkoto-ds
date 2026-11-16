@@ -47,7 +47,7 @@ A LinkButton is a **real `<a>`** styled as a prominent marketing CTA. It looks r
 </a>
 ```
 
-The host class alone is **primary** + **md** + **end-scoop** (square on inline-start, scooped on inline-end). `--primary` / `--md` remain valid aliases. Add `--secondary` / `--sm` / `--lg` only when departing from the default.
+The host class alone is **primary** + **md** + **end-scoop** (square on inline-start, scooped on inline-end). `--primary` / `--md` remain valid aliases. Add `--secondary` / `--ghost` / `--sm` / `--lg` / `--full-width` only when departing from the default.
 
 ### Playground
 
@@ -61,13 +61,13 @@ LinkButton keeps Button’s **control** color recipe so CTAs feel on-brand, then
 
 ## When to use
 
-Use a LinkButton when the user should **go somewhere** and that destination is a primary or secondary marketing action (hero, empty state, campaign banner). Use [Button](?path=/docs/core-atoms-button--docs) when the user **does** something on the page. Use [InlineRef](?path=/docs/core-atoms-inlineref--docs) for terms inside running text.
+Use a LinkButton when the user should **go somewhere** and that destination is a primary, secondary, or ghost action link (hero, empty state, campaign banner, quiet back-to-catalog chrome). Use [Button](?path=/docs/core-atoms-button--docs) when the user **does** something on the page. Use [InlineRef](?path=/docs/core-atoms-inlineref--docs) for terms inside running text.
 
 <DoDont
   do={
     <ul>
-      <li>Use LinkButton for prominent “go to this URL” CTAs (Start playing, Get the book, Read the rules).</li>
-      <li>Use Primary for the main destination in a section; Secondary for a supporting destination.</li>
+      <li>Use LinkButton for prominent “go to this URL” CTAs (Start playing, Get the book, Read the rules) and quiet chrome navigation (`ghost`).</li>
+      <li>Use Primary for the main destination in a section; Secondary for a supporting destination; Ghost for low-emphasis back/utility navigation.</li>
       <li>Keep a visible <code>label</code> — CTAs are not icon-only.</li>
       <li>Use a trailing arrow when you want to reinforce forward motion (default icon position is right).</li>
       <li>Use <code>target="_blank"</code> only when a new tab is useful; wrappers automatically add <code>noopener noreferrer</code>.</li>
@@ -78,7 +78,6 @@ Use a LinkButton when the user should **go somewhere** and that destination is a
       <li>Don’t put <code>href</code> on Button or wrap a Button in an <code>&lt;a&gt;</code>.</li>
       <li>Don’t use LinkButton for submit, dialog, or in-page actions — that is Button.</li>
       <li>Don’t use LinkButton inside a paragraph for a term — that is InlineRef (or a prose link).</li>
-      <li>Don’t invent a ghost LinkButton; low-emphasis navigation stays InlineRef / text links.</li>
       <li>Don’t rely on a disabled LinkButton as the only explanation that a destination isn’t ready — prefer omitting it.</li>
     </ul>
   }
@@ -120,18 +119,27 @@ The **end-scoop** is the host default (logical radii + `corner-shape`). In RTL t
 
 ### variant
 
-CTA hierarchy. Applied as `eevenkoto-link-button--{variant}`. Host only is equivalent to `primary`. There is no ghost.
+CTA hierarchy. Applied as `eevenkoto-link-button--{variant}`. Host only is equivalent to `primary`.
 
 | Value | Example | Description |
 | --- | --- | --- |
 | `primary` | Start playing | Default; main destination (also the host default). |
 | `secondary` | Read the rules | Supporting destination beside a primary. |
+| `ghost` | Back to catalog | Quiet navigation chrome (`control-ghost-*` tokens). |
 
 <Canvas of={LinkButtonStories.PrimaryWithSecondary} />
 
 ```html
 <a class="eevenkoto-link-button" href="#play">Start playing</a>
 <a class="eevenkoto-link-button eevenkoto-link-button--secondary" href="#rules">Read the rules</a>
+```
+
+<Canvas of={LinkButtonStories.Ghost} />
+
+```html
+<a class="eevenkoto-link-button eevenkoto-link-button--ghost eevenkoto-link-button--icon-left eevenkoto-link-button--icon-arrow" href="#catalog">
+  … Back to catalog
+</a>
 ```
 
 ### size
@@ -198,7 +206,7 @@ Icons compose the shared [Icon](?path=/docs/core-atoms-icon--docs) atom. Default
 | Arg / concern | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | `href` | `string` | Yes | — | Destination URL. |
-| `variant` | `'primary' \| 'secondary'` | No | `'primary'` | Maps to `eevenkoto-link-button--{variant}`. Host alone is also primary. |
+| `variant` | `'primary' \| 'secondary' \| 'ghost'` | No | `'primary'` | Maps to `eevenkoto-link-button--{variant}`. Host alone is also primary. |
 | `label` | `string` | Yes | — | Visible chrome copy. |
 | `size` | `'sm' \| 'md' \| 'lg'` | No | `'md'` | Maps to `--sm` / `--md` / `--lg`. |
 | `disabled` | `boolean` | No | `false` | Removes `href`; adds `aria-disabled` + `tabindex="-1"`. Prefer omitting. |
@@ -206,6 +214,7 @@ Icons compose the shared [Icon](?path=/docs/core-atoms-icon--docs) atom. Default
 | `iconPosition` | `'left' \| 'right'` | No | `'right'` when icon is set | Maps to `--icon-*`. |
 | `target` | `string` | No | — | Native `target`. |
 | `rel` | `string` | No | — | Native `rel`; `_blank` automatically adds `noopener noreferrer`. |
+| `fullWidth` | `boolean` | No | `false` | Stretches the CTA across its container (`eevenkoto-link-button--full-width`). |
 
 <ArgTypes of={LinkButtonStories} />
 
@@ -216,9 +225,11 @@ Icons compose the shared [Icon](?path=/docs/core-atoms-icon--docs) atom. Default
 | `eevenkoto-link-button` | Base CTA link (primary + md + end-scoop) |
 | `eevenkoto-link-button--primary` | Primary alias |
 | `eevenkoto-link-button--secondary` | Secondary variant |
+| `eevenkoto-link-button--ghost` | Ghost variant |
 | `eevenkoto-link-button--sm` | Small size |
 | `eevenkoto-link-button--md` | Medium (default) size |
 | `eevenkoto-link-button--lg` | Large size |
+| `eevenkoto-link-button--full-width` | Full-width layout (`inline-size: 100%`) |
 | `eevenkoto-link-button--icon-left` | Icon before label |
 | `eevenkoto-link-button--icon-right` | Icon after label |
 | `eevenkoto-link-button--icon-arrow` | Directional glyph hook; mirrors in RTL |
@@ -231,7 +242,7 @@ Shared contract lives in `@eevenkoto/core` (`LinkButtonProps`).
 ```ts
 export interface LinkButtonProps {
   href: string;
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'ghost';
   label: string;
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
@@ -239,6 +250,7 @@ export interface LinkButtonProps {
   iconPosition?: 'left' | 'right';
   target?: string;
   rel?: string;
+  fullWidth?: boolean;
 }
 ```
 
@@ -246,22 +258,35 @@ export interface LinkButtonProps {
 
 | Token | Purpose |
 | --- | --- |
-| `--eevenkoto-link-button-bg` | Background |
-| `--eevenkoto-link-button-text` | Label color |
-| `--eevenkoto-link-button-border-color` | Border color |
-| `--eevenkoto-link-button-icon` | Icon color |
-| `--eevenkoto-link-button-bg-hover` / `-active` / `-disabled` | State backgrounds |
-| `--eevenkoto-link-button-pad-block` / `-pad-inline` | Padding |
+| `--eevenkoto-link-button-bg` | Resting background |
+| `--eevenkoto-link-button-text` | Resting label color |
+| `--eevenkoto-link-button-border-color` | Resting border color |
+| `--eevenkoto-link-button-border-width` | Border stroke width |
+| `--eevenkoto-link-button-icon` | Resting icon color |
+| `--eevenkoto-link-button-bg-hover` | Hover background |
+| `--eevenkoto-link-button-border-color-hover` | Hover border color |
+| `--eevenkoto-link-button-bg-active` | Active/pressed background |
+| `--eevenkoto-link-button-bg-disabled` | Disabled background |
+| `--eevenkoto-link-button-text-disabled` | Disabled label color |
+| `--eevenkoto-link-button-border-color-disabled` | Disabled border color |
+| `--eevenkoto-link-button-icon-disabled` | Disabled icon color |
+| `--eevenkoto-link-button-pad-block` | Block padding |
+| `--eevenkoto-link-button-pad-inline` | Inline padding |
 | `--eevenkoto-link-button-radius` | End-side corner radius |
 | `--eevenkoto-link-button-nudge` | Hover/active translate distance |
 | `--eevenkoto-link-button-font-size` | Type size (`control-*`) |
-| `--eevenkoto-link-button-gradient-start` / `-middle` / `-end` | Gradient stops |
+| `--eevenkoto-link-button-font-weight` | Type weight (`font-weight-bold`) |
+| `--eevenkoto-link-button-line-height` | Line height (`line-height-tight`) |
+| `--eevenkoto-link-button-text-shadow` | Label depth shadow |
+| `--eevenkoto-link-button-box-shadow` | Control elevation shadow |
+| `--eevenkoto-link-button-gradient-start` / `--eevenkoto-link-button-gradient-middle` / `--eevenkoto-link-button-gradient-end` | Resting gradient stops |
+| `--eevenkoto-link-button-gradient-start-hover` / `--eevenkoto-link-button-gradient-middle-hover` / `--eevenkoto-link-button-gradient-end-hover` | Hover gradient stops |
 
 See [Tier 3 — Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs) for the private-bridge pattern.
 
 ## Framework packages
 
-HTML is the reference implementation. React and Vue are thin wrappers over the same BEM classes from `@eevenkoto/core`.
+HTML is the reference implementation. React, Vue, and Astro are thin wrappers over the same BEM classes from `@eevenkoto/core`. When passing an `icon`, also import `@eevenkoto/css/icon.css`.
 
 ```ts
 import '@eevenkoto/css/styles.css';
@@ -292,6 +317,16 @@ import { LinkButton } from '@eevenkoto/vue';
 <template>
   <LinkButton href="/play" label="Start playing" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/link-button.css';
+import { LinkButton } from '@eevenkoto/astro';
+---
+
+<LinkButton href="/play" label="Start playing" />
 ```
 
 See [Packages](?path=/docs/foundations-packages--docs) for the package map.

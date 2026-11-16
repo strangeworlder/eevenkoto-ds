@@ -104,47 +104,93 @@ Add `eevenkoto-checkbox--card` for card layout.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | — | Native `<input id>`. |
+| `name` | `string` | — | Native `<input name>`. |
+| `value` | `string` | — | Value submitted when checked. |
 | `label` | `string` | **required** | Accessible label text. |
 | `description` | `string` | — | Optional secondary descriptive text. |
 | `badge` | `string` | — | Optional badge or price label on the right. |
-| `checked` | `boolean` | `false` | Checked state. |
+| `checked` | `boolean` | `false` | Controlled checked state. |
+| `defaultChecked` | `boolean` | — | Initial checked state when uncontrolled. |
 | `disabled` | `boolean` | `false` | Disabled interaction. |
-| `invalid` | `boolean` | `false` | Invalid validation state. |
+| `invalid` | `boolean` | `false` | Invalid validation state (`aria-invalid="true"`). |
 | `variant` | `'default' \| 'card'` | `'default'` | Visual display variant. |
+| `card` | `boolean` | `false` | Convenience boolean alias for `variant="card"`. |
 | `size` | `'sm' \| 'md'` | `'md'` | Sizing scale. |
+| `ariaLabel` | `string` | — | `aria-label` override on the `<input>`. |
+| `ariaDescribedBy` | `string` | — | `aria-describedby` id(s) on the `<input>`. |
 
 <ArgTypes of={CheckboxStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-checkbox-bg` | Row/card background |
+| `--eevenkoto-checkbox-text` | Label color |
+| `--eevenkoto-checkbox-desc-color` | Secondary description color |
+| `--eevenkoto-checkbox-border-color` | Row/card border color |
+| `--eevenkoto-checkbox-border-width` | Row/card border width |
+| `--eevenkoto-checkbox-radius` | Row/card corner radius |
+| `--eevenkoto-checkbox-pad-block` / `--eevenkoto-checkbox-pad-inline` | Row/card padding |
+| `--eevenkoto-checkbox-gap` | Gap between indicator and label |
+| `--eevenkoto-checkbox-control-size` | Indicator box size |
+| `--eevenkoto-checkbox-control-bg` / `--eevenkoto-checkbox-control-bg-hover` | Unchecked indicator fill |
+| `--eevenkoto-checkbox-control-border` / `--eevenkoto-checkbox-control-border-hover` | Unchecked indicator border |
+| `--eevenkoto-checkbox-control-border-width` | Indicator border width |
+| `--eevenkoto-checkbox-control-radius` | Indicator corner radius |
+| `--eevenkoto-checkbox-mark` | Default checkmark ink |
+| `--eevenkoto-checkbox-checked-bg` / `--eevenkoto-checkbox-checked-bg-hover` | Checked indicator fill |
+| `--eevenkoto-checkbox-checked-border` / `--eevenkoto-checkbox-checked-border-hover` | Checked indicator border |
+| `--eevenkoto-checkbox-checked-mark` | Checked mark ink |
+| `--eevenkoto-checkbox-invalid-border` | Invalid indicator/card border |
+| `--eevenkoto-checkbox-disabled-bg` / `--eevenkoto-checkbox-disabled-border` / `--eevenkoto-checkbox-disabled-mark` | Disabled indicator tuple |
+
 ## Framework packages
 
-```html
-<!-- HTML -->
-<label class="eevenkoto-checkbox eevenkoto-checkbox--card">
-  <input type="checkbox" class="eevenkoto-checkbox__control" value="tarkkuus" />
-  <span class="eevenkoto-checkbox__content">
-    <strong class="eevenkoto-checkbox__title">Tarkkuus</strong>
-    <span class="eevenkoto-checkbox__description">Käytä KET tai VOI.</span>
-  </span>
-</label>
+Import `@eevenkoto/css/checkbox.css` (and `@eevenkoto/css/badge.css` when passing `badge`).
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/checkbox.css';
+import '@eevenkoto/css/badge.css';
+import { renderCheckbox } from '@eevenkoto/html';
+
+renderCheckbox({
+  label: 'Tarkkuus',
+  description: 'Käytä KET tai VOI.',
+  badge: '+100 %',
+  variant: 'card',
+});
 ```
 
 ```tsx
-// React
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/checkbox.css';
 import { Checkbox } from '@eevenkoto/react';
 
-<Checkbox
-  label="Tarkkuus"
-  description="Käytä KET tai VOI."
-  variant="card"
-  checked={isChecked}
-  onChange={(e) => setIsChecked(e.target.checked)}
-/>
+export function TraitToggle() {
+  const [isChecked, setIsChecked] = useState(false);
+  return (
+    <Checkbox
+      label="Tarkkuus"
+      description="Käytä KET tai VOI."
+      variant="card"
+      checked={isChecked}
+      onChange={(e) => setIsChecked(e.target.checked)}
+    />
+  );
+}
 ```
 
 ```vue
-<!-- Vue -->
 <script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/checkbox.css';
 import { Checkbox } from '@eevenkoto/vue';
+
 const checked = ref(false);
 </script>
 
@@ -156,4 +202,14 @@ const checked = ref(false);
     v-model:checked="checked"
   />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/checkbox.css';
+import { Checkbox } from '@eevenkoto/astro';
+---
+
+<Checkbox label="Tarkkuus" description="Käytä KET tai VOI." variant="card" />
 ```

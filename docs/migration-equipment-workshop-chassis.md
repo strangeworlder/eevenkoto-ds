@@ -56,6 +56,23 @@ import { EquipmentWorkshop } from '@eevenkoto/react';
 **Nyt (v0.9.3+):**
 ```tsx
 import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/badge.css';
+import '@eevenkoto/css/chip.css';
+import '@eevenkoto/css/list.css';
+import '@eevenkoto/css/notice.css';
+import '@eevenkoto/css/button.css';
+import '@eevenkoto/css/ability-name.css';
+import '@eevenkoto/css/input.css';
+import '@eevenkoto/css/radio.css';
+import '@eevenkoto/css/radio-group.css';
+import '@eevenkoto/css/checkbox.css';
+import '@eevenkoto/css/checkbox-group.css';
+import '@eevenkoto/css/toast.css';
+import '@eevenkoto/css/equipment-block.css';
+import '@eevenkoto/css/equipment-workshop.css';
 import {
   EquipmentWorkshop,
   EquipmentBlock,
@@ -107,7 +124,7 @@ export const MyWeaponWorkshop = () => {
 ### Vue
 
 **Ennen (v0.9.2):**
-```html
+```vue
 <script setup>
 import { EquipmentWorkshop } from '@eevenkoto/vue';
 </script>
@@ -118,9 +135,23 @@ import { EquipmentWorkshop } from '@eevenkoto/vue';
 ```
 
 **Nyt (v0.9.3+):**
-```html
+```vue
 <script setup>
 import { ref, computed } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/badge.css';
+import '@eevenkoto/css/chip.css';
+import '@eevenkoto/css/list.css';
+import '@eevenkoto/css/notice.css';
+import '@eevenkoto/css/button.css';
+import '@eevenkoto/css/ability-name.css';
+import '@eevenkoto/css/input.css';
+import '@eevenkoto/css/radio.css';
+import '@eevenkoto/css/radio-group.css';
+import '@eevenkoto/css/equipment-block.css';
+import '@eevenkoto/css/equipment-workshop.css';
 import { EquipmentWorkshop, EquipmentBlock, Input, RadioGroup } from '@eevenkoto/vue';
 import { calculateWeapon, weaponToEquipmentBlockProps } from './myEquipmentRules';
 
@@ -142,7 +173,7 @@ const previewProps = computed(() =>
     </template>
 
     <template #controls>
-      <Input v-model="weapon.name" aria-label="Aseen nimi" />
+      <Input v-model:value="weapon.name" aria-label="Aseen nimi" />
       <!-- Muut ohjaimet -->
     </template>
 
@@ -156,6 +187,17 @@ const previewProps = computed(() =>
 ### Vanilla HTML
 
 ```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/badge.css';
+import '@eevenkoto/css/chip.css';
+import '@eevenkoto/css/list.css';
+import '@eevenkoto/css/notice.css';
+import '@eevenkoto/css/button.css';
+import '@eevenkoto/css/ability-name.css';
+import '@eevenkoto/css/equipment-block.css';
+import '@eevenkoto/css/equipment-workshop.css';
 import { renderEquipmentWorkshop, renderEquipmentBlock } from '@eevenkoto/html';
 
 const html = renderEquipmentWorkshop({

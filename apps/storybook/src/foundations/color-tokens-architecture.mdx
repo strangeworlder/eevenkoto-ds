@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 **Audience:** authors extending the system — not the app usage guide. For “what tokens exist to consume,” see [Foundations → Tokens](?path=/docs/foundations-tokens--docs). For install/use feed-in, see repo `llms.txt` / `llms-full.txt`.
 
-**Doc set:** Architecture (this file) → [Tier 1 Primitives](./color-tokens-tier1-primitives.mdx) → [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx) → [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)
+**Doc set:** Architecture (this file) → [Tier 1 Primitives](?path=/docs/foundations-color-tokens-tier-1-primitives--docs) → [Tier 2 Semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs) → [Tier 3 Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)
 
 This document defines the architectural rationale, color-space mechanics, theming model, accessibility guardrails, and governance flowchart for the Eevenkoto color token system. Tier-specific naming, invariants, and examples live in the linked docs above.
 
@@ -67,7 +67,7 @@ Color specification: oklch(Lightness [0–1], Chroma [0–0.4], Hue [0–360] [/
 
 Interactive transitions and subtle tints leverage `color-mix(in display-p3, ...)` to ensure that gradients and transitions do not pass through muddy, desaturated gray zones during interpolation.
 
-At **Tier 2**, prefer direct aliases to Tier 1 primitives for brand and chrome. Reserve `color-mix` for documented recipes (transparent fades, disabled endpoints) — do not invent muted brand hues by blending two pigments. See [Tier 1 — Prefer a new primitive](./color-tokens-tier1-primitives.mdx) and [Tier 2 — Prefer aliases](./color-tokens-tier2-semantics.mdx).
+At **Tier 2**, prefer direct aliases to Tier 1 primitives for brand and chrome. Reserve `color-mix` for documented recipes (transparent fades, disabled endpoints) — do not invent muted brand hues by blending two pigments. See [Tier 1 — Prefer a new primitive](?path=/docs/foundations-color-tokens-tier-1-primitives--docs) and [Tier 2 — Prefer aliases](?path=/docs/foundations-color-tokens-tier-2-semantics--docs).
 
 ## Environmental Adaptations & Theming
 
@@ -88,7 +88,7 @@ Dark mode is fundamentally different from inverting lightness (L<sub>dark</sub> 
 
 - **The Chroma Vibration Guardrail:** High-chroma colors on pitch-dark surfaces cause visual vibration (halation). In dark mode, state and action tokens must be remapped to variants with **slightly decreased chroma (C)** and elevated lightness (L) to maintain legibility without fatiguing the eye.
 
-Theme remapping happens **only at Tier 2**. See [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx).
+Theme remapping happens **only at Tier 2**. See [Tier 2 Semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs).
 
 ### High Contrast & Forced Colors Mode
 

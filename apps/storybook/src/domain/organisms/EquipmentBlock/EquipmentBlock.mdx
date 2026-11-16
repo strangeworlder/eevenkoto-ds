@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as EquipmentBlockStories from './EquipmentBlock.stories';
 
 export const Do = ({ children, caption, label = 'Do' }) => (
@@ -117,6 +117,11 @@ EquipmentBlock
 | `copyText` | `string` | — | Text to copy to clipboard. |
 | `copyLabel` | `string` | `'Kopioi hahmolomakkeelle'` | Label for the copy button. |
 | `showCopyButton` | `boolean` | `false` | Whether to show the copy button in footer. |
+| `id` | `string` | — | Optional anchor `id` on `<article>` (React, Vue, and Astro HTML attributes). |
+
+<ArgTypes of={EquipmentBlockStories} />
+
+> **Stylesheet note:** `equipment-block.css` styles the organism bands and layout. Import companion stylesheets for the composed pieces you render: `heading.css` (name), `caption.css` (`category`), `badge.css` (`price`), `chip.css` (`traits`), `list.css` (`notes`), `notice.css` (`warnings`), `button.css` (`showCopyButton`), and `ability-name.css` (`abilities` stats).
 
 ### CSS classes
 
@@ -136,21 +141,41 @@ EquipmentBlock
 
 | Token | Purpose |
 | --- | --- |
-| `--eevenkoto-equipment-block-bg` | Card background color |
-| `--eevenkoto-equipment-block-border-color` | Card border color |
-| `--eevenkoto-equipment-block-pad` | Card internal padding |
+| `--eevenkoto-equipment-block-bg` | Card background color (`surface-raised`) |
+| `--eevenkoto-equipment-block-plate-bg` | Header plate background (`surface-sunken`) |
+| `--eevenkoto-equipment-block-stat-bg` | Stat tile background (`surface-sunken`) |
+| `--eevenkoto-equipment-block-stat-emphasis-bg` | Emphasized stat tile background (`surface-raised`) |
+| `--eevenkoto-equipment-block-stat-emphasis-border` | Emphasized stat tile border (`content-accent`) |
+| `--eevenkoto-equipment-block-stat-emphasis-indicator` | Emphasized stat top indicator bar (`content-accent-strong`) |
+| `--eevenkoto-equipment-block-stat-emphasis-text` | Emphasized stat value ink (`content-accent-strong`) |
+| `--eevenkoto-equipment-block-tag-bg` | Kesto breakdown tag fill (`surface-raised`) |
+| `--eevenkoto-equipment-block-text` | Primary card ink (`content-primary`) |
+| `--eevenkoto-equipment-block-muted` | Secondary label/subtitle ink (`content-secondary`) |
+| `--eevenkoto-equipment-block-border-color` | Card and band hairline border (`boundary-subtle`) |
+| `--eevenkoto-equipment-block-border-width` | Card and band hairline width (`line-width-sm`) |
+| `--eevenkoto-equipment-block-accent-rule-color` | Rule under the header plate (`content-accent`) |
+| `--eevenkoto-equipment-block-accent-rule-width` | Rule thickness (`line-width-md`) |
+| `--eevenkoto-equipment-block-radius` | Card corner radius (`radius-md`) |
+| `--eevenkoto-equipment-block-shadow` | Card depth shadow |
+| `--eevenkoto-equipment-block-pad-block` | Band block padding (`space-4`) |
+| `--eevenkoto-equipment-block-pad-inline` | Band inline padding (`space-4`) |
+| `--eevenkoto-equipment-block-gap` | Intra-band vertical gap (`space-3`) |
 
 ## Framework packages
 
 ```bash
 npm install @eevenkoto/css @eevenkoto/html
-# or @eevenkoto/react / @eevenkoto/vue
+# or @eevenkoto/react / @eevenkoto/vue / @eevenkoto/astro
 ```
 
 ### HTML
 
 ```ts
 import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/badge.css';
+import '@eevenkoto/css/chip.css';
 import '@eevenkoto/css/equipment-block.css';
 import { renderEquipmentBlock } from '@eevenkoto/html';
 
@@ -167,6 +192,10 @@ const html = renderEquipmentBlock({
 
 ```tsx
 import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/badge.css';
+import '@eevenkoto/css/chip.css';
 import '@eevenkoto/css/equipment-block.css';
 import { EquipmentBlock } from '@eevenkoto/react';
 
@@ -184,6 +213,10 @@ import { EquipmentBlock } from '@eevenkoto/react';
 ```vue
 <script setup>
 import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/badge.css';
+import '@eevenkoto/css/chip.css';
 import '@eevenkoto/css/equipment-block.css';
 import { EquipmentBlock } from '@eevenkoto/vue';
 
@@ -200,6 +233,28 @@ const traits = ['Viiltävä'];
     :traits="traits"
   />
 </template>
+```
+
+### Astro
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/badge.css';
+import '@eevenkoto/css/chip.css';
+import '@eevenkoto/css/equipment-block.css';
+import { EquipmentBlock } from '@eevenkoto/astro';
+---
+
+<EquipmentBlock
+  name="Miekka"
+  category="Sota-ase · Lähitaistelu"
+  price="20 kr"
+  stats={[{ label: 'Vahinko', value: '1n8 viiltovahinko' }]}
+  traits={['Viiltävä']}
+/>
 ```
 
 ## Related

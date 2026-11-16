@@ -42,9 +42,24 @@ Keyboard- and screen-reader-accessible expand/collapse with no JavaScript, token
 
 <ArgTypes of={DisclosureStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-disclosure-bg` | Panel fill (`surface-raised` on `card`) |
+| `--eevenkoto-disclosure-text` | Summary and body text color |
+| `--eevenkoto-disclosure-muted` | Secondary summary text and chevron color |
+| `--eevenkoto-disclosure-border-color` | Panel stroke |
+| `--eevenkoto-disclosure-border-width` | Panel stroke width |
+| `--eevenkoto-disclosure-radius` | Corner radius |
+| `--eevenkoto-disclosure-pad-block` / `--eevenkoto-disclosure-pad-inline` | Summary and body padding |
+
 ## Framework packages
 
+`disclosure.css` imports `icon.css` and `prose.css` automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/disclosure.css';
 import { renderDisclosure } from '@eevenkoto/html';
 
@@ -52,7 +67,33 @@ renderDisclosure({ label: 'Details', body: 'Hidden copy.' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/disclosure.css';
 import { Disclosure } from '@eevenkoto/react';
 
 <Disclosure label="Details">Hidden copy.</Disclosure>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/disclosure.css';
+import { Disclosure } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Disclosure label="Details">Hidden copy.</Disclosure>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/disclosure.css';
+import { Disclosure } from '@eevenkoto/astro';
+---
+
+<Disclosure label="Details">
+  <p>Hidden copy.</p>
+</Disclosure>
 ```

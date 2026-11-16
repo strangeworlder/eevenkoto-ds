@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 **Audience:** authors writing component CSS in this repo — not app consumers. App usage: [Tokens catalog](?path=/docs/foundations-tokens--docs) and repo `llms-full.txt`. Contributor rules: root `AGENTS.md`.
 
-**Doc set:** [Architecture](./color-tokens-architecture.mdx) → [Tier 1 Primitives](./color-tokens-tier1-primitives.mdx) → [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx) → Tier 3 Component Scoping (this file)
+**Doc set:** [Architecture](?path=/docs/foundations-color-tokens-architecture--docs) → [Tier 1 Primitives](?path=/docs/foundations-color-tokens-tier-1-primitives--docs) → [Tier 2 Semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs) → Tier 3 Component Scoping (this file)
 
 This document defines the architectural mechanics, naming grammar, encapsulation contracts, and governance rules for the component token layer (Tier 3). Tier 3 bridges Tier 2 semantic tokens into scoped, override-resilient component implementations without specificity wars or cascading side effects.
 
@@ -119,7 +119,7 @@ Because the public variable and the private variable have distinct identifiers, 
 | Token Segment | Description | Examples |
 | --- | --- | --- |
 | `--eevenkoto-` | System root prefix. Identifies official design system tokens. | `--eevenkoto-` |
-| `[component]` | Canonical component identifier in kebab-case. | `button`, `text-input`, `card`, `modal` |
+| `[component]` | Canonical component identifier in kebab-case. | `button`, `input`, `card`, `notice` |
 | `[element]` | Optional sub-element or slot. Omitted if target is root container. | `label`, `input`, `indicator`, `track`, `thumb`, `icon` |
 | `[property]` | Exact visual or geometric property being manipulated. | `bg`, `text`, `border-color`, `radius`, `pad-block`, `pad-inline` |
 | `[state]` | Optional interactive or structural state. Omitted for default resting state. | `hover`, `active`, `focus`, `disabled`, `invalid`, `checked` |
@@ -157,12 +157,12 @@ When a component variant, pseudo-class (`:hover`, `:active`, `:focus-visible`), 
 - Component tokens are scoped to their component host class (`.eevenkoto-<component>`).
 - Component stylesheets must not define global selectors (`:root`, `body`, `div`).
 - Modifiers must be applied via BEM-style variant classes (e.g., `.eevenkoto-button--secondary`) or data attributes (`data-variant="secondary"`), never via bare tag selectors.
-- **Exception (type only):** Heading may map level from the host tag with `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides). Bare `h1`–`h6` / `p` / `ul` / `ol` / `li` / `a` styling is allowed only under the Prose host (`.eevenkoto-prose :where(…)`). Do not style those tags globally.
+- **Exception (type & feedback links):** Heading may map level from the host tag with `:where(hN).eevenkoto-heading` (zero tag specificity so `--M` still overrides), and List may map `<ol>` with `:where(ol).eevenkoto-list`. Bare `h1`–`h6` / `p` / `ul` / `ol` / `li` / `hr` / `blockquote` / `dl` / `a` styling is allowed only under the Prose host (`.eevenkoto-prose :where(…)`), excluding nested DS classes via `:not([class^="eevenkoto-"], [class*=" eevenkoto-"])`. Inside `feedback-*` containers (`Notice`, `Toast`), bare `a` links reset to `currentColor` with an explicit underline because `--eevenkoto-color-link-*` is only contrast-audited on neutral `surface-*` tokens. Do not style bare tags globally.
 - **Host defaults:** The host class alone must implement the documented default (see [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs)). Default variant/size modifiers are optional aliases, not requirements.
 
 ### Rule 4: Zero Speculative Property Exposure
 
-Do not author public override tokens for CSS properties the component does not actively support. If a component does not explicitly govern `line-height` or `transform`, do not declare `--eevenkoto-button-line-height`. Expose only verified geometric, color, and depth parameters.
+Do not author public override tokens for CSS properties the component does not actively support. If a component does not explicitly govern `transform` or `opacity`, do not declare `--eevenkoto-button-transform`. Expose only verified geometric, color, and depth parameters.
 
 ## State & Variant Mechanics
 
@@ -400,53 +400,64 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
   );
 
   /* Geometry & Typography Tokens */
-  --_eevenkoto-button-pad-block: var(--eevenkoto-button-pad-block, 0.625rem);
-  --_eevenkoto-button-pad-inline: var(--eevenkoto-button-pad-inline, 1.25rem);
-  --_eevenkoto-button-radius: var(--eevenkoto-button-radius, 0.375rem);
-  --_eevenkoto-button-font-size: var(--eevenkoto-button-font-size, 0.875rem);
-  --_eevenkoto-button-font-weight: var(--eevenkoto-button-font-weight, 600);
+  --_eevenkoto-button-pad-block: var(--eevenkoto-button-pad-block, var(--eevenkoto-space-3));
+  --_eevenkoto-button-pad-inline: var(--eevenkoto-button-pad-inline, var(--eevenkoto-space-6));
+  --_eevenkoto-button-radius: var(--eevenkoto-button-radius, var(--eevenkoto-radius-sm));
+  --_eevenkoto-button-font-size: var(
+    --eevenkoto-button-font-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+  --_eevenkoto-button-font-weight: var(
+    --eevenkoto-button-font-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-button-line-height: var(
+    --eevenkoto-button-line-height,
+    var(--eevenkoto-line-height-tight)
+  );
+  --_eevenkoto-button-border-width: var(
+    --eevenkoto-button-border-width,
+    var(--eevenkoto-line-width-md)
+  );
 
   /* 2. ELEMENT STYLING DECLARATIONS */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  display: inline-block;
   box-sizing: border-box;
   margin: 0;
   padding: var(--_eevenkoto-button-pad-block) var(--_eevenkoto-button-pad-inline);
 
-  font-family: inherit;
+  font-family: var(--eevenkoto-font-sans);
   font-size: var(--_eevenkoto-button-font-size);
   font-weight: var(--_eevenkoto-button-font-weight);
-  line-height: 1.2;
-  text-decoration: none;
-  white-space: nowrap;
+  line-height: var(--_eevenkoto-button-line-height);
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
 
   background-color: var(--_eevenkoto-button-bg);
   color: var(--_eevenkoto-button-text);
 
-  /* Forced-Colors boundary guardrail: explicit 1px stroke */
-  border: 1px solid var(--_eevenkoto-button-border-color);
+  /* Forced-Colors boundary guardrail: explicit stroke */
+  border: var(--_eevenkoto-button-border-width) solid var(--_eevenkoto-button-border-color);
   border-radius: var(--_eevenkoto-button-radius);
 
   cursor: pointer;
   user-select: none;
-  transition:
-    background-color var(--eevenkoto-duration-3) var(--eevenkoto-ease-standard),
-    border-color var(--eevenkoto-duration-3) var(--eevenkoto-ease-standard),
-    color var(--eevenkoto-duration-3) var(--eevenkoto-ease-standard);
 }
 
 /* INTERACTIVE STATES (Coupled public tuple updates) */
 
-.eevenkoto-button:hover:not(:disabled) {
+.eevenkoto-button:hover:not(:disabled):not([aria-disabled="true"]):not(.eevenkoto-button--secondary):not(
+    .eevenkoto-button--ghost
+  ) {
   --eevenkoto-button-bg: var(
     --eevenkoto-button-bg-hover,
     var(--eevenkoto-color-control-primary-background-hover)
   );
 }
 
-.eevenkoto-button:active:not(:disabled) {
+.eevenkoto-button:active:not(:disabled):not([aria-disabled="true"]):not(.eevenkoto-button--secondary):not(
+    .eevenkoto-button--ghost
+  ) {
   --eevenkoto-button-bg: var(
     --eevenkoto-button-bg-active,
     var(--eevenkoto-color-control-primary-background-active)
@@ -476,18 +487,18 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
   );
 }
 
-/* VARIANT: DESTRUCTIVE ACTION */
+/* VARIANT: SECONDARY ACTION */
 
-.eevenkoto-button--destructive {
-  --eevenkoto-button-bg: var(--eevenkoto-color-control-destructive-background);
-  --eevenkoto-button-text: var(--eevenkoto-color-control-destructive-text);
-  --eevenkoto-button-border-color: var(--eevenkoto-color-control-destructive-border);
+.eevenkoto-button--secondary {
+  --eevenkoto-button-bg: var(--eevenkoto-color-control-secondary-background);
+  --eevenkoto-button-text: var(--eevenkoto-color-control-secondary-text);
+  --eevenkoto-button-border-color: var(--eevenkoto-color-control-secondary-border);
 }
 
-.eevenkoto-button--destructive:hover:not(:disabled) {
-  --eevenkoto-button-bg: var(
-    --eevenkoto-button-bg-hover,
-    var(--eevenkoto-color-control-destructive-background-hover)
+.eevenkoto-button--secondary:hover:not(:disabled):not([aria-disabled="true"]) {
+  --eevenkoto-button-border-color: var(
+    --eevenkoto-button-border-color-hover,
+    var(--eevenkoto-color-control-primary-background-hover)
   );
 }
 ```
@@ -502,20 +513,25 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
    ========================================================================== */
 
 .eevenkoto-field {
+  --_eevenkoto-field-gap: var(--eevenkoto-field-gap, var(--eevenkoto-space-2));
+  --_eevenkoto-field-label-text: var(
+    --eevenkoto-field-label-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-field-label-size: var(
+    --eevenkoto-field-label-size,
+    var(--eevenkoto-font-size-control-md)
+  );
+
   display: flex;
   flex-direction: column;
-  gap: var(--eevenkoto-space-1-5);
-  width: 100%;
+  gap: var(--_eevenkoto-field-gap);
 }
 
 .eevenkoto-field__label {
-  --_eevenkoto-field-label-color: var(
-    --eevenkoto-field-label-color,
-    var(--eevenkoto-color-content-primary)
-  );
-  font-size: var(--eevenkoto-font-size-ui-sm);
+  font-size: var(--_eevenkoto-field-label-size);
   font-weight: var(--eevenkoto-font-weight-semibold);
-  color: var(--_eevenkoto-field-label-color);
+  color: var(--_eevenkoto-field-label-text);
 }
 
 .eevenkoto-input {
@@ -532,51 +548,58 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
     --eevenkoto-input-border-color,
     var(--eevenkoto-color-form-input-border)
   );
+  --_eevenkoto-input-border-width: var(
+    --eevenkoto-input-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
 
   /* 2. ELEMENT STYLING DECLARATIONS */
+  display: inline-flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
   box-sizing: border-box;
-  width: 100%;
   padding: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
-  font-family: inherit;
-  font-size: var(--eevenkoto-font-size-ui-md);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-control-md);
+  line-height: var(--eevenkoto-line-height-body);
 
-  background-color: var(--_eevenkoto-input-bg);
+  background: var(--_eevenkoto-input-bg);
   color: var(--_eevenkoto-input-text);
-  border: var(--eevenkoto-line-width-1) solid var(--_eevenkoto-input-border-color);
-  border-radius: var(--eevenkoto-radius-md);
-
-  transition:
-    border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
-    box-shadow var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
+  border: var(--_eevenkoto-input-border-width) solid var(--_eevenkoto-input-border-color);
+  border-radius: var(--eevenkoto-radius-sm);
 }
 
-.eevenkoto-input:focus-visible {
-  outline: none;
-  border-color: var(--eevenkoto-color-boundary-focus-outer);
-  box-shadow:
-    0 0 0 var(--eevenkoto-line-width-2) var(--eevenkoto-color-boundary-focus-inner),
-    0 0 0 var(--eevenkoto-line-width-4) var(--eevenkoto-color-boundary-focus-outer);
+.eevenkoto-input:focus-within {
+  --eevenkoto-input-border-color: var(--eevenkoto-color-form-input-border-focus);
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--eevenkoto-color-boundary-focus-inner);
 }
 
 /* VALIDATION STATE: INVALID / ERROR TUPLE */
 
-.eevenkoto-input[aria-invalid="true"] {
+.eevenkoto-input--invalid,
+.eevenkoto-input:has(.eevenkoto-input__field[aria-invalid="true"]) {
   --eevenkoto-input-bg: var(--eevenkoto-color-form-input-background-invalid);
   --eevenkoto-input-text: var(--eevenkoto-color-form-input-text-invalid);
   --eevenkoto-input-border-color: var(--eevenkoto-color-form-input-border-invalid);
+  --eevenkoto-input-border-width: var(--eevenkoto-line-width-md);
 }
 
 .eevenkoto-field__message {
-  --_eevenkoto-field-message-color: var(
-    --eevenkoto-field-message-color,
-    var(--eevenkoto-color-content-secondary)
+  --_eevenkoto-field-message-text: var(
+    --eevenkoto-field-message-text,
+    var(--eevenkoto-color-content-tertiary)
   );
-  font-size: var(--eevenkoto-font-size-ui-xs);
-  color: var(--_eevenkoto-field-message-color);
+  font-size: var(--eevenkoto-font-size-caption);
+  color: var(--_eevenkoto-field-message-text);
 }
 
 .eevenkoto-field__message--error {
-  --eevenkoto-field-message-color: var(--eevenkoto-color-form-input-message-invalid);
+  --eevenkoto-field-message-text: var(
+    --eevenkoto-field-message-error-text,
+    var(--eevenkoto-color-form-input-message-invalid)
+  );
 }
 ```
 
@@ -595,34 +618,36 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
     --eevenkoto-card-bg,
     var(--eevenkoto-color-surface-raised)
   );
-  --_eevenkoto-card-fg: var(
-    --eevenkoto-card-fg,
+  --_eevenkoto-card-text: var(
+    --eevenkoto-card-text,
     var(--eevenkoto-color-content-primary)
   );
   --_eevenkoto-card-border-color: var(
     --eevenkoto-card-border-color,
     var(--eevenkoto-color-boundary-subtle)
   );
-  --_eevenkoto-card-shadow: var(
-    --eevenkoto-card-shadow,
-    0 0.1rem 0.3rem var(--eevenkoto-color-depth-shadow-penumbra),
-    0 0.4rem 0.6rem var(--eevenkoto-color-depth-shadow-umbra)
-  );
+  --_eevenkoto-card-shadow: var(--eevenkoto-card-shadow, none);
 
   /* 2. ELEMENT STYLING DECLARATIONS */
+  display: flex;
+  flex-direction: column;
   box-sizing: border-box;
-  padding: var(--eevenkoto-space-6);
-  background-color: var(--_eevenkoto-card-bg);
-  border: var(--eevenkoto-line-width-1) solid var(--_eevenkoto-card-border-color);
-  border-radius: var(--eevenkoto-radius-lg);
+  background: var(--_eevenkoto-card-bg);
+  border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-card-border-color);
+  border-radius: var(--eevenkoto-radius-md);
   box-shadow: var(--_eevenkoto-card-shadow);
-  color: var(--_eevenkoto-card-fg);
+  color: var(--_eevenkoto-card-text);
 }
 
-/* Moded Well variant — sets public API; host bridges resolve */
-.eevenkoto-card--sunken {
+/* Moded surface & elevation variants — set public API; host bridges resolve */
+.eevenkoto-card--surface-sunken {
   --eevenkoto-card-bg: var(--eevenkoto-color-surface-sunken);
-  --eevenkoto-card-shadow: none;
+}
+
+.eevenkoto-card--elevated {
+  --eevenkoto-card-shadow:
+    0 0.1rem 0.2rem var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.4rem 1.2rem var(--eevenkoto-color-depth-shadow-penumbra);
 }
 ```
 
@@ -671,6 +696,12 @@ These AST-based Stylelint checks run on `packages/css/**/*.css` and `apps/storyb
          └──────────────────────┬───────────────────────┘
                                 │ YES
                                 ▼
+         ┌──────────────────────────────────────────────┐
+         │    Check 7 & 8: Stacking & Rhythm Guards     │
+         │  --eevenkoto-z-* only; leaf-only text-trim   │
+         └──────────────────────┬───────────────────────┘
+                                │ YES
+                                ▼
                      [CI VALIDATION PASSED]
 ```
 
@@ -679,7 +710,9 @@ These AST-based Stylelint checks run on `packages/css/**/*.css` and `apps/storyb
 3. **Bridge Enforcement** (`eevenkoto/enforce-private-bridge`) — Flags component CSS that consumes a Tier 2 `--eevenkoto-color-*` token directly in a property without establishing a private `--_eevenkoto-*` bridge (with explicit carve-outs for dual-halo `:focus-visible` rings and browser-privacy-constrained `:visited` link rules).
 4. **Cyclic Invalidation Guard** (`eevenkoto/no-self-referencing-vars`) — Flags assignments where a public token references itself without a separate private variable.
 5. **Unknown Token Guard** (`eevenkoto/no-unknown-tokens`) — Rejects typos or phantom `--eevenkoto-*` names that are neither defined in Tier 1/2 nor locally bridged on the component.
-6. **Private Bridge Hygiene** (`eevenkoto/private-bridge-hygiene`) — Rejects state-suffixed `--_*` bridges (`-hover`, `-invalid`, `-error`, etc.), duplicate `--_*` declarations in a single block, `--_*` reassignments on BEM `--modifier` or pseudo-state rules, and embedded SVG `<path>` data URLs outside `tokens.css`. (In Tier 2 `tokens.css`, `eevenkoto/constrain-tier2-color-mix` also restricts `color-mix()` to same-hue `transparent` alpha ramps.)
+6. **Private Bridge Hygiene** (`eevenkoto/private-bridge-hygiene`) — Rejects state-suffixed `--_*` bridges (`-hover`, `-invalid`, `-error`, etc.), duplicate `--_*` declarations in a single block, `--_*` reassignments on BEM `--modifier` or pseudo-state rules, and embedded SVG `<path>` data URLs outside `tokens.css`. (In Tier 2 `tokens.css`, `eevenkoto/constrain-tier2-color-mix` also restricts `color-mix()` to same-hue `transparent` alpha ramps and disabled tint endpoints.)
+7. **Stacking Scale Guard** (`eevenkoto/z-index-token`) — Rejects positive integer `z-index` literals outside `tokens.css`; floating overlays and sticky chrome (`Popover`, `FloatingBanner`, `Toast`, `ProgressBar`, `TableOfContents`, `LicenseBar`, `TableShell`) must consume `--eevenkoto-z-*`.
+8. **Rhythm Trim Guard** (`eevenkoto/no-global-text-box-trim`) — Rejects `text-box` / `text-box-trim` on `*`, `html`, `body`, `.eevenkoto-prose`, or `.eevenkoto-flow`; optical cap/alphabetic trim is restricted to single-line leaf controls (`Button`, `LinkButton`).
 
 ```css
 /* CI FAILS THIS: Cyclic invalidation (IACVT) */

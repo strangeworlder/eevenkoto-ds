@@ -69,7 +69,6 @@
   transition:
     opacity var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
     transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
-  text-box: normal;
 }
 
 .eevenkoto-toast__icon,

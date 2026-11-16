@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Select
 
-Native dropdown picker wrapped in styled `.eevenkoto-select` chrome. Consumes Tier 2 **`form-input`** tokens: border, background, focus ring, invalid states, and an embedded SVG chevron arrow.
+Native dropdown picker wrapped in styled `.eevenkoto-select` chrome (`<span class="eevenkoto-select">` + `<select class="eevenkoto-select__field">` + `chevron-down` Icon). Consumes Tier 2 **`form-input`** tokens: border, background, focus ring, and invalid states.
 
 <Canvas of={SelectStories.Default} />
 
@@ -79,11 +79,11 @@ Dropdown selection from a list of 5+ mutually exclusive choices without taking u
    - If options have secondary mechanics descriptions → **RadioGroup `variant="card"`**
    - If space is limited or options are simple strings → **Select**
 3. **8+ options**:
-   - Always choose **Select**. Use `optgroup` (via `options: [{ label: 'Group', options: [...] }]`) to organize large lists into scannable subcategories.
+   - Always choose **Select**. Use `optgroup` (via `groups: [{ label: 'Group', options: [...] }]`) to organize large lists into scannable subcategories.
 
 ## Grouped options
 
-Options can be nested into categories using option groups:
+Options can be nested into categories using `groups` (which may also be combined with top-level `options`):
 
 <Canvas of={SelectStories.GroupedOptions} />
 
@@ -92,68 +92,127 @@ Options can be nested into categories using option groups:
 Host alone renders the default styled select wrapper:
 
 ```html
-<div class="eevenkoto-select">
-  <select class="eevenkoto-select__control">
+<span class="eevenkoto-select">
+  <select class="eevenkoto-select__field">
     <option value="1">Yksi</option>
     <option value="2">Kaksi</option>
   </select>
-  <span class="eevenkoto-select__icon" aria-hidden="true">...</span>
-</div>
+  <span class="eevenkoto-select__icon" aria-hidden="true">…</span>
+</span>
 ```
 
 ## API reference
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `options` | `Array<SelectOption \| SelectOptionGroup>` | `[]` | List of options or option groups. |
-| `value` | `string` | — | Current selected value. |
-| `placeholder` | `string` | — | Placeholder label for empty selection. |
-| `disabled` | `boolean` | `false` | Disabled state. |
-| `invalid` | `boolean` | `false` | Invalid validation state. |
+| `id` | `string` | — | Wire to Field `htmlFor` / `<label for>`. |
+| `name` | `string` | — | Native `<select name>` attribute. |
+| `options` | `SelectOption[]` | `[]` | Flat `<option>` items (`{ value, label, disabled? }`). |
+| `groups` | `SelectOptionGroup[]` | `[]` | Categorized `<optgroup>` sets (`{ label, options }`); may be combined with `options`. |
+| `value` | `string` | — | Controlled selected value. |
+| `defaultValue` | `string` | — | Initial selected value when `value` is omitted. |
+| `placeholder` | `string` | — | Disabled placeholder `<option value="">` for empty selection. |
+| `ariaLabel` | `string` | — | `aria-label` when **no** visible Field label. |
+| `describedBy` | `string` | — | `aria-describedby` (Field message id). |
+| `disabled` | `boolean` | `false` | Disabled state (`eevenkoto-select--disabled` + native `disabled`). |
+| `invalid` | `boolean` | `false` | Invalid validation state (`eevenkoto-select--invalid` + `aria-invalid="true"`). |
 | `size` | `'sm' \| 'md'` | `'md'` | Sizing scale. |
+| `fullWidth` | `boolean` | `false` | Stretches wrapper to `inline-size: 100%` (`eevenkoto-select--full-width`). |
 
 <ArgTypes of={SelectStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-select-bg` | Field wrapper background |
+| `--eevenkoto-select-text` | Selected option text color |
+| `--eevenkoto-select-icon` | Trailing chevron icon color |
+| `--eevenkoto-select-border-color` | Field wrapper border color |
+| `--eevenkoto-select-border-width` | Field wrapper border width |
+| `--eevenkoto-select-radius` | Corner radius (`radius-sm`) |
+| `--eevenkoto-select-pad-block` / `--eevenkoto-select-pad-inline` | Field padding |
+| `--eevenkoto-select-pad-inline-end` | Trailing space reserved for chevron |
+| `--eevenkoto-select-font-size` | Font size (`control-*`) |
+
 ## Framework packages
 
-```html
-<!-- HTML -->
-<div class="eevenkoto-select">
-  <select class="eevenkoto-select__control">
-    <option value="crude">Karkea</option>
-    <option value="standard" selected>Tavallinen</option>
-  </select>
-</div>
+Import both `@eevenkoto/css/select.css` and `@eevenkoto/css/icon.css` (Select renders the `chevron-down` Icon atom).
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/select.css';
+import '@eevenkoto/css/icon.css';
+import { renderSelect } from '@eevenkoto/html';
+
+renderSelect({
+  id: 'weapon-quality',
+  value: 'standard',
+  options: [
+    { value: 'crude', label: 'Karkea' },
+    { value: 'standard', label: 'Tavallinen' },
+  ],
+});
 ```
 
 ```tsx
-// React
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/select.css';
+import '@eevenkoto/css/icon.css';
 import { Select } from '@eevenkoto/react';
 
-<Select
-  value={quality}
-  onChange={(e) => setQuality(e.target.value)}
-  options={[
-    { value: 'crude', label: 'Karkea' },
-    { value: 'standard', label: 'Tavallinen' },
-  ]}
-/>
+export function QualityPicker() {
+  const [quality, setQuality] = useState('standard');
+  return (
+    <Select
+      value={quality}
+      onChange={(e) => setQuality(e.target.value)}
+      options={[
+        { value: 'crude', label: 'Karkea' },
+        { value: 'standard', label: 'Tavallinen' },
+      ]}
+    />
+  );
+}
 ```
 
 ```vue
-<!-- Vue -->
 <script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/select.css';
+import '@eevenkoto/css/icon.css';
 import { Select } from '@eevenkoto/vue';
+
 const quality = ref('standard');
 </script>
 
 <template>
   <Select
-    v-model="quality"
+    v-model:value="quality"
     :options="[
       { value: 'crude', label: 'Karkea' },
       { value: 'standard', label: 'Tavallinen' },
     ]"
   />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/select.css';
+import '@eevenkoto/css/icon.css';
+import { Select } from '@eevenkoto/astro';
+---
+
+<Select
+  id="weapon-quality"
+  value="standard"
+  options={[
+    { value: 'crude', label: 'Karkea' },
+    { value: 'standard', label: 'Tavallinen' },
+  ]}
+/>
 ```

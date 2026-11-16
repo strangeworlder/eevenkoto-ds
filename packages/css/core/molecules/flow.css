@@ -1,23 +1,29 @@
 /* packages/css/core/molecules/flow.css */
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: FLOW (TIER 3)
-   Vertical rhythm for stacked primitives. Children lose their own block
-   margins; Flow owns gaps via padding-block-start (survives margin collapse
-   and global text-box trim better than stacked margins).
+   Vertical rhythm for stacked primitives and blocks. Children lose their own
+   outer block margins; Flow owns pair-aware gaps via `margin-block-start`, so
+   bordered, shaded, and padded children (Notice, Card, TableShell, H5 bands…)
+   receive true outer separation rather than internal padding.
 
-   Bare h1–h6 / p / ul / ol pair rules apply only when composed with Prose
-   (.eevenkoto-prose.eevenkoto-flow).
+   Bare h1–h6 / p / ul / ol / dl / blockquote / hr pair rules apply only when
+   composed with Prose (.eevenkoto-prose.eevenkoto-flow).
    ========================================================================== */
 
 .eevenkoto-flow {
   --_eevenkoto-flow-gap: var(--eevenkoto-flow-gap, var(--eevenkoto-space-4));
+  --_eevenkoto-flow-gap-block: var(--eevenkoto-flow-gap-block, var(--eevenkoto-space-6));
   --_eevenkoto-flow-gap-after-heading: var(
     --eevenkoto-flow-gap-after-heading,
     var(--eevenkoto-space-4)
   );
+  --_eevenkoto-flow-gap-after-subheading: var(
+    --eevenkoto-flow-gap-after-subheading,
+    var(--eevenkoto-space-2)
+  );
   --_eevenkoto-flow-gap-before-heading: var(
     --eevenkoto-flow-gap-before-heading,
-    var(--eevenkoto-space-8)
+    var(--eevenkoto-space-6)
   );
   --_eevenkoto-flow-gap-before-heading-macro: var(
     --eevenkoto-flow-gap-before-heading-macro,
@@ -42,145 +48,258 @@
   margin-block: 0;
 }
 
+.eevenkoto-flow > :is(.eevenkoto-image--float-left, .eevenkoto-image--float-right) {
+  margin-block-end: var(--eevenkoto-space-3);
+}
+
 .eevenkoto-flow > * + * {
-  padding-block-start: var(--_eevenkoto-flow-gap);
+  margin-block-start: var(--_eevenkoto-flow-gap);
 }
 
 /* Paragraph → paragraph */
 .eevenkoto-flow > .eevenkoto-paragraph + .eevenkoto-paragraph,
-.eevenkoto-prose.eevenkoto-flow > :where(p) + :where(p),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-paragraph + :where(p),
-.eevenkoto-prose.eevenkoto-flow > :where(p) + .eevenkoto-paragraph {
-  padding-block-start: var(--_eevenkoto-flow-gap-paragraph);
+.eevenkoto-prose.eevenkoto-flow > :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) + :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-paragraph + :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
+.eevenkoto-prose.eevenkoto-flow > :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) + .eevenkoto-paragraph {
+  margin-block-start: var(--_eevenkoto-flow-gap-paragraph);
 }
 
-/* List ↔ list / paragraph (same rhythm as paragraph clusters) */
+/* List / definition list / blockquote clusters */
 .eevenkoto-flow > .eevenkoto-list + .eevenkoto-list,
 .eevenkoto-flow > .eevenkoto-paragraph + .eevenkoto-list,
 .eevenkoto-flow > .eevenkoto-list + .eevenkoto-paragraph,
-.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + :where(ul, ol),
-.eevenkoto-prose.eevenkoto-flow > :where(p) + :where(ul, ol),
-.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + :where(p),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-paragraph + :where(ul, ol),
-.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + .eevenkoto-paragraph,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-list + :where(ul, ol),
-.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + .eevenkoto-list,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-list + :where(p),
-.eevenkoto-prose.eevenkoto-flow > :where(p) + .eevenkoto-list {
-  padding-block-start: var(--_eevenkoto-flow-gap-paragraph);
+.eevenkoto-prose.eevenkoto-flow
+  > :where(ul, ol, dl, blockquote):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"]))
+  + :where(ul, ol, dl, blockquote):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
+.eevenkoto-prose.eevenkoto-flow
+  > :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"]))
+  + :where(ul, ol, dl, blockquote):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
+.eevenkoto-prose.eevenkoto-flow
+  > :where(ul, ol, dl, blockquote):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"]))
+  + :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
+.eevenkoto-prose.eevenkoto-flow
+  > .eevenkoto-paragraph
+  + :where(ul, ol, dl, blockquote):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
+.eevenkoto-prose.eevenkoto-flow
+  > :where(ul, ol, dl, blockquote):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"]))
+  + .eevenkoto-paragraph,
+.eevenkoto-prose.eevenkoto-flow
+  > .eevenkoto-list
+  + :where(ul, ol, dl, blockquote):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
+.eevenkoto-prose.eevenkoto-flow
+  > :where(ul, ol, dl, blockquote):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"]))
+  + .eevenkoto-list,
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-list + :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
+.eevenkoto-prose.eevenkoto-flow > :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) + .eevenkoto-list {
+  margin-block-start: var(--_eevenkoto-flow-gap-paragraph);
 }
 
-/* Heading → following content (tighter than section breaks) */
-.eevenkoto-flow > .eevenkoto-heading + .eevenkoto-paragraph,
-.eevenkoto-flow > .eevenkoto-heading + .eevenkoto-caption,
-.eevenkoto-flow > .eevenkoto-heading + .eevenkoto-heading,
-.eevenkoto-flow > .eevenkoto-heading + .eevenkoto-list,
-.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + :where(p),
-.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-paragraph,
-.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-caption,
-.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + :where(h1, h2, h3, h4, h5, h6),
-.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-heading,
-.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + :where(ul, ol),
-.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-list,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading + :where(p),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading + :where(h1, h2, h3, h4, h5, h6),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading + :where(ul, ol) {
-  padding-block-start: var(--_eevenkoto-flow-gap-after-heading);
+/* Boxed blocks & dividers inside reading flows get generous outer air */
+.eevenkoto-prose.eevenkoto-flow
+  > :where(:not(h1, h2, h3, h4, h5, h6, .eevenkoto-heading))
+  + :where(
+    .eevenkoto-notice,
+    .eevenkoto-card,
+    .eevenkoto-table-shell,
+    .eevenkoto-table,
+    .eevenkoto-disclosure,
+    .eevenkoto-statblock,
+    .eevenkoto-spellblock,
+    .eevenkoto-equipment-block,
+    .eevenkoto-read-aloud-box,
+    .eevenkoto-map-frame,
+    .eevenkoto-npc-card,
+    .eevenkoto-npc-card-grid,
+    .eevenkoto-workshop
+  ),
+.eevenkoto-prose.eevenkoto-flow
+  > :where(
+    .eevenkoto-notice,
+    .eevenkoto-card,
+    .eevenkoto-table-shell,
+    .eevenkoto-table,
+    .eevenkoto-disclosure,
+    .eevenkoto-statblock,
+    .eevenkoto-spellblock,
+    .eevenkoto-equipment-block,
+    .eevenkoto-read-aloud-box,
+    .eevenkoto-map-frame,
+    .eevenkoto-npc-card,
+    .eevenkoto-npc-card-grid,
+    .eevenkoto-workshop
+  )
+  + :where(p, ul, ol, dl, blockquote, .eevenkoto-paragraph, .eevenkoto-list) {
+  margin-block-start: var(--_eevenkoto-flow-gap-block);
 }
 
-/* Content → heading (open a new cluster) */
-.eevenkoto-flow > .eevenkoto-paragraph + .eevenkoto-heading,
-.eevenkoto-flow > .eevenkoto-caption + .eevenkoto-heading,
-.eevenkoto-flow > .eevenkoto-list + .eevenkoto-heading,
-.eevenkoto-prose.eevenkoto-flow > :where(p) + :where(h1, h2, h3, h4, h5, h6),
-.eevenkoto-prose.eevenkoto-flow > :where(p) + .eevenkoto-heading,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-paragraph + :where(h1, h2, h3, h4, h5, h6),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-caption + :where(h1, h2, h3, h4, h5, h6),
-.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + :where(h1, h2, h3, h4, h5, h6),
-.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + .eevenkoto-heading,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-list + :where(h1, h2, h3, h4, h5, h6) {
-  padding-block-start: var(--_eevenkoto-flow-gap-before-heading);
+/* Homogeneous UI notice stacks stay at the standard stack gap */
+.eevenkoto-flow > .eevenkoto-notice + .eevenkoto-notice {
+  margin-block-start: var(--_eevenkoto-flow-gap);
+}
+
+.eevenkoto-flow > * + .eevenkoto-divider,
+.eevenkoto-flow > .eevenkoto-divider + *,
+.eevenkoto-prose.eevenkoto-flow > * + :where(hr:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
+.eevenkoto-prose.eevenkoto-flow > :where(hr:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) + * {
+  margin-block-start: var(--_eevenkoto-flow-gap-block);
+}
+
+/* Any non-heading sibling → heading (open a new cluster) */
+.eevenkoto-flow > * + .eevenkoto-heading,
+.eevenkoto-prose.eevenkoto-flow
+  > *
+  + :where(h1, h2, h3, h4, h5, h6):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) {
+  margin-block-start: var(--_eevenkoto-flow-gap-before-heading);
 }
 
 /* Macro headings need more air before them */
 .eevenkoto-flow > * + .eevenkoto-heading--1,
 .eevenkoto-flow > * + .eevenkoto-heading--2,
-.eevenkoto-prose.eevenkoto-flow > * + :where(h1, h2) {
-  padding-block-start: var(--_eevenkoto-flow-gap-before-heading-macro);
+.eevenkoto-flow > * + :where(h1, h2).eevenkoto-heading:where(:not([class*="eevenkoto-heading--"])),
+.eevenkoto-prose.eevenkoto-flow > * + :where(h1, h2):where(:not([class*="eevenkoto-heading--"])) {
+  margin-block-start: var(--_eevenkoto-flow-gap-before-heading-macro);
+}
+
+/* Micro H6 opens a gentle inline/cluster break */
+.eevenkoto-flow > * + .eevenkoto-heading--6,
+.eevenkoto-flow > * + :where(h6).eevenkoto-heading:where(:not([class*="eevenkoto-heading--"])),
+.eevenkoto-prose.eevenkoto-flow > * + :where(h6):where(:not([class*="eevenkoto-heading--"])) {
+  margin-block-start: var(--eevenkoto-space-4);
+}
+
+/* Heading → following content (tighter than section breaks) */
+.eevenkoto-flow > .eevenkoto-heading--1 + *,
+.eevenkoto-flow > .eevenkoto-heading--2 + *,
+.eevenkoto-flow > :where(h1, h2).eevenkoto-heading:where(:not([class*="eevenkoto-heading--"])) + *,
+.eevenkoto-prose.eevenkoto-flow > :where(h1, h2):where(:not([class*="eevenkoto-heading--"])) + * {
+  margin-block-start: var(--_eevenkoto-flow-gap-after-heading);
+}
+
+.eevenkoto-flow > .eevenkoto-heading--3 + *,
+.eevenkoto-flow > .eevenkoto-heading--4 + *,
+.eevenkoto-flow > :where(h3, h4).eevenkoto-heading:where(:not([class*="eevenkoto-heading--"])) + *,
+.eevenkoto-prose.eevenkoto-flow > :where(h3, h4):where(:not([class*="eevenkoto-heading--"])) + * {
+  margin-block-start: var(--_eevenkoto-flow-gap-after-subheading);
+}
+
+.eevenkoto-flow > .eevenkoto-heading--5 + *,
+.eevenkoto-flow > :where(h5).eevenkoto-heading:where(:not([class*="eevenkoto-heading--"])) + *,
+.eevenkoto-prose.eevenkoto-flow > :where(h5):where(:not([class*="eevenkoto-heading--"])) + * {
+  margin-block-start: var(--eevenkoto-space-3);
+}
+
+.eevenkoto-flow > .eevenkoto-heading--6 + *,
+.eevenkoto-flow > :where(h6).eevenkoto-heading:where(:not([class*="eevenkoto-heading--"])) + *,
+.eevenkoto-prose.eevenkoto-flow > :where(h6):where(:not([class*="eevenkoto-heading--"])) + * {
+  margin-block-start: var(--eevenkoto-space-1);
+}
+
+/* Heading → child heading stays coupled under the parent section */
+.eevenkoto-flow > :where(.eevenkoto-heading--1, .eevenkoto-heading--2) + :where(.eevenkoto-heading, h2, h3, h4, h5, h6),
+.eevenkoto-flow
+  > :where(h1, h2).eevenkoto-heading:where(:not([class*="eevenkoto-heading--"]))
+  + :where(.eevenkoto-heading, h2, h3, h4, h5, h6),
+.eevenkoto-prose.eevenkoto-flow
+  > :where(h1, h2):where(:not([class*="eevenkoto-heading--"]))
+  + :where(.eevenkoto-heading, h2, h3, h4, h5, h6) {
+  margin-block-start: var(--_eevenkoto-flow-gap-after-heading);
+}
+
+.eevenkoto-flow > :where(.eevenkoto-heading--3, .eevenkoto-heading--4, .eevenkoto-heading--5, .eevenkoto-heading--6) + :where(.eevenkoto-heading, h3, h4, h5, h6),
+.eevenkoto-flow
+  > :where(h3, h4, h5, h6).eevenkoto-heading:where(:not([class*="eevenkoto-heading--"]))
+  + :where(.eevenkoto-heading, h3, h4, h5, h6),
+.eevenkoto-prose.eevenkoto-flow
+  > :where(h3, h4, h5, h6):where(:not([class*="eevenkoto-heading--"]))
+  + :where(.eevenkoto-heading, h3, h4, h5, h6) {
+  margin-block-start: var(--eevenkoto-space-3);
 }
 
 /* Caption sits close to the block it annotates */
-.eevenkoto-flow > .eevenkoto-paragraph + .eevenkoto-caption,
-.eevenkoto-flow > .eevenkoto-heading + .eevenkoto-caption,
-.eevenkoto-flow > .eevenkoto-list + .eevenkoto-caption,
-.eevenkoto-prose.eevenkoto-flow > :where(p) + .eevenkoto-caption,
-.eevenkoto-prose.eevenkoto-flow > :where(h1, h2, h3, h4, h5, h6) + .eevenkoto-caption,
-.eevenkoto-prose.eevenkoto-flow > :where(ul, ol) + .eevenkoto-caption,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-list + .eevenkoto-caption {
-  padding-block-start: var(--_eevenkoto-flow-gap-caption);
+.eevenkoto-flow > * + .eevenkoto-caption {
+  margin-block-start: var(--_eevenkoto-flow-gap-caption);
 }
 
 /* Caption → list (same close annotation gap as caption after content) */
 .eevenkoto-flow > .eevenkoto-caption + .eevenkoto-list,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-caption + :where(ul, ol),
+.eevenkoto-prose.eevenkoto-flow > .eevenkoto-caption + :where(ul, ol):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"])),
 .eevenkoto-prose.eevenkoto-flow > .eevenkoto-caption + .eevenkoto-list {
-  padding-block-start: var(--_eevenkoto-flow-gap-caption);
+  margin-block-start: var(--_eevenkoto-flow-gap-caption);
 }
 
-/* H5 band: slightly tighter follow-on */
-.eevenkoto-flow > .eevenkoto-heading--5 + .eevenkoto-paragraph,
-.eevenkoto-flow > .eevenkoto-heading--5 + .eevenkoto-list,
-.eevenkoto-prose.eevenkoto-flow > :where(h5) + :where(p),
-.eevenkoto-prose.eevenkoto-flow > :where(h5) + .eevenkoto-paragraph,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--5 + :where(p),
-.eevenkoto-prose.eevenkoto-flow > :where(h5) + :where(ul, ol),
-.eevenkoto-prose.eevenkoto-flow > :where(h5) + .eevenkoto-list,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--5 + :where(ul, ol) {
-  padding-block-start: var(--eevenkoto-space-3);
+/* Run-in H2–H6 + paragraph stay on one line — no stack gap between them */
+.eevenkoto-flow
+  > *
+  + :is(
+    .eevenkoto-heading--2,
+    .eevenkoto-heading--3,
+    .eevenkoto-heading--4,
+    .eevenkoto-heading--5
+  ).eevenkoto-heading--run-in {
+  margin-block-start: var(--_eevenkoto-flow-gap-before-heading);
 }
 
-/* Run-in H2 / H3 / H6 + paragraph stay on one line — no stack gap between them */
-.eevenkoto-flow > .eevenkoto-heading--2.eevenkoto-heading--run-in,
-.eevenkoto-flow > .eevenkoto-heading--3.eevenkoto-heading--run-in,
-.eevenkoto-flow > .eevenkoto-heading--6.eevenkoto-heading--run-in {
-  padding-block-start: var(--_eevenkoto-flow-gap-before-heading);
+.eevenkoto-flow > * + .eevenkoto-heading--6.eevenkoto-heading--run-in {
+  margin-block-start: var(--eevenkoto-space-4);
 }
 
-.eevenkoto-flow > .eevenkoto-heading--2.eevenkoto-heading--run-in + .eevenkoto-paragraph,
-.eevenkoto-flow > .eevenkoto-heading--3.eevenkoto-heading--run-in + .eevenkoto-paragraph,
-.eevenkoto-flow > .eevenkoto-heading--6.eevenkoto-heading--run-in + .eevenkoto-paragraph,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--2.eevenkoto-heading--run-in + :where(p),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--3.eevenkoto-heading--run-in + :where(p),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-heading--6.eevenkoto-heading--run-in + :where(p) {
-  padding-block-start: 0;
+.eevenkoto-flow
+  > :is(
+    .eevenkoto-heading--2,
+    .eevenkoto-heading--3,
+    .eevenkoto-heading--4,
+    .eevenkoto-heading--5,
+    .eevenkoto-heading--6
+  ).eevenkoto-heading--run-in
+  + .eevenkoto-paragraph,
+.eevenkoto-prose.eevenkoto-flow
+  > :is(
+    .eevenkoto-heading--2,
+    .eevenkoto-heading--3,
+    .eevenkoto-heading--4,
+    .eevenkoto-heading--5,
+    .eevenkoto-heading--6
+  ).eevenkoto-heading--run-in
+  + :where(p:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) {
+  margin-block-start: 0;
 }
 
 /* Nested flows (sections) participate as single stack items */
 .eevenkoto-flow > .eevenkoto-flow + .eevenkoto-flow,
-.eevenkoto-flow > * + .eevenkoto-flow {
-  padding-block-start: var(--_eevenkoto-flow-gap-before-heading-macro);
+.eevenkoto-flow > :where(:not(.eevenkoto-heading, h1, h2, h3, h4, h5, h6)) + .eevenkoto-flow {
+  margin-block-start: var(--_eevenkoto-flow-gap-before-heading-macro);
 }
 
 /* Floated image → sibling content: start text flush with image top */
-.eevenkoto-flow > .eevenkoto-image--float-left + *,
-.eevenkoto-flow > .eevenkoto-image--float-right + * {
-  padding-block-start: 0;
+.eevenkoto-flow > :is(.eevenkoto-image--float-left, .eevenkoto-image--float-right) + * {
+  margin-block-start: 0;
 }
 
 /* Heading following floated content clears the float */
-.eevenkoto-flow > .eevenkoto-image--float-left + .eevenkoto-heading,
-.eevenkoto-flow > .eevenkoto-image--float-right + .eevenkoto-heading,
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-image--float-left + :where(h1, h2, h3, h4, h5, h6),
-.eevenkoto-prose.eevenkoto-flow > .eevenkoto-image--float-right + :where(h1, h2, h3, h4, h5, h6) {
+.eevenkoto-flow > :is(.eevenkoto-image--float-left, .eevenkoto-image--float-right) + .eevenkoto-heading,
+.eevenkoto-prose.eevenkoto-flow
+  > :is(.eevenkoto-image--float-left, .eevenkoto-image--float-right)
+  + :where(h1, h2, h3, h4, h5, h6):where(:not([class^="eevenkoto-"], [class*=" eevenkoto-"])) {
   clear: both;
-  padding-block-start: var(--_eevenkoto-flow-gap-before-heading);
+  margin-block-start: var(--_eevenkoto-flow-gap-before-heading);
+}
+
+.eevenkoto-flow > :is(.eevenkoto-image--float-left, .eevenkoto-image--float-right) + .eevenkoto-heading--1,
+.eevenkoto-flow > :is(.eevenkoto-image--float-left, .eevenkoto-image--float-right) + .eevenkoto-heading--2,
+.eevenkoto-prose.eevenkoto-flow
+  > :is(.eevenkoto-image--float-left, .eevenkoto-image--float-right)
+  + :where(h1, h2):where(:not([class*="eevenkoto-heading--"])) {
+  clear: both;
+  margin-block-start: var(--_eevenkoto-flow-gap-before-heading-macro);
 }
 
 /* --- Density modifiers --- */
 
 .eevenkoto-flow--tight {
   --eevenkoto-flow-gap: var(--eevenkoto-space-2);
+  --eevenkoto-flow-gap-block: var(--eevenkoto-space-4);
   --eevenkoto-flow-gap-after-heading: var(--eevenkoto-space-2);
+  --eevenkoto-flow-gap-after-subheading: var(--eevenkoto-space-1);
   --eevenkoto-flow-gap-before-heading: var(--eevenkoto-space-4);
   --eevenkoto-flow-gap-before-heading-macro: var(--eevenkoto-space-6);
   --eevenkoto-flow-gap-paragraph: var(--eevenkoto-space-3);
@@ -188,7 +307,9 @@
 
 .eevenkoto-flow--loose {
   --eevenkoto-flow-gap: var(--eevenkoto-space-6);
+  --eevenkoto-flow-gap-block: var(--eevenkoto-space-8);
   --eevenkoto-flow-gap-after-heading: var(--eevenkoto-space-4);
+  --eevenkoto-flow-gap-after-subheading: var(--eevenkoto-space-3);
   --eevenkoto-flow-gap-before-heading: var(--eevenkoto-space-8);
   --eevenkoto-flow-gap-before-heading-macro: var(--eevenkoto-space-8);
   --eevenkoto-flow-gap-paragraph: var(--eevenkoto-space-6);

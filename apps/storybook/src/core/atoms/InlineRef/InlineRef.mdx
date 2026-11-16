@@ -117,7 +117,21 @@ Gated destination with a trailing lock. Migration: `.tooltip-ref-locked` + inlin
 
 <ArgTypes of={InlineRefStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-inline-ref-bg` | Hover/focus chip fill |
+| `--eevenkoto-inline-ref-text` | Reference ink |
+| `--eevenkoto-inline-ref-border-color` | Hover/focus chip border |
+| `--eevenkoto-inline-ref-underline` | Link underline color |
+| `--eevenkoto-inline-ref-border-width` | Chip border width |
+| `--eevenkoto-inline-ref-radius` | Chip corner radius |
+| `--eevenkoto-inline-ref-pad-block` / `--eevenkoto-inline-ref-pad-inline` | Inline chip padding |
+
 ## Framework packages
+
+`inline-ref.css` imports `icon.css` automatically for the `locked` indicator.
 
 ```ts
 import '@eevenkoto/css/styles.css';
@@ -127,6 +141,36 @@ import { renderInlineRef } from '@eevenkoto/html';
 renderInlineRef({ name: 'Cure Wounds', href: '/spells/cure-wounds' });
 renderInlineRef({ name: 'hurman', unlinked: true });
 renderInlineRef({ name: 'mystikko', href: '/classes/mystikko', locked: true, lockedLabel: 'Lukittu' });
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/inline-ref.css';
+import { InlineRef } from '@eevenkoto/react';
+
+<InlineRef name="Cure Wounds" href="/spells/cure-wounds" />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/inline-ref.css';
+import { InlineRef } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <InlineRef name="Cure Wounds" href="/spells/cure-wounds" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/inline-ref.css';
+import { InlineRef } from '@eevenkoto/astro';
+---
+
+<InlineRef name="Cure Wounds" href="/spells/cure-wounds" />
 ```
 
 Related: [EntityRef](?path=/docs/domain-atoms-entityref--docs) · [Popover](?path=/docs/core-atoms-popover--docs) · [TooltipCard](?path=/docs/core-molecules-tooltipcard--docs) · [Icon](?path=/docs/core-atoms-icon--docs)

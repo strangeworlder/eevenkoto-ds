@@ -44,6 +44,14 @@ Inside a [Table](?path=/docs/core-molecules-table--docs) the base class is redun
 
 <Controls of={TableCellStories.Default} />
 
+## Why to use
+
+Tabular columns need distinct alignment and width roles (`index`, `numeric`, `text`) plus optional angled numeric headers without repeating cell CSS across custom tables.
+
+## When to use
+
+Compose `TableCell` automatically via [Table](?path=/docs/core-molecules-table--docs), or use `TableCell` directly when building custom `<thead>` / `<tbody>` rows (pass `inTable` under `.eevenkoto-table` to omit redundant default classes).
+
 ## Kinds
 
 | Kind | Role |
@@ -56,13 +64,41 @@ Inside a [Table](?path=/docs/core-molecules-table--docs) the base class is redun
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `kind` | `'index' \| 'numeric' \| 'text'` | `'text'` | Column role (`eevenkoto-table-cell--*`). |
+| `inTable` | `boolean` | `false` | Omits redundant host/`--text` classes when nested under `.eevenkoto-table`. |
+| `text` | `string` | — | Plain-text cell copy (`children` / default slot in React, Vue, and Astro). |
+| `html` | `string` | — | Trusted pre-rendered inline HTML (takes precedence over `text`). |
+| `header` | `boolean` | `false` | Renders `<th>` instead of `<td>`. |
+| `scope` | `'col' \| 'row' \| 'colgroup' \| 'rowgroup'` | — | `scope` attribute when `header` is `true`. |
+| `colSpan` | `number` | — | `colspan` attribute. |
+| `rowSpan` | `number` | — | `rowspan` attribute. |
+| `angled` | `boolean` | `false` | Wraps header label for angled numeric heads (`numeric` + `header`). |
+| `attributes` | `TableElementAttributes` | — | Extra HTML/data/ARIA attributes on `<th>` / `<td>`. |
+| `tabIndex` | `number` | — | `tabindex` attribute (HTML/Astro; React/Vue via host attributes). |
+| `id` | `string` | — | Cell element `id` (React, Vue, and Astro HTML attributes, or `attributes.id` in HTML). |
+
 <ArgTypes of={TableCellStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-table-cell-color` | Cell text color (`content-primary`) |
+| `--eevenkoto-table-cell-font-size` | Cell font size (`font-size-body-md`) |
+| `--eevenkoto-table-cell-font-family` | Cell font family (`font-sans`) |
+| `--eevenkoto-table-cell-padding-block` | Block cell padding (`space-2`) |
+| `--eevenkoto-table-cell-padding-inline` | Inline cell padding (`space-3`) |
+| `--eevenkoto-table-cell-border-color` | Bottom rule color (`boundary-subtle`) |
+| `--eevenkoto-table-cell-border-width` | Bottom rule thickness (`line-width-sm`) |
 
 ## Framework packages
 
-HTML uses a `text` prop. React/Vue use children / the default slot.
+HTML uses a `text` (or `html`) prop. React, Vue, and Astro use children / the default slot.
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/table-cell.css';
 import { renderTableCell } from '@eevenkoto/html';
 
@@ -71,25 +107,44 @@ renderTableCell({ kind: 'numeric', header: true, scope: 'col', text: 'Lvl', angl
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/table-cell.css';
 import { TableCell } from '@eevenkoto/react';
 
-<TableCell>Body cell</TableCell>
-<TableCell header scope="col" kind="numeric" angled>
-  Lvl
-</TableCell>
+<tr>
+  <TableCell header scope="col" kind="numeric" angled>
+    Lvl
+  </TableCell>
+  <TableCell>Body cell</TableCell>
+</tr>
 ```
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/table-cell.css';
 import { TableCell } from '@eevenkoto/vue';
 </script>
 
 <template>
-  <TableCell>Body cell</TableCell>
-  <TableCell header scope="col" kind="numeric" angled>Lvl</TableCell>
+  <tr>
+    <TableCell header scope="col" kind="numeric" angled>Lvl</TableCell>
+    <TableCell>Body cell</TableCell>
+  </tr>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/table-cell.css';
+import { TableCell } from '@eevenkoto/astro';
+---
+
+<tr>
+  <TableCell header scope="col" kind="numeric" angled>Lvl</TableCell>
+  <TableCell>Body cell</TableCell>
+</tr>
 ```
 
 ## Related

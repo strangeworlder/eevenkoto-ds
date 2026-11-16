@@ -9,7 +9,10 @@ import { Chip } from '../atoms/Chip';
 
 export type { ChipGroupProps };
 
-export type ChipGroupComponentProps = Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, 'children'> &
+export type ChipGroupComponentProps = Omit<
+  FieldsetHTMLAttributes<HTMLFieldSetElement>,
+  'children' | 'onSelect'
+> &
   ChipGroupProps & {
     onSelect?: (value: string) => void;
   };

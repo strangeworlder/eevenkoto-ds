@@ -79,9 +79,22 @@ Rules and roster UIs need a compact face mark for a character or account without
 
 <ArgTypes of={AvatarStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-avatar-size` | Diameter (`space-6` / `space-8` / `4.8rem`) |
+| `--eevenkoto-avatar-bg` | Placeholder well fill (`surface-sunken`) |
+| `--eevenkoto-avatar-text` | Placeholder glyph ink (`content-tertiary`) |
+| `--eevenkoto-avatar-border-color` | Ring stroke color (`boundary-subtle`) |
+| `--eevenkoto-avatar-border-width` | Ring stroke width (`line-width-sm`) |
+
 ## Framework packages
 
+Import `icon.css` alongside `avatar.css` whenever the placeholder may render (no `src`).
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/avatar.css';
 import '@eevenkoto/css/icon.css';
 import { renderAvatar } from '@eevenkoto/html';
@@ -91,10 +104,34 @@ renderAvatar({ name: 'Elowen Karth', src: '/portraits/elowen.webp' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/avatar.css';
+import '@eevenkoto/css/icon.css';
 import { Avatar } from '@eevenkoto/react';
 
-<Avatar name="Elowen Karth" />
 <Avatar name="Elowen Karth" src="/portraits/elowen.webp" />
 ```
 
-Import `icon.css` whenever the placeholder may render (no `src`).
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/avatar.css';
+import '@eevenkoto/css/icon.css';
+import { Avatar } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Avatar name="Elowen Karth" src="/portraits/elowen.webp" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/avatar.css';
+import '@eevenkoto/css/icon.css';
+import { Avatar } from '@eevenkoto/astro';
+---
+
+<Avatar name="Elowen Karth" src="/portraits/elowen.webp" />
+```

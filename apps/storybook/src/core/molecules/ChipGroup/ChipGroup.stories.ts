@@ -13,11 +13,13 @@ const meta: Meta<ChipGroupProps> = {
     },
   },
   argTypes: {
+    id: { control: 'text', description: 'Optional `<fieldset id>`.' },
     label: { control: 'text' },
     hideLegend: { control: 'boolean' },
     mode: { control: 'select', options: ['single', 'multiple'], table: { defaultValue: { summary: 'single' } } },
     size: { control: 'select', options: ['sm', 'md'], table: { defaultValue: { summary: 'sm' } } },
     hidden: { control: 'boolean' },
+    options: { control: 'object', description: 'Chip options (`ChipGroupOption[]`).' },
   },
   args: {
     label: 'Taso',

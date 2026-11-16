@@ -26,6 +26,7 @@ const meta: Meta<IconProps> = {
       table: { defaultValue: { summary: 'md' } },
     },
     label: { control: 'text', description: 'Omit for decorative icons (aria-hidden).' },
+    className: { control: 'text', description: 'Optional extra CSS class(es) on `<svg>`.' },
   },
   render: (args) => renderIcon(args),
 };

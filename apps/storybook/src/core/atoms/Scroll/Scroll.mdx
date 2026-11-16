@@ -64,11 +64,24 @@ Wrap content that may exceed the viewport or frame. TableShell enables Scroll by
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `axis` | `'x' \| 'y' \| 'both'` | `'x'` | Overflow axis (`eevenkoto-scroll--x` / `--y` / `--both`). |
+| `content` | `string` | — | HTML package: inner HTML (`children` / default slot in React, Vue, and Astro). |
+| `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={ScrollStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-scroll-max-block` | Maximum block size when scrolling vertically (`--y` / `--both`) |
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/scroll.css';
 import { renderScroll } from '@eevenkoto/html';
 
@@ -76,6 +89,8 @@ renderScroll({ content: '…', axis: 'x' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/scroll.css';
 import { Scroll } from '@eevenkoto/react';
 
 <Scroll axis="x">…</Scroll>
@@ -83,12 +98,24 @@ import { Scroll } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/scroll.css';
 import { Scroll } from '@eevenkoto/vue';
 </script>
 
 <template>
   <Scroll axis="x">…</Scroll>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/scroll.css';
+import { Scroll } from '@eevenkoto/astro';
+---
+
+<Scroll axis="x">…</Scroll>
 ```
 
 ## Related

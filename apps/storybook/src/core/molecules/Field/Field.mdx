@@ -30,7 +30,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 A **Field** is a labeled form control: visible `<label for>`, a control slot (usually [Input](?path=/docs/core-atoms-input--docs)), and an optional hint or error message. It exists so forms meet basic WCAG — a real label, and errors as **text**, not color alone.
 
-Stack rhythm uses `padding-block-start` between parts (like [Flow](?path=/docs/core-molecules-flow--docs)), and Field resets `text-box` so global trim in `styles.css` does not collapse the label into the control.
+Stack rhythm uses flex `gap` (`--eevenkoto-field-gap`, default `--eevenkoto-space-2`) between label, control, and hint/error message.
 
 **Default for forms:** use Field. Bare Input is only for chrome-only controls (see table below).
 
@@ -182,7 +182,24 @@ Pass `action` (prop in HTML/React, `action` slot in Vue/Astro) to pair a control
 
 <ArgTypes of={FieldStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-field-gap` | Vertical gap between label, control, and message (`space-2`) |
+| `--eevenkoto-field-label-text` | Label color (`content-primary`) |
+| `--eevenkoto-field-label-weight` | Label font weight (`font-weight-semibold`) |
+| `--eevenkoto-field-label-size` | Label font size (`control-md`) |
+| `--eevenkoto-field-message-text` | Hint message ink (`content-tertiary`) |
+| `--eevenkoto-field-message-size` | Hint/error font size (`font-size-caption`) |
+| `--eevenkoto-field-message-error-text` | Error message ink (`form-input-message-invalid`) |
+
+## Framework packages
+
+Import `@eevenkoto/css/field.css` plus the stylesheet of the wrapped control (`input.css`, `select.css` + `icon.css`, etc., and `button.css` when passing a Button to `action`).
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/field.css';
 import '@eevenkoto/css/input.css';
 import { renderField, renderInput } from '@eevenkoto/html';
@@ -203,6 +220,60 @@ renderField({
     value: 'elowen',
   }),
 });
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/field.css';
+import '@eevenkoto/css/input.css';
+import { Field, Input } from '@eevenkoto/react';
+
+<Field
+  label="Email"
+  htmlFor="email"
+  error="Enter an email address that includes @."
+  messageId="email-message"
+>
+  <Input id="email" type="email" invalid describedBy="email-message" defaultValue="elowen" />
+</Field>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/field.css';
+import '@eevenkoto/css/input.css';
+import { Field, Input } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Field
+    label="Email"
+    html-for="email"
+    error="Enter an email address that includes @."
+    message-id="email-message"
+  >
+    <Input id="email" type="email" :invalid="true" described-by="email-message" value="elowen" />
+  </Field>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/field.css';
+import '@eevenkoto/css/input.css';
+import { Field, Input } from '@eevenkoto/astro';
+---
+
+<Field
+  label="Email"
+  htmlFor="email"
+  error="Enter an email address that includes @."
+  messageId="email-message"
+>
+  <Input id="email" type="email" invalid describedBy="email-message" value="elowen" />
+</Field>
 ```
 
 Related: [Input](?path=/docs/core-atoms-input--docs).

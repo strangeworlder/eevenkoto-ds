@@ -17,16 +17,16 @@ Atomic levels answer “how complex is this?” They do **not** answer “is thi
 
 | Scope | Meaning | Examples |
 | --- | --- | --- |
-| **Core** | Portable building blocks; English APIs; no RPG vocabulary required | Button, LinkButton, Badge, Heading, Property, List, Stat, Flow, Table, TableShell |
-| **Domain** | Content patterns for this product family; may compose Core freely | EntityRef, AbilityScore, StatblockFeature, Statblock, Spellblock |
+| **Core** | Portable building blocks; English APIs; no RPG vocabulary required | Button, LinkButton, Badge, Heading, Property, List, Stat, Flow, Card, Notice, Field, Menu, Table, TableShell, Workshop |
+| **Domain** | Content patterns for this product family; may compose Core freely | AbilityName, EntityRef, AbilityScore, StatblockFeature, Statblock, Spellblock, EquipmentBlock, ContentGate |
 
 ## Composition levels
 
 | Level | Owns | Core examples | Domain examples |
 | --- | --- | --- | --- |
-| **Atom** | One semantic unit + BEM classes | Button, LinkButton, Badge, StatusDot, Chip, Heading, Paragraph, Caption, Property, ListItem, Stat, Frame, Scroll, TableCell, InlineRef | EntityRef |
-| **Molecule** | Layout of atoms + local ARIA | Flow, Prose, PropertyList, List, Table, Menu, Catalog | AbilityScore, StatblockFeature, StatblockSection |
-| **Organism** | Page-shaped composition, slots, outline | TableShell | AbilityScoreGroup, Statblock, Spellblock |
+| **Atom** | One semantic unit + BEM classes | Button, LinkButton, Badge, StatusDot, Swatch, Chip, Divider, ProgressBar, Heading, Paragraph, Caption, Icon, Image, Avatar, Popover, Property, ListItem, Stat, Input, Select, Checkbox, Radio, Toast, Frame, Scroll, TableCell, InlineRef | AbilityName, EntityRef |
+| **Molecule** | Layout of atoms + local ARIA | Flow, Prose, PropertyList, List, Card, TooltipCard, Notice, Field, CheckboxGroup, RadioGroup, Stepper, SegmentedControl, Disclosure, ChipGroup, FloatingBanner, TableOfContents, SectionHeader, Table, Menu, Catalog, CatalogTile | AbilityScore, StatblockFeature, StatblockSection, DocumentHeader, ContentTable, EntityPreview, LicenseBar, ReadAloudBox, NpcCard, MapFrame |
+| **Organism** | Page-shaped composition, slots, outline | TableShell, Workshop, TierCard, AccountMenu | AbilityScoreGroup, Statblock, Spellblock, EquipmentBlock, EquipmentWorkshop, NpcCardGrid, ContentGate |
 
 Prop and file naming: see [Glossary](?path=/docs/foundations-glossary--docs).
 
@@ -38,6 +38,6 @@ Promote a Domain piece into Core only when reuse is proven across unrelated cont
 
 ## Source layout
 
-Package source mirrors the taxonomy (`core/atoms/…`, `domain/organisms/…`) while root barrels (`@eevenkoto/html`, `@eevenkoto/react`, …) keep a stable public export surface.
+Package source mirrors the taxonomy (`core/atoms/…`, `domain/organisms/…`) while root barrels (`@eevenkoto/html`, `@eevenkoto/react`, `@eevenkoto/vue`, `@eevenkoto/astro`) keep a stable public export surface.
 
 Storybook titles follow the same paths: `Core/Atoms/Button`, `Domain/Organisms/Statblock`.

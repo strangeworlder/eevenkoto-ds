@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import '@eevenkoto/css/card.css';
 import '@eevenkoto/css/button.css';
+import '@eevenkoto/css/icon.css';
 import '@eevenkoto/css/badge.css';
 import { renderBadge, renderButton, renderCard, type CardProps } from '@eevenkoto/html';
 
@@ -47,8 +48,11 @@ const meta: Meta<CardProps> = {
       options: [2, 3],
       description: 'Heading level for `title`. Default 2.',
     },
+    header: { control: 'text', description: 'Custom `<header>` inner HTML (HTML renderer).' },
     headerActions: { control: 'text', description: 'Trailing actions HTML inside `<header>`.' },
     body: { control: 'text', description: 'Body copy.' },
+    bodyHtml: { control: 'text', description: 'Trusted pre-rendered HTML body copy.' },
+    content: { control: 'text', description: 'Pre-rendered main body HTML (`children` / default slot in framework wrappers).' },
     actions: { control: 'text', description: 'Card actions HTML.' },
     footer: { control: 'text', description: 'Footer HTML.' },
     elevated: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },

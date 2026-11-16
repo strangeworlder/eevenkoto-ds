@@ -52,5 +52,79 @@ Pass `icon`, `title` (`titleLevel` `2 | 3`), and `subtitle` to render `.eevenkot
 | `footer` | `string \| ReactNode` | — | Top-bordered footer tray below `.eevenkoto-workshop__body` |
 | `controlsWidth` | `string` | `minmax(0, 1.35fr)` | Sets `--eevenkoto-workshop-controls-width` |
 | `label` | `string` | — | Adds `role="region"` + `aria-label` |
+| `id` | `string` | — | Explicit host `<div id>` |
+| `idSuffix` | `string` | — | Generates `workshop{idSuffix}` when `id` is omitted |
 
 <ArgTypes of={WorkshopStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-workshop-bg` | Workbench card background (`surface-raised`) |
+| `--eevenkoto-workshop-text` | Primary text color (`content-primary`) |
+| `--eevenkoto-workshop-muted` | Subtitle, toolbar, and hint color (`content-secondary`) |
+| `--eevenkoto-workshop-border-color` | Outer and band hairline border (`boundary-subtle`) |
+| `--eevenkoto-workshop-border-width` | Border width (`line-width-sm`) |
+| `--eevenkoto-workshop-radius` | Corner radius (`radius-md`) |
+| `--eevenkoto-workshop-pad` | Section padding (`space-6`) |
+| `--eevenkoto-workshop-gap` | Column and stack gap (`space-6`) |
+| `--eevenkoto-workshop-item-bg` | Sunken toolbar and group tile background (`surface-sunken`) |
+| `--eevenkoto-workshop-badge-bg` | Header icon badge fill (`surface-sunken`) |
+| `--eevenkoto-workshop-badge-color` | Header icon badge glyph color (`content-accent`) |
+| `--eevenkoto-workshop-controls-width` | Controls column grid track (`minmax(0, 1.35fr)`) |
+| `--eevenkoto-workshop-preview-width` | Preview column grid track (`minmax(0, 1fr)`) |
+
+## Framework packages
+
+`workshop.css` imports `icon.css` automatically; also import the stylesheets of any controls or preview cards placed inside its slots.
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/workshop.css';
+import { renderWorkshop } from '@eevenkoto/html';
+
+renderWorkshop({
+  title: 'Creature Generator',
+  controls: '…',
+  preview: '…',
+});
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/workshop.css';
+import { Workshop } from '@eevenkoto/react';
+
+<Workshop title="Creature Generator" preview={<div>Preview</div>}>
+  <div>Controls</div>
+</Workshop>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/workshop.css';
+import { Workshop } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Workshop title="Creature Generator">
+    <template #default>…</template>
+    <template #preview>…</template>
+  </Workshop>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/workshop.css';
+import { Workshop } from '@eevenkoto/astro';
+---
+
+<Workshop title="Creature Generator">
+  <div slot="controls">…</div>
+  <div slot="preview">…</div>
+</Workshop>
+```

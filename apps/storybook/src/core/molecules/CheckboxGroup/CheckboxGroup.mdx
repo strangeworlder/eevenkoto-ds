@@ -91,7 +91,7 @@ When limits are exceeded, switch `badgeIntent="critical"` and provide an `error`
 Host alone renders the default stack layout:
 
 ```html
-<fieldset class="eevenkoto-checkbox-group eevenkoto-checkbox-group--stack">
+<fieldset class="eevenkoto-checkbox-group">
   <div class="eevenkoto-checkbox-group__header">
     <legend class="eevenkoto-checkbox-group__legend">Ryhmän otsikko</legend>
   </div>
@@ -105,52 +105,98 @@ Host alone renders the default stack layout:
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | — | Fieldset `id` (React, Vue, and Astro HTML attributes). |
+| `name` | `string` | — | Shared `name` passed to declarative `items` when item `name` is omitted. |
 | `label` | `string` | **required** | Group legend label. |
-| `legendVisuallyHidden` | `boolean` | `false` | Visually hide the legend while keeping it accessible. |
-| `layout` | `'stack' \| 'grid'` | `'stack'` | Arrangement of items. |
-| `columns` | `2 \| 3` | `2` | Column count when `layout="grid"`. |
+| `legendVisuallyHidden` | `boolean` | `false` | Visually hide the legend while keeping it accessible (`eevenkoto-visually-hidden`). |
+| `hideLegend` | `boolean` | `false` | Convenience alias for `legendVisuallyHidden`. |
+| `layout` | `'stack' \| 'grid'` | `'stack'` (`'grid'` when `columns` is set) | Arrangement of items. |
+| `columns` | `2 \| 3` | `2` | Column count for grid layout (automatically infers `layout="grid"` if `layout` is omitted). |
 | `badge` | `string` | — | Header badge counter text. |
 | `badgeIntent` | `'neutral' \| 'critical'` | `'neutral'` | Color intent of the badge. |
 | `hint` | `string` | — | Explanatory helper text. |
-| `error` | `string` | — | Validation error text. |
+| `error` | `string` | — | Validation error text (`role="alert"`). |
 | `items` | `CheckboxGroupItemProps[]` | — | Declarative list of checkboxes. |
 
 <ArgTypes of={CheckboxGroupStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-checkbox-group-gap` | Gap between header, item list, and message |
+| `--eevenkoto-checkbox-group-legend-color` | Legend ink (`content-primary`) |
+| `--eevenkoto-checkbox-group-legend-size` | Legend font size (`control-md`) |
+| `--eevenkoto-checkbox-group-message-color` | Helper hint ink (`content-secondary`) |
+| `--eevenkoto-checkbox-group-message-error` | Error message ink (`form-input-message-invalid`) |
+
 ## Framework packages
 
-```html
-<!-- HTML -->
-<fieldset class="eevenkoto-checkbox-group eevenkoto-checkbox-group--stack">
-  <div class="eevenkoto-checkbox-group__header">
-    <legend class="eevenkoto-checkbox-group__legend">Piirteet</legend>
-    <span class="eevenkoto-badge eevenkoto-badge--solid eevenkoto-badge--neutral">1 / 2</span>
-  </div>
-  <div class="eevenkoto-checkbox-group__list">
-    <!-- renderCheckbox items -->
-  </div>
-</fieldset>
+Import `@eevenkoto/css/checkbox.css` alongside `@eevenkoto/css/checkbox-group.css` (plus `@eevenkoto/css/badge.css` when `badge` is used on the group or items).
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/checkbox.css';
+import '@eevenkoto/css/checkbox-group.css';
+import '@eevenkoto/css/badge.css';
+import { renderCheckboxGroup } from '@eevenkoto/html';
+
+renderCheckboxGroup({
+  label: 'Pääpiirteet',
+  badge: '2 / 3 käytetty',
+  items: [
+    { label: 'Tarkkuus', checked: true, variant: 'card' },
+    { label: 'Ulottuva', variant: 'card' },
+  ],
+});
 ```
 
 ```tsx
-// React
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/checkbox.css';
+import '@eevenkoto/css/checkbox-group.css';
+import '@eevenkoto/css/badge.css';
 import { CheckboxGroup } from '@eevenkoto/react';
 
-<CheckboxGroup
-  label="Pääpiirteet"
-  badge="2 / 3 käytetty"
-  badgeIntent="neutral"
-  items={[
-    { label: 'Tarkkuus', checked: hasTarkkuus, onChange: toggleTarkkuus, variant: 'card' },
-    { label: 'Ulottuva', checked: hasUlottuva, onChange: toggleUlottuva, variant: 'card' },
-  ]}
-/>
+export function TraitChecklist() {
+  const [hasTarkkuus, setHasTarkkuus] = useState(true);
+  const [hasUlottuva, setHasUlottuva] = useState(false);
+  return (
+    <CheckboxGroup
+      label="Pääpiirteet"
+      badge="2 / 3 käytetty"
+      badgeIntent="neutral"
+      items={[
+        {
+          label: 'Tarkkuus',
+          checked: hasTarkkuus,
+          onChange: () => setHasTarkkuus((v) => !v),
+          variant: 'card',
+        },
+        {
+          label: 'Ulottuva',
+          checked: hasUlottuva,
+          onChange: () => setHasUlottuva((v) => !v),
+          variant: 'card',
+        },
+      ]}
+    />
+  );
+}
 ```
 
 ```vue
-<!-- Vue -->
 <script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/checkbox.css';
+import '@eevenkoto/css/checkbox-group.css';
+import '@eevenkoto/css/badge.css';
 import { CheckboxGroup, Checkbox } from '@eevenkoto/vue';
+
+const hasTarkkuus = ref(true);
+const hasUlottuva = ref(false);
 </script>
 
 <template>
@@ -159,4 +205,23 @@ import { CheckboxGroup, Checkbox } from '@eevenkoto/vue';
     <Checkbox label="Ulottuva" variant="card" v-model:checked="hasUlottuva" />
   </CheckboxGroup>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/checkbox.css';
+import '@eevenkoto/css/checkbox-group.css';
+import '@eevenkoto/css/badge.css';
+import { CheckboxGroup } from '@eevenkoto/astro';
+---
+
+<CheckboxGroup
+  label="Pääpiirteet"
+  badge="2 / 3 käytetty"
+  items={[
+    { label: 'Tarkkuus', checked: true, variant: 'card' },
+    { label: 'Ulottuva', variant: 'card' },
+  ]}
+/>
 ```

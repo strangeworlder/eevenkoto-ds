@@ -23,9 +23,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.68.2"
+  },
   "devDependencies": {
     "@astrojs/compiler": "^4.0.0",
-    "@rollup/rollup-linux-x64-gnu": "^4.68.2",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.1",
     "culori": "^4.0.2",

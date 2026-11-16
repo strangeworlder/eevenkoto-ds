@@ -28,23 +28,74 @@ NPC entries recur in adventures. A shared structure gives consistent heading lev
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| name / nameHtml | `string` | — | Name; `nameHtml` is sanitised inline HTML. |
-| nameLevel | `2 \| 3 \| 4` | `3` | Heading level. |
-| role / roleHtml | `string` | — | Role line. |
-| details | `PropertyItem[]` | — | Divided PropertyList rows. |
-| body / bodyHtml | `string` | — | Copy. |
+| `name` / `nameHtml` | `string` | — | NPC name (`name` required unless `nameHtml` is passed; `nameHtml` is sanitized inline HTML). |
+| `nameLevel` | `2 \| 3 \| 4` | `3` | Semantic heading level (`line-height-snug`). |
+| `role` / `roleHtml` | `string` | — | Role / epithet line below the name. |
+| `details` | `PropertyItem[]` | — | Divided PropertyList rows (`details`, never `traits`). |
+| `body` / `bodyHtml` | `string` | — | Plain-text or trusted HTML description copy. |
+| `id` | `string` | — | Host `<article id>`. |
 
 <ArgTypes of={NpcCardStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-npc-card-bg` | Card fill (`surface-raised`) |
+| `--eevenkoto-npc-card-border-color` | Card border (`boundary-subtle`) |
+| `--eevenkoto-npc-card-border-width` | Card border width (`line-width-sm`) |
+| `--eevenkoto-npc-card-role-color` | Role subtitle ink (`content-secondary`) |
+
 ## Framework packages
 
+`npc-card.css` imports `heading.css`, `property.css`, and `prose.css` automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/npc-card.css';
 import { renderNpcCard } from '@eevenkoto/html';
+
+renderNpcCard({
+  name: 'Aino Karhu',
+  role: 'Kauppias',
+  details: [{ label: 'Asenne', value: 'Ystävällinen' }],
+});
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/npc-card.css';
 import { NpcCard } from '@eevenkoto/react';
+
+<NpcCard
+  name="Aino Karhu"
+  role="Kauppias"
+  details={[{ label: 'Asenne', value: 'Ystävällinen' }]}
+/>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/npc-card.css';
+import { NpcCard } from '@eevenkoto/vue';
+
+const details = [{ label: 'Asenne', value: 'Ystävällinen' }];
+</script>
+
+<template>
+  <NpcCard name="Aino Karhu" role="Kauppias" :details="details" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/npc-card.css';
+import { NpcCard } from '@eevenkoto/astro';
+
+const details = [{ label: 'Asenne', value: 'Ystävällinen' }];
+---
 
 <NpcCard name="Aino Karhu" role="Kauppias" details={details} />
 ```

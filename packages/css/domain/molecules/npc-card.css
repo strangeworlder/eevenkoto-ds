@@ -28,7 +28,7 @@
 
   display: flex;
   flex-direction: column;
-  gap: var(--eevenkoto-space-2);
+  gap: var(--eevenkoto-space-3);
   min-inline-size: 0;
   padding: var(--eevenkoto-space-3) var(--eevenkoto-space-4);
   background: var(--_eevenkoto-npc-card-bg);
@@ -47,6 +47,7 @@
   margin: 0;
   font-family: var(--eevenkoto-font-serif);
   font-weight: var(--eevenkoto-font-weight-bold);
+  line-height: var(--eevenkoto-line-height-snug);
 }
 
 .eevenkoto-npc-card__role {

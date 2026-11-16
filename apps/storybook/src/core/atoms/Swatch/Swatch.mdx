@@ -108,9 +108,20 @@ Because `--eevenkoto-swatch-border-color` defaults to `--eevenkoto-color-boundar
 
 <ArgTypes of={SwatchStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-swatch-color` | Sampled CSS color value (`transparent` fallback) |
+| `--eevenkoto-swatch-size` | Sample box size (`1.2rem` / `1.6rem` / `2.4rem`) |
+| `--eevenkoto-swatch-radius` | Corner radius (`radius-full` or `radius-sm`) |
+| `--eevenkoto-swatch-border-color` | Contrast stroke (`boundary-strong`) |
+| `--eevenkoto-swatch-border-width` | Contrast stroke width (`line-width-sm`) |
+
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/swatch.css';
 import { renderSwatch } from '@eevenkoto/html';
 
@@ -118,6 +129,8 @@ renderSwatch({ color: '#2c7a7b', label: 'Myrskynvihreä' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/swatch.css';
 import { Swatch } from '@eevenkoto/react';
 
 <Swatch color="#2c7a7b" label="Myrskynvihreä" />
@@ -125,12 +138,24 @@ import { Swatch } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/swatch.css';
 import { Swatch } from '@eevenkoto/vue';
 </script>
 
 <template>
   <Swatch color="#2c7a7b" label="Myrskynvihreä" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/swatch.css';
+import { Swatch } from '@eevenkoto/astro';
+---
+
+<Swatch color="#2c7a7b" label="Myrskynvihreä" />
 ```
 
 Related: [Chip](?path=/docs/core-atoms-chip--docs) · [StatusDot](?path=/docs/core-atoms-statusdot--docs) · [Badge](?path=/docs/core-atoms-badge--docs)

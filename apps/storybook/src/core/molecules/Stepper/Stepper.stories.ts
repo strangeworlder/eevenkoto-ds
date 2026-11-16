@@ -14,6 +14,7 @@ const meta: Meta<StepperProps> = {
     },
   },
   argTypes: {
+    id: { control: 'text', description: 'Optional host `<div id>`.' },
     name: { control: 'text', description: 'Form field identifier.' },
     label: { control: 'text', description: 'Visible title/label.' },
     description: { control: 'text', description: 'Optional mechanics description.' },
@@ -22,6 +23,8 @@ const meta: Meta<StepperProps> = {
     max: { control: 'number', table: { defaultValue: { summary: '10' } } },
     step: { control: 'number', table: { defaultValue: { summary: '1' } } },
     disabled: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
+    decreaseAriaLabel: { control: 'text', description: 'Accessible label for the decrement button.', table: { defaultValue: { summary: 'Vähennä' } } },
+    increaseAriaLabel: { control: 'text', description: 'Accessible label for the increment button.', table: { defaultValue: { summary: 'Lisää' } } },
   },
   render: (args) => renderStepper(args),
 };

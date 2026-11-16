@@ -65,11 +65,27 @@ Wrap dense charts, token panels, or any content that should read as a contained 
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `content` | `string` | — | HTML package: inner HTML (`children` / default slot in React, Vue, and Astro). |
+| `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={FrameStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-frame-bg` | Frame surface (`surface-canvas`) |
+| `--eevenkoto-frame-border-color` | Frame stroke (`boundary-strong`) |
+| `--eevenkoto-frame-border-width` | Frame stroke width (`line-width-md`) |
+| `--eevenkoto-frame-radius` | Corner radius (`radius-sm`) |
+| `--eevenkoto-frame-padding` | Inner padding (`0` by default) |
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/frame.css';
 import { renderFrame } from '@eevenkoto/html';
 
@@ -77,6 +93,8 @@ renderFrame({ content: '<p>…</p>' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/frame.css';
 import { Frame } from '@eevenkoto/react';
 
 <Frame>…</Frame>
@@ -84,12 +102,24 @@ import { Frame } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/frame.css';
 import { Frame } from '@eevenkoto/vue';
 </script>
 
 <template>
   <Frame>…</Frame>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/frame.css';
+import { Frame } from '@eevenkoto/astro';
+---
+
+<Frame>…</Frame>
 ```
 
 ## Related

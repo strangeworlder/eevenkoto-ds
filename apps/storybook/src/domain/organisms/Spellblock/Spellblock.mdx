@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as SpellblockStories from './Spellblock.stories';
 
 export const Do = ({ children, caption, label = 'Do' }) => (
@@ -114,7 +114,7 @@ Long compounds (`Loitsimisviive`, `Taikakonstin voimistuminen`) are the binding 
 - **Type line** — level and school as printed (*Taikakonsti, luominen* / *Ensimmäisen piirin lumoaminen*). Ritual tags belong in this string.
 - **Classes** — optional catalog metadata. Keep it out of the stat band; it is not a casting property.
 - **Properties** — the four casting stats. Concentration lives in the Duration value, materials in the Components value. Colons come from CSS, not from the label string.
-- **Paragraphs** — one entry per paragraph. The HTML renderer allows a sanitized inline set (`em`, `strong`, `i`, `b`, `br`); prefer React/Vue nodes for rich text. Paragraph breaks use `--eevenkoto-spellblock-prose-gap`, which is deliberately larger than the stack gap: global `text-box: trim-both` removes the half-leading, so a smaller gap would put paragraph baselines on the same rhythm as the lines within them.
+- **Paragraphs** — one entry per paragraph. The HTML renderer allows a sanitized inline set (`em`, `strong`, `i`, `b`, `br`, `code`, `sub`, `sup`, `mark`, `small`, `abbr`, `span`, and safe `<a href>` links via `sanitizeInlineHtml`), or `paragraphsHtml` / `bodyHtml` for pre-rendered trusted HTML; prefer React/Vue nodes or Astro/`*Html` for rich text in apps. Paragraph breaks use `--eevenkoto-spellblock-prose-gap` (`space-4` default, `space-3` in `deck`), keeping paragraph separations clearly wider than wrapped lines within a paragraph.
 - **Features** — scaling only. The run-in suffix period is CSS (`::after`), not part of the name.
 
 ## Accessibility
@@ -135,12 +135,17 @@ Long compounds (`Loitsimisviive`, `Taikakonstin voimistuminen`) are the binding 
 | `nameHtml` | `string` | — | Trusted inline HTML for the spell name heading (sanitized in HTML renderer). Takes precedence over `name`. |
 | `nameLevel` | `1 \| 2 \| 3` | `1` | Heading level for the name (`2` or `3` in embeds; scaling features cascade to `nameLevel + 1`). |
 | `typeLine` | `string` | — | Italic level / school line on the plate. |
+| `typeLineHtml` | `string` | — | Trusted inline HTML for the type line (takes precedence over `typeLine`). |
 | `classes` | `PropertyItem[]` | — | Optional catalog rail under the type line. |
 | `properties` | `PropertyItem[]` | — | Casting time, range, components, duration. |
 | `paragraphs` | `string[]` | — | Effect prose, one entry per paragraph. |
+| `paragraphsHtml` | `string[]` | — | Trusted inline HTML entries for effect paragraphs (takes precedence over `paragraphs`). |
+| `bodyHtml` | `string` | — | Trusted pre-rendered HTML for `__body` (e.g. Markdown output with embedded tables/lists; takes precedence over `paragraphsHtml`). |
 | `features` | `StatblockFeatureProps[]` | — | Scaling run-ins. Default `level` cascades from `nameLevel` (`2`, `3`, or `4`). |
 | `deck` | `boolean` | `false` | Compact card for grids. |
 | `lang` | `string` | — | BCP 47 tag on the article; enables `hyphens: auto`. |
+
+<ArgTypes of={SpellblockStories} />
 
 ```ts
 export interface SpellblockProps {
@@ -201,7 +206,7 @@ Import companion CSS for composed pieces: `heading`, `paragraph`, `caption`, `pr
 
 ```bash
 npm install @eevenkoto/css @eevenkoto/html
-# or @eevenkoto/react / @eevenkoto/vue
+# or @eevenkoto/react / @eevenkoto/vue / @eevenkoto/astro
 ```
 
 ```ts
@@ -241,6 +246,7 @@ import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/paragraph.css';
 import '@eevenkoto/css/caption.css';
 import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/entity-ref.css';
 import '@eevenkoto/css/statblock-feature.css';
 import '@eevenkoto/css/spellblock.css';
 import { Spellblock, EntityRef } from '@eevenkoto/react';
@@ -308,6 +314,41 @@ const features = [
     :features="features"
   />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/spellblock.css';
+import { Spellblock } from '@eevenkoto/astro';
+
+const properties = [
+  { label: 'Loitsimisviive', value: '1 toiminto' },
+  { label: 'Kantama', value: '20 metriä' },
+  { label: 'Komponentit', value: 'taikasana, ele' },
+  { label: 'Kesto', value: 'välitön' },
+];
+const features = [
+  {
+    name: 'Taikakonstin voimistuminen',
+    description: 'Aavevalo tekee 1n8 lisää kuolonvahinkoa kun saavutat hahmotason 5 (2n8)…',
+  },
+];
+---
+
+<Spellblock
+  name="Aavevalo"
+  typeLine="Taikakonsti, luominen"
+  lang="fi"
+  properties={properties}
+  paragraphs={['Lähetät tuonpuoleisesta eetteripallon olentoon tai esineeseen kantamalla…']}
+  features={features}
+/>
 ```
 
 <Controls of={SpellblockStories.Aavevalo} />

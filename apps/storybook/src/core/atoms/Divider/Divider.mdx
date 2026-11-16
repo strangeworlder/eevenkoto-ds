@@ -40,9 +40,19 @@ One rule for every section break, tied to `--eevenkoto-color-boundary-subtle` an
 
 <ArgTypes of={DividerStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-divider-color` | Rule color (`boundary-subtle`) |
+| `--eevenkoto-divider-width` | Rule thickness (`line-width-sm`) |
+| `--eevenkoto-divider-style` | Rule stroke style (`solid` / `dashed`) |
+| `--eevenkoto-divider-margin-block` | Block margin (`space-6` by default) |
+
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/divider.css';
 import { renderDivider } from '@eevenkoto/html';
 
@@ -50,7 +60,31 @@ renderDivider({ spacing: 'md', variant: 'dashed' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/divider.css';
 import { Divider } from '@eevenkoto/react';
+
+<Divider spacing="md" />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/divider.css';
+import { Divider } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Divider spacing="md" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/divider.css';
+import { Divider } from '@eevenkoto/astro';
+---
 
 <Divider spacing="md" />
 ```

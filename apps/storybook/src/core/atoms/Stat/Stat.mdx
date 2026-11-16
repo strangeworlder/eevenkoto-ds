@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Stat
 
-**Stat** is a numeric **display chip** for content (scores, modifiers, saves). It consumes surface / content / accent tokens — **not** the feedback domain. Interactive or status chips stay on Badge / future Chip.
+**Stat** is a numeric **display chip** for content (scores, modifiers, saves). It consumes surface / content / accent tokens — **not** the feedback domain. Interactive or status chips stay on [Badge](?path=/docs/core-atoms-badge--docs) / [Chip](?path=/docs/core-atoms-chip--docs).
 
 Shapes map to ability roles inside AbilityScore:
 
@@ -125,6 +125,8 @@ Shared **`sm | md | lg`** ladder. AbilityScore uses **`lg` arch** + **`sm` disk/
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Shared size ladder. |
 | `emphasis` | `boolean` | `false` | Deep accent border + thicker stroke/outline. |
 
+<ArgTypes of={StatStories} />
+
 ```ts
 export type StatShape = 'disk' | 'arch' | 'shield';
 export type StatSize = 'sm' | 'md' | 'lg';
@@ -150,12 +152,16 @@ export interface StatProps {
 
 | Token | Purpose |
 | --- | --- |
-| `--eevenkoto-stat-bg` | Fill (arch sets a gradient by default) |
-| `--eevenkoto-stat-text` | Ink |
-| `--eevenkoto-stat-border-color` | Stroke (defaults to parchment `content-accent`) |
+| `--eevenkoto-stat-bg` | Fill (`arch` sets a subtle gradient by default) |
+| `--eevenkoto-stat-text` | Value ink |
+| `--eevenkoto-stat-border-color` | Stroke (defaults to `content-accent`) |
 | `--eevenkoto-stat-border-width` | Stroke width |
-| `--eevenkoto-stat-size` / `-height` | Box metrics |
+| `--eevenkoto-stat-emphasis-outline` | Outer ring color when `emphasis` is set (`content-accent-strong`) |
+| `--eevenkoto-stat-size` | Inline box size (`4rem` default) |
+| `--eevenkoto-stat-height` | Block box size (defaults to `--eevenkoto-stat-size`; taller on `shield`) |
 | `--eevenkoto-stat-radius` | Corner recipe |
+| `--eevenkoto-stat-font-family` | Font family (`font-sans`) |
+| `--eevenkoto-stat-font-weight` | Font weight (`font-weight-bold`) |
 | `--eevenkoto-stat-font-size` | Type size |
 | `--eevenkoto-stat-shadow` | Depth shadow |
 
@@ -164,6 +170,7 @@ Required CSS: `stat.css`.
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/stat.css';
 import { renderStat } from '@eevenkoto/html';
 
@@ -171,6 +178,8 @@ renderStat({ value: '+3', shape: 'arch', size: 'lg' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/stat.css';
 import { Stat } from '@eevenkoto/react';
 
 <Stat value="+3" shape="arch" size="lg" />
@@ -178,12 +187,24 @@ import { Stat } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/stat.css';
 import { Stat } from '@eevenkoto/vue';
 </script>
 
 <template>
   <Stat value="+3" shape="arch" size="lg" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/stat.css';
+import { Stat } from '@eevenkoto/astro';
+---
+
+<Stat value="+3" shape="arch" size="lg" />
 ```
 
 ## Related

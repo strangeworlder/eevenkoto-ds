@@ -88,7 +88,7 @@ Groups of mutually exclusive choices need an accessible group name for screen re
 Host alone renders the default stack layout:
 
 ```html
-<fieldset class="eevenkoto-radio-group eevenkoto-radio-group--stack">
+<fieldset class="eevenkoto-radio-group">
   <div class="eevenkoto-radio-group__header">
     <legend class="eevenkoto-radio-group__legend">Otsikko</legend>
   </div>
@@ -102,54 +102,89 @@ Host alone renders the default stack layout:
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | — | Fieldset `id` (React, Vue, and Astro HTML attributes). |
 | `name` | `string` | **required** | Shared name attribute for child radios. |
 | `label` | `string` | **required** | Group legend label. |
+| `legendVisuallyHidden` | `boolean` | `false` | Visually hide the legend while keeping it accessible (`eevenkoto-visually-hidden`). |
+| `hideLegend` | `boolean` | `false` | Convenience alias for `legendVisuallyHidden`. |
 | `value` | `string` | — | Currently selected value. |
 | `defaultValue` | `string` | — | Initial selected value if uncontrolled. |
-| `layout` | `'stack' \| 'grid'` | `'stack'` | Arrangement of items. |
-| `columns` | `2 \| 3` | `2` | Column count when `layout="grid"`. |
+| `layout` | `'stack' \| 'grid'` | `'stack'` (`'grid'` when `columns` is set) | Arrangement of items. |
+| `columns` | `2 \| 3` | `2` | Column count for grid layout (automatically infers `layout="grid"` if `layout` is omitted). |
 | `variant` | `'default' \| 'card' \| 'tile'` | `'default'` | Shared option variant. |
+| `badge` | `string` | — | Optional header badge text. |
+| `badgeIntent` | `'neutral' \| 'critical'` | `'neutral'` | Color intent of the header badge. |
 | `hint` | `string` | — | Explanatory helper text. |
-| `error` | `string` | — | Validation error text. |
+| `error` | `string` | — | Validation error text (`role="alert"`). |
 | `options` | `RadioGroupOptionProps[]` | — | Declarative list of radio options. |
 
 <ArgTypes of={RadioGroupStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-radio-group-gap` | Gap between header, option list, and message |
+| `--eevenkoto-radio-group-legend-color` | Legend ink (`content-primary`) |
+| `--eevenkoto-radio-group-legend-size` | Legend font size (`control-md`) |
+| `--eevenkoto-radio-group-message-color` | Helper hint ink (`content-secondary`) |
+| `--eevenkoto-radio-group-message-error` | Error message ink (`form-input-message-invalid`) |
+
 ## Framework packages
 
-```html
-<!-- HTML -->
-<fieldset class="eevenkoto-radio-group eevenkoto-radio-group--stack">
-  <div class="eevenkoto-radio-group__header">
-    <legend class="eevenkoto-radio-group__legend">Asetyyppi</legend>
-  </div>
-  <div class="eevenkoto-radio-group__list">
-    <!-- renderRadio options -->
-  </div>
-</fieldset>
+Import `@eevenkoto/css/radio.css` alongside `@eevenkoto/css/radio-group.css` (plus `@eevenkoto/css/badge.css` when `badge` is used on the group or options).
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/radio.css';
+import '@eevenkoto/css/radio-group.css';
+import { renderRadioGroup } from '@eevenkoto/html';
+
+renderRadioGroup({
+  name: 'weaponType',
+  label: 'Asetyyppi',
+  value: 'lahitaistelu',
+  variant: 'card',
+  options: [
+    { value: 'lahitaistelu', label: 'Lähitaisteluase' },
+    { value: 'kantama', label: 'Kantama-ase' },
+  ],
+});
 ```
 
 ```tsx
-// React
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/radio.css';
+import '@eevenkoto/css/radio-group.css';
 import { RadioGroup } from '@eevenkoto/react';
 
-<RadioGroup
-  name="weaponType"
-  label="Asetyyppi"
-  value={weaponType}
-  onChange={setWeaponType}
-  variant="card"
-  options={[
-    { value: 'lahitaistelu', label: 'Lähitaisteluase' },
-    { value: 'kantama', label: 'Kantama-ase' },
-  ]}
-/>
+export function WeaponTypePicker() {
+  const [weaponType, setWeaponType] = useState('lahitaistelu');
+  return (
+    <RadioGroup
+      name="weaponType"
+      label="Asetyyppi"
+      value={weaponType}
+      onChange={setWeaponType}
+      variant="card"
+      options={[
+        { value: 'lahitaistelu', label: 'Lähitaisteluase' },
+        { value: 'kantama', label: 'Kantama-ase' },
+      ]}
+    />
+  );
+}
 ```
 
 ```vue
-<!-- Vue -->
 <script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/radio.css';
+import '@eevenkoto/css/radio-group.css';
 import { RadioGroup } from '@eevenkoto/vue';
+
 const weaponType = ref('lahitaistelu');
 </script>
 
@@ -165,4 +200,24 @@ const weaponType = ref('lahitaistelu');
     ]"
   />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/radio.css';
+import '@eevenkoto/css/radio-group.css';
+import { RadioGroup } from '@eevenkoto/astro';
+---
+
+<RadioGroup
+  name="weaponType"
+  label="Asetyyppi"
+  value="lahitaistelu"
+  variant="card"
+  options={[
+    { value: 'lahitaistelu', label: 'Lähitaisteluase' },
+    { value: 'kantama', label: 'Kantama-ase' },
+  ]}
+/>
 ```

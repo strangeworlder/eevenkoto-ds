@@ -77,6 +77,8 @@ const meta: Meta<TableProps> = {
       },
     },
     caption: { control: 'text' },
+    columns: { control: 'object', description: 'Column definitions (`TableColumn[]`).' },
+    rows: { control: 'object', description: 'Row data (`TableRowInput[]`).' },
   },
   args: {
     variant: 'default',

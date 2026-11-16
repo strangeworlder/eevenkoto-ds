@@ -241,7 +241,7 @@ In dark mode (`[data-theme="dark"]` / `[data-surface-mode="dark"]`), stark white
 ### 5. Flow and Prose rhythm
 
 When placed inside `.eevenkoto-flow`:
-- **Top alignment**: The first paragraph immediately following a floated image has its top padding neutralized so text aligns flush with the top edge of the image.
+- **Top alignment**: The first paragraph immediately following a floated image has its top margin (`margin-block-start`) neutralized so text aligns flush with the top edge of the image.
 - **Heading clearance**: Any heading (`h1`–`h6`) following a floated image automatically enforces `clear: both`, guaranteeing that new sections or chapters never get trapped beside an unrelated float from a previous section.
 - **Prose integration**: Bare markdown images rendered inside `.eevenkoto-prose` automatically inherit fluid sizing safeguards (`max-inline-size: 100%; block-size: auto; display: block;`).
 
@@ -266,16 +266,31 @@ When placed inside `.eevenkoto-flow`:
 
 <ArgTypes of={ImageStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-image-bg` | Placeholder/backdrop surface (`surface-sunken`) |
+| `--eevenkoto-image-border-color` | Frame border color (`boundary-strong`) |
+| `--eevenkoto-image-border-width` | Frame border width (`0` by default, `line-width-sm` when `framed`) |
+| `--eevenkoto-image-radius` | Media corner radius (`radius-sm`) |
+| `--eevenkoto-image-float-width` | Inline size in `--float-left` / `--float-right` (`45%`) |
+| `--eevenkoto-image-caption-color` | Caption text color (`content-tertiary`) |
+| `--eevenkoto-image-aspect-ratio` | Aspect ratio (`auto`) |
+| `--eevenkoto-image-object-fit` | Object fit (`cover`) |
+
 ## Framework packages
+
+Import `caption.css` alongside `image.css` whenever `caption` is rendered.
 
 ### HTML
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/image.css';
 import '@eevenkoto/css/caption.css';
 import { renderImage } from '@eevenkoto/html';
 
-// 1. Full paragraph-wide block
 renderImage({
   src: '/art/arch-gate.webp',
   alt: 'The Moon Gate at dusk',
@@ -284,26 +299,16 @@ renderImage({
   aspectRatio: '16/9',
   caption: 'Figure 1: The Moon Gate entrance.',
 });
-
-// 2. Spot illustration floated right with text wrap
-renderImage({
-  src: '/art/amulet.webp',
-  alt: 'Amulet of Warding',
-  layout: 'float-right',
-  framed: true,
-  width: 300,
-  height: 300,
-  caption: 'Found amulet artifact.',
-});
 ```
 
 ### React
 
 ```tsx
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/image.css';
+import '@eevenkoto/css/caption.css';
 import { Image } from '@eevenkoto/react';
 
-// Paragraph-wide block
 <Image
   src="/art/arch-gate.webp"
   alt="The Moon Gate at dusk"
@@ -312,23 +317,15 @@ import { Image } from '@eevenkoto/react';
   width={800}
   height={450}
 />
-
-// Floated spot art
-<Image
-  src="/art/amulet.webp"
-  alt="Amulet of Warding"
-  layout="float-right"
-  framed
-  width={300}
-  height={300}
-/>
 ```
 
 ### Vue
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/image.css';
+import '@eevenkoto/css/caption.css';
 import { Image } from '@eevenkoto/vue';
 </script>
 
@@ -343,4 +340,25 @@ import { Image } from '@eevenkoto/vue';
     caption="Found amulet artifact."
   />
 </template>
+```
+
+### Astro
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/image.css';
+import '@eevenkoto/css/caption.css';
+import { Image } from '@eevenkoto/astro';
+---
+
+<Image
+  src="/art/amulet.webp"
+  alt="Amulet of Warding"
+  layout="float-right"
+  framed
+  width={300}
+  height={300}
+  caption="Found amulet artifact."
+/>
 ```

@@ -24,6 +24,7 @@ const meta: Meta<AbilityNameProps> = {
   },
   argTypes: {
     name: { control: 'text', description: 'Full ability name.' },
+    children: { control: 'text', description: 'Text fallback when `name` is omitted.' },
     short: { control: 'text', description: 'Custom 3-letter abbreviation override.' },
     variant: {
       control: 'select',

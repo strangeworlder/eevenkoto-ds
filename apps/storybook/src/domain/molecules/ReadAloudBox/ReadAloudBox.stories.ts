@@ -7,6 +7,13 @@ const base = { label: 'Luettava teksti', body: 'Tunkkainen ilma valuu kosteasta 
 const meta: Meta<Parameters<typeof renderReadAloudBox>[0]> = {
   title: 'Domain/Molecules/ReadAloudBox',
   parameters: { docs: { description: { component: "Boxed text meant to be read aloud to players: thick accent inline-start rule, optional ornament, never split across printed pages." } } },
+  argTypes: {
+    id: { control: 'text', description: 'Optional `<aside id>`.' },
+    label: { control: 'text', description: 'Accessible `<aside aria-label>`.' },
+    ornament: { control: 'text', description: 'Ornament glyph, or `false` to hide.', table: { defaultValue: { summary: "'❖'" } } },
+    body: { control: 'text', description: 'Plain-text read-aloud paragraph.' },
+    bodyHtml: { control: 'text', description: 'Trusted HTML read-aloud content.' },
+  },
   args: base,
   render: (args) => renderReadAloudBox(args),
 };

@@ -40,7 +40,7 @@ const meta: Meta<HeadingProps> = {
     },
     runIn: {
       control: 'boolean',
-      description: 'Levels 3 and 6: run the heading into the following Paragraph.',
+      description: 'Levels 2–6: run the heading into the following Paragraph.',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },

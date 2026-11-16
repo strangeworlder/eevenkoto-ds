@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import '@eevenkoto/css/toast.css';
 import '@eevenkoto/css/icon.css';
+import { ICON_NAMES } from '@eevenkoto/core';
 import { renderToast, type ToastProps } from '@eevenkoto/html';
 
 const intents: NonNullable<ToastProps['intent']>[] = [
@@ -50,8 +51,14 @@ const meta: Meta<ToastProps> = {
       control: 'boolean',
       table: { defaultValue: { summary: 'true' } },
     },
+    hidden: {
+      control: 'boolean',
+      description: 'Convenience inverse alias for visible={false}.',
+      table: { defaultValue: { summary: 'false' } },
+    },
     icon: {
-      control: 'text',
+      control: 'select',
+      options: [undefined, false, ...ICON_NAMES],
       description: 'Named icon token override (or false to hide icon).',
     },
   },

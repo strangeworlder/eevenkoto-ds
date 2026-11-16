@@ -16,9 +16,13 @@ const meta: Meta<AbilityScoreProps> = {
   },
   argTypes: {
     label: { control: 'text' },
+    labelId: { control: 'text', description: 'Optional explicit `id` on `<figcaption>` (wired to `<dl aria-labelledby>`).' },
     score: { control: 'text' },
     modifier: { control: 'text' },
     save: { control: 'text' },
+    scoreLabel: { control: 'text', description: 'Visually hidden `<dt>` term for score.', table: { defaultValue: { summary: 'Score' } } },
+    modifierLabel: { control: 'text', description: 'Visually hidden `<dt>` term for modifier.', table: { defaultValue: { summary: 'Modifier' } } },
+    saveLabel: { control: 'text', description: 'Visually hidden `<dt>` term for saving throw.', table: { defaultValue: { summary: 'Save' } } },
     saveProficient: {
       control: 'boolean',
       description: 'Bright accent on the save shield when proficient.',

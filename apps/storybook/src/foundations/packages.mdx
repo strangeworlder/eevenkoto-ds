@@ -33,23 +33,23 @@ import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
 ```
 
-Component docs briefly show HTML, React, and Vue usage under **Framework packages**. The live Canvas and Controls remain HTML-driven.
+Component docs show HTML, React, Vue, and Astro usage under **Framework packages**. The live Canvas and Controls remain HTML-driven.
 
 ## Button vs LinkButton (marketing / agents)
 
 | Situation | Use | Host |
 | --- | --- | --- |
-| Prominent “go to this URL” CTA (hero, campaign, empty state) | **LinkButton** | `<a class="eevenkoto-link-button" href="…">` |
+| Prominent “go to this URL” CTA or standalone action link (`primary` / `secondary` / `ghost`) | **LinkButton** | `<a class="eevenkoto-link-button" href="…">` |
 | In-page action (submit, dialog, add/remove, open UI) | **Button** | `<button type="button" class="eevenkoto-button">` |
-| Term or “read more” in running text | **InlineRef** (optional `href`) | not a CTA |
+| Term or “read more” in running text | **InlineRef** / **EntityRef** (optional `href`) | not a CTA |
 
 Do **not** put `href` on Button or wrap Button in an anchor. Same-site pages with a real URL still use LinkButton. Import `@eevenkoto/css/link-button.css` separately from `button.css`. Full chooser: [Glossary — Button vs LinkButton vs InlineRef](?path=/docs/foundations-glossary--docs#button-vs-linkbutton-vs-inlineref).
 
 ## Theming & upgrading in consuming apps
 
 - **Theme switching:** Set `data-theme="light"` or `data-theme="dark"` on `<html>` (or scope a dark region with `data-surface-mode="dark"`). `@eevenkoto/css/styles.css` includes `tokens.css`, which flips all Tier 2 semantic color tokens automatically (`color-scheme: light` / `dark`) — no host-app dark-mode CSS patches are needed.
-- **Tokens & overrides:** Consume Tier 2 tokens (`--eevenkoto-color-*`, `--eevenkoto-font-size-*`, `--eevenkoto-font-weight-*`, `--eevenkoto-space-*`, `--eevenkoto-radius-*`, `--eevenkoto-duration-*`, `--eevenkoto-ease-*`) — never import `primitive-tokens.css` or set private `--_eevenkoto-*` component bridges. Customize components via public `--eevenkoto-<component>-*` variables (see [Tier 3 — Component scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)).
-- **Upgrading an existing site:** Follow the repo’s `docs/migration-token-architecture-and-a11y.md` and `CHANGELOG.md` (also bundled into `/llms-full.txt` under **Upgrading & Consumer Migration Guide** for coding agents).
+- **Tokens & overrides:** Consume Tier 2 tokens (`--eevenkoto-color-*`, `--eevenkoto-font-size-*`, `--eevenkoto-font-weight-*`, `--eevenkoto-line-height-*`, `--eevenkoto-space-*`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-*`, `--eevenkoto-ease-*`, `--eevenkoto-z-*`) — never import `primitive-tokens.css` or set private `--_eevenkoto-*` component bridges. Customize components via public `--eevenkoto-<component>-*` variables (see [Tier 3 — Component scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)).
+- **Upgrading an existing site:** Follow `docs/migration-0.12-frontend-gap-resolution.md`, `docs/migration-token-architecture-and-a11y.md`, and `CHANGELOG.md` (also bundled into `/llms-full.txt` for coding agents).
 
 ## Authoring new components
 

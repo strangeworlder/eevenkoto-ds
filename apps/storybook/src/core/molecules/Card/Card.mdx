@@ -175,6 +175,7 @@ The host stays `<article>`. `renderCard({ href })` wraps the sections in an inne
 Hand-authored HTML is the reference. `renderCard` emits the same tags from `title` / `body` / `footer`.
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/card.css';
 import { renderCard } from '@eevenkoto/html';
 
@@ -186,6 +187,8 @@ renderCard({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/card.css';
 import { Card } from '@eevenkoto/react';
 
 <Card title="Cloak of Elvenkind" footer="Wondrous item, uncommon">
@@ -194,11 +197,82 @@ import { Card } from '@eevenkoto/react';
 </Card>
 ```
 
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/card.css';
+import { Card } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Card title="Cloak of Elvenkind">
+    While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have
+    disadvantage.
+    <template #footer>Wondrous item, uncommon</template>
+  </Card>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/card.css';
+import { Card } from '@eevenkoto/astro';
+---
+
+<Card title="Cloak of Elvenkind">
+  <p>
+    While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have
+    disadvantage.
+  </p>
+  <span slot="footer">Wondrous item, uncommon</span>
+</Card>
+```
+
 Pair `--interactive` with a real inner link so keyboard activation works; `aria-disabled="true"` on the article or the inner `a` carries the disabled recipe.
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `surface` | `'raised' \| 'subtle' \| 'sunken'` | `'raised'` | Surface fill tier (`eevenkoto-card--surface-*`). |
+| `accent` | `'none' \| 'top' \| 'start' \| 'outline'` | `'none'` | Structural gold edge or outline (`eevenkoto-card--accent-*`). |
+| `current` | `boolean` | `false` | Active/selected card ring + border (`eevenkoto-card--current`). |
+| `layout` | `'stack' \| 'split'` | `'stack'` | Content/actions arrangement (`eevenkoto-card--split`). |
+| `elevated` | `boolean` | `false` | Adds depth shadow (`eevenkoto-card--elevated`). |
+| `interactive` | `boolean` | `false` | Hover/focus affordance for inner link/button (`eevenkoto-card--interactive`). |
+| `title` | `string` | — | Heading text inside `<header>`. |
+| `titleHtml` | `string` | — | Trusted pre-rendered inline HTML for `<header>` heading (takes precedence over `title`). |
+| `titleLevel` | `2 \| 3` | `2` | Heading level (`h2` or `h3`) for `title` / `titleHtml`. |
+| `header` | `string` / slot | — | Custom `<header>` content (`header` prop in HTML/React; `#header` / `slot="header"` in Vue/Astro). |
+| `headerActions` | `string` / slot | — | Trailing chrome inside `<header>` (`.eevenkoto-card__header-actions`). |
+| `body` | `string` | — | Body copy rendered as `<p>` when slots/`bodyHtml` are omitted. |
+| `bodyHtml` | `string` | — | Trusted pre-rendered HTML for card body copy (takes precedence over `body`). |
+| `content` | `string` / slot | — | Main card body (`content` in `@eevenkoto/html`; `children` / default slot in React, Vue, and Astro). |
+| `actions` | `string` / slot | — | Action group slot (`.eevenkoto-card__actions`), inline-end in `split` layout. |
+| `footer` | `string` / slot | — | Footer content inside `<footer>`. |
+| `href` | `string` | — | Wraps inner content in `<a href>` and enables `--interactive` across HTML, React, Vue, and Astro. |
+| `id` | `string` | — | Host `<article id>` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={CardStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-card-bg` | Card surface fill (`surface-raised` by default) |
+| `--eevenkoto-card-text` | Body text color (`content-primary`) |
+| `--eevenkoto-card-muted` | Muted header/footer ink (`content-secondary`) |
+| `--eevenkoto-card-border-color` | Outer frame border (`boundary-subtle`) |
+| `--eevenkoto-card-border-width` | Outer frame border width (`line-width-sm`) |
+| `--eevenkoto-card-accent-top-width` / `--eevenkoto-card-accent-top-color` | Top accent edge (`accent="top"`) |
+| `--eevenkoto-card-accent-start-width` / `--eevenkoto-card-accent-start-color` | Inline-start accent bar (`accent="start"`) |
+| `--eevenkoto-card-ring-width` / `--eevenkoto-card-ring-color` / `--eevenkoto-card-ring-offset` | Current-selection ring (`current`) |
+| `--eevenkoto-card-radius` | Corner radius (`radius-md`) |
+| `--eevenkoto-card-pad-block` / `--eevenkoto-card-pad-inline` | Section padding |
+| `--eevenkoto-card-gap` | Gap between card sections |
+| `--eevenkoto-card-shadow` | Depth shadow (`none` unless `elevated`) |
+| `--eevenkoto-card-divider-color` / `--eevenkoto-card-divider-width` | Footer divider hairline |
 
 ## Related
 

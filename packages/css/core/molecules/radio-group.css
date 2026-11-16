@@ -25,7 +25,6 @@
   border: 0;
   min-inline-size: 0;
   font-family: var(--eevenkoto-font-sans);
-  text-box: normal;
 }
 
 .eevenkoto-radio-group__header {

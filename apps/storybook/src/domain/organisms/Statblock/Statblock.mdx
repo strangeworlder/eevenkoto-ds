@@ -110,7 +110,7 @@ Semantic levels stay honest. Visual remaps live on the **molecules**, not as pro
 | Section (`Toiminnot`) | H2 | Meso H3 (no macro rule) |
 | Feature (`Kalpa`) | H3 + `runIn` | Micro H6 (sans, italic, inline) |
 
-See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2--h3--h6) for the shared run-in behavior (levels 2, 3, and 6).
+See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2h6) for the shared run-in behavior (levels 2–6).
 
 ## Content guidelines
 
@@ -119,7 +119,7 @@ See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2--h3--h6) f
 - **Type line** — Size and type only (e.g. *Keskikokoinen humanoidi*); keep it italic via `__type`.
 - **Vitals / details** — Use PropertyList; do not bold-label Paragraphs with `<br>`.
 - **Feature names** — Short proper names; the run-in suffix period is CSS (`::after`), not part of the string.
-- **Feature body** — Mechanics prose. HTML renderer allows a sanitized inline tag set (`em`, `strong`, `i`, `b`, `br`). Prefer React/Vue nodes for rich text in apps.
+- **Feature body** — Mechanics prose. HTML renderer allows a sanitized inline tag set (`em`, `strong`, `i`, `b`, `br`, `code`, `sub`, `sup`, `mark`, `small`, `abbr`, `span`, and safe `<a href>` links via `sanitizeInlineHtml`). Prefer React/Vue/Astro nodes or `*Html` props for rich text in apps.
 
 ## Accessibility
 
@@ -150,11 +150,16 @@ See [Heading — runIn](?path=/docs/core-atoms-heading--docs#runin-h2--h3--h6) f
 | `nameHtml` | `string` | — | Trusted inline HTML for the creature name heading (sanitized in HTML renderer). Takes precedence over `name`. |
 | `nameLevel` | `1 \| 2 \| 3` | `1` | Heading level for the name (`2` or `3` in embedded outlines; cascades section `titleLevel` and feature `level`). |
 | `flavor` | `string` | — | Optional flavor Paragraph. |
+| `flavorHtml` | `string` | — | Trusted inline HTML for the flavor Paragraph (takes precedence over `flavor`). |
 | `typeLine` | `string` | — | Optional italic type line. |
+| `typeLineHtml` | `string` | — | Trusted inline HTML for the type line (takes precedence over `typeLine`). |
 | `vitals` | `PropertyItem[]` | — | Combat vitals → AbilityScoreGroup header. |
 | `abilities` | `AbilityScoreProps[]` | — | Ability columns. |
 | `details` | `PropertyItem[]` | — | Skills / senses / languages / CR → footer. |
 | `sections` | `StatblockSectionProps[]` | — | Actions, reactions, etc. |
+| `bodyHtml` | `string` | — | Trusted pre-rendered HTML rendered after `AbilityScoreGroup` when `sections` are pre-rendered or supplemented by Markdown. |
+
+<ArgTypes of={StatblockStories} />
 
 ```ts
 export interface StatblockProps {
@@ -194,7 +199,7 @@ Import companion CSS for composed pieces: `heading`, `paragraph`, `caption`, `pr
 
 ```bash
 npm install @eevenkoto/css @eevenkoto/html
-# or @eevenkoto/react / @eevenkoto/vue
+# or @eevenkoto/react / @eevenkoto/vue / @eevenkoto/astro
 ```
 
 ```ts
@@ -338,6 +343,53 @@ const sections = [
     :sections="sections"
   />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import '@eevenkoto/css/paragraph.css';
+import '@eevenkoto/css/caption.css';
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
+import '@eevenkoto/css/statblock-feature.css';
+import '@eevenkoto/css/statblock-section.css';
+import '@eevenkoto/css/statblock.css';
+import { Statblock } from '@eevenkoto/astro';
+
+const vitals = [{ label: 'Puolustus', value: '15' }];
+const abilities = [
+  {
+    label: 'Karisma',
+    score: '16',
+    modifier: '+3',
+    save: '+5',
+    saveProficient: true,
+    proficientLabel: 'pätevä',
+    scoreLabel: 'Arvo',
+    modifierLabel: 'Muuttuja',
+    saveLabel: 'Pelastus',
+  },
+];
+const details = [{ label: 'Taidot', value: 'huijaus +5' }];
+const sections = [
+  {
+    title: 'Toiminnot',
+    features: [{ name: 'Kalpa', descriptionHtml: '<em>Lähitaisteluhyökkäys:</em> +3…' }],
+  },
+];
+---
+
+<Statblock
+  name="Aatelinen"
+  typeLine="Keskikokoinen humanoidi"
+  vitals={vitals}
+  abilities={abilities}
+  details={details}
+  sections={sections}
+/>
 ```
 
 ## Related

@@ -4,6 +4,7 @@ import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/caption.css';
 import '@eevenkoto/css/badge.css';
 import '@eevenkoto/css/chip.css';
+import '@eevenkoto/css/list.css';
 import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/icon.css';
 import '@eevenkoto/css/notice.css';
@@ -117,6 +118,27 @@ const meta: Meta<EquipmentBlockProps> = {
           'EquipmentBlock is the presentation card for weapons, armor, and gear. Analogous to Statblock and Spellblock, it displays equipment stats in a responsive 3-box band, damage kesto breakdown, traits chips, notes, and an optional copy-to-clipboard action.',
       },
     },
+  },
+  argTypes: {
+    name: { control: 'text', description: 'Equipment name.' },
+    nameLevel: {
+      control: 'inline-radio',
+      options: [1, 2],
+      table: { defaultValue: { summary: '1' } },
+    },
+    category: { control: 'text', description: 'Category / classification subtitle.' },
+    price: { control: 'text', description: 'Formatted price badge text.' },
+    stats: { control: 'object', description: 'Stat items (`EquipmentStatItem[]`).' },
+    kesto: { control: 'object', description: 'Optional damage resistance breakdown (`EquipmentKestoBreakdown`).' },
+    traits: { control: 'object', description: 'Trait chip labels (`string[]`).' },
+    emptyTraitsText: { control: 'text', table: { defaultValue: { summary: 'Ei erikoispiirteitä' } } },
+    traitsTitle: { control: 'text', table: { defaultValue: { summary: 'Valitut piirteet' } } },
+    notesTitle: { control: 'text', table: { defaultValue: { summary: 'Säännöt & vaikutukset' } } },
+    notes: { control: 'object', description: 'Rules and effects list items (`string[]`).' },
+    warnings: { control: 'object', description: 'Validation or budget warning strings (`string[]`).' },
+    copyText: { control: 'text', description: 'Markdown/plain text payload for clipboard export.' },
+    copyLabel: { control: 'text', table: { defaultValue: { summary: 'Kopioi hahmolomakkeelle' } } },
+    showCopyButton: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
   },
   render: (args) => renderEquipmentBlock(args),
 };

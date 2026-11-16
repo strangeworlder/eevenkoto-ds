@@ -1,7 +1,8 @@
 import { readdirSync, readFileSync, existsSync } from 'node:fs';
-import { dirname, join, relative, resolve } from 'node:path';
+import { basename, dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { transform } from '@astrojs/compiler';
+import ts from 'typescript';
 import { describe, expect, it } from 'vitest';
 import * as ReactExports from '@eevenkoto/react';
 
@@ -85,5 +86,136 @@ describe('@eevenkoto/astro package parity and compiler verification', () => {
       expect(content.startsWith('<!--'), `${rel} starts with HTML comment`).toBe(false);
       expect(content.endsWith('\n'), `${rel} ends with trailing newline`).toBe(false);
     }
+  });
+
+  it('keeps packages/astro/src/index.d.ts in 100% prop parity with every .astro frontmatter Props interface', () => {
+    const astroDtsPath = join(astroSrcDir, 'index.d.ts');
+    const virtualFiles = new Map<string, string>();
+    const compToVFile = new Map<string, string>();
+
+    for (const af of astroFiles) {
+      const comp = basename(af, '.astro');
+      if (comp.startsWith('_')) continue;
+      const raw = readFileSync(af, 'utf8');
+      const fm = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
+      const cleanFm =
+        fm
+          .replace(/^import\s+.*\.astro['"];?\s*$/gm, '')
+          .split(/const\s*\{[\s\S]*?\}\s*=\s*Astro\.props/)[0] +
+        '\nexport type __AstroProps = Props;\n';
+      const vf = resolve(dirname(af), `__check_${comp}.ts`);
+      virtualFiles.set(vf, cleanFm);
+      compToVFile.set(comp, vf);
+    }
+
+    const usageCheckVf = resolve(astroSrcDir, '__check_jsx_usage.tsx');
+    virtualFiles.set(
+      usageCheckVf,
+      `import { Frame, Prose, Image, Swatch } from './index';
+export const sample = (
+  <>
+    <Frame class="demo"><p>Inside frame</p></Frame>
+    <Prose class="eevenkoto-flow"><p>Inside prose</p></Prose>
+    <Image src="/map.png" alt="Map" style="max-inline-size: 20rem" />
+    <Swatch color="#335577" style="margin-inline-end: 0.25rem" />
+  </>
+);`,
+    );
+
+    const compilerOptions: ts.CompilerOptions = {
+      target: ts.ScriptTarget.ES2022,
+      module: ts.ModuleKind.ESNext,
+      moduleResolution: ts.ModuleResolutionKind.Bundler,
+      jsx: ts.JsxEmit.ReactJSX,
+      strict: true,
+      skipLibCheck: true,
+      noEmit: true,
+      baseUrl: rootDir,
+      paths: {
+        '@eevenkoto/core': ['packages/core/src/index.ts'],
+        '@eevenkoto/html': ['packages/html/src/index.ts'],
+      },
+    };
+
+    const defaultHost = ts.createCompilerHost(compilerOptions);
+    const host: ts.CompilerHost = {
+      ...defaultHost,
+      fileExists: (f) => virtualFiles.has(resolve(f)) || defaultHost.fileExists(f),
+      readFile: (f) => virtualFiles.get(resolve(f)) ?? defaultHost.readFile(f),
+      getSourceFile: (f, lv) => {
+        const res = resolve(f);
+        if (virtualFiles.has(res)) {
+          return ts.createSourceFile(
+            f,
+            virtualFiles.get(res)!,
+            lv,
+            true,
+            f.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS,
+          );
+        }
+        return defaultHost.getSourceFile(f, lv);
+      },
+    };
+
+    const prog = ts.createProgram(
+      [astroDtsPath, usageCheckVf, ...compToVFile.values()],
+      compilerOptions,
+      host,
+    );
+    const checker = prog.getTypeChecker();
+
+    const usageSf = prog.getSourceFile(usageCheckVf)!;
+    const usageDiags = [
+      ...prog.getSyntacticDiagnostics(usageSf),
+      ...prog.getSemanticDiagnostics(usageSf),
+    ];
+    expect(
+      usageDiags.map((d) => ts.flattenDiagnosticMessageText(d.messageText, ' ')),
+    ).toEqual([]);
+
+    const dtsSf = prog.getSourceFile(astroDtsPath)!;
+    const dtsExports = new Map(
+      checker.getExportsOfModule(checker.getSymbolAtLocation(dtsSf)!).map((s) => [s.getName(), s]),
+    );
+
+    const violations: string[] = [];
+    for (const [comp, vf] of compToVFile) {
+      const sf = prog.getSourceFile(vf)!;
+      const exp = new Map(
+        checker.getExportsOfModule(checker.getSymbolAtLocation(sf)!).map((s) => [s.getName(), s]),
+      );
+      const pSym = exp.get('__AstroProps');
+      const fmProps = pSym
+        ? new Set(
+            checker
+              .getDeclaredTypeOfSymbol(pSym)
+              .getProperties()
+              .map((p) => p.getName()),
+          )
+        : new Set<string>();
+
+      const dSym = dtsExports.get(comp)!;
+      const sigs = checker.getTypeOfSymbolAtLocation(dSym, dSym.valueDeclaration!).getCallSignatures();
+      const argSym = sigs[0].parameters[0];
+      const dtsType = checker.getTypeOfSymbolAtLocation(
+        argSym,
+        argSym.valueDeclaration ?? sigs[0].declaration!,
+      );
+      const dtsProps = new Set(dtsType.getProperties().map((p) => p.getName()));
+
+      for (const prop of fmProps) {
+        if (!dtsProps.has(prop)) {
+          violations.push(`${comp}: ${comp}.astro declares "${prop}" missing in index.d.ts`);
+        }
+      }
+      for (const prop of dtsProps) {
+        if (prop === 'slot' || prop === 'children') continue;
+        if (!fmProps.has(prop)) {
+          violations.push(`${comp}: index.d.ts declares "${prop}" missing in ${comp}.astro Props`);
+        }
+      }
+    }
+
+    expect(violations).toEqual([]);
   });
 });

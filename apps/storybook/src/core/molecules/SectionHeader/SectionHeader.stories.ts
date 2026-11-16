@@ -14,11 +14,17 @@ const meta: Meta<SectionHeaderProps> = {
     },
   },
   argTypes: {
+    id: { control: 'text', description: 'Optional `<header id>`.' },
     eyebrow: { control: 'text' },
     title: { control: 'text' },
+    titleHtml: { control: 'text', description: 'Trusted inline HTML for heading.' },
     titleLevel: { control: 'select', options: [1, 2, 3], table: { defaultValue: { summary: '2' } } },
+    logo: { control: 'object', description: 'Optional `{ src, alt, width?, height? }` logo.' },
     lead: { control: 'text' },
+    leadHtml: { control: 'text', description: 'Trusted inline HTML for lead paragraph.' },
     align: { control: 'select', options: ['start', 'center'], table: { defaultValue: { summary: 'start' } } },
+    actions: { control: 'text', description: 'CTA buttons/links HTML.' },
+    note: { control: 'object', description: 'Optional `{ icon?, text }` reassurance note.' },
   },
   args: {
     eyebrow: 'Seikkailu',

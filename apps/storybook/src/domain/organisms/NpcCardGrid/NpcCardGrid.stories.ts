@@ -13,6 +13,15 @@ const base = { cards } as Parameters<typeof renderNpcCardGrid>[0];
 const meta: Meta<Parameters<typeof renderNpcCardGrid>[0]> = {
   title: 'Domain/Organisms/NpcCardGrid',
   parameters: { docs: { description: { component: "Responsive grid of NpcCards: two columns on wide containers, one on narrow." } } },
+  argTypes: {
+    id: { control: 'text', description: 'Optional `<div id>`.' },
+    columns: {
+      control: 'inline-radio',
+      options: [1, 2],
+      table: { defaultValue: { summary: '2' } },
+    },
+    cards: { control: 'object', description: 'Array of `NpcCardProps`.' },
+  },
   args: base,
   render: (args) => renderNpcCardGrid(args),
 };

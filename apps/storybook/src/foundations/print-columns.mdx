@@ -21,14 +21,18 @@ Print is a restyle of existing hosts:
 
 | Host | Print default |
 | --- | --- |
-| Outermost `.eevenkoto-prose` | `columns: 2`, `column-fill: auto` |
+| Outermost `.eevenkoto-prose` | `columns: 2`, `column-gap: space-8`, `column-fill: auto` |
 | Nested `.eevenkoto-prose` | No columns (would nest fragmentainers) |
-| Direct child `h1` / `h2` of Prose | `column-span: all` (already `break-after: avoid`) |
-| Statblock, Spellblock, Card, Notice | `break-inside: avoid` |
-| TableShell, AbilityScoreGroup | `column-span: all` + avoid split |
-| Scroll | `overflow: visible` |
-| Menu, Popover, TooltipCard | `display: none` |
-| `@page` (in `styles.css`) | A4, 18mm margin; `print-color-adjust: exact` on `html, body` |
+| Direct child `h1` / `h2` of Prose | `column-span: all` (excludes nested `eevenkoto-*` blocks; already `break-after: avoid`) |
+| Statblock, Spellblock, EquipmentBlock, Card, TierCard, CatalogTile, Notice, Disclosure, ReadAloudBox, NpcCard, MapFrame, Image | `break-inside: avoid` |
+| Table | `thead` repeats (`table-header-group`); `tbody > tr` `break-inside: avoid` |
+| TableShell, AbilityScoreGroup | `column-span: all` + `break-inside: avoid` (sticky index cells reset to `position: static`) |
+| Scroll, MapFrame viewport | `overflow: visible` |
+| Workshop | Sticky columns reset to `position: static`; inline / non-sticky preview avoids breaks |
+| InlineRef / EntityRef | Chip fill/border/underline cleared to plain inline text; `.eevenkoto-inline-ref__lock` hidden |
+| Swatch | `print-color-adjust: exact` |
+| Menu, AccountMenu, TableOfContents, Popover, TooltipCard, ProgressBar, FloatingBanner, edge LicenseBar (`--inline` stays visible), DocumentHeader license toggle, ContentGate actions/footer | `display: none` |
+| `@page` (in `styles.css`) | A4, 18mm margin; transparent `html, body` with `print-color-adjust: exact` |
 
 Headings **inside** Statblock or Spellblock do not span: that would pull the title out of the card.
 

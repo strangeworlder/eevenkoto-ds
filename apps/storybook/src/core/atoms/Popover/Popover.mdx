@@ -131,13 +131,13 @@ Short-lived secondary content — entity previews, compact help, a small menu sh
 
 ### Absolute (anchored)
 
-`position: absolute` against the nearest `position: relative` ancestor. Placement modifiers (`--top` / `--bottom` / `--left` / `--right`) offset the panel from that parent. Best for docs harnesses and simple non-scrolling anchors.
+`position: absolute` (`z-index: var(--eevenkoto-z-popover)`) against the nearest `position: relative` ancestor. Placement modifiers (`--top`, `--top-start`, `--top-end`, `--bottom`, `--bottom-start`, `--bottom-end`, `--left`, `--right`) offset the panel from that parent, and `--match-trigger-width` stretches `min-inline-size: 100%` (plus nested Menu width) for anchored dropdowns. Best for anchored menus, docs harnesses, and simple non-scrolling anchors.
 
 <Canvas of={PopoverStories.Placements} />
 
 ### Fixed (portal recipe)
 
-`eevenkoto-popover--fixed` uses `position: fixed`, clears inset placement, and starts **hidden** (`opacity: 0`, `pointer-events: none`). Toggle with `--open` or `data-open="true"`. The app sets `top` / `left` (and usually appends the node to `document.body`).
+`eevenkoto-popover--fixed` uses `position: fixed` (`z-index: var(--eevenkoto-z-tooltip)`), clears inset placement, and starts **hidden** (`opacity: 0`, `pointer-events: none`). Toggle with `--open` or `data-open="true"`. The app sets `top` / `left` (and usually appends the node to `document.body`).
 
 This matches eevenkoto_web TooltipManager: listen on inline reference links, one shared panel, recompute position on scroll. Core stories use InlineRef; product may use EntityRef.
 
@@ -180,11 +180,13 @@ Always provide an accessible name (`aria-label` / `label` prop) when the panel h
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `placement` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Absolute placement. Ignored when `fixed`. |
+| `placement` | `'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'right'` | `'bottom'` | Absolute placement. Ignored when `fixed`. |
 | `arrow` | `boolean` | `false` | Renders `__arrow`. |
-| `fixed` | `boolean` | `false` | Portal / JS-positioned overlay. |
+| `fixed` | `boolean` | `false` | Portal / JS-positioned overlay (`z-tooltip`). |
 | `open` | `boolean` | `false` | Visible state for `fixed` panels. |
+| `matchTriggerWidth` | `boolean` | `false` | Sets `min-inline-size: 100%` (and stretches nested Menu) in anchored mode. |
 | `label` | `string` | — | `aria-label` on the panel. |
+| `id` | `string` | — | Panel element `id` for `aria-controls` / `aria-describedby` (React, Vue, and Astro HTML attributes). |
 | `content` | `string` | — | HTML package: panel inner HTML. |
 | `role` | `'dialog' \| 'tooltip' \| 'note' \| 'group'` | — | Optional ARIA role. |
 
@@ -194,9 +196,10 @@ Always provide an accessible name (`aria-label` / `label` prop) when the panel h
 
 | Class | Role |
 | --- | --- |
-| `eevenkoto-popover` | Host |
-| `eevenkoto-popover--top` … `--right` | Absolute placement |
-| `eevenkoto-popover--fixed` | Portal mode |
+| `eevenkoto-popover` | Host (`z-popover`) |
+| `eevenkoto-popover--top` / `--top-start` / `--top-end` / `--bottom` / `--bottom-start` / `--bottom-end` / `--left` / `--right` | Absolute placement |
+| `eevenkoto-popover--match-trigger-width` | Matches positioned trigger width (`min-inline-size: 100%`) |
+| `eevenkoto-popover--fixed` | Portal mode (`z-tooltip`) |
 | `eevenkoto-popover--open` | Open (with `fixed`) |
 | `eevenkoto-popover__arrow` | Arrow |
 
@@ -205,25 +208,50 @@ Always provide an accessible name (`aria-label` / `label` prop) when the panel h
 ### Type definitions
 
 ```ts
-export type PopoverPlacement = 'top' | 'bottom' | 'left' | 'right';
+export type PopoverPlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'right';
 
 export interface PopoverProps {
   placement?: PopoverPlacement;
   arrow?: boolean;
   fixed?: boolean;
   open?: boolean;
+  matchTriggerWidth?: boolean;
   label?: string;
 }
 ```
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-popover-bg` | Panel fill (`surface-raised`) |
+| `--eevenkoto-popover-text` | Panel ink (`content-primary`) |
+| `--eevenkoto-popover-border-color` | Panel and arrow stroke (`boundary-subtle`) |
+| `--eevenkoto-popover-border-width` | Panel and arrow stroke width (`line-width-sm`) |
+| `--eevenkoto-popover-radius` | Panel corner radius (`radius-md`) |
+| `--eevenkoto-popover-padding` | Inner padding (`space-3`) |
+| `--eevenkoto-popover-shadow` | Umbra + penumbra depth shadow |
+| `--eevenkoto-popover-offset` | Gap between trigger and anchored panel (`space-2`) |
+| `--eevenkoto-popover-max-inline-size` | Max panel inline size (`32rem`) |
+| `--eevenkoto-popover-arrow-size` | Rotated square arrow size (`space-2`) |
 
 ## Framework packages
 
 ```bash
 npm install @eevenkoto/css @eevenkoto/html
-# or @eevenkoto/react / @eevenkoto/vue
+# or @eevenkoto/react / @eevenkoto/vue / @eevenkoto/astro
 ```
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/popover.css';
 import { renderPopover } from '@eevenkoto/html';
 
@@ -237,8 +265,35 @@ renderPopover({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/popover.css';
 import { Popover } from '@eevenkoto/react';
+
+<Popover placement="bottom" arrow label="Paralyzed" role="note">
+  …
+</Popover>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/popover.css';
+import { Popover } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Popover placement="bottom" :arrow="true" label="Paralyzed" role="note">
+    …
+  </Popover>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/popover.css';
+import { Popover } from '@eevenkoto/astro';
+---
 
 <Popover placement="bottom" arrow label="Paralyzed" role="note">
   …

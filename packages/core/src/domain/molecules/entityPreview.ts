@@ -5,7 +5,7 @@ import { tooltipCardClassNames } from '../../core/molecules/tooltipCard';
 import type { EntityRefKind } from '../atoms/entityRef';
 
 export interface EntityPreviewProps extends TooltipCardProps {
-  /** Entity kind shown as `data-kind` for styling hooks. */
+  /** Entity kind shown as `data-entity-kind` for styling hooks. */
   kind?: EntityRefKind;
   /** Optional badge next to the title (e.g. readiness). */
   badge?: BadgeProps;

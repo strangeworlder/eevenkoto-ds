@@ -6,7 +6,7 @@
    ========================================================================== */
 
 .eevenkoto-divider,
-.eevenkoto-prose :where(hr) {
+.eevenkoto-prose :where(hr:not([class^="eevenkoto-"], [class*=" eevenkoto-"], .eevenkoto-menu *)) {
   --_eevenkoto-divider-color: var(--eevenkoto-divider-color, var(--eevenkoto-color-boundary-subtle));
   --_eevenkoto-divider-width: var(--eevenkoto-divider-width, var(--eevenkoto-line-width-sm));
   --_eevenkoto-divider-style: var(--eevenkoto-divider-style, solid);

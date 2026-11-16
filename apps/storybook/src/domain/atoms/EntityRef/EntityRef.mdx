@@ -126,17 +126,22 @@ Chip padding and border hang outside the glyph via matching negative `margin-inl
 
 ## Kinds
 
-The kind set is **closed**. English API names; BEM modifiers are kebab-case.
+The kind set is **closed** (`ENTITY_REF_KINDS`). English API names; BEM modifiers are kebab-case.
 
 | Kind (`kind`) | Modifier | Tier 2 source |
 | --- | --- | --- |
+| `item` (default) | `--item` | `feedback-neutral` (covers gear / varuste / esine) |
 | `condition` | `--condition` | `feedback-caution` |
 | `mechanic` | `--mechanic` | `feedback-info` |
+| `ability` | `--ability` | `feedback-info` fill / ink; `feedback-admin` border / underline |
 | `classFeature` | `--class-feature` | `feedback-admin` |
+| `feat` | `--feat` | `feedback-admin` |
 | `class` | `--class` | `feedback-info` fill; `feedback-admin` ink / border / underline |
-| `spell` | `--spell` | `feedback-info` fill; `control-primary` ink / border / underline |
-| `item` (default) | `--item` | `feedback-neutral` (covers gear / varuste / esine) |
+| `spell` | `--spell` | `feedback-info` fill / ink; `control-primary` border / underline |
 | `creature` | `--creature` | `feedback-critical` (covers vastustaja / hirviöpiirre) |
+| `species` | `--species` | `feedback-success` |
+| `culture` | `--culture` | `feedback-success` fill / ink; `control-primary` border / underline |
+| `background` | `--background` | `feedback-neutral` fill / ink; `feedback-caution` border / underline |
 
 <Canvas of={EntityRefStories.Kinds} />
 
@@ -195,7 +200,7 @@ Apps may add `data-ref-id` (or similar) on the host for a TooltipManager-style l
 2. **Popover** (`fixed` + `open`) — portaled panel; app sets `top` / `left`.
 3. **TooltipCard** — header / body / footer inside the panel.
 
-See [Popover — Fixed on a link](?path=/docs/core-atoms-popover--docs#fixed-on-a-link-portal-recipe).
+See [Popover — Fixed (portal recipe)](?path=/docs/core-atoms-popover--docs#fixed-portal-recipe).
 
 ## API reference
 
@@ -216,20 +221,25 @@ See [Popover — Fixed on a link](?path=/docs/core-atoms-popover--docs#fixed-on-
 | --- | --- |
 | `eevenkoto-inline-ref` | Shared Core chrome (always present) |
 | `eevenkoto-entity-ref` | Domain marker |
-| `eevenkoto-entity-ref--item` … `--spell` | Kind → InlineRef bridge remaps |
+| `eevenkoto-entity-ref--item` … `--background` | Kind → InlineRef bridge remaps |
 | `eevenkoto-inline-ref__label` | Name |
 
 ### Type definitions
 
 ```ts
 export type EntityRefKind =
+  | 'item'
   | 'condition'
   | 'mechanic'
+  | 'ability'
   | 'classFeature'
+  | 'feat'
   | 'class'
   | 'spell'
-  | 'item'
-  | 'creature';
+  | 'creature'
+  | 'species'
+  | 'culture'
+  | 'background';
 
 export interface EntityRefProps extends InlineRefProps {
   kind?: EntityRefKind;
@@ -240,7 +250,7 @@ export interface EntityRefProps extends InlineRefProps {
 
 ```bash
 npm install @eevenkoto/css @eevenkoto/html
-# or @eevenkoto/react / @eevenkoto/vue
+# or @eevenkoto/react / @eevenkoto/vue / @eevenkoto/astro
 ```
 
 ```ts
@@ -256,6 +266,7 @@ renderEntityRef({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/entity-ref.css';
 import { EntityRef } from '@eevenkoto/react';
 
@@ -264,6 +275,7 @@ import { EntityRef } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/entity-ref.css';
 import { EntityRef } from '@eevenkoto/vue';
 </script>
@@ -271,6 +283,16 @@ import { EntityRef } from '@eevenkoto/vue';
 <template>
   <EntityRef kind="condition" name="Frightened" href="/conditions/frightened" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/entity-ref.css';
+import { EntityRef } from '@eevenkoto/astro';
+---
+
+<EntityRef kind="condition" name="Frightened" href="/conditions/frightened" />
 ```
 
 See [Packages](?path=/docs/foundations-packages--docs) · [Glossary](?path=/docs/foundations-glossary--docs) · [InlineRef](?path=/docs/core-atoms-inlineref--docs).

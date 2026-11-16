@@ -10,19 +10,23 @@ Short ADRs for product scope. Component APIs live on each component’s docs pag
 
 Eevenkoto is a **TTRPG content design system** (statblocks, entity refs, ability scores) plus **portable core chrome** (Button, Field, Menu, table stack, typography). It is not a general application kit.
 
-**Shipped:** Core atoms/molecules listed in package READMEs (including StatusDot, Chip, Toast, Catalog, Menu `embedded` / `status` / `locked`, Input, Select, Checkbox, Radio, CheckboxGroup, RadioGroup, Stepper); Domain EntityRef (including `class` and `creature`) → AbilityScore → Statblock → Spellblock → EquipmentWorkshop.
+**Shipped:** Core atoms/molecules/organisms listed in package READMEs (including StatusDot, Swatch, Divider, Chip, ChipGroup, Toast, ProgressBar, FloatingBanner, Disclosure, TableOfContents, SectionHeader, Catalog, Menu `embedded` / `status` / `locked` / `destructive`, Input, Select, Checkbox, Radio, CheckboxGroup, RadioGroup, Stepper, SegmentedControl, TableShell, TierCard, AccountMenu, Workshop); Domain AbilityName + EntityRef (12 kinds) → AbilityScore / AbilityScoreGroup → Statblock / Spellblock / EquipmentBlock / EquipmentWorkshop + LicenseBar, DocumentHeader, ContentTable, EntityPreview, ReadAloudBox, NpcCard, NpcCardGrid, MapFrame, ContentGate.
 
-**Theming:** Light is the default. `[data-theme="dark"]` and `[data-surface-mode="dark"]` share the same Tier 2 remaps (Storybook toolbar). Contrast theme is not implemented.
+**Theming:** Light is the default. `[data-theme="dark"]` and `[data-surface-mode="dark"]` share the same Tier 2 remaps (Storybook toolbar). Contrast theme is not implemented (`@media (forced-colors: active)` is supported across interactive and framed surfaces).
 
-**Token-only (no component yet):** modal surface roles, breadcrumb-as-link tokens. Do not assume a component exists because a Tier 2 token is named.
+**Token-only (no component yet):** modal surface roles, destructive Button variant (`control-destructive-*` tokens exist; Menu items support `tone="destructive"`), breadcrumb-as-link tokens. Do not assume a component exists because a Tier 2 token is named.
 
-**0.12.0 additions:** portable page chrome that is _not_ an app shell — ProgressBar, FloatingBanner, AccountMenu, TableOfContents, SectionHeader, Disclosure, ChipGroup, Divider, TierCard; Domain LicenseBar, DocumentHeader, ContentGate, ContentTable, EntityPreview, ReadAloudBox, NpcCard, NpcCardGrid, MapFrame. Existing components gained props (see CHANGELOG). Patterns that are only layout glue over these parts (status banner, readiness legend grid, adventure meta card, version-comparison preview) stay [composition recipes](?path=/docs/foundations-composition-recipes--docs), not components.
+**0.12.0 additions:** portable page chrome that is _not_ an app shell — Swatch, Divider, ProgressBar, FloatingBanner, AccountMenu, TableOfContents, SectionHeader, Disclosure, ChipGroup, TierCard; Domain LicenseBar, DocumentHeader, ContentGate, ContentTable, EntityPreview, ReadAloudBox, NpcCard, NpcCardGrid, MapFrame. Existing components gained props (see CHANGELOG). Patterns that are only layout glue over these parts (status banner, readiness legend grid, adventure meta card, version-comparison preview) stay [composition recipes](?path=/docs/foundations-composition-recipes--docs), not components.
 
 **Not in scope:** Dialog, Pager, Tabs, date pickers, **AppShell / Sidebar** (collapsible rail, drawer, scroll lock, history handling — host-app behavior; compose the shipped parts inside your own shell). Popover is CSS chrome; the host app owns focus trapping and dialog behavior. Toast is a pure presentation atom (`.eevenkoto-toast`, accessible `status`/`alert` role, placement, and transitions); full runtime queueing and portal management remain the host app's domain. Compose class pages with the [Class entry recipe](?path=/docs/foundations-class-entry-recipe--docs) — no Classblock organism yet.
 
+## Vertical rhythm & leaf-only `text-box-trim`
+
+Global `text-box: trim-both` on `*` was removed and banned by Stylelint (`eevenkoto/no-global-text-box-trim`): trimming block-edge half-leading while wrapped lines keep full leading inverts proximity and clips Finnish uppercase diacritics (`Ä`/`Ö`) at scrollport edges. `text-box-trim` is restricted to single-line leaf controls (`Button`, `LinkButton`). Multi-line headings (`H1`–`H3`), `Notice` titles, and `TableOfContents` links pair `--eevenkoto-line-height-snug` (`1.25`) with outer `margin-block-start` / `gap` rhythm (`Flow`, `Field`), and `.eevenkoto-prose` bare-tag selectors exclude `[class^="eevenkoto-"], [class*=" eevenkoto-"]` so nested DS components never inherit editorial tag overrides.
+
 ## Optional CSS peer
 
-`@eevenkoto/html`, `@eevenkoto/react`, and `@eevenkoto/vue` list `@eevenkoto/css` as an **optional** peer so markup can be assembled without styles. Appearance requires explicit CSS imports (`styles.css` + each component sheet).
+`@eevenkoto/html`, `@eevenkoto/react`, `@eevenkoto/vue`, and `@eevenkoto/astro` list `@eevenkoto/css` as an **optional** peer so markup can be assembled without styles. Appearance requires explicit CSS imports (`styles.css` + each component sheet).
 
 ## Google Fonts
 
@@ -30,4 +34,4 @@ Base `styles.css` imports Inter and Outfit from Google Fonts. Consumers who cann
 
 ## Print is a media restyle, not a second view
 
-Content pages keep their screen markup. `@media print` on existing hosts (outermost [Prose](?path=/docs/core-molecules-prose--docs), Heading, TableShell, Statblock, Spellblock, Card, Scroll, Menu) turns a long article into two snaking columns. No print-specific BEM, no `/print` route. Nested Prose sections must not open a second column context. Details: [Print columns](?path=/docs/foundations-print-columns--docs).
+Content pages keep their screen markup. `@media print` on existing hosts (outermost [Prose](?path=/docs/core-molecules-prose--docs), Heading, Table, TableShell, Statblock, Spellblock, EquipmentBlock, AbilityScoreGroup, Card, TierCard, CatalogTile, Notice, Disclosure, ReadAloudBox, NpcCard, MapFrame, Image, InlineRef, Scroll, Workshop, plus `display: none` on Menu, AccountMenu, TableOfContents, Popover, TooltipCard, ProgressBar, FloatingBanner, edge LicenseBar) turns a long article into two snaking columns. No print-specific BEM, no `/print` route. Nested Prose sections must not open a second column context. Details: [Print columns](?path=/docs/foundations-print-columns--docs).

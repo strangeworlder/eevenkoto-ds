@@ -105,11 +105,30 @@ Use Paragraph for multi-sentence body copy. Prefer Heading for titles and Captio
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `text` | `string` | — | Body copy (Astro also accepts the default slot). |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Semantic body size role (`body-sm` / `body-md` / `body-lg`). |
+| `tone` | `'primary' \| 'secondary'` | `'primary'` | Content color tone. |
+| `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={ParagraphStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-paragraph-color` | Body text color (`content-primary`) |
+| `--eevenkoto-paragraph-font-size` | Body size (`font-size-body-*`) |
+| `--eevenkoto-paragraph-font-family` | Font family (`font-sans`) |
+| `--eevenkoto-paragraph-font-weight` | Font weight (`font-weight-regular`) |
+| `--eevenkoto-paragraph-line-height` | Line height (`line-height-body`) |
+| `--eevenkoto-paragraph-margin-block` | Block margin |
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/paragraph.css';
 import { renderParagraph } from '@eevenkoto/html';
 
@@ -117,6 +136,8 @@ renderParagraph({ text: 'Body copy.', size: 'md' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/paragraph.css';
 import { Paragraph } from '@eevenkoto/react';
 
 <Paragraph text="Body copy." size="md" />
@@ -124,12 +145,24 @@ import { Paragraph } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/paragraph.css';
 import { Paragraph } from '@eevenkoto/vue';
 </script>
 
 <template>
   <Paragraph text="Body copy." size="md" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/paragraph.css';
+import { Paragraph } from '@eevenkoto/astro';
+---
+
+<Paragraph text="Body copy." size="md" />
 ```
 
 ## Related

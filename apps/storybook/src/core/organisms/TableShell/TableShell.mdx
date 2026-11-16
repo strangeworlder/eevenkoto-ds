@@ -47,6 +47,14 @@ First **Core organism**: nests [Frame](?path=/docs/core-atoms-frame--docs) + [Sc
 
 <Controls of={TableShellStories.Default} />
 
+## Why to use
+
+Wide progression and catalog tables need a bordered [Frame](?path=/docs/core-atoms-frame--docs), horizontal [Scroll](?path=/docs/core-atoms-scroll--docs) with sticky `--index` columns, and an optional footer slot without baking frame or overflow wrappers into `Table` itself.
+
+## When to use
+
+Wrap [Table](?path=/docs/core-molecules-table--docs) in `TableShell` whenever a table needs framing or overflow scrolling in product layouts. For compendium tables with per-row readiness pips or spanning locked-tier Notices, see Domain [ContentTable](?path=/docs/domain-molecules-contenttable--docs).
+
 ## Sticky index
 
 Inside Scroll, `--index` cells stick to the inline start so level/die columns stay visible while scanning wide numeric charts.
@@ -67,20 +75,39 @@ Pager is part of the ecosystem design but not implemented yet. Use the footer sl
   dont={
     <ul>
       <li>Don’t reimplement Frame/Scroll as private Table-only wrappers.</li>
-      <li>Don’t invent a Domain ClassTable until Core reuse is proven.</li>
+      <li>For compendium tables with per-row readiness or gated rows, use <a href="?path=/docs/domain-molecules-contenttable--docs">ContentTable</a> rather than inventing custom row wrappers.</li>
     </ul>
   }
 />
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `table` | `string` / slot | — | Rendered [Table](?path=/docs/core-molecules-table--docs) (`children` / default slot in React, Vue, and Astro). |
+| `frame` | `boolean` | `true` | Wraps the scroll/table in [Frame](?path=/docs/core-atoms-frame--docs). |
+| `scroll` | `boolean` | `true` | Wraps the table in [Scroll](?path=/docs/core-atoms-scroll--docs). |
+| `scrollAxis` | `'x' \| 'y' \| 'both'` | `'x'` | Axis passed to `Scroll`. |
+| `footer` | `string` / slot | — | Optional footer slot below the frame (`.eevenkoto-table-shell__footer`). |
+| `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={TableShellStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-table-shell-gap` | Gap between frame and footer (`space-3`) |
+| `--eevenkoto-table-shell-index-header-bg` | Sticky index header cell background |
+| `--eevenkoto-table-shell-index-bg` | Sticky index body cell background (`surface-canvas`) |
+| `--eevenkoto-table-shell-index-stripe-bg` | Sticky index striped-row cell background (`surface-subtle`) |
 
 ## Framework packages
 
-HTML nests a `renderTable` string. React/Vue nest `<Table>` as children / default slot; footer is a prop (React) or `#footer` slot (Vue).
+HTML nests a `renderTable` string. React, Vue, and Astro nest `<Table>` as children / default slot; footer is a prop (React) or `footer` slot (Vue and Astro). Import `frame.css`, `scroll.css`, `table.css`, and `table-shell.css` (plus `caption.css` when rendering a Caption).
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/frame.css';
 import '@eevenkoto/css/scroll.css';
 import '@eevenkoto/css/table.css';
@@ -99,18 +126,19 @@ renderTableShell({
       ['2', '300'],
     ],
   }),
-  footer: '<!-- Pager later -->',
+  footer: '<p>Source: SRD 5.2</p>',
 });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/frame.css';
 import '@eevenkoto/css/scroll.css';
 import '@eevenkoto/css/table.css';
 import '@eevenkoto/css/table-shell.css';
 import { Table, TableShell } from '@eevenkoto/react';
 
-<TableShell footer={<p>Pager later</p>}>
+<TableShell footer={<p>Source: SRD 5.2</p>}>
   <Table
     variant="numeric"
     columns={[
@@ -126,14 +154,15 @@ import { Table, TableShell } from '@eevenkoto/react';
 ```
 
 ```vue
-<script setup>
+<script setup lang="ts">
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/frame.css';
 import '@eevenkoto/css/scroll.css';
 import '@eevenkoto/css/table.css';
 import '@eevenkoto/css/table-shell.css';
-import { Table, TableShell } from '@eevenkoto/vue';
+import { Table, TableShell, type TableColumn } from '@eevenkoto/vue';
 
-const columns = [
+const columns: TableColumn[] = [
   { key: 'lvl', header: 'Lvl', kind: 'index' },
   { key: 'xp', header: 'XP', kind: 'numeric' },
 ];
@@ -146,9 +175,34 @@ const rows = [
 <template>
   <TableShell>
     <Table variant="numeric" :columns="columns" :rows="rows" />
-    <template #footer><p>Pager later</p></template>
+    <template #footer><p>Source: SRD 5.2</p></template>
   </TableShell>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/frame.css';
+import '@eevenkoto/css/scroll.css';
+import '@eevenkoto/css/table.css';
+import '@eevenkoto/css/table-shell.css';
+import { Table, TableShell, type TableColumn } from '@eevenkoto/astro';
+
+const columns: TableColumn[] = [
+  { key: 'lvl', header: 'Lvl', kind: 'index' },
+  { key: 'xp', header: 'XP', kind: 'numeric' },
+];
+const rows = [
+  ['1', '0'],
+  ['2', '300'],
+];
+---
+
+<TableShell>
+  <Table variant="numeric" columns={columns} rows={rows} />
+  <p slot="footer">Source: SRD 5.2</p>
+</TableShell>
 ```
 
 ## Related

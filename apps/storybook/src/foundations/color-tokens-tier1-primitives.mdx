@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 **Audience:** authors extending pigments — not app usage. Consumable tokens: [Foundations → Tokens](?path=/docs/foundations-tokens--docs).
 
-**Doc set:** [Architecture](./color-tokens-architecture.mdx) → Tier 1 Primitives (this file) → [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx) → [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)
+**Doc set:** [Architecture](?path=/docs/foundations-color-tokens-architecture--docs) → Tier 1 Primitives (this file) → [Tier 2 Semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs) → [Tier 3 Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)
 
 Tier 1 is the sparse, hand-tuned pigment library. It holds raw OKLCH coordinates and grows only through an accretive, designer-reviewed process.
 
@@ -98,6 +98,6 @@ Friction to add a primitive is intentional: it keeps Tier 1 the single place pig
 
 ## Consumption Rules
 
-- Tier 2 maps primitives to semantic intent (see [Tier 2 Semantics](./color-tokens-tier2-semantics.mdx)).
-- Components must never import or reference `--eevenkoto-color-<hue>-*` primitives directly (see [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)).
+- Tier 2 maps primitives to semantic intent (see [Tier 2 Semantics](?path=/docs/foundations-color-tokens-tier-2-semantics--docs)).
+- Components must never import or reference `--eevenkoto-color-<hue>-*` primitives directly (see [Tier 3 Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)).
 - Tier 1 values remain stable libraries of available pigments; themes do not rewrite primitive definitions.

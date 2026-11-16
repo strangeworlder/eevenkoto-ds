@@ -30,7 +30,7 @@ export const Danger = ({ children, caption, label = 'Danger' }) => (
 
 # Tokens
 
-Live catalog of design tokens that exist in CSS today (color, typography, spacing, radius, line width). **Consume Tier 2 semantics and metrics — never hue primitives.**
+Live catalog of design tokens that exist in CSS and Core today (color, typography, spacing, radius, line width, motion, layering, and icons). **Consume Tier 2 semantics and metrics — never hue primitives.**
 
 This page is the **what exists** gallery. App consume rules are generated into `llms-full.txt` (served at `/llms-full.txt` when Storybook runs). Contributor rules live in `AGENTS.md`. Color tier governance for authors lives under [Color Tokens — Architecture](?path=/docs/foundations-color-tokens-architecture--docs).
 
@@ -50,10 +50,10 @@ These are the **consumable** color tokens (Tier 2) currently defined in `tokens.
 | Domain | Examples | Use for |
 | --- | --- | --- |
 | `control` | `--eevenkoto-color-control-primary-background` | Buttons, chips, and other contained actions |
-| `surface` | `--eevenkoto-color-surface-canvas`, `surface-subtle`, `surface-sunken` | Page canvases, quiet stripes, sunken wells |
-| `content` | `--eevenkoto-color-content-primary` | Body text and secondary/disabled copy |
+| `surface` | `--eevenkoto-color-surface-canvas`, `surface-subtle`, `surface-sunken`, `surface-raised` | Page canvases, quiet stripes, sunken wells, raised cards/panels |
+| `content` | `--eevenkoto-color-content-primary` | Body text, accents, and secondary/tertiary/disabled copy |
 | `boundary` | `--eevenkoto-color-boundary-focus-outer` | Dividers and dual-halo focus rings |
-| `depth` | `--eevenkoto-color-depth-shadow-umbra` | Elevation shadows |
+| `depth` | `--eevenkoto-color-depth-shadow-umbra`, `depth-scrim` | Elevation shadows and modal/drawer backdrop scrims |
 | `feedback` | `--eevenkoto-color-feedback-success-background` | Badges, notices, and status (subtle + solid) |
 | `link` | `--eevenkoto-color-link-default` | Inline links |
 | `form` | `--eevenkoto-color-form-input-background` | Text fields and validation |

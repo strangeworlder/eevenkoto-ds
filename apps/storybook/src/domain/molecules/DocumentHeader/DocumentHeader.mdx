@@ -29,24 +29,70 @@ Document pages repeat the same title row. Centralising it keeps readiness and li
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| id | `string` | — | Element id; prefixes the toggle input name. |
-| showLicenseToggle | `boolean` | `false` | Render the SegmentedControl toggle. |
-| selectedLicense | `'proprietary' \| 'open'` | `'proprietary'` | Active license. |
-| licenseOptions | `SegmentedControlOption[]` | — | Toggle options. |
-| licenseLabel | `string` | `'License'` | Toggle accessible label. |
-| readinessLabel / readinessIntent | `string` / `BadgeIntent` | — | Readiness badge. |
+| `id` | `string` | — | Element `id` on `<header>`; prefixes the toggle input `name`. |
+| `heading` | `string` / slot | — | Pre-rendered heading HTML in `@eevenkoto/html` (`children` / default slot in React, Vue, and Astro). |
+| `showLicenseToggle` | `boolean` | `false` | Render the SegmentedControl edition toggle. |
+| `selectedLicense` | `'proprietary' \| 'open'` | `'proprietary'` | Active license (`'open'` sets `eevenkoto-document-header--open`). |
+| `licenseOptions` | `SegmentedControlOption[]` | — | Toggle options (links or radios for alternate editions). |
+| `licenseLabel` | `string` | `'License'` | Toggle accessible label. |
+| `readinessLabel` / `readinessIntent` | `string` / `BadgeIntent` | — / `'neutral'` | Optional readiness Badge. |
 
 <ArgTypes of={DocumentHeaderStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-document-header-gap` | Gap between title and readiness/license controls (`space-3`) |
+
 ## Framework packages
 
+`document-header.css` imports `badge.css`, `heading.css`, and `segmented-control.css` automatically (also import `icon.css` if `licenseOptions` include icons).
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/document-header.css';
 import { renderDocumentHeader } from '@eevenkoto/html';
+
+renderDocumentHeader({
+  heading: '<h1 class="eevenkoto-heading">Velhon käsikirja</h1>',
+  readinessLabel: 'Valmis',
+  readinessIntent: 'success',
+});
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/document-header.css';
 import { DocumentHeader } from '@eevenkoto/react';
 
-<DocumentHeader readinessLabel="Valmis" readinessIntent="success"><h1>Velhon käsikirja</h1></DocumentHeader>
+<DocumentHeader readinessLabel="Valmis" readinessIntent="success">
+  <h1 className="eevenkoto-heading">Velhon käsikirja</h1>
+</DocumentHeader>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/document-header.css';
+import { DocumentHeader } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <DocumentHeader readiness-label="Valmis" readiness-intent="success">
+    <h1 class="eevenkoto-heading">Velhon käsikirja</h1>
+  </DocumentHeader>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/document-header.css';
+import { DocumentHeader } from '@eevenkoto/astro';
+---
+
+<DocumentHeader readinessLabel="Valmis" readinessIntent="success">
+  <h1 class="eevenkoto-heading">Velhon käsikirja</h1>
+</DocumentHeader>
 ```

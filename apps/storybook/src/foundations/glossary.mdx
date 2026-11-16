@@ -25,8 +25,8 @@ Also read: [Component taxonomy](?path=/docs/foundations-component-taxonomy--docs
 | **Organism** | Page-shaped composition, slots, outline |
 | **Tier 1 / 2 / 3** | Token layers: primitives → semantics → component bridges |
 | **Host default** | `.eevenkoto-<block>` alone = documented default look; see [Minimum-class defaults](?path=/docs/foundations-minimum-class-defaults--docs) |
-| **Prose** | Scope for bare `h1`–`h6` / `p` / `ul` / `ol` / `li` type styles (compose with Flow for rhythm) |
-| **Flow** | Vertical rhythm for stacked type (classed or Prose+Flow bare tags) |
+| **Prose** | Scope for bare `h1`–`h6` / `p` / `ul` / `ol` / `li` / `hr` / `blockquote` / `dl` / `a` type styles (excludes `eevenkoto-*` classes; compose with Flow for rhythm) |
+| **Flow** | Vertical rhythm (`margin-block-start`) for stacked primitives, boxed blocks, and Prose+Flow bare tags |
 
 ## Domain entry stack
 
@@ -58,35 +58,48 @@ Do **not** use **traits** for the footer PropertyList — that word collides wit
 | **features** | Scaling entries (higher-level slot, cantrip upgrade) | `StatblockFeatureProps[]` |
 | **deck** | Compact card variant for spell grids | `deck` |
 
-Spellblock reuses **StatblockFeature** for scaling run-ins; there is no separate spell-feature molecule. Spell entries have no named **sections** — 5.5e prints no section title inside a spell, so the bands are visual only and the scaling run-in itself takes the H2 directly under the spell name.
+Spellblock reuses **StatblockFeature** for scaling run-ins; there is no separate spell-feature molecule. Spell entries have no named **sections** — 5.5e prints no section title inside a spell, so the bands are visual only and the scaling run-in itself takes `nameLevel + 1` (H2 by default; H3 or H4 when embedded).
 
 ## Core display terms
 
 | Term | Meaning |
 | --- | --- |
-| **Property** | One label → value pair (`dt` / `dd`) |
-| **PropertyList** | Stacked properties (`dl`) — Core **molecule** |
-| **ListItem** | One content-list row (`li`) |
-| **List** | Stacked content items (`ul` / `ol`) — Core **molecule** (not PropertyList) |
+| **Property** | One label → value pair (`dt` / `dd`, optional `meta`) |
+| **PropertyList** | Stacked or gridded properties (`dl`: `inline` / `divided` / `grid` / `cards`) — Core **molecule** |
+| **ListItem** | One content-list row (`li`, optional checklist `status`) |
+| **List** | Stacked content items (`ul` / `ol`, `unordered` / `ordered` / `checklist`) — Core **molecule** (not PropertyList) |
 | **Stat** | Numeric display chip (`disk` / `arch` / `shield`) |
 | **StatusDot** | Unlabeled readiness pip (same intents as Badge) |
-| **Chip** | Interactive control chip (`selected`) |
+| **Swatch** | Arbitrary data pigment sample (`--eevenkoto-swatch-color`, hairline border) |
+| **Chip** | Interactive control chip (`selected`, optional `icon` / `swatchColor`) |
+| **ChipGroup** | Accessible `<fieldset>` of toggleable Chips (`single` / `multiple` mode) |
 | **Catalog** | Dense index grid of CatalogTiles |
 | **Popover** | Raised floating panel chrome (CSS only; app owns open/position) |
 | **TooltipCard** | Header / body / footer chrome nested in Popover (or standalone) — native `header` / `footer`, self-capping scroll body that is also Prose; not an in-page Card |
-| **Card** | In-page sectioned surface (`article` + native `header` / flow / `footer`) |
+| **Card** | In-page sectioned surface (`article` + native `header` / flow / `footer`, `surface`, `accent`, `split`) |
+| **Disclosure** | Native `<details>` / `<summary>` expander (`card` / `subtle` / `flush`) |
+| **TableOfContents** | In-page jump-link `<nav>` (`rail` / `collapsible` / `auto`) |
+| **SectionHeader** | Editorial header lockup (eyebrow, logo, heading, lead, actions, note) |
+| **Workshop** | Core 2-column `split` workbench or `inline` generator chassis |
+| **TierCard** | Membership / pricing tier comparison card |
+| **AccountMenu** | Signed-out CTA or signed-in trigger + Popover account menu |
+| **ProgressBar** | Indeterminate or determinate progress indicator (`inline` or `fixed`) |
+| **FloatingBanner** | Fixed viewport-bottom consent / announcement bar |
+| **Toast** | Transient feedback notification atom (`subtle` / `solid`, `inline` / `fixed-*`) |
+| **Divider** | Horizontal rule atom (and bare `<hr>` inside Prose) |
 | **InlineRef** | Core inline reference chrome (`name`, optional `href`); Popover trigger in Core demos |
 | **Input** | Single-line **control chrome** only (fill / border / focus). Nest inside Field for forms. Uses `ariaLabel`, not `label`. |
 | **Field** | Form **row**: visible `label` + control slot + hint/error. Default choice for data entry. |
-| **emphasis** | Generic Stat highlight (thicker stroke, etc.) |
+| **emphasis** | Generic Stat / EquipmentBlock stat highlight (thicker stroke, etc.) |
 | **saveProficient** | Domain flag on AbilityScore; maps to Stat `emphasis` + AT suffix |
 
 ## Domain inline terms
 
 | Term | Meaning | Prop / type |
 | --- | --- | --- |
+| **AbilityName** | Responsive TTRPG ability name atom (collapses full name to 3-letter uppercase in narrow containers while keeping full AT text) | `AbilityNameProps` (`name`, `short?`, `variant?`) |
 | **EntityRef** | Domain specialization of InlineRef with closed kinds | `EntityRefProps` (`name`, `kind`, `href?`, `unlinked?`, `locked?`) |
-| **kind** | Closed EntityRef taxonomy (`condition`, `mechanic`, `classFeature`, `class`, `spell`, `item`, `creature`) | `EntityRefKind` |
+| **kind** | Closed EntityRef taxonomy (`condition`, `mechanic`, `ability`, `classFeature`, `feat`, `class`, `species`, `culture`, `background`, `spell`, `item`, `creature`) | `EntityRefKind` |
 | **unlinked** | Known term with no page (InlineRef / EntityRef) | `unlinked` |
 | **locked** | Gated destination; trailing lock Icon | `locked`, `lockedLabel` |
 
@@ -99,13 +112,13 @@ Use the prop that matches the role — do not force one name everywhere.
 | Prop | Use for |
 | --- | --- |
 | `label` | Visible control/chrome copy and definition terms (Button, LinkButton, Badge, Property, AbilityScore header, **Field** visible label). **Not** used on Input. |
-| `ariaLabel` | Input-only: `aria-label` when there is no Field / visible label (chrome search). |
-| `text` | Typography primitives (Heading, Paragraph, Caption, ListItem, TableCell body) |
-| `name` | Named entity or inline reference (Statblock creature, Spellblock spell, StatblockFeature, InlineRef, EntityRef) |
-| `title` | Section heading (StatblockSection, TooltipCard header) |
-| `value` | Numeric or definitional payload (Stat, Property) |
-| `description` | Feature body after the run-in name |
-| `content` | HTML-only string body for composed hosts (Flow, Popover panel); React/Vue use `children` / slots |
+| `ariaLabel` | Input / Select / FloatingBanner: `aria-label` when there is no Field / visible label. |
+| `text` | Typography primitives (Heading, Paragraph, Caption, ListItem, TableCell body, Toast) |
+| `name` | Named entity or inline reference (Statblock creature, Spellblock spell, EquipmentBlock item, NpcCard, TierCard, StatblockFeature, InlineRef, EntityRef, AbilityName) |
+| `title` | Section or surface heading (StatblockSection, Card, TooltipCard, SectionHeader, Workshop, ContentGate, MapFrame) |
+| `value` | Numeric or definitional payload (Stat, Property, ProgressBar, Stepper) |
+| `description` | Feature or option body after the primary label |
+| `content` | HTML-only string body for composed hosts (Flow, Prose, Frame, Scroll, Popover); React/Vue/Astro use `children` / slots |
 
 In markup, a Property `label` is the definition **term** (`dt`). The prop name stays **`label`**.
 
@@ -114,17 +127,18 @@ In markup, a Property `label` is the definition **term** (`dt`). The prop name s
 | Surface | Prop | Values mean |
 | --- | --- | --- |
 | Button | `variant` | Action hierarchy: `primary` / `secondary` / `ghost` |
-| LinkButton | `variant` | CTA hierarchy: `primary` / `secondary` (no ghost — in-prose links stay InlineRef) |
-| Badge | `variant` | Surface recipe: `subtle` / `solid` / `outline` |
-| Badge | `intent` | Feedback severity: `neutral` / `info` / `success` / `caution` / `critical` / `admin` |
-| StatusDot | `intent` | Same feedback set; unlabeled pip |
+| LinkButton | `variant` | CTA / standalone link hierarchy: `primary` / `secondary` / `ghost` (in-prose links stay InlineRef or bare `<a>`) |
+| Badge / Notice | `variant` | Surface recipe: `subtle` / `solid` / `outline` |
+| Toast | `variant` | Surface recipe: `subtle` / `solid` |
+| Badge / Notice / Toast / StatusDot | `intent` | Feedback severity: `neutral` / `info` / `success` / `caution` / `critical` / `admin` |
 | Chip | `selected` | Control selected / unselected |
-| Heading / Paragraph / Caption / List | `tone` | Content weight: `primary` / `secondary` |
-| List | `variant` | List kind: `unordered` / `ordered` |
+| Heading / Paragraph / List | `tone` | Content weight: `primary` / `secondary` |
+| Caption | `tone` | Content weight: `secondary` (default → `content-tertiary`) / `primary` / `accent` |
+| List | `variant` | List kind: `unordered` / `ordered` / `checklist` |
 
 `primary` is overloaded by design (control hierarchy vs content weight vs token slots). Prefer the table above over inventing parallel words.
 
-Feedback uses **`caution`** / **`critical`** (not `warning` / `error`). Destructive actions use control **`destructive`** tokens / Button examples — that is separate from Badge intent.
+Feedback uses **`caution`** / **`critical`** (not `warning` / `error`). Destructive actions use control **`destructive`** tokens / Menu `tone="destructive"` — that is separate from Badge intent.
 
 ## Button vs LinkButton vs InlineRef
 
@@ -135,8 +149,8 @@ Never put `href` on Button or wrap a Button in an `<a>`. Pick by **what happens*
 | Hero / campaign “Start playing”, “Get the book”, “Read the rules” | **LinkButton** (`<a>`, required `href`) |
 | Same-site page that is still a real URL | **LinkButton** |
 | Form submit, dialog confirm, add/remove, open a modal or drawer | **Button** (`<button>`) |
-| “Read more” or a term inside a paragraph | **InlineRef** (or a prose link) — not LinkButton |
-| One main destination + one quieter destination | LinkButton **primary** + **secondary** (no ghost) |
+| “Read more” or a term inside a paragraph | **InlineRef** / **EntityRef** (or a prose link) — not LinkButton |
+| One main destination + quieter standalone destinations | LinkButton **primary** + **secondary** / **ghost** |
 | Destination is not ready | Omit the CTA; do not ship a disabled LinkButton as the only signal |
 
 LinkButton looks related to Button on purpose (marketing CTAs) but stays a link: end-scoop shape, hover translate, no visited purple. Button is for **doing**; LinkButton is for **going**.
@@ -149,6 +163,7 @@ Pick the control based on **selection cardinality** (how many items can be chose
 | --- | --- | --- | --- |
 | **Independent on/off toggle** (e.g. "I accept rules", "Equipped") | **Checkbox** | Standard binary switch. | Do not use Radio for standalone toggles. |
 | **Multi-select from a list (0 to N)** (e.g. weapon traits, skills) | **CheckboxGroup** | Fieldset grouping checkboxes; supports budget `badge`. | If only ONE choice is allowed, use RadioGroup or Select. |
+| **Compact filter chips / color swatches** (e.g. spell level filter, dye tray) | **ChipGroup** | Wrapping `<fieldset>` of `aria-pressed` Chips with `icon` / `swatchColor`. | For form submissions with native inputs/descriptions, use CheckboxGroup or RadioGroup. |
 | **Single choice from 2–5 visible options** (e.g. Melee vs Ranged) | **RadioGroup** | All options visible for rapid comparison and arrow navigation. | If there are 6+ options or space is tight, use Select. |
 | **Single choice from 6+ options** (e.g. 15 weapon classes, categories) | **Select** | Compact single-row height; mobile OS pickers; `<optgroup>`. | If options need instant visual comparison, use RadioGroup. |
 | **In-page view switcher or mode toggle** (2–4 items) | **SegmentedControl** | Horizontal connected pill toolbar for view modes. | Not for form surveys or options with mechanics copy. |
@@ -169,6 +184,7 @@ Pick the control based on **selection cardinality** (how many items can be chose
 | `@eevenkoto/html` | `*Props` (HTML-only extensions stay as local `*Props` that extend core) |
 | `@eevenkoto/react` | `*ComponentProps` (DOM attrs + core props) |
 | `@eevenkoto/vue` | `*Props` on the component |
+| `@eevenkoto/astro` | `*Props` in `.astro` frontmatter (`index.d.ts` re-exports) |
 
 Do not introduce `*Args` aliases.
 
@@ -178,7 +194,7 @@ Do not introduce `*Args` aliases.
 | --- | --- | --- |
 | Core TS sources | camelCase | `abilityScore.ts` |
 | CSS / HTML folders & files | kebab-case | `ability-score/`, `primitive-tokens.css` |
-| React / Vue / Storybook components | PascalCase | `AbilityScore.tsx` |
+| React / Vue / Astro / Storybook components | PascalCase | `AbilityScore.tsx`, `AbilityScore.astro` |
 | BEM blocks | `eevenkoto-<block>` | `eevenkoto-ability-score` |
 | camelCase props → BEM modifiers | kebab-case | `saveProficient` → `--save-proficient`, `runIn` → `--run-in` |
 

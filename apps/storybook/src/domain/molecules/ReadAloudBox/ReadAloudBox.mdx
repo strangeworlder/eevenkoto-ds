@@ -5,7 +5,7 @@ import * as ReadAloudBoxStories from './ReadAloudBox.stories';
 
 # ReadAloudBox
 
-Boxed text meant to be read aloud to players: thick accent inline-start rule, optional ornament, never split across printed pages.
+Boxed text meant to be read aloud to players: thick accent inline-start rule, optional ornament, serif narration typography (cascading `--eevenkoto-font-serif` to nested `Paragraph` and `List` blocks), and `break-inside: avoid` so it never splits across printed pages.
 
 <Canvas of={ReadAloudBoxStories.Default} />
 
@@ -28,22 +28,61 @@ Read-aloud text is a recognisable adventure convention. A dedicated component ke
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| id | `string` | — | Element id. |
-| label | `string` | — | aria-label for the aside. |
-| ornament | `string \| false` | `'❖'` | Decorative glyph; `false` hides it. |
-| body / bodyHtml | `string` | — | Copy. |
+| `id` | `string` | — | Host `<aside id>`. |
+| `label` | `string` | — | Accessible `aria-label` for the `<aside>`. |
+| `ornament` | `string \| false` | `'❖'` | Decorative glyph; `false` hides it. |
+| `body` / `bodyHtml` | `string` | — | Plain-text or trusted inline/block HTML copy (or default slot/children). |
 
 <ArgTypes of={ReadAloudBoxStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-read-aloud-box-bg` | Box surface (`surface-subtle`) |
+| `--eevenkoto-read-aloud-box-text` | Read-aloud copy ink (`content-primary`) |
+| `--eevenkoto-read-aloud-box-rule-color` | Inline-start accent rule (`content-accent-strong`) |
+| `--eevenkoto-read-aloud-box-rule-width` | Inline-start accent rule width (`line-width-lg`) |
+| `--eevenkoto-read-aloud-box-ornament-color` | Decorative ornament glyph color (`content-accent-strong`) |
+
 ## Framework packages
 
+`read-aloud-box.css` imports `prose.css` automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/read-aloud-box.css';
 import { renderReadAloudBox } from '@eevenkoto/html';
+
+renderReadAloudBox({ body: 'Tunkkainen ilma…' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/read-aloud-box.css';
 import { ReadAloudBox } from '@eevenkoto/react';
+
+<ReadAloudBox body="Tunkkainen ilma…" />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/read-aloud-box.css';
+import { ReadAloudBox } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <ReadAloudBox body="Tunkkainen ilma…" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/read-aloud-box.css';
+import { ReadAloudBox } from '@eevenkoto/astro';
+---
 
 <ReadAloudBox body="Tunkkainen ilma…" />
 ```

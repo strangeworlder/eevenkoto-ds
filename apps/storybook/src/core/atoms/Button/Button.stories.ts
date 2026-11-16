@@ -70,6 +70,14 @@ const meta: Meta<ButtonProps> = {
         defaultValue: { summary: 'left (when icon is set)' },
       },
     },
+    fullWidth: {
+      control: 'boolean',
+      description: 'Stretch the button to fill its container (`eevenkoto-button--full-width`).',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
   },
   render: (args) => renderButton(args),
 };

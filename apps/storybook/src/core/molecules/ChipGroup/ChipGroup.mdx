@@ -41,17 +41,73 @@ One accessible structure (group name, per-chip `aria-pressed`) for filters and c
 
 <ArgTypes of={ChipGroupStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-chip-group-legend-color` | Legend text color (`content-primary`) |
+
 ## Framework packages
 
+`chip-group.css` imports `chip.css` (and transitively `icon.css` + `swatch.css`) automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/chip-group.css';
 import { renderChipGroup } from '@eevenkoto/html';
 
-renderChipGroup({ label: 'Level', options: [{ value: '1', label: 'Level 1' }] });
+renderChipGroup({ label: 'Level', options: [{ value: '1', label: 'Level 1', selected: true }] });
 ```
 
 ```tsx
+import { useState } from 'react';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/chip-group.css';
 import { ChipGroup } from '@eevenkoto/react';
 
-<ChipGroup label="Level" options={options} onSelect={setValue} />
+export function LevelFilter() {
+  const [selected, setSelected] = useState('1');
+  return (
+    <ChipGroup
+      label="Level"
+      options={[
+        { value: '1', label: 'Level 1', selected: selected === '1' },
+        { value: '2', label: 'Level 2', selected: selected === '2' },
+      ]}
+      onSelect={setSelected}
+    />
+  );
+}
+```
+
+```vue
+<script setup>
+import { ref } from 'vue';
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/chip-group.css';
+import { ChipGroup } from '@eevenkoto/vue';
+
+const selected = ref('1');
+</script>
+
+<template>
+  <ChipGroup
+    label="Level"
+    :options="[
+      { value: '1', label: 'Level 1', selected: selected === '1' },
+      { value: '2', label: 'Level 2', selected: selected === '2' },
+    ]"
+    @select="(v) => (selected = v)"
+  />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/chip-group.css';
+import { ChipGroup } from '@eevenkoto/astro';
+---
+
+<ChipGroup label="Level" options={[{ value: '1', label: 'Level 1', selected: true }]} />
 ```

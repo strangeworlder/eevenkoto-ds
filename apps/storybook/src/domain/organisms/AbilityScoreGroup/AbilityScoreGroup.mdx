@@ -86,8 +86,10 @@ Ability grids need a panel, noise surface, scoop corners, and a container query.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `abilities` | `AbilityScoreProps[]` | — | Columns. |
-| `header` | HTML string / `ReactNode` / Vue slot | — | Inset rail (typically PropertyList). |
-| `footer` | HTML string / `ReactNode` / Vue slot | — | Inset rail (typically PropertyList). |
+| `header` | HTML string / `ReactNode` / Vue & Astro `header` slot | — | Inset rail (typically PropertyList). |
+| `footer` | HTML string / `ReactNode` / Vue & Astro `footer` slot | — | Inset rail (typically PropertyList). |
+
+<ArgTypes of={AbilityScoreGroupStories} />
 
 ### CSS classes
 
@@ -100,16 +102,20 @@ Ability grids need a panel, noise surface, scoop corners, and a container query.
 
 | Token | Purpose |
 | --- | --- |
-| `--eevenkoto-ability-score-group-inset-inline` | Header/footer side inset (wide) |
-| `--eevenkoto-ability-score-group-bg` | Panel surface |
-| `--eevenkoto-ability-score-group-border-color` | Panel border |
-| `--eevenkoto-ability-score-group-radius` | Scoop radius |
+| `--eevenkoto-ability-score-group-bg` | Panel surface (`surface-sunken`) |
+| `--eevenkoto-ability-score-group-border-color` | Panel border (`boundary-subtle`) |
+| `--eevenkoto-ability-score-group-shadow` | Panel depth shadow |
+| `--eevenkoto-ability-score-group-radius` | Scoop radius (`1rem`) |
+| `--eevenkoto-ability-score-group-inset-inline` | Header/footer side inset on wide containers |
+| `--eevenkoto-ability-score-group-rail-pad-block` | Header/footer rail block padding |
+| `--eevenkoto-ability-score-group-rail-pad-inline` | Header/footer rail inline padding |
 
-Required CSS: `stat.css`, `ability-score.css` (+ `property.css` when using PropertyList rails). Public import path stays `@eevenkoto/css/ability-score.css`.
+Required CSS: `stat.css`, `ability-score.css` (+ `property.css` when using PropertyList rails). Public import path stays `@eevenkoto/css/ability-score.css` (column tokens `--eevenkoto-ability-score-*` live in the same stylesheet — see [AbilityScore](?path=/docs/domain-molecules-abilityscore--docs)).
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/property.css';
 import '@eevenkoto/css/stat.css';
 import '@eevenkoto/css/ability-score.css';
@@ -135,6 +141,7 @@ renderAbilityScoreGroup({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/property.css';
 import '@eevenkoto/css/stat.css';
 import '@eevenkoto/css/ability-score.css';
@@ -161,6 +168,7 @@ import { AbilityScoreGroup, PropertyList } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/property.css';
 import '@eevenkoto/css/stat.css';
 import '@eevenkoto/css/ability-score.css';
@@ -189,6 +197,35 @@ const details = [{ label: 'Taidot', value: 'huijaus +5' }];
     <template #footer><PropertyList :items="details" /></template>
   </AbilityScoreGroup>
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/property.css';
+import '@eevenkoto/css/stat.css';
+import '@eevenkoto/css/ability-score.css';
+import { AbilityScoreGroup, PropertyList } from '@eevenkoto/astro';
+
+const abilities = [
+  {
+    label: 'Karisma',
+    score: '16',
+    modifier: '+3',
+    save: '+5',
+    saveProficient: true,
+    proficientLabel: 'pätevä',
+    scoreLabel: 'Arvo',
+    modifierLabel: 'Muuttuja',
+    saveLabel: 'Pelastus',
+  },
+];
+---
+
+<AbilityScoreGroup abilities={abilities}>
+  <PropertyList slot="header" items={[{ label: 'Puolustus', value: '15' }]} />
+  <PropertyList slot="footer" items={[{ label: 'Taidot', value: 'huijaus +5' }]} />
+</AbilityScoreGroup>
 ```
 
 ## Related

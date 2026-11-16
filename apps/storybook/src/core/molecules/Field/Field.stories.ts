@@ -1,14 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
 import { expect, userEvent, within } from 'storybook/test';
-import type { FieldProps as FieldCoreProps } from '@eevenkoto/core';
 import '@eevenkoto/css/field.css';
 import '@eevenkoto/css/input.css';
 import '@eevenkoto/css/select.css';
 import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/icon.css';
-import { renderButton, renderField, renderInput, renderSelect } from '@eevenkoto/html';
+import {
+  renderButton,
+  renderField,
+  renderInput,
+  renderSelect,
+  type FieldProps,
+} from '@eevenkoto/html';
 
-type FieldStoryArgs = FieldCoreProps & {
+type FieldStoryArgs = FieldProps & {
   placeholder?: string;
   value?: string;
   disabled?: boolean;
@@ -36,13 +41,16 @@ const meta: Meta<FieldStoryArgs> = {
     },
     hint: { control: 'text' },
     error: { control: 'text' },
+    messageId: { control: 'text', description: 'Explicit `id` for the hint/error message element.' },
+    control: { control: 'text', description: 'Pre-rendered control HTML (`children` in React/Vue/Astro).' },
+    action: { control: 'text', description: 'Optional trailing inline action HTML inside `__control-group`.' },
     placeholder: { control: 'text' },
     value: { control: 'text' },
     disabled: { control: 'boolean' },
   },
   render: (args) => {
     const htmlFor = args.htmlFor ?? 'field-demo';
-    const messageId = `${htmlFor}-message`;
+    const messageId = args.messageId ?? `${htmlFor}-message`;
     const hasError = Boolean(args.error);
     return renderField({
       label: args.label,
@@ -51,16 +59,19 @@ const meta: Meta<FieldStoryArgs> = {
       hint: args.hint,
       error: args.error,
       messageId,
-      control: renderInput({
-        id: htmlFor,
-        type: args.type,
-        placeholder: args.placeholder,
-        value: args.value,
-        disabled: args.disabled,
-        search: args.search,
-        invalid: hasError,
-        describedBy: args.hint || args.error ? messageId : undefined,
-      }),
+      action: args.action,
+      control:
+        args.control ??
+        renderInput({
+          id: htmlFor,
+          type: args.type,
+          placeholder: args.placeholder,
+          value: args.value,
+          disabled: args.disabled,
+          search: args.search,
+          invalid: hasError,
+          describedBy: args.hint || args.error ? messageId : undefined,
+        }),
     });
   },
 };

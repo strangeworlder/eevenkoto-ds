@@ -24,10 +24,15 @@ const meta: Meta<TooltipCardProps> = {
       options: [2, 3],
       description: 'Heading level for `title`. Default 2.',
     },
+    header: { control: 'text', description: 'Custom `<header>` inner HTML (HTML renderer).' },
     body: { control: 'text', description: 'Body copy.' },
     bodyHtml: {
       control: 'text',
       description: 'Trusted pre-rendered HTML for `__body` (takes precedence over `body`).',
+    },
+    content: {
+      control: 'text',
+      description: 'Pre-rendered `__body` HTML (`children` / default slot in framework wrappers).',
     },
     flush: {
       control: 'boolean',

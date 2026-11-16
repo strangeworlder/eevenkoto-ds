@@ -97,16 +97,15 @@ Tag maps use `:where(hN)` so specificity stays low and `--M` modifiers win by so
 
 ### level
 
-| Value | Element | Size token | Family | Weight / posture | Color / anchor |
-| --- | --- | --- | --- | --- | --- |
-| `1` | `h1` | `heading-1` | serif | bold | `content-primary` + strong bottom rule |
-| `2` | `h2` | `heading-2` | serif | bold | `content-accent` (parchment in light, gold in dark) + subtle rule |
-| `3` | `h3` | `heading-3` | serif | bold | `content-primary` |
-| `4` | `h4` | `heading-4` | sans | semibold | `content-accent` (parchment in light, gold in dark) |
-| `5` | `h5` | `heading-5` | sans | bold + small caps | `content-primary` on sunken band; bleeds by pad-inline (`margin ±X`, `width: 100% + 2X`) |
-| `6` | `h6` | `heading-6` (= body-md) | sans | bold italic | `content-accent` (parchment in light, gold in dark); optional run-in |
-| `3` + `runIn` | `h3` | default H3 scale (unless a parent remaps) | serif → often remapped | bold | Optional run-in — Statblock remaps to micro H6 look |
-| `2` + `runIn` | `h2` | default H2 scale (unless a parent remaps) | serif → often remapped | bold | Run-in drops the H2 rule and padding — Spellblock remaps to micro H6 look |
+| Value | Element | Size token | Line-height | Family | Weight / posture | Color / anchor |
+| --- | --- | --- | --- | --- | --- | --- |
+| `1` | `h1` | `heading-1` | `snug` (`1.25`) | serif | bold | `content-primary` + strong bottom rule |
+| `2` | `h2` | `heading-2` | `snug` (`1.25`) | serif | bold | `content-accent` (parchment in light, gold in dark) + subtle rule |
+| `3` | `h3` | `heading-3` | `snug` (`1.25`) | serif | bold | `content-primary` |
+| `4` | `h4` | `heading-4` | `body` (`1.5`) | sans | semibold | `content-accent` (parchment in light, gold in dark) |
+| `5` | `h5` | `heading-5` | `body` (`1.5`) | sans | bold + small caps | `content-primary` on sunken band; bleeds by pad-inline (`margin ±X`, `width: 100% + 2X`) |
+| `6` | `h6` | `heading-6` (= body-md) | `body` (`1.5`) | sans | bold italic | `content-accent` (parchment in light, gold in dark); optional run-in |
+| `2`–`6` + `runIn` | `h2`–`h6` | level scale (unless a parent remaps) | level default | level default | inline-block + `. ` suffix | Drops block rules, padding, and sunken bleed band; Statblock/Spellblock remap to micro H6 look |
 
 ### tone
 
@@ -117,11 +116,11 @@ Tag maps use `:where(hN)` so specificity stays low and `--M` modifiers win by so
 
 <Canvas of={HeadingStories.Secondary} />
 
-### runIn (H2 / H3 / H6)
+### runIn (H2–H6)
 
-Flows the heading into the following `.eevenkoto-paragraph` and appends a period suffix. Supported on levels **2**, **3**, and **6**.
+Flows the heading into the following `.eevenkoto-paragraph` (or bare `<p>` inside Prose) and appends a period suffix. Supported on levels **2** through **6** (`HEADING_RUN_IN_LEVELS`).
 
-Level 2 exists for entries that have no named sections to hang an H2 on. A Spellblock names the spell H1 and runs its scaling entry in at H2 rather than reaching for H3 and skipping a level. At level 2 the run-in also drops the macro H2 bottom rule and padding, since neither belongs inline.
+Supporting levels 2–6 lets embedded Statblocks and Spellblocks keep a contiguous heading outline (`nameLevel` + 1 or + 2) without skipping levels. Inline run-ins automatically strip macro bottom rules, padding, and H5's sunken bleed band.
 
 <Canvas of={HeadingStories.RunIn} />
 
@@ -144,15 +143,46 @@ Bare, a run-in H2 keeps the H2 scale — hosts remap the size, as Spellblock doe
 
 - Preserve logical heading order for screen readers.
 - Headings use `break-after: avoid` / `break-inside: avoid` so print/PDF flows keep titles with following copy. Direct-child `h1` / `h2` of Prose also `column-span: all` in print (see [Print columns](?path=/docs/foundations-print-columns--docs)).
-- Run-in keeps a real heading element (`h2`, `h3`, or `h6`) — do not demote it to a `<span>` for styling. Pick the level the outline needs; the run-in look is identical at all three.
+- Run-in keeps a real heading element (`h2`–`h6`) — do not demote it to a `<span>` for styling. Pick the level the outline needs.
 
 ## API reference
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `level` | `1 \| 2 \| 3 \| 4 \| 5 \| 6` | `2` | Semantic heading level (`h1`–`h6`). |
+| `text` | `string` | — | Heading copy (Astro also accepts the default slot). |
+| `tone` | `'primary' \| 'secondary'` | `'primary'` | Content color tone. |
+| `runIn` | `boolean` | `false` | Levels `2`–`6`: flows the heading inline into the following Paragraph. |
+| `id` | `string` | — | Element `id` for anchor jumps and `aria-labelledby` (React, Vue, and Astro HTML attributes). |
+
 <ArgTypes of={HeadingStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-heading-color` | Heading text color |
+| `--eevenkoto-heading-font-size` | Heading size (`font-size-heading-*`) |
+| `--eevenkoto-heading-font-family` | Font family (`font-serif` / `font-sans`) |
+| `--eevenkoto-heading-font-weight` | Font weight |
+| `--eevenkoto-heading-font-style` | Font style (`normal` / `italic`) |
+| `--eevenkoto-heading-font-variant-caps` | Small-caps treatment |
+| `--eevenkoto-heading-letter-spacing` | Tracking |
+| `--eevenkoto-heading-line-height` | Line height |
+| `--eevenkoto-heading-margin-block` | Block margin |
+| `--eevenkoto-heading-padding` | Block/inline padding |
+| `--eevenkoto-heading-pad-inline` / `--eevenkoto-heading-bleed` | Inline padding and negative bleed |
+| `--eevenkoto-heading-background` | Heading plate background |
+| `--eevenkoto-heading-radius` | Plate corner radius |
+| `--eevenkoto-heading-border-block-end` | Macro underline rule (`h1` / `h2`) |
+| `--eevenkoto-heading-display` | Display mode (`block` or `inline` when `runIn`) |
+| `--eevenkoto-heading-run-in-gap` | Space after run-in suffix (`0.35em`) |
+| `--eevenkoto-heading-run-in-suffix` | Run-in punctuation (`". "`) |
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/heading.css';
 import { renderHeading } from '@eevenkoto/html';
 
@@ -160,6 +190,8 @@ renderHeading({ level: 2, text: 'Section title' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
 import { Heading } from '@eevenkoto/react';
 
 <Heading level={2} text="Section title" />
@@ -167,6 +199,8 @@ import { Heading } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
 import { Heading } from '@eevenkoto/vue';
 </script>
 
@@ -175,12 +209,22 @@ import { Heading } from '@eevenkoto/vue';
 </template>
 ```
 
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/heading.css';
+import { Heading } from '@eevenkoto/astro';
+---
+
+<Heading level={2} text="Section title" />
+```
+
 ## Related
 
 - [Typography](?path=/docs/foundations-typography--docs) — Two-tier sizes + heading hierarchy model
 - [Typography sample](?path=/docs/core-molecules-typography-sample--docs) — Composed reading-flow specimen
 - [Prose](?path=/docs/core-molecules-prose--docs) — Bare `h1`–`h6` / `p` inside a scope
 - [Flow](?path=/docs/core-molecules-flow--docs) — Vertical rhythm for stacked type
-- [Paragraph](?path=/docs/core-atoms-paragraph--docs) — Body copy (sibling of a run-in H2 / H3 / H6)
+- [Paragraph](?path=/docs/core-atoms-paragraph--docs) — Body copy (sibling of a run-in H2–H6)
 - [Caption](?path=/docs/core-atoms-caption--docs) — Supporting text
 - [Tokens](?path=/docs/foundations-tokens--docs) — Live size specimens

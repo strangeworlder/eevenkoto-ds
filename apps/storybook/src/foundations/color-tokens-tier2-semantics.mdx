@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 **Audience:** authors mapping intent — not the app usage catalog. For tokens that exist today, see [Foundations → Tokens](?path=/docs/foundations-tokens--docs).
 
-**Doc set:** [Architecture](./color-tokens-architecture.mdx) → [Tier 1 Primitives](./color-tokens-tier1-primitives.mdx) → Tier 2 Semantics (this file) → [Tier 3 Component Scoping](./color-tokens-tier3-component-scoping.mdx)
+**Doc set:** [Architecture](?path=/docs/foundations-color-tokens-architecture--docs) → [Tier 1 Primitives](?path=/docs/foundations-color-tokens-tier-1-primitives--docs) → Tier 2 Semantics (this file) → [Tier 3 Component Scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)
 
 This document defines the naming grammar, architectural invariants, and governance rules for the semantic token layer (Tier 2). Tier 2 translates Tier 1 primitive pigments into web platform tokens (background, text, border, outline) and enforces color contrast and pairing guarantees.
 
@@ -81,8 +81,8 @@ Examples:
 - `feedback` owns contextual status palettes across **subtle** (default) and **solid** modes, plus outline surfaces derived in Tier 3 from the subtle tuple.
 - Authored intents: `neutral`, `info`, `success`, `caution`, `critical`, `admin`.
 - Hue map (Tier 1 → intent): parchment→neutral, turquoise→info, green→success, orange→caution, crimson→critical, purple→admin. New hues may be **placeholders** until a designer finalizes them.
-- **Subtle fills are authored in Tier 2 with `color-mix(in oklch, var(--eevenkoto-color-*-state) …%, transparent)`** — never raw `oklch` inside component CSS (Badge, future banners/toasts).
-- `control` maintains the vocabulary for buttons and future chips/pills. High-urgency actions consume `--eevenkoto-color-control-destructive-*` (aliases to the critical/crimson trajectory when authored). Button authors always consume the `control` domain.
+- **Subtle fills are authored in Tier 2 with `color-mix(in oklch, var(--eevenkoto-color-*-state) …%, transparent)`** — never raw `oklch` inside component CSS (`Badge`, `Notice`, `Toast`).
+- `control` maintains the vocabulary for buttons, chips, and segmented controls. High-urgency actions consume `--eevenkoto-color-control-destructive-*` (aliases to the critical/crimson trajectory when authored). Button and Chip authors always consume the `control` domain.
 - Badge (status) → `feedback` only. Chip (interactive filter) → `control`. StatusDot → `feedback` solid fills, unlabeled.
 
 #### Form Validation vs. Feedback
@@ -164,13 +164,12 @@ Tier 2’s job is to **name intent**, not to invent pigments. Prefer a direct al
 --eevenkoto-color-control-[variant]-border-disabled:     /* Structural stroke */
 ```
 
-**Decorative Surface Exemption:** Surfaces that never host text (e.g., backdrop dimming scrims) may opt out of the text-coupling requirement with an inline annotation:
+**Decorative Surface Exemption:** Non-text depth overlays (such as backdrop dimming scrims in the `depth` domain, or decorative `-background` tokens annotated with an inline disable) never host text on their own:
 
 ```css
-/* stylelint-disable-next-line eevenkoto/require-text-tuple */
---eevenkoto-color-surface-backdrop: color-mix(
+--eevenkoto-color-depth-scrim: color-mix(
   in oklch,
-  var(--eevenkoto-color-parchment-text) 60%,
+  var(--eevenkoto-color-parchment-text) 45%,
   transparent
 );
 ```
@@ -222,7 +221,7 @@ When tuning new Tier 1 stops with a designer, calibrate polarity to prevent dark
 #### Contrast Requirements by Element Type
 
 - **Contained Controls (Buttons):** Internal contrast between background and text must meet ≥ 4.5:1, and borderless contained fills (`primary`, `destructive`) must clear ≥ 3.0:1 against `surface-canvas`.
-- **Inline Links:** Must meet ≥ 4.5:1 against every surface (`canvas`, `subtle`, `sunken`, `raised`) and ≥ 3.0:1 against adjacent body text (`content-primary`).
+- **Inline Links:** Must meet ≥ 4.5:1 against every neutral surface (`canvas`, `subtle`, `sunken`, `raised`) and ≥ 3.0:1 against adjacent body text (`content-primary`). Because `--eevenkoto-color-link-*` is only contrast-audited on neutral `surface-*` tokens, links inside `feedback-*` containers (`Notice`, `Toast`) default to `currentColor` with an explicit underline.
 - **Form Controls:** Input borders, checkbox/radio borders, and invalid borders must meet ≥ 3.0:1 non-text contrast across all surfaces; `form-input-placeholder` clears ≥ 4.5:1 on input fills and sunken wells.
 - **Dual-Boundary Focus Indicators:** A single focus ring cannot guarantee contrast against both an arbitrary control fill and an unknown outer canvas. Tier 2 defines a two-part halo:
   - `--eevenkoto-color-boundary-focus-outer`: Contrasts against the surrounding canvas (≥ 3.0:1).
@@ -401,3 +400,5 @@ These Stylelint rules, token parity tests, and contrast checks run in `npm run l
 | Banned `-inverse` Names (`eevenkoto/no-inverse-token`) | Scans for `-inverse` in token names and fails the build. Use `[data-surface-mode="dark"]` scoped context containers instead. |
 | Semantic & Composite Contrast (`scripts/contrast-audit.mjs`) | Light and dark. Content on all 4 surfaces (≥ 4.5:1), control text/icons/edges, feedback subtle and solid across all 4 surfaces, form text/placeholder/invalid wash/borders, links, dual focus halos, and cross-family component pairs. |
 | Tier Isolation (`eevenkoto/no-primitive-in-components`) | Dynamically loads `primitive-tokens.css` and rejects any Tier 1 token reference outside `tokens.css`. |
+| Stacking Scale Guard (`eevenkoto/z-index-token`) | Rejects raw positive `z-index` literals outside `tokens.css`; floating overlays consume `--eevenkoto-z-*`. |
+| Rhythm Trim Guard (`eevenkoto/no-global-text-box-trim`) | Forbids `text-box` / `text-box-trim` on `*`, `html`, `body`, `.eevenkoto-prose`, or `.eevenkoto-flow`; restricts optical trim to single-line leaf controls (`Button`, `LinkButton`). |

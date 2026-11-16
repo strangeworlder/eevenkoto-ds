@@ -19,7 +19,7 @@ import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/button.css';
 ```
 
-Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `status-dot`, `chip`, `heading`, `paragraph`, `list`, `caption`, `frame`, `image`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `checkbox`, `radio`, `select`, `toast`, `checkbox-group`, `radio-group`, `stepper`, `property`, `stat`, `flow`, `notice`, `field`, `segmented-control`, `card`, `tooltip-card`, `menu`, `catalog`, `prose`, `table`, `table-shell`. **Domain:** `ability-name`, `entity-ref`, `ability-score`, `statblock-feature`, `statblock-section`, `statblock`, `spellblock`, `equipment-block`, `equipment-workshop`. AbilityScoreGroup has no dedicated sheet (uses `ability-score`). When `EquipmentBlock` renders ability stats (`abilities`), also import `@eevenkoto/css/ability-name.css`.
+Import one sheet per component (flat paths). **Core:** `button`, `link-button`, `badge`, `status-dot`, `swatch`, `chip`, `heading`, `paragraph`, `list` (covers `List` + `ListItem`), `caption`, `frame`, `image`, `scroll`, `table-cell`, `icon`, `popover`, `inline-ref`, `avatar`, `input`, `checkbox`, `radio`, `select`, `toast`, `divider`, `progress-bar`, `property` (covers `Property` + `PropertyList`), `stat`, `flow`, `notice`, `field`, `checkbox-group`, `radio-group`, `stepper`, `segmented-control`, `card`, `tooltip-card`, `menu`, `catalog` (covers `Catalog` + `CatalogTile`), `prose`, `table`, `floating-banner`, `disclosure`, `chip-group`, `table-of-contents`, `section-header`, `table-shell`, `workshop`, `tier-card`, `account-menu`. **Domain:** `ability-name`, `entity-ref`, `ability-score` (covers `AbilityScore` + `AbilityScoreGroup`), `statblock-feature`, `statblock-section`, `statblock`, `spellblock`, `equipment-block`, `equipment-workshop`, `license-bar`, `document-header`, `content-table`, `entity-preview`, `read-aloud-box`, `npc-card`, `npc-card-grid`, `map-frame`, `content-gate`. Composed organisms such as `Statblock`, `Spellblock`, and `EquipmentBlock` import their atom/molecule companion sheets explicitly (for example `heading.css`, `caption.css`, `badge.css`, `chip.css`, `list.css`, `notice.css`, `button.css`, and `ability-name.css` for `EquipmentBlock`; see each component’s Storybook **Framework packages** section).
 
 `styles.css` pulls Inter/Outfit from Google Fonts.
 
@@ -30,21 +30,21 @@ Also available:
 
 ## Theming & dark mode
 
-Set `data-theme="light"` (default) or `data-theme="dark"` on `<html>` (or `<body>`), or `data-surface-mode="dark"` on a local dark container. All Tier 2 color roles (`surface-*`, `content-*`, `control-*`, `feedback-*`, `form-input-*`, `link-*`) remap automatically — do not maintain manual dark-mode overrides for individual semantic tokens.
+Set `data-theme="light"` (default) or `data-theme="dark"` on `<html>` (or `<body>`), or `data-surface-mode="dark"` on a local dark container. All Tier 2 color roles (`surface-*`, `content-*`, `boundary-*`, `depth-*`, `control-*`, `feedback-*`, `form-input-*`, `link-*`) remap automatically — do not maintain manual dark-mode overrides for individual semantic tokens.
 
 ## Consume / never
 
-**Consume** Tier 2 semantic colors (`--eevenkoto-color-surface-*`, `content-*`, `content-accent` for small gold text, `control-*`, `feedback-*`, `form-input-*` including `form-input-placeholder`, `link-*`) and single-tier metrics (`--eevenkoto-space-*`, `--eevenkoto-font-size-heading-*` / `body-*` / `control-*` / `caption`, `--eevenkoto-font-weight-regular` / `semibold` / `bold`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-1`…`4`, `--eevenkoto-ease-standard` / `ease-in-out`).
+**Consume** Tier 2 semantic colors (`--eevenkoto-color-surface-*`, `content-*`, `content-accent` / `content-accent-strong`, `boundary-*`, `depth-*` including `depth-scrim`, `control-*`, `feedback-*`, `form-input-*` including `form-input-placeholder`, `link-*`) and single-tier metrics (`--eevenkoto-space-*`, `--eevenkoto-font-size-heading-*` / `body-*` / `control-*` / `caption`, `--eevenkoto-font-weight-regular` / `semibold` / `bold`, `--eevenkoto-line-height-tight` / `snug` / `body`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-1`…`4`, `--eevenkoto-ease-standard` / `ease-in-out`, `--eevenkoto-z-base`…`toast`).
 
-**Customize components** via public `--eevenkoto-<component>-*` variables only (for example `--eevenkoto-button-bg`, `--eevenkoto-card-bg`, `--eevenkoto-prose-link-color`). Bare `<a href>` inside `.eevenkoto-prose` are styled automatically with `link-*` tokens.
+**Customize components** via public `--eevenkoto-<component>-*` variables only (for example `--eevenkoto-button-bg`, `--eevenkoto-card-bg`, `--eevenkoto-prose-link-color`). Bare `<a href>` inside `.eevenkoto-prose` are styled automatically with `link-*` tokens; inside `feedback-*` containers (`Notice`), links default to `currentColor` with an explicit underline for contrast safety.
 
-**Never** reference hue primitives (`--eevenkoto-color-turquoise-*`, `parchment-*`, `obsidian-*`, `gold-*`, `green-*`, `orange-*`, `crimson-*`, `purple-*`), rem ladder steps (`--eevenkoto-font-size-2xs`…`3xl`), private `--_eevenkoto-*` bridges, `opacity` for disabled UI, or raw `oklch()` / hex in app or component stylesheets.
+**Never** reference hue primitives (`--eevenkoto-color-turquoise-*`, `parchment-*`, `obsidian-*`, `gold-*`, `green-*`, `orange-*`, `crimson-*`, `purple-*`), rem ladder steps (`--eevenkoto-font-size-xs`…`3xl`), private `--_eevenkoto-*` bridges, `opacity` for disabled UI, global/container `text-box-trim`, raw `z-index` numbers outside `--eevenkoto-z-*`, or raw `oklch()` / hex in app or component stylesheets.
 
-For agents & site upgrades: feed Storybook `http://localhost:6006/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`), and see `docs/migration-token-architecture-and-a11y.md` when upgrading a consuming site. Contributors editing this package: see root `AGENTS.md`.
+For agents & site upgrades: feed Storybook `http://localhost:6006/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`), and see `docs/migration-0.12-frontend-gap-resolution.md` and `docs/migration-token-architecture-and-a11y.md` when upgrading a consuming site. Contributors editing this package: see root `AGENTS.md`.
 
 ## Markup
 
-This package is CSS only. Apply the documented BEM classes yourself, or use `@eevenkoto/html`, `@eevenkoto/react`, or `@eevenkoto/vue` to assemble them.
+This package is CSS only. Apply the documented BEM classes yourself, or use `@eevenkoto/html`, `@eevenkoto/react`, `@eevenkoto/vue`, or `@eevenkoto/astro` to assemble them.
 
 ```html
 <button type="button" class="eevenkoto-button eevenkoto-button--primary">
@@ -52,10 +52,10 @@ This package is CSS only. Apply the documented BEM classes yourself, or use `@ee
 </button>
 ```
 
-**Button vs LinkButton:** `button.css` is for `<button>` actions. Marketing CTAs that go to a URL use `@eevenkoto/css/link-button.css` on `<a class="eevenkoto-link-button">` — do not restyle Button as a link. In-prose references use InlineRef.
+**Button vs LinkButton:** `button.css` is for `<button>` actions. Navigation CTAs and standalone action links (`primary` / `secondary` / `ghost`) that go to a URL use `@eevenkoto/css/link-button.css` on `<a class="eevenkoto-link-button">` — do not restyle Button as a link. In-prose references use InlineRef / EntityRef.
 
 ## Related
 
 - `@eevenkoto/core` — shared prop types and className helpers
 - `@eevenkoto/html` — vanilla HTML string renderers
-- `@eevenkoto/react` / `@eevenkoto/vue` — thin framework wrappers
+- `@eevenkoto/react` / `@eevenkoto/vue` / `@eevenkoto/astro` — thin framework wrappers

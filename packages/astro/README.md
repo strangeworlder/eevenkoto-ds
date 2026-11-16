@@ -31,8 +31,31 @@ import { Card, Button } from '@eevenkoto/astro';
 
 ### Named slots & pre-rendered inline HTML
 
-Components accept both native Astro slots (`default`, `header`, `footer`, `icon`, `badge`, `actions`, `meta`, `controls`, `preview`) and sanitized `*Html` props (`bodyHtml`, `descriptionHtml`, `valueHtml`, `paragraphsHtml`, `flavorHtml`, `typeLineHtml`) for Markdown/rehype build pipelines that pre-render `EntityRef` / `InlineRef` links.
+Components accept both native Astro slots (`default`, `header`, `headerActions`, `footer`, `icon`, `badge`, `action`, `actions`, `caption`, `summaryLead`, `summaryMeta`, `controls`, `toolbar`, `preview`) and sanitized `*Html` props (`nameHtml`, `titleHtml`, `leadHtml`, `roleHtml`, `captionHtml`, `bodyHtml`, `descriptionHtml`, `valueHtml`, `paragraphsHtml`, `flavorHtml`, `typeLineHtml`, `svgHtml`) for Markdown/rehype build pipelines that pre-render `EntityRef` / `InlineRef` links.
 
 ### Recursive `<Menu>` & `attributes`
 
 `<Menu>` supports arbitrary-depth `MenuGroupEntry` nesting via `<Astro.self />` and forwards `attributes?: Record<string, string | boolean | undefined>` (`data-*`, `aria-*`, etc.) onto rendered menu controls and `<details>` branches for client-side tree filtering.
+
+### Core
+
+- Atoms: `Avatar`, `Badge`, `Button`, `Caption`, `Checkbox`, `Chip`, `Divider`, `Frame`, `Heading`, `Icon`, `Image`, `InlineRef`, `Input`, `LinkButton`, `ListItem`, `Paragraph`, `Popover`, `ProgressBar`, `Property`, `Radio`, `Scroll`, `Select`, `Stat`, `StatusDot`, `Swatch`, `TableCell`, `Toast`
+- Molecules: `Card`, `Catalog`, `CatalogTile`, `CheckboxGroup`, `ChipGroup`, `Disclosure`, `Field`, `FloatingBanner`, `Flow`, `List`, `Menu`, `Notice`, `PropertyList`, `Prose`, `RadioGroup`, `SectionHeader`, `SegmentedControl`, `Stepper`, `Table`, `TableOfContents`, `TooltipCard`
+- Organisms: `AccountMenu`, `TableShell`, `TierCard`, `Workshop`
+
+### Domain
+
+- Atoms: `AbilityName`, `EntityRef`
+- Molecules: `AbilityScore`, `ContentTable`, `DocumentHeader`, `EntityPreview`, `LicenseBar`, `MapFrame`, `NpcCard`, `ReadAloudBox`, `StatblockFeature`, `StatblockSection`
+- Organisms: `AbilityScoreGroup`, `ContentGate`, `EquipmentBlock`, `EquipmentWorkshop`, `NpcCardGrid`, `Spellblock`, `Statblock`
+
+`EquipmentBlock` (like `Statblock` and `Spellblock`) composes companion stylesheets that are imported explicitly alongside `@eevenkoto/css/equipment-block.css` (`heading.css`, plus `caption.css`, `badge.css`, `chip.css`, `list.css`, `notice.css`, `button.css`, and `ability-name.css` for the sections you render).
+
+## Related
+
+- `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
+- `@eevenkoto/core` — shared prop types and className helpers
+- `@eevenkoto/html` / `@eevenkoto/react` / `@eevenkoto/vue` — vanilla, React, and Vue equivalents
+- Repo `CHANGELOG.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+
+For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

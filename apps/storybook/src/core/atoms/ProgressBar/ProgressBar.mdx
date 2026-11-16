@@ -40,9 +40,19 @@ Shared motion, `prefers-reduced-motion` fallback (static 65% fill), forced-color
 
 <ArgTypes of={ProgressBarStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-progress-bar-track-bg` | Track background (`surface-sunken`) |
+| `--eevenkoto-progress-bar-fill-bg` | Active fill (`control-primary` or `content-accent-strong`) |
+| `--eevenkoto-progress-bar-height` | Track thickness (`0.4rem`) |
+| `--eevenkoto-progress-bar-scale` | Determinate fill ratio (`0`–`1`, set from `value`) |
+
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/progress-bar.css';
 import { renderProgressBar } from '@eevenkoto/html';
 
@@ -50,7 +60,31 @@ renderProgressBar({ active: true, fixed: true, tone: 'accent' });
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/progress-bar.css';
 import { ProgressBar } from '@eevenkoto/react';
+
+<ProgressBar active fixed value={40} />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/progress-bar.css';
+import { ProgressBar } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <ProgressBar :active="true" :fixed="true" :value="40" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/progress-bar.css';
+import { ProgressBar } from '@eevenkoto/astro';
+---
 
 <ProgressBar active fixed value={40} />
 ```

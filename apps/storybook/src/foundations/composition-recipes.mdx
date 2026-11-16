@@ -14,6 +14,8 @@ A signed-in greeting with a tier badge on the start side and one or two actions 
 
 ```ts
 import '@eevenkoto/css/card.css';
+import '@eevenkoto/css/badge.css';
+import '@eevenkoto/css/link-button.css';
 import { renderCard, renderBadge, renderLinkButton } from '@eevenkoto/html';
 
 renderCard({
@@ -90,6 +92,10 @@ Use `layout="cards"` with `PropertyItem.meta` for highlight tiles (value + secon
 A single emphasised fact with supporting lines.
 
 ```ts
+import '@eevenkoto/css/card.css';
+import '@eevenkoto/css/property.css';
+import { renderCard, renderPropertyList } from '@eevenkoto/html';
+
 renderCard({
   accent: 'start',
   surface: 'subtle',

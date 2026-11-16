@@ -1,7 +1,7 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: FIELD (TIER 3)
    Labeled control + optional hint / error. Wraps Input (or other controls).
-   Host alone is a vertical stack. Gaps use `padding-block-start` on following siblings (same approach as Flow) so label / control / message stay clear under the global `text-box: trim-both` rule in `styles.css`.
+   Host alone is a vertical stack.
    ========================================================================== */
 
 .eevenkoto-field {
@@ -22,20 +22,14 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  gap: var(--_eevenkoto-field-gap);
   box-sizing: border-box;
   min-inline-size: 0;
   font-family: var(--eevenkoto-font-sans);
-  /* Own vertical rhythm; do not inherit global text-box trim onto the stack. */
-  text-box: normal;
 }
 
 .eevenkoto-field > * {
   margin-block: 0;
-  text-box: normal;
-}
-
-.eevenkoto-field > * + * {
-  padding-block-start: var(--_eevenkoto-field-gap);
 }
 
 .eevenkoto-field--horizontal {
@@ -43,10 +37,6 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
-}
-
-.eevenkoto-field--horizontal > * + * {
-  padding-block-start: 0;
 }
 
 .eevenkoto-field__label {

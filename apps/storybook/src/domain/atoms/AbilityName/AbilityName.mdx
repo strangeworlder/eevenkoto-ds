@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as AbilityNameStories from './AbilityName.stories';
 
 export const Do = ({ children, caption, label = 'Do' }) => (
@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # AbilityName
 
-**AbilityName** is the domain atom for RPG ability names (Voimakkuus, Ketteryys, Sitkeys, Älykkyys, Viisaus, Karisma). It renders the full ability name when space permits, and automatically collapses to a 3-letter ALLCAPS abbreviation (e.g. `VOI`, `KET`) when space is constrained.
+**AbilityName** is the domain atom for RPG ability names (e.g. *Voimakkuus*, *Ketteryys*, *Sitkeys*, *Älykkyys*, *Viisaus*, *Karisma*, *Sisu*, *Mieli*, *Käsityö*). It renders the full ability name when space permits, and automatically collapses to a 3-letter ALLCAPS abbreviation (e.g. `VOI`, `KET`, `SIS`) when container space is constrained.
 
 Multiple abilities can be composed together with standard conjunctions:
 ```html
@@ -70,9 +70,12 @@ Rules text and equipment blocks frequently reference abilities in constrained sp
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `name` | `string` | — | Full ability name (e.g. `Voimakkuus`). |
+| `name` | `string` | — | Full ability name (e.g. `Voimakkuus` or `Sisu`). |
+| `children` | `string \| ReactNode` | — | Alternative to `name` in Core, React, Vue, and Astro (`<AbilityName>Voimakkuus</AbilityName>`). |
 | `short` | `string` | `3-letter ALLCAPS` | Optional custom abbreviation override. |
 | `variant` | `'auto' \| 'full' \| 'short'` | `'auto'` | Force full or short display, or let container queries respond automatically. |
+
+<ArgTypes of={AbilityNameStories} />
 
 ### CSS classes
 
@@ -83,3 +86,49 @@ Rules text and equipment blocks frequently reference abilities in constrained sp
 | `eevenkoto-ability-name__short` | 3-letter uppercase abbreviation container |
 | `eevenkoto-ability-name--short` | Modifier forcing short display |
 | `eevenkoto-ability-name--full` | Modifier forcing full display |
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-ability-name-text` | Ability name ink (`inherit` by default) |
+
+## Framework packages
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/ability-name.css';
+import { renderAbilityName } from '@eevenkoto/html';
+
+renderAbilityName({ name: 'Voimakkuus' });
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/ability-name.css';
+import { AbilityName } from '@eevenkoto/react';
+
+<AbilityName>Voimakkuus</AbilityName>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/ability-name.css';
+import { AbilityName } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <AbilityName>Voimakkuus</AbilityName>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/ability-name.css';
+import { AbilityName } from '@eevenkoto/astro';
+---
+
+<AbilityName>Voimakkuus</AbilityName>
+```

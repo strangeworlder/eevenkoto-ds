@@ -20,7 +20,7 @@ Use this recipe for class, background, species, or culture **entries**. Use [Spe
 
 Keep heading levels honest (H1 name → H2 sections → H3 features). Remap look on [Heading](?path=/docs/core-atoms-heading--docs) `runIn` for feature names, not by skipping tags.
 
-1. **Name** — page H1 (Prose / Heading). Optional [Badge](?path=/docs/core-atoms-badge--docs) for readiness (*Valmis*) in the page header, not in the H1.
+1. **Name** — page H1 via [DocumentHeader](?path=/docs/domain-molecules-documentheader--docs) (or Prose / Heading + optional readiness [Badge](?path=/docs/core-atoms-badge--docs) in the page header, never inside the H1).
 2. **Core (ydin)** — [PropertyList](?path=/docs/core-molecules-propertylist--docs) for hit dice, proficiencies, typical abilities. Do not dump unlabeled bold-lead paragraphs.
 3. **Level chart** — [Table](?path=/docs/core-molecules-table--docs) inside [TableShell](?path=/docs/core-organisms-tableshell--docs). Feature names in cells are [EntityRef](?path=/docs/domain-atoms-entityref--docs) `classFeature`.
 4. **Features** — one [StatblockFeature](?path=/docs/domain-molecules-statblockfeature--docs) per named feature (run-in name + description). Subclass / manifest groups are [StatblockSection](?path=/docs/domain-molecules-statblocksection--docs) titles (H2) wrapping features (H3).

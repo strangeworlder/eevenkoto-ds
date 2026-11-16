@@ -14,12 +14,14 @@ const meta: Meta<RadioProps> = {
     },
   },
   argTypes: {
+    id: { control: 'text', description: 'Optional `<input id>`.' },
     name: { control: 'text', description: 'Radio group name attribute.' },
     value: { control: 'text', description: 'Form submission value.' },
     label: { control: 'text', description: 'Primary visible label text.' },
     description: { control: 'text', description: 'Optional secondary description copy.' },
     badge: { control: 'text', description: 'Optional badge or price tag text.' },
     checked: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
+    defaultChecked: { control: 'boolean', description: 'Initial checked state when uncontrolled.' },
     disabled: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
     invalid: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
     variant: {
@@ -27,11 +29,18 @@ const meta: Meta<RadioProps> = {
       options: ['default', 'card', 'tile'],
       table: { defaultValue: { summary: 'default' } },
     },
+    card: {
+      control: 'boolean',
+      description: 'Convenience boolean alias for variant="card".',
+      table: { defaultValue: { summary: 'false' } },
+    },
     size: {
       control: 'select',
       options: ['sm', 'md'],
       table: { defaultValue: { summary: 'md' } },
     },
+    ariaLabel: { control: 'text', description: 'Accessible `aria-label` override.' },
+    ariaDescribedBy: { control: 'text', description: '`aria-describedby` id(s).' },
   },
   render: (args) => renderRadio(args),
 };

@@ -81,6 +81,11 @@ const meta: Meta<AbilityScoreGroupProps> = {
       },
     },
   },
+  argTypes: {
+    abilities: { control: 'object', description: 'Ability columns (`AbilityScoreProps[]`).' },
+    header: { control: 'text', description: 'Optional top rail HTML (e.g. vitals `PropertyList`).' },
+    footer: { control: 'text', description: 'Optional bottom rail HTML (e.g. details `PropertyList`).' },
+  },
   render: (args) => renderAbilityScoreGroup(args),
 };
 

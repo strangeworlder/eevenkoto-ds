@@ -105,6 +105,22 @@ const meta: Meta<ImageProps> = {
         defaultValue: { summary: 'async' },
       },
     },
+    fetchPriority: {
+      control: 'select',
+      options: ['auto', 'high', 'low'],
+      description: 'Resource fetch priority hint (`high` for LCP hero media).',
+      table: { type: { summary: "'auto' | 'high' | 'low'" } },
+    },
+    srcSet: {
+      control: 'text',
+      description: 'Responsive `srcset` candidate list.',
+      table: { type: { summary: 'string' } },
+    },
+    sizes: {
+      control: 'text',
+      description: 'Media condition `sizes` string paired with `srcSet`.',
+      table: { type: { summary: 'string' } },
+    },
   },
   args: {
     src: bannerIllustration,

@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as PropertyStories from './Property.stories';
 
 <Meta of={PropertyStories} />
@@ -9,6 +9,8 @@ A Property is one label → value row inside a definition list. Use [PropertyLis
 
 <Canvas of={PropertyStories.Default} />
 
+<Controls of={PropertyStories.Default} />
+
 ## Why to use
 
 Pair a definition term with its value without inventing a new layout. The atom keeps `dt`/`dd` semantics so assistive tech reads the association.
@@ -17,6 +19,86 @@ Pair a definition term with its value without inventing a new layout. The atom k
 
 Use Property inside a `dl` (PropertyList) for keyed facts. Do not use it for running prose or for interactive form fields (use Field).
 
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `label` | `string` | **required** | Definition term (`<dt>`). CSS appends the colon. |
+| `value` | `string` (HTML/Vue/Astro) / `ReactNode` (React) | — | Definition value (`<dd>`; Vue and Astro also accept the default slot). |
+| `valueHtml` | `string` | — | Trusted pre-rendered inline HTML for `<dd>` (takes precedence over `value`). |
+| `meta` | `string \| string[]` | — | Optional secondary metadata line(s) stacked inside `<dd>` (`.eevenkoto-property__meta`). |
+| `id` | `string` | — | Row wrapper `<div id>` (React, Vue, and Astro HTML attributes). |
+
+<ArgTypes of={PropertyStories} />
+
+### Public CSS override tokens
+
+`property.css` covers both `Property` and `PropertyList`:
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-property-label-color` | `<dt>` ink (`content-primary`) |
+| `--eevenkoto-property-value-color` | `<dd>` ink (`content-primary`) |
+| `--eevenkoto-property-meta-color` | Secondary `.eevenkoto-property__meta` ink (`content-secondary`) |
+| `--eevenkoto-property-card-bg` | Card layout tile background (`surface-subtle`) |
+| `--eevenkoto-property-card-border-color` | Card layout tile border (`boundary-subtle`) |
+| `--eevenkoto-property-font-size` | Row font size (`font-size-body-md`) |
+| `--eevenkoto-property-font-family` | Row font family (`font-sans`) |
+| `--eevenkoto-property-line-height` | Row line height (`line-height-body`) |
+| `--eevenkoto-property-label-weight` | `<dt>` font weight (`font-weight-bold`) |
+| `--eevenkoto-property-gap` | Gap after `<dt>` colon (`0.35em`) |
+| `--eevenkoto-property-list-gap` | Gap between `PropertyList` rows (`space-3`) |
+| `--eevenkoto-property-list-margin-block` | `PropertyList` block margin (`0`) |
+| `--eevenkoto-property-list-cols` | Grid column count (`2` by default) |
+| `--eevenkoto-property-list-divider-color` | Divided layout hairline (`boundary-subtle`) |
+
 ## Framework packages
 
-`renderProperty` / `Property` from html, react, and vue. Import `@eevenkoto/css/property.css`.
+Wrap standalone `Property` rows inside a `<dl>` (or use `PropertyList`).
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/property.css';
+import { renderProperty } from '@eevenkoto/html';
+
+const dlHtml = `<dl class="eevenkoto-property-list">${renderProperty({
+  label: 'Puolustus',
+  value: '15',
+})}</dl>`;
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/property.css';
+import { Property } from '@eevenkoto/react';
+
+<dl className="eevenkoto-property-list">
+  <Property label="Puolustus" value="15" />
+</dl>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/property.css';
+import { Property } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <dl class="eevenkoto-property-list">
+    <Property label="Puolustus" value="15" />
+  </dl>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/property.css';
+import { Property } from '@eevenkoto/astro';
+---
+
+<dl class="eevenkoto-property-list">
+  <Property label="Puolustus" value="15" />
+</dl>
+```

@@ -53,8 +53,6 @@
   font-family: var(--eevenkoto-font-sans);
   font-size: var(--_eevenkoto-input-font-size);
   line-height: var(--eevenkoto-line-height-body);
-  /* Keep descenders (g, j, y…) — global styles.css trims to alphabetic. */
-  text-box: normal;
 }
 
 .eevenkoto-input__icon {
@@ -74,7 +72,6 @@
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
-  text-box: normal;
 }
 
 .eevenkoto-input__field:focus {

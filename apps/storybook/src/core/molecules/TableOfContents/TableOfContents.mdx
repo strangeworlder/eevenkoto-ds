@@ -38,9 +38,26 @@ Long documents need a navigable outline that works without JavaScript, stays rea
 
 <ArgTypes of={TableOfContentsStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-toc-muted` | Toggle summary muted ink (`content-secondary`) |
+| `--eevenkoto-toc-eyebrow` | Group heading eyebrow ink (`content-accent-strong`) |
+| `--eevenkoto-toc-text` | Active item ink (`content-primary`) |
+| `--eevenkoto-toc-surface` | Collapsible panel surface (`surface-raised`) |
+| `--eevenkoto-toc-border-color` | Rail/panel border (`boundary-subtle`) |
+| `--eevenkoto-toc-link-color` | Resting item link ink |
+| `--eevenkoto-toc-link-bg` | Item row background (`transparent` at rest) |
+| `--eevenkoto-toc-link-border-color` | Active indicator rail border |
+| `--eevenkoto-toc-link-weight` | Item font weight |
+
 ## Framework packages
 
+`table-of-contents.css` imports `icon.css` automatically.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/table-of-contents.css';
 import { renderTableOfContents } from '@eevenkoto/html';
 
@@ -48,7 +65,38 @@ renderTableOfContents({ groups: [{ items: [{ id: 'a', href: '#a', label: 'A' }] 
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/table-of-contents.css';
 import { TableOfContents } from '@eevenkoto/react';
+
+<TableOfContents
+  groups={[{ items: [{ id: 'a', href: '#a', label: 'Overview', current: true }] }]}
+  variant="auto"
+/>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/table-of-contents.css';
+import { TableOfContents } from '@eevenkoto/vue';
+
+const groups = [{ items: [{ id: 'a', href: '#a', label: 'Overview', current: true }] }];
+</script>
+
+<template>
+  <TableOfContents :groups="groups" variant="auto" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/table-of-contents.css';
+import { TableOfContents } from '@eevenkoto/astro';
+
+const groups = [{ items: [{ id: 'a', href: '#a', label: 'Overview', current: true }] }];
+---
 
 <TableOfContents groups={groups} variant="auto" />
 ```

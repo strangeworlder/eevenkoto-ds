@@ -16,6 +16,16 @@ const meta: Meta<StatblockSectionProps> = {
       },
     },
   },
+  argTypes: {
+    title: { control: 'text', description: 'Section heading text.' },
+    titleLevel: {
+      control: 'inline-radio',
+      options: [2, 3, 4],
+      table: { defaultValue: { summary: '2' } },
+    },
+    features: { control: 'object', description: 'Stacked `StatblockFeatureProps[]` entries.' },
+    bodyHtml: { control: 'text', description: 'Trusted pre-rendered HTML body rendered when `features` are pre-compiled or supplemented.' },
+  },
   render: (args) => renderStatblockSection(args),
 };
 

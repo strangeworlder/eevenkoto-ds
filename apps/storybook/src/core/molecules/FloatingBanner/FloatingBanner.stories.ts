@@ -20,6 +20,7 @@ const meta: Meta<FloatingBannerProps> = {
     },
   },
   argTypes: {
+    id: { control: 'text', description: 'Optional `<aside id>`.' },
     open: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
     placement: {
       control: 'select',
@@ -29,8 +30,10 @@ const meta: Meta<FloatingBannerProps> = {
     ariaLabel: { control: 'text', description: 'Landmark name.' },
     body: { control: 'text' },
     bodyHtml: { control: 'text', description: 'Trusted inline HTML; wins over `body`.' },
+    secondaryLink: { control: 'object', description: 'Optional secondary `{ label, href }` link.' },
     confirmLabel: { control: 'text' },
     confirmId: { control: 'text' },
+    actions: { control: 'text', description: 'Custom actions HTML override.' },
   },
   args: {
     open: true,

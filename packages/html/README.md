@@ -25,23 +25,27 @@ document.body.innerHTML = renderButton({
 
 `@eevenkoto/css` is an **optional peer** — import it in the host or markup is unstyled.
 
-**Core atoms:** `renderAvatar`, `renderBadge`, `renderButton`, `renderCaption`, `renderCheckbox`, `renderChip`, `renderFrame`, `renderHeading`, `renderIcon`, `renderImage`, `renderInlineRef`, `renderInput`, `renderLinkButton`, `renderListItem`, `renderParagraph`, `renderPopover`, `renderProperty`, `renderRadio`, `renderScroll`, `renderSelect`, `renderStat`, `renderStatusDot`, `renderTableCell`, `renderToast`.
+**Core atoms:** `renderAvatar`, `renderBadge`, `renderButton`, `renderCaption`, `renderCheckbox`, `renderChip`, `renderDivider`, `renderFrame`, `renderHeading`, `renderIcon`, `renderImage`, `renderInlineRef`, `renderInput`, `renderLinkButton`, `renderListItem`, `renderParagraph`, `renderPopover`, `renderProgressBar`, `renderProperty`, `renderRadio`, `renderScroll`, `renderSelect`, `renderStat`, `renderStatusDot`, `renderSwatch`, `renderTableCell`, `renderToast`.
 
-**Core molecules / organism:** `renderCard`, `renderCatalog`, `renderCatalogTile`, `renderCheckboxGroup`, `renderField`, `renderFlow`, `renderList`, `renderMenu`, `renderNotice`, `renderProse`, `renderPropertyList`, `renderRadioGroup`, `renderSegmentedControl`, `renderStepper`, `renderTable`, `renderTooltipCard`, `renderTableShell`.
+**Core molecules:** `renderCard`, `renderCatalog`, `renderCatalogTile`, `renderCheckboxGroup`, `renderChipGroup`, `renderDisclosure`, `renderField`, `renderFloatingBanner`, `renderFlow`, `renderList`, `renderMenu`, `renderNotice`, `renderPropertyList`, `renderProse`, `renderRadioGroup`, `renderSectionHeader`, `renderSegmentedControl`, `renderStepper`, `renderTable`, `renderTableOfContents`, `renderTooltipCard`.
 
-**Domain:** `renderAbilityName`, `renderEntityRef`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`, `renderSpellblock`, `renderEquipmentBlock`, `renderEquipmentWorkshop`.
+**Core organisms:** `renderAccountMenu`, `renderTableShell`, `renderTierCard`, `renderWorkshop`.
 
-`renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue use children / slots instead. When `renderEquipmentBlock` renders `abilities` (or you call `renderAbilityName` directly), import `@eevenkoto/css/ability-name.css` alongside `@eevenkoto/css/equipment-block.css`.
+**Domain:** `renderAbilityName`, `renderEntityRef`, `renderAbilityScore`, `renderAbilityScoreGroup`, `renderContentTable`, `renderDocumentHeader`, `renderEntityPreview`, `renderLicenseBar`, `renderMapFrame`, `renderNpcCard`, `renderNpcCardGrid`, `renderReadAloudBox`, `renderStatblockFeature`, `renderStatblockSection`, `renderStatblock`, `renderSpellblock`, `renderEquipmentBlock`, `renderEquipmentWorkshop`, `renderContentGate`.
+
+**HTML utilities:** `escapeHtml`, `sanitizeInlineHtml`, `slugifyId`.
+
+`renderFlow` / `renderProse` / `renderFrame` / `renderScroll` take a `content` string (concatenate child HTML yourself). React/Vue/Astro use children / slots instead. `renderEquipmentBlock` (like `renderStatblock` and `renderSpellblock`) composes companion stylesheets alongside `@eevenkoto/css/equipment-block.css` (`heading.css`, plus `caption.css`, `badge.css`, `chip.css`, `list.css`, `notice.css`, `button.css`, and `ability-name.css` for the sections you render).
 
 Class names and prop types come from `@eevenkoto/core`.
 
-**Button vs LinkButton:** `renderButton` is for in-page actions (`<button>`). Prominent “go to URL” CTAs use `renderLinkButton` (`<a href>`). Do not pass `href` into Button. Terms in running text use `renderInlineRef`. Same-site pages with a real URL still use LinkButton.
+**Button vs LinkButton:** `renderButton` is for in-page actions (`<button>`). Prominent “go to URL” CTAs and standalone action links (`primary` / `secondary` / `ghost`) use `renderLinkButton` (`<a href>`). Do not pass `href` into Button. Terms in running text use `renderInlineRef` / `renderEntityRef`. Same-site pages with a real URL still use LinkButton.
 
 ## Related
 
 - `@eevenkoto/css` — styles (consume / never rules and theming live there)
 - `@eevenkoto/core` — shared contract
-- `@eevenkoto/react` / `@eevenkoto/vue` — framework wrappers over the same classes
-- Repo `CHANGELOG.md` and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklist for consuming sites
+- `@eevenkoto/react` / `@eevenkoto/vue` / `@eevenkoto/astro` — framework wrappers over the same classes
+- Repo `CHANGELOG.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

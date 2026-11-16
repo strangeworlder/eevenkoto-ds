@@ -60,7 +60,7 @@ Chrome needs the same glyphs in Button, adornments, and product UI without each 
         (<code>aria-hidden</code>).
       </li>
       <li>
-        Use Button’s <code>icon</code> prop for the four-name subset; use Icon everywhere else.
+        Use Button’s <code>icon</code> prop for <code>BUTTON_ICON_NAMES</code> (16×16 filled chrome glyphs); use Icon directly everywhere else.
       </li>
     </ul>
   }
@@ -118,13 +118,50 @@ Shared **`sm | md | lg`** → `--eevenkoto-space-3` / `4` / `6`. Inside Button, 
 | `eevenkoto-icon` | Host SVG |
 | `eevenkoto-icon--sm` / `--md` / `--lg` | Size |
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-icon-size` | Glyph inline and block size (`space-3` / `space-4` / `space-6`) |
+
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/icon.css';
-import { ICON_NAMES } from '@eevenkoto/core';
 import { renderIcon } from '@eevenkoto/html';
-// or Icon from @eevenkoto/react / @eevenkoto/vue
+
+renderIcon({ name: 'star' });
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/icon.css';
+import { Icon } from '@eevenkoto/react';
+
+<Icon name="star" />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/icon.css';
+import { Icon } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Icon name="star" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/icon.css';
+import { Icon } from '@eevenkoto/astro';
+---
+
+<Icon name="star" />
 ```
 
 Related: [Tokens — Icons](?path=/docs/foundations-tokens--docs#icons) · [Button](?path=/docs/core-atoms-button--docs).

@@ -26,22 +26,64 @@ Maps need a consistent frame with title, scale and caption, and must not break a
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| title / scale | `string` | — | Header row. |
-| svgHtml | `string` | — | Trusted inline SVG markup. |
-| src / alt | `string` | — | Image source and text alternative. |
-| caption / captionHtml | `string` | — | Figure caption. |
+| `title` / `scale` | `string` | — | Header row title and scale label. |
+| `svgHtml` | `string` | — | Trusted inline SVG markup (takes precedence over `src`). |
+| `src` / `alt` | `string` | — | Image source URL and accessible text alternative. |
+| `caption` / `captionHtml` | `string` | — | Plain or trusted inline HTML `<figcaption>`. |
+| `id` | `string` | — | Host `<figure id>`. |
 
 <ArgTypes of={MapFrameStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-map-frame-bg` | Outer frame background (`surface-raised`) |
+| `--eevenkoto-map-frame-viewport-bg` | Map canvas well background (`surface-sunken`) |
+| `--eevenkoto-map-frame-border-color` | Frame and band border (`boundary-subtle`) |
+| `--eevenkoto-map-frame-text` | Title ink (`content-primary`) |
+| `--eevenkoto-map-frame-muted` | Scale and caption ink (`content-secondary`) |
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/map-frame.css';
 import { renderMapFrame } from '@eevenkoto/html';
+
+renderMapFrame({
+  title: 'Kellari',
+  src: '/map.png',
+  alt: 'Kellarin kartta',
+});
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/map-frame.css';
 import { MapFrame } from '@eevenkoto/react';
+
+<MapFrame title="Kellari" src="/map.png" alt="Kellarin kartta" />
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/map-frame.css';
+import { MapFrame } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <MapFrame title="Kellari" src="/map.png" alt="Kellarin kartta" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/map-frame.css';
+import { MapFrame } from '@eevenkoto/astro';
+---
 
 <MapFrame title="Kellari" src="/map.png" alt="Kellarin kartta" />
 ```

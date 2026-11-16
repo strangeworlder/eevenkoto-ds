@@ -41,7 +41,7 @@ export interface EquipmentStatSubItem {
 }
 
 export interface EquipmentStatItem {
-  label: string;
+  label?: string;
   value?: string;
   /** Visuaalinen painotus (suurempi fontti, korostettu tehostetausta ja reunus) */
   emphasis?: boolean;
@@ -51,31 +51,32 @@ export interface EquipmentStatItem {
   subItems?: EquipmentStatSubItem[];
   /** Ominaisuusnimet, jotka renderöidään AbilityName-atomeina */
   abilities?: string[];
-  /** Ominaisuusnimen esitystapa ('auto' = responsiivinen, 'full' = aina pitkä, 'short' = aina lyhyt) */
-  abilityMode?: 'auto' | 'full' | 'short';
 }
 ```
 
 ### Uusi atomi: `AbilityName`
 
-Käytettävissä kaikissa paketeissa:
+Käytettävissä kaikissa paketeissa (`variant?: 'auto' | 'full' | 'short'` ohjaa lyhennyskäyttäytymistä suoraan atomilla):
 - `@eevenkoto/core`: `AbilityNameProps`, `abbreviateAbility()`, `abilityNameClassNames()`
 - `@eevenkoto/css`: `@eevenkoto/css/ability-name.css`
 - `@eevenkoto/html`: `renderAbilityName(props)`
 - `@eevenkoto/react`: `<AbilityName name="..." />`
 - `@eevenkoto/vue`: `<AbilityName name="..." />`
+- `@eevenkoto/astro`: `<AbilityName name="..." />`
 
 Jos ase vaatii useamman vaihtoehtoisen ominaisuuden, suositeltava tapa on kompostoida useampi atomi erillisinä:
 ```tsx
-<AbilityName name="Voimakkuus" /> tai <AbilityName name="Ketteryys" />
+<>
+  <AbilityName name="Voimakkuus" /> tai <AbilityName name="Ketteryys" />
+</>
 ```
 tai välittää ne suoraan `EquipmentStatItem`:in `abilities`-taulukossa:
 ```ts
-{
+const stat: EquipmentStatItem = {
   label: 'Omin.',
   value: 'Voimakkuus tai Ketteryys',
   abilities: ['Voimakkuus', 'Ketteryys'],
-}
+};
 ```
 
 ---

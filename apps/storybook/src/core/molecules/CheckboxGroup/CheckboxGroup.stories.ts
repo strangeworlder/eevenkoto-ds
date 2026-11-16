@@ -16,6 +16,19 @@ const meta: Meta<CheckboxGroupProps> = {
   },
   argTypes: {
     label: { control: 'text', description: 'Legend title of the group.' },
+    name: { control: 'text', description: 'Shared `name` attribute inherited by child checkboxes.' },
+    items: { control: 'object', description: 'Checkbox items (`CheckboxGroupItemProps[]`).' },
+    children: { control: 'text', description: 'Optional pre-rendered checkbox items HTML.' },
+    legendVisuallyHidden: {
+      control: 'boolean',
+      description: 'Visually hides the legend while keeping it accessible.',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    hideLegend: {
+      control: 'boolean',
+      description: 'Convenience alias for legendVisuallyHidden.',
+      table: { defaultValue: { summary: 'false' } },
+    },
     badge: { control: 'text', description: 'Optional header badge (e.g. "2 / 3 käytetty").' },
     badgeIntent: {
       control: 'select',

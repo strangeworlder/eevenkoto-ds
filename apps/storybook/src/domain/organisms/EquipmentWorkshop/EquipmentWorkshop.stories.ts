@@ -4,9 +4,11 @@ import '@eevenkoto/css/heading.css';
 import '@eevenkoto/css/caption.css';
 import '@eevenkoto/css/badge.css';
 import '@eevenkoto/css/chip.css';
+import '@eevenkoto/css/list.css';
 import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/icon.css';
 import '@eevenkoto/css/notice.css';
+import '@eevenkoto/css/ability-name.css';
 import '@eevenkoto/css/input.css';
 import '@eevenkoto/css/select.css';
 import '@eevenkoto/css/toast.css';
@@ -49,6 +51,24 @@ const meta: Meta<EquipmentWorkshopProps> = {
           'EquipmentWorkshop ("Varusteverstas") is a layout chassis organism for equipment crafters and workbenches. The Design System provides the 2-column layout (controls on left, sticky preview on right, header bar on top), while the consuming application owns the rules engine, calculations, and interactive state.',
       },
     },
+  },
+  argTypes: {
+    layout: {
+      control: 'inline-radio',
+      options: ['split', 'inline'],
+      table: { defaultValue: { summary: 'split' } },
+    },
+    sticky: {
+      control: 'inline-radio',
+      options: ['preview', 'controls', 'none'],
+      table: { defaultValue: { summary: 'preview' } },
+    },
+    idSuffix: { control: 'text', description: 'Generates `id="equipment-workshop{idSuffix}"`.' },
+    header: { control: 'text', description: 'Top header bar HTML.' },
+    controls: { control: 'text', description: 'Controls column HTML.' },
+    toolbar: { control: 'text', description: 'Preview toolbar HTML.' },
+    preview: { control: 'text', description: 'Preview sheet HTML.' },
+    footer: { control: 'text', description: 'Bottom footer tray HTML.' },
   },
   render: (args) => renderEquipmentWorkshop(args),
 };

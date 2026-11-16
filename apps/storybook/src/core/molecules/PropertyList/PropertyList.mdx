@@ -141,9 +141,9 @@ Bordered `surface-subtle` tiles (defaults to `columns={2}`) with optional `meta`
 | `--eevenkoto-property-list-margin-block` | List block margins |
 | `--eevenkoto-property-list-cols` | Grid / cards column count |
 | `--eevenkoto-property-list-divider-color` | Divider hairline in `--divided` |
-| `--eevenkoto-property-label-color` / `-value-color` / `-meta-color` | Ink overrides |
-| `--eevenkoto-property-card-bg` / `-card-border-color` | Tile fill & border in `--cards` |
-| `--eevenkoto-property-font-size` | Type size (defaults to `body-md`) |
+| `--eevenkoto-property-label-color` / `--eevenkoto-property-value-color` / `--eevenkoto-property-meta-color` | Term, value, and secondary metadata ink overrides |
+| `--eevenkoto-property-card-bg` / `--eevenkoto-property-card-border-color` | Tile fill & border in `--cards` |
+| `--eevenkoto-property-font-size` / `--eevenkoto-property-font-family` / `--eevenkoto-property-line-height` | Row typography (`body-md`, `font-sans`, `line-height-body`) |
 | `--eevenkoto-property-gap` | Label↔value gap |
 | `--eevenkoto-property-label-weight` | Term weight (defaults to bold) |
 
@@ -152,6 +152,7 @@ Required CSS: `property.css`.
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/property.css';
 import { renderPropertyList } from '@eevenkoto/html';
 
@@ -165,6 +166,8 @@ renderPropertyList({
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/property.css';
 import { PropertyList } from '@eevenkoto/react';
 
 <PropertyList
@@ -178,6 +181,8 @@ import { PropertyList } from '@eevenkoto/react';
 
 ```vue
 <script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/property.css';
 import { PropertyList } from '@eevenkoto/vue';
 
 const items = [
@@ -189,6 +194,21 @@ const items = [
 <template>
   <PropertyList layout="divided" :items="items" />
 </template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/property.css';
+import { PropertyList } from '@eevenkoto/astro';
+
+const items = [
+  { label: 'Puolustus', value: '15' },
+  { label: 'Aloite', value: '+1 (11)' },
+];
+---
+
+<PropertyList layout="divided" items={items} />
 ```
 
 ## Related

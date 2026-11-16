@@ -16,7 +16,7 @@ import { StatusDot } from '../atoms/StatusDot';
 
 export type { MenuAttributes, MenuProps, MenuEntry, MenuSize };
 
-export type MenuComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children'> &
+export type MenuComponentProps = Omit<HTMLAttributes<HTMLElement>, 'children' | 'onSelect'> &
   MenuProps & {
     onSelect?: (id: string) => void;
   };

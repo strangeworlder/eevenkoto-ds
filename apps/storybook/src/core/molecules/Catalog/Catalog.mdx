@@ -106,16 +106,76 @@ Spell, creature, and culture indexes need compact linked rows in a wrapping grid
 
 <ArgTypes of={CatalogStories} />
 
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-catalog-tile-bg` | Tile fill (`surface-raised`, `surface-subtle` on hover/focus) |
+| `--eevenkoto-catalog-tile-text` | Tile label color (`content-secondary` at rest, `content-primary` on hover/focus) |
+| `--eevenkoto-catalog-tile-border-color` | Tile hairline (`boundary-subtle`) |
+| `--eevenkoto-catalog-tile-lock-color` | Trailing lock icon color (`content-accent-strong`) |
+
 ## Framework packages
 
+`catalog.css` imports `status-dot.css` and `icon.css` automatically. Both `Catalog` (`renderCatalog`) and standalone `CatalogTile` (`renderCatalogTile`) are exported.
+
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/catalog.css';
-import { renderCatalog } from '@eevenkoto/html';
+import { renderCatalog, renderCatalogTile } from '@eevenkoto/html';
 
 renderCatalog({
   label: 'Loitsut',
   tiles: [{ name: 'Aavevalo', href: '/spells/aavevalo', status: 'success', statusLabel: 'Valmis' }],
 });
+
+renderCatalogTile({ name: 'Tulipallo', href: '/spells/tulipallo', locked: true });
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/catalog.css';
+import { Catalog, CatalogTile } from '@eevenkoto/react';
+
+<>
+  <Catalog
+    label="Loitsut"
+    tiles={[{ name: 'Aavevalo', href: '/spells/aavevalo', status: 'success', statusLabel: 'Valmis' }]}
+  />
+  <CatalogTile name="Tulipallo" href="/spells/tulipallo" locked />
+</>
+```
+
+```vue
+<script setup lang="ts">
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/catalog.css';
+import { Catalog, CatalogTile, type CatalogTileProps } from '@eevenkoto/vue';
+
+const tiles: CatalogTileProps[] = [
+  { name: 'Aavevalo', href: '/spells/aavevalo', status: 'success', statusLabel: 'Valmis' },
+];
+</script>
+
+<template>
+  <Catalog label="Loitsut" :tiles="tiles" />
+  <CatalogTile name="Tulipallo" href="/spells/tulipallo" :locked="true" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/catalog.css';
+import { Catalog, CatalogTile, type CatalogTileProps } from '@eevenkoto/astro';
+
+const tiles: CatalogTileProps[] = [
+  { name: 'Aavevalo', href: '/spells/aavevalo', status: 'success', statusLabel: 'Valmis' },
+];
+---
+
+<Catalog label="Loitsut" tiles={tiles} />
+<CatalogTile name="Tulipallo" href="/spells/tulipallo" locked />
 ```
 
 Related: [Card](?path=/docs/core-molecules-card--docs) · [StatusDot](?path=/docs/core-atoms-statusdot--docs) · [List](?path=/docs/core-molecules-list--docs) · [Menu](?path=/docs/core-molecules-menu--docs)

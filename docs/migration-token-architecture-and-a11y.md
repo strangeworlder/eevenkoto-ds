@@ -1,6 +1,6 @@
 # Migration & Consumer Upgrade Guide: Token Architecture, Contrast & Accessibility Overhaul
 
-This guide explains what changed in the post-`0.9.5` token, contrast, Tier 3 scoping, and accessibility overhaul, and gives a step-by-step checklist for updating any site or application that consumes `@eevenkoto/css`, `@eevenkoto/core`, `@eevenkoto/html`, `@eevenkoto/react`, or `@eevenkoto/vue`.
+This guide explains what changed in the post-`0.9.5` token, contrast, Tier 3 scoping, and accessibility overhaul, and gives a step-by-step checklist for updating any site or application that consumes `@eevenkoto/css`, `@eevenkoto/core`, `@eevenkoto/html`, `@eevenkoto/react`, `@eevenkoto/vue`, or `@eevenkoto/astro`. For `0.12.0` component and recipe mappings, also see `docs/migration-0.12-frontend-gap-resolution.md`.
 
 ---
 
@@ -25,7 +25,7 @@ Consuming sites must **only** import `@eevenkoto/css/styles.css` (or `@eevenkoto
 Run this search across the consuming site's `.css`, `.scss`, `.tsx`, `.vue`, and `.astro` files:
 
 ```bash
-grep -rnE "primitive-tokens\.css|--eevenkoto-color-(turquoise|parchment|obsidian|gold|green|orange|crimson|purple)-|--eevenkoto-font-size-(2xs|xs|sm|md|lg|xl|2xl|3xl)\b|--_eevenkoto-" src/
+grep -rnE "primitive-tokens\.css|--eevenkoto-color-(turquoise|parchment|obsidian|gold|green|orange|crimson|purple)-|--eevenkoto-font-size-(xs|sm|md|lg|xl|2xl|3xl)\b|--_eevenkoto-" src/
 ```
 
 Every match in site code should be replaced:
@@ -35,9 +35,9 @@ Every match in site code should be replaced:
 | `@eevenkoto/css/primitive-tokens.css` | `@eevenkoto/css/styles.css` (or `@eevenkoto/css/tokens.css`) |
 | `--eevenkoto-color-parchment-*` / `obsidian-*` | `--eevenkoto-color-surface-{canvas,subtle,sunken,raised}`, `--eevenkoto-color-content-{primary,secondary,tertiary,disabled}`, `--eevenkoto-color-boundary-{subtle,strong}` |
 | `--eevenkoto-color-turquoise-*` | `--eevenkoto-color-control-primary-*`, `--eevenkoto-color-link-*`, `--eevenkoto-color-boundary-focus-outer` |
-| `--eevenkoto-color-gold-*` | `--eevenkoto-color-content-accent` (for text `< 24px` / `< 18.66px` bold) or decorative borders only |
+| `--eevenkoto-color-gold-*` | `--eevenkoto-color-content-accent` / `--eevenkoto-color-content-accent-strong` or decorative borders only |
 | `--eevenkoto-color-{green,orange,crimson,purple}-*` | `--eevenkoto-color-feedback-{success,caution,critical,admin,info,neutral}-*`, `--eevenkoto-color-control-destructive-*`, `--eevenkoto-color-form-input-*-invalid` |
-| `--eevenkoto-font-size-{xs..3xl}` | `--eevenkoto-font-size-heading-{1..6}`, `body-{lg,md,sm}`, `control-{sm,md,lg}`, `caption` |
+| `--eevenkoto-font-size-{xs..3xl}` | `--eevenkoto-font-size-heading-{1..6}`, `body-{xl,lg,md,sm}`, `control-{sm,md,lg}`, `caption` |
 | `opacity: 0.5` on disabled controls | Component `disabled` prop, or opaque `--eevenkoto-color-control-*-disabled` / `form-input-*-disabled` / `content-disabled` tokens |
 
 ---
@@ -52,12 +52,12 @@ grep -rnE "--eevenkoto-(duration-fast|easing-standard|font-weight-medium|space-(
 
 | Broken / Nonexistent Name | Canonical Replacement |
 | --- | --- |
-| `--eevenkoto-duration-fast` | `--eevenkoto-duration-2` (`150ms`; scale is `duration-1` `50ms` … `duration-4` `200ms`) |
-| `--eevenkoto-easing-standard` | `--eevenkoto-ease-standard` (or `--eevenkoto-ease-in-out`) |
-| `--eevenkoto-font-weight-medium` | `--eevenkoto-font-weight-semibold` (`600`; weights are `regular` `400`, `semibold` `600`, `bold` `700`) |
-| `--eevenkoto-space-xs` / `-sm` / `-md` | Numeric scale: `--eevenkoto-space-0-5` (`0.2rem`), `--eevenkoto-space-1` (`0.4rem`), `--eevenkoto-space-2` (`0.8rem`), `--eevenkoto-space-3` (`1.2rem`), `--eevenkoto-space-4` (`1.6rem`), etc. |
-| `--eevenkoto-radius-base` | `--eevenkoto-radius-md` (scale is `none`, `sm`, `md`, `lg`, `xl`, `full`) |
-| `--eevenkoto-font-variant-caps` | Literal CSS `font-variant-caps: all-small-caps` |
+| `duration-fast` (legacy) | `--eevenkoto-duration-2` (`100ms`; scale is `duration-1` `50ms`, `duration-2` `100ms`, `duration-3` `150ms`, `duration-4` `200ms`) |
+| `easing-standard` (legacy) | `--eevenkoto-ease-standard` (or `--eevenkoto-ease-in-out`) |
+| `font-weight-medium` (legacy) | `--eevenkoto-font-weight-semibold` (`600`; weights are `regular` `400`, `semibold` `600`, `bold` `700`) |
+| `space-xs` / `space-sm` / `space-md` (legacy) | Numeric scale: `--eevenkoto-space-1` (`0.4rem`), `--eevenkoto-space-2` (`0.8rem`), `--eevenkoto-space-3` (`1.2rem`), `--eevenkoto-space-4` (`1.6rem`), `--eevenkoto-space-6` (`2.4rem`), `--eevenkoto-space-8` (`3.2rem`) |
+| `radius-base` (legacy) | `--eevenkoto-radius-md` (`0.8rem`; scale is `--eevenkoto-radius-sm` `0.4rem`, `--eevenkoto-radius-md` `0.8rem`, `--eevenkoto-radius-full` `9999px`) |
+| `font-variant-caps` custom prop (legacy) | Literal CSS `font-variant-caps: all-small-caps` |
 
 ---
 
@@ -65,8 +65,8 @@ grep -rnE "--eevenkoto-(duration-fast|easing-standard|font-weight-medium|space-(
 
 - **Input & search placeholders — `--eevenkoto-color-form-input-placeholder`:**
   `Input` and `Select` now consume `--eevenkoto-color-form-input-placeholder` (`>= 5.79:1` contrast in light and dark modes). Use it on any custom `<textarea>` or custom search input `::placeholder` on the site instead of `content-tertiary` or reduced `opacity`.
-- **Readable gold accent ink — `--eevenkoto-color-content-accent`:**
-  Small gold text (`< 24px` regular / `< 18.66px` bold) must use `--eevenkoto-color-content-accent` (`5.77:1` light, `9.55:1` dark). `Heading` (H2, H4, H6) and `StatblockFeature` now use `content-accent` automatically.
+- **Readable accent ink — `--eevenkoto-color-content-accent` & `--eevenkoto-color-content-accent-strong`:**
+  Small accent text (`< 24px` regular / `< 18.66px` bold) uses `--eevenkoto-color-content-accent` (`6.90:1`–`8.29:1` warm parchment primary in light, gold in dark), while high-emphasis gold chrome (such as proficient save shields and emphasis stat values) uses `--eevenkoto-color-content-accent-strong` (`5.04:1`–`6.05:1` deep gold in light, gold in dark). `Heading` (H2, H4, H6) and `StatblockFeature` consume `content-accent` automatically.
 - **Readable `content-tertiary` on sunken wells:**
   `--eevenkoto-color-content-tertiary` (`Caption` default) now clears `4.85:1` even inside `surface-sunken` blocks and tables.
 - **High-contrast invalid form fields:**
@@ -95,9 +95,9 @@ grep -rnE "--eevenkoto-(duration-fast|easing-standard|font-weight-medium|space-(
 2. **Bare inline links inside `<Prose>` (`.eevenkoto-prose`):**
    `prose.css` now styles bare `<a:not([class])>` inside `.eevenkoto-prose` with `--eevenkoto-color-link-default`, `link-hover`, `link-visited` (privacy-safe `:visited:not(:hover)`), `link-underline`, and dual-halo `:focus-visible` outlines.
    - Keep using **bare `<a href="...">`** inside `<Prose>` for normal editorial hyperlinks.
-   - Use **`InlineRef`** for in-prose rule/glossary references, **`EntityRef`** for typed TTRPG entities (`item`, `condition`, `mechanic`, `classFeature`, `class`, `creature`, `spell`), **`LinkButton`** for prominent URL CTAs, and **`Button`** for `<button>` actions.
+   - Use **`InlineRef`** for in-prose rule/glossary references, **`EntityRef`** for typed TTRPG entities (`condition`, `mechanic`, `ability`, `classFeature`, `feat`, `class`, `species`, `culture`, `background`, `spell`, `item`, `creature`), **`LinkButton`** for prominent URL CTAs or standalone action links (`primary` / `secondary` / `ghost`), and **`Button`** for `<button>` actions.
 
-   **Action:** Remove custom `.eevenkoto-prose a` link color/underline rules from site stylesheets unless intentionally overriding `--eevenkoto-prose-link-color` / `--eevenkoto-prose-link-hover-color` / `--eevenkoto-prose-link-underline`.
+   **Action:** Remove custom `.eevenkoto-prose a` link color/underline rules from site stylesheets unless intentionally overriding `--eevenkoto-prose-link-color` / `--eevenkoto-prose-link-visited` / `--eevenkoto-prose-link-underline`.
 
 ---
 
@@ -160,8 +160,8 @@ WAI-ARIA 1.2 prohibits `aria-label` on generic `<span>` elements (`axe-core` `ar
 - `.eevenkoto-ability-name__full` stays in the accessibility tree via visually-hidden CSS clipping when collapsed, while `.eevenkoto-ability-name__short` keeps `aria-hidden="true"`.
 
 **Site actions:**
-1. Props (`name`, `short`, `variant`) are unchanged across HTML, React, and Vue.
-2. If the site hand-renders `.eevenkoto-ability-name` HTML without `@eevenkoto/html` / `react` / `vue`, remove `aria-label` from the outer `<span>`:
+1. Props (`name`, `short`, `variant`) are unchanged across HTML, React, Vue, and Astro.
+2. If the site hand-renders `.eevenkoto-ability-name` HTML without `@eevenkoto/html` / `react` / `vue` / `astro`, remove `aria-label` from the outer `<span>`:
    ```html
    <span class="eevenkoto-ability-name">
      <span class="eevenkoto-ability-name__full">Voimakkuus</span>
@@ -172,9 +172,9 @@ WAI-ARIA 1.2 prohibits `aria-label` on generic `<span>` elements (`axe-core` `ar
 
 ### 7.3 `Stepper` — WAI-ARIA Group & Disabled Semantics
 
-Root `.eevenkoto-stepper` now renders `role="group"` and, when `disabled` is true, `aria-disabled="true"` across HTML (`renderStepper`), React (`<Stepper />`), and Vue (`<Stepper />`) so assistive technology and `axe-core` recognize the entire composite control as disabled.
+Root `.eevenkoto-stepper` now renders `role="group"` and, when `disabled` is true, `aria-disabled="true"` across HTML (`renderStepper`), React (`<Stepper />`), Vue (`<Stepper />`), and Astro (`<Stepper />`) so assistive technology and `axe-core` recognize the entire composite control as disabled.
 
-**Site action:** No prop changes if using `@eevenkoto/html`, `@eevenkoto/react`, or `@eevenkoto/vue`. If hand-rendering `.eevenkoto-stepper` markup, add `role="group"` (and `aria-disabled="true"` when `--disabled` is active) to the root `<div class="eevenkoto-stepper">`.
+**Site action:** No prop changes if using `@eevenkoto/html`, `@eevenkoto/react`, `@eevenkoto/vue`, or `@eevenkoto/astro`. If hand-rendering `.eevenkoto-stepper` markup, add `role="group"` (and `aria-disabled="true"` when `--disabled` is active) to the root `<div class="eevenkoto-stepper">`.
 
 ### 7.4 `Select` — Grouped Options Prop (`groups` + optional top-level `options`)
 

@@ -29,24 +29,78 @@ Which license a reading mode falls under is legal information that must be visib
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| id | `string` | — | Element id. |
-| activeLicense | `'proprietary' \| 'open'` | `'proprietary'` | Visible entry; open recolours the edge. |
-| placement | `'edge' \| 'inline'` | `'edge'` | Fixed vertical stripe vs static row. |
-| entries | `LicenseBarEntry[]` | — | License + links per mode. |
-| separator | `string` | `' · '` | Text between links. |
-| ariaLabel | `string` | `'License'` | Accessible name for the aside. |
+| `id` | `string` | — | Element `id` on `<aside>`. |
+| `activeLicense` | `'proprietary' \| 'open'` | `'proprietary'` | Visible entry; `'open'` recolours the stripe (`eevenkoto-license-bar--open`). |
+| `placement` | `'edge' \| 'inline'` | `'edge'` | Fixed vertical viewport stripe vs static inline row. |
+| `entries` | `LicenseBarEntry[]` | **required** | License + links per mode (`{ license, links }`). |
+| `separator` | `string` | `' · '` | Text separator between links. |
+| `ariaLabel` | `string` | `'License'` | Accessible landmark name for the `<aside>`. |
 
 <ArgTypes of={LicenseBarStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-license-bar-bg` | Edge stripe background (`surface-raised`) |
+| `--eevenkoto-license-bar-text` | Separator/copy ink (`content-primary`) |
+| `--eevenkoto-license-bar-link-color` | License link ink (`link-default`) |
+| `--eevenkoto-license-bar-edge-color` | Accent edge stripe (`content-accent-strong`, or `control-primary-background` in `--open`) |
+| `--eevenkoto-license-bar-edge-width` | Accent edge stripe thickness (`line-width-lg`) |
+| `--eevenkoto-license-bar-size` | Edge stripe cross-axis width (`2rem`, `1.4rem` on narrow viewports) |
 
 ## Framework packages
 
 ```ts
+import '@eevenkoto/css/styles.css';
 import '@eevenkoto/css/license-bar.css';
 import { renderLicenseBar } from '@eevenkoto/html';
+
+renderLicenseBar({
+  entries: [{ license: 'open', links: [{ label: 'SRD (CC-BY 4.0)', href: '/lisenssi' }] }],
+  activeLicense: 'open',
+  placement: 'inline',
+});
 ```
 
 ```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/license-bar.css';
 import { LicenseBar } from '@eevenkoto/react';
+
+<LicenseBar
+  entries={[{ license: 'open', links: [{ label: 'SRD (CC-BY 4.0)', href: '/lisenssi' }] }]}
+  activeLicense="open"
+  placement="inline"
+/>
+```
+
+```vue
+<script setup lang="ts">
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/license-bar.css';
+import { LicenseBar, type LicenseBarProps } from '@eevenkoto/vue';
+
+const entries: LicenseBarProps['entries'] = [
+  { license: 'open', links: [{ label: 'SRD (CC-BY 4.0)', href: '/lisenssi' }] },
+];
+</script>
+
+<template>
+  <LicenseBar :entries="entries" active-license="open" placement="inline" />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/license-bar.css';
+import { LicenseBar, type LicenseBarProps } from '@eevenkoto/astro';
+
+const entries: LicenseBarProps['entries'] = [
+  { license: 'open', links: [{ label: 'SRD (CC-BY 4.0)', href: '/lisenssi' }] },
+];
+---
 
 <LicenseBar entries={entries} activeLicense="open" placement="inline" />
 ```
