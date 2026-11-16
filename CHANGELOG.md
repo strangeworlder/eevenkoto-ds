@@ -2,7 +2,21 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.12.0**.
+Published package version is **0.12.1**.
+
+## 0.12.1
+
+Patch release refining vertical rhythm, Prose scoping, framework wrapper types, and documentation/linting.
+
+### Changed
+
+- **Tokens & CSS (`@eevenkoto/css`):**
+  - Added `--eevenkoto-line-height-snug` (`1.25`) and paired it with multi-line headings (`H1`–`H3`), `Notice` titles, and `TableOfContents` items.
+  - Refined `Flow` / `Field` stack rhythm to use `margin-block-start` / `gap` rather than `padding-block-start`, scoped `.eevenkoto-prose` bare-tag selectors away from nested `.eevenkoto-*` components, and removed global/container `text-box-trim`.
+  - Adjusted spacing and layout details across `Card`, `Disclosure`, `Heading`, `List`, `Notice`, `TooltipCard`, `NpcCard`, `ReadAloudBox`, `Spellblock`, and form controls.
+- **React (`@eevenkoto/react`):** Omitted conflicting native `onSelect` (`ChipGroup`, `Menu`) and `onToggle` (`AccountMenu`) attributes from inherited HTML props so custom callback signatures type-check cleanly.
+- **Astro (`@eevenkoto/astro`):** Updated `AstroComponent` default prop type and added missing prop/attribute declarations (`Heading` `as`, `Image` `style`, `LinkButton`/`Scroll` `tabindex`, `Popover` `role`, `Swatch` `style`, `TableCell` `tabIndex`/`tabindex`, `Toast` `role`/`aria-live`).
+- **Tooling & Docs:** Added the `eevenkoto/no-global-text-box-trim` Stylelint rule, updated `scripts/generate-llms.mjs` and Storybook/README documentation, and added `tests/spacing.test.ts` and `tests/docs.test.ts`.
 
 ## 0.12.0
 
