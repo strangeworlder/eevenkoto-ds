@@ -8,8 +8,8 @@ export interface Props extends Omit<BadgeProps, 'label'> {
   [key: string]: unknown;
 }
 
-const { label, variant, size, shape, intent, dot, class: classProp, className, ...rest } = Astro.props;
-const classes = [badgeClassNames({ variant, size, shape, intent }), classProp, className]
+const { label, variant, size, intent, dot, class: classProp, className, ...rest } = Astro.props;
+const classes = [badgeClassNames({ variant, size, intent }), classProp, className]
   .filter(Boolean)
   .join(' ');
 ---

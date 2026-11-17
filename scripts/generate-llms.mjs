@@ -39,6 +39,11 @@ const USE_SOURCES = [
     path: 'docs/migration-0.12-frontend-gap-resolution.md',
     kind: 'md',
   },
+  {
+    title: 'Migrating to 0.13 — Playbill Notice, Stamp Badge & Engraved Icons',
+    path: 'docs/migration-0.13-playbill-chrome-and-icons.md',
+    kind: 'md',
+  },
 ];
 
 const AUTHOR_SOURCES = [

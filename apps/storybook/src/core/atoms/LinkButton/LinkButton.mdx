@@ -160,7 +160,7 @@ Anchors have no native `disabled`. When `disabled` is true, renderers remove `hr
 
 ### icon and iconPosition
 
-Icons compose the shared [Icon](?path=/docs/core-atoms-icon--docs) atom. Default position is **right** when `icon` is set (Button defaults to left). Icon-only is not part of this contract.
+Icons compose the shared [Icon](?path=/docs/core-atoms-icon--docs) atom. Default position is **right** when `icon` is set (Button defaults to left). Passing `icon="arrow"`, `"arrow-right"`, or `"arrow-left"` automatically emits `eevenkoto-link-button--icon-arrow` so directional arrows mirror in RTL. Icon-only is not part of this contract.
 
 <Canvas of={LinkButtonStories.IconRight} />
 
@@ -232,7 +232,7 @@ Icons compose the shared [Icon](?path=/docs/core-atoms-icon--docs) atom. Default
 | `eevenkoto-link-button--full-width` | Full-width layout (`inline-size: 100%`) |
 | `eevenkoto-link-button--icon-left` | Icon before label |
 | `eevenkoto-link-button--icon-right` | Icon after label |
-| `eevenkoto-link-button--icon-arrow` | Directional glyph hook; mirrors in RTL |
+| `eevenkoto-link-button--icon-arrow` | Directional arrow hook (`arrow`, `arrow-right`, `arrow-left`); mirrors in RTL |
 | (nested) `eevenkoto-icon` | Icon atom SVG |
 
 ### Type definitions

@@ -38,7 +38,7 @@ export const TierCard = defineComponent({
       return h('article', { id: props.id, class: className }, [
         h('header', { class: 'eevenkoto-tier-card__header' }, [
           h(`h${props.nameLevel ?? 2}`, { class: 'eevenkoto-tier-card__name' }, props.name),
-          props.badge ? h(Badge, { ...props.badge, shape: props.badge.shape ?? 'pill' }) : null,
+          props.badge ? h(Badge, props.badge) : null,
         ]),
         h('div', { class: 'eevenkoto-tier-card__pricing' }, [
           h('span', { class: 'eevenkoto-tier-card__price' }, props.price),

@@ -31,7 +31,7 @@ const hasToggle = Boolean(showLicenseToggle && licenseOptions?.length);
   {readinessLabel || hasToggle ? (
     <div class="eevenkoto-document-header__meta">
       {readinessLabel ? (
-        <Badge label={readinessLabel} intent={readinessIntent ?? 'neutral'} dot shape="pill" />
+        <Badge label={readinessLabel} intent={readinessIntent ?? 'neutral'} dot />
 
       ) : null}
       {hasToggle ? (

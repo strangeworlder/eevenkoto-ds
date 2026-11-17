@@ -35,7 +35,6 @@ export const DocumentHeader = defineComponent({
               label: props.readinessLabel,
               intent: props.readinessIntent ?? 'neutral',
               dot: true,
-              shape: 'pill',
             })
           : null,
         hasToggle

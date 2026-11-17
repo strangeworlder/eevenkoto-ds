@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Notice
 
-A **Notice** is a feedback callout or banner. It consumes Tier 2 **`feedback`** intents (same set as Badge) with optional icon, title, body, and actions slots.
+A **Notice** is a 1920s Playbill / broadsheet feedback callout or banner. It consumes Tier 2 **`feedback`** intents (same set as Badge) inside open-sided Oxford double rules (`3px` outer ink rule, transparent air gap, `1px` inner hairline), a centered vignette icon column with a hairline divider, and compact secondary-scale typography (`body-sm`, `Outfit` title at equal size).
 
 <Canvas of={NoticeStories.Default} />
 
@@ -44,7 +44,7 @@ A **Notice** is a feedback callout or banner. It consumes Tier 2 **`feedback`** 
 </div>
 ```
 
-Host alone is **subtle** + **neutral**. `resolveNoticeRole` defaults `caution` and `critical` intents to `role="alert"` and other intents to `role="status"` (override with `role="status" | "alert" | "note" | "region"`). Each intent also renders a matching leading `Icon` by default (`icon={false}` to omit).
+Host alone is **subtle** + **neutral** (warm bronze on parchment, brass accent in dark mode). `resolveNoticeRole` defaults `caution` and `critical` intents to `role="alert"` and other intents to `role="status"` (override with `role="status" | "alert" | "note" | "region"`). Each intent also renders a matching leading `Icon` by default (`section`, `info`, `check`, `warning`, `monogram`; pass `icon={false}` to omit).
 
 ### Playground
 
@@ -132,7 +132,7 @@ import { renderNotice } from '@eevenkoto/html';
 | `title` | `string` | — | Bold heading line in `__title` (`line-height-snug`). |
 | `body` | `string` | — | Plain-text body copy in `__body` (optional when using slots or `bodyHtml`). |
 | `bodyHtml` | `string` | — | Trusted pre-rendered HTML for `__body` (takes precedence over `body`). |
-| `icon` | `IconName \| false` | intent default (`info`, `check`, `warning`, `star`) | Leading decorative Icon, or `false` to omit. |
+| `icon` | `IconName \| false` | intent default (`section`, `info`, `check`, `warning`, `monogram`) | Leading decorative Icon, or `false` to omit. |
 | `role` | `'status' \| 'alert' \| 'note' \| 'region'` | `'alert'` for `caution`/`critical`, `'status'` otherwise | ARIA landmark/live-region role. |
 | `statusText` | `string` | — | Polite live-region confirmation line (`__status`). |
 | `actions` | `string` / slot | — | Action controls rendered inside `__actions`. |
@@ -146,14 +146,21 @@ import { renderNotice } from '@eevenkoto/html';
 | --- | --- |
 | `--eevenkoto-notice-bg` | Callout surface (`feedback-*-background` in subtle) |
 | `--eevenkoto-notice-text` | Title and body ink |
-| `--eevenkoto-notice-border-color` | Callout border color |
-| `--eevenkoto-notice-border-width` | Callout border width (`line-width-sm`) |
-| `--eevenkoto-notice-icon` | Leading icon ink |
-| `--eevenkoto-notice-radius` | Corner radius (`radius-sm`) |
-| `--eevenkoto-notice-padding` | Inner padding (`space-4`) |
-| `--eevenkoto-notice-gap` | Grid gap between icon and content (`space-3`) |
+| `--eevenkoto-notice-border-color` | Outer Oxford block rule color (`content-accent` on neutral) |
+| `--eevenkoto-notice-border-width` | Outer Oxford block rule width (`line-width-lg`) |
+| `--eevenkoto-notice-inner-border-color` | Inner Oxford hairline and vignette column divider color |
+| `--eevenkoto-notice-inner-border-width` | Inner Oxford hairline and vignette column divider width (`line-width-sm`) |
+| `--eevenkoto-notice-rule-gap` | Transparent air gap between outer and inner Oxford rules (`line-width-lg`) |
+| `--eevenkoto-notice-icon` | Leading vignette icon ink (`content-accent` on neutral) |
+| `--eevenkoto-notice-icon-size` | Leading vignette icon size (`2em`) |
+| `--eevenkoto-notice-radius` | Corner radius (`0` for sharp Playbill edges) |
+| `--eevenkoto-notice-pad-block` | Block padding inside the inner hairlines (`space-3`) |
+| `--eevenkoto-notice-padding` | Content column inline padding (`space-4`) |
+| `--eevenkoto-notice-gap` | Vignette column inline padding (`space-4`) |
+| `--eevenkoto-notice-title-font-family` | Title font family (`font-serif`) |
 | `--eevenkoto-notice-title-weight` | Title font weight (`font-weight-bold`) |
-| `--eevenkoto-notice-font-size` | Body font size (`font-size-body-md`) |
+| `--eevenkoto-notice-title-tracking` | Title letter-spacing (`0.015em`) |
+| `--eevenkoto-notice-font-size` | Notice scale font size for both title and body (`font-size-body-sm`) |
 | `--eevenkoto-notice-link-color` | Inline bare `<a href>` ink (defaults to `currentColor` for feedback contrast safety) |
 | `--eevenkoto-notice-link-underline` | Inline bare `<a href>` underline color (`currentColor`) |
 

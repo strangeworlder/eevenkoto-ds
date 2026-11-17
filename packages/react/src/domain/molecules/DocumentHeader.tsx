@@ -36,7 +36,7 @@ export const DocumentHeader = ({
       {hasMeta ? (
         <div className="eevenkoto-document-header__meta">
           {readinessLabel ? (
-            <Badge label={readinessLabel} intent={readinessIntent ?? 'neutral'} dot shape="pill" />
+            <Badge label={readinessLabel} intent={readinessIntent ?? 'neutral'} dot />
           ) : null}
           {hasToggle ? (
             <div className="eevenkoto-document-header__license-toggle">

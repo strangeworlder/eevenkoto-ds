@@ -47,7 +47,7 @@ export const TierCard = ({
     <article id={id} className={classes} {...rest}>
       <header className="eevenkoto-tier-card__header">
         <Name className="eevenkoto-tier-card__name">{name}</Name>
-        {badge ? <Badge {...badge} shape={badge.shape ?? 'pill'} /> : null}
+        {badge ? <Badge {...badge} /> : null}
       </header>
       <div className="eevenkoto-tier-card__pricing">
         <span className="eevenkoto-tier-card__price">{price}</span>

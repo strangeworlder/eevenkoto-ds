@@ -50,7 +50,7 @@ const popoverId = id ? `${id}-popover` : undefined;
         <Avatar name={userName} src={avatarSrc} size="sm" />
         <span class="eevenkoto-account-menu__identity">
           <span class="eevenkoto-account-menu__name">{userName}</span>
-          {tierLabel ? <Badge label={tierLabel} size="sm" variant="subtle" shape="pill" intent={tierIntent} /> : null}
+          {tierLabel ? <Badge label={tierLabel} size="sm" variant="subtle" intent={tierIntent} /> : null}
         </span>
         <Icon name="chevron-down" size="sm" class="eevenkoto-account-menu__chevron" />
       </button>
@@ -64,7 +64,7 @@ const popoverId = id ? `${id}-popover` : undefined;
         <div class="eevenkoto-account-menu__summary">
           <span>{userName}</span>
           {userEmail ? <span class="eevenkoto-account-menu__email">{userEmail}</span> : null}
-          {tierLabel ? <Badge label={tierLabel} size="sm" variant="solid" shape="pill" intent={tierIntent} /> : null}
+          {tierLabel ? <Badge label={tierLabel} size="sm" variant="solid" intent={tierIntent} /> : null}
         </div>
         {entries?.length ? <Menu label={menuLabel} entries={entries} embedded size="sm" /> : null}
         {Astro.slots.has('footer') ? (

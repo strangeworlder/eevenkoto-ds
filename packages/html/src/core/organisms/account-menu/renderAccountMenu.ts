@@ -42,7 +42,6 @@ export const renderAccountMenu = (args: AccountMenuProps): string => {
           label: args.tierLabel,
           size: 'sm',
           variant,
-          shape: 'pill',
           intent: args.tierIntent ?? 'neutral',
         })
       : '';

@@ -4,6 +4,14 @@ Operating rules for agents and humans editing **this repository**. For installin
 
 **Product scope:** Eevenkoto is a **TTRPG content design system with growing core chrome**, not a full app kit. Dialog, Pager, Tabs, and AppShell / Sidebar are out of scope. Some Tier 2 roles (modals, destructive controls) are **token-only**. Core includes portable feedback, form, page, and generator chrome (Toast, Input, Select, Checkbox, Radio, CheckboxGroup, RadioGroup, Stepper, SegmentedControl, Disclosure, ChipGroup, ProgressBar, FloatingBanner, TableOfContents, SectionHeader, TierCard, AccountMenu, Workshop, Swatch, Divider). See root `README.md` and Storybook **Foundations/Decisions**.
 
+## Aesthetic & form language
+
+Eevenkoto’s visual identity draws from **1920s clubs, jazz, speakeasies, and letterpress print** — avoid generic rounded SaaS boxes and `9999px` status pills when designing or restyling chrome:
+
+- **Interactive controls & tactical plates** (`Button`, `LinkButton`, `EquipmentBlock`, `AbilityScoreGroup`): concave scooped corners (`corner-shape: scoop`) and tactile brass/turquoise/parchment contrast.
+- **Non-interactive feedback & status print** (`Notice`, `Badge`): sharp-cornered (`border-radius: 0`) **Playbill / Stamp** framing — heavy horizontal ink rules (Oxford double rules on `Notice`; `2px` block rules + `1px` inline hairlines + `◆` diamond stub on `Badge`), hairline column dividers, `Outfit` (`--eevenkoto-font-serif`) display labels, and `--eevenkoto-color-content-accent` (warm bronze on parchment, club brass in dark mode) on `neutral`.
+- **Keep domain siblings coherent**: Components sharing a Tier 2 domain (`Notice` + `Badge` in `feedback-*`, `Button` + `LinkButton` in `control-*`) share visual DNA. When restyling one, audit its domain siblings; when removing/changing a prop in `@eevenkoto/core`, grep both literal call sites and spread forwards (e.g. `TierCard` forwarding `BadgeProps`) and preserve bare-host fallbacks (e.g. `EquipmentBlock` rendering `.eevenkoto-badge` / `.eevenkoto-notice` without inner BEM wrappers).
+
 ## Repo map
 
 | Path | Role |
@@ -39,6 +47,7 @@ Operating rules for agents and humans editing **this repository**. For installin
 - Font weights, line heights, space, radius, line-width, duration, ease, and z-index (`--eevenkoto-z-*`) are single-tier scales in `tokens.css` (no primitive layer). Use `var(--eevenkoto-z-*)` (or local `-1`…`3` offsets inside an isolated stacking context) instead of raw `z-index` numbers (`eevenkoto/z-index-token`).
 - **Icon paths** are single-tier data tokens in `@eevenkoto/core` (`ICON_NAMES` / `iconPaths`). Do not embed SVG path strings in components; Button uses `BUTTON_ICON_NAMES` (subset) and composes the Icon atom.
 - **Links on `feedback-*` surfaces** (Notice, Toast): `--eevenkoto-color-link-*` is only contrast-audited on neutral `surface-*` tokens. Inside `feedback-*` containers, default links (and `--eevenkoto-prose-link-*` overrides) to `currentColor` with an explicit underline.
+- **Framed `feedback-*` `--solid` rules**: `--eevenkoto-color-feedback-*-solid-border` is `transparent` in `tokens.css`. Components whose identity depends on architectural ink rules (`Notice`, `Badge`) must derive `--solid` rule colors from `*-solid-background` / `color-mix(in oklch, *-solid-text …, …)` rather than `*-solid-border`.
 Stylelint / CI guards described in Storybook Color Tokens docs run via `npm run lint:css` and `npm run ci`; also run `npm run test:storybook` (Chromium + axe + `play` geometry/interaction checks) whenever changing CSS, markup, or tokens.
 
 ## Tier 3 component pattern
@@ -65,6 +74,7 @@ The **host class alone** must render the documented default (Button primary+md, 
 - **Outer rhythm uses `margin-block-start` or `gap`**: Stack helpers (`Flow`, `Field`, …) must space siblings with `margin-block-start` or flex/grid `gap` — never `padding-block-start`, which lands inside child borders/backgrounds or gets overridden by component `padding`.
 - **Scope `.eevenkoto-prose` bare tags away from DS classes**: Bare-tag selectors (`h1`–`h6`, `p`, `ul`, `ol`, `li`, `hr`, `blockquote`, `dl`) under `.eevenkoto-prose` must exclude `[class^="eevenkoto-"], [class*=" eevenkoto-"]` inside `:where(...)` so Prose typography never bleeds into nested DS components.
 - **Line-height pairing**: Multi-line headings (`H1`–`H3`), `Notice` titles, and `TableOfContents` items use `--eevenkoto-line-height-snug` (`1.25`) so intra-item wrapped lines stay tighter than inter-item gaps; running copy uses `--eevenkoto-line-height-body` (`1.5`).
+- **Aside / callout typography stays subordinate**: Supporting callouts (`Notice`) step down to `--eevenkoto-font-size-body-sm` (propagating to nested `Paragraph` / `List` defaults) and differentiate their titles from body copy via typeface (`--eevenkoto-font-serif`), weight, and tracking — never by a larger `font-size` than the callout’s own body text or surrounding prose.
 
 ## Where to look
 

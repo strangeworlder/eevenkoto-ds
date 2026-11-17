@@ -1,6 +1,6 @@
 # `@eevenkoto/astro`
 
-Official **Astro** component wrappers for the Eevenkoto design system (`^4.0.0 || ^5.0.0 || ^6.0.0`), mirroring `@eevenkoto/core` and `@eevenkoto/html` 1:1 with native Astro `<slot />` composition.
+Official **Astro** component wrappers for the Eevenkoto design system (`^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0`), mirroring `@eevenkoto/core` and `@eevenkoto/html` 1:1 with native Astro `<slot />` composition.
 
 Pair with **`@eevenkoto/css`** — components ship **zero bundled CSS**.
 
@@ -56,6 +56,6 @@ Components accept both native Astro slots (`default`, `header`, `headerActions`,
 - `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
 - `@eevenkoto/core` — shared prop types and className helpers
 - `@eevenkoto/html` / `@eevenkoto/react` / `@eevenkoto/vue` — vanilla, React, and Vue equivalents
-- Repo `CHANGELOG.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+- Repo `CHANGELOG.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

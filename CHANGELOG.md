@@ -2,7 +2,37 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.12.1**.
+Published package version is **0.13.0**.
+
+## 0.13.0
+
+> **Consuming site upgrade instructions:** See [`docs/migration-0.13-playbill-chrome-and-icons.md`](docs/migration-0.13-playbill-chrome-and-icons.md) for the step-by-step `0.12.1` → `0.13.0` checklist (`Badge` `shape` removal, `Notice` Playbill defaults & scale, and the 46-glyph engraved icon overhaul).
+
+Minor release introducing Eevenkoto's 1920s Playbill visual grammar across feedback chrome (`Notice`, `Badge`), replacing all icons with engraved Art Deco silhouettes, and expanding the icon catalog.
+
+### Breaking
+
+- **`Badge` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Removed `BadgeShape` and the `shape` prop (`'rounded' | 'pill'`) from `BadgeProps`, `BadgeClassNameProps`, `badgeClassNames()`, `renderBadge()`, and `<Badge />` wrappers (including transitive forwards such as `TierCardProps.badge`), and removed `.eevenkoto-badge--pill` / `.eevenkoto-badge--rounded` from `@eevenkoto/css/badge.css`. All badges now render the single sharp-cornered 1920s Playbill Stamp silhouette (interactive filters belong in `Chip` / `ChipGroup`).
+- **Icons (`@eevenkoto/core`):** Legacy `'sword'` now aliases `'revolver'` visually (use `'blades'` or `'swords'` for melee/edged weapons).
+
+### Added
+
+- **Icons (`@eevenkoto/core`):** Added 23 new 1920s engraved glyphs (`arrow-left`, `arrow-right`, `blades`, `chevron-left`, `chevron-up`, `cocktail`, `download`, `fabric`, `flashlight`, `link`, `login`, `minus`, `monogram`, `neon-sign`, `newspaper`, `pin`, `pocket-watch`, `revolver`, `saxophone`, `section`, `teacup`, `typewriter`, `x`), bringing `ICON_NAMES` to **46** glyphs and `BUTTON_ICON_NAMES` to **42** glyphs (all `ICON_NAMES` except the 4 chevrons).
+- **Tier 3 public override tokens (`@eevenkoto/css`):**
+  - `badge.css`: added `--eevenkoto-badge-inline-border-color`, `--eevenkoto-badge-inline-border-width`, `--eevenkoto-badge-font-family`, and `--eevenkoto-badge-tracking`.
+  - `notice.css`: added `--eevenkoto-notice-inner-border-color`, `--eevenkoto-notice-inner-border-width`, `--eevenkoto-notice-rule-gap`, `--eevenkoto-notice-icon-size`, `--eevenkoto-notice-pad-block`, `--eevenkoto-notice-title-font-family`, and `--eevenkoto-notice-title-tracking`.
+
+### Changed
+
+- **`Badge` (`@eevenkoto/css`):** Redesigned `.eevenkoto-badge` as a closed 1920s Playbill Stamp with `0` radius, `2px` (`line-width-md`) top/bottom rules, `1px` (`line-width-sm`) side hairlines, a 45°-rotated `◆` diamond pip in a full-height hairline-divided `.eevenkoto-badge__dot` stub, `Outfit` (`--eevenkoto-font-serif`) bold lettering in sentence case (`0.015em` tracking), `--eevenkoto-color-content-accent` bronze/brass accents on `neutral`, and `color-mix` rules across `solid` variants.
+- **`Notice` (`@eevenkoto/{css,core}`):**
+  - Redesigned `.eevenkoto-notice` with open-sided Oxford double rules (`3px` outer block border + `3px` transparent air gap via `background-clip: content-box` + `1px` inner `::before` hairline), vertically centered `2em` vignette icon column with hairline divider, `body-sm` (`1.4rem`) callout typography propagated to default `Paragraph`/`List` children, `Outfit` title at equal `font-size: inherit`, `--eevenkoto-color-content-accent` on `neutral`, and preserved bare-host fallback (`EquipmentBlock`).
+  - Updated `defaultNoticeIcon` in `@eevenkoto/core`: `neutral` now defaults to `'section'` (was `'info'`) and `admin` defaults to `'monogram'` (was `'star'`).
+- **Icons & Disclosure Masks (`@eevenkoto/{core,css}`):**
+  - Redrew all 23 existing glyphs into cohesive `16×16` single-path `fill="currentColor"` engraved silhouettes (aliases: `arrow` = `arrow-right`, `close` = `x`, `refresh` = `reroll`, `swords` = `blades`, `sword` = `revolver`).
+  - Synced `--eevenkoto-icon-mask-chevron-right` and `--eevenkoto-icon-mask-chevron-down` in `tokens.css` to match the engraved chevron paths.
+- **`LinkButton` (`@eevenkoto/core`):** `linkButtonClassNames()` now emits `eevenkoto-link-button--icon-arrow` for `'arrow-right'` and `'arrow-left'` in addition to `'arrow'` for RTL directional mirroring.
+- **Composed organisms (`AccountMenu`, `DocumentHeader`, `ContentGate`, `TierCard`):** Updated across HTML, React, Vue, and Astro to render Stamp `Badge` without `shape="pill"`.
 
 ## 0.12.1
 

@@ -20,7 +20,6 @@ export const renderContentGate = (args: ContentGateRenderProps): string => {
     label: args.readinessLabel,
     intent: args.readinessIntent,
     dot: true,
-    shape: 'pill',
   })}<span class="eevenkoto-content-gate__lock">${renderIcon({
     name: 'lock',
     size: 'md',

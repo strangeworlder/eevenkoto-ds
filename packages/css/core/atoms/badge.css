@@ -1,11 +1,12 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: BADGE (TIER 3)
-   Status / metadata label. Consumes Tier 2 `feedback-*` only.
-   Interactive chips stay in `control` ([Chip](?path=/docs/core-atoms-chip--docs)). Sentence case + bold.
+   1920s Playbill stamp status / metadata label. Consumes Tier 2 `feedback-*`
+   (and `content-accent` brass/bronze on `neutral`). Interactive chips stay in
+   `control` ([Chip](?path=/docs/core-atoms-chip--docs)). Sentence case + Outfit bold.
    ========================================================================== */
 
 .eevenkoto-badge {
-  /* 1. Private bridges (subtle + neutral + md + pill defaults on the host) */
+  /* 1. Private bridges (subtle + neutral + md Stamp defaults on the host) */
   --_eevenkoto-badge-bg: var(
     --eevenkoto-badge-bg,
     var(--eevenkoto-color-feedback-neutral-background)
@@ -16,33 +17,46 @@
   );
   --_eevenkoto-badge-border-color: var(
     --eevenkoto-badge-border-color,
+    var(--eevenkoto-color-content-accent)
+  );
+  --_eevenkoto-badge-border-width: var(
+    --eevenkoto-badge-border-width,
+    var(--eevenkoto-line-width-md)
+  );
+  --_eevenkoto-badge-inline-border-color: var(
+    --eevenkoto-badge-inline-border-color,
     var(--eevenkoto-color-feedback-neutral-border)
+  );
+  --_eevenkoto-badge-inline-border-width: var(
+    --eevenkoto-badge-inline-border-width,
+    var(--eevenkoto-line-width-sm)
   );
   --_eevenkoto-badge-dot-color: var(
     --eevenkoto-badge-dot-color,
-    var(--eevenkoto-color-feedback-neutral-icon)
+    var(--eevenkoto-color-content-accent)
+  );
+  --_eevenkoto-badge-dot-size: var(--eevenkoto-badge-dot-size, 0.42em);
+  --_eevenkoto-badge-font-family: var(
+    --eevenkoto-badge-font-family,
+    var(--eevenkoto-font-serif)
   );
   --_eevenkoto-badge-font-size: var(
     --eevenkoto-badge-font-size,
     var(--eevenkoto-font-size-control-md)
   );
-  --_eevenkoto-badge-pad-block: var(--eevenkoto-badge-pad-block, var(--eevenkoto-space-1));
-  --_eevenkoto-badge-pad-inline: var(--eevenkoto-badge-pad-inline, var(--eevenkoto-space-2));
-  --_eevenkoto-badge-radius: var(--eevenkoto-badge-radius, var(--eevenkoto-radius-full));
-  --_eevenkoto-badge-dot-size: var(--eevenkoto-badge-dot-size, 0.4em);
-  --_eevenkoto-badge-gap: var(--eevenkoto-badge-gap, var(--eevenkoto-space-1));
-  --_eevenkoto-badge-border-width: var(
-    --eevenkoto-badge-border-width,
-    var(--eevenkoto-line-width-sm)
-  );
   --_eevenkoto-badge-font-weight: var(
     --eevenkoto-badge-font-weight,
     var(--eevenkoto-font-weight-bold)
   );
+  --_eevenkoto-badge-tracking: var(--eevenkoto-badge-tracking, 0.015em);
   --_eevenkoto-badge-line-height: var(
     --eevenkoto-badge-line-height,
     var(--eevenkoto-line-height-tight)
   );
+  --_eevenkoto-badge-pad-block: var(--eevenkoto-badge-pad-block, var(--eevenkoto-space-1));
+  --_eevenkoto-badge-pad-inline: var(--eevenkoto-badge-pad-inline, var(--eevenkoto-space-2));
+  --_eevenkoto-badge-gap: var(--eevenkoto-badge-gap, 0.6rem);
+  --_eevenkoto-badge-radius: var(--eevenkoto-badge-radius, 0);
 
   /* 2. Structure */
   display: inline-flex;
@@ -54,27 +68,41 @@
   user-select: none;
   text-decoration: none;
 
-  font-family: var(--eevenkoto-font-sans);
+  font-family: var(--_eevenkoto-badge-font-family);
   font-size: var(--_eevenkoto-badge-font-size);
   font-weight: var(--_eevenkoto-badge-font-weight);
   line-height: var(--_eevenkoto-badge-line-height);
+  letter-spacing: var(--_eevenkoto-badge-tracking);
   text-transform: none;
-  letter-spacing: normal;
 
   color: var(--_eevenkoto-badge-text);
   background: var(--_eevenkoto-badge-bg);
-  border: var(--_eevenkoto-badge-border-width) solid var(--_eevenkoto-badge-border-color);
+  border-block: var(--_eevenkoto-badge-border-width) solid var(--_eevenkoto-badge-border-color);
+  border-inline: var(--_eevenkoto-badge-inline-border-width) solid
+    var(--_eevenkoto-badge-inline-border-color);
   border-radius: var(--_eevenkoto-badge-radius);
   padding: var(--_eevenkoto-badge-pad-block) var(--_eevenkoto-badge-pad-inline);
 }
 
 .eevenkoto-badge__dot {
-  display: inline-block;
-  width: var(--_eevenkoto-badge-dot-size);
-  height: var(--_eevenkoto-badge-dot-size);
-  border-radius: var(--eevenkoto-radius-full);
-  background-color: var(--_eevenkoto-badge-dot-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  margin-block: calc(-1 * var(--_eevenkoto-badge-pad-block));
+  padding-inline-end: var(--_eevenkoto-badge-gap);
+  border-inline-end: var(--_eevenkoto-badge-inline-border-width) solid
+    var(--_eevenkoto-badge-inline-border-color);
   flex-shrink: 0;
+}
+
+.eevenkoto-badge__dot::before {
+  content: '';
+  display: block;
+  inline-size: var(--_eevenkoto-badge-dot-size);
+  block-size: var(--_eevenkoto-badge-dot-size);
+  background-color: var(--_eevenkoto-badge-dot-color);
+  transform: rotate(45deg);
 }
 
 .eevenkoto-badge__label {
@@ -87,31 +115,24 @@
   --eevenkoto-badge-font-size: var(--eevenkoto-font-size-control-sm);
   --eevenkoto-badge-pad-block: var(--eevenkoto-space-1);
   --eevenkoto-badge-pad-inline: var(--eevenkoto-space-2);
-  --eevenkoto-badge-dot-size: 0.3em;
+  --eevenkoto-badge-gap: 0.5rem;
+  --eevenkoto-badge-dot-size: 0.4em;
 }
 
 .eevenkoto-badge--md {
   --eevenkoto-badge-font-size: var(--eevenkoto-font-size-control-md);
   --eevenkoto-badge-pad-block: var(--eevenkoto-space-1);
   --eevenkoto-badge-pad-inline: var(--eevenkoto-space-2);
-  --eevenkoto-badge-dot-size: 0.4em;
+  --eevenkoto-badge-gap: 0.6rem;
+  --eevenkoto-badge-dot-size: 0.42em;
 }
 
 .eevenkoto-badge--lg {
   --eevenkoto-badge-font-size: var(--eevenkoto-font-size-control-lg);
   --eevenkoto-badge-pad-block: var(--eevenkoto-space-1);
   --eevenkoto-badge-pad-inline: var(--eevenkoto-space-3);
-  --eevenkoto-badge-dot-size: 0.5em;
-}
-
-/* --- SHAPES --- */
-
-.eevenkoto-badge--pill {
-  --eevenkoto-badge-radius: var(--eevenkoto-radius-full);
-}
-
-.eevenkoto-badge--rounded {
-  --eevenkoto-badge-radius: var(--eevenkoto-radius-sm);
+  --eevenkoto-badge-gap: var(--eevenkoto-space-2);
+  --eevenkoto-badge-dot-size: 0.45em;
 }
 
 /* --- VARIANTS × INTENTS (bridge rebinds → Tier 2 feedback) ---
@@ -121,42 +142,56 @@
 .eevenkoto-badge--neutral {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-neutral-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-neutral-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-neutral-border);
-  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-neutral-icon);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-content-accent);
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-neutral-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-content-accent);
 }
 
 .eevenkoto-badge--info {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-info-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-info-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-info-border);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-info-icon);
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-info-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-info-icon);
 }
 
 .eevenkoto-badge--success {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-success-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-success-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-success-border);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-success-solid-background) 65%,
+    var(--eevenkoto-color-feedback-success-icon)
+  );
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-success-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-success-icon);
 }
 
 .eevenkoto-badge--caution {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-caution-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-caution-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-caution-border);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-caution-icon);
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-caution-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-caution-icon);
 }
 
 .eevenkoto-badge--critical {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-critical-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-critical-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-critical-border);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-critical-icon);
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-critical-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-critical-icon);
 }
 
 .eevenkoto-badge--admin {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-admin-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-admin-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-admin-border);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-admin-solid-background) 65%,
+    var(--eevenkoto-color-feedback-admin-icon)
+  );
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-admin-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-admin-icon);
 }
 
@@ -164,65 +199,126 @@
 .eevenkoto-badge--solid.eevenkoto-badge--neutral {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-neutral-solid-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-neutral-solid-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-neutral-solid-border);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-neutral-solid-text) 38%,
+    var(--eevenkoto-color-feedback-neutral-solid-background)
+  );
+  --eevenkoto-badge-inline-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-neutral-solid-text) 28%,
+    transparent
+  );
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-neutral-solid-icon);
 }
 
 .eevenkoto-badge--solid.eevenkoto-badge--info {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-info-solid-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-info-solid-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-info-solid-border);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-info-solid-text) 38%,
+    var(--eevenkoto-color-feedback-info-solid-background)
+  );
+  --eevenkoto-badge-inline-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-info-solid-text) 28%,
+    transparent
+  );
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-info-solid-icon);
 }
 
 .eevenkoto-badge--solid.eevenkoto-badge--success {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-success-solid-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-success-solid-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-success-solid-border);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-success-solid-text) 38%,
+    var(--eevenkoto-color-feedback-success-solid-background)
+  );
+  --eevenkoto-badge-inline-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-success-solid-text) 28%,
+    transparent
+  );
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-success-solid-icon);
 }
 
 .eevenkoto-badge--solid.eevenkoto-badge--caution {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-caution-solid-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-caution-solid-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-caution-solid-border);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-caution-solid-text) 38%,
+    var(--eevenkoto-color-feedback-caution-solid-background)
+  );
+  --eevenkoto-badge-inline-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-caution-solid-text) 28%,
+    transparent
+  );
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-caution-solid-icon);
 }
 
 .eevenkoto-badge--solid.eevenkoto-badge--critical {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-critical-solid-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-critical-solid-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-critical-solid-border);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-critical-solid-text) 38%,
+    var(--eevenkoto-color-feedback-critical-solid-background)
+  );
+  --eevenkoto-badge-inline-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-critical-solid-text) 28%,
+    transparent
+  );
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-critical-solid-icon);
 }
 
 .eevenkoto-badge--solid.eevenkoto-badge--admin {
   --eevenkoto-badge-bg: var(--eevenkoto-color-feedback-admin-solid-background);
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-admin-solid-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-admin-solid-border);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-admin-solid-text) 38%,
+    var(--eevenkoto-color-feedback-admin-solid-background)
+  );
+  --eevenkoto-badge-inline-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-admin-solid-text) 28%,
+    transparent
+  );
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-admin-solid-icon);
 }
 
-/* Outline: transparent fill; stroke + ink from subtle tuple */
+/* Outline: transparent fill; Stamp stroke + ink from subtle tuple */
 .eevenkoto-badge--outline,
 .eevenkoto-badge--outline.eevenkoto-badge--neutral {
   --eevenkoto-badge-bg: transparent;
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-neutral-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-neutral-icon);
-  --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-neutral-icon);
+  --eevenkoto-badge-border-color: var(--eevenkoto-color-content-accent);
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-neutral-border);
+  --eevenkoto-badge-dot-color: var(--eevenkoto-color-content-accent);
 }
 
 .eevenkoto-badge--outline.eevenkoto-badge--info {
   --eevenkoto-badge-bg: transparent;
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-info-text);
   --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-info-icon);
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-info-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-info-icon);
 }
 
 .eevenkoto-badge--outline.eevenkoto-badge--success {
   --eevenkoto-badge-bg: transparent;
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-success-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-success-icon);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-success-solid-background) 65%,
+    var(--eevenkoto-color-feedback-success-icon)
+  );
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-success-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-success-icon);
 }
 
@@ -230,6 +326,7 @@
   --eevenkoto-badge-bg: transparent;
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-caution-text);
   --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-caution-icon);
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-caution-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-caution-icon);
 }
 
@@ -237,12 +334,33 @@
   --eevenkoto-badge-bg: transparent;
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-critical-text);
   --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-critical-icon);
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-critical-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-critical-icon);
 }
 
 .eevenkoto-badge--outline.eevenkoto-badge--admin {
   --eevenkoto-badge-bg: transparent;
   --eevenkoto-badge-text: var(--eevenkoto-color-feedback-admin-text);
-  --eevenkoto-badge-border-color: var(--eevenkoto-color-feedback-admin-icon);
+  --eevenkoto-badge-border-color: color-mix(
+    in oklch,
+    var(--eevenkoto-color-feedback-admin-solid-background) 65%,
+    var(--eevenkoto-color-feedback-admin-icon)
+  );
+  --eevenkoto-badge-inline-border-color: var(--eevenkoto-color-feedback-admin-border);
   --eevenkoto-badge-dot-color: var(--eevenkoto-color-feedback-admin-icon);
+}
+
+.eevenkoto-badge--subtle {
+  /* Alias for helpers; host alone is already subtle. */
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-badge,
+  .eevenkoto-badge__dot {
+    border-color: CanvasText;
+  }
+
+  .eevenkoto-badge__dot::before {
+    background-color: CanvasText;
+  }
 }

@@ -141,8 +141,12 @@ describe('Documentation, Storybook MDX & LLM feed integrity', () => {
       }
     }
 
-    // Historical legacy class documented solely in 0.11 migration cleanup note
-    const historicalMigrationAliases = new Set(['eevenkoto-u-visually-hidden']);
+    // Historical legacy classes documented solely in migration cleanup notes
+    const historicalMigrationAliases = new Set([
+      'eevenkoto-u-visually-hidden',
+      'eevenkoto-badge--pill',
+      'eevenkoto-badge--rounded',
+    ]);
 
     const violations: string[] = [];
     for (const file of docFiles) {
@@ -1136,7 +1140,7 @@ describe('Documentation, Storybook MDX & LLM feed integrity', () => {
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         if (!inFence) {
-          if (/^(?:#{1,6}\s+|\*\*(?:Ennen|Nyt)\b)/.test(line.trim())) {
+          if (/^(?:#{1,6}\s+|\*\*(?:Ennen|Nyt|Before|After)\b)/.test(line.trim())) {
             contextHeader = line.trim();
           }
           const fm = line.match(/^([ \t]*`{3,})([\w-]*)/);
@@ -1150,7 +1154,7 @@ describe('Documentation, Storybook MDX & LLM feed integrity', () => {
         } else if (new RegExp(`^[ \\t]*${marker}\\s*$`).test(line)) {
           inFence = false;
           const isHistoricalBefore =
-            rel.startsWith('docs/migration-') && /Ennen\b/i.test(contextHeader);
+            rel.startsWith('docs/migration-') && /\b(?:Ennen|Before)\b/i.test(contextHeader);
           if (isHistoricalBefore) continue;
 
           const code = buf.join('\n');

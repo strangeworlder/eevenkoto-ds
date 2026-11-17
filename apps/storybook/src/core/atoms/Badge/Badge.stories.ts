@@ -1,5 +1,6 @@
 // apps/storybook/src/Badge/Badge.stories.ts
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect } from 'storybook/test';
 import '@eevenkoto/css/badge.css';
 import { renderBadge, type BadgeProps } from '@eevenkoto/html';
 
@@ -48,15 +49,6 @@ const meta: Meta<BadgeProps> = {
         defaultValue: { summary: 'md' },
       },
     },
-    shape: {
-      control: 'select',
-      options: ['pill', 'rounded'],
-      description: 'Corner treatment. Default pill uses --eevenkoto-radius-full.',
-      table: {
-        type: { summary: "'pill' | 'rounded'" },
-        defaultValue: { summary: 'pill' },
-      },
-    },
     dot: {
       control: 'boolean',
       description: 'Shows a status dot before the label.',
@@ -78,8 +70,15 @@ export const Default: Story = {
     variant: 'subtle',
     intent: 'success',
     size: 'md',
-    shape: 'pill',
     dot: true,
+  },
+  play: async ({ canvasElement }) => {
+    const badge = canvasElement.querySelector<HTMLElement>('.eevenkoto-badge');
+    expect(badge).not.toBeNull();
+    const style = getComputedStyle(badge!);
+    expect(style.borderRadius).toBe('0px');
+    expect(parseFloat(style.borderTopWidth)).toBeGreaterThan(parseFloat(style.borderLeftWidth));
+    expect(parseFloat(style.borderLeftWidth)).toBeGreaterThan(0);
   },
 };
 
@@ -153,15 +152,19 @@ export const Sizes: Story = {
     })}</div>`,
 };
 
-export const Shapes: Story = {
+export const StampIndicator: Story = {
+  name: 'Stamp indicator (dot vs plain)',
   render: () =>
     `<div class="eevenkoto-docs-example-row">${renderBadge({
-      label: 'Pill',
-      shape: 'pill',
-      intent: 'caution',
+      label: 'Luonnos',
+      intent: 'neutral',
     })}${renderBadge({
-      label: 'Rounded',
-      shape: 'rounded',
+      label: 'Valmis',
+      intent: 'success',
+      dot: true,
+    })}${renderBadge({
+      label: 'Ennakko',
       intent: 'caution',
+      dot: true,
     })}</div>`,
 };

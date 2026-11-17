@@ -18,6 +18,7 @@ import {
   inlineRefClassNames,
   linkButtonClassNames,
   menuClassNames,
+  defaultNoticeIcon,
   noticeClassNames,
   popoverClassNames,
   segmentedControlClassNames,
@@ -181,6 +182,9 @@ describe('HTML matches Core class strings', () => {
 
   it('Badge', () => {
     const classes = badgeClassNames();
+    expect(classes).toBe(
+      'eevenkoto-badge eevenkoto-badge--subtle eevenkoto-badge--neutral eevenkoto-badge--md',
+    );
     expect(renderBadge({ label: 'Ready' })).toContain(classes);
   });
 
@@ -1297,7 +1301,7 @@ describe('0.10.1 Bug Fixes — Checkbox, Radio, Groups, Select', () => {
 });
 
 describe('0.11.0 Features — Icons, LinkButton, EntityRef, Popover, Widths, Menu, Notice, Workshop & Rich HTML', () => {
-  it('ICON_NAMES includes all 23 canonical icons with valid SVG path data', () => {
+  it('ICON_NAMES includes all canonical icons and aliases with valid SVG path data', () => {
     const expected = [
       'close',
       'copy',
@@ -1307,6 +1311,29 @@ describe('0.11.0 Features — Icons, LinkButton, EntityRef, Popover, Widths, Men
       'mail',
       'info',
       'warning',
+      'arrow-left',
+      'arrow-right',
+      'blades',
+      'chevron-left',
+      'chevron-up',
+      'cocktail',
+      'download',
+      'fabric',
+      'flashlight',
+      'link',
+      'login',
+      'minus',
+      'monogram',
+      'neon-sign',
+      'newspaper',
+      'pin',
+      'pocket-watch',
+      'revolver',
+      'saxophone',
+      'section',
+      'teacup',
+      'typewriter',
+      'x',
     ] as const;
     for (const name of expected) {
       expect(ICON_NAMES).toContain(name);
@@ -1316,6 +1343,11 @@ describe('0.11.0 Features — Icons, LinkButton, EntityRef, Popover, Widths, Men
       expect(typeof iconPaths[name]).toBe('string');
       expect(iconPaths[name].length).toBeGreaterThan(0);
     }
+    expect(iconPaths.arrow).toBe(iconPaths['arrow-right']);
+    expect(iconPaths.close).toBe(iconPaths.x);
+    expect(iconPaths.refresh).toBe(iconPaths.reroll);
+    expect(iconPaths.swords).toBe(iconPaths.blades);
+    expect(iconPaths.sword).toBe(iconPaths.revolver);
   });
 
   it('LinkButton supports ghost variant and fullWidth across Core, HTML, React, and Vue', async () => {
@@ -1627,6 +1659,14 @@ describe('0.11.0 Features — Icons, LinkButton, EntityRef, Popover, Widths, Men
   });
 
   it('Notice defaults intent icon and role="alert" on critical/caution, and honors icon={false}', async () => {
+    expect(defaultNoticeIcon()).toBe('section');
+    expect(defaultNoticeIcon('neutral')).toBe('section');
+    expect(defaultNoticeIcon('info')).toBe('info');
+    expect(defaultNoticeIcon('success')).toBe('check');
+    expect(defaultNoticeIcon('caution')).toBe('warning');
+    expect(defaultNoticeIcon('critical')).toBe('warning');
+    expect(defaultNoticeIcon('admin')).toBe('monogram');
+
     const criticalHtml = renderNotice({ intent: 'critical', title: 'Virhe', body: 'Tallennus epäonnistui.' });
     expect(criticalHtml).toContain(noticeClassNames({ intent: 'critical' }));
     expect(criticalHtml).toContain('role="alert"');

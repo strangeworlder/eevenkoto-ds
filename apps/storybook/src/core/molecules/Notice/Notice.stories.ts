@@ -123,7 +123,6 @@ export const InProseWithList: Story = {
     const noticeHtml = renderNotice({
       intent: 'admin',
       variant: 'subtle',
-      icon: 'star',
       title: 'Kehittäjän lataukset (kaikki valmiustasot)',
       bodyHtml: [
         '<p>Nämä tiedostot sisältävät tekstin oikeellisuuden varmistamista varten kaikki valmiusasteet (vedos, työstössä, luonnos ja virheellinen):</p>',
@@ -151,19 +150,36 @@ export const InProseWithList: Story = {
     `;
   },
   play: async ({ canvasElement }) => {
+    const prevP = canvasElement.querySelector<HTMLElement>('.eevenkoto-prose > p');
     const prevList = canvasElement.querySelector<HTMLElement>('.eevenkoto-prose > ul');
     const notice = canvasElement.querySelector<HTMLElement>('.eevenkoto-notice');
     const title = notice?.querySelector<HTMLElement>('.eevenkoto-notice__title');
+    const body = notice?.querySelector<HTMLElement>('.eevenkoto-notice__body');
     const bodyP = notice?.querySelector<HTMLElement>('.eevenkoto-notice__body > p');
     const bodyUl = notice?.querySelector<HTMLElement>('.eevenkoto-notice__body > ul');
     const items = notice?.querySelectorAll<HTMLElement>('.eevenkoto-notice__body li');
 
+    expect(prevP).not.toBeNull();
     expect(prevList).not.toBeNull();
     expect(notice).not.toBeNull();
     expect(title).not.toBeNull();
+    expect(body).not.toBeNull();
     expect(bodyP).not.toBeNull();
     expect(bodyUl).not.toBeNull();
     expect(items?.length).toBeGreaterThanOrEqual(2);
+
+    const noticeStyle = getComputedStyle(notice!);
+    const titleStyle = getComputedStyle(title!);
+    const bodyStyle = getComputedStyle(body!);
+    const prevPStyle = getComputedStyle(prevP!);
+
+    expect(titleStyle.fontSize).toBe(bodyStyle.fontSize);
+    expect(parseFloat(titleStyle.fontSize)).toBeLessThan(parseFloat(prevPStyle.fontSize));
+    expect(noticeStyle.borderRadius).toBe('0px');
+    expect(parseFloat(noticeStyle.borderTopWidth)).toBeGreaterThan(0);
+    expect(parseFloat(noticeStyle.borderBottomWidth)).toBeGreaterThan(0);
+    expect(parseFloat(noticeStyle.borderLeftWidth)).toBe(0);
+    expect(parseFloat(noticeStyle.borderRightWidth)).toBe(0);
 
     const outerGap = notice!.getBoundingClientRect().top - prevList!.getBoundingClientRect().bottom;
     const titleToBodyGap = bodyP!.getBoundingClientRect().top - title!.getBoundingClientRect().bottom;

@@ -22,7 +22,7 @@ export const renderTierCard = (args: TierCardProps): string => {
     current: args.current,
   })} ${tierCardClassNames(args)}`;
 
-  const badge = args.badge ? renderBadge({ ...args.badge, shape: args.badge.shape ?? 'pill' }) : '';
+  const badge = args.badge ? renderBadge(args.badge) : '';
   const header = `<header class="eevenkoto-tier-card__header"><h${level} class="eevenkoto-tier-card__name">${escapeHtml(args.name)}</h${level}>${badge}</header>`;
   const pricing = `<div class="eevenkoto-tier-card__pricing"><span class="eevenkoto-tier-card__price">${escapeHtml(args.price)}</span>${
     args.period ? `<span class="eevenkoto-tier-card__period">${escapeHtml(args.period)}</span>` : ''

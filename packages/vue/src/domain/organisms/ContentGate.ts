@@ -47,7 +47,6 @@ export const ContentGate = defineComponent({
             label: props.readinessLabel,
             intent: props.readinessIntent,
             dot: true,
-            shape: 'pill',
           }),
           h('span', { class: 'eevenkoto-content-gate__lock' }, [
             h(Icon, { name: 'lock', size: 'md', label: props.lockLabel }),

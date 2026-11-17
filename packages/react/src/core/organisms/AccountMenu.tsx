@@ -67,7 +67,7 @@ export const AccountMenu = ({
         <span className="eevenkoto-account-menu__identity">
           <span className="eevenkoto-account-menu__name">{userName}</span>
           {tierLabel ? (
-            <Badge label={tierLabel} size="sm" variant="subtle" shape="pill" intent={tierIntent} />
+            <Badge label={tierLabel} size="sm" variant="subtle" intent={tierIntent} />
           ) : null}
         </span>
         <Icon name="chevron-down" size="sm" className="eevenkoto-account-menu__chevron" />
@@ -83,7 +83,7 @@ export const AccountMenu = ({
           <span>{userName}</span>
           {userEmail ? <span className="eevenkoto-account-menu__email">{userEmail}</span> : null}
           {tierLabel ? (
-            <Badge label={tierLabel} size="sm" variant="solid" shape="pill" intent={tierIntent} />
+            <Badge label={tierLabel} size="sm" variant="solid" intent={tierIntent} />
           ) : null}
         </div>
         {entries?.length ? (

@@ -17,7 +17,6 @@ export const renderDocumentHeader = (args: DocumentHeaderRenderProps): string =>
         label: args.readinessLabel,
         intent: args.readinessIntent ?? 'neutral',
         dot: true,
-        shape: 'pill',
       })
     : '';
   const toggle =

@@ -35,6 +35,6 @@ Pair with `@eevenkoto/css` for styling.
 
 - `@eevenkoto/css` — tokens and component styles (consume / never rules live there)
 - `@eevenkoto/html` / `@eevenkoto/react` / `@eevenkoto/vue` / `@eevenkoto/astro` — markup bindings
-- Repo `CHANGELOG.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+- Repo `CHANGELOG.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

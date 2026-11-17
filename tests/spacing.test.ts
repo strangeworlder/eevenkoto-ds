@@ -62,12 +62,14 @@ describe('Spacing & vertical rhythm architecture', () => {
     );
   });
 
-  it('gives Notice consistent interior rhythm, icon alignment, and contrast-safe link colors', () => {
+  it('gives Notice Playbill Oxford-rule framing, secondary scale, interior rhythm, and contrast-safe link colors', () => {
     const noticeCss = readCss('core/molecules/notice.css');
 
-    expect(noticeCss).toContain('min-block-size: calc(1em * var(--eevenkoto-line-height-snug));');
+    expect(noticeCss).toContain('background-clip: content-box;');
+    expect(noticeCss).toContain('border-inline-end:');
+    expect(noticeCss).toContain('var(--eevenkoto-font-size-body-sm)');
     expect(noticeCss).toMatch(
-      /\.eevenkoto-notice__title\s*\{[^}]*line-height:\s*var\(--eevenkoto-line-height-snug\);/s,
+      /\.eevenkoto-notice__title\s*\{[^}]*font-size:\s*inherit;[^}]*line-height:\s*var\(--eevenkoto-line-height-snug\);/s,
     );
     expect(noticeCss).toContain('margin-block-start: var(--eevenkoto-space-3);');
     expect(noticeCss).toContain(

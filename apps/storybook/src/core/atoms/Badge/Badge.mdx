@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Badge
 
-A Badge is a compact **status or metadata** label. It consumes the Tier 2 **`feedback`** domain. Interactive filter chips belong to **`control`** ([Chip](?path=/docs/core-atoms-chip--docs)). Unlabeled tree pips are [StatusDot](?path=/docs/core-atoms-statusdot--docs).
+A Badge is a 1920s Playbill stamp **status or metadata** label sharing the feedback design language of [Notice](?path=/docs/core-molecules-notice--docs): sharp corners (`0px`), bold `2px` top/bottom ink rules with `1px` side hairlines, `Outfit` display type in sentence case, an optional `◆` diamond pip in its own hairline-divided stub, and warm bronze/brass `neutral` accents. Interactive filter chips belong to **`control`** ([Chip](?path=/docs/core-atoms-chip--docs)). Unlabeled tree pips are [StatusDot](?path=/docs/core-atoms-statusdot--docs).
 
 <Canvas of={BadgeStories.Default} />
 
@@ -38,7 +38,7 @@ A Badge is a compact **status or metadata** label. It consumes the Tier 2 **`fee
 </span>
 ```
 
-Host alone is **subtle** + **neutral** + **md** + **pill**. Minimal non-defaults: `eevenkoto-badge eevenkoto-badge--success`, or `eevenkoto-badge eevenkoto-badge--solid` (solid + neutral). Framework helpers still emit the full modifier set.
+Host alone is **subtle** + **neutral** + **md**. Minimal non-defaults: `eevenkoto-badge eevenkoto-badge--success`, or `eevenkoto-badge eevenkoto-badge--solid` (solid + neutral). Framework helpers still emit the full modifier set.
 
 ### Playground
 
@@ -108,16 +108,11 @@ Shared **`sm | md | lg`** ladder → `--eevenkoto-font-size-control-*` (same as 
 
 <Canvas of={BadgeStories.Sizes} />
 
-## Shape
+## Stamp indicator
 
-| Value | Radius token |
-| --- | --- |
-| `pill` (default) | `--eevenkoto-radius-full` |
-| `rounded` | `--eevenkoto-radius-sm` |
+Pass `dot` (`true`) to place an Art Deco `◆` diamond pip in a hairline-divided stub before the label, mirroring the vignette column of [Notice](?path=/docs/core-molecules-notice--docs).
 
-Do not hard-code `9999px` in the component — change the metric token if the pill recipe needs tuning.
-
-<Canvas of={BadgeStories.Shapes} />
+<Canvas of={BadgeStories.StampIndicator} />
 
 ## API reference
 
@@ -127,8 +122,7 @@ Do not hard-code `9999px` in the component — change the metric token if the pi
 | `variant` | `'subtle' \| 'solid' \| 'outline'` | `'subtle'` | Surface recipe. |
 | `intent` | `'neutral' \| 'info' \| 'success' \| 'caution' \| 'critical' \| 'admin'` | `'neutral'` | Feedback intent. |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Shared size ladder. |
-| `shape` | `'pill' \| 'rounded'` | `'pill'` | Corner treatment. |
-| `dot` | `boolean` | `false` | Status dot (`__dot`). |
+| `dot` | `boolean` | `false` | Art Deco diamond pip (`__dot`) with vertical hairline divider. |
 
 <ArgTypes of={BadgeStories} />
 
@@ -140,8 +134,7 @@ Do not hard-code `9999px` in the component — change the metric token if the pi
 | `eevenkoto-badge--subtle` / `--solid` / `--outline` | Variant |
 | `eevenkoto-badge--neutral` … `--admin` | Intent |
 | `eevenkoto-badge--sm` / `--md` / `--lg` | Size |
-| `eevenkoto-badge--pill` / `--rounded` | Shape |
-| `eevenkoto-badge__dot` | Status dot |
+| `eevenkoto-badge__dot` | Diamond status pip stub |
 | `eevenkoto-badge__label` | Label |
 
 ### Type definitions
@@ -149,7 +142,6 @@ Do not hard-code `9999px` in the component — change the metric token if the pi
 ```ts
 export type BadgeVariant = 'subtle' | 'solid' | 'outline';
 export type BadgeSize = 'sm' | 'md' | 'lg';
-export type BadgeShape = 'pill' | 'rounded';
 export type BadgeIntent =
   | 'neutral'
   | 'info'
@@ -163,7 +155,6 @@ export interface BadgeProps {
   variant?: BadgeVariant;
   intent?: BadgeIntent;
   size?: BadgeSize;
-  shape?: BadgeShape;
   dot?: boolean;
 }
 ```
@@ -174,17 +165,21 @@ export interface BadgeProps {
 | --- | --- |
 | `--eevenkoto-badge-bg` | Fill color |
 | `--eevenkoto-badge-text` | Label color |
-| `--eevenkoto-badge-border-color` | Border color |
-| `--eevenkoto-badge-border-width` | Border width |
-| `--eevenkoto-badge-dot-color` | Status dot fill |
-| `--eevenkoto-badge-dot-size` | Status dot diameter (`0.4em`) |
+| `--eevenkoto-badge-border-color` | Top & bottom Stamp rule color (`content-accent` on neutral) |
+| `--eevenkoto-badge-border-width` | Top & bottom Stamp rule width (`line-width-md`) |
+| `--eevenkoto-badge-inline-border-color` | Left/right side hairline & `dot` divider color |
+| `--eevenkoto-badge-inline-border-width` | Left/right side hairline & `dot` divider width (`line-width-sm`) |
+| `--eevenkoto-badge-dot-color` | Diamond pip fill (`content-accent` on neutral) |
+| `--eevenkoto-badge-dot-size` | Diamond pip square side length (`0.42em`) |
+| `--eevenkoto-badge-font-family` | Display font family (`font-serif` / Outfit) |
 | `--eevenkoto-badge-font-size` | Type size (`control-*`) |
 | `--eevenkoto-badge-font-weight` | Type weight (`font-weight-bold`) |
+| `--eevenkoto-badge-tracking` | Letter-spacing (`0.015em`) |
 | `--eevenkoto-badge-line-height` | Line height (`line-height-tight`) |
 | `--eevenkoto-badge-pad-block` | Block padding |
 | `--eevenkoto-badge-pad-inline` | Inline padding |
-| `--eevenkoto-badge-gap` | Gap between dot and label |
-| `--eevenkoto-badge-radius` | Corner radius |
+| `--eevenkoto-badge-gap` | Gap between diamond stub divider and label (`0.6rem`) |
+| `--eevenkoto-badge-radius` | Corner radius (`0` for sharp Stamp edges) |
 
 ## Framework packages
 

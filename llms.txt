@@ -1,6 +1,6 @@
 # Eevenkoto Design System
 
-> Framework-free tokens and components (CSS → core → html/react/vue/astro). Feed this file to an agent as a starting map. Generated 2026-11-16 — do not edit by hand (`npm run generate:llms`).
+> Framework-free tokens and components (CSS → core → html/react/vue/astro). Feed this file to an agent as a starting map. Generated 2026-11-17 — do not edit by hand (`npm run generate:llms`).
 
 ## Using the system
 

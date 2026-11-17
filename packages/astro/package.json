@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/astro",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "description": "Eevenkoto Astro component wrappers",
   "type": "module",
   "files": [
@@ -26,12 +26,12 @@
     "eevenkoto"
   ],
   "dependencies": {
-    "@eevenkoto/core": "0.12.1",
-    "@eevenkoto/html": "0.12.1"
+    "@eevenkoto/core": "0.13.0",
+    "@eevenkoto/html": "0.13.0"
   },
   "peerDependencies": {
-    "@eevenkoto/css": "0.12.1",
-    "astro": "^4.0.0 || ^5.0.0 || ^6.0.0"
+    "@eevenkoto/css": "0.13.0",
+    "astro": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0"
   },
   "peerDependenciesMeta": {
     "@eevenkoto/css": {

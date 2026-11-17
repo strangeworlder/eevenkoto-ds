@@ -10,7 +10,6 @@ export const Badge = defineComponent({
     variant: { type: String as PropType<BadgeProps['variant']>, default: undefined },
     intent: { type: String as PropType<BadgeProps['intent']>, default: undefined },
     size: { type: String as PropType<BadgeProps['size']>, default: undefined },
-    shape: { type: String as PropType<BadgeProps['shape']>, default: undefined },
     dot: { type: Boolean, default: false },
   },
   setup(props) {
@@ -19,7 +18,6 @@ export const Badge = defineComponent({
         variant: props.variant,
         intent: props.intent,
         size: props.size,
-        shape: props.shape,
       }),
     );
 

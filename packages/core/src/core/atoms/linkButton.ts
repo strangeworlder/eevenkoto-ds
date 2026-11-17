@@ -63,7 +63,9 @@ export const linkButtonClassNames = (props: LinkButtonClassNameProps = {}): stri
   const extraClasses = [
     props.fullWidth ? 'eevenkoto-link-button--full-width' : '',
     iconPosition ? `eevenkoto-link-button--icon-${iconPosition}` : '',
-    props.icon === 'arrow' ? 'eevenkoto-link-button--icon-arrow' : '',
+    props.icon === 'arrow' || props.icon === 'arrow-right' || props.icon === 'arrow-left'
+      ? 'eevenkoto-link-button--icon-arrow'
+      : '',
   ]
     .filter(Boolean)
     .join(' ');

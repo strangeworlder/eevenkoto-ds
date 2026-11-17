@@ -10,12 +10,11 @@ export const Badge = ({
   variant,
   intent,
   size,
-  shape,
   dot,
   className,
   ...rest
 }: BadgeComponentProps): ReactElement => {
-  const classes = [badgeClassNames({ variant, intent, size, shape }), className]
+  const classes = [badgeClassNames({ variant, intent, size }), className]
     .filter(Boolean)
     .join(' ');
 

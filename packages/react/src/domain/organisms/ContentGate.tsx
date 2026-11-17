@@ -43,7 +43,7 @@ export const ContentGate = ({
   return (
     <section id={id} className={classes} {...rest}>
       <div className="eevenkoto-content-gate__status-row">
-        <Badge label={readinessLabel} intent={readinessIntent} dot shape="pill" />
+        <Badge label={readinessLabel} intent={readinessIntent} dot />
         <span className="eevenkoto-content-gate__lock">
           <Icon name="lock" size="md" label={lockLabel} />
         </span>

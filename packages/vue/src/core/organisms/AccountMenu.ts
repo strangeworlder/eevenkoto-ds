@@ -49,7 +49,6 @@ export const AccountMenu = defineComponent({
               label: props.tierLabel,
               size: 'sm',
               variant,
-              shape: 'pill',
               intent: props.tierIntent,
             })
           : null;

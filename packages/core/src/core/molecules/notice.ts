@@ -21,7 +21,7 @@ export interface NoticeProps {
   bodyHtml?: string;
   /**
    * Leading decorative icon name, or `false` to omit the icon.
-   * Defaults automatically from `intent` (`info`, `check`, `warning`, `star`).
+   * Defaults automatically from `intent` (`section`, `info`, `check`, `warning`, `monogram`).
    */
   icon?: IconName | false;
   /**
@@ -50,16 +50,18 @@ export const noticeStatusClassNames = (): string => 'eevenkoto-notice__status';
 /** Default icon associated with each Notice feedback intent. */
 export const defaultNoticeIcon = (intent: NoticeIntent = 'neutral'): IconName => {
   switch (intent) {
+    case 'info':
+      return 'info';
     case 'success':
       return 'check';
     case 'caution':
     case 'critical':
       return 'warning';
     case 'admin':
-      return 'star';
-    case 'info':
+      return 'monogram';
+    case 'neutral':
     default:
-      return 'info';
+      return 'section';
   }
 };
 

@@ -11,7 +11,7 @@ export interface TierCardProps {
   name: string;
   /** Semantic heading level for `name`. Default: `2`. */
   nameLevel?: TierCardNameLevel;
-  /** Optional status/tier pill Badge in the header row. */
+  /** Optional status/tier Badge in the header row. */
   badge?: BadgeProps;
   /** Primary price string (e.g. `'0 €'`, `'5 €'`). */
   price: string;

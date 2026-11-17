@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Icon
 
-Inline SVG **chrome** on a 16×16 viewBox: size ladder + `currentColor` fill. Icon does **not** own the glyph list.
+Inline SVG **chrome** on a 16×16 viewBox: size ladder + 1920s engraved single-path `fill="currentColor"` silhouettes (`46` glyphs in `ICON_NAMES`, `42` in `BUTTON_ICON_NAMES`). Icon does **not** own the glyph list.
 
 Names and path data are **tokens** in `@eevenkoto/core` (`tokens/icons`: `ICON_NAMES`, `iconPaths`, `BUTTON_ICON_NAMES`). See the full catalog under [Foundations → Tokens → Icons](?path=/docs/foundations-tokens--docs#icons).
 
@@ -82,6 +82,11 @@ Chrome needs the same glyphs in Button, adornments, and product UI without each 
       <li>Don’t paste path strings into Button, Menu, or product CSS.</li>
       <li>Don’t grow a parallel icon map next to <code>iconPaths</code>.</li>
       <li>
+        Don’t apply CSS <code>stroke</code> onto <code>.eevenkoto-icon</code> — all glyphs are filled
+        16×16 engraved silhouettes (<code>fill=&quot;currentColor&quot;</code>) intended for{' '}
+        <code>sm</code> (<code>1.2rem</code>) or larger.
+      </li>
+      <li>
         Don’t treat Icon as a click target — wrap Button or a link when the glyph is interactive.
       </li>
     </ul>
@@ -92,10 +97,12 @@ Chrome needs the same glyphs in Button, adornments, and product UI without each 
 
 | Export | Role |
 | --- | --- |
-| `ICON_NAMES` | Ordered inventory |
-| `iconPaths` | `Record<IconName, string>` (16×16 `d`) |
-| `BUTTON_ICON_NAMES` | Subset Button may use |
+| `ICON_NAMES` | Ordered inventory (**46** glyphs) |
+| `iconPaths` | `Record<IconName, string>` (16×16 engraved `fill="currentColor"` `d`) |
+| `BUTTON_ICON_NAMES` | Subset Button may use (**42** glyphs — excludes `chevron-down`, `chevron-right`, `chevron-left`, `chevron-up`) |
 | `IconName` / `ButtonIconName` | Derived types |
+
+Canonical path aliases in `iconPaths`: `arrow` === `arrow-right`, `close` === `x`, `refresh` === `reroll`, `swords` === `blades`, and `sword` === `revolver` (use `'blades'` or `'swords'` for edged weapons; `'revolver'` for firearms).
 
 ```ts
 import { ICON_NAMES, iconPaths, BUTTON_ICON_NAMES } from '@eevenkoto/core';

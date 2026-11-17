@@ -40,7 +40,7 @@ Set `data-theme="light"` (default) or `data-theme="dark"` on `<html>` (or `<body
 
 **Never** reference hue primitives (`--eevenkoto-color-turquoise-*`, `parchment-*`, `obsidian-*`, `gold-*`, `green-*`, `orange-*`, `crimson-*`, `purple-*`), rem ladder steps (`--eevenkoto-font-size-xs`…`3xl`), private `--_eevenkoto-*` bridges, `opacity` for disabled UI, global/container `text-box-trim`, raw `z-index` numbers outside `--eevenkoto-z-*`, or raw `oklch()` / hex in app or component stylesheets.
 
-For agents & site upgrades: feed Storybook `http://localhost:6006/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`), and see `docs/migration-0.12-frontend-gap-resolution.md` and `docs/migration-token-architecture-and-a11y.md` when upgrading a consuming site. Contributors editing this package: see root `AGENTS.md`.
+For agents & site upgrades: feed Storybook `http://localhost:6006/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`), and see `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` when upgrading a consuming site. Contributors editing this package: see root `AGENTS.md`.
 
 ## Markup
 
