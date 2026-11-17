@@ -55,6 +55,6 @@ import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 - `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
 - `@eevenkoto/html` — reference vanilla renderers
 - `@eevenkoto/react` / `@eevenkoto/astro` — React and Astro equivalents
-- Repo `CHANGELOG.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+- Repo `CHANGELOG.md`, `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

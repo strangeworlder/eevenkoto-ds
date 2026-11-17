@@ -1,7 +1,6 @@
 import {
   cardClassNames,
   cardHeaderActionsClassNames,
-  type CardAccent,
   type CardLayout,
   type CardProps,
   type CardSurface,
@@ -10,7 +9,7 @@ import {
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { createElement } from 'react';
 
-export type { CardProps, CardTitleLevel, CardSurface, CardAccent, CardLayout };
+export type { CardProps, CardTitleLevel, CardSurface, CardLayout };
 
 export type CardComponentProps = Omit<HTMLAttributes<HTMLElement>, 'title' | 'children'> &
   CardProps & {
@@ -32,7 +31,7 @@ const BLOCK_TAG_RE = /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1
 
 export const Card = ({
   surface,
-  accent,
+  featured,
   current,
   layout,
   elevated,
@@ -54,7 +53,7 @@ export const Card = ({
   const classes = [
     cardClassNames({
       surface,
-      accent,
+      featured,
       current,
       layout,
       elevated,

@@ -5,7 +5,7 @@ import * as ContentGateStories from './ContentGate.stories';
 
 # ContentGate
 
-Full-page gate shown when the reader's tier cannot open a document: readiness Badge + lock, heading, copy, current-vs-required tier pill, actions, live status line and an optional dev footer.
+Full-page gate shown when the reader's tier cannot open a document: neutral Calling Card passe-partout, readiness Badge + lock, heading, copy, current-vs-required tier comparison strip, actions, live status line and an optional dev footer.
 
 <Canvas of={ContentGateStories.Default} />
 
@@ -49,7 +49,7 @@ Gating a document needs a consistent, accessible explanation: what is locked, wh
 | `lockLabel` | `string` | `'Locked'` | Accessible label for the lock Icon. |
 | `title` / `titleLevel` | `string` / `1 \| 2 \| 3` | **required** / `2` | Gate heading text and tag level. |
 | `description` / `descriptionHtml` | `string` | — | Plain-text or trusted HTML explanatory copy (or default slot/children). |
-| `currentTierLabel` / `requiredTierLabel` | `string` | **required** | Comparison pill values. |
+| `currentTierLabel` / `requiredTierLabel` | `string` | **required** | Comparison strip values. |
 | `currentTierPrefix` / `requiredTierPrefix` | `string` | `'Current tier:'` / `'Required tier:'` | Localised comparison prefixes. |
 | `statusMessage` | `string` | — | Live-region text; hidden when empty. |
 | `actions` / `footer` | `string` / slot | — | Primary action buttons and optional dev-only footer. |
@@ -62,12 +62,17 @@ Gating a document needs a consistent, accessible explanation: what is locked, wh
 | Token | Purpose |
 | --- | --- |
 | `--eevenkoto-content-gate-bg` | Gate card background (`surface-raised`) |
-| `--eevenkoto-content-gate-text` | Heading and pill ink (`content-primary`) |
+| `--eevenkoto-content-gate-text` | Heading and strip ink (`content-primary`) |
 | `--eevenkoto-content-gate-muted` | Description and lock icon ink (`content-secondary`) |
-| `--eevenkoto-content-gate-border-color` | Outer border and footer dashed rule (`boundary-subtle`) |
-| `--eevenkoto-content-gate-accent` | Top accent bar (`content-accent-strong`) |
-| `--eevenkoto-content-gate-pill-bg` | Current-vs-required comparison pill fill (`surface-sunken`) |
-| `--eevenkoto-content-gate-shadow` | Elevation shadow |
+| `--eevenkoto-content-gate-border-color` | Outer trim border and comparison strip block rules (`boundary-strong`) |
+| `--eevenkoto-content-gate-border-width` | Outer trim border width (`line-width-sm`) |
+| `--eevenkoto-content-gate-inner-border-color` | Inner passe-partout, strip dividers, and footer hairline (`boundary-subtle`) |
+| `--eevenkoto-content-gate-inner-border-width` | Inner passe-partout, strip dividers, and footer hairline width (`line-width-sm`) |
+| `--eevenkoto-content-gate-frame-gap` | Paper margin between outer trim and inner passe-partout (`space-1`) |
+| `--eevenkoto-content-gate-radius` | Outer cardstock corner radius (`0`) |
+| `--eevenkoto-content-gate-inner-radius` | Inner passe-partout corner scoop radius (`radius-sm`) |
+| `--eevenkoto-content-gate-pill-bg` | Current-vs-required comparison strip fill (`surface-sunken`) |
+| `--eevenkoto-content-gate-shadow` | Crisp cardstock elevation shadow |
 
 ## Framework packages
 

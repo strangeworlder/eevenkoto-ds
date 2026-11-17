@@ -23,9 +23,9 @@ export interface TierCardProps {
   descriptionHtml?: string;
   /** Checklist features (`included` | `accent` | `excluded`). */
   features: ListItemProps[];
-  /** Highlights recommended/featured tier with accent outline. Default: `false`. */
+  /** Highlights recommended/featured tier with a gilded brass passe-partout frame. Default: `false`. */
   featured?: boolean;
-  /** Marks the user's active tier with a high-contrast current ring. Default: `false`. */
+  /** Marks the user's active tier with a club-turquoise passe-partout frame. Default: `false`. */
   current?: boolean;
   /** Full-width footer CTA link button (used when custom `footer` slot/prop is omitted). */
   cta?: LinkButtonProps;

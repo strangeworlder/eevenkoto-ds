@@ -272,7 +272,6 @@ export {
   type CardClassNameProps,
   type CardTitleLevel,
   type CardSurface,
-  type CardAccent,
   type CardLayout,
   cardClassNames,
   cardHeaderActionsClassNames,

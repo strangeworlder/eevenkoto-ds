@@ -49,7 +49,7 @@ Do **not** put `href` on Button or wrap Button in an anchor. Same-site pages wit
 
 - **Theme switching:** Set `data-theme="light"` or `data-theme="dark"` on `<html>` (or scope a dark region with `data-surface-mode="dark"`). `@eevenkoto/css/styles.css` includes `tokens.css`, which flips all Tier 2 semantic color tokens automatically (`color-scheme: light` / `dark`) — no host-app dark-mode CSS patches are needed.
 - **Tokens & overrides:** Consume Tier 2 tokens (`--eevenkoto-color-*`, `--eevenkoto-font-size-*`, `--eevenkoto-font-weight-*`, `--eevenkoto-line-height-*`, `--eevenkoto-space-*`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-*`, `--eevenkoto-ease-*`, `--eevenkoto-z-*`) — never import `primitive-tokens.css` or set private `--_eevenkoto-*` component bridges. Customize components via public `--eevenkoto-<component>-*` variables (see [Tier 3 — Component scoping](?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)).
-- **Upgrading an existing site:** Follow `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, `docs/migration-token-architecture-and-a11y.md`, and `CHANGELOG.md` (also bundled into `/llms-full.txt` for coding agents).
+- **Upgrading an existing site:** Follow `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md`, and `CHANGELOG.md` (also bundled into `/llms-full.txt` for coding agents).
 
 ## Authoring new components
 

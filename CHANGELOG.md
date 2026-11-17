@@ -2,7 +2,37 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.13.0**.
+Published package version is **0.14.0**.
+
+## 0.14.0
+
+> **Consuming site upgrade instructions:** See [`docs/migration-0.14-calling-card-surfaces.md`](docs/migration-0.14-calling-card-surfaces.md) for the step-by-step `0.13.0` → `0.14.0` checklist (`CardAccent` / `accent` removal → `featured`, Calling Card passe-partout tokens, `ContentGate` comparison strip, and `TooltipCard` + `Popover` integration).
+
+Minor release redesigning `Card` and the card-family surfaces (`TierCard`, `NpcCard`, `ContentGate`, `TooltipCard`) around Eevenkoto's **1920s Letterpress Calling Card** silhouette.
+
+### Breaking
+
+- **`Card` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Removed `CardAccent` (`'none' | 'top' | 'start' | 'outline'`) and the `accent` prop from `CardProps`, `CardClassNameProps`, `cardClassNames()`, `renderCard()`, and `<Card />` wrappers, and removed `.eevenkoto-card--accent-top`, `.eevenkoto-card--accent-start`, and `.eevenkoto-card--accent-outline` plus the `--eevenkoto-card-accent-*` and `--eevenkoto-card-ring-*` CSS custom properties from `@eevenkoto/css/card.css`.
+- **`ContentGate` (`@eevenkoto/css`):** Removed `--eevenkoto-content-gate-accent` (the directional top accent bar) in favor of neutral Calling Card passe-partout framing.
+
+### Added
+
+- **`Card` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Added `featured?: boolean` (`.eevenkoto-card--featured`) for symmetric gilded brass passe-partout emphasis (`2px` `--eevenkoto-color-content-accent-strong` outer trim + `1px` `--eevenkoto-color-content-accent` inner hairline and compartment dividers).
+- **Tier 3 public override tokens (`@eevenkoto/css`):**
+  - `card.css`: added `--eevenkoto-card-inner-border-color`, `--eevenkoto-card-inner-border-width`, `--eevenkoto-card-frame-gap`, `--eevenkoto-card-inner-radius`, `--eevenkoto-card-title-weight`, and `--eevenkoto-card-title-tracking`.
+  - `npc-card.css`: added `--eevenkoto-npc-card-inner-border-color`, `--eevenkoto-npc-card-inner-border-width`, `--eevenkoto-npc-card-frame-gap`, `--eevenkoto-npc-card-radius`, `--eevenkoto-npc-card-inner-radius`, `--eevenkoto-npc-card-pad-block`, and `--eevenkoto-npc-card-pad-inline`.
+  - `content-gate.css`: added `--eevenkoto-content-gate-border-width`, `--eevenkoto-content-gate-inner-border-color`, `--eevenkoto-content-gate-inner-border-width`, `--eevenkoto-content-gate-frame-gap`, `--eevenkoto-content-gate-radius`, and `--eevenkoto-content-gate-inner-radius`.
+  - `tooltip-card.css`: added `--eevenkoto-tooltip-card-inner-border-color`, `--eevenkoto-tooltip-card-inner-border-width`, `--eevenkoto-tooltip-card-frame-gap`, and `--eevenkoto-tooltip-card-inner-radius`.
+
+### Changed
+
+- **`Card` (`@eevenkoto/css`):**
+  - Redesigned `.eevenkoto-card` as a 1920s Letterpress Calling Card: guillotine-cut `0` outer trim (`--eevenkoto-color-boundary-strong`), `4px` (`--eevenkoto-space-1`) paper margin, `1px` inner `::before` passe-partout (`--eevenkoto-color-boundary-subtle`, `4px` concave scallops via `corner-shape: scoop` where supported), architectural compartment dividers joining the inner rule, `Outfit` bold `0.015em` headers, and tight cardstock `--elevated` / `--interactive:hover` shadows.
+  - Updated `.eevenkoto-card--current` to use club-turquoise passe-partout rules (`feedback-info-icon` outer + `feedback-info-border` inner; pairing turquoise outer with gilded brass inner when combined with `--featured`), reserving the dual-halo outer ring for `:focus-visible`.
+- **`TierCard` (`@eevenkoto/{html,react,vue,astro,css}`):** Wired `featured` directly to `cardClassNames({ elevated: true, featured, current })` so `TierCard` inherits the Calling Card brass (`featured`) and club-turquoise (`current`) passe-partout frames.
+- **`NpcCard` (`@eevenkoto/css`):** Adopted `0` outer trim, `4px` paper margin, scooped inner passe-partout, header compartment hairline (`__header:not(:last-child)`), and `0.015em` header tracking.
+- **`ContentGate` (`@eevenkoto/css`):** Adopted neutral Calling Card passe-partout framing + crisp cardstock shadow, replaced the `9999px` comparison pill with a `0` two-column Playbill Stamp strip (`2px` block rules + `1px` inline hairlines + column divider), and spanned `__footer`'s top hairline flush across the inner passe-partout width.
+- **`TooltipCard` (`@eevenkoto/css`):** Adopted standalone Calling Card passe-partout framing + `Outfit` bold `0.015em` header + crisp cardstock shadow; when nested directly inside `.eevenkoto-popover`, snaps `Popover` to `0` radius and `boundary-strong` trim while keeping the card's inner passe-partout.
 
 ## 0.13.0
 

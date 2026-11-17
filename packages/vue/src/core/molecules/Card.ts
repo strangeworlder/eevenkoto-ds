@@ -1,7 +1,6 @@
 import {
   cardClassNames,
   cardHeaderActionsClassNames,
-  type CardAccent,
   type CardLayout,
   type CardProps,
   type CardSurface,
@@ -9,7 +8,7 @@ import {
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vue';
 
-export type { CardProps, CardTitleLevel, CardSurface, CardAccent, CardLayout };
+export type { CardProps, CardTitleLevel, CardSurface, CardLayout };
 
 const BLOCK_TAG_RE = /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i;
 
@@ -17,7 +16,7 @@ export const Card = defineComponent({
   name: 'EevenkotoCard',
   props: {
     surface: { type: String as PropType<CardSurface>, default: 'raised' },
-    accent: { type: String as PropType<CardAccent>, default: 'none' },
+    featured: { type: Boolean, default: false },
     current: { type: Boolean, default: false },
     layout: { type: String as PropType<CardLayout>, default: 'stack' },
     elevated: { type: Boolean, default: false },
@@ -33,7 +32,7 @@ export const Card = defineComponent({
     const className = computed(() =>
       cardClassNames({
         surface: props.surface,
-        accent: props.accent,
+        featured: props.featured,
         current: props.current,
         layout: props.layout,
         elevated: props.elevated,

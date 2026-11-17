@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Card
 
-Self-contained **content** surface. The host is an `<article>` wrapping optional `<header>`, flow (`<p>`, …), and `<footer>`. The host class alone styles those tags — no region BEM is required for the default look. Host alone is a flat raised surface with hairline dividers and no interaction affordance.
+Self-contained **1920s Letterpress Calling Card** surface. The host is an `<article>` wrapping optional `<header>`, flow (`<p>`, …), and `<footer>`, framed by a guillotine-cut `0px` outer border, a `4px` paper margin, and a concave-scooped inner passe-partout hairline (`::before`). The host class alone styles those tags — no region BEM is required for the default look. Host alone is a flat raised calling card with compartment dividers and no interaction affordance.
 
 <Canvas of={CardStories.Default} />
 
@@ -45,7 +45,7 @@ Self-contained **content** surface. The host is an `<article>` wrapping optional
 </article>
 ```
 
-The title is a real heading (default **H2**). Card remaps the look on the header — do not compose the Heading atom. `__header` / `__body` / `__footer` remain optional aliases.
+The title is a real heading (default **H2**). Card remaps the look on the header (`Outfit` bold at `heading-4` scale with `0.015em` tracking) — do not compose the Heading atom. `__header` / `__body` / `__footer` remain optional aliases.
 
 ### Playground
 
@@ -63,7 +63,7 @@ The title is a real heading (default **H2**). Card remaps the look on the header
 
 ## Why to use
 
-Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned box so products do not invent one-off bordered panels for every teaser. Copy-paste HTML is a document (`article` + heading), not a div sandwich.
+Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned calling card so products do not invent one-off bordered panels for every teaser. Copy-paste HTML is a document (`article` + heading), not a div sandwich.
 
 ## When to use
 
@@ -78,8 +78,8 @@ Item entries, paywall summaries, and other self-contained chunks need a surface 
       <li>Group related content that reads as one unit (item card, gate summary, teaser).</li>
       <li>Omit unused sections — body-only is still a valid Card.</li>
       <li>
-        Use <code>elevated</code> when the card should float above the page (overlays, pinned
-        summaries).
+        Use <code>elevated</code> when the card should lift off the page with a crisp cardstock
+        shadow (overlays, pinned summaries).
       </li>
       <li>
         Keep the host as <code>&lt;article&gt;</code> and put <code>href</code> on an inner{' '}
@@ -110,17 +110,17 @@ Item entries, paywall summaries, and other self-contained chunks need a surface 
   }
 />
 
-## Surfaces & accents
+## Surfaces & featured frame
 
-`surface` switches the background fill between `raised` (default), `subtle`, and `sunken`. `accent` adds a structural gold edge (`top`, `start`) or stronger `outline` without shifting layout metrics.
+`surface` switches the background fill between `raised` (default), `subtle`, and `sunken`. `featured` (`.eevenkoto-card--featured`) upgrades the passe-partout to a gilded brass frame (`2px` outer rule + `1px` inner hairline and compartment dividers).
 
 <Canvas of={CardStories.Surfaces} />
 
-<Canvas of={CardStories.Accents} />
+<Canvas of={CardStories.Featured} />
 
 ## Current state & header actions
 
-Set `current` (`.eevenkoto-card--current`) to mark an active plan or selected card with both border thickness and an outer focus-contrast ring. Use `headerActions` (`.eevenkoto-card__header-actions`) for trailing badges or compact buttons inside `<header>`, and `titleHtml` when the heading contains inline emphasis or cross-references.
+Set `current` (`.eevenkoto-card--current`) to mark an active plan or selected card with a club-turquoise passe-partout (`2px` outer rule + `1px` turquoise inner hairline; when combined with `featured`, turquoise outer trim pairs with a gilded brass inner passe-partout), reserving the outer dual-halo focus ring for `:focus-visible`. Use `headerActions` (`.eevenkoto-card__header-actions`) for trailing badges or compact buttons inside `<header>`, and `titleHtml` when the heading contains inline emphasis or cross-references.
 
 <Canvas of={CardStories.CurrentState} />
 
@@ -138,7 +138,7 @@ Set `current` (`.eevenkoto-card--current`) to mark an active plan or selected ca
 
 ## Interactive
 
-The host stays `<article>`. `renderCard({ href })` wraps the sections in an inner link and adds `--interactive`.
+The host stays `<article>`. `renderCard({ href })` wraps the sections in an inner link and adds `--interactive`. Hover warms the cardstock fill, illuminates the passe-partout in club turquoise, and lifts the card with a crisp cardstock shadow.
 
 ```html
 <article class="eevenkoto-card eevenkoto-card--interactive">
@@ -161,13 +161,14 @@ The host stays `<article>`. `renderCard({ href })` wraps the sections in an inne
 
 | Part | Role |
 | --- | --- |
-| Host | `<article class="eevenkoto-card">` |
-| Header | descendant `header` (optional `.eevenkoto-card__header`) |
+| Host | `<article class="eevenkoto-card">` (outer trim border + `4px` paper margin) |
+| Passe-partout | `::before` pseudo-element inset by the paper margin (concave-scooped corners where supported) |
+| Header | descendant `header` (optional `.eevenkoto-card__header`) with hairline joining the passe-partout |
 | Title | `h2` (or `h3` via `titleLevel`) inside `header`, from `title` or `titleHtml` |
 | Header actions | `.eevenkoto-card__header-actions` pushed to `inline-end` inside `header` |
 | Body | flow siblings (`p`, …) — `.eevenkoto-card__body` groups main content in `split` layout |
 | Actions | `.eevenkoto-card__actions` for CTA buttons (inline-end in `split` layout) |
-| Footer | descendant `footer` (optional `.eevenkoto-card__footer`) |
+| Footer | descendant `footer` (optional `.eevenkoto-card__footer`) with hairline joining the passe-partout |
 | Interactive | inner `a[href]` wrapping the sections; `--interactive` on the article |
 
 ## Framework packages
@@ -236,10 +237,10 @@ Pair `--interactive` with a real inner link so keyboard activation works; `aria-
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `surface` | `'raised' \| 'subtle' \| 'sunken'` | `'raised'` | Surface fill tier (`eevenkoto-card--surface-*`). |
-| `accent` | `'none' \| 'top' \| 'start' \| 'outline'` | `'none'` | Structural gold edge or outline (`eevenkoto-card--accent-*`). |
-| `current` | `boolean` | `false` | Active/selected card ring + border (`eevenkoto-card--current`). |
+| `featured` | `boolean` | `false` | Highlights the card with a gilded brass passe-partout frame (`eevenkoto-card--featured`). |
+| `current` | `boolean` | `false` | Active/selected card with a club-turquoise passe-partout frame (`eevenkoto-card--current`). |
 | `layout` | `'stack' \| 'split'` | `'stack'` | Content/actions arrangement (`eevenkoto-card--split`). |
-| `elevated` | `boolean` | `false` | Adds depth shadow (`eevenkoto-card--elevated`). |
+| `elevated` | `boolean` | `false` | Adds crisp cardstock shadow (`eevenkoto-card--elevated`). |
 | `interactive` | `boolean` | `false` | Hover/focus affordance for inner link/button (`eevenkoto-card--interactive`). |
 | `title` | `string` | — | Heading text inside `<header>`. |
 | `titleHtml` | `string` | — | Trusted pre-rendered inline HTML for `<header>` heading (takes precedence over `title`). |
@@ -262,17 +263,19 @@ Pair `--interactive` with a real inner link so keyboard activation works; `aria-
 | --- | --- |
 | `--eevenkoto-card-bg` | Card surface fill (`surface-raised` by default) |
 | `--eevenkoto-card-text` | Body text color (`content-primary`) |
-| `--eevenkoto-card-muted` | Muted header/footer ink (`content-secondary`) |
-| `--eevenkoto-card-border-color` | Outer frame border (`boundary-subtle`) |
-| `--eevenkoto-card-border-width` | Outer frame border width (`line-width-sm`) |
-| `--eevenkoto-card-accent-top-width` / `--eevenkoto-card-accent-top-color` | Top accent edge (`accent="top"`) |
-| `--eevenkoto-card-accent-start-width` / `--eevenkoto-card-accent-start-color` | Inline-start accent bar (`accent="start"`) |
-| `--eevenkoto-card-ring-width` / `--eevenkoto-card-ring-color` / `--eevenkoto-card-ring-offset` | Current-selection ring (`current`) |
-| `--eevenkoto-card-radius` | Corner radius (`radius-md`) |
-| `--eevenkoto-card-pad-block` / `--eevenkoto-card-pad-inline` | Section padding |
-| `--eevenkoto-card-gap` | Gap between card sections |
-| `--eevenkoto-card-shadow` | Depth shadow (`none` unless `elevated`) |
-| `--eevenkoto-card-divider-color` / `--eevenkoto-card-divider-width` | Footer divider hairline |
+| `--eevenkoto-card-muted` | Muted footer ink (`content-secondary`) |
+| `--eevenkoto-card-border-color` | Outer trim border (`boundary-strong`; `content-accent-strong` on `--featured`; `feedback-info-icon` on `--current`) |
+| `--eevenkoto-card-border-width` | Outer trim border width (`line-width-sm`; `line-width-md` on `--featured` / `--current`) |
+| `--eevenkoto-card-inner-border-color` | Inner passe-partout hairline (`boundary-subtle`; `content-accent` on `--featured`; `feedback-info-border` on `--current`) |
+| `--eevenkoto-card-inner-border-width` | Inner passe-partout hairline width (`line-width-sm`) |
+| `--eevenkoto-card-frame-gap` | Paper margin between outer trim and inner passe-partout (`space-1`) |
+| `--eevenkoto-card-radius` | Outer cardstock corner radius (`0`) |
+| `--eevenkoto-card-inner-radius` | Inner passe-partout corner scoop radius (`radius-sm`) |
+| `--eevenkoto-card-pad-block` / `--eevenkoto-card-pad-inline` | Section padding (`space-3` / `space-4`) |
+| `--eevenkoto-card-gap` | Gap between card sections (`space-2`) |
+| `--eevenkoto-card-shadow` | Crisp cardstock shadow (`none` unless `--elevated` or `--interactive` hover) |
+| `--eevenkoto-card-divider-color` / `--eevenkoto-card-divider-width` | Header and footer compartment rule (`boundary-subtle` / `line-width-sm`; `content-accent` on `--featured`; `feedback-info-border` on `--current`) |
+| `--eevenkoto-card-title-weight` / `--eevenkoto-card-title-tracking` | Header title weight (`font-weight-bold`) and tracking (`0.015em`) |
 
 ## Related
 

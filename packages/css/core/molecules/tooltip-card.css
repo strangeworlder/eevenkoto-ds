@@ -1,7 +1,9 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: TOOLTIP CARD (TIER 3)
-   Header / body / footer on a popover-like surface. Standalone it is an
-   elevated card; nested in Popover it drops its own chrome and fills the panel.
+   Header / body / footer Calling Card preview surface. Standalone it is a
+   0px Calling Card with passe-partout and crisp cardstock shadow; nested in
+   Popover it snaps the host Popover to 0px Calling Card trim and sheds its
+   duplicate outer stroke while retaining the inner passe-partout.
    Host styles native header / footer; the title look is remapped here, so a
    real heading needs no Heading atom. The body is a classed region that owns
    its own cap: long copy scrolls inside it while header and footer stay pinned.
@@ -30,15 +32,28 @@
   );
   --_eevenkoto-tooltip-card-border-color: var(
     --eevenkoto-tooltip-card-border-color,
-    var(--eevenkoto-color-boundary-subtle)
+    var(--eevenkoto-color-boundary-strong)
   );
   --_eevenkoto-tooltip-card-border-width: var(
     --eevenkoto-tooltip-card-border-width,
     var(--eevenkoto-line-width-sm)
   );
-  --_eevenkoto-tooltip-card-radius: var(
-    --eevenkoto-tooltip-card-radius,
-    var(--eevenkoto-radius-md)
+  --_eevenkoto-tooltip-card-inner-border-color: var(
+    --eevenkoto-tooltip-card-inner-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-tooltip-card-inner-border-width: var(
+    --eevenkoto-tooltip-card-inner-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-tooltip-card-frame-gap: var(
+    --eevenkoto-tooltip-card-frame-gap,
+    var(--eevenkoto-space-1)
+  );
+  --_eevenkoto-tooltip-card-radius: var(--eevenkoto-tooltip-card-radius, 0);
+  --_eevenkoto-tooltip-card-inner-radius: var(
+    --eevenkoto-tooltip-card-inner-radius,
+    var(--eevenkoto-radius-sm)
   );
   --_eevenkoto-tooltip-card-pad-block: var(
     --eevenkoto-tooltip-card-pad-block,
@@ -58,8 +73,8 @@
   );
   --_eevenkoto-tooltip-card-shadow: var(
     --eevenkoto-tooltip-card-shadow,
-    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-umbra),
-    0 0.8rem 1.6rem var(--eevenkoto-color-depth-shadow-penumbra)
+    0.2rem 0.2rem 0 var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.3rem 0.6rem var(--eevenkoto-color-depth-shadow-penumbra)
   );
   --_eevenkoto-tooltip-card-max-inline-size: var(
     --eevenkoto-tooltip-card-max-inline-size,
@@ -70,11 +85,13 @@
     16rem
   );
 
+  position: relative;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   min-width: 0;
   max-inline-size: var(--_eevenkoto-tooltip-card-max-inline-size);
+  padding: var(--_eevenkoto-tooltip-card-frame-gap);
   color: var(--_eevenkoto-tooltip-card-text);
   background: var(--_eevenkoto-tooltip-card-bg);
   border: var(--_eevenkoto-tooltip-card-border-width) solid
@@ -85,6 +102,23 @@
   font-family: var(--eevenkoto-font-sans);
   font-size: var(--eevenkoto-font-size-body-sm);
   line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-tooltip-card::before {
+  content: '';
+  position: absolute;
+  inset: var(--_eevenkoto-tooltip-card-frame-gap);
+  border: var(--_eevenkoto-tooltip-card-inner-border-width) solid
+    var(--_eevenkoto-tooltip-card-inner-border-color);
+  border-radius: 0;
+  pointer-events: none;
+}
+
+@supports (corner-shape: scoop) {
+  .eevenkoto-tooltip-card::before {
+    border-radius: var(--_eevenkoto-tooltip-card-inner-radius);
+    corner-shape: scoop;
+  }
 }
 
 .eevenkoto-tooltip-card :where(header),
@@ -105,10 +139,11 @@
   gap: var(--_eevenkoto-tooltip-card-gap);
   font-family: var(--eevenkoto-font-serif);
   font-size: var(--eevenkoto-font-size-heading-6);
-  font-weight: var(--eevenkoto-font-weight-semibold);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  letter-spacing: 0.015em;
   line-height: var(--eevenkoto-line-height-snug);
-  border-block-end: var(--_eevenkoto-tooltip-card-border-width) solid
-    var(--_eevenkoto-tooltip-card-border-color);
+  border-block-end: var(--_eevenkoto-tooltip-card-inner-border-width) solid
+    var(--_eevenkoto-tooltip-card-divider);
 }
 
 .eevenkoto-tooltip-card :where(header) :is(h1, h2, h3, h4, h5, h6),
@@ -156,35 +191,31 @@
   gap: var(--_eevenkoto-tooltip-card-gap);
   color: var(--_eevenkoto-tooltip-card-muted);
   font-size: var(--eevenkoto-font-size-caption);
-  border-block-start: var(--_eevenkoto-tooltip-card-border-width) solid
-    var(--_eevenkoto-tooltip-card-border-color);
+  border-block-start: var(--_eevenkoto-tooltip-card-inner-border-width) solid
+    var(--_eevenkoto-tooltip-card-divider);
 }
 
-/* Nested in Popover: the panel already owns surface, border, and shadow. */
+/* Nested in Popover: Popover snaps to 0px Calling Card trim; card keeps inner passe-partout. */
 .eevenkoto-popover:has(> .eevenkoto-tooltip-card) {
   --eevenkoto-popover-padding: 0;
+  --eevenkoto-popover-radius: 0;
+  --eevenkoto-popover-border-color: var(--eevenkoto-color-boundary-strong);
+  --eevenkoto-popover-shadow:
+    0.2rem 0.2rem 0 var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.3rem 0.6rem var(--eevenkoto-color-depth-shadow-penumbra);
 }
 
 .eevenkoto-popover > .eevenkoto-tooltip-card {
   --eevenkoto-tooltip-card-bg: transparent;
   --eevenkoto-tooltip-card-shadow: none;
   --eevenkoto-tooltip-card-border-color: transparent;
-  --eevenkoto-tooltip-card-radius: 0;
+  --eevenkoto-tooltip-card-border-width: 0px;
   max-inline-size: none;
 }
 
-.eevenkoto-popover > .eevenkoto-tooltip-card > :where(header),
-.eevenkoto-popover > .eevenkoto-tooltip-card > .eevenkoto-tooltip-card__header {
-  border-block-end-color: var(--_eevenkoto-tooltip-card-divider);
-}
-
-.eevenkoto-popover > .eevenkoto-tooltip-card > :where(footer),
-.eevenkoto-popover > .eevenkoto-tooltip-card > .eevenkoto-tooltip-card__footer {
-  border-block-start-color: var(--_eevenkoto-tooltip-card-divider);
-}
-
 @media (forced-colors: active) {
-  .eevenkoto-tooltip-card {
+  .eevenkoto-tooltip-card,
+  .eevenkoto-tooltip-card::before {
     border-color: CanvasText;
     box-shadow: none;
   }

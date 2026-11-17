@@ -18,7 +18,14 @@ const base = {
 
 const meta: Meta<Parameters<typeof renderContentGate>[0]> = {
   title: 'Domain/Organisms/ContentGate',
-  parameters: { docs: { description: { component: "Full-page gate shown when the reader's tier cannot open a document: readiness Badge + lock, heading, copy, current-vs-required tier pill, actions, live status line and an optional dev footer." } } },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Full-page gate shown when the reader's tier cannot open a document: readiness Badge + lock, heading, copy, current-vs-required tier comparison strip, actions, live status line and an optional dev footer.",
+      },
+    },
+  },
   argTypes: {
     id: { control: 'text', description: 'Optional `<section id>`.' },
     readinessLabel: { control: 'text', description: 'Readiness Badge label.' },

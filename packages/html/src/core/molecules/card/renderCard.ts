@@ -1,7 +1,6 @@
 import {
   cardClassNames,
   cardHeaderActionsClassNames,
-  type CardAccent,
   type CardLayout,
   type CardProps as CardCoreProps,
   type CardSurface,
@@ -25,7 +24,7 @@ export type CardProps = CardCoreProps & {
   href?: string;
 };
 
-export type { CardTitleLevel, CardSurface, CardAccent, CardLayout };
+export type { CardTitleLevel, CardSurface, CardLayout };
 
 const titleTag = (level: CardTitleLevel | undefined): CardTitleLevel =>
   level === 3 ? 3 : 2;
@@ -35,7 +34,7 @@ const BLOCK_TAG_RE = /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1
 export const renderCard = (args: CardProps): string => {
   const className = cardClassNames({
     surface: args.surface,
-    accent: args.accent,
+    featured: args.featured,
     current: args.current,
     layout: args.layout,
     elevated: args.elevated,

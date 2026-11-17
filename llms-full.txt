@@ -81,7 +81,7 @@ Set `data-theme="light"` (default) or `data-theme="dark"` on `<html>` (or `<body
 
 **Never** reference hue primitives (`--eevenkoto-color-turquoise-*`, `parchment-*`, `obsidian-*`, `gold-*`, `green-*`, `orange-*`, `crimson-*`, `purple-*`), rem ladder steps (`--eevenkoto-font-size-xs`…`3xl`), private `--_eevenkoto-*` bridges, `opacity` for disabled UI, global/container `text-box-trim`, raw `z-index` numbers outside `--eevenkoto-z-*`, or raw `oklch()` / hex in app or component stylesheets.
 
-For agents & site upgrades: feed Storybook `http://localhost:6006/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`), and see `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` when upgrading a consuming site. Contributors editing this package: see root `AGENTS.md`.
+For agents & site upgrades: feed Storybook `http://localhost:6006/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`), and see `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` when upgrading a consuming site. Contributors editing this package: see root `AGENTS.md`.
 
 ## Markup
 
@@ -161,7 +161,7 @@ export function Example() {
 - `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
 - `@eevenkoto/html` — reference vanilla renderers
 - `@eevenkoto/vue` / `@eevenkoto/astro` — Vue and Astro equivalents
-- Repo `CHANGELOG.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+- Repo `CHANGELOG.md`, `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
 ## @eevenkoto/vue
@@ -225,7 +225,7 @@ import { Button, Flow, Heading, Paragraph, Prose } from '@eevenkoto/vue';
 - `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
 - `@eevenkoto/html` — reference vanilla renderers
 - `@eevenkoto/react` / `@eevenkoto/astro` — React and Astro equivalents
-- Repo `CHANGELOG.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+- Repo `CHANGELOG.md`, `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
 ## @eevenkoto/astro
@@ -290,7 +290,7 @@ Components accept both native Astro slots (`default`, `header`, `headerActions`,
 - `@eevenkoto/css` — styles (required for appearance; consume / never rules and theming live there)
 - `@eevenkoto/core` — shared prop types and className helpers
 - `@eevenkoto/html` / `@eevenkoto/react` / `@eevenkoto/vue` — vanilla, React, and Vue equivalents
-- Repo `CHANGELOG.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+- Repo `CHANGELOG.md`, `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
 ## @eevenkoto/html
@@ -345,7 +345,7 @@ Class names and prop types come from `@eevenkoto/core`.
 - `@eevenkoto/css` — styles (consume / never rules and theming live there)
 - `@eevenkoto/core` — shared contract
 - `@eevenkoto/react` / `@eevenkoto/vue` / `@eevenkoto/astro` — framework wrappers over the same classes
-- Repo `CHANGELOG.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+- Repo `CHANGELOG.md`, `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
 ## @eevenkoto/core
@@ -389,7 +389,7 @@ Pair with `@eevenkoto/css` for styling.
 
 - `@eevenkoto/css` — tokens and component styles (consume / never rules live there)
 - `@eevenkoto/html` / `@eevenkoto/react` / `@eevenkoto/vue` / `@eevenkoto/astro` — markup bindings
-- Repo `CHANGELOG.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+- Repo `CHANGELOG.md`, `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).
 ## Packages
@@ -443,7 +443,7 @@ Do **not** put `href` on Button or wrap Button in an anchor. Same-site pages wit
 
 - **Theme switching:** Set `data-theme="light"` or `data-theme="dark"` on `<html>` (or scope a dark region with `data-surface-mode="dark"`). `@eevenkoto/css/styles.css` includes `tokens.css`, which flips all Tier 2 semantic color tokens automatically (`color-scheme: light` / `dark`) — no host-app dark-mode CSS patches are needed.
 - **Tokens & overrides:** Consume Tier 2 tokens (`--eevenkoto-color-*`, `--eevenkoto-font-size-*`, `--eevenkoto-font-weight-*`, `--eevenkoto-line-height-*`, `--eevenkoto-space-*`, `--eevenkoto-radius-*`, `--eevenkoto-line-width-*`, `--eevenkoto-duration-*`, `--eevenkoto-ease-*`, `--eevenkoto-z-*`) — never import `primitive-tokens.css` or set private `--_eevenkoto-*` component bridges. Customize components via public `--eevenkoto-<component>-*` variables (see [Tier 3 — Component scoping](/?path=/docs/foundations-color-tokens-tier-3-component-scoping--docs)).
-- **Upgrading an existing site:** Follow `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, `docs/migration-token-architecture-and-a11y.md`, and `CHANGELOG.md` (also bundled into `/llms-full.txt` for coding agents).
+- **Upgrading an existing site:** Follow `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md`, and `CHANGELOG.md` (also bundled into `/llms-full.txt` for coding agents).
 
 ## Authoring new components
 
@@ -465,7 +465,7 @@ This page is the **what exists** gallery. App consume rules are generated into `
 .eevenkoto-card {
   background-color: var(--eevenkoto-color-surface-raised);
   color: var(--eevenkoto-color-content-primary);
-  border-color: var(--eevenkoto-color-boundary-subtle);
+  border-color: var(--eevenkoto-color-boundary-strong);
 }
 ```
 
@@ -2551,7 +2551,7 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
   );
   --_eevenkoto-card-border-color: var(
     --eevenkoto-card-border-color,
-    var(--eevenkoto-color-boundary-subtle)
+    var(--eevenkoto-color-boundary-strong)
   );
   --_eevenkoto-card-shadow: var(--eevenkoto-card-shadow, none);
 
@@ -2561,7 +2561,7 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
   box-sizing: border-box;
   background: var(--_eevenkoto-card-bg);
   border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-card-border-color);
-  border-radius: var(--eevenkoto-radius-md);
+  border-radius: 0;
   box-shadow: var(--_eevenkoto-card-shadow);
   color: var(--_eevenkoto-card-text);
 }
@@ -2573,8 +2573,8 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 
 .eevenkoto-card--elevated {
   --eevenkoto-card-shadow:
-    0 0.1rem 0.2rem var(--eevenkoto-color-depth-shadow-umbra),
-    0 0.4rem 1.2rem var(--eevenkoto-color-depth-shadow-penumbra);
+    0.2rem 0.2rem 0 var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-penumbra);
 }
 ```
 
@@ -3036,7 +3036,7 @@ Also read: [Tier 3 — Component Scoping](/?path=/docs/foundations-color-tokens-
 | Chip | `<button class="eevenkoto-chip">` | unselected + md |
 | CatalogTile | `<a class="eevenkoto-catalog-tile" href="…">` | raised hairline row |
 | Menu | `<nav class="eevenkoto-menu">` + `ul` / `li` / `a` | raised scooped plaque + md; end-scoop rows from descendant `a` / `button` / `summary`; current page via `aria-current="page"` (`--embedded` flush sidebar) |
-| Card | `<article class="eevenkoto-card">` + `header` / `p` / `footer` | flat raised surface; title look remapped on `header`; `--elevated` / `--interactive` opt-in |
+| Card | `<article class="eevenkoto-card">` + `header` / `p` / `footer` | flat raised calling card (0px outer trim + inner passe-partout); title look remapped on `header`; `--featured` / `--current` / `--elevated` / `--interactive` opt-in |
 | Badge intent | `eevenkoto-badge eevenkoto-badge--success` | subtle + that intent |
 | Badge surface | `eevenkoto-badge eevenkoto-badge--solid` | solid + neutral |
 | Table | `<table class="eevenkoto-table">` + bare `tr` / `th` / `td` | default variant + row stripe; cells from host descendants (kinds via `--index` / `--numeric`) |
@@ -3324,7 +3324,7 @@ The grid wrapper is app layout. Keep gaps on `--eevenkoto-space-*` tokens.
 
 ## Adventure meta card
 
-Key facts about an adventure (level range, length, players, system). Use `Card` with `accent="top"` and a four-column `PropertyList`.
+Key facts about an adventure (level range, length, players, system). Use `Card` with `featured: true` and a four-column `PropertyList`.
 
 ```ts
 import '@eevenkoto/css/card.css';
@@ -3332,7 +3332,7 @@ import '@eevenkoto/css/property.css';
 import { renderCard, renderPropertyList } from '@eevenkoto/html';
 
 renderCard({
-  accent: 'top',
+  featured: true,
   surface: 'subtle',
   title: 'Seikkailun tiedot',
   titleLevel: 2,
@@ -3349,7 +3349,7 @@ renderCard({
 });
 ```
 
-Use `layout="cards"` with `PropertyItem.meta` for highlight tiles (value + secondary lines), and `Card accent="start"` for a single highlighted attribute box.
+Use `layout="cards"` with `PropertyItem.meta` for highlight tiles (value + secondary lines), and a subtle `Card` for a single highlighted attribute box.
 
 ## Highlight tile / attribute box
 
@@ -3361,7 +3361,6 @@ import '@eevenkoto/css/property.css';
 import { renderCard, renderPropertyList } from '@eevenkoto/html';
 
 renderCard({
-  accent: 'start',
   surface: 'subtle',
   bodyHtml: renderPropertyList({
     layout: 'cards',
@@ -3903,17 +3902,17 @@ _Source: `apps/storybook/src/core/atoms/Toast/Toast.mdx` · [Storybook](/?path=/
 
 _Source: `apps/storybook/src/core/molecules/Card/Card.mdx` · [Storybook](/?path=/docs/core-molecules-card--docs)_
 
-**Why:** Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned box so products do not invent one-off bordered panels for every teaser. Copy-paste HTML is a document (`article` + heading), not a div sandwich.
+**Why:** Item entries, paywall summaries, and other self-contained chunks need a surface with optional title and footer chrome — not a full page layout and not a bare Frame. Card owns that sectioned calling card so products do not invent one-off bordered panels for every teaser. Copy-paste HTML is a document (`article` + heading), not a div sandwich.
 
-**When:** **Do:** Author real `<article>` / `<header>` / `<h2>` / `<p>` / `<footer>` (or pass `title` / `body` / `footer` to `renderCard`). Group related content that reads as one unit (item card, gate summary, teaser). Omit unused sections — body-only is still a valid Card. Use `elevated` when the card should float above the page (overlays, pinned summaries). Keep the host as `<article>` and put `href` on an inner `<a>` so `header` / `footer` stay scoped to the card (eevenko.to `.doc-card`). Use [Catalog](/?path=/docs/core-molecules-catalog--docs) for dense entity indexes (`.entity-item`), not Card. **Don't:** Don’t use Card for dense entity indexes — that is Catalog. Don’t use Card for status or gate banners — that is Notice. Don’t nest Cards for decoration alone. Don’t swap the host to `<a>` — inner `header` / `footer` would belong to the page, not the card. Don’t mark a Card interactive without a real `href` (or button) — hover alone is not enough. Don’t bake product layout or paywall copy into the Card API — keep strings as data.
+**When:** **Do:** Author real `<article>` / `<header>` / `<h2>` / `<p>` / `<footer>` (or pass `title` / `body` / `footer` to `renderCard`). Group related content that reads as one unit (item card, gate summary, teaser). Omit unused sections — body-only is still a valid Card. Use `elevated` when the card should lift off the page with a crisp cardstock shadow (overlays, pinned summaries). Keep the host as `<article>` and put `href` on an inner `<a>` so `header` / `footer` stay scoped to the card (eevenko.to `.doc-card`). Use [Catalog](/?path=/docs/core-molecules-catalog--docs) for dense entity indexes (`.entity-item`), not Card. **Don't:** Don’t use Card for dense entity indexes — that is Catalog. Don’t use Card for status or gate banners — that is Notice. Don’t nest Cards for decoration alone. Don’t swap the host to `<a>` — inner `header` / `footer` would belong to the page, not the card. Don’t mark a Card interactive without a real `href` (or button) — hover alone is not enough. Don’t bake product layout or paywall copy into the Card API — keep strings as data.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `surface` | `'raised' \| 'subtle' \| 'sunken'` | `'raised'` | Surface fill tier (`eevenkoto-card--surface-*`). |
-| `accent` | `'none' \| 'top' \| 'start' \| 'outline'` | `'none'` | Structural gold edge or outline (`eevenkoto-card--accent-*`). |
-| `current` | `boolean` | `false` | Active/selected card ring + border (`eevenkoto-card--current`). |
+| `featured` | `boolean` | `false` | Highlights the card with a gilded brass passe-partout frame (`eevenkoto-card--featured`). |
+| `current` | `boolean` | `false` | Active/selected card with a club-turquoise passe-partout frame (`eevenkoto-card--current`). |
 | `layout` | `'stack' \| 'split'` | `'stack'` | Content/actions arrangement (`eevenkoto-card--split`). |
-| `elevated` | `boolean` | `false` | Adds depth shadow (`eevenkoto-card--elevated`). |
+| `elevated` | `boolean` | `false` | Adds crisp cardstock shadow (`eevenkoto-card--elevated`). |
 | `interactive` | `boolean` | `false` | Hover/focus affordance for inner link/button (`eevenkoto-card--interactive`). |
 | `title` | `string` | — | Heading text inside `<header>`. |
 | `titleHtml` | `string` | — | Trusted pre-rendered inline HTML for `<header>` heading (takes precedence over `title`). |
@@ -4354,7 +4353,7 @@ _Source: `apps/storybook/src/core/organisms/TierCard/TierCard.mdx` · [Storybook
 | `price` / `period` | `string` | — | Price and cadence. |
 | `description` / `descriptionHtml` | `string` | — | Summary copy. |
 | `features` | `ListItemProps[]` | — | Checklist items (`included` / `accent` / `excluded`). |
-| `featured` / `current` | `boolean` | `false` | Accent outline / active-tier ring. |
+| `featured` / `current` | `boolean` | `false` | Gilded brass passe-partout / club-turquoise active-tier passe-partout. |
 | `cta` | `LinkButtonProps` | — | Full-width CTA (or use `footer`). |
 | `id` | `string` | — | Host `<article id>`. |
 
@@ -4615,7 +4614,7 @@ _Source: `apps/storybook/src/domain/organisms/ContentGate/ContentGate.mdx` · [S
 | `lockLabel` | `string` | `'Locked'` | Accessible label for the lock Icon. |
 | `title` / `titleLevel` | `string` / `1 \| 2 \| 3` | **required** / `2` | Gate heading text and tag level. |
 | `description` / `descriptionHtml` | `string` | — | Plain-text or trusted HTML explanatory copy (or default slot/children). |
-| `currentTierLabel` / `requiredTierLabel` | `string` | **required** | Comparison pill values. |
+| `currentTierLabel` / `requiredTierLabel` | `string` | **required** | Comparison strip values. |
 | `currentTierPrefix` / `requiredTierPrefix` | `string` | `'Current tier:'` / `'Required tier:'` | Localised comparison prefixes. |
 | `statusMessage` | `string` | — | Live-region text; hidden when empty. |
 | `actions` / `footer` | `string` / slot | — | Primary action buttons and optional dev-only footer. |

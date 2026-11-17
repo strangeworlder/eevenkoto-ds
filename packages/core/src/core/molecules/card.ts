@@ -1,18 +1,17 @@
 export type CardTitleLevel = 2 | 3;
 export type CardSurface = 'raised' | 'subtle' | 'sunken';
-export type CardAccent = 'none' | 'top' | 'start' | 'outline';
 export type CardLayout = 'stack' | 'split';
 
 export interface CardProps {
   /** Surface fill tier. Default: `'raised'`. */
   surface?: CardSurface;
-  /** Decorative or structural accent edge/ring. Default: `'none'`. */
-  accent?: CardAccent;
-  /** Marks the card as the active/selected item with a high-contrast outer ring. Default: `false`. */
+  /** Highlights the card with a gilded brass passe-partout frame. Default: `false`. */
+  featured?: boolean;
+  /** Marks the card as the active/selected item with a club-turquoise passe-partout frame. Default: `false`. */
   current?: boolean;
   /** Content/actions layout. `'split'` aligns content on start and `actions` on end. Default: `'stack'`. */
   layout?: CardLayout;
-  /** Raises the surface with a depth shadow. Default: false */
+  /** Raises the surface with a crisp cardstock shadow. Default: false */
   elevated?: boolean;
   /** Hover / focus affordance for clickable cards. Default: false */
   interactive?: boolean;
@@ -33,17 +32,16 @@ export interface CardProps {
 
 export type CardClassNameProps = Pick<
   CardProps,
-  'surface' | 'accent' | 'current' | 'layout' | 'elevated' | 'interactive'
+  'surface' | 'featured' | 'current' | 'layout' | 'elevated' | 'interactive'
 >;
 
 export const cardClassNames = (props: CardClassNameProps = {}): string => {
   const surface = props.surface ?? 'raised';
-  const accent = props.accent ?? 'none';
   const layout = props.layout ?? 'stack';
   return [
     'eevenkoto-card',
     surface !== 'raised' ? `eevenkoto-card--surface-${surface}` : '',
-    accent !== 'none' ? `eevenkoto-card--accent-${accent}` : '',
+    props.featured ? 'eevenkoto-card--featured' : '',
     props.current ? 'eevenkoto-card--current' : '',
     layout !== 'stack' ? `eevenkoto-card--${layout}` : '',
     props.elevated ? 'eevenkoto-card--elevated' : '',

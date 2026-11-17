@@ -34,7 +34,7 @@ export const TierCard = ({
   ...rest
 }: TierCardComponentProps): ReactElement => {
   const classes = [
-    cardClassNames({ elevated: true, accent: featured ? 'outline' : 'none', current }),
+    cardClassNames({ elevated: true, featured, current }),
     tierCardClassNames({ featured, current }),
     className,
   ]

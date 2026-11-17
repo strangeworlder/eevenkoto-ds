@@ -1,9 +1,12 @@
 /* ==========================================================================
    EEVENKOTO DESIGN SYSTEM: CARD (TIER 3)
-   Self-contained surface. Host is <article class="eevenkoto-card"> wrapping
-   native header / flow / footer. Hand-authored markup needs no region BEM.
+   1920s Letterpress Calling Card / Programme Box.
+   Guillotine-cut 0px outer cardstock (boundary-strong) + 4px paper margin +
+   concave-scooped inner passe-partout rule (boundary-subtle).
+   Host is <article class="eevenkoto-card"> wrapping native header / flow / footer.
+   Hand-authored markup needs no region BEM.
    Title look is remapped on the card — do not compose the Heading atom.
-   Host alone = flat raised surface, no interaction affordance.
+   Host alone = flat raised calling card, no interaction affordance.
    ========================================================================== */
 
 .eevenkoto-card {
@@ -15,32 +18,26 @@
   );
   --_eevenkoto-card-border-color: var(
     --eevenkoto-card-border-color,
-    var(--eevenkoto-color-boundary-subtle)
+    var(--eevenkoto-color-boundary-strong)
   );
   --_eevenkoto-card-border-width: var(
     --eevenkoto-card-border-width,
     var(--eevenkoto-line-width-sm)
   );
-  --_eevenkoto-card-accent-top-width: var(
-    --eevenkoto-card-accent-top-width,
-    var(--_eevenkoto-card-border-width)
+  --_eevenkoto-card-inner-border-color: var(
+    --eevenkoto-card-inner-border-color,
+    var(--eevenkoto-color-boundary-subtle)
   );
-  --_eevenkoto-card-accent-top-color: var(
-    --eevenkoto-card-accent-top-color,
-    var(--_eevenkoto-card-border-color)
+  --_eevenkoto-card-inner-border-width: var(
+    --eevenkoto-card-inner-border-width,
+    var(--eevenkoto-line-width-sm)
   );
-  --_eevenkoto-card-accent-start-width: var(
-    --eevenkoto-card-accent-start-width,
-    var(--_eevenkoto-card-border-width)
+  --_eevenkoto-card-frame-gap: var(--eevenkoto-card-frame-gap, var(--eevenkoto-space-1));
+  --_eevenkoto-card-radius: var(--eevenkoto-card-radius, 0);
+  --_eevenkoto-card-inner-radius: var(
+    --eevenkoto-card-inner-radius,
+    var(--eevenkoto-radius-sm)
   );
-  --_eevenkoto-card-accent-start-color: var(
-    --eevenkoto-card-accent-start-color,
-    var(--_eevenkoto-card-border-color)
-  );
-  --_eevenkoto-card-ring-width: var(--eevenkoto-card-ring-width, 0px);
-  --_eevenkoto-card-ring-color: var(--eevenkoto-card-ring-color, transparent);
-  --_eevenkoto-card-ring-offset: var(--eevenkoto-card-ring-offset, 0px);
-  --_eevenkoto-card-radius: var(--eevenkoto-card-radius, var(--eevenkoto-radius-md));
   --_eevenkoto-card-pad-block: var(--eevenkoto-card-pad-block, var(--eevenkoto-space-3));
   --_eevenkoto-card-pad-inline: var(--eevenkoto-card-pad-inline, var(--eevenkoto-space-4));
   --_eevenkoto-card-gap: var(--eevenkoto-card-gap, var(--eevenkoto-space-2));
@@ -53,27 +50,45 @@
     --eevenkoto-card-divider-width,
     var(--eevenkoto-line-width-sm)
   );
+  --_eevenkoto-card-title-weight: var(
+    --eevenkoto-card-title-weight,
+    var(--eevenkoto-font-weight-bold)
+  );
+  --_eevenkoto-card-title-tracking: var(--eevenkoto-card-title-tracking, 0.015em);
 
+  position: relative;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   min-width: 0;
+  padding: var(--_eevenkoto-card-frame-gap);
   color: var(--_eevenkoto-card-text);
   background: var(--_eevenkoto-card-bg);
   border: var(--_eevenkoto-card-border-width) solid var(--_eevenkoto-card-border-color);
-  border-block-start: var(--_eevenkoto-card-accent-top-width) solid
-    var(--_eevenkoto-card-accent-top-color);
-  border-inline-start: var(--_eevenkoto-card-accent-start-width) solid
-    var(--_eevenkoto-card-accent-start-color);
   border-radius: var(--_eevenkoto-card-radius);
-  outline: var(--_eevenkoto-card-ring-width) solid var(--_eevenkoto-card-ring-color);
-  outline-offset: var(--_eevenkoto-card-ring-offset);
   box-shadow: var(--_eevenkoto-card-shadow);
   overflow: hidden;
   font-family: var(--eevenkoto-font-sans);
   font-size: var(--eevenkoto-font-size-body-md);
   line-height: var(--eevenkoto-line-height-body);
   text-decoration: none;
+}
+
+.eevenkoto-card::before {
+  content: '';
+  position: absolute;
+  inset: var(--_eevenkoto-card-frame-gap);
+  border: var(--_eevenkoto-card-inner-border-width) solid
+    var(--_eevenkoto-card-inner-border-color);
+  border-radius: 0;
+  pointer-events: none;
+}
+
+@supports (corner-shape: scoop) {
+  .eevenkoto-card::before {
+    border-radius: var(--_eevenkoto-card-inner-radius);
+    corner-shape: scoop;
+  }
 }
 
 .eevenkoto-card > a {
@@ -103,7 +118,8 @@
   padding: var(--_eevenkoto-card-pad-block) var(--_eevenkoto-card-pad-inline);
   font-family: var(--eevenkoto-font-serif);
   font-size: var(--eevenkoto-font-size-heading-4);
-  font-weight: var(--eevenkoto-font-weight-semibold);
+  font-weight: var(--_eevenkoto-card-title-weight);
+  letter-spacing: var(--_eevenkoto-card-title-tracking);
   line-height: var(--eevenkoto-line-height-snug);
   border-block-end: var(--_eevenkoto-card-divider-width) solid
     var(--_eevenkoto-card-divider-color);
@@ -119,6 +135,7 @@
   font-family: var(--eevenkoto-font-sans);
   font-size: var(--eevenkoto-font-size-body-sm);
   font-weight: var(--eevenkoto-font-weight-regular);
+  letter-spacing: 0;
 }
 
 .eevenkoto-card :where(header) :is(h1, h2, h3, h4, h5, h6),
@@ -238,31 +255,29 @@
   --eevenkoto-card-bg: var(--eevenkoto-color-surface-sunken);
 }
 
-/* --- ACCENTS --- */
+/* --- FEATURED (gilded brass passe-partout) --- */
 
-.eevenkoto-card--accent-top {
-  --eevenkoto-card-accent-top-width: var(--eevenkoto-line-width-lg);
-  --eevenkoto-card-accent-top-color: var(--eevenkoto-color-content-accent-strong);
-}
-
-.eevenkoto-card--accent-start {
-  --eevenkoto-card-accent-start-width: var(--eevenkoto-line-width-lg);
-  --eevenkoto-card-accent-start-color: var(--eevenkoto-color-content-accent-strong);
-}
-
-.eevenkoto-card--accent-outline {
+.eevenkoto-card--featured {
   --eevenkoto-card-border-color: var(--eevenkoto-color-content-accent-strong);
   --eevenkoto-card-border-width: var(--eevenkoto-line-width-md);
+  --eevenkoto-card-inner-border-color: var(--eevenkoto-color-content-accent);
+  --eevenkoto-card-divider-color: var(--eevenkoto-color-content-accent);
 }
 
-/* --- CURRENT / ACTIVE --- */
+/* --- CURRENT / ACTIVE (club-turquoise passe-partout) --- */
 
 .eevenkoto-card--current {
-  --eevenkoto-card-border-color: var(--eevenkoto-color-content-accent-strong);
+  --eevenkoto-card-border-color: var(--eevenkoto-color-feedback-info-icon);
   --eevenkoto-card-border-width: var(--eevenkoto-line-width-md);
-  --eevenkoto-card-ring-width: var(--eevenkoto-line-width-md);
-  --eevenkoto-card-ring-color: var(--eevenkoto-color-boundary-focus-outer);
-  --eevenkoto-card-ring-offset: 2px;
+  --eevenkoto-card-inner-border-color: var(--eevenkoto-color-feedback-info-border);
+  --eevenkoto-card-divider-color: var(--eevenkoto-color-feedback-info-border);
+}
+
+.eevenkoto-card--featured.eevenkoto-card--current {
+  --eevenkoto-card-border-color: var(--eevenkoto-color-feedback-info-icon);
+  --eevenkoto-card-border-width: var(--eevenkoto-line-width-md);
+  --eevenkoto-card-inner-border-color: var(--eevenkoto-color-content-accent);
+  --eevenkoto-card-divider-color: var(--eevenkoto-color-content-accent);
 }
 
 /* --- SPLIT LAYOUT --- */
@@ -277,7 +292,11 @@
   gap: var(--eevenkoto-space-4);
 }
 
-.eevenkoto-card--split:not(:has(> a)),
+.eevenkoto-card--split:not(:has(> a)) {
+  padding: calc(var(--_eevenkoto-card-frame-gap) + var(--_eevenkoto-card-pad-block))
+    calc(var(--_eevenkoto-card-frame-gap) + var(--_eevenkoto-card-pad-inline));
+}
+
 .eevenkoto-card--split > a {
   padding: var(--_eevenkoto-card-pad-block) var(--_eevenkoto-card-pad-inline);
 }
@@ -306,12 +325,12 @@
   border-block-start: 0;
 }
 
-/* --- ELEVATED --- */
+/* --- ELEVATED (crisp cardstock shadow) --- */
 
 .eevenkoto-card--elevated {
   --eevenkoto-card-shadow:
-    0 0.1rem 0.2rem var(--eevenkoto-color-depth-shadow-umbra),
-    0 0.4rem 1.2rem var(--eevenkoto-color-depth-shadow-penumbra);
+    0.2rem 0.2rem 0 var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-penumbra);
 }
 
 /* --- INTERACTIVE (inner link / button host) --- */
@@ -319,25 +338,29 @@
 .eevenkoto-card--interactive {
   cursor: pointer;
   transition:
+    background-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-in-out),
     border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-in-out),
     box-shadow var(--eevenkoto-duration-2) var(--eevenkoto-ease-in-out);
 }
 
 .eevenkoto-card--interactive:hover:not([aria-disabled='true']):not(:has(a[aria-disabled='true'])),
-.eevenkoto-card--interactive:has(a:hover:not([aria-disabled='true'])) {
+.eevenkoto-card--interactive:not([aria-disabled='true']):has(a:hover:not([aria-disabled='true'])) {
   --eevenkoto-card-border-color: var(--eevenkoto-color-control-primary-background-hover);
+  --eevenkoto-card-inner-border-color: var(--eevenkoto-color-feedback-info-border);
+  --eevenkoto-card-divider-color: var(--eevenkoto-color-feedback-info-border);
   --eevenkoto-card-bg: var(--eevenkoto-color-control-secondary-background-hover);
+  --eevenkoto-card-shadow:
+    0.2rem 0.2rem 0 var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-penumbra);
 }
 
 .eevenkoto-card--interactive:focus-visible,
 .eevenkoto-card--interactive:has(a:focus-visible) {
   outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
   outline-offset: 2px;
-}
-
-.eevenkoto-card--current.eevenkoto-card--interactive:focus-visible,
-.eevenkoto-card--current.eevenkoto-card--interactive:has(a:focus-visible) {
-  outline-offset: var(--eevenkoto-space-1);
+  box-shadow:
+    0 0 0 2px var(--eevenkoto-color-boundary-focus-inner),
+    var(--_eevenkoto-card-shadow);
 }
 
 .eevenkoto-card--interactive a:focus-visible {
@@ -349,17 +372,35 @@
   cursor: not-allowed;
   --eevenkoto-card-bg: var(--eevenkoto-color-control-secondary-background-disabled);
   --eevenkoto-card-text: var(--eevenkoto-color-content-disabled);
+  --eevenkoto-card-muted: var(--eevenkoto-color-content-disabled);
   --eevenkoto-card-border-color: var(--eevenkoto-color-control-secondary-border-disabled);
+  --eevenkoto-card-inner-border-color: var(--eevenkoto-color-control-secondary-border-disabled);
+  --eevenkoto-card-divider-color: var(--eevenkoto-color-control-secondary-border-disabled);
+  --eevenkoto-card-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-card--interactive {
+    transition: none;
+  }
 }
 
 @media (forced-colors: active) {
-  .eevenkoto-card {
+  .eevenkoto-card,
+  .eevenkoto-card::before {
     border-color: CanvasText;
     box-shadow: none;
   }
 
-  .eevenkoto-card--current {
+  .eevenkoto-card--current,
+  .eevenkoto-card--featured {
+    border-color: Highlight;
+  }
+
+  .eevenkoto-card--interactive:focus-visible,
+  .eevenkoto-card--interactive:has(a:focus-visible) {
     outline-color: Highlight;
+    box-shadow: none;
   }
 
   .eevenkoto-card :where(header),

@@ -28,7 +28,7 @@ const {
   ...rest
 } = Astro.props;
 const classes = [
-  cardClassNames({ elevated: true, accent: featured ? 'outline' : 'none', current }),
+  cardClassNames({ elevated: true, featured, current }),
   tierCardClassNames({ featured, current }),
   classProp,
   className,

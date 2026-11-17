@@ -1832,17 +1832,17 @@ describe('0.12.0 Wave 1 — Swatch & Component Upgrades across HTML, React, and 
     );
   });
 
-  it('Card surfaces, accents, split layout, current state, titleHtml, and Table rich colSpan cells', async () => {
+  it('Card surfaces, featured and current passe-partouts, split layout, titleHtml, and Table rich colSpan cells', async () => {
     const cardCls = cardClassNames({
       surface: 'sunken',
-      accent: 'top',
+      featured: true,
       current: true,
       layout: 'split',
       elevated: true,
     });
     const cardHtml = renderCard({
       surface: 'sunken',
-      accent: 'top',
+      featured: true,
       current: true,
       layout: 'split',
       elevated: true,
@@ -1852,6 +1852,7 @@ describe('0.12.0 Wave 1 — Swatch & Component Upgrades across HTML, React, and 
       actions: '<a href="/tili">Hallitse</a>',
     });
     expect(cardHtml).toContain(cardCls);
+    expect(cardHtml).toContain('eevenkoto-card--featured');
     expect(cardHtml).toContain('<span class="user-name">Seikkailija</span>');
     expect(cardHtml).toContain('eevenkoto-card__header-actions');
 
@@ -2107,6 +2108,7 @@ describe('0.12.0 Wave 2 — new components across HTML, React, and Vue', () => {
     const tcCls = tierCardClassNames({ featured: true, current: true });
     const tc = renderTierCard(tier);
     expect(tc).toContain(tcCls);
+    expect(tc).toContain('eevenkoto-card--featured');
     expect(tc).toContain('eevenkoto-card--current');
     expect(tc).toContain('eevenkoto-list__item--excluded');
     expect(renderToStaticMarkup(createElement(TierCard, tier))).toContain(tcCls);

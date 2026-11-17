@@ -34,7 +34,7 @@ const meta: Meta<TierCardProps> = {
     docs: {
       description: {
         component:
-          'Membership/pricing comparison card: name + badge, price, summary, checklist and full-width CTA. `featured` adds an accent outline; `current` marks the active tier.',
+          'Membership/pricing comparison card: name + badge, price, summary, checklist and full-width CTA. `featured` adds a gilded brass passe-partout; `current` marks the active tier with club turquoise.',
       },
     },
   },

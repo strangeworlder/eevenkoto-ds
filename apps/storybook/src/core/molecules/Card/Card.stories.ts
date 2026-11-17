@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect } from 'storybook/test';
 import '@eevenkoto/css/card.css';
 import '@eevenkoto/css/button.css';
 import '@eevenkoto/css/icon.css';
@@ -11,7 +12,7 @@ const meta: Meta<CardProps> = {
     docs: {
       description: {
         component:
-          'Self-contained content surface: `article` + native `header` / flow / `footer`, with surface tiers, accent edges, current-selection ring, header actions, and split banner layout.',
+          '1920s Letterpress Calling Card: `article` + native `header` / flow / `footer` with 0px outer cardstock trim, 4px paper margin, concave-scooped inner passe-partout, surface tiers, gilded brass `featured` and club-turquoise `current` frames, header actions, and split banner layout.',
       },
     },
   },
@@ -24,14 +25,7 @@ const meta: Meta<CardProps> = {
         defaultValue: { summary: 'raised' },
       },
     },
-    accent: {
-      control: 'select',
-      options: ['none', 'top', 'start', 'outline'],
-      table: {
-        type: { summary: "'none' | 'top' | 'start' | 'outline'" },
-        defaultValue: { summary: 'none' },
-      },
-    },
+    featured: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
     current: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
     layout: {
       control: 'inline-radio',
@@ -52,7 +46,10 @@ const meta: Meta<CardProps> = {
     headerActions: { control: 'text', description: 'Trailing actions HTML inside `<header>`.' },
     body: { control: 'text', description: 'Body copy.' },
     bodyHtml: { control: 'text', description: 'Trusted pre-rendered HTML body copy.' },
-    content: { control: 'text', description: 'Pre-rendered main body HTML (`children` / default slot in framework wrappers).' },
+    content: {
+      control: 'text',
+      description: 'Pre-rendered main body HTML (`children` / default slot in framework wrappers).',
+    },
     actions: { control: 'text', description: 'Card actions HTML.' },
     footer: { control: 'text', description: 'Footer HTML.' },
     elevated: { control: 'boolean', table: { defaultValue: { summary: 'false' } } },
@@ -71,6 +68,26 @@ export const Default: Story = {
     body: 'While you wear this cloak with its hood up, Wisdom (Perception) checks made to see you have disadvantage.',
     footer: 'Wondrous item, uncommon',
   },
+  play: async ({ canvasElement }) => {
+    const card = canvasElement.querySelector<HTMLElement>('.eevenkoto-card');
+    const header = card?.querySelector<HTMLElement>('header');
+    const footer = card?.querySelector<HTMLElement>('footer');
+    expect(card).not.toBeNull();
+    expect(header).not.toBeNull();
+    expect(footer).not.toBeNull();
+
+    const cardStyle = getComputedStyle(card!);
+    const headerStyle = getComputedStyle(header!);
+    const footerStyle = getComputedStyle(footer!);
+
+    expect(cardStyle.borderRadius).toBe('0px');
+    expect(parseFloat(cardStyle.paddingTop)).toBeGreaterThanOrEqual(4);
+    expect(parseFloat(cardStyle.paddingLeft)).toBeGreaterThanOrEqual(4);
+    expect(parseFloat(cardStyle.borderTopWidth)).toBe(1);
+    expect(parseFloat(headerStyle.borderBottomWidth)).toBe(1);
+    expect(parseFloat(footerStyle.borderTopWidth)).toBe(1);
+    expect(parseFloat(headerStyle.fontWeight)).toBeGreaterThanOrEqual(700);
+  },
 };
 
 export const Surfaces: Story = {
@@ -79,7 +96,7 @@ export const Surfaces: Story = {
     renderCard({
       surface: 'raised',
       title: 'Raised (default)',
-      body: 'Standard parchment / obsidian surface for standalone item and feature cards.',
+      body: 'Standard parchment / obsidian calling card for standalone item and feature entries.',
     }) +
     renderCard({
       surface: 'subtle',
@@ -94,37 +111,50 @@ export const Surfaces: Story = {
     `</div>`,
 };
 
-export const Accents: Story = {
+export const Featured: Story = {
   render: () =>
     `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:var(--eevenkoto-space-4)">` +
     renderCard({
-      accent: 'none',
-      title: 'None (default)',
-      body: 'Hairline subtle boundary.',
+      title: 'Standard',
+      body: '1px strong outer trim and subtle inner passe-partout.',
     }) +
     renderCard({
-      accent: 'top',
-      title: 'Top accent',
-      body: 'Thick top rule for tier cards and featured compendium blocks.',
+      featured: true,
+      title: 'Featured',
+      body: '2px gilded brass outer trim with matching brass inner passe-partout and dividers.',
     }) +
     renderCard({
-      accent: 'start',
-      title: 'Start accent',
-      body: 'Inline-start bar for lore callouts and subscription banners.',
+      current: true,
+      title: 'Current',
+      body: '2px club-turquoise outer trim with turquoise inner passe-partout.',
     }) +
     renderCard({
-      accent: 'outline',
-      title: 'Outline accent',
-      body: 'Strong gold frame around emphasized or featured options.',
+      featured: true,
+      current: true,
+      title: 'Featured & current',
+      body: 'Club-turquoise outer trim paired with a gilded brass inner passe-partout.',
     }) +
     `</div>`,
+  play: async ({ canvasElement }) => {
+    const cards = canvasElement.querySelectorAll<HTMLElement>('.eevenkoto-card');
+    expect(cards.length).toBe(4);
+    const standardStyle = getComputedStyle(cards[0]);
+    const featuredStyle = getComputedStyle(cards[1]);
+    const currentStyle = getComputedStyle(cards[2]);
+    const bothStyle = getComputedStyle(cards[3]);
+
+    expect(standardStyle.borderRadius).toBe('0px');
+    expect(parseFloat(standardStyle.borderTopWidth)).toBe(1);
+    expect(parseFloat(featuredStyle.borderTopWidth)).toBe(2);
+    expect(parseFloat(currentStyle.borderTopWidth)).toBe(2);
+    expect(parseFloat(bothStyle.borderTopWidth)).toBe(2);
+  },
 };
 
 export const SplitBanner: Story = {
   args: {
     layout: 'split',
     surface: 'subtle',
-    accent: 'start',
     title: 'Unlock full compendium access',
     body: 'Read every creature statblock, spell, and workshop export with an active supporter tier.',
     actions: renderButton({ label: 'Compare tiers', variant: 'primary' }),
@@ -162,7 +192,7 @@ export const HeaderActions: Story = {
 export const Elevated: Story = {
   args: {
     title: 'Cloak of Elvenkind',
-    body: 'Raised above the page for overlays and pinned summaries.',
+    body: 'Raised above the page with a crisp cardstock shadow for overlays and pinned summaries.',
     footer: 'Wondrous item, uncommon',
     elevated: true,
   },
@@ -179,6 +209,6 @@ export const Interactive: Story = {
 
 export const BodyOnly: Story = {
   args: {
-    body: 'Sections are opt-in — a card with only a body is still a valid card.',
+    body: 'Sections are opt-in — a card with only a body is still a valid calling card.',
   },
 };

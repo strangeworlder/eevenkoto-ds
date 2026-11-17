@@ -60,7 +60,7 @@ The grid wrapper is app layout. Keep gaps on `--eevenkoto-space-*` tokens.
 
 ## Adventure meta card
 
-Key facts about an adventure (level range, length, players, system). Use `Card` with `accent="top"` and a four-column `PropertyList`.
+Key facts about an adventure (level range, length, players, system). Use `Card` with `featured: true` and a four-column `PropertyList`.
 
 ```ts
 import '@eevenkoto/css/card.css';
@@ -68,7 +68,7 @@ import '@eevenkoto/css/property.css';
 import { renderCard, renderPropertyList } from '@eevenkoto/html';
 
 renderCard({
-  accent: 'top',
+  featured: true,
   surface: 'subtle',
   title: 'Seikkailun tiedot',
   titleLevel: 2,
@@ -85,7 +85,7 @@ renderCard({
 });
 ```
 
-Use `layout="cards"` with `PropertyItem.meta` for highlight tiles (value + secondary lines), and `Card accent="start"` for a single highlighted attribute box.
+Use `layout="cards"` with `PropertyItem.meta` for highlight tiles (value + secondary lines), and a subtle `Card` for a single highlighted attribute box.
 
 ## Highlight tile / attribute box
 
@@ -97,7 +97,6 @@ import '@eevenkoto/css/property.css';
 import { renderCard, renderPropertyList } from '@eevenkoto/html';
 
 renderCard({
-  accent: 'start',
   surface: 'subtle',
   bodyHtml: renderPropertyList({
     layout: 'cards',

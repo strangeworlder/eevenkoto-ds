@@ -26,7 +26,7 @@ export const TierCard = defineComponent({
     return () => {
       const className = `${cardClassNames({
         elevated: true,
-        accent: props.featured ? 'outline' : 'none',
+        featured: props.featured,
         current: props.current,
       })} ${tierCardClassNames({ featured: props.featured, current: props.current })}`;
       const footer = slots.footer

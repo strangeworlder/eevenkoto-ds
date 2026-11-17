@@ -146,6 +146,9 @@ describe('Documentation, Storybook MDX & LLM feed integrity', () => {
       'eevenkoto-u-visually-hidden',
       'eevenkoto-badge--pill',
       'eevenkoto-badge--rounded',
+      'eevenkoto-card--accent-top',
+      'eevenkoto-card--accent-start',
+      'eevenkoto-card--accent-outline',
     ]);
 
     const violations: string[] = [];

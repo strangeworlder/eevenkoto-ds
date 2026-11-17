@@ -46,6 +46,6 @@ Class names and prop types come from `@eevenkoto/core`.
 - `@eevenkoto/css` — styles (consume / never rules and theming live there)
 - `@eevenkoto/core` — shared contract
 - `@eevenkoto/react` / `@eevenkoto/vue` / `@eevenkoto/astro` — framework wrappers over the same classes
-- Repo `CHANGELOG.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
+- Repo `CHANGELOG.md`, `docs/migration-0.14-calling-card-surfaces.md`, `docs/migration-0.13-playbill-chrome-and-icons.md`, `docs/migration-0.12-frontend-gap-resolution.md`, and `docs/migration-token-architecture-and-a11y.md` — upgrade & token migration checklists for consuming sites
 
 For agents: feed Storybook `/llms.txt` or `/llms-full.txt` (generated via `npm run generate:llms`).

@@ -28,7 +28,7 @@ export const DoDont = ({ do: doContent, dont: dontContent, doCaption, dontCaptio
 
 # Tooltip Card
 
-Header / body / footer on a popover-like surface: `surface-raised` plus the two depth shadows. Standalone it reads as a compact elevated card; nested in [Popover](?path=/docs/core-atoms-popover--docs) it sheds its own chrome.
+Header / body / footer Calling Card preview surface: `surface-raised` with a `0px` outer trim, `4px` paper margin, concave-scooped inner passe-partout, and crisp cardstock shadow. Standalone it reads as a compact elevated Calling Card; nested in [Popover](?path=/docs/core-atoms-popover--docs) it snaps Popover to `0px` Calling Card trim and sheds its duplicate outer stroke while retaining the inner passe-partout.
 
 <Canvas of={TooltipCardStories.Default} />
 
@@ -116,7 +116,7 @@ Set `flush` (`.eevenkoto-tooltip-card--flush`) to zero body padding (`--eevenkot
 
 <Canvas of={TooltipCardStories.InsidePopover} />
 
-As a direct Popover child it drops its own border, radius, and shadow and zeroes the panel padding, so the two surfaces never double up.
+As a direct Popover child it snaps Popover to `0px` Calling Card trim, sheds its duplicate outer border and shadow, zeroes the panel padding, and keeps the inner passe-partout so the two surfaces never double up.
 
 ## Anatomy
 
@@ -159,13 +159,17 @@ import { renderTooltipCard } from '@eevenkoto/html';
 | `--eevenkoto-tooltip-card-text` | Body ink (`content-primary`) |
 | `--eevenkoto-tooltip-card-muted` | Muted metadata/footer ink (`content-secondary`) |
 | `--eevenkoto-tooltip-card-divider` | Header/footer divider hairline (`boundary-subtle`) |
-| `--eevenkoto-tooltip-card-border-color` | Standalone frame border (`boundary-subtle`) |
-| `--eevenkoto-tooltip-card-border-width` | Standalone frame border width (`line-width-sm`) |
-| `--eevenkoto-tooltip-card-radius` | Standalone corner radius (`radius-md`) |
-| `--eevenkoto-tooltip-card-pad-block` / `--eevenkoto-tooltip-card-pad-inline` | Header and footer padding |
+| `--eevenkoto-tooltip-card-border-color` | Standalone outer trim border (`boundary-strong`) |
+| `--eevenkoto-tooltip-card-border-width` | Standalone outer trim border width (`line-width-sm`) |
+| `--eevenkoto-tooltip-card-inner-border-color` | Inner passe-partout hairline (`boundary-subtle`) |
+| `--eevenkoto-tooltip-card-inner-border-width` | Inner passe-partout and compartment divider width (`line-width-sm`) |
+| `--eevenkoto-tooltip-card-frame-gap` | Paper margin between outer trim and inner passe-partout (`space-1`) |
+| `--eevenkoto-tooltip-card-radius` | Standalone outer cardstock corner radius (`0`) |
+| `--eevenkoto-tooltip-card-inner-radius` | Inner passe-partout corner scoop radius (`radius-sm`) |
+| `--eevenkoto-tooltip-card-pad-block` / `--eevenkoto-tooltip-card-pad-inline` | Header and footer padding (`space-2` / `space-3`) |
 | `--eevenkoto-tooltip-card-body-pad` | Scrollable body padding (`0` when `flush`) |
-| `--eevenkoto-tooltip-card-gap` | Gap inside body sections |
-| `--eevenkoto-tooltip-card-shadow` | Standalone elevation shadow |
+| `--eevenkoto-tooltip-card-gap` | Gap inside body sections (`space-1`) |
+| `--eevenkoto-tooltip-card-shadow` | Standalone crisp cardstock elevation shadow |
 | `--eevenkoto-tooltip-card-max-inline-size` | Max card inline width (`32rem`) |
 | `--eevenkoto-tooltip-card-body-max-block-size` | Max scrollable body height (`16rem`) |
 

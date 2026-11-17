@@ -77,4 +77,28 @@ describe('Spacing & vertical rhythm architecture', () => {
     );
     expect(noticeCss).toContain('--eevenkoto-prose-link-visited: currentColor;');
   });
+
+  it('gives Card, NpcCard, ContentGate, and TooltipCard Letterpress Calling Card passe-partout framing and Stamp strips', () => {
+    const cardCss = readCss('core/molecules/card.css');
+    const npcCardCss = readCss('domain/molecules/npc-card.css');
+    const contentGateCss = readCss('domain/organisms/content-gate.css');
+    const tooltipCardCss = readCss('core/molecules/tooltip-card.css');
+
+    expect(cardCss).toContain('border-radius: var(--_eevenkoto-card-radius);');
+    expect(cardCss).toContain('--_eevenkoto-card-radius: var(--eevenkoto-card-radius, 0);');
+    expect(cardCss).toContain('@supports (corner-shape: scoop)');
+    expect(cardCss).toContain('corner-shape: scoop;');
+    expect(cardCss).toContain('--_eevenkoto-card-title-tracking: var(--eevenkoto-card-title-tracking, 0.015em);');
+
+    expect(npcCardCss).toContain('corner-shape: scoop;');
+    expect(npcCardCss).toContain('letter-spacing: 0.015em;');
+
+    expect(contentGateCss).toContain('corner-shape: scoop;');
+    expect(contentGateCss).toContain('border-radius: 0;');
+    expect(contentGateCss).not.toContain('--eevenkoto-radius-full');
+
+    expect(tooltipCardCss).toContain('corner-shape: scoop;');
+    expect(tooltipCardCss).toContain('letter-spacing: 0.015em;');
+    expect(tooltipCardCss).toContain('--eevenkoto-popover-radius: 0;');
+  });
 });

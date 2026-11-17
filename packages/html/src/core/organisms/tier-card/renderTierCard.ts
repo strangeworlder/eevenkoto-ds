@@ -18,7 +18,7 @@ export const renderTierCard = (args: TierCardProps): string => {
   const level = args.nameLevel ?? 2;
   const className = `${cardClassNames({
     elevated: true,
-    accent: args.featured ? 'outline' : 'none',
+    featured: args.featured,
     current: args.current,
   })} ${tierCardClassNames(args)}`;
 

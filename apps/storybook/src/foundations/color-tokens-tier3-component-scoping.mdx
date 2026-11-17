@@ -624,7 +624,7 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
   );
   --_eevenkoto-card-border-color: var(
     --eevenkoto-card-border-color,
-    var(--eevenkoto-color-boundary-subtle)
+    var(--eevenkoto-color-boundary-strong)
   );
   --_eevenkoto-card-shadow: var(--eevenkoto-card-shadow, none);
 
@@ -634,7 +634,7 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
   box-sizing: border-box;
   background: var(--_eevenkoto-card-bg);
   border: var(--eevenkoto-line-width-sm) solid var(--_eevenkoto-card-border-color);
-  border-radius: var(--eevenkoto-radius-md);
+  border-radius: 0;
   box-shadow: var(--_eevenkoto-card-shadow);
   color: var(--_eevenkoto-card-text);
 }
@@ -646,8 +646,8 @@ The live Button uses the private-bridge contract below **plus** the [Gradients a
 
 .eevenkoto-card--elevated {
   --eevenkoto-card-shadow:
-    0 0.1rem 0.2rem var(--eevenkoto-color-depth-shadow-umbra),
-    0 0.4rem 1.2rem var(--eevenkoto-color-depth-shadow-penumbra);
+    0.2rem 0.2rem 0 var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-penumbra);
 }
 ```
 
