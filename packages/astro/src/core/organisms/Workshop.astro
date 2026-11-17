@@ -26,6 +26,7 @@ const {
   idSuffix,
   label,
   layout,
+  width,
   sticky,
   icon,
   title,
@@ -39,7 +40,7 @@ const {
   ...rest
 } = Astro.props;
 
-const classes = [workshopClassNames({ layout, sticky }), classProp, className]
+const classes = [workshopClassNames({ layout, width, sticky }), classProp, className]
   .filter(Boolean)
   .join(' ');
 const elementId = id ?? (idSuffix ? `workshop${idSuffix}` : undefined);

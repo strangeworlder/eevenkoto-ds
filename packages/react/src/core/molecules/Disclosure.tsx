@@ -27,6 +27,7 @@ export const Disclosure = ({
   label,
   summaryText,
   variant,
+  size,
   open,
   emphasized,
   body,
@@ -37,7 +38,7 @@ export const Disclosure = ({
   className,
   ...rest
 }: DisclosureComponentProps): ReactElement => {
-  const classes = [disclosureClassNames({ variant, emphasized }), className]
+  const classes = [disclosureClassNames({ variant, size, emphasized }), className]
     .filter(Boolean)
     .join(' ');
 

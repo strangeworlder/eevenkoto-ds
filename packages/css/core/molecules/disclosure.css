@@ -31,6 +31,10 @@
     --eevenkoto-disclosure-pad-inline,
     var(--eevenkoto-space-4)
   );
+  --_eevenkoto-disclosure-font-size: var(
+    --eevenkoto-disclosure-font-size,
+    var(--eevenkoto-font-size-body-md)
+  );
 
   display: block;
   min-inline-size: 0;
@@ -38,7 +42,15 @@
   color: var(--_eevenkoto-disclosure-text);
   border: var(--_eevenkoto-disclosure-border-width) solid var(--_eevenkoto-disclosure-border-color);
   border-radius: var(--_eevenkoto-disclosure-radius);
+  font-size: var(--_eevenkoto-disclosure-font-size);
   box-sizing: border-box;
+}
+
+.eevenkoto-disclosure--sm {
+  --eevenkoto-disclosure-pad-block: var(--eevenkoto-space-2);
+  --eevenkoto-disclosure-pad-inline: var(--eevenkoto-space-3);
+  --eevenkoto-disclosure-radius: var(--eevenkoto-radius-sm);
+  --eevenkoto-disclosure-font-size: var(--eevenkoto-font-size-body-sm);
 }
 
 .eevenkoto-disclosure--subtle {
@@ -61,8 +73,9 @@
 
 .eevenkoto-disclosure__summary {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--eevenkoto-space-3);
+  gap: var(--eevenkoto-space-2) var(--eevenkoto-space-3);
   padding: var(--_eevenkoto-disclosure-pad-block) var(--_eevenkoto-disclosure-pad-inline);
   cursor: pointer;
   list-style: none;
@@ -86,11 +99,13 @@
 
 .eevenkoto-disclosure__summary-label {
   font-weight: var(--eevenkoto-font-weight-semibold);
+  min-inline-size: 0;
 }
 
 .eevenkoto-disclosure__summary-text {
   color: var(--_eevenkoto-disclosure-muted);
   font-size: var(--eevenkoto-font-size-body-sm);
+  min-inline-size: 0;
 }
 
 .eevenkoto-disclosure__summary-meta {

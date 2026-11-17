@@ -1,0 +1,132 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SwatchButtonStories from './SwatchButton.stories';
+
+<Meta of={SwatchButtonStories} />
+
+# SwatchButton
+
+An interactive color-role selector (`<button type="button">`) styled as a 1920s tactile control plate with concave scooped corners (`corner-shape: scoop`), a full-bleed swatch background (`--eevenkoto-swatch-button-color`), automatic `contrast-color()` foreground text/icon contrast, a three-tier text stack (`roleLabel`, `label`, `hint`), and an engraved `chevron-down` [Icon](?path=/docs/core-atoms-icon--docs) that rotates when `expanded` is `true`.
+
+<Canvas of={SwatchButtonStories.Default} />
+
+```html
+<button type="button" class="eevenkoto-swatch-button" style="--eevenkoto-swatch-button-color:#2c5e4f" aria-expanded="false">
+  <span class="eevenkoto-swatch-button__content">
+    <span class="eevenkoto-swatch-button__role">60 % Pääväri</span>
+    <span class="eevenkoto-swatch-button__label">Sammaleenvihreä</span>
+    <span class="eevenkoto-swatch-button__hint">Vaihda sävy</span>
+  </span>
+  <svg class="eevenkoto-icon eevenkoto-icon--sm eevenkoto-swatch-button__chevron" aria-hidden="true">…</svg>
+</button>
+```
+
+<Controls of={SwatchButtonStories.Default} />
+
+## Why to use
+
+Use `SwatchButton` when a color slot needs full `<button>` semantics (`aria-expanded`, `aria-controls`), a three-tier label stack, and full-bleed color visibility with automatic `contrast-color()` legibility across light and dark hues.
+
+## When to use
+
+- **Use `SwatchButton`** to toggle an inline [Panel](?path=/docs/core-molecules-panel--docs) containing color [ChipGroup](?path=/docs/core-molecules-chipgroup--docs) options.
+- **Don't use `SwatchButton` for individual palette options** — use `Chip` with `swatchColor` inside `ChipGroup`.
+- **Don't use `SwatchButton` for static non-interactive color items** — use `List` with `ListItem` `swatchColor`.
+
+<Canvas of={SwatchButtonStories.RoleRow} />
+
+<Canvas of={SwatchButtonStories.Disabled} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | Optional `<button id>`. |
+| `color` | `string` | — | CSS color value applied to the button background via `--eevenkoto-swatch-button-color`. |
+| `roleLabel` | `string` | — | Optional uppercase role label above `label`. |
+| `label` | `string` | — | Primary shade or selection name. |
+| `hint` | `string` | — | Optional muted action hint below `label`. |
+| `expanded` | `boolean` | — | Sets `aria-expanded` and active highlight when `true`. |
+| `active` | `boolean` | `false` | Highlights the button as active. |
+| `disabled` | `boolean` | `false` | Disables interaction. |
+| `controls` | `string` | — | Sets `aria-controls` pointing to the controlled `Panel` id. |
+
+<ArgTypes of={SwatchButtonStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-swatch-button-color` | Swatch color value applied to button background |
+| `--eevenkoto-swatch-button-bg` | Button fill override (defaults to `--eevenkoto-swatch-button-color`) |
+| `--eevenkoto-swatch-button-text` | Primary label color (`contrast-color()` when supported) |
+| `--eevenkoto-swatch-button-muted` | Role and hint copy color (`contrast-color()` when supported) |
+| `--eevenkoto-swatch-button-border-color` | Stroke color (`boundary-strong` default) |
+| `--eevenkoto-swatch-button-border-width` | Stroke width |
+| `--eevenkoto-swatch-button-radius` | Corner radius (paired with `corner-shape: scoop`) |
+| `--eevenkoto-swatch-button-pad-block` / `--eevenkoto-swatch-button-pad-inline` | Internal padding |
+| `--eevenkoto-swatch-button-gap` | Gap between content and chevron |
+| `--eevenkoto-swatch-button-icon` | Chevron glyph color (`contrast-color()` when supported) |
+| `--eevenkoto-swatch-button-shadow` | Elevation shadow on hover / active states |
+
+## Framework packages
+
+`swatch-button.css` imports `icon.css` automatically.
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/swatch-button.css';
+import { renderSwatchButton } from '@eevenkoto/html';
+
+renderSwatchButton({
+  color: '#2c5e4f',
+  roleLabel: '60 % Pääväri',
+  label: 'Sammaleenvihreä',
+  hint: 'Vaihda',
+  expanded: false,
+});
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/swatch-button.css';
+import { SwatchButton } from '@eevenkoto/react';
+
+<SwatchButton
+  color="#2c5e4f"
+  roleLabel="60 % Pääväri"
+  label="Sammaleenvihreä"
+  hint="Vaihda"
+/>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/swatch-button.css';
+import { SwatchButton } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <SwatchButton
+    color="#2c5e4f"
+    roleLabel="60 % Pääväri"
+    label="Sammaleenvihreä"
+    hint="Vaihda"
+  />
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/swatch-button.css';
+import { SwatchButton } from '@eevenkoto/astro';
+---
+
+<SwatchButton
+  color="#2c5e4f"
+  roleLabel="60 % Pääväri"
+  label="Sammaleenvihreä"
+  hint="Vaihda"
+/>
+```

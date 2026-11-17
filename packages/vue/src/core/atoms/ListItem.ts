@@ -6,6 +6,7 @@ import {
 } from '@eevenkoto/core';
 import { defineComponent, h, type PropType, type VNodeChild } from 'vue';
 import { Icon } from './Icon';
+import { Swatch } from './Swatch';
 
 export type { ListItemProps, ListItemStatus };
 
@@ -21,10 +22,11 @@ export const ListItem = defineComponent({
     text: { type: String, default: undefined },
     html: { type: String, default: undefined },
     status: { type: String as PropType<ListItemStatus>, default: undefined },
+    swatchColor: { type: String, default: undefined },
   },
   setup(props, { slots }) {
     return () => {
-      if (!props.status) {
+      if (!props.status && !props.swatchColor) {
         if (slots.default) {
           return h('li', {}, slots.default());
         }
@@ -34,13 +36,18 @@ export const ListItem = defineComponent({
         return h('li', {}, props.text ?? '');
       }
 
-      const children: VNodeChild[] = [
-        h(Icon, {
-          name: statusIconName(props.status),
-          size: 'sm',
-          class: 'eevenkoto-list__icon',
-        }),
-      ];
+      const children: VNodeChild[] = [];
+      if (props.swatchColor) {
+        children.push(h(Swatch, { color: props.swatchColor, size: 'sm' }));
+      } else if (props.status) {
+        children.push(
+          h(Icon, {
+            name: statusIconName(props.status),
+            size: 'sm',
+            class: 'eevenkoto-list__icon',
+          }),
+        );
+      }
       if (props.status === 'excluded') {
         children.push(h('span', { class: 'eevenkoto-visually-hidden' }, 'Excluded: '));
       }
@@ -52,7 +59,11 @@ export const ListItem = defineComponent({
         children.push(h('span', { class: 'eevenkoto-list__item-text' }, props.text ?? ''));
       }
 
-      return h('li', { class: listItemClassNames(props.status) }, children);
+      return h(
+        'li',
+        { class: listItemClassNames({ status: props.status, swatchColor: props.swatchColor }) },
+        children,
+      );
     };
   },
 });

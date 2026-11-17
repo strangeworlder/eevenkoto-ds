@@ -311,13 +311,25 @@ export declare const Statblock: AstroComponent<StatblockProps>;
 import type {
   ChipGroupProps,
   DisclosureProps,
+  PanelProps,
+  SwatchButtonProps,
   TableOfContentsProps,
 } from '@eevenkoto/core';
 
-export type { ChipGroupProps, DisclosureProps, TableOfContentsProps };
+export type {
+  ChipGroupProps,
+  DisclosureProps,
+  PanelProps,
+  SwatchButtonProps,
+  TableOfContentsProps,
+};
 
 export declare const ChipGroup: AstroComponent<ChipGroupProps>;
 export declare const Disclosure: AstroComponent<DisclosureProps>;
+export declare const Panel: AstroComponent<PanelProps>;
+export declare const SwatchButton: AstroComponent<
+  SwatchButtonProps & { style?: string | Record<string, string | number | undefined> }
+>;
 export declare const TableOfContents: AstroComponent<TableOfContentsProps>;
 
 import type { AccountMenuProps, SectionHeaderProps, TierCardProps } from '@eevenkoto/core';

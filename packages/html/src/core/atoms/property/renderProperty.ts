@@ -19,7 +19,9 @@ export const renderProperty = (args: PropertyProps): string => {
     .join('');
 
   return propertyTemplate
-    .replace('{{className}}', propertyClassNames())
+    .replace('{{idAttr}}', args.id ? ` id="${escapeHtml(args.id)}"` : '')
+    .replace('{{hiddenAttr}}', args.hidden ? ' hidden' : '')
+    .replace('{{className}}', propertyClassNames(args))
     .replace('{{label}}', escapeHtml(args.label))
     .replace('{{value}}', `${valueMarkup}${metaMarkup}`);
 };

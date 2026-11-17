@@ -87,6 +87,8 @@ export {
 } from './domain/organisms/EquipmentWorkshop';
 export { Disclosure, type DisclosureProps } from './core/molecules/Disclosure';
 export { ChipGroup, type ChipGroupProps } from './core/molecules/ChipGroup';
+export { SwatchButton, type SwatchButtonProps } from './core/molecules/SwatchButton';
+export { Panel, type PanelProps } from './core/molecules/Panel';
 export { TableOfContents, type TableOfContentsProps } from './core/molecules/TableOfContents';
 export { SectionHeader, type SectionHeaderProps } from './core/molecules/SectionHeader';
 export { TierCard, type TierCardProps } from './core/organisms/TierCard';

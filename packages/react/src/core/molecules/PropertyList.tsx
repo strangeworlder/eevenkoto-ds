@@ -33,11 +33,15 @@ export const PropertyList = ({
     <dl className={classes} {...rest}>
       {items.map((item, index) => (
         <Property
-          key={`${item.label}-${index}`}
+          key={item.id ?? `${item.label}-${index}`}
+          id={item.id}
           label={item.label}
           value={item.value}
           valueHtml={item.valueHtml}
           meta={item.meta}
+          emphasized={item.emphasized}
+          span={item.span}
+          hidden={item.hidden}
         />
       ))}
     </dl>

@@ -22,7 +22,7 @@ import '@eevenkoto/css/button.css';
 
 - Storybook: `npm run storybook` → [http://localhost:6006](http://localhost:6006)
 - Release notes: [`CHANGELOG.md`](./CHANGELOG.md)
-- Consuming-site upgrade guides: [`docs/migration-0.14-calling-card-surfaces.md`](./docs/migration-0.14-calling-card-surfaces.md), [`docs/migration-0.13-playbill-chrome-and-icons.md`](./docs/migration-0.13-playbill-chrome-and-icons.md), [`docs/migration-0.12-frontend-gap-resolution.md`](./docs/migration-0.12-frontend-gap-resolution.md), and [`docs/migration-token-architecture-and-a11y.md`](./docs/migration-token-architecture-and-a11y.md)
+- Consuming-site upgrade guides: [`docs/migration-0.15-workshop-and-swatch-controls.md`](./docs/migration-0.15-workshop-and-swatch-controls.md), [`docs/migration-0.14-calling-card-surfaces.md`](./docs/migration-0.14-calling-card-surfaces.md), [`docs/migration-0.13-playbill-chrome-and-icons.md`](./docs/migration-0.13-playbill-chrome-and-icons.md), [`docs/migration-0.12-frontend-gap-resolution.md`](./docs/migration-0.12-frontend-gap-resolution.md), and [`docs/migration-token-architecture-and-a11y.md`](./docs/migration-token-architecture-and-a11y.md)
 - Agent feed-in: [`llms.txt`](./llms.txt) / [`llms-full.txt`](./llms-full.txt) (regenerate with `npm run generate:llms`)
 - Contributors: [`AGENTS.md`](./AGENTS.md)
 
@@ -30,7 +30,8 @@ import '@eevenkoto/css/button.css';
 
 | Status | Surfaces |
 | --- | --- |
-| **Shipped** | Typography, Flow/Prose/Frame/Scroll/Image, Button/LinkButton/Icon, Badge/StatusDot/Chip/Notice/Toast, Field+Input/Select/Checkbox/Radio, CheckboxGroup/RadioGroup/Stepper/SegmentedControl, Menu, Catalog, Popover+TooltipCard, Card, table stack, Workshop, Stat/Property/PropertyList/List, Avatar/InlineRef, Domain AbilityName + EntityRef + statblock/spellblock + equipment/workshop stack |
+| **Shipped** | Typography, Flow/Prose/Frame/Scroll/Image, Button/LinkButton/Icon, Badge/StatusDot/Chip/Notice/Toast, Field+Input/Select/Checkbox/Radio, CheckboxGroup/RadioGroup/Stepper/SegmentedControl, Menu, Catalog, Popover+TooltipCard, Card, Panel, SwatchButton, table stack, Workshop, Stat/Property/PropertyList/List, Avatar/InlineRef, Domain AbilityName + EntityRef + statblock/spellblock + equipment/workshop stack |
+| **Shipped in 0.15** | `SwatchButton` (full-bleed `color` + `contrast-color()`), `Panel` (inset tray / prose container), `@eevenkoto/html/dom` sync helpers, plus backwards-compatible extensions on `PropertyList` (`stacked`, `emphasized`, `span`), `List` (`tiles`, `swatchColor`), `Card` (`eyebrow`, `titleSize`, wrap), `ChipGroup` (`action`, `headerAction`), `Disclosure` (`sm`, wrap), and `Workshop` (`width="wide"`) (see [`docs/migration-0.15-workshop-and-swatch-controls.md`](./docs/migration-0.15-workshop-and-swatch-controls.md)) |
 | **Updated in 0.14** | 1920s Letterpress Calling Card overhaul across `Card` (`featured` replaces `CardAccent` / `accent`), `TierCard`, `NpcCard`, `ContentGate`, and `TooltipCard` (see [`docs/migration-0.14-calling-card-surfaces.md`](./docs/migration-0.14-calling-card-surfaces.md)) |
 | **Updated in 0.13** | 1920s Playbill `Notice` & Stamp `Badge` (removed `Badge` `shape`), plus 46-glyph engraved `Icon` catalog & directional `LinkButton` arrow hooks (see [`docs/migration-0.13-playbill-chrome-and-icons.md`](./docs/migration-0.13-playbill-chrome-and-icons.md)) |
 | **Shipped in 0.12** | Swatch, Divider, ProgressBar, FloatingBanner, Disclosure, ChipGroup, TableOfContents, SectionHeader, TierCard, AccountMenu; Domain LicenseBar, DocumentHeader, ContentTable, EntityPreview, ReadAloudBox, NpcCard, NpcCardGrid, MapFrame, ContentGate (see [`docs/migration-0.12-frontend-gap-resolution.md`](./docs/migration-0.12-frontend-gap-resolution.md)) |

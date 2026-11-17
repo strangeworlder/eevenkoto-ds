@@ -1,0 +1,142 @@
+@import url('./prose.css');
+
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: PANEL (TIER 3)
+   Lightweight inset surface container (picker trays, nested prose boxes)
+   without Calling Card's 4px paper margin or double passe-partout frame.
+   Host alone = sunken + default density, 0px architectural trim.
+   ========================================================================== */
+
+.eevenkoto-panel {
+  --_eevenkoto-panel-bg: var(
+    --eevenkoto-panel-bg,
+    var(--eevenkoto-color-surface-sunken)
+  );
+  --_eevenkoto-panel-text: var(
+    --eevenkoto-panel-text,
+    var(--eevenkoto-color-content-primary)
+  );
+  --_eevenkoto-panel-border-color: var(
+    --eevenkoto-panel-border-color,
+    var(--eevenkoto-color-boundary-subtle)
+  );
+  --_eevenkoto-panel-border-width: var(
+    --eevenkoto-panel-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-panel-radius: var(--eevenkoto-panel-radius, 0);
+  --_eevenkoto-panel-pad-block: var(
+    --eevenkoto-panel-pad-block,
+    var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-panel-pad-inline: var(
+    --eevenkoto-panel-pad-inline,
+    var(--eevenkoto-space-4)
+  );
+  --_eevenkoto-panel-gap: var(--eevenkoto-panel-gap, var(--eevenkoto-space-3));
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-panel-gap);
+  box-sizing: border-box;
+  min-inline-size: 0;
+  padding: var(--_eevenkoto-panel-pad-block) var(--_eevenkoto-panel-pad-inline);
+  background: var(--_eevenkoto-panel-bg);
+  color: var(--_eevenkoto-panel-text);
+  border: var(--_eevenkoto-panel-border-width) solid var(--_eevenkoto-panel-border-color);
+  border-radius: var(--_eevenkoto-panel-radius);
+  font-family: var(--eevenkoto-font-sans);
+  font-size: var(--eevenkoto-font-size-body-md);
+  line-height: var(--eevenkoto-line-height-body);
+}
+
+.eevenkoto-panel[hidden] {
+  display: none;
+}
+
+.eevenkoto-panel--surface-sunken {
+  --eevenkoto-panel-bg: var(--eevenkoto-color-surface-sunken);
+}
+
+.eevenkoto-panel--surface-subtle {
+  --eevenkoto-panel-bg: var(--eevenkoto-color-surface-subtle);
+}
+
+.eevenkoto-panel--surface-raised {
+  --eevenkoto-panel-bg: var(--eevenkoto-color-surface-raised);
+}
+
+.eevenkoto-panel--compact {
+  --eevenkoto-panel-pad-block: var(--eevenkoto-space-3);
+  --eevenkoto-panel-pad-inline: var(--eevenkoto-space-3);
+  --eevenkoto-panel-gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-panel__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  padding-block-end: var(--eevenkoto-space-2);
+  border-block-end: var(--_eevenkoto-panel-border-width) solid
+    var(--_eevenkoto-panel-border-color);
+}
+
+.eevenkoto-panel__header-lead {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.eevenkoto-panel__title {
+  margin: 0;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+  font-family: var(--eevenkoto-font-serif);
+  font-size: var(--eevenkoto-font-size-heading-4);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  letter-spacing: 0.015em;
+  line-height: var(--eevenkoto-line-height-snug);
+  color: inherit;
+}
+
+.eevenkoto-panel__header-actions {
+  margin-inline-start: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+}
+
+.eevenkoto-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--_eevenkoto-panel-gap);
+  min-inline-size: 0;
+}
+
+.eevenkoto-panel__body > :first-child {
+  margin-block-start: 0;
+}
+
+.eevenkoto-panel__body > :last-child {
+  margin-block-end: 0;
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-panel {
+    border-color: CanvasText;
+  }
+
+  .eevenkoto-panel__header {
+    border-block-end-color: CanvasText;
+  }
+}
+
+@media print {
+  .eevenkoto-panel {
+    break-inside: avoid;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

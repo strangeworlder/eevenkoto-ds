@@ -66,7 +66,7 @@ export { default as EquipmentWorkshop } from './domain/organisms/EquipmentWorksh
 export { default as Spellblock } from './domain/organisms/Spellblock.astro';
 export { default as Statblock } from './domain/organisms/Statblock.astro';
 
-// Core — Molecules (0.12.0)
+// Core ï¿½ Molecules (0.12.0)
 export { default as ChipGroup } from './core/molecules/ChipGroup.astro';
 export { default as Disclosure } from './core/molecules/Disclosure.astro';
 export { default as TableOfContents } from './core/molecules/TableOfContents.astro';
@@ -83,3 +83,6 @@ export { default as NpcCard } from './domain/molecules/NpcCard.astro';
 export { default as MapFrame } from './domain/molecules/MapFrame.astro';
 export { default as NpcCardGrid } from './domain/organisms/NpcCardGrid.astro';
 export { default as ContentGate } from './domain/organisms/ContentGate.astro';
+
+export { default as Panel } from './core/molecules/Panel.astro';
+export { default as SwatchButton } from './core/molecules/SwatchButton.astro';

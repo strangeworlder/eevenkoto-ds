@@ -1,0 +1,200 @@
+@import url('../atoms/icon.css');
+
+/* ==========================================================================
+   EEVENKOTO DESIGN SYSTEM: SWATCH BUTTON (TIER 3)
+   Interactive color-role selector button (<button type="button">).
+   Full-bleed swatch color fill via `--eevenkoto-swatch-button-color` with
+   automatic `contrast-color()` foreground text/icon contrast, concave scooped
+   corners (`corner-shape: scoop`), role label, shade name, state hint, and
+   engraved chevron icon.
+   ========================================================================== */
+
+.eevenkoto-swatch-button {
+  --_eevenkoto-swatch-button-color: var(
+    --eevenkoto-swatch-button-color,
+    var(--eevenkoto-color-control-secondary-background)
+  );
+  --_eevenkoto-swatch-button-bg: var(
+    --eevenkoto-swatch-button-bg,
+    var(--_eevenkoto-swatch-button-color)
+  );
+  --_eevenkoto-swatch-button-text: var(
+    --eevenkoto-swatch-button-text,
+    var(--eevenkoto-color-control-secondary-text)
+  );
+  --_eevenkoto-swatch-button-muted: var(
+    --eevenkoto-swatch-button-muted,
+    var(--eevenkoto-color-content-secondary)
+  );
+  --_eevenkoto-swatch-button-border-color: var(
+    --eevenkoto-swatch-button-border-color,
+    var(--eevenkoto-color-boundary-strong)
+  );
+  --_eevenkoto-swatch-button-border-width: var(
+    --eevenkoto-swatch-button-border-width,
+    var(--eevenkoto-line-width-sm)
+  );
+  --_eevenkoto-swatch-button-radius: var(
+    --eevenkoto-swatch-button-radius,
+    var(--eevenkoto-radius-sm)
+  );
+  --_eevenkoto-swatch-button-pad-block: var(
+    --eevenkoto-swatch-button-pad-block,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-swatch-button-pad-inline: var(
+    --eevenkoto-swatch-button-pad-inline,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-swatch-button-gap: var(
+    --eevenkoto-swatch-button-gap,
+    var(--eevenkoto-space-3)
+  );
+  --_eevenkoto-swatch-button-icon: var(
+    --eevenkoto-swatch-button-icon,
+    var(--eevenkoto-color-control-secondary-icon)
+  );
+  --_eevenkoto-swatch-button-shadow: var(--eevenkoto-swatch-button-shadow, none);
+
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--_eevenkoto-swatch-button-gap);
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: 0;
+  margin: 0;
+  padding: var(--_eevenkoto-swatch-button-pad-block) var(--_eevenkoto-swatch-button-pad-inline);
+  text-align: start;
+  cursor: pointer;
+
+  background-color: var(--_eevenkoto-swatch-button-bg);
+  color: var(--_eevenkoto-swatch-button-text);
+  border: var(--_eevenkoto-swatch-button-border-width) solid
+    var(--_eevenkoto-swatch-button-border-color);
+  border-radius: var(--_eevenkoto-swatch-button-radius);
+  corner-shape: scoop;
+  box-shadow: var(--_eevenkoto-swatch-button-shadow);
+  font-family: var(--eevenkoto-font-sans);
+  line-height: var(--eevenkoto-line-height-snug);
+  transition:
+    border-color var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    box-shadow var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard),
+    transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
+}
+
+@supports (color: contrast-color(Canvas)) {
+  .eevenkoto-swatch-button {
+    --eevenkoto-swatch-button-text: contrast-color(var(--_eevenkoto-swatch-button-bg));
+    --eevenkoto-swatch-button-muted: contrast-color(var(--_eevenkoto-swatch-button-bg));
+    --eevenkoto-swatch-button-icon: contrast-color(var(--_eevenkoto-swatch-button-bg));
+  }
+}
+
+.eevenkoto-swatch-button__content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1 1 auto;
+  min-inline-size: 0;
+}
+
+.eevenkoto-swatch-button__role {
+  font-size: var(--eevenkoto-font-size-caption);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--_eevenkoto-swatch-button-muted);
+}
+
+.eevenkoto-swatch-button__label {
+  font-family: var(--eevenkoto-font-serif);
+  font-size: var(--eevenkoto-font-size-body-md);
+  font-weight: var(--eevenkoto-font-weight-bold);
+  letter-spacing: 0.01em;
+  color: inherit;
+  overflow-wrap: anywhere;
+}
+
+.eevenkoto-swatch-button__hint {
+  font-size: var(--eevenkoto-font-size-control-sm);
+  color: var(--_eevenkoto-swatch-button-muted);
+}
+
+.eevenkoto-swatch-button__chevron {
+  flex-shrink: 0;
+  color: var(--_eevenkoto-swatch-button-icon);
+  transition: transform var(--eevenkoto-duration-2) var(--eevenkoto-ease-standard);
+}
+
+.eevenkoto-swatch-button:hover:not(:disabled):not([aria-disabled='true']) {
+  --eevenkoto-swatch-button-border-color: var(--eevenkoto-color-boundary-focus-outer);
+  --eevenkoto-swatch-button-shadow:
+    0.2rem 0.2rem 0 var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-penumbra);
+}
+
+.eevenkoto-swatch-button:active:not(:disabled):not([aria-disabled='true']) {
+  transform: scale(0.99);
+}
+
+.eevenkoto-swatch-button:focus-visible {
+  outline: 2px solid var(--eevenkoto-color-boundary-focus-outer);
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 2px var(--eevenkoto-color-boundary-focus-inner),
+    var(--_eevenkoto-swatch-button-shadow);
+}
+
+.eevenkoto-swatch-button--active,
+.eevenkoto-swatch-button[aria-expanded='true'] {
+  --eevenkoto-swatch-button-border-color: var(--eevenkoto-color-boundary-focus-outer);
+  --eevenkoto-swatch-button-border-width: var(--eevenkoto-line-width-md);
+  --eevenkoto-swatch-button-shadow:
+    0.2rem 0.2rem 0 var(--eevenkoto-color-depth-shadow-umbra),
+    0 0.2rem 0.4rem var(--eevenkoto-color-depth-shadow-penumbra);
+}
+
+.eevenkoto-swatch-button[aria-expanded='true'] .eevenkoto-swatch-button__chevron {
+  transform: rotate(180deg);
+}
+
+.eevenkoto-swatch-button:disabled,
+.eevenkoto-swatch-button[aria-disabled='true'] {
+  cursor: not-allowed;
+  --eevenkoto-swatch-button-bg: var(--eevenkoto-color-control-secondary-background-disabled);
+  --eevenkoto-swatch-button-text: var(--eevenkoto-color-control-secondary-text-disabled);
+  --eevenkoto-swatch-button-muted: var(--eevenkoto-color-control-secondary-text-disabled);
+  --eevenkoto-swatch-button-border-color: var(--eevenkoto-color-control-secondary-border-disabled);
+  --eevenkoto-swatch-button-icon: var(--eevenkoto-color-control-secondary-icon-disabled);
+  --eevenkoto-swatch-button-shadow: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eevenkoto-swatch-button,
+  .eevenkoto-swatch-button__chevron {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .eevenkoto-swatch-button {
+    forced-color-adjust: none;
+    border-color: ButtonText;
+    color: ButtonText;
+    background-color: ButtonFace;
+  }
+
+  .eevenkoto-swatch-button--active,
+  .eevenkoto-swatch-button[aria-expanded='true'] {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
+
+@media print {
+  .eevenkoto-swatch-button {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+}

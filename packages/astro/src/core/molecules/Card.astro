@@ -1,7 +1,9 @@
 ---
 import {
   cardClassNames,
+  cardEyebrowClassNames,
   cardHeaderActionsClassNames,
+  cardHeaderGroupClassNames,
   type CardProps,
   type CardTitleLevel,
 } from '@eevenkoto/core';
@@ -20,9 +22,11 @@ const {
   layout,
   elevated,
   interactive,
+  eyebrow,
   title,
   titleHtml,
   titleLevel,
+  titleSize,
   body,
   bodyHtml,
   href,
@@ -39,6 +43,7 @@ const classes = [
     layout,
     elevated,
     interactive: interactive || Boolean(href),
+    titleSize,
   }),
   classProp,
   className,
@@ -53,14 +58,17 @@ const hasHeaderActionsSlot = Astro.slots.has('headerActions');
 const hasActionsSlot = Astro.slots.has('actions');
 const hasFooterSlot = Astro.slots.has('footer');
 const hasDefaultSlot = Astro.slots.has('default');
-const hasHeader = hasHeaderSlot || Boolean(titleHtml) || Boolean(title) || hasHeaderActionsSlot;
+const hasHeading = Boolean(titleHtml) || Boolean(title);
+const hasHeader = hasHeaderSlot || Boolean(eyebrow) || hasHeading || hasHeaderActionsSlot;
 const hasMain = hasHeader || Boolean(bodyHtml) || Boolean(body) || hasDefaultSlot;
 const isSplit = layout === 'split';
 const isBlockHtml = bodyHtml
   ? /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i.test(bodyHtml)
   : false;
-const headerClass = hasHeaderActionsSlot ? 'eevenkoto-card__header' : undefined;
+const headerClass = hasHeaderActionsSlot || eyebrow ? 'eevenkoto-card__header' : undefined;
 const headerActionsClass = cardHeaderActionsClassNames();
+const headerGroupClass = cardHeaderGroupClassNames();
+const eyebrowClass = cardEyebrowClassNames();
 ---
 <article class={classes} {...rest}>
   {href ? (
@@ -71,7 +79,19 @@ const headerActionsClass = cardHeaderActionsClassNames();
             <div class="eevenkoto-card__body">
               {hasHeader ? (
                 <header class={headerClass}>
-                  {hasHeaderSlot ? <slot name="header" /> : titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+                  {hasHeaderSlot ? (
+                    <slot name="header" />
+                  ) : eyebrow && hasHeading ? (
+                    <div class={headerGroupClass}>
+                      <p class={eyebrowClass}>{eyebrow}</p>
+                      {titleHtml ? <HeadingTag set:html={titleHtml} /> : <HeadingTag>{title}</HeadingTag>}
+                    </div>
+                  ) : (
+                    <>
+                      {eyebrow ? <p class={eyebrowClass}>{eyebrow}</p> : null}
+                      {titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+                    </>
+                  )}
                   {hasHeaderActionsSlot ? <div class={headerActionsClass}><slot name="headerActions" /></div> : null}
                 </header>
               ) : null}
@@ -94,7 +114,19 @@ const headerActionsClass = cardHeaderActionsClassNames();
         <>
           {hasHeader ? (
             <header class={headerClass}>
-              {hasHeaderSlot ? <slot name="header" /> : titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+              {hasHeaderSlot ? (
+                <slot name="header" />
+              ) : eyebrow && hasHeading ? (
+                <div class={headerGroupClass}>
+                  <p class={eyebrowClass}>{eyebrow}</p>
+                  {titleHtml ? <HeadingTag set:html={titleHtml} /> : <HeadingTag>{title}</HeadingTag>}
+                </div>
+              ) : (
+                <>
+                  {eyebrow ? <p class={eyebrowClass}>{eyebrow}</p> : null}
+                  {titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+                </>
+              )}
               {hasHeaderActionsSlot ? <div class={headerActionsClass}><slot name="headerActions" /></div> : null}
             </header>
           ) : null}
@@ -119,7 +151,19 @@ const headerActionsClass = cardHeaderActionsClassNames();
         <div class="eevenkoto-card__body">
           {hasHeader ? (
             <header class={headerClass}>
-              {hasHeaderSlot ? <slot name="header" /> : titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+              {hasHeaderSlot ? (
+                <slot name="header" />
+              ) : eyebrow && hasHeading ? (
+                <div class={headerGroupClass}>
+                  <p class={eyebrowClass}>{eyebrow}</p>
+                  {titleHtml ? <HeadingTag set:html={titleHtml} /> : <HeadingTag>{title}</HeadingTag>}
+                </div>
+              ) : (
+                <>
+                  {eyebrow ? <p class={eyebrowClass}>{eyebrow}</p> : null}
+                  {titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+                </>
+              )}
               {hasHeaderActionsSlot ? <div class={headerActionsClass}><slot name="headerActions" /></div> : null}
             </header>
           ) : null}
@@ -142,7 +186,19 @@ const headerActionsClass = cardHeaderActionsClassNames();
     <>
       {hasHeader ? (
         <header class={headerClass}>
-          {hasHeaderSlot ? <slot name="header" /> : titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+          {hasHeaderSlot ? (
+            <slot name="header" />
+          ) : eyebrow && hasHeading ? (
+            <div class={headerGroupClass}>
+              <p class={eyebrowClass}>{eyebrow}</p>
+              {titleHtml ? <HeadingTag set:html={titleHtml} /> : <HeadingTag>{title}</HeadingTag>}
+            </div>
+          ) : (
+            <>
+              {eyebrow ? <p class={eyebrowClass}>{eyebrow}</p> : null}
+              {titleHtml ? <HeadingTag set:html={titleHtml} /> : title ? <HeadingTag>{title}</HeadingTag> : null}
+            </>
+          )}
           {hasHeaderActionsSlot ? <div class={headerActionsClass}><slot name="headerActions" /></div> : null}
         </header>
       ) : null}

@@ -21,6 +21,7 @@ export const Disclosure = defineComponent({
     label: { type: String, required: true },
     summaryText: { type: String, default: undefined },
     variant: { type: String as PropType<DisclosureProps['variant']>, default: undefined },
+    size: { type: String as PropType<DisclosureProps['size']>, default: undefined },
     open: { type: Boolean, default: false },
     emphasized: { type: Boolean, default: false },
     body: { type: String, default: undefined },
@@ -28,7 +29,11 @@ export const Disclosure = defineComponent({
   },
   setup(props, { slots }) {
     const className = computed(() =>
-      disclosureClassNames({ variant: props.variant, emphasized: props.emphasized }),
+      disclosureClassNames({
+        variant: props.variant,
+        size: props.size,
+        emphasized: props.emphasized,
+      }),
     );
 
     return () => {

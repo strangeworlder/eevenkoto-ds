@@ -28,11 +28,15 @@ export const PropertyList = defineComponent({
         { class: className.value },
         props.items.map((item, index) =>
           h(Property, {
+            id: item.id,
             label: item.label,
             value: item.value,
             valueHtml: item.valueHtml,
             meta: item.meta,
-            key: `${item.label}-${index}`,
+            emphasized: item.emphasized,
+            span: item.span,
+            hidden: item.hidden,
+            key: item.id ?? `${item.label}-${index}`,
           }),
         ),
       );

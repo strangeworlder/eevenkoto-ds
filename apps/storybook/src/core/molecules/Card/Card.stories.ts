@@ -42,6 +42,15 @@ const meta: Meta<CardProps> = {
       options: [2, 3],
       description: 'Heading level for `title`. Default 2.',
     },
+    titleSize: {
+      control: 'inline-radio',
+      options: ['md', 'lg'],
+      description: 'Header heading size (`md` = heading-4, `lg` = heading-2).',
+    },
+    eyebrow: { control: 'text', description: 'Optional uppercase eyebrow above title in `<header>`.' },
+    id: { control: 'text', description: 'Optional `<article id>`.' },
+    className: { control: 'text', description: 'Additional CSS class names on `<article>`.' },
+    attributes: { control: 'object', description: 'Optional HTML attributes on `<article>`.' },
     header: { control: 'text', description: 'Custom `<header>` inner HTML (HTML renderer).' },
     headerActions: { control: 'text', description: 'Trailing actions HTML inside `<header>`.' },
     body: { control: 'text', description: 'Body copy.' },
@@ -210,5 +219,18 @@ export const Interactive: Story = {
 export const BodyOnly: Story = {
   args: {
     body: 'Sections are opt-in — a card with only a body is still a valid calling card.',
+  },
+};
+
+export const EyebrowAndLargeTitle: Story = {
+  name: 'Eyebrow and large result title',
+  args: {
+    eyebrow: 'Kulttuurinimi · Erentar',
+    title: 'Aurelia Korvenheimo',
+    titleSize: 'lg',
+    headerActions:
+      renderBadge({ label: 'Yläluokka', intent: 'info' }) +
+      renderButton({ label: 'Kopioi nimi', variant: 'ghost', size: 'sm', icon: 'copy' }),
+    body: 'Syntymänimi kulkee suvun hopeisessa sinettirekisterissä.',
   },
 };

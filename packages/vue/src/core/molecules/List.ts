@@ -1,6 +1,8 @@
 import {
   listClassNames,
+  type ListColumns,
   type ListItemProps,
+  type ListLayout,
   type ListProps,
   type ListSize,
   type ListTone,
@@ -18,6 +20,8 @@ export const List = defineComponent({
     variant: { type: String as PropType<ListVariant>, default: undefined },
     size: { type: String as PropType<ListSize>, default: undefined },
     tone: { type: String as PropType<ListTone>, default: undefined },
+    layout: { type: String as PropType<ListLayout>, default: undefined },
+    columns: { type: Number as PropType<ListColumns>, default: undefined },
   },
   setup(props) {
     const className = computed(() =>
@@ -25,6 +29,8 @@ export const List = defineComponent({
         variant: props.variant,
         size: props.size,
         tone: props.tone,
+        layout: props.layout,
+        columns: props.columns,
       }),
     );
 
@@ -38,6 +44,7 @@ export const List = defineComponent({
             text: item.text,
             html: item.html,
             status: props.variant === 'checklist' ? (item.status ?? 'included') : item.status,
+            swatchColor: item.swatchColor,
             key: item.text ?? item.html ?? index,
           }),
         ),

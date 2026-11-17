@@ -23,6 +23,7 @@ const {
   label,
   summaryText,
   variant,
+  size,
   open,
   emphasized,
   body,
@@ -31,7 +32,7 @@ const {
   className,
   ...rest
 } = Astro.props;
-const classes = [disclosureClassNames({ variant, emphasized }), classProp, className]
+const classes = [disclosureClassNames({ variant, size, emphasized }), classProp, className]
   .filter(Boolean)
   .join(' ');
 ---

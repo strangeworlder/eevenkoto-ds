@@ -1,0 +1,78 @@
+---
+import {
+  panelBodyClassNames,
+  panelClassNames,
+  panelHeaderActionsClassNames,
+  panelHeaderClassNames,
+  panelHeaderLeadClassNames,
+  panelTitleClassNames,
+  type PanelProps,
+  type PanelTitleLevel,
+} from '@eevenkoto/core';
+
+export interface Props extends PanelProps {
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  label,
+  surface,
+  density,
+  title,
+  titleLevel,
+  hidden,
+  body,
+  bodyHtml,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [panelClassNames({ surface, density }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const level: PanelTitleLevel = titleLevel === 2 ? 2 : titleLevel === 4 ? 4 : 3;
+const HeadingTag = level === 2 ? 'h2' : level === 4 ? 'h4' : 'h3';
+const hasHeaderLeadSlot = Astro.slots.has('headerLead');
+const hasHeaderActionsSlot = Astro.slots.has('headerActions');
+const hasHeader = hasHeaderLeadSlot || Boolean(title) || hasHeaderActionsSlot;
+const hasDefaultSlot = Astro.slots.has('default');
+const isBlockHtml = bodyHtml
+  ? /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|fieldset|h[1-6])\b/i.test(bodyHtml)
+  : false;
+const Tag = label ? 'section' : 'div';
+---
+<Tag
+  id={id}
+  role={label ? 'region' : undefined}
+  aria-label={label}
+  hidden={hidden || undefined}
+  class={classes}
+  {...rest}
+>
+  {hasHeader ? (
+    <div class={panelHeaderClassNames()}>
+      {hasHeaderLeadSlot ? (
+        <span class={panelHeaderLeadClassNames()}><slot name="headerLead" /></span>
+      ) : null}
+      {title ? <HeadingTag class={panelTitleClassNames()}>{title}</HeadingTag> : null}
+      {hasHeaderActionsSlot ? (
+        <div class={panelHeaderActionsClassNames()}><slot name="headerActions" /></div>
+      ) : null}
+    </div>
+  ) : null}
+  {hasDefaultSlot ? (
+    <div class={panelBodyClassNames()}><slot /></div>
+  ) : bodyHtml !== undefined ? (
+    isBlockHtml ? (
+      <div class={panelBodyClassNames()} set:html={bodyHtml} />
+    ) : (
+      <div class={panelBodyClassNames()}><p set:html={bodyHtml} /></div>
+    )
+  ) : body ? (
+    <div class={panelBodyClassNames()}><p>{body}</p></div>
+  ) : null}
+</Tag>

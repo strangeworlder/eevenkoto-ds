@@ -215,6 +215,16 @@ export {
   type ChipGroupProps,
 } from './core/molecules/ChipGroup';
 export {
+  SwatchButton,
+  type SwatchButtonComponentProps,
+  type SwatchButtonProps,
+} from './core/molecules/SwatchButton';
+export {
+  Panel,
+  type PanelComponentProps,
+  type PanelProps,
+} from './core/molecules/Panel';
+export {
   TableOfContents,
   type TableOfContentsComponentProps,
   type TableOfContentsProps,

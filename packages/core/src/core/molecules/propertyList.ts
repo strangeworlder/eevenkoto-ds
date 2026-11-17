@@ -1,7 +1,7 @@
 import type { PropertyItem } from '../atoms/property';
 
-export type PropertyListLayout = 'inline' | 'divided' | 'grid' | 'cards';
-export type PropertyListColumns = 2 | 3 | 4;
+export type PropertyListLayout = 'inline' | 'divided' | 'grid' | 'cards' | 'stacked';
+export type PropertyListColumns = 1 | 2 | 3 | 4;
 
 export interface PropertyListProps {
   items: PropertyItem[];

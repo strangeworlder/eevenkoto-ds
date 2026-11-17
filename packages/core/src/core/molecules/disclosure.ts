@@ -1,4 +1,5 @@
 export type DisclosureVariant = 'card' | 'flush' | 'subtle';
+export type DisclosureSize = 'sm' | 'md';
 
 export interface DisclosureProps {
   /** Optional DOM element `id` on `<details>`. */
@@ -9,6 +10,8 @@ export interface DisclosureProps {
   summaryText?: string;
   /** Surface treatment. Default: `'card'`. */
   variant?: DisclosureVariant;
+  /** Padding and typography density. Default: `'md'`. */
+  size?: DisclosureSize;
   /** Start expanded (`open` attribute on `<details>`). Default: `false`. */
   open?: boolean;
   /** Accent/strong border emphasis for focal items. Default: `false`. */
@@ -19,13 +22,15 @@ export interface DisclosureProps {
   bodyHtml?: string;
 }
 
-export type DisclosureClassNameProps = Pick<DisclosureProps, 'variant' | 'emphasized'>;
+export type DisclosureClassNameProps = Pick<DisclosureProps, 'variant' | 'size' | 'emphasized'>;
 
 export const disclosureClassNames = (props: DisclosureClassNameProps = {}): string => {
   const variant = props.variant ?? 'card';
+  const size = props.size ?? 'md';
   return [
     'eevenkoto-disclosure',
     variant !== 'card' ? `eevenkoto-disclosure--${variant}` : '',
+    size === 'sm' ? 'eevenkoto-disclosure--sm' : '',
     props.emphasized ? 'eevenkoto-disclosure--emphasized' : '',
   ]
     .filter(Boolean)

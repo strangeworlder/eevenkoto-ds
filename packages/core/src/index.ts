@@ -271,9 +271,12 @@ export {
   type CardProps,
   type CardClassNameProps,
   type CardTitleLevel,
+  type CardTitleSize,
   type CardSurface,
   type CardLayout,
   cardClassNames,
+  cardHeaderGroupClassNames,
+  cardEyebrowClassNames,
   cardHeaderActionsClassNames,
 } from './core/molecules/card';
 
@@ -320,14 +323,18 @@ export {
   type ListVariant,
   type ListSize,
   type ListTone,
+  type ListLayout,
+  type ListColumns,
   type ListProps,
   type ListClassNameProps,
   listClassNames,
 } from './core/molecules/list';
 
 export {
+  type PropertySpan,
   type PropertyItem,
   type PropertyProps,
+  type PropertyClassNameProps,
   propertyClassNames,
   propertyMetaClassNames,
 } from './core/atoms/property';
@@ -368,22 +375,26 @@ export {
 
 export {
   type WorkshopLayout,
+  type WorkshopWidth,
   type WorkshopSticky,
   type WorkshopTitleLevel,
   type WorkshopProps,
   type WorkshopClassNameProps,
   workshopClassNames,
   workshopHeaderClassNames,
+  workshopHeaderControlsClassNames,
   workshopBodyClassNames,
   workshopControlsClassNames,
   workshopPreviewClassNames,
   workshopToolbarClassNames,
   workshopFooterClassNames,
+  workshopPanelClassNames,
   workshopControlGroupClassNames,
   workshopGroupHeaderClassNames,
   workshopGroupLabelClassNames,
   workshopGroupHintClassNames,
   workshopSubgroupTitleClassNames,
+  workshopStepperGridClassNames,
 } from './core/organisms/workshop';
 
 export {
@@ -414,6 +425,7 @@ export {
 
 export {
   type DisclosureVariant,
+  type DisclosureSize,
   type DisclosureProps,
   type DisclosureClassNameProps,
   disclosureClassNames,
@@ -432,9 +444,36 @@ export {
   type ChipGroupOption,
   type ChipGroupProps,
   chipGroupClassNames,
+  chipGroupHeaderClassNames,
+  chipGroupActionClassNames,
   chipGroupLegendClassNames,
   chipGroupListClassNames,
 } from './core/molecules/chipGroup';
+
+export {
+  type SwatchButtonProps,
+  type SwatchButtonClassNameProps,
+  swatchButtonClassNames,
+  swatchButtonContentClassNames,
+  swatchButtonRoleClassNames,
+  swatchButtonLabelClassNames,
+  swatchButtonHintClassNames,
+  swatchButtonChevronClassNames,
+} from './core/molecules/swatchButton';
+
+export {
+  type PanelSurface,
+  type PanelDensity,
+  type PanelTitleLevel,
+  type PanelProps,
+  type PanelClassNameProps,
+  panelClassNames,
+  panelHeaderClassNames,
+  panelHeaderLeadClassNames,
+  panelTitleClassNames,
+  panelHeaderActionsClassNames,
+  panelBodyClassNames,
+} from './core/molecules/panel';
 
 export {
   type TableOfContentsVariant,

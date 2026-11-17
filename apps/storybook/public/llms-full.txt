@@ -3349,11 +3349,11 @@ renderCard({
 });
 ```
 
-Use `layout="cards"` with `PropertyItem.meta` for highlight tiles (value + secondary lines), and a subtle `Card` for a single highlighted attribute box.
+Use `layout="cards"` with `PropertyItem.meta` and `PropertyItem.emphasized` for highlight tiles (symmetrical brass Stamp rules — no directional left bars), or a `featured` `Card` for a standalone attribute box.
 
 ## Highlight tile / attribute box
 
-A single emphasised fact with supporting lines.
+Emphasised facts inside a card or grid using `PropertyList` `layout="cards"` with `emphasized` and `span: 'full'` (no dedicated `HighlightTile` component).
 
 ```ts
 import '@eevenkoto/css/card.css';
@@ -3365,7 +3365,11 @@ renderCard({
   bodyHtml: renderPropertyList({
     layout: 'cards',
     columns: 2,
-    items: [{ label: 'Kesto', value: '3 / 4', meta: ['Murskaus 4', 'Viilto 3'] }],
+    items: [
+      { label: 'Kesto', value: '3 / 4', meta: ['Murskaus 4', 'Viilto 3'], emphasized: true, span: 'full' },
+      { label: 'Paino', value: '2,5 kg' },
+      { label: 'Hinta', value: '45 kr' },
+    ],
   }),
 });
 ```
@@ -3396,7 +3400,7 @@ import { renderSegmentedControl, renderCard } from '@eevenkoto/html';
 
 ## Categorised swatch picker tray
 
-A colour picker grouped by category (skin, hair, cloth). Compose `Disclosure` (one per category) with a `ChipGroup` of `swatchColor` options. Selection state and persistence belong to the app; the DS provides the markup (`data-value`, `aria-pressed`) and opaque disabled styling.
+A colour picker grouped by category (skin, hair, cloth). Compose [SwatchButton](/?path=/docs/core-molecules-swatchbutton--docs) role triggers with an inline [Panel](/?path=/docs/core-molecules-panel--docs) (`surface="sunken"`), or use `Disclosure` (one per category) with a `ChipGroup` of `swatchColor` options. Selection state and persistence belong to the app; the DS provides the markup (`data-value`, `aria-pressed`) and `@eevenkoto/html/dom` sync helpers (`syncChipGroup`, `showToast`).
 
 ```ts
 import '@eevenkoto/css/disclosure.css';
@@ -4008,6 +4012,7 @@ _Source: `apps/storybook/src/core/molecules/Disclosure/Disclosure.mdx` · [Story
 | `label` | `string` | — | Summary label. |
 | `summaryText` | `string` | — | Muted secondary summary text. |
 | `variant` | `'card' \| 'subtle' \| 'flush'` | `'card'` | Surface treatment. |
+| `size` | `'sm' \| 'md'` | `'md'` | Compact or default padding and typography density. |
 | `open` | `boolean` | `false` | Start expanded. |
 | `emphasized` | `boolean` | `false` | Accent border. |
 | `body` / `bodyHtml` | `string` | — | Plain or trusted HTML (slot/children wins). |
@@ -4127,6 +4132,26 @@ _Source: `apps/storybook/src/core/molecules/Notice/Notice.mdx` · [Storybook](/?
 | `actions` | `string` / slot | — | Action controls rendered inside `__actions`. |
 | `id` | `string` | — | Host element `id` (React, Vue, and Astro HTML attributes). |
 
+### Panel
+
+_Source: `apps/storybook/src/core/molecules/Panel/Panel.mdx` · [Storybook](/?path=/docs/core-molecules-panel--docs)_
+
+**Why:** In `0.14+`, [Card](/?path=/docs/core-molecules-card--docs) carries the full 1920s Letterpress Calling Card double frame (`4px` paper margin + inner scooped passe-partout). Nesting a `Card` inside another `Card` or an open [Disclosure](/?path=/docs/core-molecules-disclosure--docs) creates heavy visual clutter. `Panel` provides a clean single-hairline inset surface for nested trays and prose boxes.
+
+**When:** - **Use `Panel` (`surface="sunken"`)** as a conditional inline tray controlled by an external trigger such as [SwatchButton](/?path=/docs/core-molecules-swatchbutton--docs). - **Use `Panel` (`surface="raised"` / `"subtle"`)** for framed prose passages inside an open `Disclosure` or `Workshop`. - **Don't use `Panel`** for standalone top-level content cards — use `Card`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | Optional host element `id`. |
+| `label` | `string` | — | Accessible region label (renders `<section role="region">` when set). |
+| `surface` | `'sunken' \| 'subtle' \| 'raised'` | `'sunken'` | Surface fill tier. |
+| `density` | `'default' \| 'compact'` | `'default'` | Padding and spacing density. |
+| `title` | `string` | — | Optional header heading. |
+| `titleLevel` | `2 \| 3 \| 4` | `3` | Heading level for `title`. |
+| `hidden` | `boolean` | `false` | Hides the panel (`hidden` attribute). |
+| `body` / `bodyHtml` | `string` | — | Plain or trusted HTML body copy (`children` / `content` / default slot takes precedence). |
+| `headerLead` / `headerActions` | slot / prop | — | Leading (`Swatch`) and trailing (`Button`) header chrome. |
+
 ### PropertyList
 
 _Source: `apps/storybook/src/core/molecules/PropertyList/PropertyList.mdx` · [Storybook](/?path=/docs/core-molecules-propertylist--docs)_
@@ -4138,12 +4163,14 @@ _Source: `apps/storybook/src/core/molecules/PropertyList/PropertyList.mdx` · [S
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `items` (list) | `PropertyItem[]` | — | Rows to render. |
-| `layout` (list) | `'inline' \| 'divided' \| 'grid' \| 'cards'` | `'inline'` | Visual arrangement of definition pairs. |
-| `columns` (list) | `2 \| 3 \| 4` | `4` (`grid`) / `2` (`cards`) | Column count for `grid` and `cards` layouts. |
+| `layout` (list) | `'inline' \| 'divided' \| 'grid' \| 'cards' \| 'stacked'` | `'inline'` | Visual arrangement of definition pairs. |
+| `columns` (list) | `1 \| 2 \| 3 \| 4` | `4` (`grid`) / `2` (`cards`) | Column count for `grid` and `cards` layouts. |
 | `label` (item) | `string` | — | Term (no colon). |
 | `value` (item) | `string` | — | Primary detail text. |
 | `valueHtml` (item) | `string` | — | Trusted pre-rendered inline HTML for `dd`. |
 | `meta` (item) | `string \| string[]` | — | Optional secondary metadata line(s) stacked below `value`. |
+| `emphasized` (item) | `boolean` | `false` | Symmetrical brass Stamp rules (`border-block`) for focal items. |
+| `span` (item) | `'auto' \| 'full'` | `'auto'` | Span full row width inside multi-column `grid` or `cards`. |
 
 ### Prose
 
@@ -4244,6 +4271,26 @@ _Source: `apps/storybook/src/core/molecules/Stepper/Stepper.mdx` · [Storybook](
 | `disabled` | `boolean` | `false` | Disabled state. |
 | `decreaseAriaLabel` | `string` | `'Vähennä'` | Accessible label on the decrement button. |
 | `increaseAriaLabel` | `string` | `'Lisää'` | Accessible label on the increment button. |
+
+### SwatchButton
+
+_Source: `apps/storybook/src/core/molecules/SwatchButton/SwatchButton.mdx` · [Storybook](/?path=/docs/core-molecules-swatchbutton--docs)_
+
+**Why:** Use `SwatchButton` when a color slot needs full `<button>` semantics (`aria-expanded`, `aria-controls`), a three-tier label stack, and full-bleed color visibility with automatic `contrast-color()` legibility across light and dark hues.
+
+**When:** - **Use `SwatchButton`** to toggle an inline [Panel](/?path=/docs/core-molecules-panel--docs) containing color [ChipGroup](/?path=/docs/core-molecules-chipgroup--docs) options. - **Don't use `SwatchButton` for individual palette options** — use `Chip` with `swatchColor` inside `ChipGroup`. - **Don't use `SwatchButton` for static non-interactive color items** — use `List` with `ListItem` `swatchColor`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | Optional `<button id>`. |
+| `color` | `string` | — | CSS color value applied to the button background via `--eevenkoto-swatch-button-color`. |
+| `roleLabel` | `string` | — | Optional uppercase role label above `label`. |
+| `label` | `string` | — | Primary shade or selection name. |
+| `hint` | `string` | — | Optional muted action hint below `label`. |
+| `expanded` | `boolean` | — | Sets `aria-expanded` and active highlight when `true`. |
+| `active` | `boolean` | `false` | Highlights the button as active. |
+| `disabled` | `boolean` | `false` | Disables interaction. |
+| `controls` | `string` | — | Sets `aria-controls` pointing to the controlled `Panel` id. |
 
 ### TableOfContents
 

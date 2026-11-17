@@ -1,7 +1,7 @@
 import type { IconName } from '../../tokens/icons';
 import type { ChipSize } from '../atoms/chip';
 
-export type ChipGroupMode = 'single' | 'multiple';
+export type ChipGroupMode = 'single' | 'multiple' | 'action';
 export type ChipGroupAttributes = Record<string, string | boolean | undefined>;
 
 export interface ChipGroupOption {
@@ -17,13 +17,13 @@ export interface ChipGroupOption {
 }
 
 export interface ChipGroupProps {
-  /** Optional DOM element `id` on `<fieldset>`. */
+  /** Optional DOM element `id` on `<fieldset>` / `role="group"`. */
   id?: string;
-  /** Accessible group legend. */
+  /** Accessible group legend/label. */
   label: string;
   /** Visually hide `<legend>` while keeping it for screen readers. Default: `false`. */
   hideLegend?: boolean;
-  /** Selection semantics (`'single'` or `'multiple'`). Default: `'single'`. */
+  /** Selection semantics (`'single'`, `'multiple'`, or `'action'` for one-click triggers without `aria-pressed`). Default: `'single'`. */
   mode?: ChipGroupMode;
   /** Chip size ladder. Default: `'sm'`. */
   size?: ChipSize;
@@ -33,6 +33,8 @@ export interface ChipGroupProps {
 }
 
 export const chipGroupClassNames = (): string => 'eevenkoto-chip-group';
+export const chipGroupHeaderClassNames = (): string => 'eevenkoto-chip-group__header';
+export const chipGroupActionClassNames = (): string => 'eevenkoto-chip-group__action';
 export const chipGroupLegendClassNames = (hideLegend = false): string =>
   hideLegend
     ? 'eevenkoto-chip-group__legend eevenkoto-visually-hidden'

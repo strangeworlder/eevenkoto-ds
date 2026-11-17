@@ -2,7 +2,37 @@
 
 All notable changes to the `@eevenkoto/*` packages are documented here.
 
-Published package version is **0.14.0**.
+Published package version is **0.15.0**.
+
+## 0.15.0
+
+> **Consuming site upgrade instructions:** See [`docs/migration-0.15-workshop-and-swatch-controls.md`](docs/migration-0.15-workshop-and-swatch-controls.md) for the `0.14.0` → `0.15.0` generator upgrade guide (`SwatchButton`, `Panel`, `PropertyList` `stacked` / `emphasized` / `span`, `List` `tiles`, `Card` `eyebrow` / `titleSize`, `ChipGroup` `action` + `headerAction`, `Disclosure` `sm`, `Workshop` `width="wide"`, and `@eevenkoto/html/dom`).
+
+Minor release resolving the consuming site's interactive generator needs across `@eevenkoto/{css,core,html,react,vue,astro}` while keeping the package surface tight and aligned with Eevenkoto's 1920s letterpress / scoop-corner aesthetic.
+
+### Added
+
+- **`SwatchButton` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Interactive `<button type="button">` color-role selector (`@eevenkoto/css/swatch-button.css`) with concave scooped corners (`corner-shape: scoop`), full-bleed color fill (`--eevenkoto-swatch-button-color`), automatic `contrast-color()` foreground text/icon contrast (`@supports (color: contrast-color(Canvas))`), `roleLabel`, `label`, `hint`, `expanded` (`aria-expanded`), `active`, `controls` (`aria-controls`), and an engraved rotating `chevron-down` `Icon`.
+- **`Panel` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Lightweight `0px` architectural inset container (`@eevenkoto/css/panel.css`) with `surface?: 'sunken' | 'subtle' | 'raised'`, `density?: 'default' | 'compact'`, `label` (`<section role="region">`), `headerLead`, `title`, `titleLevel`, `headerActions`, `hidden`, and `.eevenkoto-prose` body — designed for conditional trays and nested prose boxes without Calling Card's `::before` passe-partout frame.
+- **Client DOM sync helpers (`@eevenkoto/html/dom`):** Added tree-shakeable, SSR-safe helpers `showToast`, `hideToast`, `syncChipGroup`, `syncStepper`, and `updateChoiceDescription` so Astro client scripts no longer couple to internal BEM classes.
+- **`Workshop` core helpers (`@eevenkoto/core`):** Exported `workshopPanelClassNames()`, `workshopStepperGridClassNames()`, and `workshopHeaderControlsClassNames()`.
+
+### Changed (backwards compatible)
+
+- **`Property` & `PropertyList` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Added `layout="stacked"` (term above value, no colon), `columns: 1 | 2 | 3 | 4`, and `PropertyItem` `id`, `hidden`, `span?: 'auto' | 'full'`, and `emphasized?: boolean` (symmetrical `2px` `--eevenkoto-color-content-accent-strong` Stamp top/bottom rules and `0px` corners).
+- **`List` & `ListItem` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Added `ListItemProps.swatchColor` (renders non-interactive `sm` `Swatch` before wrapping copy) and `ListProps.layout?: 'stack' | 'tiles'` with `columns?: 1 | 2 | 3`.
+- **`Card` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Added `flex-wrap: wrap` to `.eevenkoto-card__header`, `eyebrow?: string`, `titleSize?: 'md' | 'lg'` (`heading-4` vs `heading-2`), plus `id`, `className`, and `attributes` passthrough in `renderCard()`.
+- **`ChipGroup` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Added `mode="action"` (omits `aria-pressed` on one-click triggers) and `headerAction` slot/prop (renders a valid `role="group"` header row for trailing actions such as refresh buttons).
+- **`Disclosure` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Added `flex-wrap: wrap` to `.eevenkoto-disclosure__summary` and `size?: 'sm' | 'md'` for compact lists.
+- **`Workshop` & `EquipmentWorkshop` (`@eevenkoto/{css,core,html,react,vue,astro}`):** Added `width?: 'contained' | 'wide'` (`--eevenkoto-workshop-max-width` / `--eevenkoto-workshop-available-width`) and `.eevenkoto-workshop__header-controls` responsive wrapping + `Select` ellipsis truncation below `40rem`.
+- **Tier 3 public override tokens (`@eevenkoto/css`):**
+  - `swatch-button.css`: `--eevenkoto-swatch-button-color`, `--eevenkoto-swatch-button-bg`, `--eevenkoto-swatch-button-text`, `--eevenkoto-swatch-button-muted`, `--eevenkoto-swatch-button-border-color`, `--eevenkoto-swatch-button-border-width`, `--eevenkoto-swatch-button-radius`, `--eevenkoto-swatch-button-pad-block`, `--eevenkoto-swatch-button-pad-inline`, `--eevenkoto-swatch-button-gap`, `--eevenkoto-swatch-button-icon`, `--eevenkoto-swatch-button-shadow`.
+  - `panel.css`: `--eevenkoto-panel-bg`, `--eevenkoto-panel-text`, `--eevenkoto-panel-border-color`, `--eevenkoto-panel-border-width`, `--eevenkoto-panel-radius`, `--eevenkoto-panel-pad-block`, `--eevenkoto-panel-pad-inline`, `--eevenkoto-panel-gap`.
+  - `property.css`: `--eevenkoto-property-emphasis-border-color`.
+  - `list.css`: `--eevenkoto-list-cols`, `--eevenkoto-list-tile-bg`, `--eevenkoto-list-tile-border-color`.
+  - `card.css`: `--eevenkoto-card-eyebrow-color`, `--eevenkoto-card-title-font-size`.
+  - `disclosure.css`: `--eevenkoto-disclosure-font-size`.
+  - `workshop.css`: `--eevenkoto-workshop-max-width`, `--eevenkoto-workshop-available-width`.
 
 ## 0.14.0
 

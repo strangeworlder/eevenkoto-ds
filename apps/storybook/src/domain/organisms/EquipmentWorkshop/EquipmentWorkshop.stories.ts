@@ -58,6 +58,11 @@ const meta: Meta<EquipmentWorkshopProps> = {
       options: ['split', 'inline'],
       table: { defaultValue: { summary: 'split' } },
     },
+    width: {
+      control: 'inline-radio',
+      options: ['contained', 'wide'],
+      table: { defaultValue: { summary: 'contained' } },
+    },
     sticky: {
       control: 'inline-radio',
       options: ['preview', 'controls', 'none'],

@@ -110,12 +110,14 @@ Bordered `surface-subtle` tiles (defaults to `columns={2}`) with optional `meta`
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `items` (list) | `PropertyItem[]` | — | Rows to render. |
-| `layout` (list) | `'inline' \| 'divided' \| 'grid' \| 'cards'` | `'inline'` | Visual arrangement of definition pairs. |
-| `columns` (list) | `2 \| 3 \| 4` | `4` (`grid`) / `2` (`cards`) | Column count for `grid` and `cards` layouts. |
+| `layout` (list) | `'inline' \| 'divided' \| 'grid' \| 'cards' \| 'stacked'` | `'inline'` | Visual arrangement of definition pairs. |
+| `columns` (list) | `1 \| 2 \| 3 \| 4` | `4` (`grid`) / `2` (`cards`) | Column count for `grid` and `cards` layouts. |
 | `label` (item) | `string` | — | Term (no colon). |
 | `value` (item) | `string` | — | Primary detail text. |
 | `valueHtml` (item) | `string` | — | Trusted pre-rendered inline HTML for `dd`. |
 | `meta` (item) | `string \| string[]` | — | Optional secondary metadata line(s) stacked below `value`. |
+| `emphasized` (item) | `boolean` | `false` | Symmetrical brass Stamp rules (`border-block`) for focal items. |
+| `span` (item) | `'auto' \| 'full'` | `'auto'` | Span full row width inside multi-column `grid` or `cards`. |
 
 <ArgTypes of={PropertyListStories} />
 
@@ -143,6 +145,7 @@ Bordered `surface-subtle` tiles (defaults to `columns={2}`) with optional `meta`
 | `--eevenkoto-property-list-divider-color` | Divider hairline in `--divided` |
 | `--eevenkoto-property-label-color` / `--eevenkoto-property-value-color` / `--eevenkoto-property-meta-color` | Term, value, and secondary metadata ink overrides |
 | `--eevenkoto-property-card-bg` / `--eevenkoto-property-card-border-color` | Tile fill & border in `--cards` |
+| `--eevenkoto-property-emphasis-border-color` | Top/bottom brass Stamp border on `emphasized` items (`content-accent-strong`) |
 | `--eevenkoto-property-font-size` / `--eevenkoto-property-font-family` / `--eevenkoto-property-line-height` | Row typography (`body-md`, `font-sans`, `line-height-body`) |
 | `--eevenkoto-property-gap` | Label↔value gap |
 | `--eevenkoto-property-label-weight` | Term weight (defaults to bold) |

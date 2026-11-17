@@ -25,6 +25,11 @@ const meta: Meta<DisclosureProps> = {
       options: ['card', 'subtle', 'flush'],
       table: { type: { summary: "'card' | 'subtle' | 'flush'" }, defaultValue: { summary: 'card' } },
     },
+    size: {
+      control: 'inline-radio',
+      options: ['md', 'sm'],
+      table: { type: { summary: "'sm' | 'md'" }, defaultValue: { summary: 'md' } },
+    },
     open: { control: 'boolean' },
     emphasized: { control: 'boolean' },
     body: { control: 'text' },
@@ -63,4 +68,16 @@ export const WithSwatchAndMeta: Story = {
 
 export const Emphasized: Story = {
   args: { emphasized: true, label: 'Tärkeä huomio' },
+};
+
+export const Compact: Story = {
+  args: {
+    size: 'sm',
+    variant: 'subtle',
+    label: 'Päällystakki ja kaulahuivi',
+    summaryText: 'Pehmeä villasekoite · lämmin kerros',
+    summaryLead: renderSwatch({ color: '#4a3728', size: 'sm' }),
+    summaryMeta: renderBadge({ label: 'Valittu', size: 'sm' }),
+    body: 'Sopii viileisiin iltoihin ja katukuvaukseen.',
+  },
 };

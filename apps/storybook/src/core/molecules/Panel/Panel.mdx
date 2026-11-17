@@ -1,0 +1,117 @@
+import { Meta, Canvas, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as PanelStories from './Panel.stories';
+
+<Meta of={PanelStories} />
+
+# Panel
+
+A lightweight inset surface container (`sunken`, `subtle`, or `raised`) with crisp `0px` architectural trim, an optional header row (`headerLead`, `title`, `headerActions`), and a `.eevenkoto-prose` body slot.
+
+<Canvas of={PanelStories.Default} />
+
+```html
+<div class="eevenkoto-panel">
+  <div class="eevenkoto-panel__header">
+    <h3 class="eevenkoto-panel__title">Valitse sävy</h3>
+  </div>
+  <div class="eevenkoto-panel__body eevenkoto-prose">
+    <p>Kevyt upotettu säilö lomake- ja proosakäyttöön.</p>
+  </div>
+</div>
+```
+
+<Controls of={PanelStories.Default} />
+
+## Why to use
+
+In `0.14+`, [Card](?path=/docs/core-molecules-card--docs) carries the full 1920s Letterpress Calling Card double frame (`4px` paper margin + inner scooped passe-partout). Nesting a `Card` inside another `Card` or an open [Disclosure](?path=/docs/core-molecules-disclosure--docs) creates heavy visual clutter. `Panel` provides a clean single-hairline inset surface for nested trays and prose boxes.
+
+## When to use
+
+- **Use `Panel` (`surface="sunken"`)** as a conditional inline tray controlled by an external trigger such as [SwatchButton](?path=/docs/core-molecules-swatchbutton--docs).
+- **Use `Panel` (`surface="raised"` / `"subtle"`)** for framed prose passages inside an open `Disclosure` or `Workshop`.
+- **Don't use `Panel`** for standalone top-level content cards — use `Card`.
+
+<Canvas of={PanelStories.SwatchPickerTray} />
+
+<Canvas of={PanelStories.ProseBoxInsideDisclosure} />
+
+## API reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | — | Optional host element `id`. |
+| `label` | `string` | — | Accessible region label (renders `<section role="region">` when set). |
+| `surface` | `'sunken' \| 'subtle' \| 'raised'` | `'sunken'` | Surface fill tier. |
+| `density` | `'default' \| 'compact'` | `'default'` | Padding and spacing density. |
+| `title` | `string` | — | Optional header heading. |
+| `titleLevel` | `2 \| 3 \| 4` | `3` | Heading level for `title`. |
+| `hidden` | `boolean` | `false` | Hides the panel (`hidden` attribute). |
+| `body` / `bodyHtml` | `string` | — | Plain or trusted HTML body copy (`children` / `content` / default slot takes precedence). |
+| `headerLead` / `headerActions` | slot / prop | — | Leading (`Swatch`) and trailing (`Button`) header chrome. |
+
+<ArgTypes of={PanelStories} />
+
+### Public CSS override tokens
+
+| Token | Purpose |
+| --- | --- |
+| `--eevenkoto-panel-bg` | Panel fill (`surface-sunken` default) |
+| `--eevenkoto-panel-text` | Body text color |
+| `--eevenkoto-panel-border-color` | Hairline border (`boundary-subtle` default) |
+| `--eevenkoto-panel-border-width` | Border width |
+| `--eevenkoto-panel-radius` | Corner radius (`0` default) |
+| `--eevenkoto-panel-pad-block` / `--eevenkoto-panel-pad-inline` | Internal padding |
+| `--eevenkoto-panel-gap` | Vertical gap between header and body blocks |
+
+## Framework packages
+
+`panel.css` imports `prose.css` automatically.
+
+```ts
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/panel.css';
+import { renderPanel } from '@eevenkoto/html';
+
+renderPanel({
+  surface: 'sunken',
+  title: 'Valitse sävy',
+  body: 'Sävyn kuvaus.',
+});
+```
+
+```tsx
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/panel.css';
+import { Panel } from '@eevenkoto/react';
+
+<Panel surface="sunken" title="Valitse sävy">
+  <p>Sävyn kuvaus.</p>
+</Panel>
+```
+
+```vue
+<script setup>
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/panel.css';
+import { Panel } from '@eevenkoto/vue';
+</script>
+
+<template>
+  <Panel surface="sunken" title="Valitse sävy">
+    <p>Sävyn kuvaus.</p>
+  </Panel>
+</template>
+```
+
+```astro
+---
+import '@eevenkoto/css/styles.css';
+import '@eevenkoto/css/panel.css';
+import { Panel } from '@eevenkoto/astro';
+---
+
+<Panel surface="sunken" title="Valitse sävy">
+  <p>Sävyn kuvaus.</p>
+</Panel>
+```

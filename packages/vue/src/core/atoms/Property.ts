@@ -2,21 +2,28 @@ import {
   propertyClassNames,
   propertyMetaClassNames,
   type PropertyProps,
+  type PropertySpan,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType } from 'vue';
 
-export type { PropertyProps };
+export type { PropertyProps, PropertySpan };
 
 export const Property = defineComponent({
   name: 'EevenkotoProperty',
   props: {
+    id: { type: String, default: undefined },
     label: { type: String, required: true },
     value: { type: String, default: undefined },
     valueHtml: { type: String, default: undefined },
     meta: { type: [String, Array] as PropType<PropertyProps['meta']>, default: undefined },
+    emphasized: { type: Boolean, default: false },
+    span: { type: String as PropType<PropertySpan>, default: undefined },
+    hidden: { type: Boolean, default: false },
   },
   setup(props, { slots }) {
-    const className = computed(() => propertyClassNames());
+    const className = computed(() =>
+      propertyClassNames({ emphasized: props.emphasized, span: props.span }),
+    );
 
     return () => {
       const metaLines = (
@@ -47,10 +54,11 @@ export const Property = defineComponent({
             : h('dd', { class: 'eevenkoto-property__value' }, props.value ?? '');
       }
 
-      return h('div', { class: className.value }, [
-        h('dt', { class: 'eevenkoto-property__label' }, props.label),
-        ddNode,
-      ]);
+      return h(
+        'div',
+        { id: props.id, hidden: props.hidden || undefined, class: className.value },
+        [h('dt', { class: 'eevenkoto-property__label' }, props.label), ddNode],
+      );
     };
   },
 });

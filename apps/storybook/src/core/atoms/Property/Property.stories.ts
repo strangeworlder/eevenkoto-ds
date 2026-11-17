@@ -13,6 +13,7 @@ const meta: Meta<PropertyProps> = {
     },
   },
   argTypes: {
+    id: { control: 'text' },
     label: { control: 'text' },
     value: { control: 'text' },
     valueHtml: {
@@ -23,6 +24,9 @@ const meta: Meta<PropertyProps> = {
       control: 'object',
       description: 'Optional secondary metadata line(s) stacked below value.',
     },
+    emphasized: { control: 'boolean' },
+    span: { control: 'inline-radio', options: ['auto', 'full'] },
+    hidden: { control: 'boolean' },
   },
   render: (args) => `<dl class="eevenkoto-property-list">${renderProperty(args)}</dl>`,
 };

@@ -61,6 +61,14 @@
     --eevenkoto-workshop-preview-width,
     minmax(0, 1fr)
   );
+  --_eevenkoto-workshop-max-width: var(
+    --eevenkoto-workshop-max-width,
+    72rem
+  );
+  --_eevenkoto-workshop-available-width: var(
+    --eevenkoto-workshop-available-width,
+    calc(100vw - var(--eevenkoto-space-8))
+  );
 
   container-type: inline-size;
   container-name: eevenkoto-workshop;
@@ -147,10 +155,32 @@
   align-items: center;
 }
 
-.eevenkoto-workshop__preset-group {
+.eevenkoto-workshop__preset-group,
+.eevenkoto-workshop__header-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--eevenkoto-space-2);
+  min-inline-size: 0;
+}
+
+.eevenkoto-workshop__header-controls > .eevenkoto-field,
+.eevenkoto-workshop__preset-group > .eevenkoto-field {
+  flex: 1 1 16rem;
+  min-inline-size: 0;
+}
+
+.eevenkoto-workshop__header-controls .eevenkoto-select,
+.eevenkoto-workshop__preset-group .eevenkoto-select {
+  min-inline-size: 0;
+  max-inline-size: 100%;
+}
+
+.eevenkoto-workshop__header-controls .eevenkoto-select__field,
+.eevenkoto-workshop__preset-group .eevenkoto-select__field {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .eevenkoto-workshop__preset-label {
@@ -296,6 +326,21 @@
 
 /* --- LAYOUT & STICKY MODIFIERS --- */
 
+.eevenkoto-workshop--wide {
+  inline-size: max(
+    100%,
+    min(var(--_eevenkoto-workshop-max-width), var(--_eevenkoto-workshop-available-width))
+  );
+  max-inline-size: none;
+  margin-inline: calc(
+    50% -
+      max(
+        100%,
+        min(var(--_eevenkoto-workshop-max-width), var(--_eevenkoto-workshop-available-width))
+      ) / 2
+  );
+}
+
 .eevenkoto-workshop--inline {
   --eevenkoto-workshop-pad: var(--eevenkoto-space-4);
 }
@@ -342,9 +387,32 @@
   }
 }
 
+@container eevenkoto-workshop (max-width: 40rem) {
+  .eevenkoto-workshop__header {
+    align-items: stretch;
+  }
+
+  .eevenkoto-workshop__preset-group,
+  .eevenkoto-workshop__header-controls {
+    flex-direction: column;
+    align-items: stretch;
+    inline-size: 100%;
+  }
+
+  .eevenkoto-workshop__header-controls > .eevenkoto-field,
+  .eevenkoto-workshop__preset-group > .eevenkoto-field {
+    flex: 1 1 auto;
+  }
+}
+
 /* --- PRINT --- */
 
 @media print {
+  .eevenkoto-workshop--wide {
+    inline-size: auto;
+    margin-inline: 0;
+  }
+
   .eevenkoto-workshop--inline,
   .eevenkoto-workshop--sticky-none .eevenkoto-workshop__preview,
   .eevenkoto-workshop--inline .eevenkoto-workshop__preview {

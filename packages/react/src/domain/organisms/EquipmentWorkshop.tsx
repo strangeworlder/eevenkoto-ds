@@ -37,12 +37,13 @@ export const EquipmentWorkshop = ({
   children,
   idSuffix,
   layout,
+  width,
   sticky,
   className,
   id,
   ...rest
 }: EquipmentWorkshopComponentProps): ReactElement => {
-  const classes = [equipmentWorkshopClassNames({ layout, sticky }), className]
+  const classes = [equipmentWorkshopClassNames({ layout, width, sticky }), className]
     .filter(Boolean)
     .join(' ');
   const elementId = id ?? (idSuffix ? `equipment-workshop${idSuffix}` : undefined);

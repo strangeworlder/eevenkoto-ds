@@ -46,6 +46,8 @@ import {
   selectClassNames,
   stepperClassNames,
   toastClassNames,
+  swatchButtonClassNames,
+  panelClassNames,
   type EntityRefKind,
 } from '@eevenkoto/core';
 import {
@@ -66,6 +68,7 @@ import {
   renderList,
   renderMenu,
   renderNotice,
+  renderPanel,
   renderPopover,
   renderProperty,
   renderPropertyList,
@@ -76,6 +79,7 @@ import {
   renderStatblockSection,
   renderStatusDot,
   renderSwatch,
+  renderSwatchButton,
   renderTable,
   renderTableCell,
   renderTooltipCard,
@@ -107,6 +111,7 @@ import {
   List,
   Menu,
   Notice,
+  Panel,
   Popover,
   Property,
   PropertyList,
@@ -117,6 +122,7 @@ import {
   StatblockSection,
   StatusDot,
   Swatch,
+  SwatchButton,
   Table,
   TooltipCard,
   EquipmentBlock,
@@ -147,6 +153,7 @@ import {
   List as VueList,
   Menu as VueMenu,
   Notice as VueNotice,
+  Panel as VuePanel,
   Popover as VuePopover,
   Property as VueProperty,
   PropertyList as VuePropertyList,
@@ -157,6 +164,7 @@ import {
   StatblockSection as VueStatblockSection,
   StatusDot as VueStatusDot,
   Swatch as VueSwatch,
+  SwatchButton as VueSwatchButton,
   Table as VueTable,
   TooltipCard as VueTooltipCard,
   EquipmentBlock as VueEquipmentBlock,
@@ -2308,5 +2316,137 @@ describe('0.12.0 Wave 3 — Domain components across HTML, React, and Vue', () =
     expect(renderContentGate(gate)).not.toContain('eevenkoto-content-gate__actions');
     expect(renderToStaticMarkup(createElement(ContentGate, gate))).toContain(cgCls);
     expect(await vueHtml(VueContentGate, gate)).toContain(cgCls);
+  });
+
+  it('SwatchButton and Panel parity', async () => {
+    const sbProps = {
+      id: 'role-primary',
+      color: '#2c5e4f',
+      roleLabel: '60 % Pääväri',
+      label: 'Sammaleenvihreä',
+      hint: 'Vaihda',
+      expanded: true,
+      controls: 'tray-1',
+    };
+    const sbCls = swatchButtonClassNames({ expanded: true });
+    expect(sbCls).toContain('eevenkoto-swatch-button--active');
+    const sbHtml = renderSwatchButton(sbProps);
+    expect(sbHtml).toContain(sbCls);
+    expect(sbHtml).toContain('--eevenkoto-swatch-button-color: #2c5e4f');
+    expect(sbHtml).not.toContain('eevenkoto-swatch ');
+    expect(sbHtml).toContain('aria-expanded="true"');
+    expect(sbHtml).toContain('aria-controls="tray-1"');
+    const sbReact = renderToStaticMarkup(createElement(SwatchButton, sbProps));
+    expect(sbReact).toContain(sbCls);
+    expect(sbReact).toContain('--eevenkoto-swatch-button-color:#2c5e4f');
+    expect(sbReact).not.toContain('eevenkoto-swatch ');
+    expect(sbReact).toContain('aria-expanded="true"');
+    const sbVue = await vueHtml(VueSwatchButton, sbProps);
+    expect(sbVue).toContain(sbCls);
+    expect(sbVue).toContain('--eevenkoto-swatch-button-color:#2c5e4f');
+    expect(sbVue).not.toContain('eevenkoto-swatch ');
+    expect(sbVue).toContain('aria-expanded="true"');
+
+    const pProps = {
+      id: 'tray-1',
+      label: 'Värivalitsin',
+      surface: 'raised' as const,
+      density: 'compact' as const,
+      title: 'Sävyryhmä',
+      body: 'Teksti',
+    };
+    const pCls = panelClassNames({ surface: 'raised', density: 'compact' });
+    expect(pCls).toContain('eevenkoto-panel--surface-raised');
+    expect(pCls).toContain('eevenkoto-panel--compact');
+    const pHtml = renderPanel(pProps);
+    expect(pHtml).toContain(pCls);
+    expect(pHtml).toContain('role="region"');
+    expect(renderToStaticMarkup(createElement(Panel, pProps))).toContain(pCls);
+    expect(await vueHtml(VuePanel, pProps)).toContain(pCls);
+  });
+
+  it('Generator resolution extensions parity (PropertyList, List, Card, ChipGroup, Disclosure, Workshop)', async () => {
+    const plProps = {
+      layout: 'stacked' as const,
+      items: [
+        { id: 'lineage', label: 'Suku', value: 'Erentar', emphasized: true, span: 'full' as const },
+        { id: 'secondary', label: 'Sivunimi', value: 'Relia', hidden: true },
+      ],
+    };
+    const plHtml = renderPropertyList(plProps);
+    expect(plHtml).toContain('eevenkoto-property-list--stacked');
+    expect(plHtml).toContain('eevenkoto-property--emphasized');
+    expect(plHtml).toContain('eevenkoto-property--span-full');
+    expect(plHtml).toMatch(/id="secondary"[^>]* hidden/);
+    expect(renderToStaticMarkup(createElement(PropertyList, plProps))).toContain('eevenkoto-property--emphasized');
+    expect(await vueHtml(VuePropertyList, plProps)).toContain('eevenkoto-property--span-full');
+
+    const listProps = {
+      layout: 'tiles' as const,
+      columns: 2 as const,
+      items: [{ text: 'Villapaita', swatchColor: '#2c5e4f' }],
+    };
+    const listHtml = renderList(listProps);
+    expect(listHtml).toContain('eevenkoto-list--tiles');
+    expect(listHtml).toContain('eevenkoto-list--cols-2');
+    expect(listHtml).toContain('eevenkoto-swatch');
+    expect(renderToStaticMarkup(createElement(List, listProps))).toContain('eevenkoto-list--tiles');
+    expect(await vueHtml(VueList, listProps)).toContain('eevenkoto-swatch');
+
+    const cardProps = {
+      eyebrow: 'Kulttuurinimi',
+      title: 'Aurelia',
+      titleSize: 'lg' as const,
+      body: 'Kuvaus',
+    };
+    const cardHtml = renderCard({ ...cardProps, id: 'res-card', className: 'custom-card', attributes: { 'data-ready': 'true' } });
+    expect(cardHtml).toContain('eevenkoto-card--title-lg');
+    expect(cardHtml).toContain('eevenkoto-card__eyebrow');
+    expect(cardHtml).toContain('data-ready="true"');
+    expect(renderToStaticMarkup(createElement(Card, cardProps))).toContain('eevenkoto-card--title-lg');
+    expect(await vueHtml(VueCard, cardProps)).toContain('eevenkoto-card__eyebrow');
+
+    const cgHtml = renderChipGroup({
+      id: 'quick',
+      label: 'Pikalista',
+      mode: 'action',
+      headerAction: '<button type="button">Päivitä</button>',
+      options: [{ value: 'a', label: 'Aurelia', selected: true }],
+    });
+    expect(cgHtml).toContain('role="group"');
+    expect(cgHtml).toContain(chipGroupClassNames());
+    expect(cgHtml).not.toContain('aria-pressed="true"');
+    expect(
+      renderToStaticMarkup(
+        createElement(ChipGroup, {
+          id: 'quick',
+          label: 'Pikalista',
+          mode: 'action',
+          headerAction: createElement('button', { type: 'button' }, 'Päivitä'),
+          options: [{ value: 'a', label: 'Aurelia', selected: true }],
+        }),
+      ),
+    ).toContain('role="group"');
+    expect(
+      await vueHtml(
+        VueChipGroup,
+        {
+          id: 'quick',
+          label: 'Pikalista',
+          mode: 'action',
+          options: [{ value: 'a', label: 'Aurelia', selected: true }],
+        },
+      ),
+    ).toContain('data-selection-mode="action"');
+
+    const dCls = disclosureClassNames({ size: 'sm', variant: 'subtle' });
+    expect(dCls).toContain('eevenkoto-disclosure--sm');
+    expect(renderDisclosure({ label: 'Slot', size: 'sm', variant: 'subtle', body: 'x' })).toContain('eevenkoto-disclosure--sm');
+    expect(renderToStaticMarkup(createElement(Disclosure, { label: 'Slot', size: 'sm', body: 'x' }))).toContain('eevenkoto-disclosure--sm');
+    expect(await vueHtml(VueDisclosure, { label: 'Slot', size: 'sm', body: 'x' })).toContain('eevenkoto-disclosure--sm');
+
+    expect(renderWorkshop({ width: 'wide', controls: 'x' })).toContain('eevenkoto-workshop--wide');
+    expect(renderToStaticMarkup(createElement(Workshop, { width: 'wide' }, 'x'))).toContain('eevenkoto-workshop--wide');
+    expect(await vueHtml(VueWorkshop, { width: 'wide' })).toContain('eevenkoto-workshop--wide');
   });
 });

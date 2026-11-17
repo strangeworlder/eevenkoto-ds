@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/html",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Eevenkoto vanilla HTML renderers (canonical markup API)",
   "type": "module",
   "files": [
@@ -13,6 +13,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./dom": {
+      "types": "./dist/dom.d.ts",
+      "import": "./dist/dom.js"
     }
   },
   "scripts": {
@@ -20,10 +24,10 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@eevenkoto/core": "0.14.0"
+    "@eevenkoto/core": "0.15.0"
   },
   "peerDependencies": {
-    "@eevenkoto/css": "0.14.0"
+    "@eevenkoto/css": "0.15.0"
   },
   "peerDependenciesMeta": {
     "@eevenkoto/css": {

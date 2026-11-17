@@ -21,10 +21,14 @@ const classes = [propertyListClassNames({ layout, columns }), classProp, classNa
 <dl class={classes} {...rest}>
   {items?.map((item) => (
     <Property
+      id={item.id}
       label={item.label}
       value={item.value}
       valueHtml={item.valueHtml}
       meta={item.meta}
+      emphasized={item.emphasized}
+      span={item.span}
+      hidden={item.hidden}
     />
   ))}
   <slot />

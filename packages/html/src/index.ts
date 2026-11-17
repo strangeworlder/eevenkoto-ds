@@ -139,6 +139,11 @@ export { escapeHtml, sanitizeInlineHtml, slugifyId } from './utils/html';
 export { renderDisclosure, type DisclosureProps } from './core/molecules/disclosure/renderDisclosure';
 export { renderChipGroup, type ChipGroupProps } from './core/molecules/chip-group/renderChipGroup';
 export {
+  renderSwatchButton,
+  type SwatchButtonProps,
+} from './core/molecules/swatch-button/renderSwatchButton';
+export { renderPanel, type PanelProps } from './core/molecules/panel/renderPanel';
+export {
   renderTableOfContents,
   type TableOfContentsProps,
 } from './core/molecules/table-of-contents/renderTableOfContents';

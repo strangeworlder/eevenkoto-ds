@@ -21,19 +21,19 @@ const meta: Meta<PropertyListProps> = {
     },
     layout: {
       control: 'select',
-      options: ['inline', 'divided', 'grid', 'cards'],
+      options: ['inline', 'divided', 'grid', 'cards', 'stacked'],
       description: 'Visual arrangement of definition pairs.',
       table: {
-        type: { summary: "'inline' | 'divided' | 'grid' | 'cards'" },
+        type: { summary: "'inline' | 'divided' | 'grid' | 'cards' | 'stacked'" },
         defaultValue: { summary: 'inline' },
       },
     },
     columns: {
       control: 'select',
-      options: [undefined, 2, 3, 4],
+      options: [undefined, 1, 2, 3, 4],
       description: 'Explicit column count when `layout` is `grid` (default 4) or `cards` (default 2).',
       table: {
-        type: { summary: '2 | 3 | 4' },
+        type: { summary: '1 | 2 | 3 | 4' },
       },
     },
   },
@@ -117,6 +117,35 @@ export const CardsWithMeta: Story = {
         value: 'Puolustus 16',
         meta: ['Voimakkuus 13 · Häive: haitta', 'Paino 27,5 kg · 75 kr'],
       },
+    ],
+  },
+};
+
+export const Stacked: Story = {
+  args: {
+    layout: 'stacked',
+    items: [
+      { label: 'Syntymäseutu', value: 'Korpinpesän harju, vanha satamakaupunki' },
+      { label: 'Kaarikuvaus', value: 'Kulkenut laivaston mukana kolmen meren yli ennen kotiutumista.' },
+    ],
+  },
+};
+
+export const EmphasizedMixedGrid: Story = {
+  name: 'Emphasized & full-span cards',
+  args: {
+    layout: 'cards',
+    columns: 2,
+    items: [
+      {
+        label: 'Suku ja arvo',
+        value: 'Erentarin hopeasuku',
+        meta: 'Korkeasukulainen · kantaa sinettisormusta',
+        emphasized: true,
+        span: 'full',
+      },
+      { label: 'Syntymänimi', value: 'Aurelia', emphasized: true },
+      { label: 'Kutsumanimi', value: 'Relia' },
     ],
   },
 };

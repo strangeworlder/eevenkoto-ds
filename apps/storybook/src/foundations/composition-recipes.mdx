@@ -85,11 +85,11 @@ renderCard({
 });
 ```
 
-Use `layout="cards"` with `PropertyItem.meta` for highlight tiles (value + secondary lines), and a subtle `Card` for a single highlighted attribute box.
+Use `layout="cards"` with `PropertyItem.meta` and `PropertyItem.emphasized` for highlight tiles (symmetrical brass Stamp rules — no directional left bars), or a `featured` `Card` for a standalone attribute box.
 
 ## Highlight tile / attribute box
 
-A single emphasised fact with supporting lines.
+Emphasised facts inside a card or grid using `PropertyList` `layout="cards"` with `emphasized` and `span: 'full'` (no dedicated `HighlightTile` component).
 
 ```ts
 import '@eevenkoto/css/card.css';
@@ -101,7 +101,11 @@ renderCard({
   bodyHtml: renderPropertyList({
     layout: 'cards',
     columns: 2,
-    items: [{ label: 'Kesto', value: '3 / 4', meta: ['Murskaus 4', 'Viilto 3'] }],
+    items: [
+      { label: 'Kesto', value: '3 / 4', meta: ['Murskaus 4', 'Viilto 3'], emphasized: true, span: 'full' },
+      { label: 'Paino', value: '2,5 kg' },
+      { label: 'Hinta', value: '45 kr' },
+    ],
   }),
 });
 ```
@@ -132,7 +136,7 @@ import { renderSegmentedControl, renderCard } from '@eevenkoto/html';
 
 ## Categorised swatch picker tray
 
-A colour picker grouped by category (skin, hair, cloth). Compose `Disclosure` (one per category) with a `ChipGroup` of `swatchColor` options. Selection state and persistence belong to the app; the DS provides the markup (`data-value`, `aria-pressed`) and opaque disabled styling.
+A colour picker grouped by category (skin, hair, cloth). Compose [SwatchButton](?path=/docs/core-molecules-swatchbutton--docs) role triggers with an inline [Panel](?path=/docs/core-molecules-panel--docs) (`surface="sunken"`), or use `Disclosure` (one per category) with a `ChipGroup` of `swatchColor` options. Selection state and persistence belong to the app; the DS provides the markup (`data-value`, `aria-pressed`) and `@eevenkoto/html/dom` sync helpers (`syncChipGroup`, `showToast`).
 
 ```ts
 import '@eevenkoto/css/disclosure.css';

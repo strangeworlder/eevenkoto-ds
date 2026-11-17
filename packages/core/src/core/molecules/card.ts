@@ -1,4 +1,5 @@
 export type CardTitleLevel = 2 | 3;
+export type CardTitleSize = 'md' | 'lg';
 export type CardSurface = 'raised' | 'subtle' | 'sunken';
 export type CardLayout = 'stack' | 'split';
 
@@ -15,12 +16,16 @@ export interface CardProps {
   elevated?: boolean;
   /** Hover / focus affordance for clickable cards. Default: false */
   interactive?: boolean;
+  /** Optional uppercase eyebrow label above `title` inside `<header>`. */
+  eyebrow?: string;
   /** Visible title in `<header>`. Optional. */
   title?: string;
   /** Trusted pre-rendered inline HTML for `<header>` title. Takes precedence over `title`. */
   titleHtml?: string;
   /** Heading level for `title`. Default: 2 (teaser, not a page entry). */
   titleLevel?: CardTitleLevel;
+  /** Visual size scale of `<header>` title (`'md'` = heading-4 default, `'lg'` = heading-2 for focal result cards). */
+  titleSize?: CardTitleSize;
   /** Body copy as a `<p>`. Optional when using framework slots. */
   body?: string;
   /**
@@ -32,7 +37,7 @@ export interface CardProps {
 
 export type CardClassNameProps = Pick<
   CardProps,
-  'surface' | 'featured' | 'current' | 'layout' | 'elevated' | 'interactive'
+  'surface' | 'featured' | 'current' | 'layout' | 'elevated' | 'interactive' | 'titleSize'
 >;
 
 export const cardClassNames = (props: CardClassNameProps = {}): string => {
@@ -46,9 +51,12 @@ export const cardClassNames = (props: CardClassNameProps = {}): string => {
     layout !== 'stack' ? `eevenkoto-card--${layout}` : '',
     props.elevated ? 'eevenkoto-card--elevated' : '',
     props.interactive ? 'eevenkoto-card--interactive' : '',
+    props.titleSize === 'lg' ? 'eevenkoto-card--title-lg' : '',
   ]
     .filter(Boolean)
     .join(' ');
 };
 
+export const cardHeaderGroupClassNames = (): string => 'eevenkoto-card__header-group';
+export const cardEyebrowClassNames = (): string => 'eevenkoto-card__eyebrow';
 export const cardHeaderActionsClassNames = (): string => 'eevenkoto-card__header-actions';

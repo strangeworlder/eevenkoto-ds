@@ -87,6 +87,11 @@ const meta: Meta<WorkshopProps> = {
       options: ['split', 'inline'],
       description: 'Chassis geometry: 2-column workbench (`split`) or single-column (`inline`).',
     },
+    width: {
+      control: 'inline-radio',
+      options: ['contained', 'wide'],
+      description: 'Horizontal breakout width inside narrow prose columns.',
+    },
     sticky: {
       control: 'inline-radio',
       options: ['preview', 'controls', 'none'],

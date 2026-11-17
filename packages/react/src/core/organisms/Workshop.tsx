@@ -41,6 +41,7 @@ export const Workshop = ({
   idSuffix,
   label,
   layout,
+  width,
   sticky,
   icon,
   title,
@@ -52,7 +53,7 @@ export const Workshop = ({
   role,
   ...rest
 }: WorkshopComponentProps): ReactElement => {
-  const classes = [workshopClassNames({ layout, sticky }), className].filter(Boolean).join(' ');
+  const classes = [workshopClassNames({ layout, width, sticky }), className].filter(Boolean).join(' ');
   const elementId = id ?? (idSuffix ? `workshop${idSuffix}` : undefined);
   const mergedStyle: CSSProperties | undefined = controlsWidth
     ? ({

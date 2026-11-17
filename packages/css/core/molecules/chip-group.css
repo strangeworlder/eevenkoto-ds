@@ -26,12 +26,31 @@
   display: none;
 }
 
+.eevenkoto-chip-group__header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+}
+
 .eevenkoto-chip-group__legend {
   padding: 0;
   margin-block-end: var(--eevenkoto-space-2);
   font-size: var(--eevenkoto-font-size-control-md);
   font-weight: var(--eevenkoto-font-weight-semibold);
   color: var(--_eevenkoto-chip-group-legend-color);
+}
+
+.eevenkoto-chip-group__header > .eevenkoto-chip-group__legend {
+  margin-block-end: 0;
+}
+
+.eevenkoto-chip-group__action {
+  display: flex;
+  align-items: center;
+  gap: var(--eevenkoto-space-2);
+  flex-shrink: 0;
 }
 
 .eevenkoto-chip-group__list {

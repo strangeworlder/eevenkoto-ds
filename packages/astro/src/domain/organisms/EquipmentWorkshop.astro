@@ -18,8 +18,8 @@ export interface Props
   [key: string]: unknown;
 }
 
-const { id, idSuffix, layout, sticky, class: classProp, className, ...rest } = Astro.props;
-const classes = [equipmentWorkshopClassNames({ layout, sticky }), classProp, className]
+const { id, idSuffix, layout, width, sticky, class: classProp, className, ...rest } = Astro.props;
+const classes = [equipmentWorkshopClassNames({ layout, width, sticky }), classProp, className]
   .filter(Boolean)
   .join(' ');
 const elementId = id ?? (idSuffix ? `equipment-workshop${idSuffix}` : undefined);

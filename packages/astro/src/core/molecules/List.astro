@@ -9,8 +9,8 @@ export interface Props extends Omit<Partial<ListProps>, 'items'> {
   [key: string]: unknown;
 }
 
-const { items = [], variant, size, tone, class: classProp, className, ...rest } = Astro.props;
-const classes = [listClassNames({ variant, size, tone }), classProp, className]
+const { items = [], variant, size, tone, layout, columns, class: classProp, className, ...rest } = Astro.props;
+const classes = [listClassNames({ variant, size, tone, layout, columns }), classProp, className]
   .filter(Boolean)
   .join(' ');
 const Tag = (variant ?? 'unordered') === 'ordered' ? 'ol' : 'ul';
@@ -24,6 +24,7 @@ const normalizedItems: ListItemProps[] = items.map((item) =>
       text={item.text}
       html={item.html}
       status={variant === 'checklist' ? (item.status ?? 'included') : item.status}
+      swatchColor={item.swatchColor}
     />
   ))}
   <slot />

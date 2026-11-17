@@ -1,6 +1,6 @@
 {
   "name": "@eevenkoto/css",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Eevenkoto design system tokens and component CSS",
   "type": "module",
   "files": [
@@ -56,6 +56,8 @@
     "./floating-banner.css": "./core/molecules/floating-banner.css",
     "./disclosure.css": "./core/molecules/disclosure.css",
     "./chip-group.css": "./core/molecules/chip-group.css",
+    "./panel.css": "./core/molecules/panel.css",
+    "./swatch-button.css": "./core/molecules/swatch-button.css",
     "./table-of-contents.css": "./core/molecules/table-of-contents.css",
     "./section-header.css": "./core/molecules/section-header.css",
     "./table-shell.css": "./core/organisms/table-shell.css",

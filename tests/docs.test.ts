@@ -283,8 +283,8 @@ describe('Documentation, Storybook MDX & LLM feed integrity', () => {
     ...walkFiles(join(repoRoot, 'apps/storybook/src/domain'), ['.mdx']),
   ].filter((f) => basename(f) !== 'TypographySample.mdx');
 
-  it('documents HTML, React, Vue, and Astro framework packages across all 69 MDX pages and all 71 exported components', () => {
-    expect(componentMdxFiles.length).toBe(69);
+  it('documents HTML, React, Vue, and Astro framework packages across all 71 MDX pages and all 73 exported components', () => {
+    expect(componentMdxFiles.length).toBe(71);
     const violations: string[] = [];
     const htmlUsed = new Set<string>();
     const reactUsed = new Set<string>();
@@ -335,12 +335,12 @@ describe('Documentation, Storybook MDX & LLM feed integrity', () => {
     }
 
     const astroIndexJs = readFileSync(join(repoRoot, 'packages/astro/src/index.js'), 'utf8');
-    const all71Components = [
+    const all73Components = [
       ...astroIndexJs.matchAll(/export\s+\{\s*default\s+as\s+(\w+)\s*\}/g),
     ].map((m) => m[1]);
-    expect(all71Components.length).toBe(71);
+    expect(all73Components.length).toBe(73);
 
-    for (const comp of all71Components) {
+    for (const comp of all73Components) {
       if (!htmlUsed.has(comp)) violations.push(`Framework packages omit render${comp} (@eevenkoto/html)`);
       if (!reactUsed.has(comp)) violations.push(`Framework packages omit ${comp} (@eevenkoto/react)`);
       if (!vueUsed.has(comp)) violations.push(`Framework packages omit ${comp} (@eevenkoto/vue)`);
@@ -350,7 +350,7 @@ describe('Documentation, Storybook MDX & LLM feed integrity', () => {
     expect(violations).toEqual([]);
   });
 
-  it('keeps Storybook *.stories.ts argTypes in 100% parity with both @eevenkoto/core *Props and @eevenkoto/html render* props across all 69 stories', () => {
+  it('keeps Storybook *.stories.ts argTypes in 100% parity with both @eevenkoto/core *Props and @eevenkoto/html render* props across all 71 stories', () => {
     const coreIndex = join(repoRoot, 'packages/core/src/index.ts');
     const htmlIndex = join(repoRoot, 'packages/html/src/index.ts');
     const prog = ts.createProgram([coreIndex, htmlIndex], {
@@ -376,7 +376,7 @@ describe('Documentation, Storybook MDX & LLM feed integrity', () => {
       ...walkFiles(join(repoRoot, 'apps/storybook/src/domain'), ['.stories.ts']),
     ].filter((f) => basename(f) !== 'TypographySample.stories.ts');
 
-    expect(storyFiles.length).toBe(69);
+    expect(storyFiles.length).toBe(71);
     const violations: string[] = [];
 
     for (const storyPath of storyFiles) {

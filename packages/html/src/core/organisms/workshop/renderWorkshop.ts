@@ -26,6 +26,7 @@ export const renderWorkshop = (props: WorkshopProps = {}): string => {
     idSuffix = '',
     label,
     layout,
+    width,
     sticky,
     icon,
     title,
@@ -79,7 +80,7 @@ export const renderWorkshop = (props: WorkshopProps = {}): string => {
     : '';
 
   return template
-    .replace('{{className}}', workshopClassNames({ layout, sticky }))
+    .replace('{{className}}', workshopClassNames({ layout, width, sticky }))
     .replace('{{attrs}}', attrs)
     .replace('{{content}}', `${headerHtml}${bodyHtml}${footerHtml}`);
 };

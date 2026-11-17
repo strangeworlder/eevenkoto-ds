@@ -21,6 +21,7 @@ export const renderEquipmentWorkshop = (props: EquipmentWorkshopProps = {}): str
     footer = '',
     idSuffix = '',
     layout,
+    width,
     sticky,
   } = props;
 
@@ -47,7 +48,7 @@ export const renderEquipmentWorkshop = (props: EquipmentWorkshopProps = {}): str
     : '';
 
   return template
-    .replace('{{className}}', equipmentWorkshopClassNames({ layout, sticky }))
+    .replace('{{className}}', equipmentWorkshopClassNames({ layout, width, sticky }))
     .replace('{{idAttr}}', idSuffix ? ` id="equipment-workshop${idSuffix}"` : '')
     .replace('{{content}}', `${headerHtml}${bodyHtml}${footerHtml}`);
 };

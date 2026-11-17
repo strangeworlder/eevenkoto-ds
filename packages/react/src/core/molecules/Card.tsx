@@ -1,15 +1,18 @@
 import {
   cardClassNames,
+  cardEyebrowClassNames,
   cardHeaderActionsClassNames,
+  cardHeaderGroupClassNames,
   type CardLayout,
   type CardProps,
   type CardSurface,
   type CardTitleLevel,
+  type CardTitleSize,
 } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { createElement } from 'react';
 
-export type { CardProps, CardTitleLevel, CardSurface, CardLayout };
+export type { CardProps, CardTitleLevel, CardTitleSize, CardSurface, CardLayout };
 
 export type CardComponentProps = Omit<HTMLAttributes<HTMLElement>, 'title' | 'children'> &
   CardProps & {
@@ -36,9 +39,11 @@ export const Card = ({
   layout,
   elevated,
   interactive,
+  eyebrow,
   title,
   titleHtml,
   titleLevel,
+  titleSize,
   body,
   bodyHtml,
   header,
@@ -58,6 +63,7 @@ export const Card = ({
       layout,
       elevated,
       interactive: interactive || Boolean(href),
+      titleSize,
     }),
     className,
   ]
@@ -66,17 +72,30 @@ export const Card = ({
 
   const level: CardTitleLevel = titleLevel === 3 ? 3 : 2;
   const hasHeader =
-    header != null || Boolean(titleHtml) || Boolean(title) || headerActions != null;
+    header != null || Boolean(eyebrow) || Boolean(titleHtml) || Boolean(title) || headerActions != null;
 
+  const eyebrowEl = eyebrow ? <p className={cardEyebrowClassNames()}>{eyebrow}</p> : null;
   const headingEl = titleHtml
     ? createElement(`h${level}`, { dangerouslySetInnerHTML: { __html: titleHtml } })
     : title
       ? createElement(`h${level}`, null, title)
       : null;
+  const titleGroupEl =
+    eyebrowEl && headingEl ? (
+      <div className={cardHeaderGroupClassNames()}>
+        {eyebrowEl}
+        {headingEl}
+      </div>
+    ) : (
+      <>
+        {eyebrowEl}
+        {headingEl}
+      </>
+    );
 
   const headerEl = hasHeader ? (
-    <header className={headerActions != null ? 'eevenkoto-card__header' : undefined}>
-      {header ?? headingEl}
+    <header className={headerActions != null || eyebrow ? 'eevenkoto-card__header' : undefined}>
+      {header ?? titleGroupEl}
       {headerActions != null ? (
         <div className={cardHeaderActionsClassNames()}>{headerActions}</div>
       ) : null}

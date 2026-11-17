@@ -1,0 +1,62 @@
+---
+import {
+  swatchButtonChevronClassNames,
+  swatchButtonClassNames,
+  swatchButtonContentClassNames,
+  swatchButtonHintClassNames,
+  swatchButtonLabelClassNames,
+  swatchButtonRoleClassNames,
+  type SwatchButtonProps,
+} from '@eevenkoto/core';
+import Icon from '../atoms/Icon.astro';
+
+export interface Props extends SwatchButtonProps {
+  style?: string | Record<string, string | number | undefined>;
+  class?: string;
+  className?: string;
+  [key: string]: unknown;
+}
+
+const {
+  id,
+  color,
+  roleLabel,
+  label,
+  hint,
+  expanded,
+  active,
+  disabled,
+  controls,
+  style,
+  class: classProp,
+  className,
+  ...rest
+} = Astro.props;
+
+const classes = [swatchButtonClassNames({ active, expanded }), classProp, className]
+  .filter(Boolean)
+  .join(' ');
+const inlineStyle =
+  style === undefined
+    ? `--eevenkoto-swatch-button-color: ${color}`
+    : typeof style === 'string'
+      ? `--eevenkoto-swatch-button-color: ${color}; ${style}`
+      : { '--eevenkoto-swatch-button-color': color, ...style };
+---
+<button
+  id={id}
+  type="button"
+  class={classes}
+  style={inlineStyle}
+  aria-expanded={expanded !== undefined ? (expanded ? 'true' : 'false') : undefined}
+  aria-controls={controls}
+  disabled={disabled || undefined}
+  {...rest}
+>
+  <span class={swatchButtonContentClassNames()}>
+    {roleLabel ? <span class={swatchButtonRoleClassNames()}>{roleLabel}</span> : null}
+    <span class={swatchButtonLabelClassNames()}>{label}</span>
+    {hint ? <span class={swatchButtonHintClassNames()}>{hint}</span> : null}
+  </span>
+  <Icon name="chevron-down" size="sm" class={swatchButtonChevronClassNames()} />
+</button>

@@ -6,6 +6,7 @@ import {
 } from '@eevenkoto/core';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
 import { Icon } from './Icon';
+import { Swatch } from './Swatch';
 
 export type { ListItemProps, ListItemStatus };
 
@@ -24,11 +25,12 @@ export const ListItem = ({
   text,
   html,
   status,
+  swatchColor,
   children,
   className,
   ...rest
 }: ListItemComponentProps): ReactElement => {
-  if (!status) {
+  if (!status && !swatchColor) {
     if (children !== undefined) {
       return (
         <li className={className} {...rest}>
@@ -46,11 +48,17 @@ export const ListItem = ({
     );
   }
 
-  const classes = [listItemClassNames(status), className].filter(Boolean).join(' ');
+  const classes = [listItemClassNames({ status, swatchColor }), className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <li className={classes} {...rest}>
-      <Icon name={statusIconName(status)} size="sm" className="eevenkoto-list__icon" />
+      {swatchColor ? (
+        <Swatch color={swatchColor} size="sm" />
+      ) : status ? (
+        <Icon name={statusIconName(status)} size="sm" className="eevenkoto-list__icon" />
+      ) : null}
       {status === 'excluded' ? (
         <span className="eevenkoto-visually-hidden">Excluded: </span>
       ) : null}

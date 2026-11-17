@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/html-vite';
+import { expect } from 'storybook/test';
 import '@eevenkoto/css/chip-group.css';
-import { renderChipGroup, type ChipGroupProps } from '@eevenkoto/html';
+import '@eevenkoto/css/button.css';
+import { renderButton, renderChipGroup, type ChipGroupProps } from '@eevenkoto/html';
+import { syncChipGroup } from '@eevenkoto/html/dom';
 
 const meta: Meta<ChipGroupProps> = {
   title: 'Core/Molecules/ChipGroup',
@@ -16,9 +19,14 @@ const meta: Meta<ChipGroupProps> = {
     id: { control: 'text', description: 'Optional `<fieldset id>`.' },
     label: { control: 'text' },
     hideLegend: { control: 'boolean' },
-    mode: { control: 'select', options: ['single', 'multiple'], table: { defaultValue: { summary: 'single' } } },
+    mode: {
+      control: 'select',
+      options: ['single', 'multiple', 'action'],
+      table: { defaultValue: { summary: 'single' } },
+    },
     size: { control: 'select', options: ['sm', 'md'], table: { defaultValue: { summary: 'sm' } } },
     hidden: { control: 'boolean' },
+    headerAction: { control: 'text', description: 'Optional trailing header action HTML (e.g. a refresh Button).' },
     options: { control: 'object', description: 'Chip options (`ChipGroupOption[]`).' },
   },
   args: {
@@ -36,7 +44,17 @@ const meta: Meta<ChipGroupProps> = {
 export default meta;
 type Story = StoryObj<ChipGroupProps>;
 
-export const SingleSelect: Story = {};
+export const SingleSelect: Story = {
+  play: async ({ canvasElement }) => {
+    const group = canvasElement.querySelector<HTMLElement>('.eevenkoto-chip-group');
+    expect(group).not.toBeNull();
+    syncChipGroup(group, { value: '2', disabledValues: ['3'] });
+    const chip2 = group?.querySelector<HTMLButtonElement>('[data-value="2"]');
+    const chip3 = group?.querySelector<HTMLButtonElement>('[data-value="3"]');
+    expect(chip2?.getAttribute('aria-pressed')).toBe('true');
+    expect(chip3?.disabled).toBe(true);
+  },
+};
 
 export const MultiSelectWithSwatches: Story = {
   args: {
@@ -61,3 +79,24 @@ export const DisabledOpaqueOptions: Story = {
 };
 
 export const HiddenLegend: Story = { args: { hideLegend: true } };
+
+export const QuickPickActions: Story = {
+  name: 'Action mode with header action',
+  args: {
+    id: 'quick-picks',
+    label: 'Pikanimet',
+    mode: 'action',
+    headerAction: renderButton({
+      label: 'Päivitä lista',
+      variant: 'ghost',
+      size: 'sm',
+      icon: 'reroll',
+    }),
+    options: [
+      { value: 'aurelia', label: 'Aurelia' },
+      { value: 'kaarlo', label: 'Kaarlo' },
+      { value: 'valpuri', label: 'Valpuri' },
+      { value: 'serafina', label: 'Serafina' },
+    ],
+  },
+};

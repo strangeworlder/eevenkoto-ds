@@ -11,6 +11,7 @@ import {
   type WorkshopProps,
   type WorkshopSticky,
   type WorkshopTitleLevel,
+  type WorkshopWidth,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vue';
 import { Icon } from '../atoms/Icon';
@@ -24,6 +25,7 @@ export const Workshop = defineComponent({
     idSuffix: { type: String, default: undefined },
     label: { type: String, default: undefined },
     layout: { type: String as PropType<WorkshopLayout>, default: undefined },
+    width: { type: String as PropType<WorkshopWidth>, default: undefined },
     sticky: { type: String as PropType<WorkshopSticky>, default: undefined },
     icon: { type: String as PropType<IconName>, default: undefined },
     title: { type: String, default: undefined },
@@ -33,7 +35,7 @@ export const Workshop = defineComponent({
   },
   setup(props, { slots, attrs }) {
     const className = computed(() =>
-      workshopClassNames({ layout: props.layout, sticky: props.sticky }),
+      workshopClassNames({ layout: props.layout, width: props.width, sticky: props.sticky }),
     );
 
     return () => {

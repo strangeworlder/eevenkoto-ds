@@ -7,7 +7,20 @@ export interface ListItemProps {
   html?: string;
   /** Checklist status when parent `List` uses `variant="checklist"`. Default: `'included'`. */
   status?: ListItemStatus;
+  /** Optional leading Swatch color value (renders a non-interactive `sm` Swatch before the label). */
+  swatchColor?: string;
 }
 
-export const listItemClassNames = (status?: ListItemStatus): string =>
-  status ? `eevenkoto-list__item eevenkoto-list__item--${status}` : '';
+export const listItemClassNames = (
+  statusOrProps?: ListItemStatus | Pick<ListItemProps, 'status' | 'swatchColor'>,
+): string => {
+  const status = typeof statusOrProps === 'string' ? statusOrProps : statusOrProps?.status;
+  const hasSwatch = typeof statusOrProps === 'object' && Boolean(statusOrProps?.swatchColor);
+  if (!status && !hasSwatch) return '';
+  return [
+    'eevenkoto-list__item',
+    status ? `eevenkoto-list__item--${status}` : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+};

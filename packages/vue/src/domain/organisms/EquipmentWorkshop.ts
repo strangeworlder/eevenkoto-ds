@@ -9,6 +9,7 @@ import {
   type EquipmentWorkshopProps,
   type WorkshopLayout,
   type WorkshopSticky,
+  type WorkshopWidth,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vue';
 
@@ -25,6 +26,10 @@ export const EquipmentWorkshop = defineComponent({
       type: String as PropType<WorkshopLayout>,
       default: undefined,
     },
+    width: {
+      type: String as PropType<WorkshopWidth>,
+      default: undefined,
+    },
     sticky: {
       type: String as PropType<WorkshopSticky>,
       default: undefined,
@@ -32,7 +37,7 @@ export const EquipmentWorkshop = defineComponent({
   },
   setup(props, { slots, attrs }) {
     const className = computed(() =>
-      equipmentWorkshopClassNames({ layout: props.layout, sticky: props.sticky }),
+      equipmentWorkshopClassNames({ layout: props.layout, width: props.width, sticky: props.sticky }),
     );
 
     return () => {

@@ -15,10 +15,14 @@ export const List = ({
   variant,
   size,
   tone,
+  layout,
+  columns,
   className,
   ...rest
 }: ListComponentProps): ReactElement => {
-  const classes = [listClassNames({ variant, size, tone }), className].filter(Boolean).join(' ');
+  const classes = [listClassNames({ variant, size, tone, layout, columns }), className]
+    .filter(Boolean)
+    .join(' ');
   const Tag = (variant ?? 'unordered') === 'ordered' ? 'ol' : 'ul';
 
   return (
@@ -29,6 +33,7 @@ export const List = ({
           text={item.text}
           html={item.html}
           status={variant === 'checklist' ? (item.status ?? 'included') : item.status}
+          swatchColor={item.swatchColor}
         />
       ))}
     </Tag>

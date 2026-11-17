@@ -52,6 +52,16 @@ const meta: Meta<ListProps> = {
         defaultValue: { summary: 'primary' },
       },
     },
+    layout: {
+      control: 'inline-radio',
+      options: ['stack', 'tiles'],
+      description: 'List arrangement (`stack` default or `tiles` multi-column grid).',
+    },
+    columns: {
+      control: 'select',
+      options: [undefined, 1, 2, 3],
+      description: 'Column count when `layout` is `tiles`.',
+    },
   },
   args: {
     items: sampleItems,
@@ -92,6 +102,21 @@ export const Large: Story = {
 
 export const Secondary: Story = {
   args: { tone: 'secondary' },
+};
+
+export const SwatchTiles: Story = {
+  name: 'Static swatch tiles',
+  args: {
+    layout: 'tiles',
+    columns: 2,
+    size: 'sm',
+    items: [
+      { text: 'Villapaita (pehmeä neulos)', swatchColor: '#2c5e4f' },
+      { text: 'Korkeavyötäröiset villahousut', swatchColor: '#3a342e' },
+      { text: 'Messinkisolkinen nahkavyö', swatchColor: '#b7791f' },
+      { text: 'Kevyt pellavakauluspaita', swatchColor: '#e8e0cf' },
+    ],
+  },
 };
 
 export const SizeComparison: Story = {

@@ -1,14 +1,17 @@
 import {
   cardClassNames,
+  cardEyebrowClassNames,
   cardHeaderActionsClassNames,
+  cardHeaderGroupClassNames,
   type CardLayout,
   type CardProps,
   type CardSurface,
   type CardTitleLevel,
+  type CardTitleSize,
 } from '@eevenkoto/core';
 import { computed, defineComponent, h, type PropType, type VNodeChild } from 'vue';
 
-export type { CardProps, CardTitleLevel, CardSurface, CardLayout };
+export type { CardProps, CardTitleLevel, CardTitleSize, CardSurface, CardLayout };
 
 const BLOCK_TAG_RE = /^\s*<(?:p|ul|ol|div|dl|blockquote|table|figure|section|h[1-6])\b/i;
 
@@ -21,9 +24,11 @@ export const Card = defineComponent({
     layout: { type: String as PropType<CardLayout>, default: 'stack' },
     elevated: { type: Boolean, default: false },
     interactive: { type: Boolean, default: false },
+    eyebrow: { type: String, default: undefined },
     title: { type: String, default: undefined },
     titleHtml: { type: String, default: undefined },
     titleLevel: { type: Number as PropType<CardTitleLevel>, default: 2 },
+    titleSize: { type: String as PropType<CardTitleSize>, default: undefined },
     body: { type: String, default: undefined },
     bodyHtml: { type: String, default: undefined },
     href: { type: String, default: undefined },
@@ -37,6 +42,7 @@ export const Card = defineComponent({
         layout: props.layout,
         elevated: props.elevated,
         interactive: props.interactive || Boolean(props.href),
+        titleSize: props.titleSize,
       }),
     );
 
@@ -48,10 +54,22 @@ export const Card = defineComponent({
       const headerItems: VNodeChild[] = [];
       if (slots.header) {
         headerItems.push(slots.header());
-      } else if (props.titleHtml) {
-        headerItems.push(h(`h${level}`, { innerHTML: props.titleHtml }));
-      } else if (props.title) {
-        headerItems.push(h(`h${level}`, props.title));
+      } else {
+        const eyebrowEl = props.eyebrow
+          ? h('p', { class: cardEyebrowClassNames() }, props.eyebrow)
+          : null;
+        const headingEl = props.titleHtml
+          ? h(`h${level}`, { innerHTML: props.titleHtml })
+          : props.title
+            ? h(`h${level}`, props.title)
+            : null;
+        if (eyebrowEl && headingEl) {
+          headerItems.push(h('div', { class: cardHeaderGroupClassNames() }, [eyebrowEl, headingEl]));
+        } else if (eyebrowEl) {
+          headerItems.push(eyebrowEl);
+        } else if (headingEl) {
+          headerItems.push(headingEl);
+        }
       }
 
       if (hasHeaderActions && slots.headerActions) {
@@ -62,7 +80,7 @@ export const Card = defineComponent({
         mainChildren.push(
           h(
             'header',
-            hasHeaderActions ? { class: 'eevenkoto-card__header' } : null,
+            hasHeaderActions || props.eyebrow ? { class: 'eevenkoto-card__header' } : null,
             headerItems,
           ),
         );

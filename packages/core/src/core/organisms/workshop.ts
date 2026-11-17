@@ -1,6 +1,7 @@
 import type { IconName } from '../../tokens/icons';
 
 export type WorkshopLayout = 'split' | 'inline';
+export type WorkshopWidth = 'contained' | 'wide';
 export type WorkshopSticky = 'preview' | 'controls' | 'none';
 export type WorkshopTitleLevel = 2 | 3;
 
@@ -16,6 +17,11 @@ export interface WorkshopProps {
    * (single-column prose-width generator card).
    */
   layout?: WorkshopLayout;
+  /**
+   * Horizontal width behavior inside prose containers: `'contained'` (default)
+   * or `'wide'` (centered breakout up to `--eevenkoto-workshop-max-width`).
+   */
+  width?: WorkshopWidth;
   /**
    * Sticky column behavior. Defaults to `'preview'` in `'split'` layout and
    * `'none'` in `'inline'` layout.
@@ -43,7 +49,7 @@ export interface WorkshopProps {
   footer?: string;
 }
 
-export type WorkshopClassNameProps = Pick<WorkshopProps, 'layout' | 'sticky'>;
+export type WorkshopClassNameProps = Pick<WorkshopProps, 'layout' | 'width' | 'sticky'>;
 
 export const workshopClassNames = (props: WorkshopClassNameProps = {}): string => {
   const layout = props.layout ?? 'split';
@@ -51,6 +57,7 @@ export const workshopClassNames = (props: WorkshopClassNameProps = {}): string =
   return [
     'eevenkoto-workshop',
     layout === 'inline' ? 'eevenkoto-workshop--inline' : '',
+    props.width === 'wide' ? 'eevenkoto-workshop--wide' : '',
     sticky === 'controls' ? 'eevenkoto-workshop--sticky-controls' : '',
     sticky === 'none' && layout === 'split' ? 'eevenkoto-workshop--sticky-none' : '',
     sticky === 'preview' && layout === 'inline' ? 'eevenkoto-workshop--sticky-preview' : '',
@@ -61,6 +68,9 @@ export const workshopClassNames = (props: WorkshopClassNameProps = {}): string =
 
 export const workshopHeaderClassNames = (): string => 'eevenkoto-workshop__header';
 
+export const workshopHeaderControlsClassNames = (): string =>
+  'eevenkoto-workshop__header-controls';
+
 export const workshopBodyClassNames = (): string => 'eevenkoto-workshop__body';
 
 export const workshopControlsClassNames = (): string => 'eevenkoto-workshop__controls';
@@ -70,6 +80,9 @@ export const workshopPreviewClassNames = (): string => 'eevenkoto-workshop__prev
 export const workshopToolbarClassNames = (): string => 'eevenkoto-workshop__toolbar';
 
 export const workshopFooterClassNames = (): string => 'eevenkoto-workshop__footer';
+
+export const workshopPanelClassNames = (active = false): string =>
+  active ? 'eevenkoto-workshop__panel eevenkoto-workshop__panel--active' : 'eevenkoto-workshop__panel';
 
 export const workshopControlGroupClassNames = (): string =>
   'eevenkoto-workshop__control-group';
@@ -85,3 +98,6 @@ export const workshopGroupHintClassNames = (): string =>
 
 export const workshopSubgroupTitleClassNames = (): string =>
   'eevenkoto-workshop__subgroup-title';
+
+export const workshopStepperGridClassNames = (): string =>
+  'eevenkoto-workshop__stepper-grid';
